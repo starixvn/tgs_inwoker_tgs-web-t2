@@ -1,0 +1,236 @@
+import React, { Component } from "react";
+import styled from "styled-components";
+
+import CurrencyTextField from "@unicef/material-ui-currency-textfield";
+import LimitPopupBigPNG from "../../../../assets/images/limit-popup-big.png";
+
+import IconEditPNG from "../../../../assets/images/icon-edit.png";
+import IconBankDisablePNG from "../../../../assets/images/icon-bank-disable.png";
+
+import CustomButton from "../../../Share/Button";
+import Messagebox from "../../Messagebox";
+import CustomTextField from "../../../Share/TextField";
+import i18n from "../../../../utils/i18n"
+const TabButton = styled.div`
+  height: 41px;
+  font-size: 14px;
+  background-color: #f7f7f7;
+  color: #747474;
+
+  text-align: center;
+
+  float: left;
+  margin-right: 8px;
+  margin-top: 5px;
+  ${(props) =>
+    props.active
+      ? ` border: solid 1px #151a34;
+      `
+      : ` border: solid 1px #e1dfdf;
+     `};
+  &:hover {
+    cursor: pointer;
+  }
+`;
+const SubHeaderContainer = styled.div``;
+const NumberContainer = styled.div`
+  width: 20px;
+  height: 25px;
+  font-family: Arial;
+  font-size: 25px;
+  color: #ffffff;
+  text-align: center;
+  float: left;
+  -webkit-text-stroke: 1px black;
+`;
+const SubTitle = styled.div`
+  color: #404040;
+  font-size: 20px;
+  float: left;
+  margin: 0 0 0 10px;
+`;
+const SelectionContainer = styled.div`
+  margin: 15px 0 0 0px;
+`;
+const BankCardButton = styled(TabButton)`
+  width: 204px;
+  text-align: left;
+  padding: 10px 0 0 38px;
+  background: url(${IconBankDisablePNG}) no-repeat 15px center;
+  
+`;
+const BankCardButtonLabel = styled.div`
+  width: 86px;
+  display: inline-block;
+`;
+const BankCardButtonCardNo = styled.div`
+  float: right;
+  margin-right: 2px;
+`;
+const BankCardButtonCardNoHL = styled(BankCardButtonCardNo)`
+  font-weight: bold;
+  margin-right: 10px;
+`;
+const ManageCardButton = styled(TabButton)`
+  width: 133px;
+  background: url(${IconEditPNG}) no-repeat 15px center;
+  padding: 10px 0 0 18px;
+`;
+const SplitLine = styled.div`
+  width: 100%;
+  height: 1px;
+  margin: 20px 0;
+`;
+
+
+const LimitPopupContainer = styled.div`
+  min-width: 150px;
+  font-size: 14px;
+  color: #c30005;
+  padding: 5px 10px 10px 55px;
+`;
+
+
+const WithdrawalLimitListItem = styled.div`
+  width: 355px;
+  height: 55px;
+  color: #747474;
+  font-size: 18px;
+  border: solid 1px #dbdbdb;
+  background-color: #fff;
+`;
+const WithdrawalLimitItemLeft = styled.div`
+  width: 115px;
+  height: 55px;
+  background-color: #f7f7f7;
+  border-right: solid 1px #dbdbdb;
+  float: left;
+  padding-top: 12px;
+`;
+const WithdrawalLimitItemRight = styled.div`
+  height: 55px;
+  padding: 13px 0 0 20px;
+  float: left;
+`;
+class Main extends Component {
+  state = {
+    selectedCard: 0,
+    showDetails: false,
+    amount: 0,
+    password: "",
+  };
+  componentDidMount() {
+    this.setState({ ...this.state, selectedCard: this.props.defaultCard });
+  }
+
+  handleSelectCardChange = (id) => {
+    this.setState({ ...this.state, selectedCard: id });
+  };
+  handleAmountChange = (e) => {
+    this.setState({ ...this.state, amount: e.target.value });
+  };
+  handlePasswordChange = (e) => {
+    this.setState({ ...this.state, password: e.target.value });
+  };
+  handleWithdrawalClick = (e) => {
+    this.props.onhandleWithdrawalClick(
+      this.state.selectedCard,
+      this.state.amount,
+      this.state.password
+    );
+  };
+  render() {
+    return (
+      <>
+        <SubHeaderContainer>
+          <NumberContainer>1</NumberContainer>
+
+          <SubTitle>{i18n.t("withdrawal.msgEnterBank")}</SubTitle>
+        </SubHeaderContainer>
+        <SelectionContainer>
+          {this.prosps.cardList.map((item, key) => {
+            return (
+              <BankCardButton
+                key={item.id}
+                active={item.id === this.state.selectedCard}
+                onClick={() => this.handleSelectCardChange(item.id)}
+              >
+                <BankCardButtonLabel>{i18n.t("withdrawal.bankCard")}</BankCardButtonLabel>
+
+                <BankCardButtonCardNoHL>
+                  {item.bank_account}
+                </BankCardButtonCardNoHL>
+                <BankCardButtonCardNo>{i18n.t("withdrawal.tail")}</BankCardButtonCardNo>
+              </BankCardButton>
+            );
+          })}
+          <ManageCardButton onClick={this.props.onhandleManageCardClick}>
+            {i18n.t("withdrawal.manageBank")}
+          </ManageCardButton>
+        </SelectionContainer>
+        <SplitLine></SplitLine>
+
+        <SubHeaderContainer>
+          <NumberContainer>2</NumberContainer>
+
+          <SubTitle>{i18n.t("withdrawal.enterAmount")}</SubTitle>
+        </SubHeaderContainer>
+
+        <SelectionContainer>
+          <CurrencyTextField
+              className="CurrencyTextField"
+              style={{
+                height: "40px",
+                width: "200px",
+                borderRadius: "12px",
+                boxShadow:"0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
+                backgroundColor: "#fff",
+              }}
+            placeholder={i18n.t("withdrawal.enterAmount")}
+            onChange={this.handleAmountChange}
+            outputFormat="string"
+            variant="outlined"
+            autoComplete="off"
+            value={this.state.amount}
+            inputProps={{
+              maxLength: 15,
+            }}
+            currencySymbol=""
+            decimalPlaces={0}
+          ></CurrencyTextField>
+          <LimitPopupContainer>
+           * {i18n.t("withdrawal.msgWithdrawalAmount")}
+          </LimitPopupContainer>
+        </SelectionContainer>
+        <SplitLine></SplitLine>
+        <SubHeaderContainer>
+          <NumberContainer>3</NumberContainer>
+
+          <SubTitle>{i18n.t("withdrawal.msgEnterWithdrawalPass")}</SubTitle>
+        </SubHeaderContainer>
+        <SelectionContainer>
+          <CustomTextField
+            marginTop={"0"}
+            type={"password"}
+            placeholder={i18n.t("withdrawal.msgEnterWithdrawalPass")}
+            width={200}
+            height={40}
+            float={"none"}
+            value={this.state.password}
+            handleTextFieldChange={this.handlePasswordChange}
+          ></CustomTextField>
+        </SelectionContainer>
+
+        <CustomButton
+          name={i18n.t("common.nextStep")}
+          width={160}
+          marginTop={"150"}
+          float={"none"}
+          handleClick={this.handleWithdrawalClick}
+        ></CustomButton>
+
+      </>
+    );
+  }
+}
+export default Main;

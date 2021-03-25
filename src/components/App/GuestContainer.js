@@ -1,0 +1,489 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
+import Dialog from "@material-ui/core/Dialog";
+import Login from "./Login";
+
+import ForgotPasswordPhone from "./ForgotPasswordPhone";
+
+import ResetPassword from "./ResetPassword";
+import ResetPasswordSuccess from "./ResetPasswordSuccess";
+import { accountAction } from "../../actions/accountAction";
+
+import { walletAction } from "../../actions/walletAction";
+
+import Register from "./Register";
+import { SHOWING_DIALOG, SHOW_LOGIN } from "../../constants/actionType";
+import { AccountService } from "../../services/AccountService";
+import { withSnackbar } from "notistack";
+import { gameAction } from "../../actions/gameAction";
+
+import BlowFishEncryption from "../../utils/BlowFishEncryption";
+import i18n from "../../utils/i18n";
+const Container = styled.div`
+  margin-top: 25px;
+`;
+const BtnLoginRegister = styled.div`
+float: right;
+font-size: 17px;
+text-align:center;
+color: #f6f6f6;
+width: 80px;
+border-radius: 20px;
+`;
+const BtnRegister = styled(BtnLoginRegister)`
+margin-left: 5px;
+margin-right: 10px;
+background-color: #f0ca83;
+color:#6d5d41;
+height: 30px;
+&:hover {
+  color:#fdf8f0;
+  cursor: pointer;
+}
+`;
+
+const BtnLogin = styled(BtnLoginRegister)`
+margin-right: 5px;
+background-color: transparent;
+color:#f0ca83;
+border-width: 2px;
+border-style: solid;
+border-color: #f0ca83;
+height: 29px;
+&:hover {
+  color:#8a7f73;
+  cursor: pointer;
+}
+`;
+
+const BtnSpliter = styled.div`
+float:right;
+margin-top: 8px;
+`;
+const BtnLoginLabel = styled.span`
+  text-align: center;
+  display: block;
+  margin-top: 1px;
+`;
+const BtnRegisterLabel = styled.span`
+  text-align: center;
+  display: block;
+  margin-top: 4px;
+`;
+const StyledDialog = withStyles({
+  root: {
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+
+    "& .MuiPaper-root": {
+      backgroundColor: "transparent",
+      borderRadius: "15px",
+
+    },
+  },
+})(Dialog);
+
+
+
+class GuestContainer extends Component {
+  state = {
+    openDialog: false,
+    openDialogName: "",
+    forgotToken: "",
+    emailCheck: -1,
+    phoneCheck: -1,
+    questionCheck: -1,
+    openSelfControlDialog: false,
+    code: "",
+    phone: ""
+  };
+  componentDidMount() {
+    let urlParams = new URLSearchParams(this.props.location.search);
+    if (urlParams.has("do")) {
+      const doValue = urlParams.get("do");
+      switch (doValue) {
+        case "login":
+        case "login_auth":
+          this.handleClickOpenDialog("login");
+          break;
+        case "register":
+        case "register_auth":
+          this.onhandleRegister();
+          break;
+      }
+    }
+  }
+  componentWillUnmount() {
+    this.setState({
+      ...this.state,
+      openDialog: false,
+      openDialogName: "",
+    });
+    this.props.showLogin(false);
+    this.props.showDialog(false);
+  }
+  handleClickOpenDialog = (dialogName) => {
+    this.setState({
+      ...this.state,
+      openDialog: true,
+      openDialogName: dialogName,
+    });
+    this.props.showLogin(true);
+  };
+
+  onhandleCloseDialog = () => {
+    this.setState({ ...this.state, openDialog: false });
+    this.props.showLogin(false);
+  };
+
+  // onhandleLoginSuccess = token => {
+  //   this.props.handleLoginSuccess(token);
+  //   this.setState({ ...this.state, openDialog: false });
+  //   this.props.showLogin(false);
+  // };
+  onhandleRegister = () => {
+    this.setState({
+      ...this.state,
+      openDialog: true,
+      openDialogName: "register",
+    });
+    this.props.showLogin(false);
+  };
+  onhandleForgotPassword = () => {
+    this.setState({
+      ...this.state,
+      openDialog: true,
+      openDialogName: "forgotpassword",
+    });
+    this.props.showLogin(false);
+  };
+
+  onhandleForgotPasswordNext = (username, code, sessionId) => {
+    AccountService.GetResetPasswordStep1(username, code, sessionId).then(
+      (response) => {
+        if (response.IsSuccess) {
+          this.setState({
+            ...this.state,
+            openDialog: true,
+            question: response.data.question,
+            forgotToken: response.data.forget_token,
+            emailCheck: response.data.email_check,
+            phoneCheck: response.data.phone_check,
+            questionCheck: response.data.question_check,
+            openDialogName: "forgotpasswordoption",
+          });
+        } else {
+          this.props.enqueueSnackbar(response.msg, {
+            variant: "error",
+          });
+        }
+      }
+    );
+  };
+  onhandleOptionClick = (method) => {
+    let dialogName = "";
+
+    if (method === "question") {
+      dialogName = "forgotpasswordsecurityquestion";
+      if (this.state.questionCheck !== 1) {
+        return;
+      }
+    } else if (method === "phone") {
+      dialogName = "forgotpasswordphone";
+      if (this.state.phoneCheck !== 1) {
+        return;
+      }
+    } else if (method === "email") {
+      dialogName = "forgotpasswordemail";
+      if (this.state.emailCheck !== 1) {
+        return;
+      }
+    }
+    this.setState({
+      ...this.state,
+      openDialog: true,
+      openDialogName: dialogName,
+    });
+  };
+  onhandleResetPasswordSuccessClick = () => {
+    this.setState({
+      ...this.state,
+      openDialog: false,
+      openDialogName: "",
+    });
+  };
+  onhandleResetPasswordClick = (code, phone, password, confirmPassword) => {
+    if (password !== confirmPassword) {
+      this.props.enqueueSnackbar(i18n.t("common.msgInvalidConfirmPass"), {
+        variant: "error",
+      });
+    } else {
+      AccountService.ResetPassword(
+        code,
+        phone,
+        password,
+        confirmPassword
+      ).then((response) => {
+        if (response.IsSuccess) {
+          this.setState({
+            ...this.state,
+            openDialog: true,
+            openDialogName: "resetpasswordsuccess",
+          });
+        } else {
+          this.props.enqueueSnackbar(response.info, {
+            variant: "error",
+          });
+        }
+      });
+    }
+  };
+  onhandleForgotPasswordBackClick = () => {
+    this.setState({
+      ...this.state,
+      openDialog: true,
+      openDialogName: "forgotpasswordoption",
+    });
+  };
+  onhandleForgotPasswordSecurityQuestionNext = (answer) => {
+    if (answer !== "") {
+      AccountService.GetResetPasswordSecurityQuestionVerify(
+        this.state.forgotToken,
+        answer
+      ).then((response) => {
+        if (response.IsSuccess) {
+          this.setState({
+            ...this.state,
+            openDialog: true,
+            openDialogName: "resetpassword",
+          });
+        } else {
+          this.props.enqueueSnackbar(response.msg, {
+            variant: "error",
+          });
+        }
+      });
+    }
+  };
+  onhandleForgotPasswordEmailClick = (code) => {
+    if (code !== "") {
+      AccountService.GetResetPasswordEmailVerify(
+        this.state.forgotToken,
+        code
+      ).then((response) => {
+        if (response.IsSuccess) {
+          this.setState({
+            ...this.state,
+            openDialog: true,
+            openDialogName: "resetpassword",
+          });
+        } else {
+          this.props.enqueueSnackbar(response.info, {
+            variant: "error",
+          });
+        }
+      });
+    }
+  };
+  onhandleResetPasswordBackClick = () => {
+    this.setState({
+      ...this.state,
+      openDialog: true,
+      openDialogName: "forgotpassword",
+    });
+  }
+  onhandleForgotPasswordPhoneClick = (code, phone) => {
+    if (code !== "") {
+      this.setState({
+        ...this.state,
+        code: code,
+        phone: phone,
+        openDialog: true,
+        openDialogName: "resetpassword",
+      });
+
+    }
+  };
+  handleLoginClick = async (username, password) => {
+    if (username === "") {
+      this.props.enqueueSnackbar(i18n.t("web.login.errorMsg.emptyUsername"), {
+        variant: "warning",
+      });
+      return;
+    }
+    if (username === "") {
+      this.props.enqueueSnackbar(i18n.t("web.login.errorMsg.emptyPassword"), {
+        variant: "warning",
+      });
+      return;
+    }
+    const result = await this.props.accountLogin(username, password);
+    if (result.IsSuccess) {
+      this.handleLoginSuccess(result.data);
+    } else {
+      if (result.data.self_control === 1) {
+        this.props.showLogin(false);
+        this.setState({
+          ...this.state,
+          expired_time: result.data.expired_time,
+          openSelfControlDialog: true,
+          openDialog: false,
+        });
+      } else {
+        this.props.enqueueSnackbar(result.info, {
+          variant: "warning",
+        });
+      }
+    }
+  };
+  handleCloseSelfControlDialog = (token) => {
+    this.setState({ ...this.state, openSelfControlDialog: false });
+  };
+  handleLoginSuccess = (token) => {
+    let urlParams = new URLSearchParams(this.props.location.search);
+    if (urlParams.has("return_url")) {
+      const returnValue = urlParams.get("return_url");
+      if (returnValue) {
+        window.location.href =
+          returnValue + "?token=" + BlowFishEncryption.Encrypt(token);
+      }
+    } else {
+      // this.props.checkGame();
+      this.props.getHomePageGameList();
+      this.props.getAccountInfo();
+      // this.props.getBankList();
+      // this.props.getBalanceList();
+      // this.props.getIDCardNo();
+      // this.props.getInviteLink();
+      // this.props.getDepositChannel();
+    }
+  };
+  onhandleOnlineSupport = () => {
+    this.setState({ ...this.state, openDialog: false });
+    this.props.showLogin(false);
+    this.props.onhandleShowCSClick();
+  };
+  onhandleContactUs = () => {
+    this.setState({ ...this.state, openDialog: false });
+    this.props.showLogin(false);
+    this.props.onhandleContactUsClick();
+  };
+  onhandleSubmitRegister = () => { };
+  render() {
+    return (
+      <Container>
+        <BtnRegister onClick={() => this.onhandleRegister()}>
+          <BtnRegisterLabel>{i18n.t("common.register")}</BtnRegisterLabel>
+        </BtnRegister>
+        <BtnLogin onClick={() => this.handleClickOpenDialog("login")}>
+          <BtnLoginLabel>{i18n.t("common.login")}</BtnLoginLabel>
+        </BtnLogin>
+        <StyledDialog
+          open={this.state.openDialog || this.props.ui.showLogin}
+          onClose={this.onhandleCloseDialog}
+          onEntering={() => this.props.showDialog(true)}
+          onExited={() => this.props.showDialog(false)}
+        >
+          {(() => {
+            if (
+              this.state.openDialogName === "login" ||
+              this.props.ui.showLogin === true
+            ) {
+              return (
+                <Login
+                  onhandleClose={this.onhandleCloseDialog}
+                  onhandleLogin={this.onhandleLogin}
+                  onhandleRegister={this.onhandleRegister}
+                  onhandleForgotPassword={this.onhandleForgotPassword}
+                  onhandleOnlineSupport={this.onhandleOnlineSupport}
+                  onhandleContactUs={this.onhandleContactUs}
+                  onhandleLoginClick={this.handleLoginClick}
+                ></Login>
+              );
+            } else {
+              if (this.state.openDialogName === "register") {
+                return (
+                  <Register
+                    onhandleClose={this.onhandleCloseDialog}
+                    onhandleSubmitRegister={this.onhandleSubmitRegister}
+                    doLogin={this.handleLoginClick}
+                  ></Register>
+                );
+              } else if (this.state.openDialogName === "forgotpassword") {
+                return (
+                  <ForgotPasswordPhone
+                    onhandleClose={this.onhandleCloseDialog}
+                    onhandleNextClick={this.onhandleForgotPasswordPhoneClick}
+                    onhandleBackClick={this.onhandleForgotPasswordBackClick}
+                    onhandleOnlineSupport={this.onhandleOnlineSupport}
+                    code={this.state.code}
+                    phone={this.state.phone}
+                  ></ForgotPasswordPhone>
+                );
+              } else if (this.state.openDialogName === "resetpassword") {
+                return (
+                  <ResetPassword
+                    onhandleClose={this.onhandleCloseDialog}
+                    onhandleSubmitClick={this.onhandleResetPasswordClick}
+                    onhandleBackClick={this.onhandleResetPasswordBackClick}
+                    onhandleOnlineSupport={this.onhandleOnlineSupport}
+                    code={this.state.code}
+                    phone={this.state.phone}
+                  ></ResetPassword>
+                );
+              } else if (this.state.openDialogName === "resetpasswordsuccess") {
+                return (
+                  <ResetPasswordSuccess
+                    onhandleClose={this.onhandleCloseDialog}
+                    onhandleSubmitClick={this.onhandleResetPasswordSuccessClick}
+                    onhandleOnlineSupport={this.onhandleOnlineSupport}
+                  ></ResetPasswordSuccess>
+                );
+              } else {
+                return <></>;
+              }
+            }
+          })()}
+        </StyledDialog>
+
+      </Container>
+    );
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    showLogin: (payload) => {
+      dispatch({ type: SHOW_LOGIN, payload });
+    },
+    showDialog: (payload) => {
+      dispatch({ type: SHOWING_DIALOG, payload });
+    },
+    accountLogin: (username, password) =>
+      dispatch(accountAction.accountLogin(username, password)),
+    getAccountInfo: () => dispatch(accountAction.getAccountInfo()),
+    checkGame: () => dispatch(accountAction.checkGame()),
+    getAccountProfile: (showVip) =>
+      dispatch(accountAction.getAccountProfile(showVip)),
+
+    checkTokenIsValid: () => dispatch(accountAction.checkTokenIsValid()),
+
+    getDepositChannel: () => dispatch(walletAction.getDepositChannel()),
+    getHomePageGameList: () => dispatch(gameAction.getHomePageGameList()),
+    getBankList: () => dispatch(walletAction.getBankList()),
+    getBalanceList: (token) => dispatch(walletAction.getBalanceList()),
+    getIDCardNo: () => dispatch(accountAction.getIDCardNo()),
+    getInviteLink: () => dispatch(accountAction.getInviteLink()),
+  };
+};
+const mapStateToProps = (state) => {
+  return {
+    ui: state.ui,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withSnackbar(withRouter(GuestContainer)));

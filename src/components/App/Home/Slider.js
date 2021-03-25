@@ -1,0 +1,111 @@
+import React from "react";
+import styled from "styled-components";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+import LeftArrowPNG from "../../../assets/images/left-arrow.png";
+import Slick from "react-slick";
+import Image1 from "../../../assets/images/slider/banner-1.png";
+import Image2 from "../../../assets/images/slider/banner-1.png";
+
+const Container = styled.div`
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  height: 400px;
+`;
+const PreNextContainer = styled.div`
+  position: absolute;
+  top: 180px;
+  width: 29px;
+  height: 79px;
+  z-index: 1;
+  border: solid 1px rgba(255, 255, 255, 0.27);
+  background-color: rgba(255, 255, 255, 0.27);
+  &:hover {
+    cursor: pointer;
+  }
+`;
+const PreContainer = styled(PreNextContainer)`
+  left: 0px;
+`;
+const NextContainer = styled(PreNextContainer)`
+  right: 0px;
+`;
+const PreImg = styled.img`
+  width: 9px;
+  margin: 31px auto;
+  display: block;
+`;
+const NextImg = styled.img`
+  width: 9px;
+  margin: 31px auto;
+  display: block;
+  transform: rotate(180deg);
+`;
+const ATag = styled.a`
+  text-decoration: none;
+`;
+const Img = styled.img`
+  border: none;
+  width: 1920px;
+  height: 400px;
+
+  margin: 0 auto 0 -960px;
+  position: relative;
+  left: 50%;
+`;
+
+class Slider extends React.Component {
+  render() {
+    function PrevButton({ onClick }) {
+      return (
+        <PreContainer onClick={onClick} className="">
+          <PreImg src={LeftArrowPNG}></PreImg>
+        </PreContainer>
+      );
+    }
+
+    function NextButton({ onClick }) {
+      return (
+        <NextContainer onClick={onClick} className="">
+          <NextImg src={LeftArrowPNG}></NextImg>
+        </NextContainer>
+      );
+    }
+    const settings = {
+      dots: false,
+
+      className: "center",
+      centerMode: false,
+      infinite: true,
+      centerPadding: "0px",
+      slidesToShow: 1,
+      speed: 500,
+      arrows: true,
+      autoplay: true,
+     
+    };
+
+    return (
+      <Container>
+        <Slick {...settings}>
+              <ATag href={""}>
+                <Img src={Image1}></Img>
+              </ATag>
+              <ATag href={""}>
+                <Img src={Image2}></Img>
+              </ATag>
+          {/* {this.props.list.map((row, index) => {
+            return (
+              <ATag href={row.go_url} key={index}>
+                <Img src={row.pc_file_url}></Img>
+              </ATag>
+            );
+          })} */}
+        </Slick>
+      </Container>
+    );
+  }
+}
+export default Slider;
