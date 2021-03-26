@@ -62,10 +62,8 @@ export default {
         return newResponse;
       },
       function (error) {
-        //if user login platform wrong
-        if(error.response.data.err==900
-          &&
-          error.response.data.errmsg==="request platform is not matched with player login platform."){
+        //if user login platform wrong or token expired
+      if(error.response.data.err==102 || error.response.data.errmsg==="request platform is not matched with player login platform."){
           localStorage.removeItem("token");
           store.dispatch({ type: UNAUTHORIZE });
 

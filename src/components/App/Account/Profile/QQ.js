@@ -11,16 +11,17 @@ import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.pn
 const Container = styled.div``;
 
 class QQ extends Component {
-  local_props = {
-    member_wechat: "",
-  };
-  onhandleTextChange = (e) => {
-    this.local_props.member_qq = e.target.value;
-  };
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      member_qq: this.props.account.info.member_qq?this.props.account.info.member_qq:"",
+    };
+  }
+  
   onhandleClick = () => {
     const re = new RegExp("^[1-9]\\d{4,14}$");
-    if (!this.local_props.member_qq.match(re)) {
+    if (!this.state.member_qq.match(re)) {
       this.props.enqueueSnackbar("QQ号码格式不正确", {
         variant: "error",
       });
@@ -28,13 +29,13 @@ class QQ extends Component {
     }
 
     AccountService.UpdateQQ(
-      this.local_props.member_qq
+      this.state.member_qq
     ).then((response) => {
       if (response.IsSuccess) {
         this.props.dispatch({
           type: UPDATE_INFO,
           payload: {
-            member_qq: this.local_props.member_qq.substring(0, 1) + "**",
+            member_qq: this.state.member_qq.substring(0, 1) + "**",
           },
         });
         this.props.handleCloseDialog();
@@ -52,7 +53,7 @@ class QQ extends Component {
           placeholder="QQ账号"
           adornment={IconInputReceivePNG}
           handleTextFieldChange={this.onhandleTextChange}
-          defaultValue={this.local_props.member_qq}
+          defaultValue={this.state.member_qq}
           type={"number"}
         ></CustomTextField>
 

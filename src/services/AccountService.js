@@ -152,14 +152,14 @@ function UpdateAddress(
   return result;
 }
 function UpdateQQ(member_qq) {
-  const result = ApiService.put("Player/update", {
+  const result = ApiService.patch("Player/qq", {
     "qq":member_qq,
   });
 
   return result;
 }
 function UpdateWechat(member_wechat) {
-  const result = ApiService.put("Player/update", {
+  const result = ApiService.patch("Player/wechat", {
     "wechat":member_wechat,
   });
   return result;

@@ -11,16 +11,20 @@ import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.pn
 const Container = styled.div``;
 
 class Wechat extends Component {
-  local_props = {
-    member_wechat: "",
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      member_wechat: this.props.account.info.member_wechat?this.props.account.info.member_wechat:"",
+    };
+  }
   onhandleTextChange = (e) => {
-    this.local_props.member_wechat = e.target.value;
+    this.setState({member_wechat:e.target.value})
   };
 
   onhandleClick = () => {
     const re = new RegExp("^[a-zA-Z]{1}[-_a-zA-Z0-9]{5,19}$");
-    if (!this.local_props.member_wechat.match(re)) {
+    if (!this.state.member_wechat.match(re)) {
       this.props.enqueueSnackbar("微信号码格式不正确", {
         variant: "error",
       });
@@ -28,14 +32,14 @@ class Wechat extends Component {
     }
 
     AccountService.UpdateWechat(
-      this.local_props.member_wechat
+      this.state.member_wechat
     ).then((response) => {
       if (response.IsSuccess) {
         this.props.dispatch({
           type: UPDATE_INFO,
           payload: {
             member_wechat:
-              this.local_props.member_wechat.substring(0, 1) + "**",
+            this.state.member_wechat.substring(0, 1) + "**",
           },
         });
         this.props.handleCloseDialog();
@@ -53,7 +57,7 @@ class Wechat extends Component {
           placeholder="Wechat账号"
           adornment={IconInputReceivePNG}
           handleTextFieldChange={this.onhandleTextChange}
-          defaultValue={this.local_props.member_wechat}
+          defaultValue={this.state.member_wechat}
           type={"text"}
         ></CustomTextField>
 
