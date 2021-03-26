@@ -596,23 +596,23 @@ class Header extends Component {
   };
   handleJoinGameClick = (gameType, path, gameCode, url) => {
     var slotPageGameType = [GameTypeEnum.FISH, GameTypeEnum.SLOT, GameTypeEnum.TIGERSLOT, GameTypeEnum.SPORTS];
-    if (!this.props.account.token) {
-      this.props.showLogin(true);
-    } else {
-      if (slotPageGameType.indexOf(gameType) >= 0) {
-        if (gameType == GameTypeEnum.SPORTS) {
-          this.props.history.push(`/${i18n.language}/sports/play/${gameCode}`);
-        } else {
-          this.props.history.push(`/${i18n.language}/${path}/${gameCode}`);
-
+    if (slotPageGameType.indexOf(gameType) >= 0) {
+      if (gameType == GameTypeEnum.SPORTS) {
+        if (!this.props.account.token) {
+          this.props.showLogin(true);
         }
-
+        else{
+          this.props.history.push(`/${i18n.language}/sports/play/${gameCode}`);
+        }
       } else {
-        Common.PopupCenter(url, gameCode, 1280, 720);
+        this.props.history.push(`/${i18n.language}/${path}/${gameCode}`);
 
       }
 
-    }
+    } else {
+      Common.PopupCenter(url, gameCode, 1280, 720);
+
+  }
   };
   handleBookmarkClick = () => {
     let pageTitle = document.title;

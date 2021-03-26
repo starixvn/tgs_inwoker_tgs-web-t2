@@ -339,12 +339,15 @@ class Slot extends Component {
   handleCategoryChange = (e) => {
     this.setState({ ...this.state, category: e.target.value });
   };
-  handleGameClick = (params) => {
-    window.open(
-      `/${i18n.language}/joingame/${this.state.gameType}/${JSON.stringify(
-        params
-      )}`
-    );
+  handleGameClick = (gpcode,gpid) => {
+    if (this.props.token) {
+      window.open(
+        `/${i18n.language}/joingame/${gpcode}/${gpid})}`)
+    } else {
+      this.props.history.push(
+        `/${i18n.language}/}`
+      );
+    }
   };
   handleChangeTab = (event, newValue) => {
     this.setState({ ...this.state, filterGame: newValue, page: 1 });
@@ -483,7 +486,8 @@ class Slot extends Component {
                     effect="blur"
                     src={row.file_url}
                     style={{ borderRadius: "20px 20px 0 0" }}
-                    onClick={() => this.handleGameClick(row.params)}
+                    onClick={() => this.handleGameClick(row.gpcode,
+                      row.id)}
                   />
                   <ListitemLabelBackground></ListitemLabelBackground>
                   <LeftContainer>

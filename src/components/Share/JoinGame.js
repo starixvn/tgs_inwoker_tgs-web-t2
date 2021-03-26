@@ -15,7 +15,7 @@ class JoinGame extends Component {
   componentDidMount() {
     const gameType = this.props.match.params.type;
 
-    const gameCode = this.props.match.params.params.trim();
+    const gameCode = parseInt(this.props.match.params.params);
 
     GameService.JoinGame(gameType, gameCode).then((response) => {
       console.log(response)

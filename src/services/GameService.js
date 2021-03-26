@@ -14,7 +14,6 @@ export const GameService = {
   BookmarkSlotGame,
   DeleteBookmarkSlotGame,
   GetBookmarkGameList,
-
   GetGameList,
   JoinSportsbook,
   GetSportsbookHomePage,
@@ -22,6 +21,7 @@ export const GameService = {
   GetHistoryGameList,
   GetJackpotPrizePool,
   JoinGame,
+  JoinLobbyGame,
   GetHomePageGameList,
   GetGamePlatformByType,
 };
@@ -195,8 +195,6 @@ function DeleteBookmarkSlotGame(collect_id) {
 function GetGameList() {
   const result = ApiService.get(`Game/list?platformtype=${config.isPC}&language=${i18n.language}&currency=${config.currency}&gpcode=sbo`);
   return result;
-
-
 }
 function GetKYGameList(token) {
   const result = ApiService.get(
@@ -209,8 +207,13 @@ function GetHomePageGameList() {
   const result = ApiService.get(`GameProvider/list?platformtype=${config.isPC}&language=${i18n.language}&currency=${config.currency}`);
   return result;
 }
-function JoinGame(gameType, gameCode) {
+function JoinLobbyGame(gameType, gameCode) {
   const result = ApiService.get(`Game/lobby/geturl?gpcode=${gameCode}&gtype=${gameType}&language=${i18n.language}`);
+
+  return result;
+}
+function JoinGame(gameType, gameCode) {
+  const result = ApiService.get(`Game/geturl?gpcode=${gameType}&gid=${gameCode}&language=${i18n.language}`);
 
   return result;
 }

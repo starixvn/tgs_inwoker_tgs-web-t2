@@ -46,7 +46,7 @@ class Play extends Component {
     window.removeEventListener("resize", this.updateWindowDimensions);
   }
   JoinGame = (gameCode) => {
-    GameService.JoinGame(GameTypeEnum.SPORTS, gameCode).then((response) => {
+    GameService.JoinLobbyGame(GameTypeEnum.SPORTS, gameCode).then((response) => {
       if (response.IsSuccess) {
         this.setState({ ...this.state, maintenance: false });
         if (this.myRef.current) this.myRef.current.src = "https://" + response.data.url;

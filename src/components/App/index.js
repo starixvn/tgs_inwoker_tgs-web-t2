@@ -246,7 +246,7 @@ class App extends Component {
                       exact
                       path={
                         baseRouteUrl +
-                        "/slots/play/:type/:params/:test/:withtest/:name"
+                        "/slots/play/:type/:params"
                       }
                       component={SlotPlay}
                     />

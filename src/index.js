@@ -17,6 +17,7 @@ import rootReducer from "./reducers/rootReducer";
 import thunk from "redux-thunk";
 import Interceptor from "./services/Interceptor";
 import JoinGame from "./components/Share/JoinGame";
+import JoinLobbyGame from "./components/Share/JoinLobbyGame";
 // import IPRestrict from "./components/App/IPRestrict";
 // import CS from "./components/App/CS";
 // import AboutUs from "./components/AboutUs/index";
@@ -113,6 +114,11 @@ const AppWrapper = () => {
               exact
               path={baseRouteUrl + "/joingame/:type/:params"}
               component={JoinGame}
+            />
+            <Route
+              exact
+              path={baseRouteUrl + "/joinlobbygame/:type/:params"}
+              component={JoinLobbyGame}
             />
             <Route
               path={baseRouteUrl + "/"}

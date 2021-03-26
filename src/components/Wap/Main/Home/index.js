@@ -347,7 +347,7 @@ class Home extends Component {
       this.props.navigate(`/slots/${params}/${type}`);
     } else {
       Common.PopupCenter(
-        "/" + i18n.language + "/joingame/" + type + "/" + params
+        "/" + i18n.language + "/joinlobbygame/" + type + "/" + params
       );
     }
   };

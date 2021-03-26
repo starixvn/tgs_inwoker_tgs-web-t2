@@ -343,16 +343,11 @@ class Slots extends Component {
   constructor(props) {
     super(props);
 
-    const parentId = this.props.match.params.platform && this.props.match.params.platform !== "0"
-      ? this.props.match.params.platform
-      : "";
-
     const type = this.props.match.url.indexOf("fish") >= 0 ? GameTypeEnum.FISH :
       (this.props.match.url.indexOf("slots") >= 0 ? GameTypeEnum.TIGERSLOT : GameTypeEnum.SLOT);
 
     this.state = {
       firstLoad: true,
-      selectedParentId: parentId,
       filterGame: 0,
       keyword: "",
       gameList: [],
@@ -371,7 +366,6 @@ class Slots extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (
-      prevState.selectedParentId !== this.state.selectedParentId ||
       prevState.filterGame !== this.state.filterGame ||
       prevState.type !== this.state.type ||
       prevProps.match.params.platform !== this.props.match.params.platform ||
@@ -383,27 +377,21 @@ class Slots extends Component {
 
       ) {
         window.scrollTo({ top: 0, behavior: "smooth" });
-        const parentId = this.props.match.params.platform && this.props.match.params.platform !== "0"
-          ? this.props.match.params.platform
-          : "";
         const type = this.props.match.url.indexOf("fish") >= 0 ? GameTypeEnum.FISH :
           (this.props.match.url.indexOf("slots") >= 0 ? GameTypeEnum.TIGERSLOT : GameTypeEnum.SLOT);
         this.setState({
           ...this.state,
           type: type,
-          selectedParentId: parentId
+          gameType:this.props.match.params.platform?this.props.match.params.platform:""
         });
 
 
 
       } else if (prevProps.match.params.platform !== this.props.match.params.platform) {
         window.scrollTo({ top: 0, behavior: "smooth" });
-        var selectedParentId = this.props.match.params.platform
-          ? this.props.match.params.platform
-          : ""
         this.setState({
           ...this.state,
-          selectedParentId: selectedParentId,
+          gameType:this.props.match.params.platform?this.props.match.params.platform:""
         });
       } else {
         this.getGameList();
@@ -411,7 +399,7 @@ class Slots extends Component {
     }
   }
 
-  getGameList(page = this.state.page, platform = this.state.selectedParentId, type = this.state.type) {
+  getGameList(page = this.state.page) {
     this.setState({
       ...this.state,
 
@@ -444,8 +432,8 @@ class Slots extends Component {
       }
     });
   }
-  handleParentClick = (ParentId,gameType) => {
-    this.setState({ ...this.state,gameType, selectedParentId: ParentId, page: 1 });
+  handleParentClick = (gameType) => {
+    this.setState({ ...this.state,gameType, page: 1 });
   };
   handleFilterGameClick = (filterType) => {
     this.setState({ ...this.state, filterGame: filterType, page: 1 });
@@ -503,31 +491,17 @@ class Slots extends Component {
     }
   };
   handleJoinGameClick = (
-    params,
-    name = "",
-    test = SlotGameIsTest.No,
-    withtest = SlotGameWithTest.No,
-    game_id
-  ) => {
-    params.game_id = game_id;
-    if (test) {
-      this.props.history.push(
-        `/${i18n.language}/slots/play/${this.state.type}/${JSON.stringify(
-          params
-        )}/${test}/${withtest}/${name}`
-      );
-    } else {
-      if (this.props.token) {
-        this.props.history.push(
-          `/${i18n.language}/slots/play/${this.state.type}/${JSON.stringify(
-            params
-          )}/${test}/${withtest}/${name}`
-        );
-      } else {
-        this.props.showLogin(true);
-      }
-    }
-  };
+    gpcode,
+    gpid
+   ) => {
+       if (this.props.token) {
+         this.props.history.push(
+           `/${i18n.language}/slots/play/${gpcode}/${gpid}`
+         );
+       } else {
+         this.props.showLogin(true);
+       }
+   };
 
   genCategoryItem(category, text) {
     if (
@@ -604,10 +578,7 @@ class Slots extends Component {
           </GameDesc>
           <GameHoverSelection onClick={() =>
             this.handleJoinGameClick(
-              el.params,
-              el.name,
-              SlotGameIsTest.Yes,
-              el.is_try === 1 ? 0 : 1,
+              el.gpcode,
               el.id
             )
           }>
@@ -624,7 +595,7 @@ class Slots extends Component {
         <CommonMarquee></CommonMarquee>
         <GameTabContainer>
             <GameTabAll
-              active={this.state.selectedParentId == ""}
+             active={this.state.gameType == ""}
               onClick={() => this.handleParentClick("")}
             ></GameTabAll>
             {this.props.game.homePageGameList
@@ -636,8 +607,8 @@ class Slots extends Component {
                 return (
                   <GameTabButton
                     key={index}
-                    active={this.state.selectedParentId == row.game_platform_id}
-                    onClick={() => this.handleParentClick(row.game_platform_id,row.abbreviation)}
+                    active={this.state.gameType == row.abbreviation}
+                    onClick={() => this.handleParentClick(row.abbreviation)}
                   >
                     <GameTab abbreviation={row.abbreviation}></GameTab>
                   </GameTabButton>
@@ -663,7 +634,7 @@ class Slots extends Component {
             </SearchFilterItemContainer>
           </GameSubFilterContainer>
           <GameListContainer>{list}</GameListContainer>
-          <ButtonMore
+          {/* <ButtonMore
             onClick={this.handleMoreClick}
             style={{
               visibility:
@@ -673,7 +644,7 @@ class Slots extends Component {
             }}
           >
 
-          </ButtonMore>
+          </ButtonMore> */}
         </InnerWrap>
         <Spacing></Spacing>
         <Loading show={this.state.loading}></Loading>

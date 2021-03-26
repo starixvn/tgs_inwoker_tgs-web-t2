@@ -94,7 +94,7 @@ border-radius: 4px;
 
 
 border: solid 1px #ffffff;
-background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
+  background-image: linear-gradient(to top, #91030c, #c40511);
   &:hover {
     cursor: pointer;
     box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);
@@ -123,7 +123,6 @@ class Play extends Component {
     super(props);
     this.state = {
       loading: true,
-      test: this.props.match.params.test,
       maintenance: false,
       fullScreen: false
     };
@@ -131,23 +130,19 @@ class Play extends Component {
   }
   componentDidMount() {
     window.scrollTo(0, 0);
-    if (this.state.test) {
-      this.DoJoinGame(this.state.test);
-    } else {
-      if (this.props.token != null) {
-        this.DoJoinGame(this.state.test);
-      }
+    if (this.props.token != null) {
+        this.DoJoinGame();
     }
   }
   handleRefreshClick = () => {
     this.setState({ ...this.state, loading: true });
     this.myRef.current.src = "";
-    this.DoJoinGame(this.state.test);
+    this.DoJoinGame();
   };
   componentWillUpdate() { }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.token == null && this.props.token != null) {
-      this.DoJoinGame(this.state.test);
+      this.DoJoinGame();
     }
   }
   handleFullScreenClick = () => {
@@ -162,26 +157,26 @@ class Play extends Component {
     }
 
   }
-  handleTestPlayClick = () => {
-    let test =
-      this.state.test == SlotGameIsTest.Yes
-        ? SlotGameIsTest.No
-        : SlotGameIsTest.Yes;
+  // handleTestPlayClick = () => {
+  //   let test =
+  //     this.state.test == SlotGameIsTest.Yes
+  //       ? SlotGameIsTest.No
+  //       : SlotGameIsTest.Yes;
 
-    this.setState({
-      ...this.state,
-      test: test,
-      loading: true,
-    });
-    this.DoJoinGame(test);
-  };
-  DoJoinGame = (test) => {
-    const params = this.props.match.params.params;
-    const jsonParams = JSON.parse(params);
-    GameService.JoinGame(jsonParams).then((response) => {
+  //   this.setState({
+  //     ...this.state,
+  //     test: test,
+  //     loading: true,
+  //   });
+  //   this.DoJoinGame(test);
+  // };
+  DoJoinGame = () => {
+    const params = parseInt(this.props.match.params.params);
+    const type = this.props.match.params.type;
+    GameService.JoinGame(type,params).then((response) => {
       if (response.IsSuccess) {
-        if (response.data.web_url != null && this.myRef.current != null) {
-          this.myRef.current.src = response.data.web_url;
+        if (response.data.url != null && this.myRef.current != null) {
+          this.myRef.current.src = response.data.url;
           this.setState({ ...this.state, loading: false });
         } else {
           this.props.enqueueSnackbar(response.info, {
