@@ -171,33 +171,9 @@ function GetHistoryGameList(type, page, limit) {
   return result;
 }
 function GetSlotGameList(
-  type,
-  game_platform_id,
-  name,
-  page,
-  filterType,
-  limit = 20
+  gpCode
 ) {
-  var params = `type=${type}&page=${page}&page_size=${limit}&game_platform_id=${game_platform_id}&keyword=${name}`;
-  const token = localStorage.getItem("token");
-  if (token != null && token != "") {
-    params += `&is_login=1`;
-  }
-  if (filterType === SlotFilterType.Hot) {
-    params += `&is_hot=1`;
-  } else if (filterType === SlotFilterType.New) {
-    params += `&is_new=1`;
-  }
-
-  var result = null;
-  if (filterType === SlotFilterType.Bookmark) {
-    result = GetBookmarkGameList(type, page, limit);
-  } else if (filterType === SlotFilterType.History) {
-    result = GetHistoryGameList(type, page, limit);
-  } else {
-    result = ApiService.get(`pc/game?${params}`);
-  }
-
+  const result = ApiService.get(`Game/list?gpcode=${gpCode}&platformtype=${config.isPC}&language=${i18n.language}&currency=${config.currency}&gametypes=15`);
   return result;
 }
 function BookmarkSlotGame(token, game_id) {

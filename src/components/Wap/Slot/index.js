@@ -204,10 +204,10 @@ class Slot extends Component {
     var title = "";
 
     var gameType = this.props.match.params.gameType
-      ? parseInt(this.props.match.params.gameType)
-      : GameTypeEnum.SLOT;
+      ? this.props.match.params.gameType
+      : "";
 
-    switch (gameType) {
+    switch (this.props.match.params.parentId) {
       case GameTypeEnum.SLOT:
         title = i18n.t("common.electron");
         break;
@@ -238,7 +238,7 @@ class Slot extends Component {
   }
 
   componentDidMount() {
-    this.getGameList(this.state.parentId);
+    this.getGameList(this.state.gameType);
 
   }
   componentWillUnmount() {
@@ -261,20 +261,16 @@ class Slot extends Component {
             : "",
         });
       } else {
-        this.getGameList(this.state.parentId);
+        this.getGameList(this.state.gameType);
       }
     }
   }
-  getGameList(selectedParentId, page = this.state.page) {
+  getGameList(gameType, page = this.state.page) {
     this.setState({ ...this.state, loading: true });
     let result = null;
 
     result = GameService.GetSlotGameList(
       this.state.gameType,
-      selectedParentId == 0 ? "" : selectedParentId,
-      this.state.keyword,
-      page,
-      this.state.filterGame
     );
     result.then((response) => {
       this.setState({ ...this.state, loading: false });
@@ -282,15 +278,12 @@ class Slot extends Component {
         if (page === 1) {
           this.setState({
             ...this.state,
-            gameList: response.data.list,
-            total: response.data.count,
-            page: page,
+            gameList: response.data,
           });
         } else {
           this.setState({
             ...this.state,
-            gameList: this.state.gameList.concat(response.data.list),
-            total: response.data.count,
+            gameList: this.state.gameList.concat(response.data),
           });
         }
       } else {

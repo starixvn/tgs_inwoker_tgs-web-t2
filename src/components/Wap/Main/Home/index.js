@@ -344,7 +344,7 @@ class Home extends Component {
       return
     }
     if (type === GameTypeEnum.SLOT || type === GameTypeEnum.TIGERSLOT || type === GameTypeEnum.FISH) {
-      this.props.navigate(`/slots/${type}/${game_platform_id}`);
+      this.props.navigate(`/slots/${params}/${type}`);
     } else {
       Common.PopupCenter(
         "/" + i18n.language + "/joingame/" + type + "/" + params
