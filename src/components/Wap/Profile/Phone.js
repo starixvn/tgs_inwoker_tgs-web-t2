@@ -4,8 +4,8 @@ import { withRouter } from "react-router-dom";
 import Textbox from "../Share/Textbox";
 import TextboxWithButton from "../Share/TextboxWithButton";
 import BaseProfile from "./BaseProfile";
-import {AccountService} from  '@yifan1997/tgs-api-mapping';
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import {AccountService} from  '@Inwoker/tgs-api';
+import { accountAction } from '@Inwoker/tgs-api';
 import BottomNote from "../Share/BottomNote";
 import { withSnackbar } from "notistack";
 import i18n from "../../../utils/i18n"

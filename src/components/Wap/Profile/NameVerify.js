@@ -11,7 +11,7 @@ import BottomNote from "../Share/BottomNote";
 import BaseProfile from "./BaseProfile";
 
 import { withSnackbar } from "notistack";
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 import { RESET_ACCOUNTRESULT } from "../../../constants/actionType";
 
 class NameVerify extends BaseProfile {

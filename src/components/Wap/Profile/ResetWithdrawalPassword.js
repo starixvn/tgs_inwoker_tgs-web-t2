@@ -5,7 +5,7 @@ import { withSnackbar } from "notistack";
 import { withRouter } from "react-router-dom";
 
 import { AppHistory } from "../../../history/History";
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 
 
 import { AccountService } from "../../../services/AccountService";

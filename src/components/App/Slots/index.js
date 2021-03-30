@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import BGGamePNG from "../../../assets/images/slot/bg-game.png";
 
-import {GameService} from  '@yifan1997/tgs-api-mapping';
+import {GameService} from  '@Inwoker/tgs-api';
 
 import SlotAllPNG from "../../../assets/images/slot-all.png";
 import SlotAllInactivePNG from "../../../assets/images/slot-all-inactive.png";

@@ -6,9 +6,9 @@ import { withSnackbar } from "notistack";
 import { AppHistory } from "../../../history/History";
 import AppBar from "@material-ui/core/AppBar";
 import { withStyles } from "@material-ui/core/styles";
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 import { ReportService } from "../../../services/ReportService";
-import {ReportService as TGSReportService} from  '@yifan1997/tgs-api-mapping';
+import {ReportService as TGSReportService} from  '@Inwoker/tgs-api';
 import { GameService } from "../../../services/GameService";
 
 import BottomScrollListener from "react-bottom-scroll-listener";

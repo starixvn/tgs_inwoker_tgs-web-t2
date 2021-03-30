@@ -9,7 +9,7 @@ import { AppHistory } from "../../../history/History";
 
 import Header from "../Share/Header";
 
-import {AccountService} from '@yifan1997/tgs-api-mapping';
+import {AccountService} from '@Inwoker/tgs-api';
 
 import Textbox from "../../Wap/Share/Textbox";
 import TextboxWithButton from "../../Wap/Share/TextboxWithButton";

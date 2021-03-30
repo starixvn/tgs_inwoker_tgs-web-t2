@@ -32,7 +32,7 @@ import InfoPNG from "../src/assets/images/info.png";
 import SuccessPNG from "../src/assets/images/success.png";
 import { makeStyles } from "@material-ui/core";
 import i18n from "./utils/i18n";
-import {ConfigService} from '@yifan1997/tgs-api-mapping';
+import {ConfigService} from '@Inwoker/tgs-api';
 
 const baseRouteUrl = "/:locale(zh-CN|zh-TW|en-US)";
 

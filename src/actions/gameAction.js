@@ -1,5 +1,5 @@
 import { GameService } from "../services/GameService";
-import {GameService as TGSGameService} from  '@yifan1997/tgs-api-mapping';
+import {GameService as TGSGameService} from  '@Inwoker/tgs-api';
 // These are the constants to represent each of three recommended actions for a single API fetch or post.
 
 import {

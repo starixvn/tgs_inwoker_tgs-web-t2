@@ -4,10 +4,10 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { withSnackbar } from "notistack";
 import Textbox from "../Share/Textbox";
-import {AccountService} from  '@yifan1997/tgs-api-mapping';
+import {AccountService} from  '@Inwoker/tgs-api';
 import BaseProfile from "./BaseProfile";
 // import { ProfileAction } from "../../../actions/ProfileAction";
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 import { AppHistory } from "../../../history/History";
 import i18n from "../../../utils/i18n"
 

@@ -6,12 +6,12 @@ import CustomButton from "../../../Share/Button";
 import TextField from "@material-ui/core/TextField";
 import IconInputVerifyCodePNG from "../../../../assets/images/icon-input-verifycode.png";
 import { withStyles } from "@material-ui/core/styles";
-import {AccountService} from  '@yifan1997/tgs-api-mapping';
+import {AccountService} from  '@Inwoker/tgs-api';
 import { UPDATE_INFO } from "../../../../constants/actionType";
 
 
 import i18n from "../../../../utils/i18n"
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 import { withSnackbar } from "notistack";
 const Container = styled.div``;
 const CustomText = withStyles({

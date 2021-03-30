@@ -1,4 +1,4 @@
-import {UiService} from '@yifan1997/tgs-api-mapping';
+import {UiService} from '@Inwoker/tgs-api';
 import {
   GETMARQUEE_SUCCESS,
   GETMARQUEE_BEGIN,

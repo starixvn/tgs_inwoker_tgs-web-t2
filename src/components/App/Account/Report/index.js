@@ -3,7 +3,7 @@ import styled from "styled-components";
 import IconReportRedPNG from "../../../../assets/images/icon-report-active.png";
 
 import { ReportService } from "../../../../services/ReportService";
-import {ReportService as TGSReportService} from  '@yifan1997/tgs-api-mapping';
+import {ReportService as TGSReportService} from  '@Inwoker/tgs-api';
 import { GameService } from "../../../../services/GameService";
 
 import AccountDetails from "./AccountDetails";

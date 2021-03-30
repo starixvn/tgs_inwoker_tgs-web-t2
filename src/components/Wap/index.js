@@ -5,12 +5,12 @@ import { Router, Switch, Route } from "react-router";
 import { AppHistory } from "../../history/History";
 import { withRouter } from "react-router-dom";
 import { UPDATING_SCREEN_SIZE, SHOW_LOGIN } from "../../constants/actionType";
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 import { generalAction } from "../../actions/generalAction";
 import { walletAction } from "../../actions/walletAction";
-import {gameAction} from '@yifan1997/tgs-api-mapping';
-import { uiAction } from '@yifan1997/tgs-api-mapping';
-import {GeneralService} from '@yifan1997/tgs-api-mapping';
+import {gameAction} from '@Inwoker/tgs-api';
+import { uiAction } from '@Inwoker/tgs-api';
+import {GeneralService} from '@Inwoker/tgs-api';
 import debounce from "lodash.debounce";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";

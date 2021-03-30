@@ -4,7 +4,7 @@ import styled from "styled-components";
 import CustomTextField from "../../../Share/TextField";
 import CustomButton from "../../../Share/Button";
 
-import {AccountService} from  '@yifan1997/tgs-api-mapping';
+import {AccountService} from  '@Inwoker/tgs-api';
 import { UPDATE_INFO } from "../../../../constants/actionType";
 import { withSnackbar } from "notistack";
 import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.png";

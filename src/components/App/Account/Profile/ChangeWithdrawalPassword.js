@@ -6,7 +6,7 @@ import CustomButton from "../../../Share/Button";
 import TextField from "@material-ui/core/TextField";
 import IconInputVerifyCodePNG from "../../../../assets/images/icon-input-verifycode.png";
 import { withStyles } from "@material-ui/core/styles";
-import {AccountService} from  '@yifan1997/tgs-api-mapping';
+import {AccountService} from  '@Inwoker/tgs-api';
 import CustomTextField from "../../../Share/TextField";
 import Password1IconPNG from "../../../../assets/images/password1-icon.png";
 

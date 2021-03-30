@@ -6,7 +6,7 @@ import LoginBGPNG from "../../assets/images/login-bg.png";
 
 import TextField from "@material-ui/core/TextField";
 import { withSnackbar } from "notistack";
-import {AccountService} from '@yifan1997/tgs-api-mapping';
+import {AccountService} from '@Inwoker/tgs-api';
 import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
 const Container = styled.div`

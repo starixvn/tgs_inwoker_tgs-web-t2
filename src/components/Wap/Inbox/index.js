@@ -7,7 +7,7 @@ import { AppHistory } from "../../../history/History";
 
 import Header from "../../Wap/Share/Header";
 
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 import BottomScrollListener from "react-bottom-scroll-listener";
 import { InboxService } from "../../../services/InboxService";
 import IconInboxCheckedPNG from "../../../assets/images/wap/icon-inbox-checked.png";

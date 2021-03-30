@@ -9,7 +9,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.2.10",
     "@unicef/material-ui-currency-textfield": "^0.8.6",
-    "@yifan1997/tgs-api-mapping": "^0.6.0",
+    "@Inwoker/tgs-api": "^0.6.0",
     "animate.css": "^4.1.1",
     "axios": "^0.21.1",
     "copy-to-clipboard": "^3.3.1",

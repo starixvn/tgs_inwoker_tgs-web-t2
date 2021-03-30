@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 import { withRouter } from "react-router-dom";
 import Textbox from "../Share/Textbox";
 import TextboxWithButton from "../Share/TextboxWithButton";
 import Step from "../Share/Step";
 import BaseProfile from "./BaseProfile";
-import {AccountService} from  '@yifan1997/tgs-api-mapping';
+import {AccountService} from  '@Inwoker/tgs-api';
 import { withSnackbar } from "notistack";
 import { AppHistory } from "../../../history/History";
 import i18n from "../../../utils/i18n";

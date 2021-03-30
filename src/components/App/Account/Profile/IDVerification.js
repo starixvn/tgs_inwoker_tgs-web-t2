@@ -6,7 +6,7 @@ import CustomButton from "../../../Share/Button";
 import IconInputIDPNG from "../../../../assets/images/icon-input-id.png";
 import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.png";
 import { withSnackbar } from "notistack";
-import {AccountService} from  '@yifan1997/tgs-api-mapping';
+import {AccountService} from  '@Inwoker/tgs-api';
 import { UPDATE_INFO } from "../../../../constants/actionType";
 import i18n from "../../../../utils/i18n"
 const Container = styled.div``;

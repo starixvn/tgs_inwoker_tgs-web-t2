@@ -11,12 +11,12 @@ import ForgotPasswordPhone from "./ForgotPasswordPhone";
 import ResetPassword from "./ResetPassword";
 import ResetPasswordSuccess from "./ResetPasswordSuccess";
 
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 import { walletAction } from "../../actions/walletAction";
 
 import Register from "./Register";
 import { SHOWING_DIALOG, SHOW_LOGIN } from "../../constants/actionType";
-import {AccountService} from '@yifan1997/tgs-api-mapping';
+import {AccountService} from '@Inwoker/tgs-api';
 import { withSnackbar } from "notistack";
 import { gameAction } from "../../actions/gameAction";
 

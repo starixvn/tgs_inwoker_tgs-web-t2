@@ -7,7 +7,7 @@ import Textbox from "../Share/Textbox";
 
 import BaseProfile from "./BaseProfile";
 // import { ProfileAction } from "../../../actions/ProfileAction";
-import {AccountService} from  '@yifan1997/tgs-api-mapping';
+import {AccountService} from  '@Inwoker/tgs-api';
 import { withSnackbar } from "notistack";
 import { accountAction } from "../../../actions/accountAction";
 class WeChat extends BaseProfile {

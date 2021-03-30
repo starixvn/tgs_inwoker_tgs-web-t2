@@ -12,7 +12,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { withStyles } from "@material-ui/core/styles";
 import { AppHistory } from "../../../history/History";
 import CircleUnchecked from "@material-ui/icons/RadioButtonUnchecked";
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 import { walletAction } from "../../../actions/walletAction";
 import { gameAction } from "../../../actions/gameAction";
 import { GeneralService } from "../../../services/GeneralService";

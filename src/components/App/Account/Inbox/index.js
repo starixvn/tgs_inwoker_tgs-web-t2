@@ -8,7 +8,7 @@ import { withSnackbar } from "notistack";
 
 import List from "./List";
 import { InboxService } from "../../../../services/InboxService";
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 import { SHOWING_DIALOG } from "../../../../constants/actionType";
 import i18n from "../../../../utils/i18n"
 const Container = styled.div` 

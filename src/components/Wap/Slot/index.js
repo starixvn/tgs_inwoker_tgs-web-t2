@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import {GameService} from  '@yifan1997/tgs-api-mapping';
+import {GameService} from  '@Inwoker/tgs-api';
 import { withRouter } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";

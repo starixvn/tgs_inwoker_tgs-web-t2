@@ -17,7 +17,7 @@ import IconTransferRefreshPNG from "../../../assets/images/wap/icon-transfer-ref
 import FormControl from "@material-ui/core/FormControl";
 import DynamicFont from "react-dynamic-font";
 import Select from "@material-ui/core/Select";
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 import { walletAction } from "../../../actions/walletAction";
 import { RESET_WALLETRESULT } from "../../../constants/actionType";
 import { withSnackbar } from "notistack";

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
-import {GameService} from  '@yifan1997/tgs-api-mapping';
+import {GameService} from  '@Inwoker/tgs-api';
 import Maintenance from "../../Share/Maintenance";
 import { withSnackbar } from "notistack";
 const Container = styled.iframe`

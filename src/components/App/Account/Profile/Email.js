@@ -6,9 +6,9 @@ import CustomButton from "../../../Share/Button";
 import IconInputEmailPNG from "../../../../assets/images/icon-input-email.png";
 import IconInputVerifyCodePNG from "../../../../assets/images/icon-input-verifycode.png";
 import { withSnackbar } from "notistack";
-import {AccountService} from  '@yifan1997/tgs-api-mapping';
+import {AccountService} from  '@Inwoker/tgs-api';
 
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import i18n from "../../../../utils/i18n"

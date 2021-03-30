@@ -1,6 +1,6 @@
 import { AccountService } from "../services/AccountService";
 import { InboxService } from "../services/InboxService";
-import {AccountService as TGSAccountService} from  '@yifan1997/tgs-api-mapping';
+import {AccountService as TGSAccountService} from  '@Inwoker/tgs-api';
 import {
   LOGIN_BEGIN,
   LOGIN_SUCCESS,

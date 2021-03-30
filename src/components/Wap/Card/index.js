@@ -5,7 +5,7 @@ import { withSnackbar } from "notistack";
 import { AppHistory } from "../../../history/History";
 import AppBar from "@material-ui/core/AppBar";
 import { withStyles } from "@material-ui/core/styles";
-import { accountAction } from '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@Inwoker/tgs-api';
 import { walletAction } from "../../../actions/walletAction";
 
 import { RESET_WALLETRESULT } from "../../../constants/actionType";
