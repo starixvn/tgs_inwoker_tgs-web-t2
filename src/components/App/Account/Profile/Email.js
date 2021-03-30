@@ -6,11 +6,12 @@ import CustomButton from "../../../Share/Button";
 import IconInputEmailPNG from "../../../../assets/images/icon-input-email.png";
 import IconInputVerifyCodePNG from "../../../../assets/images/icon-input-verifycode.png";
 import { withSnackbar } from "notistack";
-import { AccountService } from "../../../../services/AccountService";
+import {AccountService} from  '@yifan1997/tgs-api-mapping';
 
-import { accountAction } from "../../../../actions/accountAction";
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
+import i18n from "../../../../utils/i18n"
 const CustomText = withStyles({
   root: {
     marginTop: "10px",
@@ -69,7 +70,7 @@ const StyleButton = styled.div`
       props.disable === true
         ? `  background-image: linear-gradient(90deg, rgba(89,89,89,1) 0%, rgba(126,126,126,1) 100%);`
         : `      background-blend-mode: screen, normal;
-        background-image: linear-gradient(to top,#ffc65c,#f0b64b);
+        box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);
         }
   `}
 
@@ -99,6 +100,7 @@ class Address extends Component {
     email: this.props.email,
     code: "",
     countdown: 0,
+    securityKey:"",
   };
   timer = null;
   componentWillUnmount() {
@@ -115,35 +117,35 @@ class Address extends Component {
   onhandleGetCodeClick = () => {
     if (this.state.countdown <= 0) {
       let events = "";
-      if (this.props.isForSecurityQuestion) {
-        events = "resetQuestion";
-      } else {
-        if (this.state.isNew) {
-          events = "bind";
-        } else {
-          if (this.state.step === 1) {
-            events = "check";
-          } else if (this.state.step === 2) {
-            events = "bind";
-          }
-        }
-      }
-
-      AccountService.GetEmailVerificationCode(
-        this.props.token,
+      // if (this.props.isForSecurityQuestion) {
+      //   events = "resetQuestion";
+      // } else {
+      //   if (this.state.isNew) {
+      //     events = "bind";
+      //   } else {
+      //     if (this.state.step === 1) {
+      //       events = "check";
+      //     } else if (this.state.step === 2) {
+      //       events = "bind";
+      //     }
+      //   }
+      // }
+      AccountService.VerifyEmail(
         this.state.email,
-        events
       ).then((response) => {
         if (response.IsSuccess) {
-          this.props.enqueueSnackbar(response.msg, {
+          this.setState({
+            securityKey: response.data
+          })
+          this.props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
             variant: "info",
           });
         } else {
-          this.props.enqueueSnackbar(response.msg, {
+          this.props.enqueueSnackbar(response.info, {
             variant: "error",
           });
         }
-        this.setState({ ...this.state, countdown: response.data });
+        this.setState({ ...this.state, countdown: 60 });
         this.checkCountdown();
       });
     }
@@ -157,80 +159,109 @@ class Address extends Component {
     }
   };
   onhandleClick = () => {
-    if (this.state.isNew) {
-      AccountService.UpdateEmail(
-        this.state.email,
-      ).then((response) => {
-        if (response.IsSuccess) {
+    AccountService.UpdateEmail(
+      this.state.securityKey,
+      this.state.code
+    ).then((response) => {
+      if (response.IsSuccess) {
+        this.props.enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
+          variant: "info",
+        });
+        if(this.state.isNew||this.state.step===2){
           this.props.getAccountInfo();
           this.props.handleCloseDialog();
-        } else {
-          this.props.enqueueSnackbar(response.msg, {
-            variant: "error",
+        }
+        else{
+          this.setState({
+            ...this.state,
+            code: "",
+            securityKey:"",
+            email: "",
+            step: 2,
+            message: i18n.t("common.msgTokenVerified"),
+            countdown: 0,
           });
         }
-      });
-    } else {
-      if (this.props.isForSecurityQuestion) {
-        AccountService.VerifySecurityQuestionByEmail(
-          this.props.token,
-          this.state.code
-        ).then((response) => {
-          if (response.IsSuccess) {
-            this.props.onhandleVerifySuccess(
-              this.props.isForSecurityQuestion,
-              this.props.isForWithdrawalPassword
-            );
-          } else {
-            this.props.enqueueSnackbar(response.msg, {
-              variant: "error",
-            });
-            // this.setState({ ...this.state, message: response.msg });
-          }
-        });
       } else {
-        if (this.state.step === 1) {
-          AccountService.UpdateEmailStep1(
-            this.props.token,
-            this.state.code
-          ).then((response) => {
-            if (response.IsSuccess) {
-              this.setState({
-                ...this.state,
-                code: "",
-                email: "",
-                step: 2,
-                message: response.msg,
-                countdown: 0,
-              });
-            } else {
-              this.props.enqueueSnackbar(response.msg, {
-                variant: "error",
-              });
-              // this.setState({ ...this.state, message: response.msg });
-            }
-          });
-        } else if (this.state.step === 2) {
-          AccountService.UpdateEmailStep2(
-            this.props.token,
-            this.state.email,
-            this.state.code
-          ).then((response) => {
-            if (response.IsSuccess) {
-              this.props.getAccountProfile(this.props.token);
-              this.props.handleCloseDialog();
-              this.props.enqueueSnackbar(response.msg, {
-                variant: "info",
-              });
-            } else {
-              this.props.enqueueSnackbar(response.msg, {
-                variant: "error",
-              });
-            }
-          });
-        }
+        this.props.enqueueSnackbar(response.info, {
+          variant: "error",
+        });
       }
-    }
+    });
+    // if (this.state.isNew) {
+    //   AccountService.UpdateEmail(
+    //     this.state.email,
+    //   ).then((response) => {
+    //     if (response.IsSuccess) {
+    //       this.props.getAccountInfo();
+    //       this.props.handleCloseDialog();
+    //     } else {
+    //       this.props.enqueueSnackbar(response.msg, {
+    //         variant: "error",
+    //       });
+    //     }
+    //   });
+    // } else {
+    //   if (this.props.isForSecurityQuestion) {
+    //     AccountService.VerifySecurityQuestionByEmail(
+    //       this.props.token,
+    //       this.state.code
+    //     ).then((response) => {
+    //       if (response.IsSuccess) {
+    //         this.props.onhandleVerifySuccess(
+    //           this.props.isForSecurityQuestion,
+    //           this.props.isForWithdrawalPassword
+    //         );
+    //       } else {
+    //         this.props.enqueueSnackbar(response.msg, {
+    //           variant: "error",
+    //         });
+    //         // this.setState({ ...this.state, message: response.msg });
+    //       }
+    //     });
+    //   } else {
+    //     if (this.state.step === 1) {
+    //       AccountService.UpdateEmailStep1(
+    //         this.props.token,
+    //         this.state.code
+    //       ).then((response) => {
+    //         if (response.IsSuccess) {
+    //           this.setState({
+    //             ...this.state,
+    //             code: "",
+    //             email: "",
+    //             step: 2,
+    //             message: response.msg,
+    //             countdown: 0,
+    //           });
+    //         } else {
+    //           this.props.enqueueSnackbar(response.msg, {
+    //             variant: "error",
+    //           });
+    //           // this.setState({ ...this.state, message: response.msg });
+    //         }
+    //       });
+    //     } else if (this.state.step === 2) {
+    //       AccountService.UpdateEmailStep2(
+    //         this.props.token,
+    //         this.state.email,
+    //         this.state.code
+    //       ).then((response) => {
+    //         if (response.IsSuccess) {
+    //           this.props.getAccountProfile(this.props.token);
+    //           this.props.handleCloseDialog();
+    //           this.props.enqueueSnackbar(response.msg, {
+    //             variant: "info",
+    //           });
+    //         } else {
+    //           this.props.enqueueSnackbar(response.msg, {
+    //             variant: "error",
+    //           });
+    //         }
+    //       });
+    //     }
+    //   }
+    // }
   };
   render() {
     return (

@@ -102,7 +102,7 @@ const ContentButtonLabel = styled.div`
   margin-top: 5px;
 `;
 
-function GetContentWrap(accountInfo, label, attr, func, func2, label2) {
+function GetContentWrap(accountInfo, label, attr, func, label2) {
   let attrValue = accountInfo[attr];
   if (attr === "member_address") {
     if (attrValue !== "") {
@@ -117,7 +117,7 @@ function GetContentWrap(accountInfo, label, attr, func, func2, label2) {
   let isDisable = false;
   let buttonValue = i18n.t("profile.edit");
   let requiredVerify =
-    attr === "member_card_no" ||
+    attr === "member_name" ||
     // attr === "member_email" ||
     attr === "member_phone" ||
     attr === "member_birthday";
@@ -125,7 +125,7 @@ function GetContentWrap(accountInfo, label, attr, func, func2, label2) {
   let isVerify = false;
 
   if (requiredVerify) {
-    if (attr === "member_card_no" || attr === "member_birthday") {
+    if (attr === "member_name" || attr === "member_birthday") {
       isVerify = accountInfo.check_pass_account;
     }
     if (attr === "member_email") {
@@ -164,11 +164,11 @@ function GetContentWrap(accountInfo, label, attr, func, func2, label2) {
       buttonValue = i18n.t("common.reset");
       isDisable = false;
     }
-  } else if (attr === "member_card_no" || attr === "member_birthday") {
+  } else if (attr === "member_name" || attr === "member_birthday") {
     if (isVerify || attr === "member_birthday") {
       buttonValue = "";
     }
-    if (attr === "member_card_no") {
+    if (attr === "member_name") {
       if (isVerify === false) {
         buttonValue = i18n.t("profile.nowVerify");
       } else {
@@ -188,15 +188,6 @@ function GetContentWrap(accountInfo, label, attr, func, func2, label2) {
           return (
             <ContentButton onClick={() => func(attr)}>
               <ContentButtonLabel>{buttonValue}</ContentButtonLabel>
-            </ContentButton>
-          );
-        }
-      })()}
-      {(() => {
-        if (func2 !== undefined) {
-          return (
-            <ContentButton onClick={() => func2(attr)}>
-              <ContentButtonLabel>{label2}</ContentButtonLabel>
             </ContentButton>
           );
         }
@@ -334,14 +325,14 @@ class Profile extends Component {
       this.setState({
         ...this.state,
         openDialog: true,
-        dialogTitle: i18n.t("profile.withdrawalPassword.setWithdrawalPassword"),
+        dialogTitle: i18n.t("profile.phoneVerification"),
         dialogComponent: (
-          <WithdrawalPassword
-            value={this.props.account.info.member_safe_password}
-            handleCloseDialog={this.handleCloseDialog}
-            handleBackClick={this.backPhoneVerify}
-            code={smsCode}
-          ></WithdrawalPassword>
+          <ChangeWithdrawalPassword
+          phone={this.props.account.info.member_phone}
+          handleCloseDialog={this.handleCloseDialog}
+          handleChangeTitle ={this.handleChangeTitle}
+          token={this.props.account.token}
+      ></ChangeWithdrawalPassword>
         ),
       });
     }
@@ -411,8 +402,8 @@ class Profile extends Component {
           );
         } else {
           // reset
-          if (this.props.account.info.check_pass_phone) {
-            title = i18n.t("profile.resetResetWithdrawalPassword.title");
+          if (!this.props.account.info.check_pass_phone) {
+            title = i18n.t("profile.phone.bindMobile");
             component = (
               <PhoneVerification
                 handleCloseDialog={this.handleCloseDialog}
@@ -424,20 +415,20 @@ class Profile extends Component {
               ></PhoneVerification>
             );
           } else {
-            title = i18n.t("profile.phone.bindMobile");
+            title = i18n.t("profile.phoneVerification");
             component = (
-              <PhoneVerification
-                handleCloseDialog={this.handleCloseDialog}
-                phone={this.props.account.info.member_phone}
-                token={this.props.account.token}
-                isForSecurityQuestion={false}
-              ></PhoneVerification>
+              <ChangeWithdrawalPassword
+              phone={this.props.account.info.member_phone}
+              handleCloseDialog={this.handleCloseDialog}
+              handleChangeTitle ={this.handleChangeTitle}
+              token={this.props.account.token}
+            ></ChangeWithdrawalPassword>
             );
           }
         }
 
         break;
-      case "member_card_no":
+        case "member_name":
         title = i18n.t("profile.nameVerify.icNum");
         component = (
           <IDVerification
@@ -509,23 +500,6 @@ class Profile extends Component {
       dialogTitle: title,
     });
   }
-  handleButton2Click = () => {
-    var title = i18n.t("profile.phoneVerification");
-    var component = (
-      <ChangeWithdrawalPassword
-        phone={this.props.account.info.member_phone}
-        handleCloseDialog={this.handleCloseDialog}
-        handleChangeTitle ={this.handleChangeTitle}
-        token={this.props.account.token}
-      ></ChangeWithdrawalPassword>
-    );
-    this.setState({
-      ...this.state,
-      openDialog: true,
-      dialogTitle: title,
-      dialogComponent: component,
-    });
-  };
   handleCloseDialog = () => {
     this.setState({ ...this.state, openDialog: false });
   };
@@ -540,7 +514,7 @@ class Profile extends Component {
           {GetContentWrap(
             this.props.account.info,
             i18n.t("profile.nameVerify.icNum"),
-            "member_card_no",
+            "member_name",
             this.handleButtonClick
           )}
           {GetContentWrap(
@@ -596,7 +570,6 @@ class Profile extends Component {
             i18n.t("profile.withdrawalPassword.title"),
             "member_safe_password",
             this.handleButtonClick,
-            this.handleButton2Click,
             i18n.t("profile.edit")
           )}
           {GetContentWrap(

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
-import { GameService } from "../../../services/GameService";
+import {GameService} from  '@yifan1997/tgs-api-mapping';
 import LoadingGIF from "../../../assets/images/loading.gif";
 import LogoPNG from "../../../assets/images/logo.png";
 import BGJPG from "../../../assets/images/bg.jpg";

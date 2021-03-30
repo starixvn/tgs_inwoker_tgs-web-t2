@@ -44,7 +44,7 @@ class Wechat extends Component {
         });
         this.props.handleCloseDialog();
       } else {
-        this.props.enqueueSnackbar(response.msg, {
+        this.props.enqueueSnackbar(response.info, {
           variant: "error",
         });
       }

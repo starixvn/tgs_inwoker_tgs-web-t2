@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import BGGamePNG from "../../../assets/images/slot/bg-game.png";
 
-import { GameService } from "../../../services/GameService";
+import {GameService} from  '@yifan1997/tgs-api-mapping';
 
 import SlotAllPNG from "../../../assets/images/slot-all.png";
 import SlotAllInactivePNG from "../../../assets/images/slot-all-inactive.png";
@@ -405,8 +405,9 @@ class Slots extends Component {
 
       loading: true,
     });
-    var result = GameService.GetSlotGameList(
-      this.state.gameType
+    var result = GameService.GetGameList(
+      this.state.gameType,
+      GameTypeEnum.SLOT
     );
     result.then((response) => {
       if (response.IsSuccess) {

@@ -6,7 +6,7 @@ import CustomButton from "../../../Share/Button";
 import IconInputIDPNG from "../../../../assets/images/icon-input-id.png";
 import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.png";
 import { withSnackbar } from "notistack";
-import { AccountService } from "../../../../services/AccountService";
+import {AccountService} from  '@yifan1997/tgs-api-mapping';
 import { UPDATE_INFO } from "../../../../constants/actionType";
 import i18n from "../../../../utils/i18n"
 const Container = styled.div``;
@@ -28,13 +28,13 @@ function IDVerification(props) {
     member_card_no: props.account.info.member_card_no,
   };
   const onhandleClick = () => {
-    AccountService.UpdateMemberCardNo(local_props.member_card_no).then(
+    AccountService.AddRealName(local_props.member_name,local_props.member_card_no).then(
       (response) => {
         if (response.IsSuccess) {
           props.dispatch({
             type: UPDATE_INFO,
             payload: {
-              member_card_no: local_props.member_card_no,
+              member_name: local_props.member_name,
               check_pass_account: true,
             },
           });
@@ -61,7 +61,9 @@ function IDVerification(props) {
           : true}
         maxLength={10}
       ></CustomTextField>
-      {/* <CustomTextField
+      { props.account.info.member_name === "" ||
+          props.account.info.member_name === null?
+      <CustomTextField
         placeholder={i18n.t("profile.nameVerify.icNum")}
         adornment={IconInputIDPNG}
         handleTextFieldChange={onhandleIDChange}
@@ -73,7 +75,7 @@ function IDVerification(props) {
             : true
         }
         maxLength={20}
-      ></CustomTextField> */}
+      ></CustomTextField>:<></>}
       {(() => {
         if (
           props.account.info.member_name === "" ||

@@ -4,8 +4,8 @@ import { withRouter } from "react-router-dom";
 import Textbox from "../Share/Textbox";
 import TextboxWithButton from "../Share/TextboxWithButton";
 import BaseProfile from "./BaseProfile";
-import { AccountService } from "../../../services/AccountService";
-import { accountAction } from "../../../actions/accountAction";
+import {AccountService} from  '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import BottomNote from "../Share/BottomNote";
 import { withSnackbar } from "notistack";
 import i18n from "../../../utils/i18n"
@@ -16,6 +16,7 @@ class Phone extends BaseProfile {
     code: "",
     isNew: false,
     isConfigured: false,
+    securityKey:"",
   };
   componentDidMount() {
     let isConfigured = false;
@@ -57,18 +58,15 @@ class Phone extends BaseProfile {
     if (this.state.countdownToken > 0) return;
     if (!this.state.phone) return this.showErrorMessage(i18n.t("common.msgEnterPhone"));
     this.showLoading(true);
-    let events = "bind";
-
-    AccountService.GetPhoneVerificationCode(
-      this.props.account.token,
+    AccountService.VerifyPhone(
       this.state.phone,
-      events
     )
       .then((response) => {
         if (response.IsSuccess) {
           this.setState({
             ...this.state,
-            countdownToken: response.data,
+            countdownToken: 60,
+            securityKey: response.data,
           });
           this.showInfoMessage(i18n.t("common.msgTokenSent"));
           setTimeout(() => {
@@ -80,7 +78,7 @@ class Phone extends BaseProfile {
         this.showLoading(false);
       })
       .catch((err) => {
-        this.showErrorMessage(err.Message);
+        this.showErrorMessage(err);
 
 
         this.showLoading(false);
@@ -106,7 +104,7 @@ class Phone extends BaseProfile {
   };
   handleSubmitClicked = () => {
     this.showLoading(true);
-    AccountService.UpdatePhone(this.state.phone, this.state.code)
+    AccountService.UpdatePhone(this.state.securityKey,this.state.code)
       .then((response) => {
         if (response.IsSuccess) {
           this.props
@@ -115,9 +113,9 @@ class Phone extends BaseProfile {
               if (responseUpdate.IsSuccess) {
                 this.setState({
                   ...this.state,
-                  phone: responseUpdate.data.phone,
-
                   code: "",
+                  securityKey:"",
+                  countdownToken: 0,
                   isNew: false,
                   isConfigured: true,
                 });

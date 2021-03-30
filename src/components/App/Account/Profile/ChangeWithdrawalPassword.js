@@ -6,7 +6,7 @@ import CustomButton from "../../../Share/Button";
 import TextField from "@material-ui/core/TextField";
 import IconInputVerifyCodePNG from "../../../../assets/images/icon-input-verifycode.png";
 import { withStyles } from "@material-ui/core/styles";
-import { AccountService } from "../../../../services/AccountService";
+import {AccountService} from  '@yifan1997/tgs-api-mapping';
 import CustomTextField from "../../../Share/TextField";
 import Password1IconPNG from "../../../../assets/images/password1-icon.png";
 
@@ -61,7 +61,7 @@ class ChangeWithdrawalPassword extends Component {
     this.state = {
      step: "1",
      phone: this.props.phone?this.props.phone:"",
-     securityCode:"",
+     securityKey:"",
      code: "",
      newpassword: "",
      confirmpassword: ""
@@ -80,18 +80,18 @@ class ChangeWithdrawalPassword extends Component {
     this.setState({ ...this.state, confirmpassword: e.target.value });
   };
   onhandleGetCodeClick = () => {
-        AccountService.GetChangeWithdrawalPasswordVerificationCode().then((response) => {
-          this.setState({ securityCode : response.data})
-      //   if (response.IsSuccess) {
-      //     this.props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
-      //       variant: "info",
-      //     });
-      //   } else {
-      //     this.props.enqueueSnackbar(response.info, {
-      //       variant: "error",
-      //     });
-      //   }
-       });
+      AccountService.GetChangeWithdrawalPasswordVerificationCode().then((response) => {
+        if (response.IsSuccess) {
+          this.setState({ securityKey : response.data})
+          this.props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
+            variant: "info",
+          });
+        } else {
+          this.props.enqueueSnackbar(response.info, {
+            variant: "error",
+          });
+        }
+      });
   };
   onhandleNextStep = () => {
     if(this.state.code!==""){
@@ -125,7 +125,7 @@ class ChangeWithdrawalPassword extends Component {
       AccountService.ChangeWithdrawalPassword(
         this.state.newpassword,
         this.state.code,
-        this.state.securityCode
+        this.state.securityKey
       ).then((response) => {
         if (response.IsSuccess) {
           this.props.enqueueSnackbar(i18n.t("common.msgSuccessUpdateProfile"), {

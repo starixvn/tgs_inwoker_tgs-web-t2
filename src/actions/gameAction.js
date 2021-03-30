@@ -1,4 +1,5 @@
 import { GameService } from "../services/GameService";
+import {GameService as TGSGameService} from  '@yifan1997/tgs-api-mapping';
 // These are the constants to represent each of three recommended actions for a single API fetch or post.
 
 import {
@@ -38,7 +39,7 @@ function getHomePageGameList() {
       type: GETHOMEPAGEGAMELIST_BEGIN,
       loading: true,
     });
-    const result = GameService.GetHomePageGameList()
+    const result = TGSGameService.GetHomePageGameList()
       .then((response) => {
 
         if (response.IsSuccess) {

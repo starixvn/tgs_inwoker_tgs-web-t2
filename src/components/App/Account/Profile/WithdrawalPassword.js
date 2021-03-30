@@ -6,7 +6,7 @@ import CustomButton from "../../../Share/Button";
 
 import Password2IconPNG from "../../../../assets/images/password2-icon.png";
 import IconInputNewpassPNG from "../../../../assets/images/icon-input-newpass.png";
-import { AccountService } from "../../../../services/AccountService";
+import {AccountService} from  '@yifan1997/tgs-api-mapping';
 import { UPDATE_INFO } from "../../../../constants/actionType";
 import { withSnackbar } from "notistack";
 import i18n from "../../../../utils/i18n"
@@ -36,16 +36,15 @@ class WithdrawalPassword extends Component {
     else{
       AccountService.AddWithdrawalPassword(
         this.local_props.password,
-        this.local_props.rpassword,
         // this.props.code
       ).then((response) => {
         if (response.IsSuccess) {
-          // this.props.dispatch({
-          //   type: UPDATE_INFO,
-          //   payload: {
-          //     member_safe_password: "set",
-          //   },
-          // });
+          this.props.dispatch({
+            type: UPDATE_INFO,
+            payload: {
+              member_safe_password: "set",
+            },
+          });
           this.props.handleCloseDialog();
           this.props.enqueueSnackbar(i18n.t("common.msgSuccessUpdateProfile"), {
             variant: "success",

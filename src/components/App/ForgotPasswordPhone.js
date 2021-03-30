@@ -6,7 +6,7 @@ import LoginBGPNG from "../../assets/images/login-bg.png";
 
 import TextField from "@material-ui/core/TextField";
 import { withSnackbar } from "notistack";
-import { AccountService } from "../../services/AccountService";
+import {AccountService} from '@yifan1997/tgs-api-mapping';
 import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
 const Container = styled.div`
@@ -132,7 +132,8 @@ class ForgotPasswordPhone extends Component {
     this.state = {
       phone: this.props.phone,
       code: this.props.code,
-      countdown: 0
+      countdown: 0,
+      securityKey: this.props.securityKey,
     };
   }
 
@@ -151,18 +152,12 @@ class ForgotPasswordPhone extends Component {
   };
   onhandleGetCodeClick = () => {
     if (this.state.countdown <= 0) {
-      AccountService.CheckPhoneOrAccount(
-
-        this.state.phone,
-
-      ).then(response => {
-        if (response.IsSuccess) {
-          AccountService.GetForgetPasswordCode(
-
+      if(this.state.phone.length>0){
+          AccountService.VerifyForgotPassword(
             this.state.phone,
-
           ).then(response => {
             if (response.IsSuccess) {
+              this.setState({securityKey: response.data})
               this.props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
                 variant: "info"
               });
@@ -172,15 +167,14 @@ class ForgotPasswordPhone extends Component {
               });
             }
           });
-
-        } else {
-          this.props.enqueueSnackbar(response.info, {
-            variant: "error"
-          });
-
-        }
-
-      });
+          this.setState({ ...this.state, countdown: 60 });
+          this.checkCountdown();
+      }
+      else{
+        this.props.enqueueSnackbar(i18n.t("common.msgEnterPhone"), {
+          variant: "error"
+        });
+      }
       // AccountService.GetPhoneVerificationCode(
       //   "",
       //   this.state.phone,
@@ -199,6 +193,16 @@ class ForgotPasswordPhone extends Component {
       //   this.setState({ ...this.state, countdown: response.data });
       //   this.checkCountdown();
       // });
+    }
+  };
+  onhandleNextClick = () => {
+    if (this.state.code.length>0&&this.state.securityKey.length>0) {
+      this.props.onhandleNextClick(this.state.code, this.state.phone, this.state.securityKey)
+    }
+    else{
+      this.props.enqueueSnackbar(i18n.t("common.msgEnterCode"), {
+        variant: "error"
+      });
     }
   };
   checkCountdown = () => {
@@ -235,7 +239,7 @@ class ForgotPasswordPhone extends Component {
             type={"number"}
             autoComplete="off"
             style={{
-              width: "208px",
+              width: "345px",
               height: "46px"
             }}
           />
@@ -248,7 +252,7 @@ class ForgotPasswordPhone extends Component {
               : i18n.t("common.btnTokenResendLabel") + "(" + this.state.countdown + "s)"}
           </StyleButton>
 
-          <Button onClick={() => this.props.onhandleNextClick(this.state.code, this.state.phone)}>
+          <Button onClick={() => this.onhandleNextClick}>
             {i18n.t("common.nextStep")}
           </Button>
           <Description>

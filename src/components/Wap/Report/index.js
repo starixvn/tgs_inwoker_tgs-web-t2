@@ -6,8 +6,9 @@ import { withSnackbar } from "notistack";
 import { AppHistory } from "../../../history/History";
 import AppBar from "@material-ui/core/AppBar";
 import { withStyles } from "@material-ui/core/styles";
-import { accountAction } from "../../../actions/accountAction";
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import { ReportService } from "../../../services/ReportService";
+import {ReportService as TGSReportService} from  '@yifan1997/tgs-api-mapping';
 import { GameService } from "../../../services/GameService";
 
 import BottomScrollListener from "react-bottom-scroll-listener";
@@ -535,7 +536,7 @@ class Report extends Component {
   };
   handleTransactionGetReportTrigger = (page, game_platform_id) => {
     this.setState({ ...this.state, loading: true });
-    ReportService.GetTransactionDetails(
+    TGSReportService.GetTransactionDetails(
       moment(this.state.dateFrom).format("YYYY-MM-DD"),
       moment(this.state.dateTo).format("YYYY-MM-DD"),
       page,

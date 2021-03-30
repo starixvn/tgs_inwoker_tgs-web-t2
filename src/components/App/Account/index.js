@@ -36,7 +36,7 @@ import Affiliate from "./Affiliate";
 
 import { walletAction } from "../../../actions/walletAction";
 import Withdrawal from "./Withdrawal/index";
-import { accountAction } from "../../../actions/accountAction";
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 
 import i18n from "../../../utils/i18n";
 import BGJPG from "../../../assets/images/bg.jpg";

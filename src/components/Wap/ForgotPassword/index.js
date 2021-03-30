@@ -9,7 +9,7 @@ import { AppHistory } from "../../../history/History";
 
 import Header from "../Share/Header";
 
-import { AccountService } from "../../../services/AccountService";
+import {AccountService} from '@yifan1997/tgs-api-mapping';
 
 import Textbox from "../../Wap/Share/Textbox";
 import TextboxWithButton from "../../Wap/Share/TextboxWithButton";
@@ -26,6 +26,7 @@ class ForgotPassword extends Component {
     loading: false,
     password: "",
     password2: "",
+    securityKey:"",
   };
   handleCodeChange = e => {
     this.setState({ ...this.state, code: e.target.value });
@@ -38,29 +39,15 @@ class ForgotPassword extends Component {
 
     if (!this.state.phone) return this.showErrorMessage(i18n.t("common.msgEnterPhone"));
 
-    AccountService.CheckPhoneOrAccount(
-
-      this.state.phone,
-
-    ).then(response => {
-      if (response.IsSuccess) {
-        AccountService.GetForgetPasswordCode(
+        AccountService.VerifyForgotPassword(
 
           this.state.phone,
 
         ).then(response => {
           this.getCodeResponse(response);
         });
-
-      } else {
-        this.props.alert("", response.info);
-
-      }
-
-    });
-
-
   };
+
   handlePasswordChange = e => {
     this.setState({ ...this.state, password: e.target.value });
   };
@@ -73,7 +60,7 @@ class ForgotPassword extends Component {
 
       this.setState({
         ...this.state,
-
+        securityKey: response.data,
         loading: true
       });
 
@@ -92,15 +79,11 @@ class ForgotPassword extends Component {
     } else {
       if (this.state.password !== this.state.password2) {
         this.props.alert("", i18n.t("forgotPassword.invalidConfirmPass"));
-        // this.props.enqueueSnackbar("两次密码要一致", {
-        //   variant: "error"
-        // });
       } else {
         AccountService.ResetPassword(
+          this.state.securityKey,
           this.state.code,
-          this.state.phone,
           this.state.password,
-          this.state.password2
         ).then(response => {
           if (response.IsSuccess) {
             this.props.alert("", i18n.t("forgotPassword.updateSuccess"));
@@ -169,7 +152,7 @@ class ForgotPassword extends Component {
             onChange={this.handlePasswordChange}
             placeholder={i18n.t("common.msgEnterNewPass")}
             type={"password"}
-            label={i18n.t("common.newPass")}
+            label={i18n.t("common.NewPass")}
           ></Textbox>
 
             <Textbox
@@ -186,7 +169,7 @@ class ForgotPassword extends Component {
 
       <Button
         style={{ margin: "40px auto 0 auto" }}
-        disabled={(this.state.step === 1 && (this.state.phone.length < 11 || this.state.code.length < 6)) || (this.state.step === 2 && (this.state.password.length < 8 || this.state.password2.length < 8))}
+        disabled={(this.state.step === 1 && (this.state.phone.length < 1 || this.state.code.length < 6)) || (this.state.step === 2 && (this.state.password.length < 8 || this.state.password2.length < 8))}
         label={this.state.step === 1 ? i18n.t("common.nextStep") : i18n.t("common.confirm")}
         onClick={this.handleNextClick}
       ></Button>

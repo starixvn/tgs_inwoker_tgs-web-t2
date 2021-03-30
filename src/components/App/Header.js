@@ -8,7 +8,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import { GameTypeEnum } from "../../utils/Enum";
-import { accountAction } from "../../actions/accountAction";
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import { walletAction } from "../../actions/walletAction"
 import TimerPNG from "../../assets/images/timer.png";
 import BtnAppsPNG from "../../assets/images/btn-apps.png";

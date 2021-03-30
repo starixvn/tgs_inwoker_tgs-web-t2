@@ -6,6 +6,8 @@ import LoginBGPNG from "../../assets/images/login-bg.png";
 import i18n from "../../utils/i18n";
 import TextField from "@material-ui/core/TextField";
 import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
+
+
 const Container = styled.div`
 width: 506px;
 height: 360px;
@@ -162,6 +164,7 @@ class ResetPassword extends Component {
               this.props.onhandleSubmitClick(
                 this.props.code,
                 this.props.phone,
+                this.props.securityKey,
                 this.state.password,
                 this.state.confirmpassword
               )

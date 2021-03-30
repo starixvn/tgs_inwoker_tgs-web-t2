@@ -31,6 +31,8 @@ import DangerPNG from "../src/assets/images/warning.png";
 import InfoPNG from "../src/assets/images/info.png";
 import SuccessPNG from "../src/assets/images/success.png";
 import { makeStyles } from "@material-ui/core";
+import i18n from "./utils/i18n";
+import {ConfigService} from '@yifan1997/tgs-api-mapping';
 
 const baseRouteUrl = "/:locale(zh-CN|zh-TW|en-US)";
 
@@ -64,6 +66,12 @@ const Icon = styled.img`
 
 Config.from = isMobile ? "h5" : "h5";
 Config.isPC = isMobile ? 1 : 0;
+
+//add config at tgs library
+ConfigService.setFrom(isMobile ? "h5" : "h5")
+ConfigService.setPc(isMobile ? 1 : 0)
+ConfigService.setLang(i18n.language)
+
 // if (
 //   process.env.REACT_APP_CUSTOM_NODE_ENV !== "development" &&
 //   (process.env.REACT_APP_CUSTOM_NODE_ENV !== "qa" || Config.baseUrl === "") &&

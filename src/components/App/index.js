@@ -6,12 +6,12 @@ import { Router, Route, Switch, Redirect } from "react-router";
 import { AppHistory } from "../../history/History";
 import { withSnackbar } from "notistack";
 import { UPDATING_SCREEN_SIZE, SHOW_LOGIN } from "../../constants/actionType";
-import { accountAction } from "../../actions/accountAction";
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import { generalAction } from "../../actions/generalAction";
 import { walletAction } from "../../actions/walletAction";
-import { gameAction } from "../../actions/gameAction";
-import { uiAction } from "../../actions/uiAction";
-import { GeneralService } from "../../services/GeneralService"
+import {gameAction} from '@yifan1997/tgs-api-mapping';
+import { uiAction } from '@yifan1997/tgs-api-mapping';
+import {GeneralService} from '@yifan1997/tgs-api-mapping';
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
 import LiveGame from "./LiveGame/index";
 import Slots from "./Slots/index";
@@ -61,7 +61,6 @@ class App extends Component {
     var response = await GeneralService.GetSiteToken();
     if (response.IsSuccess) {
       localStorage.setItem("client-token", response.data.token);
-
     }
     // this.props.getMobilePrefix();
     this.props.getMarquee();
@@ -332,15 +331,15 @@ const mapDispatchToProps = (dispatch) => {
     checkTokenIsValid: () => dispatch(accountAction.checkTokenIsValid()),
     getMarquee: () => dispatch(uiAction.getMarquee()),
     getDepositChannel: () => dispatch(walletAction.getDepositChannel()),
-    getBanner: () => dispatch(uiAction.getBanner()),
+    // getBanner: () => dispatch(uiAction.getBanner()),
     getBankList: () => dispatch(walletAction.getBankList()),
     getBalanceList: (token) => dispatch(walletAction.getBalanceList()),
-    getIDCardNo: () => dispatch(accountAction.getIDCardNo()),
-    getInviteLink: () => dispatch(accountAction.getInviteLink()),
-    getGamePlatformList: () => dispatch(gameAction.getGamePlatformList()),
+    // getIDCardNo: () => dispatch(accountAction.getIDCardNo()),
+    // getInviteLink: () => dispatch(accountAction.getInviteLink()),
+    // getGamePlatformList: () => dispatch(gameAction.getGamePlatformList()),
     getHomePageGameList: () => dispatch(gameAction.getHomePageGameList()),
-    checkGame: () => dispatch(accountAction.checkGame()),
-    getSiteToken: () => dispatch(generalAction.getSiteToken()),
+    // checkGame: () => dispatch(accountAction.checkGame()),
+    // getSiteToken: () => dispatch(generalAction.getSiteToken()),
   };
 };
 

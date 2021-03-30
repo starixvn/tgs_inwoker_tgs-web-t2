@@ -5,12 +5,12 @@ import { Router, Switch, Route } from "react-router";
 import { AppHistory } from "../../history/History";
 import { withRouter } from "react-router-dom";
 import { UPDATING_SCREEN_SIZE, SHOW_LOGIN } from "../../constants/actionType";
-import { accountAction } from "../../actions/accountAction";
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import { generalAction } from "../../actions/generalAction";
 import { walletAction } from "../../actions/walletAction";
-import { gameAction } from "../../actions/gameAction";
-import { uiAction } from "../../actions/uiAction";
-import { GeneralService } from "../../services/GeneralService"
+import {gameAction} from '@yifan1997/tgs-api-mapping';
+import { uiAction } from '@yifan1997/tgs-api-mapping';
+import {GeneralService} from '@yifan1997/tgs-api-mapping';
 import debounce from "lodash.debounce";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
@@ -26,6 +26,7 @@ import NameVefiry from "./Profile/NameVerify";
 import WeChat from "./Profile/WeChat";
 import QQ from "./Profile/QQ";
 import Email from "./Profile/Email";
+import ChangeEmail from "./Profile/ChangeEmail";
 import ChangePhone from "./Profile/ChangePhone";
 import Phone from "./Profile/Phone";
 import ChangePassword from "./Profile/ChangePassword";
@@ -255,6 +256,11 @@ const RouteMapping = [
   {
     path: "/profile/email",
     component: Email,
+    alert: true,
+  },
+  {
+    path: "/profile/changeemail",
+    component: ChangeEmail,
     alert: true,
   },
   {
@@ -532,10 +538,10 @@ class Wap extends Component {
       localStorage.setItem("client-token", response.data.token);
 
     }
-    this.props.getMobilePrefix();
+    // this.props.getMobilePrefix();
     this.props.getMarquee();
-    this.props.getBanner();
-    this.props.getBankList();
+    // this.props.getBanner();
+    // this.props.getBankList();
     this.props.getHomePageGameList();
     let urlParams = new URLSearchParams(this.props.location.search);
     if (urlParams.has("goto")) {
@@ -834,13 +840,13 @@ const mapDispatchToProps = (dispatch) => {
     checkTokenIsValid: () => dispatch(accountAction.checkTokenIsValid()),
     getMarquee: () => dispatch(uiAction.getMarquee()),
 
-    getBanner: () => dispatch(uiAction.getBanner()),
-    getBankList: () => dispatch(walletAction.getBankList()),
-    getDepositChannel: () => dispatch(walletAction.getDepositChannel()),
-    getBalanceList: (token) => dispatch(walletAction.getBalanceList()),
-    getIDCardNo: () => dispatch(accountAction.getIDCardNo()),
+    // getBanner: () => dispatch(uiAction.getBanner()),
+    // getBankList: () => dispatch(walletAction.getBankList()),
+    // getDepositChannel: () => dispatch(walletAction.getDepositChannel()),
+    // getBalanceList: (token) => dispatch(walletAction.getBalanceList()),
+    // getIDCardNo: () => dispatch(accountAction.getIDCardNo()),
     getHomePageGameList: () => dispatch(gameAction.getHomePageGameList()),
-    getInviteLink: () => dispatch(accountAction.getInviteLink()),
+    // getInviteLink: () => dispatch(accountAction.getInviteLink()),
   };
 };
 

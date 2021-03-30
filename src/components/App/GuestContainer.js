@@ -10,13 +10,13 @@ import ForgotPasswordPhone from "./ForgotPasswordPhone";
 
 import ResetPassword from "./ResetPassword";
 import ResetPasswordSuccess from "./ResetPasswordSuccess";
-import { accountAction } from "../../actions/accountAction";
 
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import { walletAction } from "../../actions/walletAction";
 
 import Register from "./Register";
 import { SHOWING_DIALOG, SHOW_LOGIN } from "../../constants/actionType";
-import { AccountService } from "../../services/AccountService";
+import {AccountService} from '@yifan1997/tgs-api-mapping';
 import { withSnackbar } from "notistack";
 import { gameAction } from "../../actions/gameAction";
 
@@ -97,7 +97,8 @@ class GuestContainer extends Component {
     questionCheck: -1,
     openSelfControlDialog: false,
     code: "",
-    phone: ""
+    phone: "",
+    securityKey: "",
   };
   componentDidMount() {
     let urlParams = new URLSearchParams(this.props.location.search);
@@ -160,28 +161,28 @@ class GuestContainer extends Component {
     this.props.showLogin(false);
   };
 
-  onhandleForgotPasswordNext = (username, code, sessionId) => {
-    AccountService.GetResetPasswordStep1(username, code, sessionId).then(
-      (response) => {
-        if (response.IsSuccess) {
-          this.setState({
-            ...this.state,
-            openDialog: true,
-            question: response.data.question,
-            forgotToken: response.data.forget_token,
-            emailCheck: response.data.email_check,
-            phoneCheck: response.data.phone_check,
-            questionCheck: response.data.question_check,
-            openDialogName: "forgotpasswordoption",
-          });
-        } else {
-          this.props.enqueueSnackbar(response.msg, {
-            variant: "error",
-          });
-        }
-      }
-    );
-  };
+  // onhandleForgotPasswordNext = (username, code, sessionId) => {
+  //   AccountService.GetResetPasswordStep1(username, code, sessionId).then(
+  //     (response) => {
+  //       if (response.IsSuccess) {
+  //         this.setState({
+  //           ...this.state,
+  //           openDialog: true,
+  //           question: response.data.question,
+  //           forgotToken: response.data.forget_token,
+  //           emailCheck: response.data.email_check,
+  //           phoneCheck: response.data.phone_check,
+  //           questionCheck: response.data.question_check,
+  //           openDialogName: "forgotpasswordoption",
+  //         });
+  //       } else {
+  //         this.props.enqueueSnackbar(response.msg, {
+  //           variant: "error",
+  //         });
+  //       }
+  //     }
+  //   );
+  // };
   onhandleOptionClick = (method) => {
     let dialogName = "";
 
@@ -214,17 +215,16 @@ class GuestContainer extends Component {
       openDialogName: "",
     });
   };
-  onhandleResetPasswordClick = (code, phone, password, confirmPassword) => {
+  onhandleResetPasswordClick = (code, phone, securityKey, password, confirmPassword) => {
     if (password !== confirmPassword) {
       this.props.enqueueSnackbar(i18n.t("common.msgInvalidConfirmPass"), {
         variant: "error",
       });
     } else {
       AccountService.ResetPassword(
+        securityKey,
         code,
-        phone,
         password,
-        confirmPassword
       ).then((response) => {
         if (response.IsSuccess) {
           this.setState({
@@ -247,46 +247,46 @@ class GuestContainer extends Component {
       openDialogName: "forgotpasswordoption",
     });
   };
-  onhandleForgotPasswordSecurityQuestionNext = (answer) => {
-    if (answer !== "") {
-      AccountService.GetResetPasswordSecurityQuestionVerify(
-        this.state.forgotToken,
-        answer
-      ).then((response) => {
-        if (response.IsSuccess) {
-          this.setState({
-            ...this.state,
-            openDialog: true,
-            openDialogName: "resetpassword",
-          });
-        } else {
-          this.props.enqueueSnackbar(response.msg, {
-            variant: "error",
-          });
-        }
-      });
-    }
-  };
-  onhandleForgotPasswordEmailClick = (code) => {
-    if (code !== "") {
-      AccountService.GetResetPasswordEmailVerify(
-        this.state.forgotToken,
-        code
-      ).then((response) => {
-        if (response.IsSuccess) {
-          this.setState({
-            ...this.state,
-            openDialog: true,
-            openDialogName: "resetpassword",
-          });
-        } else {
-          this.props.enqueueSnackbar(response.info, {
-            variant: "error",
-          });
-        }
-      });
-    }
-  };
+  // onhandleForgotPasswordSecurityQuestionNext = (answer) => {
+  //   if (answer !== "") {
+  //     AccountService.GetResetPasswordSecurityQuestionVerify(
+  //       this.state.forgotToken,
+  //       answer
+  //     ).then((response) => {
+  //       if (response.IsSuccess) {
+  //         this.setState({
+  //           ...this.state,
+  //           openDialog: true,
+  //           openDialogName: "resetpassword",
+  //         });
+  //       } else {
+  //         this.props.enqueueSnackbar(response.msg, {
+  //           variant: "error",
+  //         });
+  //       }
+  //     });
+  //   }
+  // };
+  // onhandleForgotPasswordEmailClick = (code) => {
+  //   if (code !== "") {
+  //     AccountService.GetResetPasswordEmailVerify(
+  //       this.state.forgotToken,
+  //       code
+  //     ).then((response) => {
+  //       if (response.IsSuccess) {
+  //         this.setState({
+  //           ...this.state,
+  //           openDialog: true,
+  //           openDialogName: "resetpassword",
+  //         });
+  //       } else {
+  //         this.props.enqueueSnackbar(response.info, {
+  //           variant: "error",
+  //         });
+  //       }
+  //     });
+  //   }
+  // };
   onhandleResetPasswordBackClick = () => {
     this.setState({
       ...this.state,
@@ -294,12 +294,13 @@ class GuestContainer extends Component {
       openDialogName: "forgotpassword",
     });
   }
-  onhandleForgotPasswordPhoneClick = (code, phone) => {
+  onhandleForgotPasswordPhoneClick = (code, phone, securityKey) => {
     if (code !== "") {
       this.setState({
         ...this.state,
         code: code,
         phone: phone,
+        securityKey: securityKey,
         openDialog: true,
         openDialogName: "resetpassword",
       });
@@ -313,7 +314,7 @@ class GuestContainer extends Component {
       });
       return;
     }
-    if (username === "") {
+    if (password === "") {
       this.props.enqueueSnackbar(i18n.t("web.login.errorMsg.emptyPassword"), {
         variant: "warning",
       });
@@ -431,6 +432,7 @@ class GuestContainer extends Component {
                     onhandleOnlineSupport={this.onhandleOnlineSupport}
                     code={this.state.code}
                     phone={this.state.phone}
+                    securityKey={this.state.securityKey}
                   ></ResetPassword>
                 );
               } else if (this.state.openDialogName === "resetpasswordsuccess") {

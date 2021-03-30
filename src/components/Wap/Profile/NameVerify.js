@@ -11,7 +11,7 @@ import BottomNote from "../Share/BottomNote";
 import BaseProfile from "./BaseProfile";
 
 import { withSnackbar } from "notistack";
-import { accountAction } from "../../../actions/accountAction";
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import { RESET_ACCOUNTRESULT } from "../../../constants/actionType";
 
 class NameVerify extends BaseProfile {
@@ -20,7 +20,7 @@ class NameVerify extends BaseProfile {
 
     const name = this.props.account.info.member_name;
     const ic = this.props.account.info.member_card_no;
-    const isConfigured = ic !== "" && ic !== null;
+    const isConfigured = name !== "" && name !== null;
     this.state = {
       name: name,
       ic: ic,
@@ -67,16 +67,16 @@ class NameVerify extends BaseProfile {
     const name = this.state.name || "";
     const ic = this.state.ic || "";
     this.showLoading(true);
-    this.props.updateMemberCardNo(name);
+    this.props.updateMemberCardNo(name,ic);
     this.showLoading(false);
+    this.setState({disableButton: true})
   };
 
   isDisableButton = () => {
     const name = this.state.name || "";
     const ic = this.state.ic || "";
 
-    // const isDisableButton = !(name && ic);
-    const isDisableButton = !(name);
+    const isDisableButton = !(name && ic);
     return isDisableButton;
   };
   render() {
@@ -92,7 +92,9 @@ class NameVerify extends BaseProfile {
           disabled={this.state.isConfigured}
           maxLength={10}
         ></Textbox>
-        {/* <Textbox
+        {  this.props.account.info.member_name === "" ||
+           this.props.account.info.member_name === null?
+        <Textbox
           style={{ margin: "50px auto 20px auto" }}
           value={this.state.ic}
           onChange={this.handleChangeIC}
@@ -100,7 +102,7 @@ class NameVerify extends BaseProfile {
           label={i18n.t("profile.nameVerify.icNum")}
           disabled={this.state.isConfigured}
           maxLength={30}
-        ></Textbox> */}
+        ></Textbox>:<></>}
       </>,
       this.state.isConfigured ? i18n.t("common.configured") : i18n.t("common.complete"),
       (() => {
@@ -128,8 +130,8 @@ const mapDispatchToProps = (dispatch) => {
     getAccountProfile: () =>
       dispatch(accountAction.getAccountProfile()),
     getIDCardNo: () => dispatch(accountAction.getIDCardNo()),
-    updateMemberCardNo: (number) =>
-      dispatch(accountAction.updateMemberCardNo(number)),
+    updateMemberCardNo: (name,number) =>
+      dispatch(accountAction.updateMemberCardNo(name,number)),
     resetResult: () =>
       dispatch({
         type: RESET_ACCOUNTRESULT,

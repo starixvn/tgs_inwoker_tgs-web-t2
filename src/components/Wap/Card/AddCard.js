@@ -5,7 +5,7 @@ import styled from "styled-components";
 import AppBar from "@material-ui/core/AppBar";
 import { AppHistory } from "../../../history/History";
 import { withStyles } from "@material-ui/core/styles";
-import { accountAction } from "../../../actions/accountAction";
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import { walletAction } from "../../../actions/walletAction";
 import { RESET_WALLETRESULT } from "../../../constants/actionType";
 import Header from "../../Wap/Share/Header";

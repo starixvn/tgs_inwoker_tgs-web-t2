@@ -4,7 +4,7 @@ import styled from "styled-components";
 import CustomTextField from "../../../Share/TextField";
 import CustomButton from "../../../Share/Button";
 
-import { AccountService } from "../../../../services/AccountService";
+import {AccountService} from  '@yifan1997/tgs-api-mapping';
 import { UPDATE_INFO } from "../../../../constants/actionType";
 import { withSnackbar } from "notistack";
 import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.png";
@@ -18,7 +18,10 @@ class QQ extends Component {
       member_qq: this.props.account.info.member_qq?this.props.account.info.member_qq:"",
     };
   }
-  
+  onhandleTextChange = (e) => {
+    this.setState({member_qq:e.target.value})
+  };
+
   onhandleClick = () => {
     const re = new RegExp("^[1-9]\\d{4,14}$");
     if (!this.state.member_qq.match(re)) {
@@ -40,7 +43,7 @@ class QQ extends Component {
         });
         this.props.handleCloseDialog();
       } else {
-        this.props.enqueueSnackbar(response.msg, {
+        this.props.enqueueSnackbar(response.info, {
           variant: "error",
         });
       }
@@ -54,7 +57,6 @@ class QQ extends Component {
           adornment={IconInputReceivePNG}
           handleTextFieldChange={this.onhandleTextChange}
           defaultValue={this.state.member_qq}
-          type={"number"}
         ></CustomTextField>
 
         <CustomButton

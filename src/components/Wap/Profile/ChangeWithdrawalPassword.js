@@ -24,9 +24,6 @@ const StyledAppBar = withStyles({
 })(AppBar);
 
 class ChangeWithdrawalPassword extends BaseProfile {
-  state = {
-    selectedTab: 0
-  }
   componentDidMount() { }
   handleChangeOldPassword = (e) => {
     this.setState({ ...this.state, oldpassword: e.target.value });
@@ -93,58 +90,12 @@ class ChangeWithdrawalPassword extends BaseProfile {
     return isDisableButton;
   };
   render() {
-    return <>
+    return (
+    <>
       <Header onBackClick={this.handleBackClick} title={i18n.t("profile.changeWithdrawalPassword.title")}></Header>
-      <StyledAppBar>
-        <Tabs
-          value={this.state.selectedTab}
-          onChange={this.handleChangeTab}
-          variant="scrollable"
-          scrollButtons="auto"
-        >
-          <Tab label={i18n.t("common.update")} value={0} style={{ width: "375px" }} />
-          <Tab label={i18n.t("common.reset")} value={1} style={{ width: "375px" }} disabled={!this.props.account.info.check_pass_phone} />
-        </Tabs>
-      </StyledAppBar>
-      {(() => {
-        if (this.state.selectedTab === 0) {
-          return this.setupContent(
-            i18n.t("profile.changeWithdrawalPassword.subTitle"),
-            <>
-              <Textbox
-                type={"password"}
-                style={{ margin: "10px auto 20px auto" }}
-                value={this.state.oldpassword}
-                onChange={this.handleChangeOldPassword}
-                placeholder={i18n.t("profile.changeWithdrawalPassword.plsEnterOldPassword")}
-                label={i18n.t("common.oldPass")}
-              ></Textbox>
-              <Textbox
-                type={"password"}
-                style={{ margin: "20px auto 20px auto" }}
-                value={this.state.newpassword}
-                onChange={this.handleChangeNewPassword}
-                placeholder={i18n.t("common.msgEnterNewPass")}
-                label={i18n.t("common.NewPass")}
-              ></Textbox>
-              <Textbox
-                type={"password"}
-                style={{ margin: "20px auto 20px auto" }}
-                value={this.state.newpassword2}
-                onChange={this.handleChangeNewPassword2}
-                placeholder={i18n.t("common.msgEnterConfirmPass")}
-                label={i18n.t("common.ConfirmPass")}
-              ></Textbox>
-            </>,
-            i18n.t("common.complete")
-          );
-        } else if (this.state.selectedTab === 1) {
-          return <ResetWithdrawalPassword alert={this.props.alert}></ResetWithdrawalPassword>
-        }
-      })()}
-
+      <ResetWithdrawalPassword alert={this.props.alert}></ResetWithdrawalPassword>
     </>
-
+    )
   }
 }
 

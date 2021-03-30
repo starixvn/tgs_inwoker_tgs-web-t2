@@ -4,12 +4,13 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { withSnackbar } from "notistack";
 import Textbox from "../Share/Textbox";
-import { AccountService } from "../../../services/AccountService";
+import {AccountService} from  '@yifan1997/tgs-api-mapping';
 import BaseProfile from "./BaseProfile";
 // import { ProfileAction } from "../../../actions/ProfileAction";
-import { accountAction } from "../../../actions/accountAction";
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import { AppHistory } from "../../../history/History";
 import i18n from "../../../utils/i18n"
+
 class WithdrawalPassword extends BaseProfile {
   componentDidMount() { }
   handleOldPassword = e => {
@@ -29,23 +30,17 @@ class WithdrawalPassword extends BaseProfile {
     const confirmPassword = this.state.confirmPassword;
     if (password !== confirmPassword)
       this.props.alert("", i18n.t("profile.withdrawalPassword.msgInvalidConPass"));
-    // this.props.enqueueSnackbar("两次输入的密码不一致", {
-    //   key: "error"
-    // });
     this.showLoading(true);
     AccountService.AddWithdrawalPassword(
       password,
-      confirmPassword
     ).then(response => {
       if (response.IsSuccess) {
-        this.showLoading(false);
-        AppHistory.goBack();
-        // this.props
-        //   .getAccountProfile(this.props.account.token)
-        //   .then(responseUpdate => {
-        //     this.showLoading(false);
-        //     AppHistory.goBack();
-        //   });
+        this.props
+          .getAccountProfile()
+          .then(responseUpdate => {
+            this.showLoading(false);
+            AppHistory.goBack();
+          });
       } else {
         this.props.alert("", response.msg);
         this.showLoading(false);
@@ -94,7 +89,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getAccountProfile: token =>
-      dispatch(accountAction.getAccountProfile(token, true))
+      dispatch(accountAction.getAccountProfile(true))
   };
 };
 export default connect(

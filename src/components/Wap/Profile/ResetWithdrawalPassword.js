@@ -5,7 +5,7 @@ import { withSnackbar } from "notistack";
 import { withRouter } from "react-router-dom";
 
 import { AppHistory } from "../../../history/History";
-import { accountAction } from "../../../actions/accountAction"
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 
 
 import { AccountService } from "../../../services/AccountService";
@@ -14,7 +14,7 @@ import Textbox from "../../Wap/Share/Textbox";
 import TextboxWithButton from "../../Wap/Share/TextboxWithButton";
 import Button from "../../Wap/Share/Button";
 import i18n from "../../../utils/i18n";
-
+import Step from "../Share/Step";
 
 class ResetResetWithdrawalPassword extends Component {
   state = {
@@ -27,7 +27,9 @@ class ResetResetWithdrawalPassword extends Component {
     code: "",
     step: 1,
     countdownToken: 0,
-    password: "", confirmPassword: ""
+    password: "", 
+    confirmPassword: "",
+    securityKey:"",
 
   };
   componentDidMount() {
@@ -64,6 +66,7 @@ class ResetResetWithdrawalPassword extends Component {
   };
   getCodeResponse = response => {
     if (response.IsSuccess) {
+      this.setState({securityKey: response.data})
       this.showInfoMessage(i18n.t("common.msgTokenSent"));
     } else {
       this.showInfoMessage(response.info);
@@ -89,24 +92,14 @@ class ResetResetWithdrawalPassword extends Component {
       this.props.alert("", i18n.t("common.msgInvalidConfirmPass"));
       return;
     }
-    // this.props.enqueueSnackbar("两次输入的密码不一致", {
-    //   key: "error"
-    // });
-
-    AccountService.UpdateWithdrawalPassword(
-
+    AccountService.ChangeWithdrawalPassword(
       password,
-      confirmPassword,
       this.state.code,
+      this.state.securityKey
     ).then((response) => {
       if (response.IsSuccess) {
         this.props.alert("", i18n.t("profile.resetResetWithdrawalPassword.resetSuccess"));
-        this.props
-          .getAccountInfo()
-          .then(responseUpdate => {
-
-            AppHistory.goBack();
-          });
+        AppHistory.goBack();
       } else {
         this.props.alert("", response.info);
 
@@ -141,68 +134,74 @@ class ResetResetWithdrawalPassword extends Component {
     AppHistory.push("/" + i18n.language + "/chat");
   };
   render() {
-    if (this.state.step === 1) {
+
 
       return (
         <>
-          <Textbox
-            style={{ margin: "100px auto 20px auto" }}
-            value={this.props.account.info.member_phone}
-            placeholder={i18n.t("common.msgEnterPhone")}
-            type={"text"}
-            disabled={true}
-            label={i18n.t("common.phoneNumber")}
-          ></Textbox>
-          <TextboxWithButton
-            buttonlabel={i18n.t("common.msgSendToken")
-            }
-            style={{ margin: "20px auto 20px auto" }}
-            value={this.state.code}
-            onChange={this.handleCodeChange}
-            placeholder={i18n.t("common.msgEnterPhoneCode")}
-            label={i18n.t("common.token")}
-            onClick={this.handleGetCodeClick}
-          ></TextboxWithButton>
-          <Button
-            style={{ margin: "40px auto 0 auto" }}
-            label={i18n.t("common.nextStep")}
-            onClick={this.handleNextClick}
-          ></Button>
+          <Step
+          steps={[{ label: i18n.t("profile.changePhone.step1Title") }, { label: i18n.t("common.reset") }]}
+          currentStep={this.state.step}
+          ></Step>
+            {this.state.step === 1?
+            <>
+                <Textbox
+                  style={{ margin: "100px auto 20px auto" }}
+                  value={this.props.account.info.member_phone}
+                  placeholder={i18n.t("common.msgEnterPhone")}
+                  type={"text"}
+                  disabled={true}
+                  label={i18n.t("common.phoneNumber")}
+                ></Textbox>
+                <TextboxWithButton
+                  buttonlabel={i18n.t("common.msgSendToken")
+                  }
+                  style={{ margin: "20px auto 20px auto" }}
+                  value={this.state.code}
+                  onChange={this.handleCodeChange}
+                  placeholder={i18n.t("common.msgEnterPhoneCode")}
+                  label={i18n.t("common.token")}
+                  onClick={this.handleGetCodeClick}
+                ></TextboxWithButton>
+                <Button
+                  style={{ margin: "40px auto 0 auto" }}
+                  label={i18n.t("common.nextStep")}
+                  onClick={this.handleNextClick}
+                ></Button>
 
-        </>
-      );
-    } else {
-      return <>
-        <Textbox
-          type={"password"}
-          style={{ margin: "100px auto 20px auto" }}
-          value={this.state.password}
-          onChange={this.handlePassword}
-          placeholder={i18n.t("common.msgEnterNewPass")}
-          label={i18n.t("common.newPass")}
-        ></Textbox>
-        <Textbox
-          type={"password"}
-          style={{ margin: "20px auto 20px auto" }}
-          value={this.state.confirmPassword}
-          onChange={this.handleConfirmPassword}
-          placeholder={i18n.t("common.msgEnterConfirmPass")}
-          label={i18n.t("common.ConfirmPass")}
-        ></Textbox>
+            </>
+            :
+            <>
+              <Textbox
+                type={"password"}
+                style={{ margin: "100px auto 20px auto" }}
+                value={this.state.password}
+                onChange={this.handlePassword}
+                placeholder={i18n.t("common.msgEnterNewPass")}
+                label={i18n.t("common.NewPass")}
+              ></Textbox>
+              <Textbox
+                type={"password"}
+                style={{ margin: "20px auto 20px auto" }}
+                value={this.state.confirmPassword}
+                onChange={this.handleConfirmPassword}
+                placeholder={i18n.t("common.msgEnterConfirmPass")}
+                label={i18n.t("common.ConfirmPass")}
+              ></Textbox>
 
-        <Button
-          style={{ margin: "40px auto 0 auto" }}
-          label={i18n.t("common.submit")}
-          onClick={this.handleSubmitClicked}
-        ></Button>
-        <Button
-          style={{ margin: "20px auto 0 auto" }}
-          label={i18n.t("common.back")}
-          onClick={this.handleBackClick}
-        ></Button>
+              <Button
+                style={{ margin: "40px auto 0 auto" }}
+                label={i18n.t("common.submit")}
+                onClick={this.handleSubmitClicked}
+              ></Button>
+              <Button
+                style={{ margin: "20px auto 0 auto" }}
+                label={i18n.t("common.back")}
+                onClick={this.handleBackClick}
+              ></Button>
+            </>
+          }
       </>
-    }
-
+    )
   }
 }
 

@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { accountAction } from "../../../actions/accountAction";
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import Textbox from "../Share/Textbox";
 // import { ProfileAction } from "../../../actions/ProfileAction";
-import { AccountService } from "../../../services/AccountService";
+import {AccountService} from  '@yifan1997/tgs-api-mapping';
 import BaseProfile from "./BaseProfile";
 import { withSnackbar } from "notistack";
 class QQ extends BaseProfile {

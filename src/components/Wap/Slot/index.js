@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { GameService } from "../../../services/GameService";
+import {GameService} from  '@yifan1997/tgs-api-mapping';
 import { withRouter } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -269,8 +269,9 @@ class Slot extends Component {
     this.setState({ ...this.state, loading: true });
     let result = null;
 
-    result = GameService.GetSlotGameList(
+    result = GameService.GetGameList(
       this.state.gameType,
+      GameTypeEnum.SLOT
     );
     result.then((response) => {
       this.setState({ ...this.state, loading: false });

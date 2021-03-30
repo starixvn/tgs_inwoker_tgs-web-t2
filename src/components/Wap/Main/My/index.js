@@ -4,7 +4,7 @@ import styled from "styled-components";
 import AppBar from "@material-ui/core/AppBar";
 import { withStyles } from "@material-ui/core/styles";
 import { AppHistory } from "../../../../history/History";
-import { accountAction } from "../../../../actions/accountAction";
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import { walletAction } from "../../../../actions/walletAction";
 import CircularProgress from "@material-ui/core/CircularProgress";
 

@@ -1,5 +1,4 @@
-import { UiService } from "../services/UiService";
-
+import {UiService} from '@yifan1997/tgs-api-mapping';
 import {
   GETMARQUEE_SUCCESS,
   GETMARQUEE_BEGIN,
@@ -12,7 +11,7 @@ import {
 
 export const uiAction = {
   getMarquee,
-  getBanner,
+  // getBanner,
 };
 
 function getMarquee() {
@@ -44,32 +43,32 @@ function getMarquee() {
     return result;
   };
 }
-function getBanner() {
-  return (dispatch) => {
-    dispatch({
-      type: GETBANNER_BEGIN,
-      loading: true,
-    });
-    const result = UiService.GetBanner()
-      .then((response) => {
-        if (response.IsSuccess) {
-          dispatch({
-            type: GETBANNER_SUCCESS,
-            payload: response.data,
-            loading: false,
-          });
+// function getBanner() {
+//   return (dispatch) => {
+//     dispatch({
+//       type: GETBANNER_BEGIN,
+//       loading: true,
+//     });
+//     const result = UiService.GetBanner()
+//       .then((response) => {
+//         if (response.IsSuccess) {
+//           dispatch({
+//             type: GETBANNER_SUCCESS,
+//             payload: response.data,
+//             loading: false,
+//           });
 
-          // AppHistory.push("/");
-        }
-        return response;
-      })
-      .catch((e) => {
-        dispatch({
-          type: GETBANNER_FAIL,
-          loading: false,
-        });
-      });
+//           // AppHistory.push("/");
+//         }
+//         return response;
+//       })
+//       .catch((e) => {
+//         dispatch({
+//           type: GETBANNER_FAIL,
+//           loading: false,
+//         });
+//       });
 
-    return result;
-  };
-}
+//     return result;
+//   };
+// }

@@ -4,17 +4,19 @@ import { withRouter } from "react-router-dom";
 import Textbox from "../Share/Textbox";
 import TextboxWithButton from "../Share/TextboxWithButton";
 import BaseProfile from "./BaseProfile";
-import { AccountService } from "../../../services/AccountService";
-import { accountAction } from "../../../actions/accountAction";
+import {AccountService} from  '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import BottomNote from "../Share/BottomNote";
 import { withSnackbar } from "notistack";
+import i18n from "../../../utils/i18n"
 class Email extends BaseProfile {
   state = {
     countdownToken: 0,
     email: "",
     code: "",
     isConfigured: false,
-    isNew: false
+    isNew: false,
+    securityKey:"",
   };
   componentDidMount() {
     var isConfigured = false;
@@ -56,24 +58,22 @@ class Email extends BaseProfile {
     if (this.state.countdownToken > 0) return;
     if (!this.state.email) return this.showErrorMessage("请输入您的邮箱地址");
     this.showLoading(true);
-    let events = "bind";
-    AccountService.GetEmailVerificationCode(
-      this.props.account.token,
+    AccountService.VerifyEmail(
       this.state.email,
-      events
     )
       .then(response => {
         if (response.IsSuccess) {
           this.setState({
             ...this.state,
-            countdownToken: response.data
+            securityKey: response.data,
+            countdownToken: 60
           });
-          this.showInfoMessage("验证码发送成功");
+          this.showInfoMessage(i18n.t("common.msgTokenSent"));
           setTimeout(() => {
             this.checkCountdownToken();
           }, 1000);
         } else {
-          this.showErrorMessage(response.msg);
+          this.showErrorMessage(response.info);
         }
         this.showLoading(false);
       })
@@ -116,35 +116,36 @@ class Email extends BaseProfile {
   };
   handleSubmitClicked = () => {
     this.showLoading(true);
-    AccountService.UpdateEmail(
-      this.state.email,
-    )
-      .then(response => {
-        if (response.IsSuccess) {
-          this.props
-            .getAccountProfile()
-            .then(responseUpdate => {
-              if (responseUpdate.IsSuccess) {
-                this.setState({
-                  ...this.state,
-                  email: responseUpdate.data.phone,
-                  code: "",
-                  isConfigured: true,
-                  countdownToken: 0,
-                  isNew: false
-                });
-              }
-              this.showLoading(false);
-            });
-        } else {
-          this.showErrorMessage(response.msg);
+      AccountService.UpdateEmail(
+        this.state.securityKey,
+        this.state.code
+      )
+        .then(response => {
+          if (response.IsSuccess) {
+            this.props
+              .getAccountProfile()
+              .then(responseUpdate => {
+                if (responseUpdate.IsSuccess) {
+                  this.setState({
+                    ...this.state,
+                    code: "",
+                    securityKey:"",
+                    isConfigured: true,
+                    countdownToken: 0,
+                    isNew: false
+                  });
+                }
+                this.showLoading(false);
+              });
+          } else {
+            this.showErrorMessage(response.info);
+            this.showLoading(false);
+          }
+        })
+        .catch(err => {
           this.showLoading(false);
-        }
-      })
-      .catch(err => {
-        this.showLoading(false);
-        this.showErrorMessage(err);
-      });
+          this.showErrorMessage(err);
+        });
   };
 
   render() {

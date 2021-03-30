@@ -7,7 +7,7 @@ import Textbox from "../Share/Textbox";
 
 import BaseProfile from "./BaseProfile";
 // import { ProfileAction } from "../../../actions/ProfileAction";
-import { AccountService } from "../../../services/AccountService";
+import {AccountService} from  '@yifan1997/tgs-api-mapping';
 import { withSnackbar } from "notistack";
 import { accountAction } from "../../../actions/accountAction";
 class WeChat extends BaseProfile {
@@ -94,7 +94,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getAccountProfile: () =>
-      dispatch(accountAction.getAccountProfile())
+      dispatch(accountAction.getAccountProfile(true))
   };
 };
 export default connect(

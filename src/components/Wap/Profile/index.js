@@ -145,11 +145,11 @@ class Profile extends Component {
           {ContentItem(
             IconIDPNG,
             i18n.t("profile.nameVerify.icNum"),
-            this.isConfigured(this.props.account.info.member_card_no !== ""&& this.props.account.info.member_card_no !== null),
+            this.isConfigured(this.props.account.info.member_name !== ""&& this.props.account.info.member_name !== null),
             () => {
               this.handleNavigate("/profile/name");
             },
-            this.props.account.info.member_card_no
+            this.props.account.info.member_name
           )}
 
           {ContentItem(
@@ -214,7 +214,12 @@ class Profile extends Component {
             this.isConfigured(this.props.account.info.member_safe_password),
             () => {
               if (this.props.account.info.member_safe_password === "set") {
-                this.handleNavigate("/profile/changewithdrawalpassword");
+                if(this.props.account.info.check_pass_phone === false){
+                  this.handleNavigate("/profile/phone");
+                }
+                else{
+                  this.handleNavigate("/profile/changewithdrawalpassword");
+                }
               } else {
                 this.handleNavigate("/profile/withdrawalpassword");
               }

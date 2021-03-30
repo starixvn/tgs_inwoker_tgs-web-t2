@@ -5,8 +5,8 @@ import Textbox from "../Share/Textbox";
 import TextboxWithButton from "../Share/TextboxWithButton";
 import Step from "../Share/Step";
 import BaseProfile from "./BaseProfile";
-import { AccountService } from "../../../services/AccountService";
-import { accountAction } from "../../../actions/accountAction";
+import {AccountService} from  '@yifan1997/tgs-api-mapping';
+import { accountAction } from '@yifan1997/tgs-api-mapping';
 import { withSnackbar } from "notistack";
 import { AppHistory } from "../../../history/History";
 import i18n from "../../../utils/i18n";
@@ -17,8 +17,8 @@ class ChangePhone extends BaseProfile {
       phone: this.props.account.info.member_phone,
       code: "",
       currentStep: 1,
-
-      countdownToken: 0
+      countdownToken: 0,
+      securityKey:"",
     });
   }
 
@@ -50,33 +50,21 @@ class ChangePhone extends BaseProfile {
     if (this.state.countdownToken > 0) return;
     if (!this.state.phone) return this.showErrorMessage(i18n.t("common.msgEnterPhone"));
     this.showLoading(true);
-    // let events = "";
-    // if (this.state.currentStep === 1) {
-    //   events = "check";
-    // } else if (this.state.currentStep === 2) {
-    //   events = "bind";
-    // }
-    var result = null;
-    if (this.state.currentStep === 1) {
-      result = AccountService.GetChangePhoneVerificationCode();
-
-    } else {
-      result = AccountService.GetChangeNewPhoneVerificationCode(this.state.phone);
-    }
-    result
+    AccountService.VerifyPhone(this.state.phone)
       .then(response => {
         if (response.IsSuccess) {
           this.showInfoMessage(i18n.t("common.msgTokenSent"));
+          this.setState({securityKey: response.data,})
         } else {
           this.showInfoMessage(response.info);
         }
-        // this.setState({
-        //   ...this.state,
-        //   countdownToken: response.data
-        // });
-        // setTimeout(() => {
-        //   this.checkCountdownToken();
-        // }, 1000);
+        this.setState({
+          ...this.state,
+          countdownToken: 60
+        });
+        setTimeout(() => {
+          this.checkCountdownToken();
+        }, 1000);
         this.showLoading(false);
       })
       .catch(err => {
@@ -119,52 +107,38 @@ class ChangePhone extends BaseProfile {
     // });
   };
   handleSubmitClicked = () => {
-    if (this.state.currentStep === 1) {
       this.showLoading(true);
-      AccountService.SubmitChangePhoneCode(this.state.code)
+      AccountService.UpdatePhone(this.state.securityKey, this.state.code)
         .then(response => {
           if (response.IsSuccess) {
-            this.setState({
-              ...this.state,
-              phone: "",
-              code: "",
-              currentStep: 2,
-
-              countdownToken: 0
-            });
             this.showInfoMessage(i18n.t("common.msgTokenVerified"));
+            this.showLoading(false);
+            if (this.state.currentStep === 1) {
+              this.setState({
+                ...this.state,
+                phone: "",
+                code: "",
+                securityKey:"",
+                currentStep: 2,
+                countdownToken: 0
+              });
+            }
+            else{
+              this.props.getAccountInfo().then(responseUpdate => {
+                if (responseUpdate.IsSuccess) {
+                  AppHistory.replace("/" + i18n.language + "/profile/phone");
+                }
+              });
+            }
           } else {
             this.showErrorMessage(response.info);
           }
-
           this.showLoading(false);
         })
         .catch(err => {
           this.showErrorMessage(err);
           this.showLoading(false);
         });
-    } else {
-      this.showLoading(true);
-      AccountService.SubmitChangeNewPhone(
-
-        this.state.phone,
-        this.state.code
-      ).then(response => {
-        if (response.IsSuccess) {
-          this.props
-            .getAccountInfo()
-            .then(responseUpdate => {
-              if (responseUpdate.IsSuccess) {
-                AppHistory.replace("/" + i18n.language + "/profile/phone");
-              }
-              this.showLoading(false);
-            });
-        } else {
-          this.showErrorMessage(response.info);
-          this.showLoading(false);
-        }
-      });
-    }
   };
   render() {
     return this.setupContent(

@@ -1,5 +1,6 @@
 import { AccountService } from "../services/AccountService";
 import { InboxService } from "../services/InboxService";
+import {AccountService as TGSAccountService} from  '@yifan1997/tgs-api-mapping';
 import {
   LOGIN_BEGIN,
   LOGIN_SUCCESS,
@@ -85,19 +86,19 @@ function getInviteLink() {
     return result;
   };
 }
-function updateMemberCardNo(number) {
+function updateMemberCardNo(name,number) {
   return (dispatch) => {
     dispatch({
       type: UPDATECARDNO_BEGIN,
       loading: true,
     });
-    const result = AccountService.UpdateMemberCardNo(number)
+    const result = TGSAccountService.AddRealName(name,number)
       .then((response) => {
         if (response.IsSuccess) {
           dispatch({
             type: UPDATECARDNO_SUCCESS,
             payload: {
-              member_card_no: number,
+              member_name: name,
               check_pass_account: true,
             },
             loading: false,
@@ -122,7 +123,7 @@ function accountLogin(username, password) {
       type: LOGIN_BEGIN,
       loading: true,
     });
-    const response = await AccountService.Login(
+    const response = await TGSAccountService.Login(
       username,
       password,
 
@@ -155,7 +156,7 @@ function accountLogout(token) {
       type: LOGOUT_BEGIN,
       loading: true,
     });
-    const response = await AccountService.Logout(token);
+    const response = await TGSAccountService.Logout(token);
 
     if (response.IsSuccess) {
       dispatch({
@@ -188,7 +189,7 @@ function checkTokenIsValid() {
       type: CHECKTOKEN_BEGIN,
       loading: true,
     });
-    const response = await AccountService.GetMemberInfo();
+    const response = await TGSAccountService.GetMemberInfo();
 
     if (response.IsSuccess) {
       dispatch({
@@ -214,7 +215,7 @@ function getAccountInfo() {
       type: GETACCOUNT_BEGIN,
       loading: true,
     });
-    const result = AccountService.GetMemberInfo()
+    const result = TGSAccountService.GetMemberInfo()
       .then((response) => {
         if (response.IsSuccess) {
           dispatch({
@@ -280,7 +281,7 @@ function checkGame() {
 }
 function getAccountProfile(showVip) {
   return (dispatch) => {
-    const result = AccountService.GetMemberProfile(showVip === true ? 1 : 2)
+    const result = TGSAccountService.GetMemberInfo()
       .then((response) => {
         if (response.IsSuccess) {
           dispatch({
@@ -345,7 +346,7 @@ function registerAccount(
 
 ) {
   return async (dispatch) => {
-    const result = await AccountService.Register(
+    const result = await TGSAccountService.Register(
       username,
       pwd,
       confirmpwd,
@@ -353,16 +354,6 @@ function registerAccount(
     )
       .then((response) => {
         if (response.IsSuccess) {
-          dispatch({
-            type: LOGIN_SUCCESS,
-            payload: response,
-            loading: false,
-          });
-          // if (config.isPC === 1) {
-          //   document
-          //     .getElementById("ioBB")
-          //     .parentNode.removeChild(document.getElementById("ioBB"));
-          // }
         }
         return response;
       })
