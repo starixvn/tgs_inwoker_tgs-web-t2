@@ -8,9 +8,9 @@ import { UPDATING_SCREEN_SIZE, SHOW_LOGIN } from "../../constants/actionType";
 import { accountAction } from '@Inwoker/tgs-api';
 import { generalAction } from "../../actions/generalAction";
 import { walletAction } from "../../actions/walletAction";
-import {gameAction} from '@Inwoker/tgs-api';
+import { gameAction } from '@Inwoker/tgs-api';
 import { uiAction } from '@Inwoker/tgs-api';
-import {GeneralService} from '@Inwoker/tgs-api';
+import { GeneralService } from '@Inwoker/tgs-api';
 import debounce from "lodash.debounce";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
@@ -533,10 +533,8 @@ class Wap extends Component {
     //   });
     //   this.setState({ ...this.state, isIpRestrict: true, loading: false });
     // } else {
-    var response = await GeneralService.GetSiteToken();
-    if (response.IsSuccess) {
-      localStorage.setItem("client-token", response.data.token);
-
+    if (this.props.general.token == "") {
+      this.props.getSiteToken();
     }
     // this.props.getMobilePrefix();
     this.props.getMarquee();
@@ -616,6 +614,17 @@ class Wap extends Component {
     //   e.innerHTML = GAScript;
     //   document.body.appendChild(e);
     // }
+  }
+  componentDidUpdate(preProps) {
+    if (preProps.general.token !== this.props.general.token) {
+      if (this.props.general.token == null || this.props.general.token == "") {
+        this.props.getSiteToken();
+      } else {
+        localStorage.setItem("client-token", this.props.general.token);
+        this.props.getMarquee();
+        this.props.getHomePageGameList();
+      }
+    }
   }
   handleNavigate = (page) => {
     if (
@@ -819,6 +828,7 @@ class Wap extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.account,
+    general: state.general,
     screenWidth: state.ui.screenWidth,
     screenHeight: state.ui.screenHeight,
   };
@@ -847,6 +857,7 @@ const mapDispatchToProps = (dispatch) => {
     // getIDCardNo: () => dispatch(accountAction.getIDCardNo()),
     getHomePageGameList: () => dispatch(gameAction.getHomePageGameList()),
     // getInviteLink: () => dispatch(accountAction.getInviteLink()),
+    getSiteToken: () => dispatch(generalAction.getSiteToken()),
   };
 };
 

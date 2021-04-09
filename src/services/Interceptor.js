@@ -52,7 +52,7 @@ export default {
           newResponse.IsSuccess = true;
 
 
-        } else if (newResponse.code === 102) {
+        } else if (newResponse.code === 102 || newResponse.code === 101 || newResponse.code === 401) {
           localStorage.removeItem("token");
           store.dispatch({ type: UNAUTHORIZE });
 
@@ -63,7 +63,7 @@ export default {
       },
       function (error) {
         //if user login platform wrong or token expired
-      if(error.response.data.err==102 || error.response.data.errmsg==="request platform is not matched with player login platform."){
+        if (error.response.data.err == 102 || error.response.data.err == 101 || error.response.data.err == 401 || error.response.data.errmsg === "request platform is not matched with player login platform.") {
           localStorage.removeItem("token");
           store.dispatch({ type: UNAUTHORIZE });
 

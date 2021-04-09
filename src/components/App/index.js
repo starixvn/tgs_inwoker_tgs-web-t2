@@ -9,9 +9,9 @@ import { UPDATING_SCREEN_SIZE, SHOW_LOGIN } from "../../constants/actionType";
 import { accountAction } from '@Inwoker/tgs-api';
 import { generalAction } from "../../actions/generalAction";
 import { walletAction } from "../../actions/walletAction";
-import {gameAction} from '@Inwoker/tgs-api';
+import { gameAction } from '@Inwoker/tgs-api';
 import { uiAction } from '@Inwoker/tgs-api';
-import {GeneralService} from '@Inwoker/tgs-api';
+import { GeneralService } from '@Inwoker/tgs-api';
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
 import LiveGame from "./LiveGame/index";
 import Slots from "./Slots/index";
@@ -58,15 +58,14 @@ class App extends Component {
     isIpRestrict: false,
   };
   async componentDidMount() {
-    var response = await GeneralService.GetSiteToken();
-    if (response.IsSuccess) {
-      localStorage.setItem("client-token", response.data.token);
+    if (this.props.general.token == "") {
+      this.props.getSiteToken();
     }
     // this.props.getMobilePrefix();
-    this.props.getMarquee();
+    // this.props.getMarquee();
     // this.props.getBanner();
     // this.props.getGamePlatformList();
-    this.props.getHomePageGameList();
+    // this.props.getHomePageGameList();
 
     let urlParams = new URLSearchParams(this.props.location.search);
     if (urlParams.has("goto")) {
@@ -125,8 +124,14 @@ class App extends Component {
 
   }
   componentDidUpdate(preProps) {
-    if (preProps.account.token == null && this.props.account.token != null) {
-      // this.props.getKYGameList(this.props.account.token);
+    if (preProps.general.token !== this.props.general.token) {
+      if (this.props.general.token == null || this.props.general.token == "") {
+        this.props.getSiteToken();
+      } else {
+        localStorage.setItem("client-token", this.props.general.token);
+        this.props.getMarquee();
+        this.props.getHomePageGameList();
+      }
     }
   }
   GetSupportUrl = (userid, name, question) => {
@@ -311,6 +316,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.account,
+    general: state.general
   };
 };
 
@@ -339,7 +345,7 @@ const mapDispatchToProps = (dispatch) => {
     // getGamePlatformList: () => dispatch(gameAction.getGamePlatformList()),
     getHomePageGameList: () => dispatch(gameAction.getHomePageGameList()),
     // checkGame: () => dispatch(accountAction.checkGame()),
-    // getSiteToken: () => dispatch(generalAction.getSiteToken()),
+    getSiteToken: () => dispatch(generalAction.getSiteToken()),
   };
 };
 
