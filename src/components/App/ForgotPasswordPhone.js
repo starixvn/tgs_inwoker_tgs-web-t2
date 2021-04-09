@@ -252,7 +252,7 @@ class ForgotPasswordPhone extends Component {
               : i18n.t("common.btnTokenResendLabel") + "(" + this.state.countdown + "s)"}
           </StyleButton>
 
-          <Button onClick={() => this.onhandleNextClick}>
+          <Button onClick={this.onhandleNextClick}>
             {i18n.t("common.nextStep")}
           </Button>
           <Description>
