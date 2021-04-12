@@ -583,16 +583,16 @@ class Wap extends Component {
         // document
         //   .getElementById("ioBB")
         //   .parentNode.removeChild(document.getElementById("ioBB"));
-        this.props.checkGame();
+        // this.props.checkGame();
         this.props.getAccountProfile(true);
         // const responseVIP = await this.props.getVIPInfo(
         //   responseToken.data.token
         // );
-        this.props.getBalanceList();
-        this.props.getIDCardNo();
-        this.props.getDepositChannel();
+        // this.props.getBalanceList();
+        //  this.props.getIDCardNo();
+        // this.props.getDepositChannel();
 
-        this.props.getInviteLink();
+        // this.props.getInviteLink();
       }
     }
     this.setState({ ...this.state, loading: false });
@@ -845,8 +845,8 @@ const mapDispatchToProps = (dispatch) => {
 
     getAccountProfile: (showVip) =>
       dispatch(accountAction.getAccountProfile(showVip)),
-    checkGame: () => dispatch(accountAction.checkGame()),
-    getMobilePrefix: () => dispatch(generalAction.getMobilePrefix()),
+    // checkGame: () => dispatch(accountAction.checkGame()),
+    // getMobilePrefix: () => dispatch(generalAction.getMobilePrefix()),
     checkTokenIsValid: () => dispatch(accountAction.checkTokenIsValid()),
     getMarquee: () => dispatch(uiAction.getMarquee()),
 
