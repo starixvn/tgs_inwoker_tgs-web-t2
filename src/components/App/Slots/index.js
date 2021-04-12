@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import BGGamePNG from "../../../assets/images/slot/bg-game.png";
 
-import {GameService} from  '@Inwoker/tgs-api';
+import { GameService } from '@Inwoker/tgs-api';
 
 import SlotAllPNG from "../../../assets/images/slot-all.png";
 import SlotAllInactivePNG from "../../../assets/images/slot-all-inactive.png";
@@ -80,20 +80,20 @@ margin: 8px 5px;
 transition: background-color 0.5s ease;
 padding: 5px;
 ${(props) => {
-  if (props.active === true) {
-    return `border: 2px solid #ebc468;
+    if (props.active === true) {
+      return `border: 2px solid #ebc468;
       background-color: #8a7f73;
 
     `;
-  } else {
-    return ` &:hover {
+    } else {
+      return ` &:hover {
       cursor: pointer;
       border: 2px solid #ebc468;
       background-color: #8a7f73;
     }
    `;
-  }
-}}
+    }
+  }}
 `;
 const GameTab = styled.div`
   background: url(${(props) =>
@@ -102,7 +102,7 @@ const GameTab = styled.div`
     background-size: contain;
     height: 100%;
     width: 100%;
-    background-position-y: 5px;
+
 `;
 const GameTabAll = styled(GameTabButton)`
 
@@ -357,7 +357,7 @@ class Slots extends Component {
       type: type,
       platformList: [],
       loading: true,
-      gameType:this.props.match.params.platform?this.props.match.params.platform:""
+      gameType: this.props.match.params.platform ? this.props.match.params.platform : ""
     };
   }
 
@@ -382,7 +382,7 @@ class Slots extends Component {
         this.setState({
           ...this.state,
           type: type,
-          gameType:this.props.match.params.platform?this.props.match.params.platform:""
+          gameType: this.props.match.params.platform ? this.props.match.params.platform : ""
         });
 
 
@@ -391,7 +391,7 @@ class Slots extends Component {
         window.scrollTo({ top: 0, behavior: "smooth" });
         this.setState({
           ...this.state,
-          gameType:this.props.match.params.platform?this.props.match.params.platform:""
+          gameType: this.props.match.params.platform ? this.props.match.params.platform : ""
         });
       } else {
         this.getGameList();
@@ -434,7 +434,7 @@ class Slots extends Component {
     });
   }
   handleParentClick = (gameType) => {
-    this.setState({ ...this.state,gameType, page: 1 });
+    this.setState({ ...this.state, gameType, page: 1 });
   };
   handleFilterGameClick = (filterType) => {
     this.setState({ ...this.state, filterGame: filterType, page: 1 });
@@ -494,15 +494,15 @@ class Slots extends Component {
   handleJoinGameClick = (
     gpcode,
     gpid
-   ) => {
-       if (this.props.token) {
-         this.props.history.push(
-           `/${i18n.language}/slots/play/${gpcode}/${gpid}`
-         );
-       } else {
-         this.props.showLogin(true);
-       }
-   };
+  ) => {
+    if (this.props.token) {
+      this.props.history.push(
+        `/${i18n.language}/slots/play/${gpcode}/${gpid}`
+      );
+    } else {
+      this.props.showLogin(true);
+    }
+  };
 
   genCategoryItem(category, text) {
     if (
@@ -568,9 +568,9 @@ class Slots extends Component {
     let list = null;
     if (this.state.gameList.length > 0) {
       list = this.state.gameList.map((el, i) => (
-        <ItemContainer key={i} img={el.pc_file_url}>
+        <ItemContainer key={i} img={`${process.env.PUBLIC_URL}/assets/images/slotGame/${el.gpcode}/${el.code.replace(/_/g, "")}.png`}>
           <GameDesc>
-            <GameProvider>{el.game_platform_id === 31 ? (this.state.type === GameTypeEnum.SLOT ? "KINGMAKER" : "REDTIGER") : el.game_platform_name}</GameProvider>
+            <GameProvider>{el.gpcode}</GameProvider>
             <Spliter></Spliter>
             <Bookmark
               bookmark={el.collect_id > 0}
@@ -595,28 +595,28 @@ class Slots extends Component {
       <Container>
         <CommonMarquee></CommonMarquee>
         <GameTabContainer>
-            <GameTabAll
-             active={this.state.gameType == ""}
-              onClick={() => this.handleParentClick("")}
-            ></GameTabAll>
-            {this.props.game.homePageGameList
-              .filter((row) => {
-                return row.type === this.state.type;
-              })
-              .map((row, index) => {
+          <GameTabAll
+            active={this.state.gameType == ""}
+            onClick={() => this.handleParentClick("")}
+          ></GameTabAll>
+          {this.props.game.homePageGameList
+            .filter((row) => {
+              return row.type === this.state.type;
+            })
+            .map((row, index) => {
 
-                return (
-                  <GameTabButton
-                    key={index}
-                    active={this.state.gameType == row.abbreviation}
-                    onClick={() => this.handleParentClick(row.abbreviation)}
-                  >
-                    <GameTab abbreviation={row.abbreviation}></GameTab>
-                  </GameTabButton>
-                );
-              })}
+              return (
+                <GameTabButton
+                  key={index}
+                  active={this.state.gameType == row.abbreviation}
+                  onClick={() => this.handleParentClick(row.abbreviation)}
+                >
+                  <GameTab abbreviation={row.abbreviation}></GameTab>
+                </GameTabButton>
+              );
+            })}
 
-          </GameTabContainer>
+        </GameTabContainer>
         <InnerWrap>
           <GameSubFilterContainer>
             {this.genCategoryItem(SlotFilterType.All, i18n.t("slot.allGame"))}

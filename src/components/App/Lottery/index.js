@@ -89,8 +89,8 @@ const rightLeftRightHide = keyframes`
     transform:translate3d(30px,0,0);
   }
     `;
-    
-  const Tabheader = styled.div`
+
+const Tabheader = styled.div`
      width: 1080px;
      margin: 0 auto;
      text-align: center;
@@ -261,21 +261,21 @@ class Lottery extends Component {
   }
   componentDidMount() {
     //test for lottery
-    var qipaiList=[
-      { 
+    var qipaiList = [
+      {
         id: 1,
-        name: "bg", 
-        abbreviation:"bg"
+        name: "bg",
+        abbreviation: "bg"
       },
       {
         id: 2,
-        name: "km", 
-        abbreviation:"km"
+        name: "km",
+        abbreviation: "km"
       },
       {
         id: 3,
-        name: "vr", 
-        abbreviation:"vr"
+        name: "vr",
+        abbreviation: "vr"
       },
     ]
     this.setState(
@@ -326,7 +326,7 @@ class Lottery extends Component {
   render() {
     return (
       <Container>
-         <CommonMarquee></CommonMarquee>
+        <CommonMarquee></CommonMarquee>
         {this.state.list.length > 1 ? (
           <Tabheader>
             <TabContainer>
@@ -339,7 +339,7 @@ class Lottery extends Component {
                     }}
                     selected={this.state.selected.id === data.id}
                   >
-                  <ButtonIcon abbreviation={data.abbreviation}></ButtonIcon>
+                    <ButtonIcon abbreviation={data.abbreviation}></ButtonIcon>
                   </ButtonTab>
                 );
               })}
@@ -366,13 +366,13 @@ class Lottery extends Component {
                   <LiveGameDescription
                     game={this.state.selected}
                   >{i18n.t(`web.lotteryGame.${this.state.selected.abbreviation.toLowerCase()}Desc`)}</LiveGameDescription>
-                   <ScrollAnimation animateIn='fadeInRight' duration={1} animateOnce={true} style={{overflow: "visible"}}>
-                    <Model src={process.env.PUBLIC_URL+"/assets/images/pcGamePage/lottery/left/"+data.abbreviation.toLowerCase()+"-model.png"}></Model>
-                    <Element src={process.env.PUBLIC_URL+"/assets/images/pcGamePage/lottery/left/"+data.abbreviation.toLowerCase()+"-element.png"}></Element>
+                  <ScrollAnimation animateIn='fadeInRight' duration={1} animateOnce={true} style={{ overflow: "visible" }}>
+                    <Model src={process.env.PUBLIC_URL + "/assets/images/pcGamePage/lottery/left/" + data.abbreviation.toLowerCase() + "-model.png"}></Model>
+                    <Element src={process.env.PUBLIC_URL + "/assets/images/pcGamePage/lottery/left/" + data.abbreviation.toLowerCase() + "-element.png"}></Element>
                   </ScrollAnimation>
                   <ButtonJoin
-                      onClick={() => this.handleJoinGameClick(data.params)}
-                    >
+                    onClick={() => this.handleJoinGameClick(data.params)}
+                  >
                     {i18n.t("common.startGame")}
                   </ButtonJoin>
                 </LotteryContainer>

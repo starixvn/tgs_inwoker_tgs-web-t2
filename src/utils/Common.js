@@ -91,6 +91,10 @@ function GetBankImageByCode(code) {
     };
   }
 }
+function GetDisplayGameType() {
+  return [GameTypeEnum.SPORTS, GameTypeEnum.LIVELOBBY, GameTypeEnum.QIPAILOBBY, GameTypeEnum.FISHLOBBY, GameTypeEnum.LOTTERYLOBBY, GameTypeEnum.SLOT]
+
+}
 const bankImageMapping = {
   ab: {
     id: 0,
@@ -349,6 +353,6 @@ const Common = {
   GetBankImageByTitle,
   GetBankImageByCode,
   loadScript,
-  ConvertGameTypeToText, readFileDataAsBinary
+  ConvertGameTypeToText, readFileDataAsBinary, GetDisplayGameType
 };
 export default Common;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import {GameService} from  '@Inwoker/tgs-api';
+import { GameService } from '@Inwoker/tgs-api';
 import { withRouter } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -340,7 +340,7 @@ class Slot extends Component {
   handleCategoryChange = (e) => {
     this.setState({ ...this.state, category: e.target.value });
   };
-  handleGameClick = (gpcode,gpid) => {
+  handleGameClick = (gpcode, gpid) => {
     if (this.props.token) {
       window.open(
         `/${i18n.language}/joingame/${gpcode}/${gpid})}`)
@@ -485,14 +485,14 @@ class Slot extends Component {
                     width={344}
                     alt={""}
                     effect="blur"
-                    src={row.file_url}
+                    src={`${process.env.PUBLIC_URL}/assets/images/slotGame/${row.gpcode}/${row.code.replace(/_/g, "")}.png`}
                     style={{ borderRadius: "20px 20px 0 0" }}
                     onClick={() => this.handleGameClick(row.gpcode,
                       row.id)}
                   />
                   <ListitemLabelBackground></ListitemLabelBackground>
                   <LeftContainer>
-                    <GameProvider>{row.game_platform_id === 31 ? (this.state.gameType === GameTypeEnum.SLOT ? "KINGMAKER" : "REDTIGER") : row.game_platform_name}</GameProvider>
+                    <GameProvider>{row.gpcode}</GameProvider>
                     <GameName>{row.name}</GameName>
                   </LeftContainer>
 

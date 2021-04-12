@@ -5,11 +5,13 @@ import config from "../../../../config/config";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slick from "react-slick";
+import Image1 from "../../../../assets/images/slider/banner-1.png";
+import Image2 from "../../../../assets/images/slider/banner-1.png";
 
 import i18n from "../../../../utils/i18n";
 const SlideImage = styled.img`
   height: 330px;
-  width: 750px;
+
 
   border: none;
   margin: 0 auto;
@@ -55,13 +57,19 @@ class Slider extends React.Component {
   render() {
     return (
       <Slick {...settings}>
-        {this.props.list.map((row, index) => {
+        <ATag >
+          <SlideImage src={Image1}></SlideImage>
+        </ATag>
+        <ATag>
+          <SlideImage src={Image2}></SlideImage>
+        </ATag>
+        {/* {this.props.list.map((row, index) => {
           return (
             <ATag href={"/" + i18n.language + "/" + row.url} key={index}>
               <SlideImage src={row.file_url}></SlideImage>
             </ATag>
           );
-        })}
+        })} */}
       </Slick>
     );
   }

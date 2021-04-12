@@ -286,7 +286,9 @@ class Home extends Component {
   formatSortedGameList() {
     var currentType = -1;
     var gameTypeListSorting = [];
+    var displayGameType = Common.GetDisplayGameType();
     this.props.game.homePageGameList
+      .filter(a => displayGameType.indexOf(a.type) >= 0)
       .sort((a, b) => {
 
         return (a.sort) - (b.sort);
@@ -339,7 +341,7 @@ class Home extends Component {
     window.scrollTo({ top: pos - 575, behavior: "smooth" });
   };
   handleGameClick = (type, params, game_platform_id) => {
-    if(!this.props.account.token){
+    if (!this.props.account.token) {
       this.props.navigate("/");
       return
     }
@@ -398,14 +400,14 @@ class Home extends Component {
     return (
       <>
         <StyledAppBar position="fixed" color="default">
-          {(() => {
+          {/* {(() => {
             if (this.props.ui.board_list.length === 0) {
               return <></>;
             } else {
               return <Slider list={this.props.ui.board_list}></Slider>;
             }
-          })()}
-
+          })()} */}
+          <Slider ></Slider>;
           <FixedContainer>
             <AnnouncementContainer>
               <AnnouncementTitle>{i18n.t("wap.main.home.profile.announcement")}</AnnouncementTitle>
@@ -508,19 +510,20 @@ class Home extends Component {
           <GameSelectionContainer>
             <GameSelectionUL>
               {(() => {
-                return this.state.gameTypeListSorting.map((type, index) => {
-                  return (
 
+                return this.state.gameTypeListSorting
 
-                    <GameSelectionLI key={index}
-                      selected={this.state.selectedGameType === type}
-                      onClick={() => this.handleGameTypeClick(type)}
-                    >
-                      {this.convertGameTypeToText(type)}
-                    </GameSelectionLI>
+                  .map((type, index) => {
+                    return (
+                      <GameSelectionLI key={index}
+                        selected={this.state.selectedGameType === type}
+                        onClick={() => this.handleGameTypeClick(type)}
+                      >
+                        {this.convertGameTypeToText(type)}
+                      </GameSelectionLI>
 
-                  );
-                });
+                    );
+                  });
               })()}
             </GameSelectionUL>
           </GameSelectionContainer>
@@ -528,8 +531,10 @@ class Home extends Component {
         <GameListContainer>
           <GameListWrap>
             {(() => {
+              var displayGameType = Common.GetDisplayGameType();
               var currentType = -1;
               return this.props.game.homePageGameList
+                .filter(a => displayGameType.indexOf(a.type) >= 0)
                 .sort(function (a, b) {
                   return a.sort - b.sort;
                 })
