@@ -485,7 +485,7 @@ class Slot extends Component {
                     width={344}
                     alt={""}
                     effect="blur"
-                    src={`${process.env.PUBLIC_URL}/assets/images/slotGame/${row.gpcode}/${row.code.replace(/_/g, "")}.png`}
+                    src={`${process.env.PUBLIC_URL}/assets/images/slotGame/${row.gpcode.toLowerCase()}/${row.code.replace(/_/g, "")}.png`}
                     style={{ borderRadius: "20px 20px 0 0" }}
                     onClick={() => this.handleGameClick(row.gpcode,
                       row.id)}
