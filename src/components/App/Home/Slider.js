@@ -5,14 +5,14 @@ import "slick-carousel/slick/slick-theme.css";
 
 import LeftArrowPNG from "../../../assets/images/left-arrow.png";
 import Slick from "react-slick";
-import Image1 from "../../../assets/images/slider/banner-1.png";
-import Image2 from "../../../assets/images/slider/banner-1.png";
+import Image1 from "../../../assets/images/slider/banner-1.jpg";
+import Image2 from "../../../assets/images/slider/banner-2.jpg";
 
 const Container = styled.div`
   position: relative;
   width: 100%;
   margin: 0 auto;
-  height: 400px;
+  height: 468px;
 `;
 const PreNextContainer = styled.div`
   position: absolute;
@@ -49,7 +49,7 @@ const ATag = styled.a`
 const Img = styled.img`
   border: none;
   width: 1920px;
-  height: 400px;
+  height: 468px;
 
   margin: 0 auto 0 -960px;
   position: relative;
@@ -84,18 +84,17 @@ class Slider extends React.Component {
       speed: 500,
       arrows: true,
       autoplay: true,
-     
     };
 
     return (
       <Container>
         <Slick {...settings}>
-              <ATag href={""}>
-                <Img src={Image1}></Img>
-              </ATag>
-              <ATag href={""}>
-                <Img src={Image2}></Img>
-              </ATag>
+          <ATag href={""}>
+            <Img src={Image1}></Img>
+          </ATag>
+          <ATag href={""}>
+            <Img src={Image2}></Img>
+          </ATag>
           {/* {this.props.list.map((row, index) => {
             return (
               <ATag href={row.go_url} key={index}>
