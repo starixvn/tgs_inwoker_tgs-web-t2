@@ -17,19 +17,19 @@ import Button from "../Share/Button";
 import { AppHistory } from "../../../history/History";
 import Loading from "../Share/Loading";
 import i18n from "../../../utils/i18n";
-import { walletAction } from "../../../actions/walletAction";
-import { RESET_WALLETRESULT } from "../../../constants/actionType";
+import { walletAction, RESET_WALLETRESULT } from "@Inwoker/tgs-api";
+
 import Slide from "@material-ui/core/Slide";
 const Container = styled.div``;
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 const ContentBg = styled.div`
-  background:  #fff;
+  background: #fff;
   width: 100%;
 
   padding: 60px 60px 30px 60px;
-  margin-bottom:30px;
+  margin-bottom: 30px;
 `;
 const BalanceLabel = styled.div`
   font-size: 30px;
@@ -83,7 +83,6 @@ const DialoTitle = styled.div`
   color: #4a4a4a;
 `;
 
-
 const OTPContainer = styled.div`
   position: relative;
   text-align: center;
@@ -106,7 +105,7 @@ const OTPTextBox = styled.input`
   width: 500px;
   text-indent: 9px;
   padding-left: 64px;
-  color:#404040;
+  color: #404040;
   -webkit-letter-spacing: 25.6px;
   -moz-letter-spacing: 25.6px;
   -ms-letter-spacing: 25.6px;

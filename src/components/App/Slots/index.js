@@ -5,7 +5,7 @@ import { AppHistory } from "../../../history/History";
 
 import BGGamePNG from "../../../assets/images/slot/bg-game.png";
 
-import { GameService } from '@Inwoker/tgs-api';
+import { GameService } from "@Inwoker/tgs-api";
 
 import SlotAllPNG from "../../../assets/images/slot-all.png";
 import SlotAllInactivePNG from "../../../assets/images/slot-all-inactive.png";
@@ -23,7 +23,6 @@ import SlotFishGameActivePNG from "../../../assets/images/slot-fishgame-active.p
 import SlotHistoryGamePNG from "../../../assets/images/slot-history.png";
 import SlotHistoryGameActivePNG from "../../../assets/images/slot-history-active.png";
 import SlotSearchPNG from "../../../assets/images/slot-search.png";
-
 
 import SlotBookmark1PNG from "../../../assets/images/slot-bookmark-1.png";
 import SlotBookmark2PNG from "../../../assets/images/slot-bookmark-2.png";
@@ -43,7 +42,7 @@ import CommonMarquee from "../CommonMarquee";
 const Container = styled.div`
   width: 100%;
   position: relative;
-  background: url(${BGGamePNG}) no-repeat center top , #E3E3E3;
+  background: url(${BGGamePNG}) no-repeat center top, #e3e3e3;
   overflow: visible;
   background-size: auto 100%;
 `;
@@ -52,7 +51,7 @@ const InnerWrap = styled.div`
   width: 1007px;
   min-height: 580px;
   border-radius: 30px;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.8);
   margin: 60px auto 0px auto;
   padding: 16px 46px;
   box-sizing: border-box;
@@ -66,20 +65,20 @@ const GameTabContainer = styled.div`
   margin: 5px auto;
 `;
 const GameTabButton = styled.div`
-width: 170px;
-height: 50px;
-outline: none;
-float: left;
-color: #fff;
-font-size: 20px;
-font-weight: bold;
-border: 2px solid transparent;
-border-radius: 25px;
-background-color: transparent;
-margin: 8px 5px;
-transition: background-color 0.5s ease;
-padding: 5px;
-${(props) => {
+  width: 170px;
+  height: 50px;
+  outline: none;
+  float: left;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  border: 2px solid transparent;
+  border-radius: 25px;
+  background-color: transparent;
+  margin: 8px 5px;
+  transition: background-color 0.5s ease;
+  padding: 5px;
+  ${(props) => {
     if (props.active === true) {
       return `border: 2px solid #ebc468;
       background-color: #8a7f73;
@@ -97,30 +96,33 @@ ${(props) => {
 `;
 const GameTab = styled.div`
   background: url(${(props) =>
-    `${process.env.PUBLIC_URL}/assets/images/pcGamePage/slots/${props.abbreviation.toLowerCase()}.png`})
+      `${
+        process.env.PUBLIC_URL
+      }/assets/images/pcGamePage/slots/${props.abbreviation.toLowerCase()}.png`})
     no-repeat center;
-    background-size: contain;
-    height: 100%;
-    width: 100%;
-
+  background-size: contain;
+  height: 100%;
+  width: 100%;
 `;
 const GameTabAll = styled(GameTabButton)`
-
-  ${(props) => (props.active ? `  background: url(${SlotAllPNG}) , linear-gradient(to top,#695b4b,#46423d);` : `  background: url(${SlotAllInactivePNG}) , rgb(238, 238, 238);`)};
-  background-repeat:no-repeat;
+  ${(props) =>
+    props.active
+      ? `  background: url(${SlotAllPNG}) , linear-gradient(to top,#695b4b,#46423d);`
+      : `  background: url(${SlotAllInactivePNG}) , rgb(238, 238, 238);`};
+  background-repeat: no-repeat;
   background-size: 120ox auto;
   background-position: center;
   &:hover {
     cursor: pointer;
-    background-image:  url(${SlotAllPNG}) ,linear-gradient(to top,#695b4b,#46423d);
+    background-image: url(${SlotAllPNG}),
+      linear-gradient(to top, #695b4b, #46423d);
   }
 `;
 
 const GameSubFilterContainer = styled.div`
-
   padding-left: 20px;
   width: 908px;
-height:42px;
+  height: 42px;
   border-top: 1px solid #36437d;
   border-bottom: 1px solid #36437d;
   margin: 25px 0 15px 0;
@@ -141,8 +143,8 @@ margin-top: 6px
   ${(props) => (props.active ? ` color:  #c40511;` : ` color: #404040;`)};
 `;
 const CategoryText = styled.div`
-  float: left;    margin-top: 2px;
-
+  float: left;
+  margin-top: 2px;
 `;
 const FilterItem = styled.div`
   background-repeat: no-repeat;
@@ -191,14 +193,13 @@ const HistoryFilterItem = styled(FilterItem)`
 `;
 
 const SearchFilterItemContainer = styled.div`
-width: 141px;
-height: 30px;
-border-radius: 15px;
-background-color: #d3d3d3;
+  width: 141px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: #d3d3d3;
 
-margin-top: 5px;
+  margin-top: 5px;
   float: right;
-
 `;
 const SearchFilterItemInput = styled.input`
   background: transparent;
@@ -207,8 +208,6 @@ const SearchFilterItemInput = styled.input`
   font-size: 15px;
   margin: 5px 0 0 5px;
   width: 100px;
-
- 
 `;
 const SearchButton = styled.div`
   background: url(${SlotSearchPNG}) no-repeat center;
@@ -222,9 +221,9 @@ const SearchButton = styled.div`
 `;
 
 const GameListContainer = styled.div`
-width: 908px;
-padding:6px;
-background-color: #eaeaea;
+  width: 908px;
+  padding: 6px;
+  background-color: #eaeaea;
 `;
 const ButtonMore = styled.div`
   background: url(${SlotMoreGamePNG}) center no-repeat;
@@ -240,7 +239,6 @@ const ButtonMore = styled.div`
   padding-top: 16px;
   text-align: center;
   &:hover {
- 
     cursor: pointer;
   }
 `;
@@ -291,12 +289,11 @@ const GameDesc = styled.div`
   z-index: 3;
 `;
 const Namecontainer = styled.div`
-
-width: 165px;
-height: 40px;
-box-shadow: 0px 4px 6px 0 rgba(0, 0, 0, 0.8);
-border-top: solid 1px #fde73f;
-background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
+  width: 165px;
+  height: 40px;
+  box-shadow: 0px 4px 6px 0 rgba(0, 0, 0, 0.8);
+  border-top: solid 1px #fde73f;
+  background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
 
   color: #ffffff;
   font-size: 14px;
@@ -304,7 +301,6 @@ background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
   box-sizing: border-box;
   margin-top: 107px;
   float: left;
-
 `;
 const GameProvider = styled.div`
   float: left;
@@ -343,9 +339,7 @@ class Slots extends Component {
   constructor(props) {
     super(props);
 
-    const type = this.props.match.url.indexOf("fish") >= 0 ? GameTypeEnum.FISH :
-      (this.props.match.url.indexOf("slots") >= 0 ? GameTypeEnum.TIGERSLOT : GameTypeEnum.SLOT);
-
+    const type = this.getType();
     this.state = {
       firstLoad: true,
       filterGame: 0,
@@ -357,7 +351,9 @@ class Slots extends Component {
       type: type,
       platformList: [],
       loading: true,
-      platform: this.props.match.params.platform ? this.props.match.params.platform : ""
+      platform: this.props.match.params.platform
+        ? this.props.match.params.platform
+        : "",
     };
   }
 
@@ -366,64 +362,70 @@ class Slots extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (
-      prevState.filterGame !== this.state.filterGame ||
       prevState.type !== this.state.type ||
       prevProps.match.params.platform !== this.props.match.params.platform ||
-      prevProps.match.url !== this.props.match.url ||
-      prevState.page !== this.state.page
+      prevProps.match.url !== this.props.match.url
     ) {
-
       if (prevProps.match.url !== this.props.match.url) {
-
         window.scrollTo({ top: 0, behavior: "smooth" });
-        const type = this.props.match.url.indexOf("fish") >= 0 ? GameTypeEnum.FISH :
-          (this.props.match.url.indexOf("slots") >= 0 ? GameTypeEnum.TIGERSLOT : GameTypeEnum.SLOT);
 
+        var platform = this.props.match.params.platform
+          ? this.props.match.params.platform
+          : "";
 
-        var platform = this.props.match.params.platform ? this.props.match.params.platform : "";
-        console.log(platform)
-        this.getGameList(1, platform);
-
-      } else if (prevProps.match.params.platform !== this.props.match.params.platform) {
-
+        this.getGameList(1, platform, this.getType());
+      } else if (
+        prevProps.match.params.platform !== this.props.match.params.platform
+      ) {
         window.scrollTo({ top: 0, behavior: "smooth" });
         this.setState({
           ...this.state,
-          platform: this.props.match.params.platform ? this.props.match.params.platform : ""
+          platform: this.props.match.params.platform
+            ? this.props.match.params.platform
+            : "",
         });
       } else {
-
         this.getGameList();
       }
     }
   }
-
-  getGameList(page = this.state.page, platform = this.state.platform) {
+  getType() {
+    const type =
+      this.props.match.url.indexOf("electron") >= 0
+        ? GameTypeEnum.TABLEGAME
+        : this.props.match.url.indexOf("slots") >= 0
+        ? GameTypeEnum.SLOT
+        : GameTypeEnum.TIGERSLOT;
+    return type;
+  }
+  getGameList(
+    page = this.state.page,
+    platform = this.state.platform,
+    type = this.state.type
+  ) {
     this.setState({
       ...this.state,
 
       loading: true,
     });
-    var result = GameService.GetGameList(
-      platform,
-      GameTypeEnum.SLOT
-    );
+
+    var result = GameService.GetGameList(platform, type);
     result.then((response) => {
       if (response.IsSuccess) {
         if (page === 1) {
           this.setState({
             ...this.state,
-            gameList: response.data,
             page: page,
             platform: platform,
+            gameList: response.data,
             loading: false,
           });
         } else {
           this.setState({
             ...this.state,
-            gameList: this.state.gameList.concat(response.data),
             page: page,
             platform: platform,
+            gameList: this.state.gameList.concat(response.data),
             loading: false,
           });
         }
@@ -438,9 +440,13 @@ class Slots extends Component {
     });
   }
   handleParentClick = (platform) => {
-    const type = this.props.match.url.indexOf("fish") >= 0 ? "fish" :
-      (this.props.match.url.indexOf("slots") >= 0 ? "slots" : "electron");
-    AppHistory.push(`/${i18n.language}/${type}/${platform}`)
+    const type =
+      this.props.match.url.indexOf("fish") >= 0
+        ? "fish"
+        : this.props.match.url.indexOf("slots") >= 0
+        ? "slots"
+        : "electron";
+    AppHistory.push(`/${i18n.language}/${type}/${platform}`);
   };
   handleFilterGameClick = (filterType) => {
     this.setState({ ...this.state, filterGame: filterType, page: 1 });
@@ -448,73 +454,65 @@ class Slots extends Component {
   handleKeywordChange = (e) => {
     this.setState({ ...this.state, keyword: e.target.value });
   };
-  handleSearchClick = (e) => {
-    this.getGameList(1);
-  };
-  handleMoreClick = () => {
-    this.setState({ ...this.state, page: this.state.page + 1 });
-  };
-  handleBookmarkClick = (id, collect_id) => {
+  // handleSearchClick = (e) => {
+  //   this.getGameList(1);
+  // };
+  // handleMoreClick = () => {
+  //   this.setState({ ...this.state, page: this.state.page + 1 });
+  // };
+  // handleBookmarkClick = (id, collect_id) => {
+  //   if (this.props.token) {
+  //     if (collect_id > 0) {
+  //       GameService.DeleteBookmarkSlotGame(collect_id).then((response) => {
+  //         if (response.IsSuccess) {
+  //           this.setState((preState) => {
+  //             let newList = [];
+  //             for (let k in this.state.gameList) {
+  //               var item = this.state.gameList[k];
+  //               if (item.id === id) {
+  //                 item.collect_id = 0;
+  //                 if (this.state.filterGame !== SlotFilterType.Bookmark) {
+  //                   newList.push(item);
+  //                 }
+  //               } else {
+  //                 newList.push(item);
+  //               }
+  //             }
+  //             return { ...preState, gameList: newList };
+  //           });
+  //         }
+  //       });
+  //     } else {
+  //       GameService.BookmarkSlotGame(this.props.token, id).then((response) => {
+  //         if (response.IsSuccess) {
+  //           var collect_id = response.data;
+  //           this.setState((preState) => {
+  //             let newList = [];
+  //             for (let k in this.state.gameList) {
+  //               var item = this.state.gameList[k];
+  //               if (item.id === id) {
+  //                 item.collect_id = collect_id;
+  //               }
+  //               newList.push(item);
+  //             }
+  //             return { ...preState, gameList: newList };
+  //           });
+  //           // this.state.gameList.filter((row) => row.id === id);
+  //         }
+  //       });
+  //     }
+  //   }
+  // };
+  handleJoinGameClick = (gpcode, gpid) => {
     if (this.props.token) {
-      if (collect_id > 0) {
-        GameService.DeleteBookmarkSlotGame(collect_id).then((response) => {
-          if (response.IsSuccess) {
-            this.setState((preState) => {
-              let newList = [];
-              for (let k in this.state.gameList) {
-                var item = this.state.gameList[k];
-                if (item.id === id) {
-                  item.collect_id = 0;
-                  if (this.state.filterGame !== SlotFilterType.Bookmark) {
-                    newList.push(item);
-                  }
-                } else {
-                  newList.push(item);
-                }
-              }
-              return { ...preState, gameList: newList };
-            });
-          }
-        });
-      } else {
-        GameService.BookmarkSlotGame(this.props.token, id).then((response) => {
-          if (response.IsSuccess) {
-            var collect_id = response.data;
-            this.setState((preState) => {
-              let newList = [];
-              for (let k in this.state.gameList) {
-                var item = this.state.gameList[k];
-                if (item.id === id) {
-                  item.collect_id = collect_id;
-                }
-                newList.push(item);
-              }
-              return { ...preState, gameList: newList };
-            });
-            // this.state.gameList.filter((row) => row.id === id);
-          }
-        });
-      }
-    }
-  };
-  handleJoinGameClick = (
-    gpcode,
-    gpid
-  ) => {
-    if (this.props.token) {
-      this.props.history.push(
-        `/${i18n.language}/slots/play/${gpcode}/${gpid}`
-      );
+      this.props.history.push(`/${i18n.language}/slots/play/${gpcode}/${gpid}`);
     } else {
       this.props.showLogin(true);
     }
   };
 
   genCategoryItem(category, text) {
-    if (
-      (this.props.token == null && category === 3) ||
-      (this.props.token == null && category === 5)
-    ) {
+    if (this.props.token == null && category === 3) {
       return null;
     }
     return (
@@ -561,6 +559,12 @@ class Slots extends Component {
                   active={this.state.filterGame === category}
                 ></HistoryFilterItem>
               );
+            case SlotFilterType.Recommend:
+              return (
+                <HistoryFilterItem
+                  active={this.state.filterGame === category}
+                ></HistoryFilterItem>
+              );
             default:
               return null;
           }
@@ -573,28 +577,54 @@ class Slots extends Component {
   render() {
     let list = null;
     if (this.state.gameList.length > 0) {
-      list = this.state.gameList.map((el, i) => (
-        <ItemContainer key={i} img={`${process.env.PUBLIC_URL}/assets/images/slotGame/${el.gpcode.toLowerCase()}/${el.code.replace(/_/g, "")}.png`}>
-          <GameDesc>
-            <GameProvider>{el.gpcode}</GameProvider>
-            <Spliter></Spliter>
-            <Bookmark
-              bookmark={el.collect_id > 0}
-              onClick={() => this.handleBookmarkClick(el.id, el.collect_id)}
-            ></Bookmark>
-          </GameDesc>
-          <GameHoverSelection onClick={() =>
-            this.handleJoinGameClick(
-              el.gpcode,
-              el.id
-            )
-          }>
+      list = this.state.gameList
+        .filter((a) => {
+          if (this.state.filterGame === SlotFilterType.All) return true;
+          else {
+            if (this.state.filterGame === SlotFilterType.Hot) {
+              return a.tag.hot === true;
+            } else if (this.state.filterGame === SlotFilterType.New) {
+              return a.tag.new === true;
+            } else if (this.state.filterGame === SlotFilterType.Recommend) {
+              return a.tag.recommend === true;
+            }
+          }
 
-            GO
-          </GameHoverSelection>
-          <Namecontainer>{el.name}</Namecontainer>
-        </ItemContainer>
-      ));
+          return false;
+        })
+        .filter((a) => {
+          if (this.state.keyword === "") return true;
+          else
+            return a.name
+              .toUpperCase()
+              .includes(this.state.keyword.toUpperCase());
+        })
+        .map((el, i) => (
+          <ItemContainer
+            key={i}
+            img={`${
+              process.env.PUBLIC_URL
+            }/assets/images/slotGame/${el.gpcode.toLowerCase()}/${el.code.replace(
+              /_/g,
+              ""
+            )}.png`}
+          >
+            <GameDesc>
+              <GameProvider>{el.gpcode}</GameProvider>
+              <Spliter></Spliter>
+              <Bookmark
+                bookmark={el.collect_id > 0}
+                // onClick={() => this.handleBookmarkClick(el.id, el.collect_id)}
+              ></Bookmark>
+            </GameDesc>
+            <GameHoverSelection
+              onClick={() => this.handleJoinGameClick(el.gpcode, el.id)}
+            >
+              GO
+            </GameHoverSelection>
+            <Namecontainer>{el.name}</Namecontainer>
+          </ItemContainer>
+        ));
     }
 
     return (
@@ -610,7 +640,6 @@ class Slots extends Component {
               return row.type === this.state.type;
             })
             .map((row, index) => {
-
               return (
                 <GameTabButton
                   key={index}
@@ -621,15 +650,16 @@ class Slots extends Component {
                 </GameTabButton>
               );
             })}
-
         </GameTabContainer>
         <InnerWrap>
           <GameSubFilterContainer>
             {this.genCategoryItem(SlotFilterType.All, i18n.t("slot.allGame"))}
             {this.genCategoryItem(SlotFilterType.Hot, i18n.t("slot.hotGame"))}
             {this.genCategoryItem(SlotFilterType.New, i18n.t("slot.newGame"))}
-            {this.genCategoryItem(SlotFilterType.Bookmark, i18n.t("slot.bookmarkGame"))}
-            {this.genCategoryItem(SlotFilterType.History, i18n.t("slot.historyGame"))}
+            {this.genCategoryItem(
+              SlotFilterType.Recommend,
+              i18n.t("slot.recommendGame")
+            )}
             <SearchFilterItemContainer>
               <SearchFilterItemInput
                 type="text"
@@ -637,7 +667,6 @@ class Slots extends Component {
                 autocomplete="off"
                 onChange={this.handleKeywordChange}
               ></SearchFilterItemInput>
-              <SearchButton onClick={this.handleSearchClick}></SearchButton>
             </SearchFilterItemContainer>
           </GameSubFilterContainer>
           <GameListContainer>{list}</GameListContainer>

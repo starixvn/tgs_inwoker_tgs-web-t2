@@ -6,7 +6,7 @@ import { SHOWING_DIALOG } from "../../../../constants/actionType";
 import Dialog from "@material-ui/core/Dialog";
 import LoginBGPNG from "../../../../assets/images/login-bg.png";
 import IconLoginClosePNG from "../../../../assets/images/icon-login-close.png";
-import { accountAction } from "../../../../actions/accountAction";
+import { accountAction } from "@Inwoker/tgs-api";
 import { withStyles } from "@material-ui/core/styles";
 // import Address from "./Address";
 import ChangePassword from "./ChangePassword";
@@ -21,7 +21,7 @@ import PhoneVerification from "./PhoneVerification";
 
 import QQ from "./QQ";
 import Wechat from "./Wechat";
-import i18n from "../../../../utils/i18n"
+import i18n from "../../../../utils/i18n";
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box
@@ -48,7 +48,8 @@ const InnerWrap = styled.div`
   margin-top: 18px;
   box-sizing: border-box;
   background-color: #f7f7f7;
-  padding: 25px;  border-radius: 10px;
+  padding: 25px;
+  border-radius: 10px;
 `;
 const ContentWrap = styled.div`
   margin-top: 12px;
@@ -86,8 +87,7 @@ const ContentButton = styled.div`
   &:hover {
     cursor: pointer;
 
-    box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);
-    
+    box-shadow: inset 1px 1px 9px 0 rgba(255, 255, 255, 0.75);
   }
 `;
 // const ButtonDisable = styled(ContentButton)`
@@ -172,7 +172,7 @@ function GetContentWrap(accountInfo, label, attr, func, label2) {
       if (isVerify === false) {
         buttonValue = i18n.t("profile.nowVerify");
       } else {
-        buttonValue = i18n.t("profile.details")
+        buttonValue = i18n.t("profile.details");
       }
     }
   }
@@ -198,8 +198,6 @@ function GetContentWrap(accountInfo, label, attr, func, label2) {
 const StyledDialog = withStyles({
   root: {
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-
-
   },
   paper: {
     background: `url(${LoginBGPNG}) no-repeat transparent`,
@@ -207,7 +205,7 @@ const StyledDialog = withStyles({
     borderRadius: "15px",
     border: "solid 1px #ffffff",
     width: "420px",
-  }
+  },
 })(Dialog);
 const DialogContainer = styled.div`
   padding: 27px 32px;
@@ -225,7 +223,6 @@ const DialogCloseIconContainer = styled.div`
 `;
 const DialogHeader = styled.div`
   height: 50px;
-
 `;
 const DialogHeadertitle = styled.div`
   text-align: center;
@@ -301,11 +298,15 @@ class Profile extends Component {
     });
   };
   backPhoneVerify = () => {
-    console.log(11)
-    this.handleButtonClick("member_safe_password")
-  }
+    console.log(11);
+    this.handleButtonClick("member_safe_password");
+  };
 
-  handleVerifySuccess = (isForSecurityQuestion, isForWithdrawalPassword, smsCode) => {
+  handleVerifySuccess = (
+    isForSecurityQuestion,
+    isForWithdrawalPassword,
+    smsCode
+  ) => {
     if (isForSecurityQuestion) {
       // this.setState({
       //   ...this.state,
@@ -328,11 +329,11 @@ class Profile extends Component {
         dialogTitle: i18n.t("profile.phoneVerification"),
         dialogComponent: (
           <ChangeWithdrawalPassword
-          phone={this.props.account.info.member_phone}
-          handleCloseDialog={this.handleCloseDialog}
-          handleChangeTitle ={this.handleChangeTitle}
-          token={this.props.account.token}
-      ></ChangeWithdrawalPassword>
+            phone={this.props.account.info.member_phone}
+            handleCloseDialog={this.handleCloseDialog}
+            handleChangeTitle={this.handleChangeTitle}
+            token={this.props.account.token}
+          ></ChangeWithdrawalPassword>
         ),
       });
     }
@@ -379,7 +380,7 @@ class Profile extends Component {
         );
         break;
       case "member_email":
-        title = "电子邮件";
+        title = i18n.t("profile.email.bindEmail");
         component = (
           <Email
             handleCloseDialog={this.handleCloseDialog}
@@ -390,45 +391,43 @@ class Profile extends Component {
         );
         break;
       case "member_safe_password":
-        if (this.props.account.info.member_safe_password !== "set") {
-          // first time
-          title = i18n.t("profile.withdrawalPassword.title");
+        if (!this.props.account.info.check_pass_email) {
+          title = i18n.t("profile.email.bindEmail");
           component = (
-            <WithdrawalPassword
-              value={this.props.account.info.member_safe_password}
+            <Email
               handleCloseDialog={this.handleCloseDialog}
+              email={this.props.account.info.member_email}
               token={this.props.account.token}
-            ></WithdrawalPassword>
+              isForSecurityQuestion={false}
+            ></Email>
           );
         } else {
-          // reset
-          if (!this.props.account.info.check_pass_phone) {
-            title = i18n.t("profile.phone.bindMobile");
+          if (this.props.account.info.member_safe_password !== "set") {
+            // first time
+            title = i18n.t("profile.withdrawalPassword.title");
             component = (
-              <PhoneVerification
+              <WithdrawalPassword
+                value={this.props.account.info.member_safe_password}
                 handleCloseDialog={this.handleCloseDialog}
-                phone={this.props.account.info.member_phone}
                 token={this.props.account.token}
-                isForSecurityQuestion={false}
-                isForWithdrawalPassword={true}
-                onhandleVerifySuccess={this.handleVerifySuccess}
-              ></PhoneVerification>
+              ></WithdrawalPassword>
             );
           } else {
-            title = i18n.t("profile.phoneVerification");
+            // reset
+            title = i18n.t("profile.emailVerification");
             component = (
               <ChangeWithdrawalPassword
-              phone={this.props.account.info.member_phone}
-              handleCloseDialog={this.handleCloseDialog}
-              handleChangeTitle ={this.handleChangeTitle}
-              token={this.props.account.token}
-            ></ChangeWithdrawalPassword>
+                email={this.props.account.info.member_email}
+                handleCloseDialog={this.handleCloseDialog}
+                handleChangeTitle={this.handleChangeTitle}
+                token={this.props.account.token}
+              ></ChangeWithdrawalPassword>
             );
           }
         }
 
         break;
-        case "member_name":
+      case "member_name":
         title = i18n.t("profile.nameVerify.icNum");
         component = (
           <IDVerification
@@ -499,7 +498,7 @@ class Profile extends Component {
     this.setState({
       dialogTitle: title,
     });
-  }
+  };
   handleCloseDialog = () => {
     this.setState({ ...this.state, openDialog: false });
   };
@@ -517,12 +516,12 @@ class Profile extends Component {
             "member_name",
             this.handleButtonClick
           )}
-          {GetContentWrap(
+          {/* {GetContentWrap(
             this.props.account.info,
             i18n.t("profile.phone.title"),
             "member_phone",
             this.handleButtonClick
-          )}
+          )} */}
           {GetContentWrap(
             this.props.account.info,
             "电子邮件",
@@ -535,7 +534,7 @@ class Profile extends Component {
             "member_qq",
             this.handleButtonClick
           )}
-           {GetContentWrap(
+          {GetContentWrap(
             this.props.account.info,
             "Wechat",
             "member_wechat",

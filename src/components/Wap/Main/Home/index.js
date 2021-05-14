@@ -8,28 +8,29 @@ import Slider from "./Slider";
 import DoubleMarquee from "react-marquee-double";
 import { withRouter } from "react-router-dom";
 
-import {
-
-  GameTypeEnum,
-} from "../../../../utils/Enum";
+import { GameTypeEnum } from "../../../../utils/Enum";
 import Common from "../../../../utils/Common";
+
 import IconDepositPNG from "../../../../assets/images/wap/icon-deposit.png";
 import IconWithdrawalPNG from "../../../../assets/images/wap/icon-withdrawal.png";
 import IconTransferPNG from "../../../../assets/images/wap/icon-transfer.png";
+
 import BtnSignupPNG from "../../../../assets/images/wap/btn-signup.png";
 import BtnStartGamePNG from "../../../../assets/images/wap/btn-start-game.png";
 
 import i18n from "../../../../utils/i18n";
+
 import HomeProfilePNG from "../../../../assets/images/wap/home-profile.png";
+import Marquee from "./Marquee";
 const StyledAppBar = withStyles({
   root: {
-    height: "570px",
+    height: "550px",
     boxShadow: "none",
   },
 })(AppBar);
 
 const FixedContainer = styled.div`
-    background-color: #fff;
+  background-color: #fff;
   height: 265px;
   border-radius: 20px 20px 0 0;
   width: 100%;
@@ -40,16 +41,13 @@ const AnnouncementContainer = styled.div`
   margin: 10px 23px;
 `;
 const AnnouncementTitle = styled.div`
+  font-size: 28px;
 
-font-size: 28px;
-
-color: #000;
+  color: #000;
   font-weight: bold;
   float: left;
-  
 `;
 const MarqueeContainer = styled.div`
- 
   white-space: nowrap;
   letter-spacing: 1.5px;
   font-size: 21px;
@@ -62,28 +60,26 @@ const MarqueeContainer = styled.div`
   width: 640px;
   height: 36px;
   border-radius: 17px;
-  background-image:linear-gradient(to top, #91030c, #c40511);
-  
+  background-image: linear-gradient(to top, #91030c, #c40511);
 `;
 const ProfileContainer = styled.div`
   width: 723px;
-height:192px;
+  height: 192px;
   margin: 0 auto;
-
 `;
 const ProfileContainerTop = styled.div`
-width: 100%;
-height: 50px;
-background-color:#c10411;
-border-radius: 10px 10px 0 0;
+  width: 100%;
+  height: 50px;
+  background-color: #c10411;
+  border-radius: 10px 10px 0 0;
 
-padding: 15px 25px 0 26px;
+  padding: 15px 25px 0 26px;
 `;
 const ProfileContainerBottom = styled.div`
-width: 100%;
+  width: 100%;
 
-padding: 0 25px 0 26px;
-background-image:linear-gradient(to top, #9e020c, #85020a);
+  padding: 0 25px 0 26px;
+  background-image: linear-gradient(to top, #9e020c, #85020a);
 `;
 const WelcomeLabel = styled.div`
   float: left;
@@ -102,7 +98,6 @@ const ProfileLink = styled(WelcomeLabel)`
 `;
 const BalanceContainer = styled.div`
   float: left;
-
 `;
 const BalanceAmount = styled.div`
   font-size: 35px;
@@ -121,15 +116,9 @@ const WalletActionContainer = styled.div`
   float: right;
 `;
 const WalletActionUL = styled.ul`
-
- 
-
   text-align: center;
 
   margin-top: 26px;
-
- 
-  text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.85);
 
   font-size: 28px;
 
@@ -137,10 +126,11 @@ const WalletActionUL = styled.ul`
 `;
 const WalletActionLI = styled.li`
   display: inline-table;
- padding: 0 10px;
+  padding: 0 10px;
 
   text-align: center;
   ${(props) => `background:url(${props.src}) no-repeat center top; `}
+  background-size:60px auto;
   padding-top: 64px;
 `;
 const ButtonSignup = styled.div`
@@ -148,29 +138,30 @@ const ButtonSignup = styled.div`
   height: 71px;
   background: url(${BtnSignupPNG}) no-repeat;
   margin: 40px 0 0 60px;
-  color:#fff;
-  text-align:center;
+  color: #fff;
+  text-align: center;
   padding: 17px 0;
   font-size: 28px;
 `;
+
 const ButtonStartGame = styled.div`
 width: 148px;
 height: 43px;
 background: url(${BtnStartGamePNG}) no-repeat;
-margin: 130px 0 0 76px;
+background-size: 100%;
+margin: 150px 0 0 76px;
 font-size:16px;
 font-weight:bold;
 line-height:37px;
 text-align:center;
-color:#fff;
+color:#000;
 }
-`
+`;
 const GameSelectionContainer = styled.div`
   font-size: 48px;
   position: absolute;
-  top: 570px;
-  left:0;
-
+  top: 550px;
+  left: 0;
 `;
 const GameSelectionUL = styled.div`
   font-size: 35px;
@@ -182,53 +173,51 @@ const GameSelectionUL = styled.div`
   width: 176px;
 `;
 const GameSelectionLI = styled.div`
-
-width: 130px;
+  width: 130px;
   height: 69px;
-
   border-radius: 10px;
 
   border: solid 2px #adadad;
   background-color: #ededed;
-margin:16px auto 0 auto;
+  margin: 16px auto 0 auto;
 
+  font-size: 35.5px;
 
-text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.85);
+  line-height: 1.7;
 
-font-size: 35.5px;
-
-line-height: 1.7;
-
-
-color: #404040;
+  color: #404040;
   text-align: center;
-  ${(props) => (props.selected ? ` 
+  ${(props) =>
+    props.selected
+      ? ` 
   color: #fde73f;
 
   border: solid 2px #000;
 
-  background-image: linear-gradient(to top, #91030c, #c40511);` : ``)}
+  background-image: linear-gradient(to top, #91030c, #c40511);`
+      : ``}
 `;
 
 const GameListContainer = styled.div`
   padding-top: 570px;
   padding-bottom: 100px;
-  padding-left:175px;
-  background-color:#fff;
+  padding-left: 175px;
+  background-color: #fff;
 `;
 const GameListWrap = styled.div`
-width: 557px;
-padding:25px 18px;
-border-radius: 10px;
-background-color: #ededed;
-`
+  width: 557px;
+  padding: 25px 18px;
+  border-radius: 10px;
+  background-color: #ededed;
+`;
 const GameFrameImg = styled.div`
-margin: 0 auto 10px auto;
-display: block;
-width:100%;
-height:190px;
-background:url(${props => props.src}) no-repeat;
-background-position: center;
+  margin: 0 auto 10px auto;
+  display: block;
+  width: 100%;
+  height: 225px;
+  background: url(${(props) => props.src}) no-repeat;
+  background-position: center;
+  background-size: 100%;
 `;
 
 class Home extends Component {
@@ -288,10 +277,9 @@ class Home extends Component {
     var gameTypeListSorting = [];
     var displayGameType = Common.GetDisplayGameType();
     this.props.game.homePageGameList
-      .filter(a => displayGameType.indexOf(a.type) >= 0)
+      .filter((a) => displayGameType.indexOf(a.type) >= 0)
       .sort((a, b) => {
-
-        return (a.sort) - (b.sort);
+        return a.type - b.type;
       })
       .map((row, index) => {
         if (currentType !== row.type) {
@@ -343,9 +331,13 @@ class Home extends Component {
   handleGameClick = (type, params, game_platform_id) => {
     if (!this.props.account.token) {
       this.props.navigate("/");
-      return
+      return;
     }
-    if (type === GameTypeEnum.SLOT || type === GameTypeEnum.TIGERSLOT || type === GameTypeEnum.FISH) {
+    if (
+      type === GameTypeEnum.SLOT ||
+      type === GameTypeEnum.TIGERSLOT ||
+      type === GameTypeEnum.TABLEGAME
+    ) {
       this.props.navigate(`/slots/${params}/${type}`);
     } else {
       Common.PopupCenter(
@@ -360,37 +352,47 @@ class Home extends Component {
     switch (gameType) {
       case GameTypeEnum.LIVE:
         return i18n.t("wap.main.home.gameTab.live");
+      case GameTypeEnum.LIVELOBBY:
+        return i18n.t("wap.main.home.gameTab.live");
       case GameTypeEnum.QIPAI:
+        return i18n.t("wap.main.home.gameTab.chess");
+      case GameTypeEnum.QIPAILOBBY:
         return i18n.t("wap.main.home.gameTab.chess");
       case GameTypeEnum.SPORTS:
         return i18n.t("wap.main.home.gameTab.sports");
-      case GameTypeEnum.LOTTERY:
+      case GameTypeEnum.LOTTERYLOBBY:
         return i18n.t("wap.main.home.gameTab.lottery");
       case GameTypeEnum.SLOT:
-        return i18n.t("wap.main.home.gameTab.electron");
+        return i18n.t("wap.main.home.gameTab.slot");
       case GameTypeEnum.FISH:
         return i18n.t("wap.main.home.gameTab.fish");
       case GameTypeEnum.TIGERSLOT:
       default:
-        return i18n.t("wap.main.home.gameTab.slot");
+        return i18n.t("wap.main.home.gameTab.electron");
     }
   }
   getImgPrefix(gameType) {
     switch (gameType) {
       case GameTypeEnum.FISH:
-        return "fish"
+        return "fish";
       case GameTypeEnum.LIVE:
-        return "live"
-      case GameTypeEnum.LOTTERY:
-        return "lottery"
+        return "live";
+      case GameTypeEnum.LIVELOBBY:
+        return "live";
+      case GameTypeEnum.LOTTERYLOBBY:
+        return "lottery";
       case GameTypeEnum.QIPAI:
-        return "chess"
+        return "chess";
+      case GameTypeEnum.QIPAILOBBY:
+        return "chess";
       case GameTypeEnum.SLOT:
-        return "electron"
+        return "slot";
       case GameTypeEnum.SPORTS:
-        return "sports"
+        return "sports";
       case GameTypeEnum.TIGERSLOT:
-        return "slot"
+        return "slot";
+      case GameTypeEnum.TABLEGAME:
+        return "table";
       default:
         return "";
     }
@@ -407,30 +409,14 @@ class Home extends Component {
               return <Slider list={this.props.ui.board_list}></Slider>;
             }
           })()} */}
-          <Slider ></Slider>;
+          <Slider></Slider>;
           <FixedContainer>
             <AnnouncementContainer>
-              <AnnouncementTitle>{i18n.t("wap.main.home.profile.announcement")}</AnnouncementTitle>
+              <AnnouncementTitle>
+                {i18n.t("wap.main.home.profile.announcement")}
+              </AnnouncementTitle>
               <MarqueeContainer>
-                {(() => {
-                  if (this.props.ui.marqueeText.length === 0) {
-                    return <></>;
-                  } else {
-                    return (
-                      <DoubleMarquee
-                        direction={"left"}
-                        autoStart={true}
-                        interval={20}
-                        step={1}
-                        onStart={() => { }}
-                      >
-                        {this.props.ui.marqueeText.map((item, index) => {
-                          return <span key={index}> {item}</span>;
-                        })}
-                      </DoubleMarquee>
-                    );
-                  }
-                })()}
+                <Marquee />
               </MarqueeContainer>
             </AnnouncementContainer>
             <ProfileContainer src={HomeProfilePNG}>
@@ -439,16 +425,19 @@ class Home extends Component {
                   if (this.props.account.token != null) {
                     return (
                       <>
-                        <WelcomeLabel>{i18n.t("wap.main.home.profile.welcomeBack")}</WelcomeLabel>
+                        <WelcomeLabel>
+                          {i18n.t("wap.main.home.profile.welcomeBack")}
+                        </WelcomeLabel>
                         <WelcomeUsernameLabel>
                           {this.props.account.info.member_username}
                         </WelcomeUsernameLabel>
-
                       </>
                     );
                   } else {
                     return (
-                      <WelcomeLabel>{i18n.t("wap.main.home.profile.pleaseLogin")}</WelcomeLabel>
+                      <WelcomeLabel>
+                        {i18n.t("wap.main.home.profile.pleaseLogin")}
+                      </WelcomeLabel>
                     );
                   }
                 })()}
@@ -465,16 +454,19 @@ class Home extends Component {
                         <>
                           <BalanceAmount>
                             {this.props.wallet.mainSymbol}{" "}
-                            {this.props.wallet.mainBalance}
+                            {Common.formatNumberWithThousand(
+                              this.props.wallet.mainBalance
+                            )}
                           </BalanceAmount>
-                          <WalletTypeLabel>{i18n.t("wap.main.home.profile.mainAccount")}</WalletTypeLabel>
+                          <WalletTypeLabel>
+                            {i18n.t("wap.main.home.profile.mainAccount")}
+                          </WalletTypeLabel>
                         </>
                       );
                     } else {
                       return (
-                        <ButtonSignup
-                          onClick={this.handleSignupClick}
-                        >{i18n.t("wap.main.home.profile.loginRegister")}
+                        <ButtonSignup onClick={this.handleSignupClick}>
+                          {i18n.t("wap.main.home.profile.loginRegister")}
                         </ButtonSignup>
                       );
                     }
@@ -503,27 +495,22 @@ class Home extends Component {
                   </WalletActionUL>
                 </WalletActionContainer>
               </ProfileContainerBottom>
-
             </ProfileContainer>
-
           </FixedContainer>
           <GameSelectionContainer>
             <GameSelectionUL>
               {(() => {
-
-                return this.state.gameTypeListSorting
-
-                  .map((type, index) => {
-                    return (
-                      <GameSelectionLI key={index}
-                        selected={this.state.selectedGameType === type}
-                        onClick={() => this.handleGameTypeClick(type)}
-                      >
-                        {this.convertGameTypeToText(type)}
-                      </GameSelectionLI>
-
-                    );
-                  });
+                return this.state.gameTypeListSorting.map((type, index) => {
+                  return (
+                    <GameSelectionLI
+                      key={index}
+                      selected={this.state.selectedGameType === type}
+                      onClick={() => this.handleGameTypeClick(type)}
+                    >
+                      {this.convertGameTypeToText(type)}
+                    </GameSelectionLI>
+                  );
+                });
               })()}
             </GameSelectionUL>
           </GameSelectionContainer>
@@ -534,23 +521,35 @@ class Home extends Component {
               var displayGameType = Common.GetDisplayGameType();
               var currentType = -1;
               return this.props.game.homePageGameList
-                .filter(a => displayGameType.indexOf(a.type) >= 0)
+                .filter((a) => displayGameType.indexOf(a.type) >= 0)
                 .sort(function (a, b) {
-                  return a.sort - b.sort;
+                  return a.type - b.type;
                 })
                 .map((row, index) => {
                   var jsx = (
                     <GameFrameImg
-                      src={`${process.env.PUBLIC_URL}/assets/images/wapGame/${this.getImgPrefix(row.type)}-${row.abbreviation.toLowerCase()}.png`}
+                      src={`${
+                        process.env.PUBLIC_URL
+                      }/assets/images/wapGame/new/${this.getImgPrefix(
+                        row.type
+                      )}-${row.abbreviation.toLowerCase()}.png`}
                       key={index}
                       id={
                         currentType !== row.type
                           ? `gameType${row.type}`
                           : `gameId${row.id}`
                       }
-                      onClick={() => this.handleGameClick(row.type, row.abbreviation, row.game_platform_id)}
+                      onClick={() =>
+                        this.handleGameClick(
+                          row.type,
+                          row.abbreviation,
+                          row.game_platform_id
+                        )
+                      }
                     >
-                      <ButtonStartGame>{i18n.t("common.startGame")}</ButtonStartGame>
+                      <ButtonStartGame>
+                        {i18n.t("common.startGame")}
+                      </ButtonStartGame>
                     </GameFrameImg>
                   );
                   currentType = row.type;
@@ -558,7 +557,6 @@ class Home extends Component {
                 });
             })()}
           </GameListWrap>
-
         </GameListContainer>
       </>
     );

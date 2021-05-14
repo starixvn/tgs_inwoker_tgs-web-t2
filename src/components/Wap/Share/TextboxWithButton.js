@@ -24,7 +24,7 @@ const CustomInput = styled.input`
   margin-top: 12px;
   border: 0;
   width: 65%;
-  color:#404040;
+  color: #404040;
   padding: 0;
   ::placeholder,
   ::-webkit-input-placeholder {
@@ -33,23 +33,17 @@ const CustomInput = styled.input`
   }
 `;
 const Button = styled.div`
- 
- 
-
   font-size: 23px;
-
 
   text-align: center;
   color: #fefeff;
   float: right;
-  padding-top:8px;
+  padding: 8px 8px 0 8px;
   margin-top: 24px;
 
-
-  width: 146px;
   height: 47px;
   border-radius: 10px;
-  background-image: linear-gradient(to top,#91030c,#c40511);
+  background-image: linear-gradient(to top, #91030c, #c40511);
 `;
 class Textbox extends Component {
   render() {

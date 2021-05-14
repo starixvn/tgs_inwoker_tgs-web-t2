@@ -4,8 +4,8 @@ import styled from "styled-components";
 import CustomTextField from "../../../Share/TextField";
 import CustomButton from "../../../Share/Button";
 
-import { AccountService } from "../../../../services/AccountService";
-import { UPDATE_INFO } from "../../../../constants/actionType";
+import { AccountService, UPDATE_INFO } from "@Inwoker/tgs-api";
+
 import { withSnackbar } from "notistack";
 import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.png";
 const Container = styled.div``;
@@ -15,11 +15,13 @@ class Wechat extends Component {
     super(props);
 
     this.state = {
-      member_wechat: this.props.account.info.member_wechat?this.props.account.info.member_wechat:"",
+      member_wechat: this.props.account.info.member_wechat
+        ? this.props.account.info.member_wechat
+        : "",
     };
   }
   onhandleTextChange = (e) => {
-    this.setState({member_wechat:e.target.value})
+    this.setState({ member_wechat: e.target.value });
   };
 
   onhandleClick = () => {
@@ -31,15 +33,12 @@ class Wechat extends Component {
       return;
     }
 
-    AccountService.UpdateWechat(
-      this.state.member_wechat
-    ).then((response) => {
+    AccountService.UpdateWechat(this.state.member_wechat).then((response) => {
       if (response.IsSuccess) {
         this.props.dispatch({
           type: UPDATE_INFO,
           payload: {
-            member_wechat:
-            this.state.member_wechat.substring(0, 1) + "**",
+            member_wechat: this.state.member_wechat.substring(0, 1) + "**",
           },
         });
         this.props.handleCloseDialog();

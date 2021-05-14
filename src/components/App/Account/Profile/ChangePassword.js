@@ -6,9 +6,9 @@ import CustomButton from "../../../Share/Button";
 import Password1IconPNG from "../../../../assets/images/password1-icon.png";
 import Password2IconPNG from "../../../../assets/images/password2-icon.png";
 import IconInputNewpassPNG from "../../../../assets/images/icon-input-newpass.png";
-import {AccountService} from  '@Inwoker/tgs-api';
+import { AccountService } from "@Inwoker/tgs-api";
 import { withSnackbar } from "notistack";
-import i18n from "../../../../utils/i18n"
+import i18n from "../../../../utils/i18n";
 const Container = styled.div``;
 let local_props = {
   old_password: "",
@@ -28,12 +28,11 @@ const onhandlePass2Change = (e) => {
 
 function ChangePassword(props) {
   const onhandleClick = () => {
-    if(local_props.rpassword!==local_props.password){
+    if (local_props.rpassword !== local_props.password) {
       props.enqueueSnackbar(i18n.t("common.msgInvalidConfirmPass"), {
         variant: "error",
       });
-    }
-    else{
+    } else {
       AccountService.UpdatePassword(
         local_props.old_password,
         local_props.password
@@ -44,7 +43,7 @@ function ChangePassword(props) {
           });
           props.handleCloseDialog();
         } else {
-          props.enqueueSnackbar(response.info, {
+          props.enqueueSnackbar(i18n.t("common.msgInvalidOldPass"), {
             variant: "error",
           });
         }
@@ -71,7 +70,10 @@ function ChangePassword(props) {
         handleTextFieldChange={onhandlePass2Change}
         type="password"
       ></CustomTextField>
-      <CustomButton name={i18n.t("common.submit")} handleClick={onhandleClick}></CustomButton>
+      <CustomButton
+        name={i18n.t("common.submit")}
+        handleClick={onhandleClick}
+      ></CustomButton>
     </Container>
   );
 }

@@ -36,7 +36,6 @@ const InnerWrap = styled.div`
   font-size: 14px;
 `;
 const TopContainer = styled.div`
-
   width: 1000px;
   margin: 0 auto;
   padding-top: 18px;
@@ -47,11 +46,10 @@ const TopLeftContainer = styled.div`
   float: left;
 `;
 const TopLeftContent = styled.div`
-width: 200px;
-height: 155px;
-border-radius: 20px;
-border: dashed 1px #f6f6f6;
-
+  width: 200px;
+  height: 155px;
+  border-radius: 20px;
+  border: dashed 1px #f6f6f6;
 `;
 const TopLeftContentTopContainer = styled.div`
   height: 58px;
@@ -63,17 +61,15 @@ const RestricImage = styled.img`
   margin: 0 18px;
 `;
 const TopLeftContentBottomContainer = styled.div`
-font-size: 11px;
-${i18n.language === "en-US" ? `line-height:1;` : `line-height:1.6;`}
-  
-  
+  font-size: 11px;
+  ${i18n.language === "en-US" ? `line-height:1;` : `line-height:1.6;`}
+
   text-align: justify;
   color: #f6f6f6;
   padding: 0px 20px;
 `;
 
 const TopCenterContainer = styled.div`
-
   float: left;
   margin-left: 42px;
   padding-top: 28px;
@@ -85,26 +81,24 @@ const TopRightContainer = styled.div`
   margin-right: 0px;
 `;
 const AffAndCSContainer = styled.div`
-width: 238px;
-height: 62px;
-border-radius: 3px;
-border: solid 1px #f6f6f6;
-color: #f6f6f6;
+  width: 238px;
+  height: 62px;
+  border-radius: 3px;
+  border: solid 1px #f6f6f6;
+  color: #f6f6f6;
 `;
 const AffContainer = styled(AffAndCSContainer)`
   margin-top: 17px;
 
-
   &:hover {
     cursor: pointer;
- 
   }
 `;
 const AffImg = styled.img`
-margin: 12px 26px;
+  margin: 12px 26px;
 `;
 const CSImg = styled.img`
-margin: 12px 24px;
+  margin: 12px 24px;
 `;
 const AffCSRightContent = styled.div`
   height: 63px;
@@ -115,20 +109,13 @@ const AffCSRightContentLine1 = styled.span`
   font-size: 14px;
   margin-top: 12px;
   display: block;
-
 `;
 const AffCSRightContentLine2 = styled.span`
   font-size: 14px;
   display: block;
-
-
 `;
-const AffRightContentLine1 = styled(AffCSRightContentLine1)`
-
-`;
-const AffRightContentLine2 = styled(AffCSRightContentLine2)`
-
-`;
+const AffRightContentLine1 = styled(AffCSRightContentLine1)``;
+const AffRightContentLine2 = styled(AffCSRightContentLine2)``;
 const CSContainer = styled(AffAndCSContainer)`
   margin-top: 5px;
 `;
@@ -161,13 +148,13 @@ const ProductImg = styled.img`
   margin: 0 16px;
   &:hover {
     -webkit-transition: transform 0.8s;
-   -webkit-transition: -webkit-transform 0.8s;
-   transition: -webkit-transform 0.8s;
-   transition: transform 0.8s;
-   transition: transform 0.8s, -webkit-transform 0.8s;
-   -webkit-transform: rotateX(360deg);
-   transform: rotateY(360deg);
-   }
+    -webkit-transition: -webkit-transform 0.8s;
+    transition: -webkit-transform 0.8s;
+    transition: transform 0.8s;
+    transition: transform 0.8s, -webkit-transform 0.8s;
+    -webkit-transform: rotateX(360deg);
+    transform: rotateY(360deg);
+  }
 `;
 const HelperContainer = styled.div`
   justify-content: center;
@@ -182,14 +169,14 @@ const HelperContainer = styled.div`
   border-bottom: solid 1px #443f3b;
 `;
 const HelpIcon = styled.span`
-  text-indent:20px;
+  text-indent: 20px;
 `;
 const HelperText = styled.a`
   color: #fff;
-  text-indent:20px;
+  text-indent: 20px;
   &:hover {
-   color: #f0ca83;
-   cursor: pointer
+    color: #f0ca83;
+    cursor: pointer;
   }
 `;
 const BottomContainer = styled.div`
@@ -207,21 +194,19 @@ const CopyRightLine1 = styled.span`
   text-align: center;
 `;
 const CopyRightLine2 = styled.span`
-font-size: 12px;
+  font-size: 12px;
 
   margin: 0 auto;
   display: block;
   text-align: center;
 `;
 const Version = styled.span`
-font-size: 12px;
+  font-size: 12px;
 
   margin: 0 auto;
   display: block;
   text-align: center;
 `;
-
-
 
 const FooterLabelCotanier = styled.div`
   text-align: center;
@@ -233,13 +218,13 @@ const FooterIconFrame = styled.div`
 
 const FooterIcon1 = styled(FooterIconFrame)`
   background: url(${HomeFooterIcon1PNG}) no-repeat center;
-
 `;
 const FooterColumn = styled.div`
-  border-right:solid 1px #f6f6f6;
+  border-right: solid 1px #f6f6f6;
   padding-right: 30px;
   float: left;
-  padding-top: 15px;    width: 200px;
+  padding-top: 15px;
+  width: 200px;
   &:hover ${FooterIcon1} {
     background: url(${HomeFooterIcon1ActivePNG}) no-repeat center;
   }
@@ -257,10 +242,9 @@ const FooterATag = styled.div`
   }
 `;
 
-
 const QRContainerVisit = styled.div`
-float: left;
-margin:0 20px;
+  float: left;
+  margin: 0 20px;
 `;
 const QRImg = styled.img`
   width: 80px;
@@ -270,24 +254,22 @@ const QRImg = styled.img`
 
 const QRDownloadImg = styled.div`
   width: 80px;
-  height:80px;
+  height: 80px;
   margin: 0 auto;
   display: block;
-  background:url(${props => props.src}) no-repeat;
-  background-size:contain;
-  text-align:center;
-  color:#000;
-  font-size:18px;
-  font-weight:bold;
-  line-height:80px;
+  background: url(${(props) => props.src}) no-repeat;
+  background-size: contain;
+  text-align: center;
+  color: #000;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 80px;
 `;
 const QRRedTitle = styled.div`
-
   text-align: center;
   font-size: 12px;
   color: #f6f6f6;
-  margin-top:5px;
-
+  margin-top: 5px;
 `;
 function handleOpenLink(url) {
   Common.PopupCenter(url, "", 1280, 720);
@@ -296,7 +278,6 @@ function handleOpenLink(url) {
 function Footer(props) {
   return (
     <Container>
-       
       <MiddleContainer>
         <MiddleInnerWrap>
           <ProductUL>
@@ -330,25 +311,26 @@ function Footer(props) {
             <ProductLI>
               <ProductImg src={Provider10PNG}></ProductImg>
             </ProductLI>
-            <ProductLI>
-              <ProductImg src={Provider11PNG}></ProductImg>
-            </ProductLI>
           </ProductUL>
         </MiddleInnerWrap>
       </MiddleContainer>
       <HelperContainer>
         <HelperText>关于我们 </HelperText>
-       <HelpIcon>|</HelpIcon><HelperText>联系我们 </HelperText>
-       <HelpIcon>|</HelpIcon><HelperText>存款帮助 </HelperText>
-       <HelpIcon>|</HelpIcon><HelperText>取款帮助 </HelperText>
-       <HelpIcon>|</HelpIcon><HelperText>常见问题 </HelperText>
-       <HelpIcon>|</HelpIcon><HelperText>规则与条款 </HelperText>
-       <HelpIcon>|</HelpIcon><HelperText>App 下载 </HelperText>
+        <HelpIcon>|</HelpIcon>
+        <HelperText>联系我们 </HelperText>
+        <HelpIcon>|</HelpIcon>
+        <HelperText>存款帮助 </HelperText>
+        <HelpIcon>|</HelpIcon>
+        <HelperText>取款帮助 </HelperText>
+        <HelpIcon>|</HelpIcon>
+        <HelperText>常见问题 </HelperText>
+        <HelpIcon>|</HelpIcon>
+        <HelperText>规则与条款 </HelperText>
+        <HelpIcon>|</HelpIcon>
+        <HelperText>App 下载 </HelperText>
       </HelperContainer>
       <BottomContainer>
-        <CopyRightLine1>
-          {i18n.t("web.footer.copyright")}
-        </CopyRightLine1>
+        <CopyRightLine1>{i18n.t("web.footer.copyright")}</CopyRightLine1>
         <CopyRightLine2>{i18n.t("web.footer.copyrightLine2")}</CopyRightLine2>
         <Version>
           Version {process.env.REACT_APP_VERSION} (

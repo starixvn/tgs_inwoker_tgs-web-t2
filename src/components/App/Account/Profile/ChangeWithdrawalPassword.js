@@ -6,12 +6,12 @@ import CustomButton from "../../../Share/Button";
 import TextField from "@material-ui/core/TextField";
 import IconInputVerifyCodePNG from "../../../../assets/images/icon-input-verifycode.png";
 import { withStyles } from "@material-ui/core/styles";
-import {AccountService} from  '@Inwoker/tgs-api';
+import { AccountService } from "@Inwoker/tgs-api";
 import CustomTextField from "../../../Share/TextField";
 import Password1IconPNG from "../../../../assets/images/password1-icon.png";
 
-import i18n from "../../../../utils/i18n"
-import { accountAction } from "../../../../actions/accountAction";
+import i18n from "../../../../utils/i18n";
+
 import { withSnackbar } from "notistack";
 const Container = styled.div``;
 const CustomText = withStyles({
@@ -59,16 +59,17 @@ class ChangeWithdrawalPassword extends Component {
     super(props);
 
     this.state = {
-     step: "1",
-     phone: this.props.phone?this.props.phone:"",
-     securityKey:"",
-     code: "",
-     newpassword: "",
-     confirmpassword: ""
+      step: "1",
+      email: this.props.email ? this.props.email : "",
+      securityKey: "",
+      code: "",
+      newpassword: "",
+      confirmpassword: "",
+      getCodeClicked: false,
     };
   }
-  onhandlePhoneChange = (e) => {
-    this.setState({ ...this.state, phone: e.target.value });
+  onhandleEmailChange = (e) => {
+    this.setState({ ...this.state, email: e.target.value });
   };
   onhandleCodeChange = (e) => {
     this.setState({ ...this.state, code: e.target.value });
@@ -80,9 +81,10 @@ class ChangeWithdrawalPassword extends Component {
     this.setState({ ...this.state, confirmpassword: e.target.value });
   };
   onhandleGetCodeClick = () => {
-      AccountService.GetChangeWithdrawalPasswordVerificationCode().then((response) => {
+    AccountService.GetChangeWithdrawalPasswordVerificationCode().then(
+      (response) => {
         if (response.IsSuccess) {
-          this.setState({ securityKey : response.data})
+          this.setState({ securityKey: response.data, getCodeClicked: true });
           this.props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
             variant: "info",
           });
@@ -91,16 +93,18 @@ class ChangeWithdrawalPassword extends Component {
             variant: "error",
           });
         }
-      });
+      }
+    );
   };
   onhandleNextStep = () => {
-    if(this.state.code!==""){
+    if (this.state.code !== "") {
       this.setState({
-        step:"2"
-      })
-      this.props.handleChangeTitle(i18n.t("profile.changePassword.editPassword"));
-    }
-    else{
+        step: "2",
+      });
+      this.props.handleChangeTitle(
+        i18n.t("profile.changePassword.editPassword")
+      );
+    } else {
       this.props.enqueueSnackbar(i18n.t("common.msgEnterCode"), {
         variant: "error",
       });
@@ -108,20 +112,19 @@ class ChangeWithdrawalPassword extends Component {
   };
   onhandleBackClick = () => {
     this.setState({
-      step:"1",
+      step: "1",
       code: "",
       newpassword: "",
-      confirmpassword: ""
-    })
-    this.props.handleChangeTitle(i18n.t("profile.phoneVerification"));
+      confirmpassword: "",
+    });
+    this.props.handleChangeTitle(i18n.t("profile.emailVerification"));
   };
   onhandleSubmit = () => {
-    if(this.state.newpassword!==this.state.confirmpassword){
+    if (this.state.newpassword !== this.state.confirmpassword) {
       this.props.enqueueSnackbar(i18n.t("common.msgInvalidConfirmPass"), {
         variant: "error",
       });
-    }
-    else{
+    } else {
       AccountService.ChangeWithdrawalPassword(
         this.state.newpassword,
         this.state.code,
@@ -133,9 +136,15 @@ class ChangeWithdrawalPassword extends Component {
           });
           this.props.handleCloseDialog();
         } else {
-          this.props.enqueueSnackbar(response.info, {
+          if (response.code === 405) {
+            this.props.enqueueSnackbar(i18n.t("common.msgInvalidPhoneCode"), {
               variant: "error",
             });
+          } else {
+            this.props.enqueueSnackbar(response.info, {
+              variant: "error",
+            });
+          }
         }
       });
     }
@@ -144,21 +153,21 @@ class ChangeWithdrawalPassword extends Component {
   render() {
     return (
       <>
-      {this.state.step=="1"?
-        <Container>
-              <CustomText
-                value={this.state.phone}
-                onChange={this.onhandlePhoneChange}
-                inputProps={{
-                  maxLength: 20,
-                }}
-                style={{
-                  width: "100%",
-                  height: "46px",
-                }}
-                variant="outlined"
-                autoComplete="off"
-                disabled={true}
+        {this.state.step == "1" ? (
+          <Container>
+            <CustomText
+              value={this.state.email}
+              onChange={this.onhandleEmailChange}
+              inputProps={{
+                maxLength: 20,
+              }}
+              style={{
+                width: "100%",
+                height: "46px",
+              }}
+              variant="outlined"
+              autoComplete="off"
+              disabled={true}
             ></CustomText>
             <CustomText
               placeholder={i18n.t("common.msgEnterCode")}
@@ -184,42 +193,44 @@ class ChangeWithdrawalPassword extends Component {
               width={140}
               marginTop={10}
               float={"right"}
-            >
-            </CustomButton>
-            <CustomButton name={i18n.t("common.nextStep")} handleClick={this.onhandleNextStep}></CustomButton>
-        </Container>
-      :
-      <>
-        <Container>
-        <CustomTextField
-          placeholder={i18n.t("common.msgEnterNewPass")}
-          adornment={Password1IconPNG}
-          handleTextFieldChange={this.onhandleNewPasswordChange}
-          value={this.state.newpassword}
-          type="password"
-      ></CustomTextField>
-       <CustomTextField
-          placeholder={i18n.t("common.ConfirmPass")}
-          adornment={Password1IconPNG}
-          handleTextFieldChange={this.onhandleConfirmPasswordChange}
-          value={this.state.confirmpassword}
-          type="password"
-      ></CustomTextField>
-       <CustomButton
-          width={170}
-          float={"left"}
-          name={i18n.t("common.back")}
-          handleClick={this.onhandleBackClick}
-        ></CustomButton>
-       <CustomButton 
-          name={i18n.t("common.submit")} 
-          handleClick={this.onhandleSubmit}
-          width={170}
-          float={"left"}
-          ></CustomButton>
-        </Container>
-      </>
-      }
+            ></CustomButton>
+            <CustomButton
+              name={i18n.t("common.nextStep")}
+              handleClick={this.onhandleNextStep}
+            ></CustomButton>
+          </Container>
+        ) : (
+          <>
+            <Container>
+              <CustomTextField
+                placeholder={i18n.t("common.msgEnterNewPass")}
+                adornment={Password1IconPNG}
+                handleTextFieldChange={this.onhandleNewPasswordChange}
+                value={this.state.newpassword}
+                type="password"
+              ></CustomTextField>
+              <CustomTextField
+                placeholder={i18n.t("common.ConfirmPass")}
+                adornment={Password1IconPNG}
+                handleTextFieldChange={this.onhandleConfirmPasswordChange}
+                value={this.state.confirmpassword}
+                type="password"
+              ></CustomTextField>
+              <CustomButton
+                width={170}
+                float={"left"}
+                name={i18n.t("common.back")}
+                handleClick={this.onhandleBackClick}
+              ></CustomButton>
+              <CustomButton
+                name={i18n.t("common.submit")}
+                handleClick={this.onhandleSubmit}
+                width={170}
+                float={"left"}
+              ></CustomButton>
+            </Container>
+          </>
+        )}
       </>
     );
   }
@@ -232,5 +243,3 @@ export default connect(
   null,
   mapDispatchToProps
 )(withSnackbar(ChangeWithdrawalPassword));
-
-

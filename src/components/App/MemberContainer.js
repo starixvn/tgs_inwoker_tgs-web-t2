@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled, { keyframes } from "styled-components";
-import InboxIconPNG from "../../assets/images/inbox-icon.png";
-import IconRefreshBalancePNG from "../../assets/images/icon-refresh-balance.png";
 import IconRefreshBalanceHoverPNG from "../../assets/images/icon-refresh-balance-hover.png";
 import { Link } from "react-router-dom";
 import i18n from "../../utils/i18n";
-import MailOutlineOutlinedIcon from '@material-ui/icons/MailOutlineOutlined';
+import Common from "../../utils/Common";
+import MailOutlineOutlinedIcon from "@material-ui/icons/MailOutlineOutlined";
 export const rotateKeyFrame = keyframes`
   0% {
     transform:rotate(0deg)
@@ -23,32 +22,32 @@ const Container = styled.div`
 const BtnStyle = styled.div`
   float: right;
   font-size: 14px;
-  text-align:center;
+  text-align: center;
   width: 60px;
   border-radius: 20px;
-  margin-top:5px;
+  margin-top: 5px;
 `;
 const BtnStyle1 = styled(BtnStyle)`
-  line-height:180%;
+  line-height: 180%;
   margin-right: 5px;
   background-color: #f0ca83;
-  color:#6d5d41;
+  color: #6d5d41;
   height: 25px;
   &:hover {
-    color:#fdf8f0;
+    color: #fdf8f0;
     cursor: pointer;
   }
 `;
 const BtnStyle2 = styled(BtnStyle)`
-  line-height:160%;
+  line-height: 160%;
   background-color: transparent;
-  color:#f0ca83;
+  color: #f0ca83;
   border-width: 2px;
   border-style: solid;
   border-color: #f0ca83;
   height: 25px;
   &:hover {
-    color:#8a7f73;
+    color: #8a7f73;
     cursor: pointer;
   }
 `;
@@ -63,12 +62,8 @@ const BtnLogout = styled.div`
   }
 `;
 
-const BtnTransfer = styled(BtnStyle2)`
- 
-`;
-const BtnDeposit = styled(BtnStyle1)`
-
-`;
+const BtnTransfer = styled(BtnStyle2)``;
+const BtnDeposit = styled(BtnStyle1)``;
 
 const BalanceContainer = styled.div`
   color: #8a7f73;
@@ -128,7 +123,7 @@ const MailIconContainer = styled.span`
 `;
 const InboxCountLabel = styled.span`
   margin-left: 6px;
-  margin-top:3px;
+  margin-top: 3px;
   color: #f0ca83;
   display: inline-block;
   float: right;
@@ -147,10 +142,8 @@ const CustomLink = styled(Link)`
     cursor: pointer;
   }
 `;
-const TopContainer = styled.div`
-`;
-const BottomContainer = styled.div`
-`;
+const TopContainer = styled.div``;
+const BottomContainer = styled.div``;
 class MemberContainer extends Component {
   render() {
     return (
@@ -161,11 +154,13 @@ class MemberContainer extends Component {
               {this.props.account.info.message_num}
             </InboxCountLabel>
             <MailIconContainer>
-              <MailOutlineOutlinedIcon/>
+              <MailOutlineOutlinedIcon />
             </MailIconContainer>
           </InboxContainer>
           <Spliter></Spliter>
-          <BtnLogout onClick={this.props.onhandleLogout}>{i18n.t("web.header.logout")}</BtnLogout>
+          <BtnLogout onClick={this.props.onhandleLogout}>
+            {i18n.t("web.header.logout")}
+          </BtnLogout>
           <Spliter></Spliter>
           <WelcomeContainer>
             <CustomLink to={"/" + i18n.language + "/account/profile"}>
@@ -177,19 +172,21 @@ class MemberContainer extends Component {
           </WelcomeContainer>
         </TopContainer>
         <BottomContainer>
-          <BtnTransfer onClick={this.props.onhandleTransfer}>
+          {/* <BtnTransfer onClick={this.props.onhandleTransfer}>
             {i18n.t("web.header.transfer")}
           </BtnTransfer>
           <BtnDeposit onClick={this.props.onhandleDeposit}>
             {i18n.t("web.header.deposit")}
-          </BtnDeposit>
+          </BtnDeposit> */}
           <BalanceContainer>
             <span>{i18n.t("web.header.mainAccount")}</span>
             <BalanceAmountLabel onClick={this.props.onhandleTransfer}>
-              {this.props.mainBalance}
+              {Common.formatNumberWithThousand(this.props.mainBalance)}{" "}
             </BalanceAmountLabel>
             <span>{i18n.t("web.header.dollor")}</span>
-            <RefreshBalance onMouseOver={this.props.onhandleRefreshBalanceClick}>
+            <RefreshBalance
+              onMouseOver={this.props.onhandleRefreshBalanceClick}
+            >
               <RefreshBalanceIcon></RefreshBalanceIcon>
             </RefreshBalance>
           </BalanceContainer>
@@ -198,12 +195,12 @@ class MemberContainer extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     // screenWidth: state.ui.screenWidth,
     // screenHeight: state.ui.screenHeight,
     mainBalance: state.wallet.mainBalance,
-    account: state.account
+    account: state.account,
   };
 };
 export default connect(mapStateToProps, null)(MemberContainer);

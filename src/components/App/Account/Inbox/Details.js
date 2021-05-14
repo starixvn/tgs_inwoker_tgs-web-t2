@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import CustomTextField from "../../../Share/TextField";
 import CustomButton from "../../../Share/Button";
-
+import moment from "moment";
 const Container = styled.div``;
 const Content = styled.div`
   float: left;
@@ -21,22 +21,22 @@ function Details(props) {
   return (
     <Container>
       <CustomTextField
-        value={props.inbox.title}
+        value={props.inbox.subject}
         maxLength={30}
         readOnly={true}
         bold={true}
       ></CustomTextField>
       <CustomTextField
-        value={props.inbox.create_time}
+        value={moment(props.inbox.createon).format("YYYY-MM-DD hh:mm:ss")}
         readOnly={true}
       ></CustomTextField>
       <Content
         dangerouslySetInnerHTML={{
-          __html: props.inbox.content
+          __html: props.inbox.content,
         }}
       ></Content>
 
-      <CustomButton
+      {/* <CustomButton
         width={175}
         marginTop={10}
         name="确定"
@@ -48,7 +48,7 @@ function Details(props) {
         name="删除"
         grayMode={true}
         handleClick={() => props.onhandleClickDelete(props.inbox.id)}
-      ></CustomButton>
+      ></CustomButton> */}
     </Container>
   );
 }

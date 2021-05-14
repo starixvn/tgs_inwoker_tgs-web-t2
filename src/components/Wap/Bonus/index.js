@@ -5,7 +5,7 @@
 // import { AppHistory } from "../../../history/History";
 // import AppBar from "@material-ui/core/AppBar";
 // import { withStyles } from "@material-ui/core/styles";
-// import { accountAction, UPDATE_INFO } from "../../../actions/accountAction";
+
 // import Common from "../../../utils/Common";
 
 // import { BonusService } from "../../../services/BonusService";

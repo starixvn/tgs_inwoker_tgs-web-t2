@@ -7,18 +7,22 @@ import { withRouter } from "react-router-dom";
 import Loading from "../../Loading";
 import NameVerification from "../../Share/NameVerification";
 // import PassSetting from "./PassSetting";
-import { WalletService } from "../../../../services/WalletService";
-import { AccountService } from "../../../../services/AccountService";
-import { UPDATE_INFO } from "../../../../constants/actionType";
+import {
+  WalletService,
+  AccountService,
+  UPDATE_INFO,
+  RESET_WALLETRESULT,
+  walletAction,
+} from "@Inwoker/tgs-api";
+
 import AddCard from "./AddCard";
 import AddCardSuccess from "./AddCardSuccess";
 import CardManage from "./CardManage";
 import Main from "./Main";
-import Success from "./Success"
-import { RESET_WALLETRESULT } from "../../../../constants/actionType";
-import { walletAction } from "../../../../actions/walletAction";
+import Success from "./Success";
+
 import { withSnackbar } from "notistack";
-import i18n from "../../../../utils/i18n"
+import i18n from "../../../../utils/i18n";
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box
@@ -65,116 +69,68 @@ class Withdrawal extends Component {
     },
   };
   async componentDidMount() {
-    // if (this.props.wallet.bankCardList.length === 0)
-    //   this.props.getBankCardList();
+    if (this.props.wallet.bankCardList.length === 0)
+      this.props.getBankCardList();
+    if (this.props.wallet.withdrawalList.length === 0)
+      this.props.getWithdrawalChannel();
   }
 
   componentDidUpdate(preProps) {
-    // if (
-    //   preProps.wallet.deleteBankCardResult !==
-    //   this.props.wallet.deleteBankCardResult &&
-    //   this.props.wallet.deleteBankCardResult !== null
-    // ) {
-    //   if (this.props.wallet.deleteBankCardResult.IsSuccess) {
-    //     this.props.getBankCardList();
-    //   } else {
-    //     this.props.enqueueSnackbar(
-    //       this.props.wallet.deleteBankCardResult.info,
-    //       {
-    //         variant: "error",
-    //       }
-    //     );
-    //   }
-    //   this.props.resetResult();
-    // }
-    // if (
-    //   preProps.wallet.addBankCardResult !==
-    //   this.props.wallet.addBankCardResult &&
-    //   this.props.wallet.addBankCardResult !== null
-    // ) {
-    //   if (this.props.wallet.addBankCardResult.IsSuccess) {
-    //     this.props.resetResult();
-    //     this.props.getBankCardList();
-    //     this.setState({
-    //       ...this.state,
-    //       loading: false,
-    //       isAddCardSuccess: true,
-    //     });
-    //   } else {
-    //     this.props.enqueueSnackbar(this.props.wallet.addBankCardResult.info, {
-    //       variant: "error",
-    //     });
-    //   }
-    // }
-
-    // if (
-    //   preProps.wallet.withdrawalResult !== this.props.wallet.withdrawalResult &&
-    //   this.props.wallet.withdrawalResult !== null
-    // ) {
-    //   if (this.props.wallet.withdrawalResult.IsSuccess) {
-    //     this.props.resetResult();
-    //     this.props.getBalanceList();
-    //     this.setState({ ...this.state, displayView: 4 })
-
-    //   } else {
-    //     this.props.enqueueSnackbar(this.props.wallet.withdrawalResult.info, {
-    //       variant: "error",
-    //     });
-    //   }
-    // }
-  }
-
-  GetWithdrawalDetails() {
-    WalletService.GetWithdrawalDetails(this.props.token).then((response) => {
-      this.setState({ ...this.state, withdrawalInfo: response.data });
-    });
-  }
-
-  handleNameVerificationClick = (name) => {
-    AccountService.UpdateMemberName(this.props.token, name).then((response) => {
-      if (response.IsSuccess) {
-        this.props.dispatch({
-          type: UPDATE_INFO,
-          payload: {
-            member_name: name,
-          },
-        });
-        this.props.enqueueSnackbar(response.msg, {
-          variant: "success",
+    if (
+      preProps.wallet.deleteBankCardResult !==
+        this.props.wallet.deleteBankCardResult &&
+      this.props.wallet.deleteBankCardResult !== null
+    ) {
+      if (this.props.wallet.deleteBankCardResult.IsSuccess) {
+        this.props.getBankCardList();
+      } else {
+        this.props.enqueueSnackbar(
+          this.props.wallet.deleteBankCardResult.info,
+          {
+            variant: "error",
+          }
+        );
+      }
+      this.props.resetResult();
+    }
+    if (
+      preProps.wallet.addBankCardResult !==
+        this.props.wallet.addBankCardResult &&
+      this.props.wallet.addBankCardResult !== null
+    ) {
+      if (this.props.wallet.addBankCardResult.IsSuccess) {
+        this.props.resetResult();
+        this.props.getBankCardList();
+        this.setState({
+          ...this.state,
+          loading: false,
+          isAddCardSuccess: true,
         });
       } else {
-        this.props.enqueueSnackbar(response.msg, {
+        this.props.enqueueSnackbar(this.props.wallet.addBankCardResult.info, {
           variant: "error",
         });
       }
-    });
-  };
-  handleSetPasswordClick = (password1, password2) => {
-    AccountService.UpdateWithdrawalPassword(
-      this.props.token,
-      password1,
-      password2
-    ).then((response) => {
-      if (response.IsSuccess) {
-        this.props.dispatch({
-          type: UPDATE_INFO,
-          payload: {
-            member_safe_password: "set",
-          },
-        });
+    }
 
-        this.props.enqueueSnackbar(response.msg, {
-          variant: "success",
-        });
+    if (
+      preProps.wallet.withdrawalResult !== this.props.wallet.withdrawalResult &&
+      this.props.wallet.withdrawalResult !== null
+    ) {
+      if (this.props.wallet.withdrawalResult.IsSuccess) {
+        this.props.resetResult();
+        this.props.getBalanceList();
+        this.setState({ ...this.state, displayView: 4 });
       } else {
-        this.props.enqueueSnackbar(response.msg, {
+        this.props.enqueueSnackbar(this.props.wallet.withdrawalResult.info, {
           variant: "error",
         });
       }
-    });
-  };
-  handleAddCardNextClick = (bankId, bankBranch, accountHolder, number) => {
-    this.props.addBankCard(number, accountHolder, bankId, bankBranch);
+    }
+  }
+
+  handleAddCardNextClick = (channelid, bankType, address) => {
+    this.props.addBankCard(channelid, bankType, address);
     // this.setState({ ...this.state, loading: true });
     // WalletService.AddBankCard(this.props.token, number, 1, password).then(
     //   (response) => {
@@ -281,8 +237,8 @@ class Withdrawal extends Component {
     this.props.onhandleClickTab("report");
   };
   handleSuccessConfirmClick = () => {
-    this.setState({ ...this.state, displayView: 1 })
-  }
+    this.setState({ ...this.state, displayView: 1 });
+  };
   handleWithdrawalClick = (bankid, amount, password) => {
     const formatedamount = amount.toString().replace(/,/g, "");
     if (bankid == 0) {
@@ -301,12 +257,9 @@ class Withdrawal extends Component {
     if (
       parseFloat(formatedamount) > parseFloat(this.props.wallet.mainBalance)
     ) {
-      this.props.enqueueSnackbar(
-        i18n.t("withdrawal.msgInsufficient"),
-        {
-          variant: "warning",
-        }
-      );
+      this.props.enqueueSnackbar(i18n.t("withdrawal.msgInsufficient"), {
+        variant: "warning",
+      });
       return;
     }
     if (password.length <= 0) {
@@ -315,7 +268,7 @@ class Withdrawal extends Component {
       });
       return;
     }
-    this.props.doWithdrawal(formatedamount, password, bankid);
+    this.props.doWithdraw(formatedamount, password, bankid);
     // this.setState({ ...this.state, loading: true });
     // const result = WalletService.Withdrawal(
     //   this.props.token,
@@ -378,7 +331,7 @@ class Withdrawal extends Component {
                       <AddCard
                         name={this.props.account.info.member_name}
                         onhandleNextClick={this.handleAddCardNextClick}
-                        bankList={this.props.wallet.bankList}
+                        withdrawalList={this.props.wallet.withdrawalList}
                         showBack={false}
                       ></AddCard>
                     );
@@ -414,14 +367,14 @@ class Withdrawal extends Component {
                               name={this.props.account.info.member_name}
                               onhandleNextClick={this.handleAddCardNextClick}
                               onhandleBackClick={this.handleAddCardBack}
-                              bankList={this.props.wallet.bankList}
+                              withdrawalList={this.props.wallet.withdrawalList}
                               showBack={true}
                             ></AddCard>
                           );
                         case 3:
                           return (
                             <CardManage
-                              cardList={this.props.wallet.bankCardList}
+                              bankCardList={this.props.wallet.bankCardList}
                               onhandleAddCardClick={this.handleAddCardClick}
                               onhandleBackClick={this.handleCardManageBack}
                               onhandleDeleteCardClick={
@@ -431,9 +384,13 @@ class Withdrawal extends Component {
                             ></CardManage>
                           );
                         case 4:
-                          return <Success
-                            handleConfirmClick={this.handleSuccessConfirmClick}
-                          ></Success>
+                          return (
+                            <Success
+                              handleConfirmClick={
+                                this.handleSuccessConfirmClick
+                              }
+                            ></Success>
+                          );
                         default:
                           return null;
                       }
@@ -444,9 +401,7 @@ class Withdrawal extends Component {
             }
           })()}
 
-          <Loading
-            show={this.state.loading}
-          ></Loading>
+          <Loading show={this.state.loading}></Loading>
         </InnerWrap>
       </Container>
     );
@@ -466,16 +421,15 @@ const mapDispatchToProps = (dispatch) => {
     getBalanceList: (token) => dispatch(walletAction.getBalanceList()),
     getBankCardList: () => dispatch(walletAction.getBankCardList()),
     deleteBankCard: (id) => dispatch(walletAction.deleteBankCard(id)),
-    addBankCard: (card, name, foreign_id, bank_branch) =>
-      dispatch(walletAction.addBankCard(card, name, foreign_id, bank_branch)),
-    addBilling: (card_id, amount) =>
-      dispatch(walletAction.addBilling(card_id, amount)),
+    addBankCard: (channelid, bankType, address) =>
+      dispatch(walletAction.addBankCard(channelid, bankType, address)),
+    getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
     resetResult: () =>
       dispatch({
         type: RESET_WALLETRESULT,
       }),
-    doWithdrawal: (amount, password, user_account_id) =>
-      dispatch(walletAction.doWithdrawal(amount, password, user_account_id)),
+    doWithdraw: (amount, password, user_account_id) =>
+      dispatch(walletAction.doWithdraw(amount, user_account_id, password)),
   };
 };
 export default withRouter(

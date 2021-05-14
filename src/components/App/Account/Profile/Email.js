@@ -6,12 +6,12 @@ import CustomButton from "../../../Share/Button";
 import IconInputEmailPNG from "../../../../assets/images/icon-input-email.png";
 import IconInputVerifyCodePNG from "../../../../assets/images/icon-input-verifycode.png";
 import { withSnackbar } from "notistack";
-import {AccountService} from  '@Inwoker/tgs-api';
+import { AccountService } from "@Inwoker/tgs-api";
 
-import { accountAction } from '@Inwoker/tgs-api';
+import { accountAction } from "@Inwoker/tgs-api";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
-import i18n from "../../../../utils/i18n"
+import i18n from "../../../../utils/i18n";
 const CustomText = withStyles({
   root: {
     marginTop: "10px",
@@ -100,7 +100,7 @@ class Address extends Component {
     email: this.props.email,
     code: "",
     countdown: 0,
-    securityKey:"",
+    securityKey: "",
   };
   timer = null;
   componentWillUnmount() {
@@ -130,22 +130,27 @@ class Address extends Component {
       //     }
       //   }
       // }
-      AccountService.VerifyEmail(
-        this.state.email,
-      ).then((response) => {
+      AccountService.VerifyEmail(this.state.email).then((response) => {
         if (response.IsSuccess) {
           this.setState({
-            securityKey: response.data
-          })
+            securityKey: response.data,
+          });
           this.props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
             variant: "info",
           });
+          this.setState({ ...this.state, countdown: 60 });
         } else {
-          this.props.enqueueSnackbar(response.info, {
-            variant: "error",
-          });
+          if (response.code === 402) {
+            this.props.enqueueSnackbar(i18n.t("common.msgInvalidEmail"), {
+              variant: "error",
+            });
+          } else {
+            this.props.enqueueSnackbar(response.info, {
+              variant: "error",
+            });
+          }
         }
-        this.setState({ ...this.state, countdown: 60 });
+
         this.checkCountdown();
       });
     }
@@ -159,35 +164,45 @@ class Address extends Component {
     }
   };
   onhandleClick = () => {
-    AccountService.UpdateEmail(
-      this.state.securityKey,
-      this.state.code
-    ).then((response) => {
-      if (response.IsSuccess) {
-        this.props.enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
-          variant: "info",
-        });
-        if(this.state.isNew||this.state.step===2){
-          this.props.getAccountInfo();
-          this.props.handleCloseDialog();
-        }
-        else{
-          this.setState({
-            ...this.state,
-            code: "",
-            securityKey:"",
-            email: "",
-            step: 2,
-            message: i18n.t("common.msgTokenVerified"),
-            countdown: 0,
+    if (this.state.code.length < 6) {
+      this.props.enqueueSnackbar(i18n.t("common.msgEnterCode"), {
+        variant: "error",
+      });
+      return;
+    }
+    AccountService.UpdateEmail(this.state.securityKey, this.state.code).then(
+      (response) => {
+        if (response.IsSuccess) {
+          this.props.enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
+            variant: "info",
           });
+          if (this.state.isNew || this.state.step === 2) {
+            this.props.getAccountInfo();
+            this.props.handleCloseDialog();
+          } else {
+            this.setState({
+              ...this.state,
+              code: "",
+              securityKey: "",
+              email: "",
+              step: 2,
+              message: i18n.t("common.msgTokenVerified"),
+              countdown: 0,
+            });
+          }
+        } else {
+          if (response.code === 405) {
+            this.props.enqueueSnackbar(i18n.t("common.msgInvalidPhoneCode"), {
+              variant: "error",
+            });
+          } else {
+            this.props.enqueueSnackbar(response.info, {
+              variant: "error",
+            });
+          }
         }
-      } else {
-        this.props.enqueueSnackbar(response.info, {
-          variant: "error",
-        });
       }
-    });
+    );
     // if (this.state.isNew) {
     //   AccountService.UpdateEmail(
     //     this.state.email,
@@ -323,8 +338,7 @@ class Address extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAccountInfo: () =>
-      dispatch(accountAction.getAccountInfo()),
+    getAccountInfo: () => dispatch(accountAction.getAccountInfo()),
     dispatchFunction: (json) => dispatch(json),
   };
 };

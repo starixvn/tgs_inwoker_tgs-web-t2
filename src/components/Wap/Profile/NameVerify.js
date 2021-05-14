@@ -11,8 +11,7 @@ import BottomNote from "../Share/BottomNote";
 import BaseProfile from "./BaseProfile";
 
 import { withSnackbar } from "notistack";
-import { accountAction } from '@Inwoker/tgs-api';
-import { RESET_ACCOUNTRESULT } from "../../../constants/actionType";
+import { accountAction, RESET_ACCOUNTRESULT } from "@Inwoker/tgs-api";
 
 class NameVerify extends BaseProfile {
   constructor(props) {
@@ -42,7 +41,7 @@ class NameVerify extends BaseProfile {
     }
     if (
       preProps.account.updateCardResult !==
-      this.props.account.updateCardResult &&
+        this.props.account.updateCardResult &&
       this.props.account.updateCardResult !== null
     ) {
       if (this.props.account.updateCardResult.IsSuccess) {
@@ -50,8 +49,13 @@ class NameVerify extends BaseProfile {
         this.props.getIDCardNo();
         AppHistory.replace("/" + i18n.language + "/profile");
       } else {
+        if (this.props.account.updateCardResult.code === 401) {
+          this.props.alert("", i18n.t("profile.nameVerify.msgInvalidICNum"));
+        } else {
+          this.props.alert("", this.props.account.updateCardResult.info);
+        }
+
         this.showLoading(false);
-        this.props.alert("", this.props.account.updateCardResult.info);
       }
     }
   }
@@ -67,9 +71,9 @@ class NameVerify extends BaseProfile {
     const name = this.state.name || "";
     const ic = this.state.ic || "";
     this.showLoading(true);
-    this.props.updateMemberCardNo(name,ic);
+    this.props.updateMemberCardNo(name, ic);
     this.showLoading(false);
-    this.setState({disableButton: true})
+    this.setState({ disableButton: true });
   };
 
   isDisableButton = () => {
@@ -92,19 +96,24 @@ class NameVerify extends BaseProfile {
           disabled={this.state.isConfigured}
           maxLength={10}
         ></Textbox>
-        {  this.props.account.info.member_name === "" ||
-           this.props.account.info.member_name === null?
-        <Textbox
-          style={{ margin: "50px auto 20px auto" }}
-          value={this.state.ic}
-          onChange={this.handleChangeIC}
-          placeholder={i18n.t("profile.nameVerify.msgEnterICNum")}
-          label={i18n.t("profile.nameVerify.icNum")}
-          disabled={this.state.isConfigured}
-          maxLength={30}
-        ></Textbox>:<></>}
+        {this.props.account.info.member_name === "" ||
+        this.props.account.info.member_name === null ? (
+          <Textbox
+            style={{ margin: "50px auto 20px auto" }}
+            value={this.state.ic}
+            onChange={this.handleChangeIC}
+            placeholder={i18n.t("profile.nameVerify.msgEnterICNum")}
+            label={i18n.t("profile.nameVerify.icNum")}
+            disabled={this.state.isConfigured}
+            maxLength={30}
+          ></Textbox>
+        ) : (
+          <></>
+        )}
       </>,
-      this.state.isConfigured ? i18n.t("common.configured") : i18n.t("common.complete"),
+      this.state.isConfigured
+        ? i18n.t("common.configured")
+        : i18n.t("common.complete"),
       (() => {
         if (this.state.isConfigured) {
           return (
@@ -127,11 +136,10 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAccountProfile: () =>
-      dispatch(accountAction.getAccountProfile()),
+    getAccountProfile: () => dispatch(accountAction.getAccountProfile()),
     getIDCardNo: () => dispatch(accountAction.getIDCardNo()),
-    updateMemberCardNo: (name,number) =>
-      dispatch(accountAction.updateMemberCardNo(name,number)),
+    updateMemberCardNo: (name, number) =>
+      dispatch(accountAction.updateMemberCardNo(name, number)),
     resetResult: () =>
       dispatch({
         type: RESET_ACCOUNTRESULT,

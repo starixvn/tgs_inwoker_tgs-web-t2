@@ -5,13 +5,16 @@ import { withRouter } from "react-router-dom";
 import { Router, Route, Switch, Redirect } from "react-router";
 import { AppHistory } from "../../history/History";
 import { withSnackbar } from "notistack";
-import { UPDATING_SCREEN_SIZE, SHOW_LOGIN } from "../../constants/actionType";
-import { accountAction } from '@Inwoker/tgs-api';
-import { generalAction } from "../../actions/generalAction";
-import { walletAction } from "../../actions/walletAction";
-import { gameAction } from '@Inwoker/tgs-api';
-import { uiAction } from '@Inwoker/tgs-api';
-import { GeneralService } from '@Inwoker/tgs-api';
+import {
+  gameAction,
+  walletAction,
+  uiAction,
+  generalAction,
+  accountAction,
+  inboxAction,
+  SHOW_LOGIN,
+} from "@Inwoker/tgs-api";
+
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
 import LiveGame from "./LiveGame/index";
 import Slots from "./Slots/index";
@@ -42,11 +45,10 @@ import i18n from "../../utils/i18n";
 const baseRouteUrl = "/:locale(zh-CN|zh-TW|en-US)";
 const Main = styled.div`
   min-height: 600px;
-
 `;
 const EmptyHeader = styled.div`
   height: 105px;
-  background-image: linear-gradient(to top, #060d0f,#1b213f, #29356c);
+  background-image: linear-gradient(to top, #060d0f, #1b213f, #29356c);
   @media (max-width: 1261px) {
     height: 187px;
   }
@@ -96,12 +98,12 @@ class App extends Component {
             urlParams.get("token")
           );
 
-          localStorage.setItem("token", decryptedToken);
+          localStorage.setItem("token0", decryptedToken);
           AppHistory.replace("/");
           break;
       }
     } else {
-      const localStorageToken = localStorage.getItem("token");
+      const localStorageToken = localStorage.getItem("token0");
       if (
         localStorageToken != null &&
         this.props.account.token == null &&
@@ -109,19 +111,23 @@ class App extends Component {
       ) {
         const responseToken = await this.props.checkTokenIsValid();
         if (responseToken.IsSuccess) {
-
-          // this.props.getAccountInfo();
+          this.props.getAccountInfo();
           // this.props.checkGame();
           // this.props.getBankList();
-          // this.props.getBalanceList();
+          this.props.getBalanceList();
+          this.props.getMessageList(0, 99);
+          this.props.getBankCardList();
+          this.props.getPlayerPromotionList();
+
+          // if (inbox.IsSuccess) {
+          //   this.setState({ inbox: inbox.data });
+          // }
           // this.props.getIDCardNo();
           // this.props.getInviteLink();
           // this.props.getDepositChannel();
         }
       }
     }
-
-
   }
   componentDidUpdate(preProps) {
     if (preProps.general.token !== this.props.general.token) {
@@ -131,18 +137,18 @@ class App extends Component {
         localStorage.setItem("client-token", this.props.general.token);
         this.props.getMarquee();
         this.props.getHomePageGameList();
+        this.props.getPromotionList();
       }
     }
   }
   GetSupportUrl = (userid, name, question) => {
-
     var result = SupportService.GetLiveSupport(
       userid,
       name,
       question,
       document.URL,
       document.referrer
-    )
+    );
     if (result.IsSuccess) {
       if (!csWindowTab || csWindowTab.closed) {
         csWindowTab = Common.PopupCenter(result.data.online, "", 785, 750);
@@ -248,10 +254,7 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={
-                        baseRouteUrl +
-                        "/slots/play/:type/:params"
-                      }
+                      path={baseRouteUrl + "/slots/play/:type/:params"}
                       component={SlotPlay}
                     />
                     <Route
@@ -264,9 +267,7 @@ class App extends Component {
                     <Route
                       exact
                       path={baseRouteUrl + "/promotion/:id"}
-                      render={(props) => (
-                        <PromotionDetails />
-                      )}
+                      render={(props) => <PromotionDetails />}
                     />
                     {/* <Route
                       exact
@@ -316,36 +317,33 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.account,
-    general: state.general
+    general: state.general,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateScreenSize: (width, height) => {
-      dispatch({ type: UPDATING_SCREEN_SIZE, width, height });
-    },
     showLogin: (payload) => {
       dispatch({ type: SHOW_LOGIN, payload });
     },
-    getKYGameList: (token) => dispatch(gameAction.getKYGameList(token)),
 
-    getAccountInfo: () =>
-      dispatch(accountAction.getAccountInfo()),
-
-    getMobilePrefix: () => dispatch(generalAction.getMobilePrefix()),
     checkTokenIsValid: () => dispatch(accountAction.checkTokenIsValid()),
     getMarquee: () => dispatch(uiAction.getMarquee()),
-    getDepositChannel: () => dispatch(walletAction.getDepositChannel()),
-    // getBanner: () => dispatch(uiAction.getBanner()),
-    getBankList: () => dispatch(walletAction.getBankList()),
+
+    getBankCardList: () => dispatch(walletAction.getBankCardList()),
+
     getBalanceList: (token) => dispatch(walletAction.getBalanceList()),
-    // getIDCardNo: () => dispatch(accountAction.getIDCardNo()),
-    // getInviteLink: () => dispatch(accountAction.getInviteLink()),
-    // getGamePlatformList: () => dispatch(gameAction.getGamePlatformList()),
+    getAccountInfo: () => dispatch(accountAction.getAccountInfo()),
     getHomePageGameList: () => dispatch(gameAction.getHomePageGameList()),
-    // checkGame: () => dispatch(accountAction.checkGame()),
+
     getSiteToken: () => dispatch(generalAction.getSiteToken()),
+
+    getMessageList: (pages, limit) =>
+      dispatch(inboxAction.getMessages(pages, limit, true, true)),
+    getPromotionList: () =>
+      dispatch(generalAction.getPromotionList(1, 99, true, "", true)),
+    getPlayerPromotionList: () =>
+      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
   };
 };
 

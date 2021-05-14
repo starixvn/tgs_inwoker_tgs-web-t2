@@ -1,7 +1,6 @@
 // import React, { Component } from "react";
 // import { connect } from "react-redux";
 // import styled from "styled-components";
-// import { accountAction } from "../../../actions/accountAction";
 
 // import vip01PNG from "../../../assets/images/wap/vip_01.png";
 // import vip02PNG from "../../../assets/images/wap/vip_02.png";

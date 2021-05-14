@@ -12,8 +12,12 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import IconInboxSelectedPNG from "../../../../assets/images/icon-inbox-selected.png";
 import IconInboxCheckPNG from "../../../../assets/images/icon-inbox-check.png";
-import i18n from "../../../../utils/i18n"
+import i18n from "../../../../utils/i18n";
+import moment from "moment";
 const StyledTableCell = withStyles((theme) => ({
+  root: {
+    fontFamily: 'Arial,"Microsoft Yahei", "微软雅黑"',
+  },
   head: {
     backgroundColor: "#f7f7f7",
     color: "#747474",
@@ -80,8 +84,6 @@ const InnerWrap = styled.div`
   display: contents;
 `;
 function List(props) {
-
-
   const handleChangePage = (event, newPage) => {
     props.onhandleChangePage(newPage + 1);
   };
@@ -94,15 +96,16 @@ function List(props) {
         <TableHead>
           <TableRow>
             <StyledTableCell>{i18n.t("inbox.dateTime")}</StyledTableCell>
-            <StyledTableCell>{i18n.t("inbox.type")}</StyledTableCell>
+
             <StyledTableCell>{i18n.t("inbox.inboxTitle")}</StyledTableCell>
             <StyledTableCell>{i18n.t("inbox.details")}</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.rows.map((row, index) => {
+          {props.inbox.items.map((row, index) => {
             const isItemSelected = isSelected(row.id);
             const labelId = `enhanced-table-checkbox-${index}`;
+            let doc = new DOMParser().parseFromString(row.content, "text/html");
 
             return (
               <StyledTableRow
@@ -112,58 +115,35 @@ function List(props) {
                 tabIndex={-1}
                 key={row.id}
                 selected={isItemSelected}
+                onClick={() => props.onhandleRowClick(row)}
               >
                 <StyledTableCell
                   style={
-                    row.status === 1
+                    row.isread === false
                       ? { fontWeight: "bold" }
                       : { fontWeight: "normal" }
                   }
                 >
-                  {row.create_time_text}
+                  {moment(row.createon).format("YYYY-MM-DD hh:mm:ss")}
                 </StyledTableCell>
                 <StyledTableCell
                   id={labelId}
                   style={
-                    row.status === 1
+                    row.isread === false
                       ? { fontWeight: "bold" }
                       : { fontWeight: "normal" }
                   }
                 >
-                  {row.business_type_text}
+                  {row.subject}
                 </StyledTableCell>
                 <StyledTableCell
                   style={
-                    row.status === 1
+                    row.isread === false
                       ? { fontWeight: "bold" }
                       : { fontWeight: "normal" }
                   }
                 >
-                  {row.title_text}
-                </StyledTableCell>
-                <StyledTableCell
-                  style={
-                    row.status === 1
-                      ? { fontWeight: "bold" }
-                      : { fontWeight: "normal" }
-                  }
-                >
-                  {(() => {
-                    var arr = [];
-                    Object.keys(row.content_text).forEach((key) => {
-                      arr.push({
-                        label: key,
-                        value: row.content_text[key],
-                      });
-                    });
-                    return arr.map((item) => {
-                      return (
-                        <div>
-                          {item.label}: {item.value}
-                        </div>
-                      );
-                    });
-                  })()}
+                  {doc.querySelector("p").textContent}
                 </StyledTableCell>
               </StyledTableRow>
             );
@@ -173,7 +153,7 @@ function List(props) {
       <TablePagination
         rowsPerPageOptions={[10]}
         component="div"
-        count={props.total}
+        count={props.inbox.totalcount}
         rowsPerPage={10}
         page={props.page}
         labelRowsPerPage={("asd", "213123", "asdasdasda", "每頁行数")}

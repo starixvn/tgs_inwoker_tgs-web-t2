@@ -12,14 +12,10 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 
 import IconHomePNG from "../../../assets/images/wap/icon-home.png";
-
 import IconPromotionPNG from "../../../assets/images/wap/icon-promotion.png";
-
 import IconPlusPNG from "../../../assets/images/wap/icon-plus.png";
 import IconCSPNG from "../../../assets/images/wap/icon-cs.png";
-
 import IconProfilePNG from "../../../assets/images/wap/icon-profile.png";
-
 
 import IconMenuClosePNG from "../../../assets/images/wap/icon-menu-close.png";
 import IconMenuDepositPNG from "../../../assets/images/wap/icon-menu-deposit.png";
@@ -39,12 +35,11 @@ const StyledBottomAppBar = withStyles({
     height: "90px",
     top: "auto",
     bottom: 0,
-
   },
 })(AppBar);
 const CustomBottomNavigation = withStyles({
   root: {
-    backgroundImage: "linear-gradient(to top, #91030c, #c40511)"
+    backgroundImage: "linear-gradient(to top, #91030c, #c40511)",
   },
 })(BottomNavigation);
 const CustomBottomNavigationAction = withStyles({
@@ -52,10 +47,9 @@ const CustomBottomNavigationAction = withStyles({
     width: "570px",
     height: "90px",
     "&.Mui-selected": {
-
       "& .MuiBottomNavigationAction-wrapper>div": {
-        backgroundColor: "#fde73f"
-      }
+        backgroundColor: "#fde73f",
+      },
     },
   },
   label: {
@@ -67,24 +61,19 @@ const CustomBottomNavigationAction = withStyles({
       fontSize: "21px !important",
       marginTop: "5px",
       color: "#fde73f",
-
     },
   },
-
 })(BottomNavigationAction);
 
 const BottomNavigatorFrame = styled.div`
+  background-image: url(${(props) => props.src});
+  background-repeat: no-repeat;
+  background-position: center;
 
-
-
-  background-image:url(${(props) => props.src});
-  background-repeat:no-repeat;
-  background-position:center;
-  background-size: auto 40px;
-
-  mask-image:url(${(props) => props.src});
+  mask-image: url(${(props) => props.src});
   mask-repeat: no-repeat;
   mask-position: center;
+  mask-size: auto 40px;
   mask-mode: alpha;
   background-blend-mode: multiply;
   background-color: #fff;
@@ -92,15 +81,13 @@ const BottomNavigatorFrame = styled.div`
   height: 50px;
 `;
 const BottomNavigatorPlus = styled.div`
-  background: url(${IconPlusPNG}) no-repeat center, #141a36;
+  background: url(${IconPlusPNG}) no-repeat center;
+  background-size: contain;
   width: 70px;
   height: 70px;
-  border-radius: 35px;
-
 `;
 const StyledDialog = withStyles({
   root: {
-
     "& .MuiDialog-paperWidthSm": {
       width: "100%",
       height: "100%",
@@ -110,16 +97,16 @@ const StyledDialog = withStyles({
     },
   },
   paper: {
-    backgroundColor: "rgba(0,0,0,0.8)"
-  }
+    backgroundColor: "rgba(0,0,0,0.8)",
+  },
 })(Dialog);
 const MenuContainer = styled.div`
   width: 100%;
   height: 100%;
-
 `;
 const ButtonCloseMenu = styled.div`
   background: url(${IconMenuClosePNG}) no-repeat;
+  background-size: 68px;
   width: 68px;
   height: 68px;
   margin: 50px auto;
@@ -135,20 +122,18 @@ const MenuImage = styled.div`
   background-image: url(${(props) => props.img});
   background-repeat: no-repeat;
   background-position: center center;
+  background-size: 68px;
   margin: 0 auto;
 
   width: 100px;
   height: 100px;
   border-radius: 50px;
   border: solid 2px #5ceeff;
-
-  
 `;
 const Menuitem = styled.div`
   width: calc(100% / 3);
   float: left;
   margin-top: 50px;
-  
 `;
 const MenuLabel = styled.div`
   font-size: 22px;
@@ -172,7 +157,6 @@ class Main extends Component {
   //   if (response.IsSuccess) {
   //     window.open(response.data.online, "_blank")
 
-
   //   } else {
   //     this.props.alert("", response.info);
 
@@ -188,9 +172,13 @@ class Main extends Component {
       if (value === "/customer-service") {
         if (this.props.account.token == null) {
           // AppHistory.push("/" + i18n.language + value);
-          this.props.GetSupportUrl("", "", "")
+          this.props.GetSupportUrl("", "", "");
         } else {
-          this.props.GetSupportUrl("", this.props.account.info.member_username, "")
+          this.props.GetSupportUrl(
+            "",
+            this.props.account.info.member_username,
+            ""
+          );
         }
       } else {
         this.setState({
@@ -244,12 +232,16 @@ class Main extends Component {
                 onClick={() => this.handleChangeSelection("/withdrawal")}
               >
                 <MenuImage img={IconMenuWithdrawalPNG}></MenuImage>
-                <MenuLabel>{i18n.t("wap.main.menuDrawer.withdrawal")}</MenuLabel>
+                <MenuLabel>
+                  {i18n.t("wap.main.menuDrawer.withdrawal")}
+                </MenuLabel>
               </Menuitem>
 
               <Menuitem onClick={() => this.handleChangeSelection("/report/1")}>
                 <MenuImage img={IconMenuReportPNG}></MenuImage>
-                <MenuLabel>{i18n.t("wap.main.menuDrawer.transReport")}</MenuLabel>
+                <MenuLabel>
+                  {i18n.t("wap.main.menuDrawer.transReport")}
+                </MenuLabel>
               </Menuitem>
 
               <Menuitem onClick={() => this.handleChangeSelection("/report/2")}>
@@ -259,11 +251,15 @@ class Main extends Component {
 
               <Menuitem onClick={() => this.handleChangeSelection("/report/3")}>
                 <MenuImage img={IconMenuReport3PNG}></MenuImage>
-                <MenuLabel>{i18n.t("wap.main.menuDrawer.withdrawalReport")}</MenuLabel>
+                <MenuLabel>
+                  {i18n.t("wap.main.menuDrawer.withdrawalReport")}
+                </MenuLabel>
               </Menuitem>
               <Menuitem onClick={() => this.handleChangeSelection("/report/4")}>
                 <MenuImage img={IconMenuReport3PNG}></MenuImage>
-                <MenuLabel>{i18n.t("wap.main.menuDrawer.depositReport")}</MenuLabel>
+                <MenuLabel>
+                  {i18n.t("wap.main.menuDrawer.depositReport")}
+                </MenuLabel>
               </Menuitem>
               <Menuitem onClick={() => this.handleChangeSelection("/card")}>
                 <MenuImage img={IconMenuCardPNG}></MenuImage>
@@ -274,8 +270,6 @@ class Main extends Component {
                 <MenuImage img={IconMenuInboxPNG}></MenuImage>
                 <MenuLabel>{i18n.t("wap.main.menuDrawer.inbox")}</MenuLabel>
               </Menuitem>
-
-
             </MenuItemWrap>
             <ButtonCloseMenu onClick={this.handleCloseMenu}></ButtonCloseMenu>
           </MenuContainer>

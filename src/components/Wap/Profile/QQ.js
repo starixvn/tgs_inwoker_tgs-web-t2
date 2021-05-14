@@ -1,21 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { accountAction } from '@Inwoker/tgs-api';
+import { accountAction } from "@Inwoker/tgs-api";
 import Textbox from "../Share/Textbox";
-// import { ProfileAction } from "../../../actions/ProfileAction";
-import {AccountService} from  '@Inwoker/tgs-api';
+
+import { AccountService } from "@Inwoker/tgs-api";
 import BaseProfile from "./BaseProfile";
 import { withSnackbar } from "notistack";
 class QQ extends BaseProfile {
   state = {
-    qq: ""
+    qq: "",
   };
   componentDidMount() {
     this.setState({ qq: this.props.account.info.member_qq });
   }
 
-  handleChangeNumber = e => {
+  handleChangeNumber = (e) => {
     this.setState({ qq: e.target.value });
     this.onTextChanged();
   };
@@ -40,19 +40,17 @@ class QQ extends BaseProfile {
     this.showLoading(true);
     //api
     AccountService.UpdateQQ(qq)
-      .then(response => {
+      .then((response) => {
         if (response.IsSuccess) {
-          this.props
-            .getAccountProfile()
-            .then(responseUpdate => {
-              if (responseUpdate.IsSuccess) {
-                this.setState({
-                  ...this.state,
-                  qq: qq
-                });
-              }
-              this.showLoading(false);
-            });
+          this.props.getAccountProfile().then((responseUpdate) => {
+            if (responseUpdate.IsSuccess) {
+              this.setState({
+                ...this.state,
+                qq: qq,
+              });
+            }
+            this.showLoading(false);
+          });
         } else {
           this.props.alert("", response.msg);
           this.showLoading(false);
@@ -61,7 +59,7 @@ class QQ extends BaseProfile {
           // });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.props.alert("", err);
         // this.props.enqueueSnackbar(err, {
         //   key: "error"
@@ -85,16 +83,15 @@ class QQ extends BaseProfile {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    account: state.account
+    account: state.account,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getAccountProfile: () =>
-      dispatch(accountAction.getAccountProfile(true))
+    getAccountProfile: () => dispatch(accountAction.getAccountProfile(true)),
   };
 };
 export default connect(

@@ -4,13 +4,17 @@ import { connect } from "react-redux";
 import { Router, Switch, Route } from "react-router";
 import { AppHistory } from "../../history/History";
 import { withRouter } from "react-router-dom";
-import { UPDATING_SCREEN_SIZE, SHOW_LOGIN } from "../../constants/actionType";
-import { accountAction } from '@Inwoker/tgs-api';
-import { generalAction } from "../../actions/generalAction";
-import { walletAction } from "../../actions/walletAction";
-import { gameAction } from '@Inwoker/tgs-api';
-import { uiAction } from '@Inwoker/tgs-api';
-import { GeneralService } from '@Inwoker/tgs-api';
+import { isMobile } from "react-device-detect";
+import {
+  UPDATING_SCREEN_SIZE,
+  SHOW_LOGIN,
+  uiAction,
+  gameAction,
+  generalAction,
+  walletAction,
+  accountAction,
+  inboxAction,
+} from "@Inwoker/tgs-api";
 import debounce from "lodash.debounce";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
@@ -35,12 +39,10 @@ import WithdrawalPassword from "./Profile/WithdrawalPassword";
 import ChangeWithdrawalPassword from "./Profile/ChangeWithdrawalPassword";
 import ResetWithdrawalPassword from "./Profile/ResetWithdrawalPassword";
 
-
 import Promotion from "./Promotion/index";
 import PromotionDetails from "./Promotion/Details";
 
 import Aboutus from "./Aboutus/index";
-
 
 import Inbox from "./Inbox/index";
 import InboxDetails from "./Inbox/Details";
@@ -56,16 +58,11 @@ import DepositManual from "./Deposit/Manual";
 
 import Card from "./Card/index";
 import AddCard from "./Card/AddCard";
-import NameVerification from "./Card/NameVerification";
-import PassSetting from "./Card/PassSetting";
-
-import Affiliate from "./Affiliate";
-import AffiliateMember from "./Affiliate/Member";
-import AffiliateReport from "./Affiliate/Report";
-import AffiliateGuide from "./Affiliate/Guide";
+// import NameVerification from "./Card/NameVerification";
+// import PassSetting from "./Card/PassSetting";
 
 import Report from "./Report/index";
-import { SupportService } from "../../services/SupportService"
+import { SupportService } from "@Inwoker/tgs-api";
 // import CustomerService from "./CustomerService/index";
 // import CustomerServiceChat from "./CustomerService/Chat";
 
@@ -73,13 +70,12 @@ import ForgotPassword from "./ForgotPassword/index";
 
 import SettingLanguage from "./Setting/Language";
 
-
 import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Dialog";
 import styled from "styled-components";
 import i18n from "../../utils/i18n";
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
-import Common from "../../utils/Common"
+import Common from "../../utils/Common";
 
 const baseRouteUrl = "/:locale(zh-CN|zh-TW|en-US)";
 const THEME = createMuiTheme({
@@ -107,8 +103,8 @@ const THEME = createMuiTheme({
   overrides: {
     MuiSelect: {
       root: {
-        color: "#404040"
-      }
+        color: "#404040",
+      },
     },
     MuiTabs: {
       // Name of the rule
@@ -149,7 +145,7 @@ const THEME = createMuiTheme({
           color: "#FDE740  !important",
         },
       },
-    }
+    },
   },
 });
 const StyledModal = withStyles((theme) => ({
@@ -190,19 +186,19 @@ const DialoMessage = styled.div`
   text-align: center;
 `;
 const ButtonConfirm = styled.div`
-width: 250px;
-height: 90px;
-border-radius: 20px;
+  width: 250px;
+  height: 90px;
+  border-radius: 20px;
 
-font-size: 34px;
+  font-size: 34px;
 
-text-align: center;
+  text-align: center;
 
-padding-top: 24px;
+  padding-top: 24px;
 
-margin: 10px auto;
-background-image: linear-gradient(to top, #91030c, #c40511);
-color: #ffffff;
+  margin: 10px auto;
+  background-image: linear-gradient(to top, #91030c, #c40511);
+  color: #ffffff;
 `;
 const ButtonCancel = styled(ButtonConfirm)``;
 const RouteMapping = [
@@ -294,9 +290,8 @@ const RouteMapping = [
     alert: true,
   },
 
-
   {
-    path: "/slots/:gameType?/:parentId?",
+    path: "/slots/:platform?/:type?",
     component: Slot,
     alert: true,
     navigate: true,
@@ -308,7 +303,7 @@ const RouteMapping = [
     navigate: true,
   },
   {
-    path: "/promotion/:activityId?",
+    path: "/promotion/:id?",
     component: PromotionDetails,
     alert: true,
     navigate: true,
@@ -387,18 +382,18 @@ const RouteMapping = [
     alert: true,
     navigate: true,
   },
-  {
-    path: "/card/name",
-    component: NameVerification,
-    alert: true,
-    navigate: true,
-  },
-  {
-    path: "/card/pass",
-    component: PassSetting,
-    alert: true,
-    navigate: true,
-  },
+  // {
+  //   path: "/card/name",
+  //   component: NameVerification,
+  //   alert: true,
+  //   navigate: true,
+  // },
+  // {
+  //   path: "/card/pass",
+  //   component: PassSetting,
+  //   alert: true,
+  //   navigate: true,
+  // },
 
   {
     path: "/report/:tab?",
@@ -433,26 +428,26 @@ const RouteMapping = [
   //   alert: true,
   // },
 
-  {
-    path: "/affiliate",
-    component: Affiliate,
-    navigate: true,
-  },
-  {
-    path: "/affiliate/member",
-    component: AffiliateMember,
-    screenHeight: true,
-  },
-  {
-    path: "/affiliate/report",
-    component: AffiliateReport,
-    screenHeight: true,
-  },
-  {
-    path: "/affiliate/guide",
-    component: AffiliateGuide,
-    screenHeight: true,
-  },
+  //{
+  //  path: "/affiliate",
+  //  component: Affiliate,
+  //  navigate: true,
+  //},
+  //{
+  //  path: "/affiliate/member",
+  //  component: AffiliateMember,
+  //  screenHeight: true,
+  //},
+  //{
+  //  path: "/affiliate/report",
+  //  component: AffiliateReport,
+  //  screenHeight: true,
+  //},
+  //{
+  //  path: "/affiliate/guide",
+  //  component: AffiliateGuide,
+  //  screenHeight: true,
+  //},
   {
     path: "/setting/language",
     component: SettingLanguage,
@@ -461,8 +456,7 @@ const RouteMapping = [
 ];
 class Wap extends Component {
   constructor(props) {
-    super(props)
-
+    super(props);
   }
   state = {
     showCS: false,
@@ -481,8 +475,8 @@ class Wap extends Component {
       question,
       document.URL,
       document.referrer
-    )
-    window.open(response.data.online, "_blank")
+    );
+    window.open(response.data.online, "_blank");
   };
   updateScreenSize = () => {
     var w = window.screen.width;
@@ -497,18 +491,16 @@ class Wap extends Component {
   };
   async componentDidMount() {
     Common.loadScript("/js/config.js", () => {
-      Common.loadScript("/js/iovation.js", () => { });
+      Common.loadScript("/js/iovation.js", () => {});
     });
     let promotionId = "";
-
 
     if (this.props.match.path === "/:locale(zh-CN|zh-TW|en-US)/") {
       const param = this.props.location.pathname.split("/");
 
       if (param.length === 4) {
-        if ((param[2]) === "a") {
+        if (param[2] === "a") {
           promotionId = param[3] || "";
-
         }
       }
     }
@@ -537,10 +529,10 @@ class Wap extends Component {
       this.props.getSiteToken();
     }
     // this.props.getMobilePrefix();
-    this.props.getMarquee();
+    //this.props.getMarquee();
     // this.props.getBanner();
     // this.props.getBankList();
-    this.props.getHomePageGameList();
+    //this.props.getHomePageGameList();
     let urlParams = new URLSearchParams(this.props.location.search);
     if (urlParams.has("goto")) {
       const gotoValue = urlParams.get("goto");
@@ -558,19 +550,19 @@ class Wap extends Component {
         case "register":
         case "login_auth":
         case "register_auth":
-          localStorage.removeItem("token");
+          localStorage.removeItem("token1");
           break;
         case "login_token":
           const decryptedToken = BlowFishEncryption.Decrypt(
             urlParams.get("token")
           );
 
-          localStorage.setItem("token", decryptedToken);
+          localStorage.setItem("token1", decryptedToken);
           AppHistory.replace("/");
           break;
       }
     }
-    const localStorageToken = localStorage.getItem("token");
+    const localStorageToken = localStorage.getItem("token1");
     if (
       localStorageToken != null &&
       this.props.account.token == null &&
@@ -588,16 +580,19 @@ class Wap extends Component {
         // const responseVIP = await this.props.getVIPInfo(
         //   responseToken.data.token
         // );
-        // this.props.getBalanceList();
-        //  this.props.getIDCardNo();
-        // this.props.getDepositChannel();
+        this.props.getBalanceList();
+        this.props.getMessageList(1, 99);
+        this.props.getBankCardList();
+        this.props.getPlayerPromotionList();
+        // this.props.getIDCardNo();
+        //this.props.getDepositChannel();
 
         // this.props.getInviteLink();
       }
     }
     this.setState({ ...this.state, loading: false });
     //}
-
+    window.addEventListener("focus", this.onFocus);
     // let GAScript = `<script  async  src="https://www.googletagmanager.com/gtag/js?id=UA-156359717-1"></script>
     // <script>
     //   window.dataLayer = window.dataLayer || [];
@@ -615,6 +610,15 @@ class Wap extends Component {
     //   document.body.appendChild(e);
     // }
   }
+
+  componentWillUnmount() {
+    window.removeEventListener("focus", this.onFocus);
+  }
+  onFocus = () => {
+    if (this.props.account.token !== null) {
+      this.props.getBalanceList();
+    }
+  };
   componentDidUpdate(preProps) {
     if (preProps.general.token !== this.props.general.token) {
       if (this.props.general.token == null || this.props.general.token == "") {
@@ -623,6 +627,7 @@ class Wap extends Component {
         localStorage.setItem("client-token", this.props.general.token);
         this.props.getMarquee();
         this.props.getHomePageGameList();
+        this.props.getPromotionList();
       }
     }
   }
@@ -683,15 +688,19 @@ class Wap extends Component {
       .setAttribute(
         "content",
         "width=750, initial-scale=" +
-        scale +
-        ", minimum-scale=" +
-        scale +
-        ", maximum-scale=" +
-        scale +
-        ", user-scalable=no"
+          scale +
+          ", minimum-scale=" +
+          scale +
+          ", maximum-scale=" +
+          scale +
+          ", user-scalable=no"
       );
 
-    if (this.state.loading === true) {
+    if (
+      this.state.loading === true ||
+      this.props.general.token == "" ||
+      this.props.general.token == null
+    ) {
       return <Loading show={this.state.loading}></Loading>;
     } else {
       return (
@@ -720,7 +729,7 @@ class Wap extends Component {
                     path={baseRouteUrl + row.path}
                     render={(props) => {
                       if (row.path === "/deposit/manual") {
-                        propsObj["order"] = props.location.state
+                        propsObj["order"] = props.location.state;
                       }
                       if (row.path === "/ip-restrict-mobile") {
                         propsObj["ip"] =
@@ -735,11 +744,13 @@ class Wap extends Component {
                             : null;
                       }
                       if (row.path === "/deposit/details") {
-                        propsObj["order"] = props.location.state
-                        {/* propsObj["form"] =
+                        propsObj["order"] = props.location.state;
+                        {
+                          /* propsObj["form"] =
                           props.location.state != null
                             ? props.location.state.form
-                            : null; */}
+                            : null; */
+                        }
                       }
                       if (row.path === "/withdrawal/details") {
                         propsObj["order"] =
@@ -846,18 +857,23 @@ const mapDispatchToProps = (dispatch) => {
     getAccountProfile: (showVip) =>
       dispatch(accountAction.getAccountProfile(showVip)),
     // checkGame: () => dispatch(accountAction.checkGame()),
-    // getMobilePrefix: () => dispatch(generalAction.getMobilePrefix()),
+    getMobilePrefix: () => dispatch(generalAction.getMobilePrefix()),
     checkTokenIsValid: () => dispatch(accountAction.checkTokenIsValid()),
     getMarquee: () => dispatch(uiAction.getMarquee()),
-
+    getBankCardList: () => dispatch(walletAction.getBankCardList()),
+    getPromotionList: () =>
+      dispatch(generalAction.getPromotionList(1, 99, true, "", true)),
+    getPlayerPromotionList: () =>
+      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
     // getBanner: () => dispatch(uiAction.getBanner()),
     // getBankList: () => dispatch(walletAction.getBankList()),
     // getDepositChannel: () => dispatch(walletAction.getDepositChannel()),
-    // getBalanceList: (token) => dispatch(walletAction.getBalanceList()),
+    getBalanceList: (token) => dispatch(walletAction.getBalanceList()),
     // getIDCardNo: () => dispatch(accountAction.getIDCardNo()),
     getHomePageGameList: () => dispatch(gameAction.getHomePageGameList()),
-    // getInviteLink: () => dispatch(accountAction.getInviteLink()),
     getSiteToken: () => dispatch(generalAction.getSiteToken()),
+    getMessageList: (pages, limit) =>
+      dispatch(inboxAction.getMessages(pages, limit, true, true)),
   };
 };
 

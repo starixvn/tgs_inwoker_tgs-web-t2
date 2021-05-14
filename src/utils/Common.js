@@ -18,9 +18,20 @@ import PABPNG from "../assets/images/wap/bank/pab.png";
 import PSBCPNG from "../assets/images/wap/bank/psbc.png";
 import SPDBPNG from "../assets/images/wap/bank/spdb.png";
 import DefaultPNG from "../assets/images/wap/bank/default.png";
-
+import Provider1PNG from "../assets/images/provider1.png";
+import Provider2PNG from "../assets/images/provider2.png";
+import Provider3PNG from "../assets/images/provider3.png";
+import Provider4PNG from "../assets/images/provider4.png";
+import Provider5PNG from "../assets/images/provider5.png";
+import Provider6PNG from "../assets/images/provider6.png";
+import Provider7PNG from "../assets/images/provider7.png";
+import Provider8PNG from "../assets/images/provider8.png";
+import Provider9PNG from "../assets/images/provider9.png";
+import Provider10PNG from "../assets/images/provider10.png";
+import PromoImage1 from "../assets/images/promotion/promo-1.jpg";
+import PromoImage2 from "../assets/images/promotion/promo-2.jpg";
+import PromoImage3 from "../assets/images/promotion/promo-3.jpg";
 function readFileDataAsBinary(e) {
-
   const file = e.files[0];
 
   return new Promise((resolve, reject) => {
@@ -92,9 +103,29 @@ function GetBankImageByCode(code) {
   }
 }
 function GetDisplayGameType() {
-  return [GameTypeEnum.SPORTS, GameTypeEnum.LIVELOBBY, GameTypeEnum.QIPAILOBBY, GameTypeEnum.FISHLOBBY, GameTypeEnum.LOTTERYLOBBY, GameTypeEnum.SLOT]
-
+  return [
+    GameTypeEnum.SPORTS,
+    GameTypeEnum.LIVELOBBY,
+    GameTypeEnum.QIPAILOBBY,
+    GameTypeEnum.FISHLOBBY,
+    GameTypeEnum.LOTTERYLOBBY,
+    GameTypeEnum.SLOT,
+    GameTypeEnum.TABLEGAME,
+  ];
 }
+const gameImageMapping = [
+  { gcode: "AG", img: Provider1PNG },
+  { gcode: "BG", img: Provider2PNG },
+  { gcode: "SE", img: Provider3PNG },
+  { gcode: "VR", img: Provider4PNG },
+  { gcode: "KY", img: Provider5PNG },
+  { gcode: "JDB", img: Provider6PNG },
+  { gcode: "HABA", img: Provider7PNG },
+  { gcode: "PP", img: Provider8PNG },
+  { gcode: "SABA", img: Provider9PNG },
+  { gcode: "SBO", img: Provider10PNG },
+];
+
 const bankImageMapping = {
   ab: {
     id: 0,
@@ -220,15 +251,12 @@ const bankImageMapping = {
 };
 var popup = {};
 function PopupCenter(url, title, w, h) {
-
   if (popup[title]) {
     if (!popup[title].closed) {
       popup[title].focus();
       return;
     }
   }
-
-
 
   var dualScreenLeft =
     window.screenLeft != undefined ? window.screenLeft : window.screenX;
@@ -238,13 +266,13 @@ function PopupCenter(url, title, w, h) {
   var width = window.innerWidth
     ? window.innerWidth
     : document.documentElement.clientWidth
-      ? document.documentElement.clientWidth
-      : window.screen.width;
+    ? document.documentElement.clientWidth
+    : window.screen.width;
   var height = window.innerHeight
     ? window.innerHeight
     : document.documentElement.clientHeight
-      ? document.documentElement.clientHeight
-      : window.screen.height;
+    ? document.documentElement.clientHeight
+    : window.screen.height;
 
   var systemZoom = 1;
   var left = (width - w) / 2 / systemZoom + dualScreenLeft;
@@ -255,13 +283,13 @@ function PopupCenter(url, title, w, h) {
     url,
     title,
     "scrollbars=yes, width=" +
-    w / systemZoom +
-    ", height=" +
-    h / systemZoom +
-    ", top=" +
-    top +
-    ", left=" +
-    left
+      w / systemZoom +
+      ", height=" +
+      h / systemZoom +
+      ", top=" +
+      top +
+      ", left=" +
+      left
   );
 
   if (
@@ -319,9 +347,7 @@ function formatNumberWithCommas(x) {
 }
 function formatNumberWithThousand(x) {
   if (isNaN(x)) return x;
-  return parseFloat(x)
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  return x.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 function loadScript(url, cb) {
   var scr = document.createElement("script");
@@ -343,6 +369,11 @@ function loadScript(url, cb) {
   scr.src = url;
   document.getElementsByTagName("head")[0].appendChild(scr);
 }
+const promoImgMap = [PromoImage1, PromoImage2, PromoImage3];
+function GetPromoImg(index) {
+  return promoImgMap[index % 3];
+}
+
 const Common = {
   ConvertSlotGameParentIdToString,
   GetBonusCategory,
@@ -353,6 +384,10 @@ const Common = {
   GetBankImageByTitle,
   GetBankImageByCode,
   loadScript,
-  ConvertGameTypeToText, readFileDataAsBinary, GetDisplayGameType
+  ConvertGameTypeToText,
+  readFileDataAsBinary,
+  GetDisplayGameType,
+  gameImageMapping,
+  GetPromoImg,
 };
 export default Common;

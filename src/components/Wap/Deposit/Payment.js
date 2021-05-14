@@ -3,9 +3,7 @@ import { connect } from "react-redux";
 
 import { withRouter } from "react-router-dom";
 
-
-import { WalletService } from "../../../services/WalletService";
-
+import { WalletService } from "@Inwoker/tgs-api";
 
 class Payment extends Component {
   componentDidMount() {
@@ -15,7 +13,7 @@ class Payment extends Component {
       this.props.match.params.bank || 0,
       this.props.match.params.amount,
       this.props.match.params.bonus || ""
-    ).then(response => {
+    ).then((response) => {
       if (response.IsSuccess) {
         if (response.data.is_qrcode !== 1) {
           if (response.data.params != null) {
@@ -46,9 +44,9 @@ class Payment extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    token: state.account.token
+    token: state.account.token,
   };
 };
 

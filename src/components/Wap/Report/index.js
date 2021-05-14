@@ -6,10 +6,8 @@ import { withSnackbar } from "notistack";
 import { AppHistory } from "../../../history/History";
 import AppBar from "@material-ui/core/AppBar";
 import { withStyles } from "@material-ui/core/styles";
-import { accountAction } from '@Inwoker/tgs-api';
-import { ReportService } from "../../../services/ReportService";
-import {ReportService as TGSReportService} from  '@Inwoker/tgs-api';
-import { GameService } from "../../../services/GameService";
+
+import { ReportService, GameService, accountAction } from "@Inwoker/tgs-api";
 
 import BottomScrollListener from "react-bottom-scroll-listener";
 import Loading from "../../Wap/Share/Loading";
@@ -28,7 +26,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
 import BgProfilePNG from "../../../assets/images/wap/bg-profile.png";
-import i18n from "../../../utils/i18n"
+import i18n from "../../../utils/i18n";
+import Common from "../../../utils/Common";
 const moment = require("moment");
 const localeMap = {
   zh: zhLocale,
@@ -52,7 +51,6 @@ const BalanceLabel = styled.div`
   color: #fff;
   margin: 0 auto 20px auto;
 `;
-
 
 const DateContainer = styled.div`
   padding: 30px 40px;
@@ -180,7 +178,6 @@ const materialTheme = createMuiTheme({
     },
     MuiInput: {
       root: {
-
         fontSize: "30px",
         height: "75px",
         "&::before": {
@@ -195,7 +192,6 @@ const materialTheme = createMuiTheme({
 });
 const CustomFormControl = withStyles((theme) => ({
   root: {
-
     "& fieldset": {
       border: "none",
     },
@@ -204,7 +200,6 @@ const CustomFormControl = withStyles((theme) => ({
 
 const CustomSelect = withStyles((theme) => ({
   root: {
-
     height: "50px",
     padding: 0,
     margin: 0,
@@ -238,10 +233,10 @@ class Report extends Component {
     this.state = {
       selectedType:
         this.props.match.params.tab &&
-          parseInt(this.props.match.params.tab) > 0 &&
-          parseInt(this.props.match.params.tab) <= 5
+        parseInt(this.props.match.params.tab) > 0 &&
+        parseInt(this.props.match.params.tab) <= 5
           ? parseInt(this.props.match.params.tab)
-          : 1,
+          : 2,
       loading: false,
 
       tab1: {
@@ -356,9 +351,7 @@ class Report extends Component {
         preState.dateTo !== this.state.dateTo ||
         preState.page !== this.state.page
       ) {
-        this.handleRebateGetReportTrigger(
-          this.state.page,
-        );
+        this.handleRebateGetReportTrigger(this.state.page);
       }
     }
   }
@@ -536,7 +529,7 @@ class Report extends Component {
   };
   handleTransactionGetReportTrigger = (page, game_platform_id) => {
     this.setState({ ...this.state, loading: true });
-    TGSReportService.GetTransactionDetails(
+    ReportService.GetTransactionDetails(
       moment(this.state.dateFrom).format("YYYY-MM-DD"),
       moment(this.state.dateTo).format("YYYY-MM-DD"),
       page,
@@ -696,17 +689,41 @@ class Report extends Component {
           ></Header>
           <BalanceLabel>
             {this.props.wallet.mainSymbol}
-            {this.props.wallet.mainBalance}
+            {Common.formatNumberWithThousand(this.props.wallet.mainBalance)}
           </BalanceLabel>
-          <Tabs
-            value={this.state.selectedType}
-            onChange={this.handleChangeTab}
-          >
-            <Tab style={{ width: "calc(750px/5)" }} index={1} label={i18n.t("report.transferDetails")} value={1} />
-            <Tab style={{ width: "calc(750px/5)" }} index={2} label={i18n.t("report.bettingDetails")} value={2} />
-            <Tab style={{ width: "calc(750px/5)" }} index={3} label={i18n.t("report.withdrawalDetails")} value={3} />
-            <Tab style={{ width: "calc(750px/5)" }} index={4} label={i18n.t("report.depositDetails")} value={4} />
-            <Tab style={{ width: "calc(750px/5)" }} index={5} label={i18n.t("report.rebateDetails")} value={5} />
+          <Tabs value={this.state.selectedType} onChange={this.handleChangeTab}>
+            {/*
+          <Tab
+              style={{ width: "calc(750px/5)" }}
+              index={1}
+              label={i18n.t("report.transferDetails")}
+              value={1}
+            />
+          */}
+            <Tab
+              style={{ width: "calc(750px/5)" }}
+              index={2}
+              label={i18n.t("report.bettingDetails")}
+              value={2}
+            />
+            {/*  <Tab
+              style={{ width: "calc(750px/5)" }}
+              index={3}
+              label={i18n.t("report.withdrawalDetails")}
+              value={3}
+            />
+            <Tab
+              style={{ width: "calc(750px/5)" }}
+              index={4}
+              label={i18n.t("report.depositDetails")}
+              value={4}
+            />
+            <Tab
+              style={{ width: "calc(750px/5)" }}
+              index={5}
+              label={i18n.t("report.rebateDetails")}
+              value={5}
+            /> */}
           </Tabs>
         </StyledAppBar>
 
@@ -824,12 +841,24 @@ class Report extends Component {
                     value={this.state.status}
                   >
                     <option value={""}>{i18n.t("report.all")}</option>
-                    <option value={-2}>{i18n.t("report.withdrawal.withdrawalStatus0")}</option>
-                    <option value={-1}>{i18n.t("report.withdrawal.withdrawalStatus1")}</option>
-                    <option value={1}>{i18n.t("report.withdrawal.withdrawalStatus2")}</option>
-                    <option value={2}>{i18n.t("report.withdrawal.withdrawalStatus3")}</option>
-                    <option value={3}>{i18n.t("report.withdrawal.withdrawalStatus4")}</option>
-                    <option value={4}>{i18n.t("report.withdrawal.withdrawalStatus5")}</option>
+                    <option value={-2}>
+                      {i18n.t("report.withdrawal.withdrawalStatus0")}
+                    </option>
+                    <option value={-1}>
+                      {i18n.t("report.withdrawal.withdrawalStatus1")}
+                    </option>
+                    <option value={1}>
+                      {i18n.t("report.withdrawal.withdrawalStatus2")}
+                    </option>
+                    <option value={2}>
+                      {i18n.t("report.withdrawal.withdrawalStatus3")}
+                    </option>
+                    <option value={3}>
+                      {i18n.t("report.withdrawal.withdrawalStatus4")}
+                    </option>
+                    <option value={4}>
+                      {i18n.t("report.withdrawal.withdrawalStatus5")}
+                    </option>
                   </CustomSelect>
                 </CustomFormControl>
               </SelectContainer>
@@ -850,11 +879,19 @@ class Report extends Component {
                     value={this.state.status}
                   >
                     <option value={""}>{i18n.t("report.all")}</option>
-                    <option value={1}>{i18n.t("report.deposit.status1")}</option>
-                    <option value={2}>{i18n.t("report.deposit.status2")}</option>
+                    <option value={1}>
+                      {i18n.t("report.deposit.status1")}
+                    </option>
+                    <option value={2}>
+                      {i18n.t("report.deposit.status2")}
+                    </option>
 
-                    <option value={3}>{i18n.t("report.deposit.status3")}</option>
-                    <option value={4}>{i18n.t("report.deposit.status4")}</option>
+                    <option value={3}>
+                      {i18n.t("report.deposit.status3")}
+                    </option>
+                    <option value={4}>
+                      {i18n.t("report.deposit.status4")}
+                    </option>
                   </CustomSelect>
                 </CustomFormControl>
               </SelectContainer>
@@ -881,7 +918,6 @@ class Report extends Component {
                 </DataHeader>
                 {(() => {
                   if (this.state.dataList.length <= 0) {
-
                     return <NoRecordContainer></NoRecordContainer>;
                   } else {
                     return (
@@ -927,16 +963,19 @@ class Report extends Component {
                     return (
                       <DataContent>
                         {this.state.dataList.map((row, index) => {
-                             const date = moment(row.createdOn, ["HH:mm"]).format('YYYY-MM-DD hh:mm a');
+                          const date = moment(row.createdOn, ["HH:mm"]).format(
+                            "YYYY-MM-DD hh:mm a"
+                          );
                           return (
                             <React.Fragment key={index}>
                               <DataRowId>
-                                {i18n.t("report.betid")} : <IDCell>{row.id}</IDCell>
+                                {i18n.t("report.betid")} :{" "}
+                                <IDCell>{row.id}</IDCell>
                               </DataRowId>
                               <DataRow>
                                 <DataDateCell> {date}</DataDateCell>
                                 <DataDateCell>
-                                {row.gameProviderName}
+                                  {row.gameProviderName}
                                 </DataDateCell>
                                 <DataDateCell>{row.betAmount}</DataDateCell>
                                 <DataDateCell> {row.winLoss}</DataDateCell>
@@ -1026,10 +1065,15 @@ class Report extends Component {
                 <DataHeader>
                   <DataHeaderRow>
                     <DataDateCell>{i18n.t("report.rebate.sn")}</DataDateCell>
-                    <DataDateCell>{i18n.t("report.rebate.cycleDate")}</DataDateCell>
+                    <DataDateCell>
+                      {i18n.t("report.rebate.cycleDate")}
+                    </DataDateCell>
                     <DataDateCell>{i18n.t("report.status")}</DataDateCell>
-                    <DataDateCell style={{ "text-align": "right" }}>{i18n.t("report.rebate.validBet")}<br />{i18n.t("report.rebate.amount")}</DataDateCell>
-
+                    <DataDateCell style={{ "text-align": "right" }}>
+                      {i18n.t("report.rebate.validBet")}
+                      <br />
+                      {i18n.t("report.rebate.amount")}
+                    </DataDateCell>
                   </DataHeaderRow>
                 </DataHeader>
                 {(() => {
@@ -1041,13 +1085,14 @@ class Report extends Component {
                         {this.state.dataList.map((row, index) => {
                           return (
                             <DataRow key={index}>
-                              <DataDateCell>
-                                {row.sn}
-                              </DataDateCell>
+                              <DataDateCell>{row.sn}</DataDateCell>
                               <DataDateCell>{row.date}</DataDateCell>
                               <DataDateCell>{row.status_text}</DataDateCell>
-                              <DataDateCell style={{ "text-align": "right" }}>{row.bet_valid_text}<br />{row.rebate_amount_text}</DataDateCell>
-
+                              <DataDateCell style={{ "text-align": "right" }}>
+                                {row.bet_valid_text}
+                                <br />
+                                {row.rebate_amount_text}
+                              </DataDateCell>
                             </DataRow>
                           );
                         })}

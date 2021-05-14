@@ -47,7 +47,13 @@ import {
   DOWITHDRAWALALL_BEGIN,
   DOWITHDRAWALALL_SUCCESS,
   DOWITHDRAWALALL_FAIL,
-} from "../constants/actionType";
+  GETWITHDRAWALCHANNEL_BEGIN,
+  GETWITHDRAWALCHANNEL_SUCCESS,
+  GETWITHDRAWALCHANNEL_FAILED,
+  DOLEEPAYDEPOSIT_BEGIN,
+  DOLEEPAYDEPOSIT_SUCCESS,
+  DOLEEPAYDEPOSIT_FAIL,
+} from "@Inwoker/tgs-api";
 import { WalletType } from "../utils/Enum";
 const initState = {
   loading: false,
@@ -68,6 +74,7 @@ const initState = {
   balanceList: [],
   bankCardList: [],
   bankList: [],
+  withdrawalList: [],
   mainBalance: 0,
   mainSymbol: "",
   mainId: "",
@@ -76,68 +83,81 @@ function mapDepositType(result) {
   var data = result.data;
 
   var depositTypeList = [];
+  var checkDuplicate = [];
   for (var i = 0; i < data.length; i++) {
-    var depositType = data[i];
-    depositType.id = depositType.id;
-    depositType.title = depositType.name;
-    depositType.type_class = depositType.jump_type;
-    depositType.type_title = depositType.jump_type_text;
-    depositType.max = parseFloat(depositType.max_amount_text.replace(/,/g, ""));
-    depositType.min = parseFloat(depositType.min_amount_text.replace(/,/g, ""));
-    depositType.payment_icon_url = depositType.payment_icon_url;
-    depositType.banks = [];
-    try {
-      var extend = JSON.parse(depositType.extend);
-      var extendJsonArr = [];
-      for (var key in extend) {
-        if (extend.hasOwnProperty(key)) {
-          extendJsonArr.push({ id: key, title: extend[key] });
-        }
+    var depositType = {};
+    if (checkDuplicate.indexOf(data[i].paymentcode) < 0) {
+      checkDuplicate.push(data[i].paymentcode);
+
+      depositType.paymentcode = data[i].paymentcode;
+      depositType.paymentid = data[i].paymentid;
+
+      depositType.method = [
+        {
+          methodid: data[i].methodid,
+          methodcode: data[i].methodcode,
+          channel: [
+            {
+              id: data[i].id,
+              channelid: data[i].channelid,
+              channelname: data[i].channelname,
+              transferlimit: data[i].transferlimit,
+              extended: data[i].extended,
+            },
+          ],
+        },
+      ];
+
+      depositTypeList.push(depositType);
+    } else {
+      if (
+        depositTypeList
+          .filter((a) => a.paymentcode === data[i].paymentcode)[0]
+          .method.filter((a) => a.methodcode === data[i].methodcode).length > 0
+      ) {
+        depositTypeList
+          .filter((a) => a.paymentcode === data[i].paymentcode)[0]
+          .method.filter((a) => a.methodcode === data[i].methodcode)[0]
+          .channel.push({
+            id: data[i].id,
+            channelid: data[i].channelid,
+            channelname: data[i].channelname,
+            transferlimit: data[i].transferlimit,
+            extended: data[i].extended,
+          });
+      } else {
+        depositTypeList
+          .filter((a) => a.paymentcode === data[i].paymentcode)[0]
+          .method.push({
+            methodid: data[i].methodid,
+            methodcode: data[i].methodcode,
+            channel: [
+              {
+                id: data[i].id,
+                channelid: data[i].channelid,
+                channelname: data[i].channelname,
+                transferlimit: data[i].transferlimit,
+                extended: data[i].extended,
+              },
+            ],
+          });
       }
-      depositType.channel = extendJsonArr;
-    } catch (e) {
-      depositType.channel = [];
     }
-
-    depositTypeList.push(depositType);
   }
-  // add manual deposit
-  var depositType = {};
-  depositType.id = 0;
-  depositType.title = "人工支付";
-  depositType.type_class = 0;
-  depositType.type_title = "跳转URL（GET提交）";
-  depositType.max = 1000
-  depositType.min = 10
-  depositType.payment_icon_url = "";
-  depositType.banks = [];
-  depositType.channel = [{
-    id: 400, code: "bank", title: "银行汇款", is_transfer: true, is_qr: false, amount_options: null
-  }, {
-    id: 401, code: "wechat", title: "微信二维码", is_transfer: false, is_qr: true, amount_options: null
-
-  }, {
-    id: 402, code: "alipay", title: "支付宝二维码", is_transfer: false, is_qr: true, amount_options: null
-  }, {
-    id: 403, code: "yun", title: "云闪付二维码", is_transfer: false, is_qr: true, amount_options: null
-  }]
-
-  depositTypeList.push(depositType);
-
 
   return depositTypeList;
 }
 function mapBalanceList(data) {
   var balanceList = [];
-  var mainBalance = 0;
+  var mainBalance = data.main;
   var mainSymbol = "";
   var mainId = "";
   for (var i = 0; i < data.length; i++) {
-    if (isNaN(data[i].id)) {
-      mainId = data[i].id;
-      mainBalance = data[i].balance_text.replace(/,/g, "");
-      mainSymbol = data[i].symbol;
-    }
+    // if (isNaN(data[i].id)) {
+    //   mainId = data[i].id;
+    //   mainBalance = data[i].balance_text.replace(/,/g, "");
+    //   mainSymbol = data[i].symbol;
+    // }
     balanceList.push({
       balance: data[i].balance_text.replace(/,/g, ""),
       code: data[i].code,
@@ -148,6 +168,7 @@ function mapBalanceList(data) {
       max: "0.00",
       min: "0.00",
       money_limit: 0,
+
       money_limit_status: false,
       name: data[i].game_text,
       old_id: 0,
@@ -168,22 +189,6 @@ function mapBalanceList(data) {
   return { balanceList, mainBalance, mainSymbol, mainId };
 }
 
-function mapBankCardList(data) {
-  var bankCardList = [];
-
-  for (var i = 0; i < data.length; i++) {
-    bankCardList.push({
-      bank_account: data[i].card,
-      bank_name: data[i].bank_text,
-      id: data[i].id,
-      is_default: 0,
-      background_file: data[i].background_file,
-      file: data[i].file,
-    });
-  }
-
-  return { bankCardList };
-}
 function mapBankList(data) {
   var bankList = [];
 
@@ -198,6 +203,33 @@ function mapBankList(data) {
   }
 
   return { bankList };
+}
+function mapWithdrawalList(data) {
+  var withdrawalList = [];
+  var checkDuplicate = [];
+  for (var i = 0; i < data.length; i++) {
+    if (checkDuplicate.indexOf(data[i].banktype) < 0) {
+      checkDuplicate.push(data[i].banktype);
+      withdrawalList.push({
+        banktype: data[i].banktype,
+        channel: [
+          {
+            channelid: data[i].channelid,
+            channelname: data[i].channelname,
+          },
+        ],
+      });
+    } else {
+      withdrawalList
+        .filter((a) => a.banktype === data[i].banktype)[0]
+        .channel.push({
+          channelid: data[i].channelid,
+          channelname: data[i].channelname,
+        });
+    }
+  }
+
+  return { withdrawalList };
 }
 const walletReducer = (state = initState, action) => {
   switch (action.type) {
@@ -223,6 +255,26 @@ const walletReducer = (state = initState, action) => {
         ...state,
         message: action.payload,
         bankList: [],
+        loading: false,
+      };
+    case GETWITHDRAWALCHANNEL_BEGIN:
+      return {
+        ...state,
+        message: "",
+        loading: true,
+        withdrawalList: [],
+      };
+    case GETWITHDRAWALCHANNEL_SUCCESS:
+      return {
+        ...state,
+        ...mapWithdrawalList(action.payload.data),
+        loading: false,
+      };
+    case GETWITHDRAWALCHANNEL_FAILED:
+      return {
+        ...state,
+        message: action.payload,
+        withdrawalList: [],
         loading: false,
       };
     case DELETEBANKCARD_BEGIN:
@@ -274,12 +326,13 @@ const walletReducer = (state = initState, action) => {
       return {
         ...state,
         message: "",
+        bankCardList: [],
         loading: true,
       };
     case GETBANKCARDLIST_SUCCESS:
       return {
         ...state,
-        ...mapBankCardList(action.payload),
+        bankCardList: action.payload,
         loading: false,
       };
     case GETBANKCARDLIST_FAIL:
@@ -294,7 +347,6 @@ const walletReducer = (state = initState, action) => {
         ...state,
         message: "",
         loading: action.loading,
-
       };
     case GETBALANCELIST_SUCCESS:
       return {
@@ -314,7 +366,6 @@ const walletReducer = (state = initState, action) => {
         ...state,
         message: "",
         updateBalanceloading: action.loading,
-
       };
     case UPDATEBALANCELIST_SUCCESS:
       return {
@@ -414,6 +465,19 @@ const walletReducer = (state = initState, action) => {
         depositResult: action.payload,
         depositLoading: false,
       };
+    case DOLEEPAYDEPOSIT_BEGIN:
+      return {
+        ...state,
+        message: "",
+        depositLoading: true,
+      };
+    case DOLEEPAYDEPOSIT_SUCCESS:
+    case DOLEEPAYDEPOSIT_FAIL:
+      return {
+        ...state,
+        depositResult: action.payload,
+        depositLoading: false,
+      };
     case DOMANUALDEPOSITUPLOAD_BEGIN:
       return {
         ...state,
@@ -422,7 +486,6 @@ const walletReducer = (state = initState, action) => {
       };
     case DOMANUALDEPOSITUPLOAD_SUCCESS:
     case DOMANUALDEPOSITUPLOAD_FAIL:
-      console.log(action.payload)
       return {
         ...state,
         depositUploadResult: action.payload,

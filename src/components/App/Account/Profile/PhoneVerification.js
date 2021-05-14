@@ -6,12 +6,10 @@ import CustomButton from "../../../Share/Button";
 import TextField from "@material-ui/core/TextField";
 import IconInputVerifyCodePNG from "../../../../assets/images/icon-input-verifycode.png";
 import { withStyles } from "@material-ui/core/styles";
-import {AccountService} from  '@Inwoker/tgs-api';
-import { UPDATE_INFO } from "../../../../constants/actionType";
+import { AccountService, UPDATE_INFO } from "@Inwoker/tgs-api";
 
-
-import i18n from "../../../../utils/i18n"
-import { accountAction } from '@Inwoker/tgs-api';
+import i18n from "../../../../utils/i18n";
+import { accountAction } from "@Inwoker/tgs-api";
 import { withSnackbar } from "notistack";
 const Container = styled.div``;
 const CustomText = withStyles({
@@ -62,14 +60,12 @@ class PhoneVerification extends Component {
       phone: this.props.phone,
       code: "",
       step: 1,
-      isNew: this.props.phone === ""|| this.props.phone=== null ? true : false,
-      message:
-        this.props.phone === ""
-          ? i18n.t("profile.phone.phoneDesc")
-          : "",
+      isNew:
+        this.props.phone === "" || this.props.phone === null ? true : false,
+      message: this.props.phone === "" ? i18n.t("profile.phone.phoneDesc") : "",
       prefix: "86",
       countdown: 0,
-      securityKey:"",
+      securityKey: "",
     };
   }
 
@@ -94,13 +90,11 @@ class PhoneVerification extends Component {
   };
   onhandleGetCodeClick = () => {
     if (this.state.countdown <= 0) {
-      AccountService.VerifyPhone(
-        this.state.phone,
-      ).then((response) => {
+      AccountService.VerifyPhone(this.state.phone).then((response) => {
         if (response.IsSuccess) {
           this.setState({
-            securityKey: response.data
-          })
+            securityKey: response.data,
+          });
           this.props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
             variant: "info",
           });
@@ -112,42 +106,42 @@ class PhoneVerification extends Component {
         this.setState({ ...this.state, countdown: 60 });
         this.checkCountdown();
       });
-    //   var result = null;
-    //   if (this.state.isNew) {
-    //     result = AccountService.GetPhoneVerificationCode(
-    //       this.props.token,
-    //       this.state.phone,
-    //       ""
-    //     );
-    //   } else {
-    //     if (this.props.isForWithdrawalPassword) {
-    //       result = AccountService.GetChangeWithdrawalPasswordVerificationCode();
+      //   var result = null;
+      //   if (this.state.isNew) {
+      //     result = AccountService.GetPhoneVerificationCode(
+      //       this.props.token,
+      //       this.state.phone,
+      //       ""
+      //     );
+      //   } else {
+      //     if (this.props.isForWithdrawalPassword) {
+      //       result = AccountService.GetChangeWithdrawalPasswordVerificationCode();
 
-    //     } else {
-    //       if (this.state.step === 1) {
-    //         result = AccountService.GetChangePhoneVerificationCode();
+      //     } else {
+      //       if (this.state.step === 1) {
+      //         result = AccountService.GetChangePhoneVerificationCode();
 
-    //       } else {
-    //         result = AccountService.GetChangeNewPhoneVerificationCode(this.state.phone);
-    //       }
+      //       } else {
+      //         result = AccountService.GetChangeNewPhoneVerificationCode(this.state.phone);
+      //       }
 
-    //     }
+      //     }
 
-    //   }
-    //   result.then((response) => {
-    //     // this.setState({ ...this.state, message: response.msg });
-    //     if (response.IsSuccess) {
-    //       this.props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
-    //         variant: "info",
-    //       });
-    //     } else {
-    //       this.props.enqueueSnackbar(response.info, {
-    //         variant: "error",
-    //       });
-    //     }
-    //     // this.setState({ ...this.state, countdown: response.data });
-    //     // this.checkCountdown();
-    //   });
+      //   }
+      //   result.then((response) => {
+      //     // this.setState({ ...this.state, message: response.msg });
+      //     if (response.IsSuccess) {
+      //       this.props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
+      //         variant: "info",
+      //       });
+      //     } else {
+      //       this.props.enqueueSnackbar(response.info, {
+      //         variant: "error",
+      //       });
+      //     }
+      //     // this.setState({ ...this.state, countdown: response.data });
+      //     // this.checkCountdown();
+      //   });
     }
   };
   checkCountdown = () => {
@@ -159,14 +153,15 @@ class PhoneVerification extends Component {
     }
   };
   onhandleClick = () => {
-      AccountService.UpdatePhone(this.state.securityKey,this.state.code).then((response) => {
+    AccountService.UpdatePhone(this.state.securityKey, this.state.code).then(
+      (response) => {
         if (response.IsSuccess) {
           this.props.enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
             variant: "info",
           });
-          if(this.state.isNew||this.state.step===2){
+          if (this.state.isNew || this.state.step === 2) {
             this.props.getAccountInfo();
-            if(this.props.isForWithdrawalPassword){
+            if (this.props.isForWithdrawalPassword) {
               this.props.dispatch({
                 type: UPDATE_INFO,
                 payload: {
@@ -177,129 +172,134 @@ class PhoneVerification extends Component {
                 this.props.isForSecurityQuestion,
                 this.props.isForWithdrawalPassword
               );
-            }
-            else{
+            } else {
               this.props.handleCloseDialog();
             }
-          }
-          else{
+          } else {
             this.setState({
               ...this.state,
               code: "",
               phone: "",
-              securityKey:"",
+              securityKey: "",
               step: 2,
               countdown: 0,
             });
           }
         } else {
-          this.props.enqueueSnackbar(response.info, {
-            variant: "error",
-          });
+          if (response.code === 405) {
+            this.props.enqueueSnackbar(i18n.t("common.msgInvalidPhoneCode"), {
+              variant: "error",
+            });
+          } else {
+            this.props.enqueueSnackbar(response.info, {
+              variant: "error",
+            });
+          }
         }
-      });
-  // if (this.state.isNew) {
-  //   AccountService.UpdatePhone(this.state.phone, this.state.code).then((response) => {
-  //     if (response.IsSuccess) {
-  //       this.props.getAccountInfo();
-  //       this.props.handleCloseDialog();
-  //       this.props.enqueueSnackbar(response.info, {
-  //         variant: "info",
-  //       });
-  //     } else {
-  //       this.props.enqueueSnackbar(response.info, {
-  //         variant: "error",
-  //       });
-  //     }
-  //   });
-  // } else {
-  //   if (this.props.isForSecurityQuestion) {
-  //     AccountService.VerifySecurityQuestionByPhone(
-  //       this.props.token,
-  //       this.state.code
-  //     ).then((response) => {
-  //       if (response.IsSuccess) {
-  //         this.props.onhandleVerifySuccess(
-  //           this.props.isForSecurityQuestion,
-  //           this.props.isForWithdrawalPassword
-  //         );
-  //       } else {
-  //         this.props.enqueueSnackbar(response.msg, {
-  //           variant: "error",
-  //         });
-  //         // this.setState({ ...this.state, message: response.msg });
-  //       }
-  //     });
-  //   } else {
-  //     if (this.props.isForWithdrawalPassword) {
-  //       this.props.onhandleVerifySuccess(
-  //         this.props.isForSecurityQuestion,
-  //         this.props.isForWithdrawalPassword,
-  //         this.state.code
-  //       );
-  //       // AccountService.VerifyWithdrawalPasswordByPhone(
+      }
+    );
+    // if (this.state.isNew) {
+    //   AccountService.UpdatePhone(this.state.phone, this.state.code).then((response) => {
+    //     if (response.IsSuccess) {
+    //       this.props.getAccountInfo();
+    //       this.props.handleCloseDialog();
+    //       this.props.enqueueSnackbar(response.info, {
+    //         variant: "info",
+    //       });
+    //     } else {
+    //       this.props.enqueueSnackbar(response.info, {
+    //         variant: "error",
+    //       });
+    //     }
+    //   });
+    // } else {
+    //   if (this.props.isForSecurityQuestion) {
+    //     AccountService.VerifySecurityQuestionByPhone(
+    //       this.props.token,
+    //       this.state.code
+    //     ).then((response) => {
+    //       if (response.IsSuccess) {
+    //         this.props.onhandleVerifySuccess(
+    //           this.props.isForSecurityQuestion,
+    //           this.props.isForWithdrawalPassword
+    //         );
+    //       } else {
+    //         this.props.enqueueSnackbar(response.msg, {
+    //           variant: "error",
+    //         });
+    //         // this.setState({ ...this.state, message: response.msg });
+    //       }
+    //     });
+    //   } else {
+    //     if (this.props.isForWithdrawalPassword) {
+    //       this.props.onhandleVerifySuccess(
+    //         this.props.isForSecurityQuestion,
+    //         this.props.isForWithdrawalPassword,
+    //         this.state.code
+    //       );
+    //       // AccountService.VerifyWithdrawalPasswordByPhone(
 
-  //       // ).then((response) => {
-  //       //   if (response.IsSuccess) {
-  //       //     this.props.onhandleVerifySuccess(
-  //       //       this.props.isForSecurityQuestion,
-  //       //       this.props.isForWithdrawalPassword
-  //       //     );
-  //       //   } else {
-  //       //     this.props.enqueueSnackbar(response.msg, {
-  //       //       variant: "error",
-  //       //     });
-  //       //     // this.setState({ ...this.state, message: response.msg });
-  //       //   }
-  //       // });
-  //     } else {
+    //       // ).then((response) => {
+    //       //   if (response.IsSuccess) {
+    //       //     this.props.onhandleVerifySuccess(
+    //       //       this.props.isForSecurityQuestion,
+    //       //       this.props.isForWithdrawalPassword
+    //       //     );
+    //       //   } else {
+    //       //     this.props.enqueueSnackbar(response.msg, {
+    //       //       variant: "error",
+    //       //     });
+    //       //     // this.setState({ ...this.state, message: response.msg });
+    //       //   }
+    //       // });
+    //     } else {
 
-  //       if (this.state.step === 1) {
+    //       if (this.state.step === 1) {
 
-  //         AccountService.SubmitChangePhoneCode(
-  //           this.state.code
-  //         ).then((response) => {
-  //           if (response.IsSuccess) {
-  //             this.props.enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
-  //               variant: "info",
-  //             });
-  //             this.setState({
-  //               ...this.state,
-  //               code: "",
-  //               phone: "",
-  //               step: 2,
-  //               countdown: 0,
-  //             });
-  //           } else {
-  //             this.props.enqueueSnackbar(response.info, {
-  //               variant: "error",
-  //             });
-  //             // this.setState({ ...this.state, message: response.msg });
-  //           }
-  //         });
-  //       } else if (this.state.step === 2) {
+    //         AccountService.SubmitChangePhoneCode(
+    //           this.state.code
+    //         ).then((response) => {
+    //           if (response.IsSuccess) {
+    //             this.props.enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
+    //               variant: "info",
+    //             });
+    //             this.setState({
+    //               ...this.state,
+    //               code: "",
+    //               phone: "",
+    //               step: 2,
+    //               countdown: 0,
+    //             });
+    //           } else {
+    //             this.props.enqueueSnackbar(response.info, {
+    //               variant: "error",
+    //             });
+    //             // this.setState({ ...this.state, message: response.msg });
+    //           }
+    //         });
+    //       } else if (this.state.step === 2) {
 
-  //         AccountService.SubmitChangeNewPhone(
+    //         AccountService.SubmitChangeNewPhone(
 
-  //           this.state.phone,
-  //           this.state.code
-  //         ).then((response) => {
-  //           if (response.IsSuccess) {
-  //             this.props.getAccountInfo();
-  //             this.props.handleCloseDialog();
-  //             this.props.enqueueSnackbar(response.info, {
-  //               variant: "info",
-  //             });
-  //           } else {
-  //             this.props.enqueueSnackbar(response.info, {
-  //               variant: "error",
-  //             });
-  //           }
-  //         });
-  //       }
-  //     }
-  //   }
-  // }
+    //           this.state.phone,
+    //           this.state.code
+    //         ).then((response) => {
+    //           if (response.IsSuccess) {
+    //             this.props.getAccountInfo();
+    //             this.props.handleCloseDialog();
+    //             this.props.enqueueSnackbar(response.info, {
+    //               variant: "info",
+    //             });
+    //           } else {
+    //             this.props.enqueueSnackbar(response.info, {
+    //               variant: "error",
+    //             });
+    //           }
+    //         });
+    //       }
+    //     }
+    //   }
+    // }
   };
 
   render() {
@@ -344,13 +344,15 @@ class PhoneVerification extends Component {
           width={140}
           marginTop={10}
           float={"right"}
-        >
-
-        </CustomButton>
+        ></CustomButton>
 
         <Message>{this.state.message}</Message>
         <CustomButton
-          name={this.props.isForWithdrawalPassword ? i18n.t("common.nextStep") : i18n.t("common.submit")}
+          name={
+            this.props.isForWithdrawalPassword
+              ? i18n.t("common.nextStep")
+              : i18n.t("common.submit")
+          }
           handleClick={this.onhandleClick}
           marginTop={10}
         ></CustomButton>
@@ -361,8 +363,7 @@ class PhoneVerification extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAccountInfo: () =>
-      dispatch(accountAction.getAccountInfo()),
+    getAccountInfo: () => dispatch(accountAction.getAccountInfo()),
     dispatchFunction: (json) => dispatch(json),
     dispatch: dispatch,
   };

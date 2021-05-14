@@ -6,9 +6,9 @@ import CustomButton from "../../../Share/Button";
 import IconInputIDPNG from "../../../../assets/images/icon-input-id.png";
 import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.png";
 import { withSnackbar } from "notistack";
-import {AccountService} from  '@Inwoker/tgs-api';
-import { UPDATE_INFO } from "../../../../constants/actionType";
-import i18n from "../../../../utils/i18n"
+import { AccountService, UPDATE_INFO } from "@Inwoker/tgs-api";
+
+import i18n from "../../../../utils/i18n";
 const Container = styled.div``;
 let local_props = {
   member_name: "",
@@ -28,24 +28,31 @@ function IDVerification(props) {
     member_card_no: props.account.info.member_card_no,
   };
   const onhandleClick = () => {
-    AccountService.AddRealName(local_props.member_name,local_props.member_card_no).then(
-      (response) => {
-        if (response.IsSuccess) {
-          props.dispatch({
-            type: UPDATE_INFO,
-            payload: {
-              member_name: local_props.member_name,
-              check_pass_account: true,
-            },
+    AccountService.AddRealName(
+      local_props.member_name,
+      local_props.member_card_no
+    ).then((response) => {
+      if (response.IsSuccess) {
+        props.dispatch({
+          type: UPDATE_INFO,
+          payload: {
+            member_name: local_props.member_name,
+            check_pass_account: true,
+          },
+        });
+        props.handleCloseDialog();
+      } else {
+        if (response.code === 401) {
+          props.enqueueSnackbar(i18n.t("profile.nameVerify.msgInvalidICNum"), {
+            variant: "error",
           });
-          props.handleCloseDialog();
         } else {
           props.enqueueSnackbar(response.info, {
             variant: "error",
           });
         }
       }
-    );
+    });
   };
   return (
     <Container>
@@ -54,28 +61,32 @@ function IDVerification(props) {
         adornment={IconInputReceivePNG}
         handleTextFieldChange={onhandleNameChange}
         defaultValue={props.account.info.member_name}
-        readOnly={ 
+        readOnly={
           props.account.info.member_name === "" ||
           props.account.info.member_name === null
-          ? false
-          : true}
-        maxLength={10}
-      ></CustomTextField>
-      { props.account.info.member_name === "" ||
-          props.account.info.member_name === null?
-      <CustomTextField
-        placeholder={i18n.t("profile.nameVerify.icNum")}
-        adornment={IconInputIDPNG}
-        handleTextFieldChange={onhandleIDChange}
-        defaultValue={props.account.info.member_card_no}
-        readOnly={
-          props.account.info.member_card_no === "" ||
-            props.account.info.member_card_no === null
             ? false
             : true
         }
-        maxLength={20}
-      ></CustomTextField>:<></>}
+        maxLength={10}
+      ></CustomTextField>
+      {props.account.info.member_name === "" ||
+      props.account.info.member_name === null ? (
+        <CustomTextField
+          placeholder={i18n.t("profile.nameVerify.icNum")}
+          adornment={IconInputIDPNG}
+          handleTextFieldChange={onhandleIDChange}
+          defaultValue={props.account.info.member_card_no}
+          readOnly={
+            props.account.info.member_card_no === "" ||
+            props.account.info.member_card_no === null
+              ? false
+              : true
+          }
+          maxLength={20}
+        ></CustomTextField>
+      ) : (
+        <></>
+      )}
       {(() => {
         if (
           props.account.info.member_name === "" ||

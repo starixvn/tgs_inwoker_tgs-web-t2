@@ -11,6 +11,9 @@ import CustomButton from "../../../Share/Button";
 
 import Common from "../../../../utils/Common";
 import i18n from "../../../../utils/i18n";
+
+import NewStepOne from "./NewStep1";
+import NewStepTwo from "./NewStep2";
 const TabButton = styled.div`
   width: 88px;
   height: 86px;
@@ -19,7 +22,7 @@ const TabButton = styled.div`
   text-align: center;
   float: left;
   margin-right: 8px;
-  transition: border-bottom .6s ease;
+  transition: border-bottom 0.6s ease;
   ${(props) =>
     props.active
       ? ` border-bottom: solid 3px #f0ca83;
@@ -41,7 +44,7 @@ const NumberContainer = styled.div`
   color: #ffffff;
   text-align: center;
   float: left;
-	-webkit-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
 `;
 const SubTitle = styled.div`
   color: #404040;
@@ -57,7 +60,6 @@ const SelectionContainerTunnel = styled(SelectionContainer)`
   border-radius: 5px;
   box-shadow: 0px 3px 5px 0 rgb(0 0 0 / 30%);
   padding: 10px 20px;
-
 `;
 const TunnelButton = styled(TabButton)`
   width: 133px;
@@ -65,7 +67,6 @@ const TunnelButton = styled(TabButton)`
   padding-top: 10px;
   margin-top: 0px;
 `;
-
 
 const CustomFormControl = withStyles((theme) => ({
   root: {
@@ -112,17 +113,17 @@ const LimitPopupContainer = styled.div`
   padding: 5px 10px 10px 55px;
 `;
 const InputSender = styled.input`
-height: 38px;
-width: 220px;
-float: left;
-margin-right: 5px;
-color: #818181;
-font-size: 14px;
-padding-left: 14px;
-border:1px solid #b6b6b6;
-border-radius: 4px;
-background-color:transparent;
-`
+  height: 38px;
+  width: 220px;
+  float: left;
+  margin-right: 5px;
+  color: #818181;
+  font-size: 14px;
+  padding-left: 14px;
+  border: 1px solid #b6b6b6;
+  border-radius: 4px;
+  background-color: transparent;
+`;
 class Step1 extends Component {
   render() {
     if (!this.props.selectedType) {
@@ -160,7 +161,7 @@ class Step1 extends Component {
           <SubHeaderContainer>
             <NumberContainer>
               {this.props.selectedType &&
-                this.props.selectedType.channel.length > 0
+              this.props.selectedType.channel.length > 0
                 ? "2"
                 : "1"}
             </NumberContainer>
@@ -168,7 +169,8 @@ class Step1 extends Component {
             <SubTitle>{i18n.t("deposit.plsEnterDepositAmount")}</SubTitle>
           </SubHeaderContainer>
           <SelectionContainer>
-            {this.props.selectedChannel && this.props.selectedChannel.amount_options ? (
+            {this.props.selectedChannel &&
+            this.props.selectedChannel.amount_options ? (
               <>
                 <CustomFormControl>
                   <CustomSelect
@@ -180,68 +182,76 @@ class Step1 extends Component {
                     native
                   >
                     <option value="">{i18n.t("deposit.chooseAmount")}</option>
-                    {this.props.selectedChannel.amount_options.map((item, key) => {
-                      return (
-                        <option value={item} key={item}>
-                          {item}
-                        </option>
-                      );
-                    })}
+                    {this.props.selectedChannel.amount_options.map(
+                      (item, key) => {
+                        return (
+                          <option value={item} key={item}>
+                            {item}
+                          </option>
+                        );
+                      }
+                    )}
                   </CustomSelect>
                 </CustomFormControl>
               </>
             ) : (
-                <>
-                  <CurrencyTextField
-                    className="CurrencyTextField"
-                    style={{
-                      height: "40px",
-                      width: "200px",
-                      borderRadius: "12px",
-                      boxShadow:"0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
-                      backgroundColor: "#fff",
-                    }}
-                    placeholder={i18n.t("deposit.plsEnterDepositAmount")}
-                    onChange={this.props.handleDepositAmountChange}
-                    outputFormat="string"
-                    variant="outlined"
-                    autoComplete="off"
-                    value={this.props.depositAmount}
-                    maximumValue={this.props.selectedType.max.toString()}
-                    inputProps={{
-                      maxLength: 15,
-                    }}
-                    currencySymbol=""
-                    decimalPlaces={0}
-                  ></CurrencyTextField>
-                  <LimitPopupContainer>
-                      *{i18n.t("deposit.limitDeposit")} 
-                      {Common.formatNumberWithThousand(
-                        this.props.selectedType.min
-                      )}{" "}
-                    -{" "}
-                      {Common.formatNumberWithThousand(
-                        this.props.selectedType.max
-                      )}
-                  </LimitPopupContainer>
-                </>
-              )}
+              <>
+                <CurrencyTextField
+                  className="CurrencyTextField"
+                  style={{
+                    height: "40px",
+                    width: "200px",
+                    borderRadius: "12px",
+                    boxShadow: "0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
+                    backgroundColor: "#fff",
+                  }}
+                  placeholder={i18n.t("deposit.plsEnterDepositAmount")}
+                  onChange={this.props.handleDepositAmountChange}
+                  outputFormat="string"
+                  variant="outlined"
+                  autoComplete="off"
+                  value={this.props.depositAmount}
+                  maximumValue={this.props.selectedType.max.toString()}
+                  inputProps={{
+                    maxLength: 15,
+                  }}
+                  currencySymbol=""
+                  decimalPlaces={0}
+                ></CurrencyTextField>
+                <LimitPopupContainer>
+                  *{i18n.t("deposit.limitDeposit")}
+                  {Common.formatNumberWithThousand(
+                    this.props.selectedType.min
+                  )}{" "}
+                  -{" "}
+                  {Common.formatNumberWithThousand(this.props.selectedType.max)}
+                </LimitPopupContainer>
+              </>
+            )}
           </SelectionContainer>
           {(() => {
-            if (this.props.selectedType === null || this.props.selectedType.id !== 0)
-              return null
-            return <>
-              <SubHeaderContainer>
-                <NumberContainer>
-                  3
-                </NumberContainer>
+            if (
+              this.props.selectedType === null ||
+              this.props.selectedType.id !== 0
+            )
+              return null;
+            return (
+              <>
+                <SubHeaderContainer>
+                  <NumberContainer>3</NumberContainer>
 
-                <SubTitle>{i18n.t("deposit.senderName")}</SubTitle>
-              </SubHeaderContainer>
-              <SelectionContainer>
-                <InputSender type="text" placeholder={i18n.t("deposit.senderName")} value={this.props.username} onChange={this.props.handleUsernameChange}></InputSender>
-              </SelectionContainer>
-             </>
+                  <SubTitle>{i18n.t("deposit.senderName")}</SubTitle>
+                </SubHeaderContainer>
+                <SelectionContainer>
+                  <InputSender
+                    type="text"
+                    placeholder={i18n.t("deposit.senderName")}
+                    value={this.props.username}
+                    onChange={this.props.handleUsernameChange}
+                  ></InputSender>
+                </SelectionContainer>
+              </>
+            );
           })()}
           <CustomButton
             name={i18n.t("common.nextStep")}

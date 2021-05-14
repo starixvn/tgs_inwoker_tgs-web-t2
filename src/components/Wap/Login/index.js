@@ -12,22 +12,28 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { withStyles } from "@material-ui/core/styles";
 import { AppHistory } from "../../../history/History";
 import CircleUnchecked from "@material-ui/icons/RadioButtonUnchecked";
-import { accountAction } from '@Inwoker/tgs-api';
-import { walletAction } from "../../../actions/walletAction";
-import { gameAction } from "../../../actions/gameAction";
-import { GeneralService } from "../../../services/GeneralService";
+import {
+  accountAction,
+  generalAction,
+  walletAction,
+  gameAction,
+  GeneralService,
+  inboxAction,
+} from "@Inwoker/tgs-api";
+
 import ButtonWap from "../../Share/ButtonWap";
 import Loading from "../../Wap/Share/Loading";
 
 import i18n from "../../../utils/i18n";
 import BlowFishEncryption from "../../../utils/BlowFishEncryption";
 import LoginBgJPG from "../../../assets/images/wap/login-bg.jpg";
-import IconUserPNG from "../../../assets/images/wap/icon-user.png"
-import IconUnlockPNG from "../../../assets/images/wap/icon-unlock.png"
-import IconPromoPNG from "../../../assets/images/wap/icon-promo.png"
-import IconPiggyPNG from "../../../assets/images/wap/icon-piggy.png"
+import IconUserPNG from "../../../assets/images/wap/icon-user.png";
+import IconUnlockPNG from "../../../assets/images/wap/icon-unlock.png";
+import IconPromoPNG from "../../../assets/images/wap/icon-promo.png";
+
+import { errorSwitcher } from "../../../utils/ErrorSwitcher";
 const Container = styled.div`
-  z-index:10;
+  z-index: 10;
   overflow-y: scroll;
   width: 100%;
   height: 100%;
@@ -46,7 +52,7 @@ const ContentWrap = styled.div`
   top: 0;
   z-index: 1;
   width: 750px;
-  padding-bottom:60px;
+  padding-bottom: 60px;
 `;
 const Logo = styled.div`
   background: url(${LoginLogoPNG}) no-repeat center center;
@@ -86,16 +92,15 @@ const LoginActionContainer = styled.div`
 `;
 
 const LanguageWrap = styled.div`
-  text-align:center;
-  color:#404040;
-  font-size:28px;
-  margin-top:20px;
-
-`
+  text-align: center;
+  color: #404040;
+  font-size: 28px;
+  margin-top: 20px;
+`;
 const LanguageLink = styled.span`
-  text-align:center;
-  ${props => props.selected == true ? `color:#c40511;` : ``}
-`
+  text-align: center;
+  ${(props) => (props.selected == true ? `color:#c40511;` : ``)}
+`;
 
 const Version = styled.div`
   position: fixed;
@@ -164,7 +169,7 @@ class Login extends Component {
       }
     }
   }
-  componentDidUpdate() { }
+  componentDidUpdate() {}
   handleChangeSelection = (index) => {
     if (this.state.selected !== index) {
       this.setState({
@@ -187,11 +192,13 @@ class Login extends Component {
     // this.props.getAccountProfile(token, true);
     // this.props.getVIPInfo(token);
     // this.props.checkGame();
-    // this.props.getBalanceList();
+    this.props.getBalanceList();
     // this.props.getIDCardNo();
     // this.props.getDepositChannel();
     // this.props.getInviteLink();
-    this.props.getHomePageGameList();
+    this.props.getMessageList(1, 99);
+    this.props.getBankCardList();
+    this.props.getPlayerPromotionList();
     this.props.getAccountInfo();
     if (this.state.rememberMe === true) {
       localStorage.setItem("remember", true);
@@ -242,7 +249,7 @@ class Login extends Component {
             loading: false,
           });
         } else {
-          this.props.alert("", result.info);
+          this.props.alert("", errorSwitcher(result.code));
           // this.props.enqueueSnackbar(result.msg, {
           //   variant: "warning"
           // });
@@ -322,10 +329,7 @@ class Login extends Component {
     const promotion_channel_id = this.state.promotionChannelId;
     const tnc = this.state.tnc;
     if (username.length < 6 || username.length > 32) {
-      this.props.alert(
-        "",
-        i18n.t("common.msgRegisterUserNameInvalid")
-      );
+      this.props.alert("", i18n.t("common.msgRegisterUserNameInvalid"));
       return;
     }
     if (password.length < 6) {
@@ -357,17 +361,12 @@ class Login extends Component {
       // recommend_code,
       // mobile_code_id
       this.props
-        .register(
-          username,
-          password,
-          confirmPassword,
-          promotion_id,)
+        .register(username, password, confirmPassword, promotion_id)
         .then(async (response) => {
-          if(response.IsSuccess&&response.data.isnew===false){
-            this.props.alert("",i18n.t("common.msgAlreadyExist"));
+          if (response.IsSuccess && response.data.isnew === false) {
+            this.props.alert("", i18n.t("common.msgAlreadyExist"));
             this.setState({ ...this.state, loading: false });
-          }
-          else if (response.IsSuccess) {
+          } else if (response.IsSuccess) {
             this.doLogin(username, password);
           } else {
             this.props.alert("", response.info);
@@ -399,7 +398,6 @@ class Login extends Component {
                   <Textbox
                     icon={IconUserPNG}
                     type={"text"}
-
                     placeholder={i18n.t("common.username")}
                     style={{ marginTop: "60px" }}
                     value={this.state.username}
@@ -410,7 +408,6 @@ class Login extends Component {
                     icon={IconUnlockPNG}
                     type={this.state.hidePassword ? "password" : "text"}
                     hidePassword={this.state.hidePassword}
-
                     placeholder={i18n.t("common.password")}
                     style={{ marginTop: "20px" }}
                     password={true}
@@ -432,14 +429,17 @@ class Login extends Component {
                       checked={this.state.rememberMe}
                       onChange={this.handleRememberMeChange}
                     />
-                    <RememberPassLabel>{i18n.t("wap.login.rememberMe")}</RememberPassLabel>
+                    <RememberPassLabel>
+                      {i18n.t("wap.login.rememberMe")}
+                    </RememberPassLabel>
                   </RememberPassContainer>
                   <ForgotPassContainer onClick={this.handleForgotpasswordClick}>
-                    <ForgotPassLabel>{i18n.t("wap.login.forgetPass")}</ForgotPassLabel>
+                    <ForgotPassLabel>
+                      {i18n.t("wap.login.forgetPass")}
+                    </ForgotPassLabel>
                   </ForgotPassContainer>
                   <LoginActionContainer>
                     <ButtonWap
-
                       name={i18n.t("common.login")}
                       onClick={this.handleLoginClick}
                     ></ButtonWap>
@@ -449,15 +449,35 @@ class Login extends Component {
                       style={{ "margin-top": "10px" }}
                       onClick={this.handleBackToHomeClick}
                     ></ButtonWap>
-
                   </LoginActionContainer>
                   <LanguageWrap>
-                    <LanguageLink selected={i18n.language === "zh-CN"} onClick={() => { window.location.href = "/zh-CN" }}>简体中文</LanguageLink>
+                    <LanguageLink
+                      selected={i18n.language === "zh-CN"}
+                      onClick={() => {
+                        window.location.href = "/zh-CN";
+                      }}
+                    >
+                      简体中文
+                    </LanguageLink>
 
                     <LanguageLink> | </LanguageLink>
-                    <LanguageLink selected={i18n.language === "zh-TW"} onClick={() => { window.location.href = "/zh-TW" }}>繁体中文</LanguageLink>
+                    <LanguageLink
+                      selected={i18n.language === "zh-TW"}
+                      onClick={() => {
+                        window.location.href = "/zh-TW";
+                      }}
+                    >
+                      繁体中文
+                    </LanguageLink>
                     <LanguageLink> | </LanguageLink>
-                    <LanguageLink selected={i18n.language === "en-US"} onClick={() => { window.location.href = "/en-US" }}>English</LanguageLink>
+                    <LanguageLink
+                      selected={i18n.language === "en-US"}
+                      onClick={() => {
+                        window.location.href = "/en-US";
+                      }}
+                    >
+                      English
+                    </LanguageLink>
                   </LanguageWrap>
                 </>
               );
@@ -467,9 +487,9 @@ class Login extends Component {
                   <Textbox
                     icon={IconUserPNG}
                     type={"text"}
-
                     placeholder={i18n.t("wap.register.username")}
                     style={{ marginTop: "60px" }}
+                    maxLength="32"
                     value={this.state.username}
                     onChange={this.handleUsernameChange}
                   ></Textbox>
@@ -478,10 +498,10 @@ class Login extends Component {
                     icon={IconUnlockPNG}
                     type={this.state.hidePassword ? "password" : "text"}
                     hidePassword={this.state.hidePassword}
-
                     placeholder={i18n.t("wap.register.password")}
                     style={{ marginTop: "20px" }}
                     password={true}
+                    maxLength="20"
                     toggleShow={this.handleToggleShow}
                     value={this.state.password}
                     onChange={this.handlePasswordChange}
@@ -490,10 +510,10 @@ class Login extends Component {
                     icon={IconUnlockPNG}
                     type={this.state.hideConfirmPassword ? "password" : "text"}
                     hidePassword={this.state.hideConfirmPassword}
-
                     placeholder={i18n.t("wap.register.confirmPassword")}
                     style={{ marginTop: "20px" }}
                     password={true}
+                    maxLength="20"
                     toggleShow={this.handleToggleConfirmPasswordShow}
                     value={this.state.confirmPassword}
                     onChange={this.handleConfirmPasswordChange}
@@ -531,7 +551,6 @@ class Login extends Component {
                   <Textbox
                     icon={IconPromoPNG}
                     type={"text"}
-
                     placeholder={i18n.t("wap.register.promoteCode")}
                     style={{ marginTop: "20px" }}
                     value={this.state.promoId}
@@ -601,6 +620,11 @@ const mapDispatchToProps = (dispatch) => {
     getIDCardNo: () => dispatch(accountAction.getIDCardNo()),
     getHomePageGameList: () => dispatch(gameAction.getHomePageGameList()),
     getInviteLink: () => dispatch(accountAction.getInviteLink()),
+    getMessageList: (pages, limit) =>
+      dispatch(inboxAction.getMessages(pages, limit, true, true)),
+    getBankCardList: () => dispatch(walletAction.getBankCardList()),
+    getPlayerPromotionList: () =>
+      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
   };
 };
 export default connect(

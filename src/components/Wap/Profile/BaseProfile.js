@@ -6,7 +6,7 @@ import BottomNote from "../Share/BottomNote";
 import styled from "styled-components";
 import Header from "../Share/Header";
 import Loading from "../Share/Loading";
-import { UPDATE_INFO } from "../../../constants/actionType";
+import { UPDATE_INFO } from "@Inwoker/tgs-api";
 const Container = styled.div`
   width: 100%;
   overflow: hidden;

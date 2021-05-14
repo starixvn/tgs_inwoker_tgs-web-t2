@@ -4,15 +4,13 @@ import styled from "styled-components";
 
 import { AppHistory } from "../../../history/History";
 
-
 import Header from "../../Wap/Share/Header";
 
-import { accountAction } from "../../../actions/accountAction";
+import { accountAction } from "@Inwoker/tgs-api";
 import BottomScrollListener from "react-bottom-scroll-listener";
 
 import Loading from "../../Wap/Share/Loading";
 import i18n from "../../../utils/i18n";
-
 
 const ListItem = styled.div`
   width: 100%;
@@ -100,7 +98,9 @@ class Member extends Component {
                 <AvatarImg src={row.avatar_url_text}></AvatarImg>
                 <ContentContainer>
                   <ContentWrap>
-                    <ContentLabel>{i18n.t("affiliate.memberName")}</ContentLabel>
+                    <ContentLabel>
+                      {i18n.t("affiliate.memberName")}
+                    </ContentLabel>
                     <ContentValue>{row.name}</ContentValue>
                   </ContentWrap>
                   <ContentWrap>

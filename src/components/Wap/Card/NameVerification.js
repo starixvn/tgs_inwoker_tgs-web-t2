@@ -8,7 +8,6 @@
 
 // import { AppHistory } from "../../../history/History";
 // import { withStyles } from "@material-ui/core/styles";
-// import { accountAction } from "../../../actions/accountAction";
 
 // import Header from "../../Wap/Share/Header";
 

@@ -5,9 +5,12 @@ import styled from "styled-components";
 import AppBar from "@material-ui/core/AppBar";
 import { AppHistory } from "../../../history/History";
 import { withStyles } from "@material-ui/core/styles";
-import { accountAction } from '@Inwoker/tgs-api';
-import { walletAction } from "../../../actions/walletAction";
-import { RESET_WALLETRESULT } from "../../../constants/actionType";
+import {
+  accountAction,
+  walletAction,
+  RESET_WALLETRESULT,
+} from "@Inwoker/tgs-api";
+
 import Header from "../../Wap/Share/Header";
 
 import Textbox from "../../Wap/Share/Textbox";
@@ -22,7 +25,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import BgProfilePNG from "../../../assets/images/wap/bg-profile.png";
-import i18n from "../../../utils/i18n"
+import i18n from "../../../utils/i18n";
 const Container = styled.div`
   width: 100%;
   padding-top: 170px;
@@ -100,21 +103,25 @@ const StyledListItemText = withStyles((theme) => ({
 
 class AddCard extends Component {
   state = {
-    branch: "",
-    accountHolder: "",
     number: "",
 
-    bankOpen: false,
-    selectedBank: null,
+    channelOpen: false,
+    bankTypeOpen: false,
+    selectedChannelIndex: 0,
+    selectedBankTypeIndex: 0,
+
     loading: false,
     showDialog: false,
     dialogMessage: "",
   };
-  componentDidMount() { }
+  componentDidMount() {
+    if (this.props.wallet.withdrawalList.length === 0)
+      this.props.getWithdrawalChannel();
+  }
   componentDidUpdate(preProps) {
     if (
       preProps.wallet.addBankCardResult !==
-      this.props.wallet.addBankCardResult &&
+        this.props.wallet.addBankCardResult &&
       this.props.wallet.addBankCardResult !== null
     ) {
       if (this.props.wallet.addBankCardResult.IsSuccess) {
@@ -142,26 +149,33 @@ class AddCard extends Component {
     AppHistory.goBack();
   };
   handleNextClick = () => {
-    //card, name, foreign_id, bank_branch
+    var selected = this.props.wallet.withdrawalList[
+      this.state.selectedBankTypeIndex
+    ];
     this.props.addBankCard(
-      this.state.number,
-      this.state.accountHolder,
-      this.state.selectedBank.id,
-      this.state.branch
+      selected.channel[this.state.selectedChannelIndex].channelid,
+      selected.banktype,
+      this.state.number
     );
   };
-  handleBranchChange = (e) => {
-    this.setState({ ...this.state, branch: e.target.value });
-  };
-  handleAccountHolderChange = (e) => {
-    this.setState({ ...this.state, accountHolder: e.target.value });
-  };
+
   handleNumberChange = (e) => {
     this.setState({ ...this.state, number: e.target.value });
   };
 
-  handleBankClick = (bank) => {
-    this.setState({ ...this.state, selectedBank: bank, bankOpen: false });
+  handleBankTypeClick = (index) => {
+    this.setState({
+      ...this.state,
+      selectedBankTypeIndex: index,
+      bankTypeOpen: false,
+    });
+  };
+  handleChannelClick = (index) => {
+    this.setState({
+      ...this.state,
+      selectedChannelIndex: index,
+      channelOpen: false,
+    });
   };
   render() {
     return (
@@ -178,36 +192,40 @@ class AddCard extends Component {
         <SubTitle>{i18n.t("card.addCard.title")}</SubTitle>
         <Textbox
           style={{ margin: "20px auto 20px auto" }}
-          value={this.state.selectedBank ? this.state.selectedBank.name : ""}
-          onClick={() => this.setState({ ...this.state, bankOpen: true })}
+          value={
+            this.props.wallet.withdrawalList.length > 0
+              ? this.props.wallet.withdrawalList[
+                  this.state.selectedBankTypeIndex
+                ].banktype
+              : ""
+          }
+          onClick={() => this.setState({ ...this.state, bankTypeOpen: true })}
           type={"text"}
-          placeholder={i18n.t("card.addCard.msgSelectBank")}
-          label={i18n.t("common.bank")}
+          label={i18n.t("common.withdrawalBankType")}
           disabled={true}
         ></Textbox>
         <Textbox
           style={{ margin: "20px auto 20px auto" }}
-          value={this.state.branch}
-          onChange={this.handleBranchChange}
+          value={
+            this.props.wallet.withdrawalList.length > 0
+              ? this.props.wallet.withdrawalList[
+                  this.state.selectedBankTypeIndex
+                ].channel[this.state.selectedChannelIndex].channelname
+              : ""
+          }
+          onClick={() => this.setState({ ...this.state, channelOpen: true })}
           type={"text"}
-          placeholder={i18n.t("card.addCard.branchPlaceHolder")}
-          label={i18n.t("card.addCard.branch")}
+          label={i18n.t("common.withdrawalChannel")}
+          disabled={true}
         ></Textbox>
-        <Textbox
-          style={{ margin: "20px auto 20px auto" }}
-          value={this.state.accountHolder}
-          onChange={this.handleAccountHolderChange}
-          type={"text"}
-          placeholder={i18n.t("card.addCard.msgEnterCardHolder")}
-          label={i18n.t("card.addCard.cardHolder")}
-        ></Textbox>
+
         <Textbox
           style={{ margin: "20px auto 20px auto" }}
           value={this.state.number}
           onChange={this.handleNumberChange}
-          type={"number"}
-          placeholder={i18n.t("card.addCard.msgEnterCard")}
-          label={i18n.t("card.addCard.cardNum")}
+          type={"text"}
+          placeholder={i18n.t("common.msgEnterWithdrawalNumber")}
+          label={i18n.t("common.withdrawalNumber")}
         ></Textbox>
 
         <BottomInfo>{i18n.t("card.addCard.desc")}</BottomInfo>
@@ -223,24 +241,52 @@ class AddCard extends Component {
           }
         ></Button>
         <StyledModalBank
-          onClose={() => this.setState({ ...this.state, bankOpen: false })}
-          open={this.state.bankOpen}
+          onClose={() => this.setState({ ...this.state, bankTypeOpen: false })}
+          open={this.state.bankTypeOpen}
         >
-          {this.props.wallet.bankList.map((item, index) => {
-            return (
-              <StyledListItem
-                button
-                key={index}
-                onClick={() => this.handleBankClick(item)}
-              >
-                <StyledListItemIcon>
+          {this.props.wallet.withdrawalList.length > 0 &&
+            this.props.wallet.withdrawalList.map((item, index) => {
+              return (
+                <StyledListItem
+                  button
+                  key={index}
+                  onClick={() => this.handleBankTypeClick(index)}
+                >
+                  {/* <StyledListItemIcon>
                   <StyledListItemImage src={item.file}></StyledListItemImage>
-                </StyledListItemIcon>
-                <StyledListItemText primary={item.name}></StyledListItemText>
-              </StyledListItem>
-            );
-          })}
+                </StyledListItemIcon> */}
+                  <StyledListItemText
+                    primary={item.banktype}
+                  ></StyledListItemText>
+                </StyledListItem>
+              );
+            })}
         </StyledModalBank>
+        <StyledModalBank
+          onClose={() => this.setState({ ...this.state, channelOpen: false })}
+          open={this.state.channelOpen}
+        >
+          {this.props.wallet.withdrawalList.length > 0 &&
+            this.props.wallet.withdrawalList[
+              this.state.selectedBankTypeIndex
+            ].channel.map((item, index) => {
+              return (
+                <StyledListItem
+                  button
+                  key={index}
+                  onClick={() => this.handleChannelClick(index)}
+                >
+                  {/* <StyledListItemIcon>
+                  <StyledListItemImage src={item.file}></StyledListItemImage>
+                </StyledListItemIcon> */}
+                  <StyledListItemText
+                    primary={item.channelname}
+                  ></StyledListItemText>
+                </StyledListItem>
+              );
+            })}
+        </StyledModalBank>
+
         <MessageDialog
           onClose={() => this.handleCloseDialog()}
           open={this.state.showDialog}
@@ -264,8 +310,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     accountLogout: (token) => dispatch(accountAction.accountLogout(token)),
-    addBankCard: (card, name, foreign_id, bank_branch) =>
-      dispatch(walletAction.addBankCard(card, name, foreign_id, bank_branch)),
+    addBankCard: (channelid, bankType, address) =>
+      dispatch(walletAction.addBankCard(channelid, bankType, address)),
+    getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
     getBankCardList: () => dispatch(walletAction.getBankCardList()),
     resetResult: () =>
       dispatch({

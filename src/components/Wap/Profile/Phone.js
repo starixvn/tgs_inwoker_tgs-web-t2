@@ -4,11 +4,11 @@ import { withRouter } from "react-router-dom";
 import Textbox from "../Share/Textbox";
 import TextboxWithButton from "../Share/TextboxWithButton";
 import BaseProfile from "./BaseProfile";
-import {AccountService} from  '@Inwoker/tgs-api';
-import { accountAction } from '@Inwoker/tgs-api';
+import { AccountService, accountAction } from "@Inwoker/tgs-api";
+
 import BottomNote from "../Share/BottomNote";
 import { withSnackbar } from "notistack";
-import i18n from "../../../utils/i18n"
+import i18n from "../../../utils/i18n";
 class Phone extends BaseProfile {
   state = {
     countdownToken: 0,
@@ -16,7 +16,7 @@ class Phone extends BaseProfile {
     code: "",
     isNew: false,
     isConfigured: false,
-    securityKey:"",
+    securityKey: "",
   };
   componentDidMount() {
     let isConfigured = false;
@@ -56,11 +56,10 @@ class Phone extends BaseProfile {
   };
   handleGetCodeClick = (e) => {
     if (this.state.countdownToken > 0) return;
-    if (!this.state.phone) return this.showErrorMessage(i18n.t("common.msgEnterPhone"));
+    if (!this.state.phone)
+      return this.showErrorMessage(i18n.t("common.msgEnterPhone"));
     this.showLoading(true);
-    AccountService.VerifyPhone(
-      this.state.phone,
-    )
+    AccountService.VerifyPhone(this.state.phone)
       .then((response) => {
         if (response.IsSuccess) {
           this.setState({
@@ -79,7 +78,6 @@ class Phone extends BaseProfile {
       })
       .catch((err) => {
         this.showErrorMessage(err);
-
 
         this.showLoading(false);
       });
@@ -104,24 +102,22 @@ class Phone extends BaseProfile {
   };
   handleSubmitClicked = () => {
     this.showLoading(true);
-    AccountService.UpdatePhone(this.state.securityKey,this.state.code)
+    AccountService.UpdatePhone(this.state.securityKey, this.state.code)
       .then((response) => {
         if (response.IsSuccess) {
-          this.props
-            .getAccountInfo()
-            .then((responseUpdate) => {
-              if (responseUpdate.IsSuccess) {
-                this.setState({
-                  ...this.state,
-                  code: "",
-                  securityKey:"",
-                  countdownToken: 0,
-                  isNew: false,
-                  isConfigured: true,
-                });
-              }
-              this.showLoading(false);
-            });
+          this.props.getAccountInfo().then((responseUpdate) => {
+            if (responseUpdate.IsSuccess) {
+              this.setState({
+                ...this.state,
+                code: "",
+                securityKey: "",
+                countdownToken: 0,
+                isNew: false,
+                isConfigured: true,
+              });
+            }
+            this.showLoading(false);
+          });
         } else {
           this.showErrorMessage(response.info);
           this.showLoading(false);
@@ -152,7 +148,10 @@ class Phone extends BaseProfile {
                 buttonlabel={
                   this.state.countdownToken <= 0
                     ? i18n.t("common.msgSendToken")
-                    : i18n.t("common.btnTokenResendLabel") + "(" + this.state.countdownToken + "s)"
+                    : i18n.t("common.btnTokenResendLabel") +
+                      "(" +
+                      this.state.countdownToken +
+                      "s)"
                 }
                 style={{ margin: "20px auto 20px auto" }}
                 value={this.state.code}
@@ -165,7 +164,9 @@ class Phone extends BaseProfile {
           }
         })()}
       </>,
-      this.state.isConfigured ? i18n.t("common.configured") : i18n.t("common.complete"),
+      this.state.isConfigured
+        ? i18n.t("common.configured")
+        : i18n.t("common.complete"),
       (() => {
         if (this.state.isConfigured) {
           return (
@@ -188,8 +189,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAccountInfo: () =>
-      dispatch(accountAction.getAccountInfo()),
+    getAccountInfo: () => dispatch(accountAction.getAccountInfo()),
   };
 };
 export default connect(

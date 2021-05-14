@@ -1,5 +1,4 @@
 export const GameTypeEnum = {
-
   SPORTS: 1,
   RNGSPORTS: 2,
   RNGSPORTSLOBBY: 3,
@@ -15,9 +14,7 @@ export const GameTypeEnum = {
   LOTTERY: 13,
   LOTTERYLOBBY: 14,
   SLOT: 15,
-  TABLEGAME: 15,
-
-
+  TABLEGAME: 16,
 };
 export const GameEnum = {
   AG: "ag",
@@ -29,10 +26,13 @@ export const GameEnum = {
   AP: "ap",
   BL: "bole",
   LEG: "leg",
+  SBO: "sbo",
   AS: "asiastar",
   _633: "633",
-  Sabah: "sabah",
+  Sabah: "saba",
   Pinnacle: "pinnacle",
+  BG: "bg",
+  PT: "pt",
 };
 export const LotteryGameTypeEnum = {
   K3: "k3",
@@ -77,6 +77,7 @@ export const SlotFilterType = {
   New: 2,
   Bookmark: 3,
   History: 4,
+  Recommend: 5,
 };
 export const WalletType = {
   MainWallet: 0,

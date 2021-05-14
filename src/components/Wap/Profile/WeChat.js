@@ -6,19 +6,19 @@ import { withRouter } from "react-router-dom";
 import Textbox from "../Share/Textbox";
 
 import BaseProfile from "./BaseProfile";
-// import { ProfileAction } from "../../../actions/ProfileAction";
-import {AccountService} from  '@Inwoker/tgs-api';
+
+import { AccountService } from "@Inwoker/tgs-api";
 import { withSnackbar } from "notistack";
-import { accountAction } from "../../../actions/accountAction";
+import { accountAction } from "@Inwoker/tgs-api";
 class WeChat extends BaseProfile {
   state = {
-    wechat: ""
+    wechat: "",
   };
   componentDidMount() {
     this.setState({ wechat: this.props.account.info.member_wechat });
   }
 
-  handleChangeNumber = e => {
+  handleChangeNumber = (e) => {
     this.setState({ wechat: e.target.value });
     this.onTextChanged();
   };
@@ -42,19 +42,17 @@ class WeChat extends BaseProfile {
     this.showLoading(true);
     //api
     AccountService.UpdateWechat(wechat)
-      .then(response => {
+      .then((response) => {
         if (response.IsSuccess) {
-          this.props
-            .getAccountProfile()
-            .then(responseUpdate => {
-              if (responseUpdate.IsSuccess) {
-                this.setState({
-                  ...this.state,
-                  wechat: wechat
-                });
-              }
-              this.showLoading(false);
-            });
+          this.props.getAccountProfile().then((responseUpdate) => {
+            if (responseUpdate.IsSuccess) {
+              this.setState({
+                ...this.state,
+                wechat: wechat,
+              });
+            }
+            this.showLoading(false);
+          });
         } else {
           this.props.alert("", response.msg);
           this.showLoading(false);
@@ -63,7 +61,7 @@ class WeChat extends BaseProfile {
           // });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.props.alert("", err);
         // this.props.enqueueSnackbar(err, {
         //   key: "error"
@@ -86,15 +84,14 @@ class WeChat extends BaseProfile {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    account: state.account
+    account: state.account,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getAccountProfile: () =>
-      dispatch(accountAction.getAccountProfile(true))
+    getAccountProfile: () => dispatch(accountAction.getAccountProfile(true)),
   };
 };
 export default connect(

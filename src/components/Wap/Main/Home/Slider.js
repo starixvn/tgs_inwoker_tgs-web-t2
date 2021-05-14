@@ -5,13 +5,14 @@ import config from "../../../../config/config";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slick from "react-slick";
-import Image1 from "../../../../assets/images/slider/banner-1.png";
-import Image2 from "../../../../assets/images/slider/banner-1.png";
-
+import Image1 from "../../../../assets/images/wap/slider/banner-1.jpg";
+import Image2 from "../../../../assets/images/wap/slider/banner-2.jpg";
+import Image1En from "../../../../assets/images/wap/slider/banner-1-en.jpg";
+import Image2En from "../../../../assets/images/wap/slider/banner-2-en.jpg";
 import i18n from "../../../../utils/i18n";
 const SlideImage = styled.img`
-  height: 330px;
-
+  height: 310px;
+  width: 750px;
 
   border: none;
   margin: 0 auto;
@@ -51,17 +52,18 @@ const settings = {
       ></div>
     );
   },
-  beforeChange: (current, next) => { },
+  beforeChange: (current, next) => {},
 };
 class Slider extends React.Component {
   render() {
+    const isChinese = i18n.language === "zh-CN" || i18n.language === "zh-TW";
     return (
       <Slick {...settings}>
-        <ATag >
-          <SlideImage src={Image1}></SlideImage>
+        <ATag>
+          <SlideImage src={isChinese ? Image1 : Image1En}></SlideImage>
         </ATag>
         <ATag>
-          <SlideImage src={Image2}></SlideImage>
+          <SlideImage src={isChinese ? Image2 : Image2En}></SlideImage>
         </ATag>
         {/* {this.props.list.map((row, index) => {
           return (

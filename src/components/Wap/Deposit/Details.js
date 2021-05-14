@@ -10,7 +10,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { WalletService } from "../../../services/WalletService";
+
 import { withSnackbar } from "notistack";
 
 import Button from "../../Wap/Share/Button";
@@ -19,7 +19,7 @@ import Loading from "../../Wap/Share/Loading";
 import i18n from "../../../utils/i18n";
 const Container = styled.div``;
 const ContentBg = styled.div`
-  background:  #fff;
+  background: #fff;
   width: 100%;
 
   padding: 60px 60px 30px 60px;
@@ -56,7 +56,7 @@ const SplitBoth = styled.div`
   margin: 30px 0;
 `;
 
-const StyledModalPopup = withStyles(theme => ({
+const StyledModalPopup = withStyles((theme) => ({
   paper: {
     borderRadius: "50px",
     fontSize: "28px",
@@ -65,8 +65,8 @@ const StyledModalPopup = withStyles(theme => ({
     width: "600px",
     maxWidth: "690px",
 
-    display: "block"
-  }
+    display: "block",
+  },
 }))(Modal);
 const DialoMessage = styled.div`
   font-size: 26px;
@@ -76,37 +76,32 @@ const DialoMessage = styled.div`
   text-align: center;
 `;
 const ButtonConfirm = styled.div`
-width: 250px;
-height: 90px;
-border-radius: 20px;
+  width: 250px;
+  height: 90px;
+  border-radius: 20px;
 
-font-size: 34px;
+  font-size: 34px;
 
-text-align: center;
+  text-align: center;
 
-padding-top: 24px;
+  padding-top: 24px;
 
-margin: 10px auto;
-background-image: linear-gradient(to top, #91030c, #c40511);
-color: #ffffff;
+  margin: 10px auto;
+  background-image: linear-gradient(to top, #91030c, #c40511);
+  color: #ffffff;
 `;
 class Details extends Component {
   state = {
     expired_time: 0,
     loading: false,
-    openPopup: false
+    openPopup: true,
+    files: [],
   };
   componentDidMount() {
-    if (this.props.order == null) {
-      AppHistory.replace("/" + i18n.language + "/deposit");
-    } else {
-      this.setState({
-        ...this.state,
-        openPopup: true
-      });
-      console.log(this.props)
-
-    }
+    this.setState({
+      ...this.state,
+      openPopup: this.props.isManual ? false : true,
+    });
   }
   // setCountdownTimer = () => {
   //   setTimeout(() => {
@@ -119,7 +114,7 @@ class Details extends Component {
   //   this.setState({ ...this.state, expired_time: this.state.expired_time - 1 });
   //   this.setCountdownTimer();
   // };
-  handleDepositConfirmClick = e => {
+  handleDepositConfirmClick = (e) => {
     AppHistory.replace("/" + i18n.language + "/transfer");
     // this.setState({ ...this.state, loading: true });
     // WalletService.CheckDeposit(this.props.token, this.props.order.id).then(
@@ -156,63 +151,104 @@ class Details extends Component {
     //   }
     // );
   };
+  handleFileChange = (e) => {
+    var files = e.target.files;
 
-  handleDepositCancelClick = e => {
+    this.setState({ ...this.state, files: files });
+  };
+  handleUploadClick = () => {
+    this.props.performUploadImage(this.state.files[0]);
+  };
+  handleDepositCancelClick = (e) => {
     AppHistory.replace("/" + i18n.language + "/deposit");
   };
   handleOpenPopupUrl = () => {
     this.setState({
       ...this.state,
 
-      openPopup: false
+      openPopup: false,
     });
-    window.open(this.props.order.depositResult.data.url, "_blank")
+    window.open(this.props.depositResult.data.paymenturl, "_blank");
   };
   handleClosePopup = () => {
     this.setState({
       ...this.state,
 
-      openPopup: false
+      openPopup: false,
     });
   };
   handleBackClick = () => {
     AppHistory.goBack();
-  }
+  };
   render() {
-    if (this.props.order == null) {
-      return <></>;
-    }
-    const jsonResult = JSON.parse(this.props.order.depositResult.data.params);
     return (
       <Container>
-        <Header onBackClick={this.handleBackClick} title={i18n.t("deposit.title")}></Header>
         <ContentBg>
           <BalanceLabel>{i18n.t("deposit.depositAmount")}：</BalanceLabel>
-          <DepositAmount>¥ {this.props.order.depositResult.data.amount}</DepositAmount>
+          <DepositAmount>¥ {this.props.amount}</DepositAmount>
           <SplitLine></SplitLine>
           <LeftLabel>{i18n.t("deposit.orderNumber")}</LeftLabel>
-          <RightLabel>{jsonResult.order_id}</RightLabel>
+          <RightLabel>
+            {this.props.isManual === true
+              ? this.props.depositResult.data
+              : this.props.depositResult.data.formid}
+          </RightLabel>
           <SplitBoth></SplitBoth>
           <LeftLabel>{i18n.t("deposit.depositMethod")}</LeftLabel>
-          <RightLabel>{this.props.order.depositResult.data.payment_method}</RightLabel>
+          <RightLabel>{this.props.methodcode}</RightLabel>
           <SplitBoth></SplitBoth>
           <LeftLabel>{i18n.t("deposit.depositTunnel")}</LeftLabel>
-          <RightLabel>{this.props.order.selectedChannel.title}</RightLabel>
+          <RightLabel>{this.props.channelname}</RightLabel>
           <SplitBoth></SplitBoth>
 
+          {(() => {
+            if (this.props.isManual === true) {
+              return (
+                <>
+                  <LeftLabel>{i18n.t("deposit.uploadReceipt")}</LeftLabel>
+                  <RightLabel>
+                    <input
+                      type="file"
+                      onChange={this.handleFileChange}
+                      accept="image/*"
+                    ></input>
+                  </RightLabel>
+                  <SplitBoth></SplitBoth>
+                  <LeftLabel>{i18n.t("deposit.receiverBank")}</LeftLabel>
+                  <RightLabel>{this.props.extended.name}</RightLabel>
+                  <SplitBoth></SplitBoth>
+                  <LeftLabel>{i18n.t("deposit.receiverAccount")}</LeftLabel>
+                  <RightLabel>{this.props.extended.bankAccount}</RightLabel>
+                  <SplitBoth></SplitBoth>
+                </>
+              );
+            }
+          })()}
         </ContentBg>
+        {(() => {
+          if (this.props.isManual === true) {
+            return (
+              <Button
+                style={{ margin: "20px auto" }}
+                labelStyle={{ color: "#fff" }}
+                label={i18n.t("deposit.uploadReceipt")}
+                onClick={this.handleUploadClick}
+                disabled={this.state.files.length <= 0}
+              ></Button>
+            );
+          }
+        })()}
         <Button
           style={{ margin: "20px auto" }}
           labelStyle={{ color: "#fff" }}
-          label={i18n.t("common.cancel")}
-          onClick={this.handleDepositCancelClick}
+          label={
+            this.props.isManual === true
+              ? i18n.t("common.back")
+              : i18n.t("common.complete")
+          }
+          onClick={this.props.handleRestartClick}
         ></Button>
-        <Button
-          style={{ margin: "20px auto" }}
-          labelStyle={{ color: "#fff" }}
-          label={i18n.t("common.complete")}
-          onClick={this.handleDepositConfirmClick}
-        ></Button>
+        ;
         <StyledModalPopup
           onClose={this.handleClosePopup}
           open={this.state.openPopup}
@@ -232,22 +268,18 @@ class Details extends Component {
           </ButtonConfirm>
         </StyledModalPopup>
         <Loading show={this.state.loading}></Loading>
-        <form id="form" target="_blank" method="post">
-          <input type="hidden" name="cid" id="cid"></input>
-          <input type="hidden" name="oid" id="oid"></input>
-        </form>
       </Container>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     screenWidth: state.ui.screenWidth,
     screenHeight: state.ui.screenHeight,
 
     balance: state.account.info.balance,
-    token: state.account.token
+    token: state.account.token,
   };
 };
 export default connect(

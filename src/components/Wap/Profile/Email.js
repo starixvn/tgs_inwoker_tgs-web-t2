@@ -4,11 +4,11 @@ import { withRouter } from "react-router-dom";
 import Textbox from "../Share/Textbox";
 import TextboxWithButton from "../Share/TextboxWithButton";
 import BaseProfile from "./BaseProfile";
-import {AccountService} from  '@Inwoker/tgs-api';
-import { accountAction } from '@Inwoker/tgs-api';
+import { AccountService } from "@Inwoker/tgs-api";
+import { accountAction } from "@Inwoker/tgs-api";
 import BottomNote from "../Share/BottomNote";
 import { withSnackbar } from "notistack";
-import i18n from "../../../utils/i18n"
+import i18n from "../../../utils/i18n";
 class Email extends BaseProfile {
   state = {
     countdownToken: 0,
@@ -16,7 +16,7 @@ class Email extends BaseProfile {
     code: "",
     isConfigured: false,
     isNew: false,
-    securityKey:"",
+    securityKey: "",
   };
   componentDidMount() {
     var isConfigured = false;
@@ -27,14 +27,14 @@ class Email extends BaseProfile {
       code: "",
       isConfigured: isConfigured,
       countdownToken: 0,
-      isNew: !this.props.account.info.check_pass_email
+      isNew: !this.props.account.info.check_pass_email,
     });
   }
-  handleChangeEmail = e => {
+  handleChangeEmail = (e) => {
     this.setState({ ...this.state, email: e.target.value });
   };
 
-  handleChangeCode = e => {
+  handleChangeCode = (e) => {
     this.setState({ ...this.state, code: e.target.value });
     this.onTextChanged();
   };
@@ -42,7 +42,7 @@ class Email extends BaseProfile {
     if (this.state.countdownToken > 0) {
       this.setState({
         ...this.state,
-        countdownToken: this.state.countdownToken - 1
+        countdownToken: this.state.countdownToken - 1,
       });
       setTimeout(() => {
         this.checkCountdownToken();
@@ -50,34 +50,36 @@ class Email extends BaseProfile {
     } else {
       this.setState({
         ...this.state,
-        countdownToken: this.state.countdownToken - 1
+        countdownToken: this.state.countdownToken - 1,
       });
     }
   };
-  handleGetCodeClick = e => {
+  handleGetCodeClick = (e) => {
     if (this.state.countdownToken > 0) return;
     if (!this.state.email) return this.showErrorMessage("请输入您的邮箱地址");
     this.showLoading(true);
-    AccountService.VerifyEmail(
-      this.state.email,
-    )
-      .then(response => {
+    AccountService.VerifyEmail(this.state.email)
+      .then((response) => {
         if (response.IsSuccess) {
           this.setState({
             ...this.state,
             securityKey: response.data,
-            countdownToken: 60
+            countdownToken: 60,
           });
           this.showInfoMessage(i18n.t("common.msgTokenSent"));
           setTimeout(() => {
             this.checkCountdownToken();
           }, 1000);
         } else {
-          this.showErrorMessage(response.info);
+          if (response.code === 402) {
+            this.showErrorMessage(i18n.t("common.msgInvalidEmail"));
+          } else {
+            this.showErrorMessage(response.info);
+          }
         }
         this.showLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         this.showErrorMessage(err);
 
         // if (
@@ -102,13 +104,13 @@ class Email extends BaseProfile {
     const email = this.state.email;
     return !(code && email);
   };
-  showErrorMessage = msg => {
+  showErrorMessage = (msg) => {
     this.props.alert("", msg);
     // this.props.enqueueSnackbar(msg, {
     //   key: "error"
     // });
   };
-  showInfoMessage = msg => {
+  showInfoMessage = (msg) => {
     this.props.alert("", msg);
     // this.props.enqueueSnackbar(msg, {
     //   key: "info"
@@ -116,36 +118,35 @@ class Email extends BaseProfile {
   };
   handleSubmitClicked = () => {
     this.showLoading(true);
-      AccountService.UpdateEmail(
-        this.state.securityKey,
-        this.state.code
-      )
-        .then(response => {
-          if (response.IsSuccess) {
-            this.props
-              .getAccountProfile()
-              .then(responseUpdate => {
-                if (responseUpdate.IsSuccess) {
-                  this.setState({
-                    ...this.state,
-                    code: "",
-                    securityKey:"",
-                    isConfigured: true,
-                    countdownToken: 0,
-                    isNew: false
-                  });
-                }
-                this.showLoading(false);
+    AccountService.UpdateEmail(this.state.securityKey, this.state.code)
+      .then((response) => {
+        if (response.IsSuccess) {
+          this.props.getAccountProfile().then((responseUpdate) => {
+            if (responseUpdate.IsSuccess) {
+              this.setState({
+                ...this.state,
+                code: "",
+                securityKey: "",
+                isConfigured: true,
+                countdownToken: 0,
+                isNew: false,
               });
+            }
+            this.showLoading(false);
+          });
+        } else {
+          if (response.code === 405) {
+            this.showErrorMessage(i18n.t("common.msgInvalidPhoneCode"));
           } else {
             this.showErrorMessage(response.info);
-            this.showLoading(false);
           }
-        })
-        .catch(err => {
           this.showLoading(false);
-          this.showErrorMessage(err);
-        });
+        }
+      })
+      .catch((err) => {
+        this.showLoading(false);
+        this.showErrorMessage(err);
+      });
   };
 
   render() {
@@ -175,6 +176,7 @@ class Email extends BaseProfile {
                 placeholder={"请输入邮箱验证码"}
                 label={"验证码"}
                 onClick={this.handleGetCodeClick}
+                maxLength={6}
               ></TextboxWithButton>
             );
           }
@@ -196,15 +198,15 @@ class Email extends BaseProfile {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    account: state.account
+    account: state.account,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getAccountProfile: token =>
-      dispatch(accountAction.getAccountProfile(true))
+    getAccountProfile: (token) =>
+      dispatch(accountAction.getAccountProfile(true)),
   };
 };
 export default connect(

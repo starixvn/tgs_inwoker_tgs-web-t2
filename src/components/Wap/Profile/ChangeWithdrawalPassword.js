@@ -1,30 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import Textbox from "../Share/Textbox";
+
 import BaseProfile from "./BaseProfile";
-import ResetWithdrawalPassword from "./ResetWithdrawalPassword"
-// import { ProfileAction } from "../../../actions/ProfileAction";
-import { AccountService } from "../../../services/AccountService";
+import ResetWithdrawalPassword from "./ResetWithdrawalPassword";
+
+import { AccountService } from "@Inwoker/tgs-api";
 import { withSnackbar } from "notistack";
 import { withStyles } from "@material-ui/core/styles";
 import Header from "../Share/Header";
 import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import { AppHistory } from "../../../history/History";
-import i18n from "../../../utils/i18n"
-const StyledAppBar = withStyles({
-  root: {
-    top: "89px",
 
-    backgroundColor: "#f1f1f1",
-    boxShadow: "none",
-  },
-})(AppBar);
+import { AppHistory } from "../../../history/History";
+import i18n from "../../../utils/i18n";
 
 class ChangeWithdrawalPassword extends BaseProfile {
-  componentDidMount() { }
+  componentDidMount() {}
   handleChangeOldPassword = (e) => {
     this.setState({ ...this.state, oldpassword: e.target.value });
     this.onTextChanged();
@@ -41,7 +32,6 @@ class ChangeWithdrawalPassword extends BaseProfile {
     this.setState({
       ...this.state,
       selectedTab: newValue,
-
     });
   };
   handleSubmitClicked = (e) => {
@@ -49,14 +39,18 @@ class ChangeWithdrawalPassword extends BaseProfile {
     const newpassword = this.state.newpassword;
     const newpassword2 = this.state.newpassword2;
     if (newpassword !== newpassword2) {
-      this.props.alert("", i18n.t("common.msgInvalidConfirmPass"))
+      this.props.alert("", i18n.t("common.msgInvalidConfirmPass"));
       // this.props.enqueueSnackbar("确认密码错误", {
       //   key: "error"
       // });
       return;
     }
     this.showLoading(true);
-    AccountService.ChangeWithdrawalPassword(oldpassword, newpassword, newpassword2)
+    AccountService.ChangeWithdrawalPassword(
+      oldpassword,
+      newpassword,
+      newpassword2
+    )
       .then((response) => {
         if (response.IsSuccess) {
           this.props.alert("", response.info);
@@ -69,7 +63,6 @@ class ChangeWithdrawalPassword extends BaseProfile {
         }
 
         this.showLoading(false);
-
       })
       .catch((err) => {
         this.props.alert("", err);
@@ -91,11 +84,16 @@ class ChangeWithdrawalPassword extends BaseProfile {
   };
   render() {
     return (
-    <>
-      <Header onBackClick={this.handleBackClick} title={i18n.t("profile.changeWithdrawalPassword.title")}></Header>
-      <ResetWithdrawalPassword alert={this.props.alert}></ResetWithdrawalPassword>
-    </>
-    )
+      <>
+        <Header
+          onBackClick={this.handleBackClick}
+          title={i18n.t("profile.changeWithdrawalPassword.title")}
+        ></Header>
+        <ResetWithdrawalPassword
+          alert={this.props.alert}
+        ></ResetWithdrawalPassword>
+      </>
+    );
   }
 }
 

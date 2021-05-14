@@ -17,9 +17,12 @@ import IconTransferRefreshPNG from "../../../assets/images/wap/icon-transfer-ref
 import FormControl from "@material-ui/core/FormControl";
 import DynamicFont from "react-dynamic-font";
 import Select from "@material-ui/core/Select";
-import { accountAction } from '@Inwoker/tgs-api';
-import { walletAction } from "../../../actions/walletAction";
-import { RESET_WALLETRESULT } from "../../../constants/actionType";
+import {
+  accountAction,
+  walletAction,
+  RESET_WALLETRESULT,
+} from "@Inwoker/tgs-api";
+
 import { withSnackbar } from "notistack";
 import Loading from "../../Wap/Share/Loading";
 import Common from "../../../utils/Common";
@@ -143,7 +146,7 @@ const TextboxLabel = styled.div`
   color: #141a36;
 `;
 const TextboxInput = styled.input`
-color:#404040;
+  color: #404040;
   float: left;
   height: 88px;
   font-size: 28px;
@@ -158,10 +161,8 @@ color:#404040;
   }
 `;
 const ButtonDiv = styled.div`
-
   float: right;
 
- 
   color: #fefeff;
   font-size: 20px;
 
@@ -196,31 +197,27 @@ const CustomFormControl = withStyles((theme) => ({
   },
 }))(FormControl);
 const OneClickReceiveButton = styled.div`
-
-
   float: right;
-
 
   padding-top: 9px;
   margin-top: 30px;
 
   float: right;
 
- 
   color: #fefeff;
   font-size: 23px;
- 
+
   text-align: center;
   padding-top: 10px;
 
   width: 146px;
   height: 47px;
   border-radius: 10px;
-  background-image: linear-gradient(to top,#91030c,#c40511);
+  background-image: linear-gradient(to top, #91030c, #c40511);
 `;
 class Transfer extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       transferAmount: "",
       fromWallet: "",
@@ -232,16 +229,16 @@ class Transfer extends Component {
 
   mainAccountId = 0;
   componentDidMount() {
-    this.props.getBalanceList().then(_ => {
+    this.props.getBalanceList().then((_) => {
       this.bindData();
-    })
+    });
 
     //this.handleRefreshClick();
   }
   componentDidUpdate(preProps) {
     if (
       this.props.wallet.balanceList.length !==
-      preProps.wallet.balanceList.length &&
+        preProps.wallet.balanceList.length &&
       this.props.wallet.balanceList.length > 0
     ) {
       this.bindData();
@@ -253,9 +250,9 @@ class Transfer extends Component {
     ) {
       if (this.props.wallet.transferResult.IsSuccess) {
         this.props.resetResult();
-        this.props.getBalanceList().then(_ => {
+        this.props.getBalanceList().then((_) => {
           this.bindData();
-        })
+        });
         this.setState({
           transferAmount: "",
           fromWallet: "",
@@ -271,7 +268,7 @@ class Transfer extends Component {
     // withdrawal all response
     if (
       preProps.wallet.withdrawalAllResult !==
-      this.props.wallet.withdrawalAllResult &&
+        this.props.wallet.withdrawalAllResult &&
       this.props.wallet.withdrawalAllResult !== null
     ) {
       if (this.props.wallet.withdrawalAllResult.IsSuccess) {
@@ -379,10 +376,8 @@ class Transfer extends Component {
     ) {
       if (parseFloat(transferAmount) <= 0) {
         this.props.alert("", i18n.t("transfer.invalidAmount"));
-
       } else {
         this.props.alert("", i18n.t("transfer.insufficient"));
-
       }
     } else {
       this.transfer(transferFrom, transferTo, transferAmount);
@@ -395,11 +390,8 @@ class Transfer extends Component {
       transferTo == this.mainAccountId ? transferFrom : transferTo,
       transferFrom == this.mainAccountId ? 1 : 2
     );
-
-
   };
   handleMaxAmountClicked = (e) => {
-
     if (this.state.fromWallet) {
       const amount =
         this.state.transferWalletList.find((wallet) => {
@@ -410,12 +402,10 @@ class Transfer extends Component {
   };
   handleWithdrawAllClick = (e) => {
     this.props.doWithdrawAll();
-
   };
 
   handleFromWallet = (e) => {
     const fromWallet = e.target.value;
-
 
     if (fromWallet != this.mainAccountId) {
       this.setState({
@@ -433,8 +423,6 @@ class Transfer extends Component {
   };
   handleToWallet = (e) => {
     const toWallet = e.target.value;
-
-
 
     if (toWallet != this.mainAccountId) {
       this.setState({
@@ -476,7 +464,6 @@ class Transfer extends Component {
               <LeftLabelIcon icon={IconTransferTotalPNG}></LeftLabelIcon>
               <div className="clear"></div>
               <LeftLabel>{i18n.t("transfer.mainAccount")}</LeftLabel>
-
             </LeftBalanceContainer>
 
             <RightAmountLabel>
@@ -521,7 +508,9 @@ class Transfer extends Component {
             >
               {(() => {
                 if (this.state.fromWallet === "")
-                  return <option value="">{i18n.t("transfer.pleaseSelect")}</option>;
+                  return (
+                    <option value="">{i18n.t("transfer.pleaseSelect")}</option>
+                  );
               })()}
               {this.state.selectListView}
             </Select>
@@ -554,7 +543,9 @@ class Transfer extends Component {
             >
               {(() => {
                 if (this.state.toWallet === "")
-                  return <option value="">{i18n.t("transfer.pleaseSelect")}</option>;
+                  return (
+                    <option value="">{i18n.t("transfer.pleaseSelect")}</option>
+                  );
               })()}
               {this.state.selectListView}
             </Select>
@@ -569,7 +560,9 @@ class Transfer extends Component {
             onChange={this.handleTransferAmountChanged}
             value={this.state.transferAmount}
           ></TextboxInput>
-          <ButtonDiv onClick={this.handleMaxAmountClicked}>{i18n.t("transfer.maxAmount")}</ButtonDiv>
+          <ButtonDiv onClick={this.handleMaxAmountClicked}>
+            {i18n.t("transfer.maxAmount")}
+          </ButtonDiv>
         </TextboxContainer>
 
         <Button
@@ -599,7 +592,11 @@ class Transfer extends Component {
           ></div>
         </StyledModal>
         <Loading
-          show={this.state.loading || this.props.wallet.loading || this.props.wallet.transferLoading}
+          show={
+            this.state.loading ||
+            this.props.wallet.loading ||
+            this.props.wallet.transferLoading
+          }
         ></Loading>
       </Container>
     );

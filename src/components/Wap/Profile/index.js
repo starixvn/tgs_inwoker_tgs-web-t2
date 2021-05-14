@@ -93,8 +93,8 @@ const ContentItem = (
   var configureElement = isConfigured ? (
     <SettedLabel>{configuredValue}</SettedLabel>
   ) : (
-      <NotSetLabel>{i18n.t("profile.notSet")}</NotSetLabel>
-    );
+    <NotSetLabel>{i18n.t("profile.notSet")}</NotSetLabel>
+  );
   return (
     <ItemContainer onClick={onClickEvent}>
       <ItemIconContainer>
@@ -114,10 +114,8 @@ class Profile extends Component {
   state = {};
   componentDidMount() {
     if (this.props.account.token === null) {
-
       AppHistory.replace("/" + i18n.language + "/");
     }
-
   }
   handleBackClick = () => {
     AppHistory.goBack();
@@ -145,14 +143,17 @@ class Profile extends Component {
           {ContentItem(
             IconIDPNG,
             i18n.t("profile.nameVerify.icNum"),
-            this.isConfigured(this.props.account.info.member_name !== ""&& this.props.account.info.member_name !== null),
+            this.isConfigured(
+              this.props.account.info.member_name !== "" &&
+                this.props.account.info.member_name !== null
+            ),
             () => {
               this.handleNavigate("/profile/name");
             },
             this.props.account.info.member_name
           )}
 
-          {ContentItem(
+          {/* {ContentItem(
             IconMobilePNG,
             i18n.t("profile.phone.title"),
             this.isConfigured(this.props.account.info.member_phone),
@@ -160,7 +161,7 @@ class Profile extends Component {
               this.handleNavigate("/profile/phone");
             },
             this.props.account.info.member_phone
-          )}
+          )} */}
 
           {ContentItem(
             IconEmailPNG,
@@ -213,20 +214,18 @@ class Profile extends Component {
             i18n.t("profile.withdrawalPassword.title"),
             this.isConfigured(this.props.account.info.member_safe_password),
             () => {
-              if (this.props.account.info.member_safe_password === "set") {
-                if(this.props.account.info.check_pass_phone === false){
-                  this.handleNavigate("/profile/phone");
-                }
-                else{
-                  this.handleNavigate("/profile/changewithdrawalpassword");
-                }
+              if (this.props.account.info.check_pass_email === false) {
+                this.props.alert("", i18n.t("profile.msgPlsBindEmailAddress"));
+                this.handleNavigate("/profile/email");
               } else {
-                this.handleNavigate("/profile/withdrawalpassword");
+                if (this.props.account.info.member_safe_password === "set") {
+                  this.handleNavigate("/profile/changewithdrawalpassword");
+                } else {
+                  this.handleNavigate("/profile/withdrawalpassword");
+                }
               }
             }
           )}
-
-
         </BlockContainer>
       </Container>
     );

@@ -28,8 +28,12 @@ import {
   GETINVITELINK_SUCCESS,
   GETPROMOTEUSER_SUCCESS,
   GETPROMOTEBILL_SUCCESS,
-} from "../constants/actionType";
-
+  UNAUTHORIZE,
+  SETMESSAGEREAD_BEGIN,
+  SETMESSAGEREAD_SUCCESS,
+  SETMESSAGEREAD_FAILED,
+} from "@Inwoker/tgs-api";
+import { isMobile } from "react-device-detect";
 const initialState = {
   pending: false,
   updateCardResult: null,
@@ -53,7 +57,7 @@ const initialState = {
     member_wechat: "",
     can_withdrawal: "",
     bonus_num: "",
-    message_num: "",
+    message_num: 0,
     check_pass_account: "",
     check_pass_email: "",
     check_pass_phone: "",
@@ -122,8 +126,8 @@ const initialState = {
     },
   },
   inbox: {
-    list: [],
-    count: 0,
+    items: [],
+    totalcount: 0,
   },
   promote_user: {
     list: [],
@@ -155,7 +159,6 @@ function mapToAccountState(state, data) {
     member_safe_password: data.issetpaypassword === true ? "set" : "",
     member_qq: data.qq,
     member_wechat: data.wechat,
-    message_num: 0,
   };
 }
 export function accountReducer(state = initialState, action) {
@@ -166,36 +169,32 @@ export function accountReducer(state = initialState, action) {
         info: { ...state.info, ...action.payload },
       };
     case LOGIN_SUCCESS:
-
       return {
         ...state,
         token: action.payload.data.token,
         info: {
-
           token: action.payload.data.token,
         },
-        loading: action.loading,
+        loading: false,
       };
 
     case CHECKTOKEN_SUCCESS:
       return {
         ...state,
-        token: localStorage.getItem("token"),
+        token: localStorage.getItem("token" + (isMobile ? 1 : 0)),
         info: {
           ...mapToAccountState(state, action.payload.data),
-          token: localStorage.getItem("token"),
+          token: localStorage.getItem("token" + (isMobile ? 1 : 0)),
         },
-        loading: action.loading,
+        loading: false,
       };
     case GETACCOUNT_SUCCESS:
       return {
         ...state,
-        token: localStorage.getItem("token"),
         info: {
           ...mapToAccountState(state, action.payload.data),
-          token: localStorage.getItem("token"),
         },
-        loading: action.loading,
+        loading: false,
       };
     case GETBALANCE_SUCCESS:
       return {
@@ -206,9 +205,8 @@ export function accountReducer(state = initialState, action) {
           can_withdrawal: action.payload.data.can_withdrawal,
           limit_withdrawal: action.payload.data.limit_withdrawal,
           member_level_id: action.payload.data.member_level_id,
-          message_num: action.payload.data.message_num,
         },
-        loading: action.loading,
+        loading: false,
       };
     case GETVIPINFO_SUCCESS:
       return {
@@ -233,22 +231,67 @@ export function accountReducer(state = initialState, action) {
       return {
         ...initialState,
       };
-    case "UNAUTHORIZE":
+    case UNAUTHORIZE:
       return {
         ...state,
         token: null,
         info: initialState.info,
       };
+    case SETMESSAGEREAD_SUCCESS:
+      var inboxItems = [...state.inbox.items];
+      for (var i = 0; i < action.ids.length; i++) {
+        for (var x = 0; x < inboxItems.length; x++) {
+          if (inboxItems[x].id === action.ids[i]) {
+            inboxItems[x].isread = true;
+            break;
+          }
+        }
+      }
+      var newState = {
+        ...state,
+        info: {
+          ...state.info,
+          message_num: state.info.message_num - 1,
+        },
+
+        inbox: { ...state.inbox, items: inboxItems },
+      };
+      return {
+        ...newState,
+      };
     case GETMESSAGE_SUCCESS:
       return {
         ...state,
-        inbox: {
-          list: action.isNew
-            ? action.payload.data.list
-            : state.inbox.list.concat(action.payload.data.list),
-          count: action.payload.data.count,
+        info: {
+          ...state.info,
+          message_num:
+            action.getCount !== true
+              ? state.info.message_num
+              : action.payload.data.items.filter((a) => a.isread === false)
+                  .length,
         },
+
+        inbox:
+          action.getCount === true
+            ? { ...state.inbox }
+            : {
+                items: action.isNew
+                  ? action.payload.data.items
+                  : state.inbox.items.concat(action.payload.data.items),
+                totalcount: action.payload.data.totalcount,
+              },
       };
+    // return {
+    //   ...state,
+    //   message_num: action.payload.data.items.filter((a) => a.isread === false)
+    //     .length,
+    //   inbox: {
+    //     items: action.isNew
+    //       ? action.payload.data.items
+    //       : state.inbox.items.concat(action.payload.data.items),
+    //     totalcount: action.payload.data.totalcount,
+    //   },
+    // };
     case GETIDCARDNO_BEGIN:
       return {
         ...state,
@@ -272,8 +315,8 @@ export function accountReducer(state = initialState, action) {
     case UPDATECARDNO_SUCCESS:
       return {
         ...state,
-        info: { ...state.info, ...action.payload }
-      }
+        info: { ...state.info, ...action.payload },
+      };
     case UPDATECARDNO_FAILURE:
       return {
         ...state,

@@ -11,57 +11,64 @@ import ForgotPasswordPhone from "./ForgotPasswordPhone";
 import ResetPassword from "./ResetPassword";
 import ResetPasswordSuccess from "./ResetPasswordSuccess";
 
-import { accountAction } from '@Inwoker/tgs-api';
-import { walletAction } from "../../actions/walletAction";
+import {
+  accountAction,
+  walletAction,
+  gameAction,
+  inboxAction,
+  generalAction,
+  AccountService,
+  SHOWING_DIALOG,
+  SHOW_LOGIN,
+} from "@Inwoker/tgs-api";
 
 import Register from "./Register";
-import { SHOWING_DIALOG, SHOW_LOGIN } from "../../constants/actionType";
-import {AccountService} from '@Inwoker/tgs-api';
+
 import { withSnackbar } from "notistack";
-import { gameAction } from "../../actions/gameAction";
 
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
+import { errorSwitcher } from "../../utils/ErrorSwitcher";
 import i18n from "../../utils/i18n";
 const Container = styled.div`
   margin-top: 25px;
 `;
 const BtnLoginRegister = styled.div`
-float: right;
-font-size: 17px;
-text-align:center;
-color: #f6f6f6;
-width: 80px;
-border-radius: 20px;
+  float: right;
+  font-size: 17px;
+  text-align: center;
+  color: #f6f6f6;
+  width: 80px;
+  border-radius: 20px;
 `;
 const BtnRegister = styled(BtnLoginRegister)`
-margin-left: 5px;
-margin-right: 10px;
-background-color: #f0ca83;
-color:#6d5d41;
-height: 30px;
-&:hover {
-  color:#fdf8f0;
-  cursor: pointer;
-}
+  margin-left: 5px;
+  margin-right: 10px;
+  background-color: #f0ca83;
+  color: #6d5d41;
+  height: 30px;
+  &:hover {
+    color: #fdf8f0;
+    cursor: pointer;
+  }
 `;
 
 const BtnLogin = styled(BtnLoginRegister)`
-margin-right: 5px;
-background-color: transparent;
-color:#f0ca83;
-border-width: 2px;
-border-style: solid;
-border-color: #f0ca83;
-height: 29px;
-&:hover {
-  color:#8a7f73;
-  cursor: pointer;
-}
+  margin-right: 5px;
+  background-color: transparent;
+  color: #f0ca83;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #f0ca83;
+  height: 29px;
+  &:hover {
+    color: #8a7f73;
+    cursor: pointer;
+  }
 `;
 
 const BtnSpliter = styled.div`
-float:right;
-margin-top: 8px;
+  float: right;
+  margin-top: 8px;
 `;
 const BtnLoginLabel = styled.span`
   text-align: center;
@@ -80,12 +87,9 @@ const StyledDialog = withStyles({
     "& .MuiPaper-root": {
       backgroundColor: "transparent",
       borderRadius: "15px",
-
     },
   },
 })(Dialog);
-
-
 
 class GuestContainer extends Component {
   state = {
@@ -215,29 +219,33 @@ class GuestContainer extends Component {
       openDialogName: "",
     });
   };
-  onhandleResetPasswordClick = (code, phone, securityKey, password, confirmPassword) => {
+  onhandleResetPasswordClick = (
+    code,
+    phone,
+    securityKey,
+    password,
+    confirmPassword
+  ) => {
     if (password !== confirmPassword) {
       this.props.enqueueSnackbar(i18n.t("common.msgInvalidConfirmPass"), {
         variant: "error",
       });
     } else {
-      AccountService.ResetPassword(
-        securityKey,
-        code,
-        password,
-      ).then((response) => {
-        if (response.IsSuccess) {
-          this.setState({
-            ...this.state,
-            openDialog: true,
-            openDialogName: "resetpasswordsuccess",
-          });
-        } else {
-          this.props.enqueueSnackbar(response.info, {
-            variant: "error",
-          });
+      AccountService.ResetPassword(securityKey, code, password).then(
+        (response) => {
+          if (response.IsSuccess) {
+            this.setState({
+              ...this.state,
+              openDialog: true,
+              openDialogName: "resetpasswordsuccess",
+            });
+          } else {
+            this.props.enqueueSnackbar(response.info, {
+              variant: "error",
+            });
+          }
         }
-      });
+      );
     }
   };
   onhandleForgotPasswordBackClick = () => {
@@ -293,7 +301,7 @@ class GuestContainer extends Component {
       openDialog: true,
       openDialogName: "forgotpassword",
     });
-  }
+  };
   onhandleForgotPasswordPhoneClick = (code, phone, securityKey) => {
     if (code !== "") {
       this.setState({
@@ -304,7 +312,6 @@ class GuestContainer extends Component {
         openDialog: true,
         openDialogName: "resetpassword",
       });
-
     }
   };
   handleLoginClick = async (username, password) => {
@@ -321,22 +328,30 @@ class GuestContainer extends Component {
       return;
     }
     const result = await this.props.accountLogin(username, password);
+    if (result.code === 101 && result.IsSuccess === false) {
+      this.props.showLogin(true);
+    } else {
+    }
     if (result.IsSuccess) {
       this.handleLoginSuccess(result.data);
     } else {
-      if (result.data.self_control === 1) {
-        this.props.showLogin(false);
-        this.setState({
-          ...this.state,
-          expired_time: result.data.expired_time,
-          openSelfControlDialog: true,
-          openDialog: false,
-        });
-      } else {
-        this.props.enqueueSnackbar(result.info, {
-          variant: "warning",
-        });
-      }
+      this.props.enqueueSnackbar(errorSwitcher(result.code, result.info), {
+        variant: "warning",
+      });
+
+      // if (result.data.self_control === 1) {
+      //   this.props.showLogin(false);
+      //   this.setState({
+      //     ...this.state,
+      //     expired_time: result.data.expired_time,
+      //     openSelfControlDialog: true,
+      //     openDialog: false,
+      //   });
+      // } else {
+      //   this.props.enqueueSnackbar(result.info, {
+      //     variant: "warning",
+      //   });
+      // }
     }
   };
   handleCloseSelfControlDialog = (token) => {
@@ -352,10 +367,13 @@ class GuestContainer extends Component {
       }
     } else {
       // this.props.checkGame();
-      this.props.getHomePageGameList();
+
       this.props.getAccountInfo();
-      // this.props.getBankList();
-      // this.props.getBalanceList();
+      this.props.getMessageList(0, 99);
+      this.props.getBankCardList();
+      this.props.getBalanceList();
+      this.props.getPlayerPromotionList();
+
       // this.props.getIDCardNo();
       // this.props.getInviteLink();
       // this.props.getDepositChannel();
@@ -371,7 +389,7 @@ class GuestContainer extends Component {
     this.props.showLogin(false);
     this.props.onhandleContactUsClick();
   };
-  onhandleSubmitRegister = () => { };
+  onhandleSubmitRegister = () => {};
   render() {
     return (
       <Container>
@@ -449,7 +467,6 @@ class GuestContainer extends Component {
             }
           })()}
         </StyledDialog>
-
       </Container>
     );
   }
@@ -469,14 +486,16 @@ const mapDispatchToProps = (dispatch) => {
     getAccountProfile: (showVip) =>
       dispatch(accountAction.getAccountProfile(showVip)),
 
-    checkTokenIsValid: () => dispatch(accountAction.checkTokenIsValid()),
-
-    getDepositChannel: () => dispatch(walletAction.getDepositChannel()),
+    getBankCardList: () => dispatch(walletAction.getBankCardList()),
+    getBalanceList: () => dispatch(walletAction.getBalanceList()),
     getHomePageGameList: () => dispatch(gameAction.getHomePageGameList()),
-    getBankList: () => dispatch(walletAction.getBankList()),
-    getBalanceList: (token) => dispatch(walletAction.getBalanceList()),
+
     getIDCardNo: () => dispatch(accountAction.getIDCardNo()),
     getInviteLink: () => dispatch(accountAction.getInviteLink()),
+    getMessageList: (pages, limit) =>
+      dispatch(inboxAction.getMessages(pages, limit, true, true)),
+    getPlayerPromotionList: () =>
+      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
   };
 };
 const mapStateToProps = (state) => {

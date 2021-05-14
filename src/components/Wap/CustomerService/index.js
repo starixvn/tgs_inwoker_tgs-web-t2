@@ -14,8 +14,8 @@ import Loading from "../../Wap/Share/Loading";
 import { withStyles } from "@material-ui/core/styles";
 import Common from "../../../utils/Common";
 import IconRedInfoPNG from "../../../assets/images/wap/icon-red-info.png";
-import { AccountService } from "../../../services/AccountService";
-import { SupportService } from "../../../services/SupportService";
+
+import { SupportService } from "@Inwoker/tgs-api";
 import Textbox from "../../Wap/Share/Textbox";
 import Button from "../../Wap/Share/Button";
 import FormControl from "@material-ui/core/FormControl";
@@ -211,7 +211,7 @@ class CustomerService extends Component {
       question,
       document.URL,
       document.referrer
-    ).then(response => {
+    ).then((response) => {
       if (response.IsSuccess) {
         const isOpen = Common.PopupCenter(response.data, "", 500, 610);
         if (!isOpen) {
@@ -255,7 +255,6 @@ class CustomerService extends Component {
           JSON.stringify({
             username: this.state.username,
             password: this.state.password,
-
           }),
           "*"
         );

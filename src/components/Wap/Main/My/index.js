@@ -4,8 +4,8 @@ import styled from "styled-components";
 import AppBar from "@material-ui/core/AppBar";
 import { withStyles } from "@material-ui/core/styles";
 import { AppHistory } from "../../../../history/History";
-import { accountAction } from '@Inwoker/tgs-api';
-import { walletAction } from "../../../../actions/walletAction";
+import { accountAction, walletAction } from "@Inwoker/tgs-api";
+
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import IconProfileDepositPNG from "../../../../assets/images/wap/icon-profile-deposit.png";
@@ -28,7 +28,7 @@ import Common from "../../../../utils/Common";
 
 import BgProfilePNG from "../../../../assets/images/wap/bg-profile.png";
 import BgProfile2PNG from "../../../../assets/images/wap/bg-profile-2.png";
-import i18n from "../../../../utils/i18n"
+import i18n from "../../../../utils/i18n";
 const StyledAppBar = withStyles({
   root: {
     height: "370px",
@@ -105,7 +105,6 @@ const IconContainer = styled.div`
 
   margin: 10px auto 30px auto;
   padding: 40px 30px 0 30px;
-
 `;
 const IconColumn = styled.div`
   width: 33%;
@@ -124,39 +123,32 @@ const IconLabel = styled.div`
   font-size: 28px;
   text-align: center;
   font-weight: bold;
-  margin-top:5px;
+  margin-top: 5px;
 `;
 
 const ListView = styled.div`
   padding: 480px 30px 90px 30px;
 `;
 const ListItem = styled.div`
+  border-radius: 6px;
+  box-shadow: 0px 4px 10px 0 rgba(0, 0, 0, 0.25);
+  border: solid 1px #ffffff;
+  background-image: linear-gradient(to top, #e0e0e0, #ffffff);
 
-
-border-radius: 6px;
-box-shadow: 0px 4px 10px 0 rgba(0, 0, 0, 0.25);
-border: solid 1px #ffffff;
-background-image: linear-gradient(to top, #e0e0e0, #ffffff);
-
-background-image: url(${(props) => props.icon});
-background-repeat: no-repeat;
-background-position:center 40px;
-
+  background-image: url(${(props) => props.icon});
+  background-repeat: no-repeat;
+  background-position: center 40px;
 
   width: 166px;
-height: 154px;
-border-radius: 6px;
-box-shadow: 0px 4px 12px 0 rgba(0, 0, 0, 0.8);
-border: solid 1px #ffffff;
+  height: 154px;
+  border-radius: 6px;
+  box-shadow: 0px 4px 12px 0 rgba(0, 0, 0, 0.8);
+  border: solid 1px #ffffff;
 
-
-font-size: 20px;
-
+  font-size: 20px;
 
   float: left;
   margin: 15px 32px;
-
- 
 
   text-align: center;
   color: ${(props) => (props.disabled ? `rgba(61, 61, 61, 0.3)` : `#404040`)};
@@ -179,7 +171,7 @@ class My extends Component {
   constructor(props) {
     super(props);
     var balance = 0;
-    var loaded = false;
+    var loaded = true;
     if (this.props.wallet.balanceList.length > 0) {
       balance = this.getTotalBalance();
       loaded = true;
@@ -192,19 +184,16 @@ class My extends Component {
   }
   componentDidMount() {
     if (this.props.account.token === null) {
-
       AppHistory.replace("/" + i18n.language + "/");
     }
     if (this.props.wallet.balanceList.length <= 0) {
       this.props.getBalanceList();
     }
-
-
   }
   componentDidUpdate(preProps) {
     if (
       preProps.wallet.balanceList.length !==
-      this.props.wallet.balanceList.length &&
+        this.props.wallet.balanceList.length &&
       this.props.wallet.balanceList.length > 0
     ) {
       this.setState({
@@ -221,7 +210,7 @@ class My extends Component {
         balance += parseFloat(
           this.props.wallet.balanceList[i].balance.replace(/,/g, "")
         );
-      } catch (e) { }
+      } catch (e) {}
     }
     return balance;
   };
@@ -238,7 +227,6 @@ class My extends Component {
       <Container>
         <StyledAppBar position="fixed" color="default">
           <LevelContainer onClick={() => this.props.navigate("/vip")}>
-
             <VipLevelLabel>
               {this.props.account.vip.curr_vip.title}
             </VipLevelLabel>
@@ -271,20 +259,24 @@ class My extends Component {
 
             <div className="clear"></div>
             <MainWalletContainer>
-              <WalletLabel>{i18n.t("wap.main.account.mainAccount")}</WalletLabel>
+              <WalletLabel>
+                {i18n.t("wap.main.account.mainAccount")}
+              </WalletLabel>
               <WalletAmount>
                 {this.props.wallet.mainSymbol}
-                {Common.formatNumberWithCommas(this.props.wallet.mainBalance)}
+                {Common.formatNumberWithThousand(this.props.wallet.mainBalance)}
               </WalletAmount>
             </MainWalletContainer>
             <TotalWalletContainer>
-              <WalletLabel>{i18n.t("wap.main.account.totalFund")}</WalletLabel>
+              <WalletLabel>{i18n.t("wap.main.account.totalFund")}:</WalletLabel>
               <WalletAmount>
                 {(() => {
                   if (this.state.balanceLoaded) {
                     return (
                       this.props.wallet.mainSymbol +
-                      Common.formatNumberWithCommas(this.state.balance)
+                      Common.formatNumberWithThousand(
+                        this.props.wallet.mainBalance
+                      )
                     );
                   } else {
                     return (
@@ -314,7 +306,6 @@ class My extends Component {
               <IconImg src={IconProfileWithdrawalPNG}></IconImg>
               <IconLabel>{i18n.t("common.withdrawal")}</IconLabel>
             </IconColumn>
-
           </IconContainer>
         </StyledAppBar>
         <ListView>
@@ -329,6 +320,7 @@ class My extends Component {
             onClick={() => this.props.navigate("/inbox")}
           >
             {i18n.t("wap.main.account.inbox")}
+
             <MessageRedDot
               style={
                 this.props.account.info.message_num > 0
@@ -337,12 +329,12 @@ class My extends Component {
               }
             ></MessageRedDot>
           </ListItem>
-          <ListItem
+          {/* <ListItem
             icon={IconProfileCashflowPNG}
             onClick={() => this.props.navigate("/report/1")}
           >
             {i18n.t("wap.main.account.transferReport")}
-          </ListItem>
+          </ListItem> */}
 
           <ListItem
             icon={IconProfileReportPNG}
@@ -357,19 +349,19 @@ class My extends Component {
             {i18n.t("wap.main.account.manageBank")}
           </ListItem>
 
-          <ListItem
+          {/*   <ListItem
             icon={IconProfileRecommendPNG}
             onClick={() => this.props.navigate("/affiliate")}
           >
             {i18n.t("wap.main.account.affiliate")}
-          </ListItem>
+          </ListItem> */}
 
-          <ListItem
+          {/* <ListItem
             icon={IconProfileAboutPNG}
             onClick={() => this.props.navigate("/aboutus")}
           >
             {i18n.t("wap.main.account.question")}
-          </ListItem>
+          </ListItem> */}
 
           {/* <ListItem
             icon={IconProfileDownloadPNG}

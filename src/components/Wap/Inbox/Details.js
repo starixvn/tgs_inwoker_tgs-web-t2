@@ -6,9 +6,9 @@ import Moment from "react-moment";
 import { AppHistory } from "../../../history/History";
 // import AppBar from "@material-ui/core/AppBar";
 // import IconInboxArrowPNG from "../../../assets/images/icon-inbox-arrow.png";
-import { InboxService } from "../../../services/InboxService";
+import { InboxService } from "@Inwoker/tgs-api";
 import Header from "../../Wap/Share/Header";
-import i18n from "../../../utils/i18n"
+import i18n from "../../../utils/i18n";
 const Container = styled.div``;
 const HeaderEdit = styled.div`
   float: right;
@@ -106,17 +106,17 @@ class Details extends Component {
     message: null,
   };
   componentDidMount() {
-    if (this.props.inbox.list.length > 0) {
-      const id = this.props.match.params.id;
-
-      const message = this.props.inbox.list.filter((row) => row.id == id);
-
-      this.setState({ ...this.state, message: message[0], id: id });
-    } else {
-      AppHistory.goBack();
-    }
+    // if (this.props.inbox.list.length > 0) {
+    //   const id = this.props.match.params.id;
+    //
+    //   const message = this.props.inbox.list.filter((row) => row.id == id);
+    //
+    //   this.setState({ ...this.state, message: message[0], id: id });
+    // } else {
+    //   AppHistory.goBack();
+    // }
   }
-  componentDidUpdate(preProps) { }
+  componentDidUpdate(preProps) {}
   handleBackClick = () => {
     AppHistory.goBack();
   };
@@ -145,7 +145,6 @@ class Details extends Component {
           background={true}
           onBackClick={this.handleBackClick}
           title={i18n.t("inbox.title")}
-
         ></Header>
         {(() => {
           if (this.state.message !== null) {

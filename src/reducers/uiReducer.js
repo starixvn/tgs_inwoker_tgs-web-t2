@@ -9,7 +9,7 @@ import {
   GETMARQUEE_BEGIN,
   GETBANNER_SUCCESS,
   GETBANNER_BEGIN,
-} from "../constants/actionType";
+} from "@Inwoker/tgs-api";
 
 const initState = {
   showLogin: false,

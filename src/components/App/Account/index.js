@@ -33,13 +33,11 @@ import Transfer from "./Transfer/index";
 import Deposit from "./Deposit/index";
 import Affiliate from "./Affiliate";
 
-
-import { walletAction } from "../../../actions/walletAction";
 import Withdrawal from "./Withdrawal/index";
-import { accountAction } from '@Inwoker/tgs-api';
+import { accountAction, walletAction } from "@Inwoker/tgs-api";
 
 import i18n from "../../../utils/i18n";
-import BGJPG from "../../../assets/images/bg.jpg";
+
 import AvatarPNG from "../../../assets/images/avatar.png";
 const baseRouteUrl = "/:locale(zh-CN|zh-TW|en-US)";
 const Container = styled.div`
@@ -51,11 +49,9 @@ const InnerContainer = styled.div`
   width: 1230px;
   overflow: auto;
   padding-bottom: 15px;
-  
 `;
 
 const Main = styled.div`
- 
   margin-left: 12px;
 
   height: 100%;
@@ -71,7 +67,7 @@ const LeftMenu = styled.div`
   padding: 0px 0px 0px 12px;
   box-shadow: 6px 0 8px -6px rgb(50 50 93 / 45%);
   position: absolute;
-  height:100%;
+  height: 100%;
   left: 0;
   top: 0;
 `;
@@ -79,8 +75,6 @@ const RightContent = styled.div`
   width: 990px;
   height: 100%;
   float: right;
-
-
 `;
 const MenuTitle = styled.div`
   font-size: 18px;
@@ -90,12 +84,12 @@ const MenuTitle = styled.div`
   color: #404040;
 `;
 const MenuButtonDiv = styled.div`
-width: 204px;
-height: 40px;
-color: #8a7f73;
-margin: 20px 0px 20px 0px;
-border-top-left-radius: 25px;
-border-bottom-left-radius: 25px;
+  width: 204px;
+  height: 40px;
+  color: #8a7f73;
+  margin: 20px 0px 20px 0px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
   font-size: 14px;
   &:hover {
     cursor: pointer;
@@ -119,46 +113,58 @@ const MenuImgFrame = styled.div`
   display: block;
 `;
 const MenuDepositImg = styled(MenuImgFrame)`
-
-background-size:15px 15px;
-${props => props.active ? `background: url(${IconDepositActivePNG}) no-repeat center center;` : `background: url(${IconDepositPNG}) no-repeat center center;`}
+  background-size: 15px 15px;
+  ${(props) =>
+    props.active
+      ? `background: url(${IconDepositActivePNG}) no-repeat center center;`
+      : `background: url(${IconDepositPNG}) no-repeat center center;`}
 `;
 const MenuWithdrawImg = styled(MenuImgFrame)`
-
-${props => props.active ? `background: url(${IconWithdrawActivePNG}) no-repeat center center;` : `background: url(${IconWithdrawPNG}) no-repeat center center;`}
-background-size:15px 15px;
+  ${(props) =>
+    props.active
+      ? `background: url(${IconWithdrawActivePNG}) no-repeat center center;`
+      : `background: url(${IconWithdrawPNG}) no-repeat center center;`}
+  background-size:15px 15px;
 `;
 const MenuTransferImg = styled(MenuImgFrame)`
-
-
-${props => props.active ? `background: url(${IconTransferActivePNG}) no-repeat center center;` : `background: url(${IconTransferPNG}) no-repeat center center;`}
-background-size:15px 15px;
+  ${(props) =>
+    props.active
+      ? `background: url(${IconTransferActivePNG}) no-repeat center center;`
+      : `background: url(${IconTransferPNG}) no-repeat center center;`}
+  background-size:15px 15px;
 `;
 const MenuReportImg = styled(MenuImgFrame)`
+  ${(props) =>
+    props.active
+      ? `background: url(${IconReportActivePNG}) no-repeat center center;`
+      : `background: url(${IconReportPNG}) no-repeat center center;`}
 
-${props => props.active ? `background: url(${IconReportActivePNG}) no-repeat center center;` : `background: url(${IconReportPNG}) no-repeat center center;`}
-
-background-size:15px 15px;
+  background-size:15px 15px;
 `;
 const MenuProfileImg = styled(MenuImgFrame)`
+  ${(props) =>
+    props.active
+      ? `background: url(${IconProfileActivePNG}) no-repeat center center;`
+      : `background: url(${IconProfilePNG}) no-repeat center center;`}
 
-${props => props.active ? `background: url(${IconProfileActivePNG}) no-repeat center center;` : `background: url(${IconProfilePNG}) no-repeat center center;`}
-
-background-size:15px 15px;
+  background-size:15px 15px;
 `;
 
 const MenuBonusImg = styled(MenuImgFrame)`
+  ${(props) =>
+    props.active
+      ? `background: url(${IconBonusActivePNG}) no-repeat center center;`
+      : `background: url(${IconBonusPNG}) no-repeat center center;`}
 
-${props => props.active ? `background: url(${IconBonusActivePNG}) no-repeat center center;` : `background: url(${IconBonusPNG}) no-repeat center center;`}
-
-
-background-size:15px 15px;
+  background-size:15px 15px;
 `;
 const MenuInboxImg = styled(MenuImgFrame)`
+  ${(props) =>
+    props.active
+      ? `background: url(${IconInboxActivePNG}) no-repeat center center;`
+      : `background: url(${IconInboxPNG}) no-repeat center center;`}
 
-${props => props.active ? `background: url(${IconInboxActivePNG}) no-repeat center center;` : `background: url(${IconInboxPNG}) no-repeat center center;`}
-
-background-size:15px 15px;
+  background-size:15px 15px;
 `;
 
 const AvatarContainer = styled.img`
@@ -189,36 +195,39 @@ const BtnLogout = styled.div`
     cursor: pointer;
     color: #f0ca83;
     background-color: #8a7f73;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+      rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+      rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   }
 `;
 class Account extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      activePage: this.props.match.params.tab
-    }
+      activePage: this.props.match.params.tab,
+    };
   }
   async componentDidMount() {
-
     if (this.props.account.token === null) {
       await this.timeout(1000);
       if (this.props.account.token === null) {
-        AppHistory.replace(`/${i18n.language}/`)
+        AppHistory.replace(`/${i18n.language}/`);
       }
     }
   }
   handleRefreshClick = () => {
     this.props.updateBalanceList();
-
   };
   timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.account.token !== this.props.account.token && this.props.account.token === null) {
-      AppHistory.replace(`/${i18n.language}/`)
+    if (
+      prevProps.account.token !== this.props.account.token &&
+      this.props.account.token === null
+    ) {
+      AppHistory.replace(`/${i18n.language}/`);
     }
     if (prevProps.match.params.tab !== this.props.match.params.tab) {
       this.setState({ ...this.state, activePage: this.props.match.params.tab });
@@ -226,7 +235,6 @@ class Account extends Component {
   }
 
   handleClickTab = (link) => {
-
     this.props.history.push("/" + i18n.language + "/account/" + link);
   };
   handleMoreBenefitClick = (viptitle) => {
@@ -251,28 +259,42 @@ class Account extends Component {
     switch (link) {
       case "deposit":
         return (
-          <MenuDepositImg active={this.state.activePage === link}></MenuDepositImg>
+          <MenuDepositImg
+            active={this.state.activePage === link}
+          ></MenuDepositImg>
         );
       case "withdrawal":
         return (
-          <MenuWithdrawImg active={this.state.activePage === link}></MenuWithdrawImg>
+          <MenuWithdrawImg
+            active={this.state.activePage === link}
+          ></MenuWithdrawImg>
         );
       case "transfer":
         return (
-          <MenuTransferImg active={this.state.activePage === link}></MenuTransferImg>
+          <MenuTransferImg
+            active={this.state.activePage === link}
+          ></MenuTransferImg>
         );
       case "report":
         return (
-          <MenuReportImg active={this.state.activePage === link}></MenuReportImg>
+          <MenuReportImg
+            active={this.state.activePage === link}
+          ></MenuReportImg>
         );
       case "profile":
         return (
-          <MenuProfileImg active={this.state.activePage === link}></MenuProfileImg>
+          <MenuProfileImg
+            active={this.state.activePage === link}
+          ></MenuProfileImg>
         );
       case "affiliate":
-        return <MenuBonusImg active={this.state.activePage === link}></MenuBonusImg>;
+        return (
+          <MenuBonusImg active={this.state.activePage === link}></MenuBonusImg>
+        );
       case "inbox":
-        return <MenuInboxImg active={this.state.activePage === link}></MenuInboxImg>;
+        return (
+          <MenuInboxImg active={this.state.activePage === link}></MenuInboxImg>
+        );
       default:
         return <></>;
     }
@@ -298,23 +320,37 @@ class Account extends Component {
         <InnerContainer>
           <Main>
             <LeftMenu>
-              <AvatarContainer src={this.props.account.info.avatar?this.props.account.info.avatar:AvatarPNG}></AvatarContainer>
+              <AvatarContainer
+                src={
+                  this.props.account.info.avatar
+                    ? this.props.account.info.avatar
+                    : AvatarPNG
+                }
+              ></AvatarContainer>
               <PlayerName>{this.props.account.info.member_username}</PlayerName>
               <MenuTitle>{i18n.t("web.account.fund")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.deposit"), "deposit")}
-              {this.genMenuButtonDiv(i18n.t("web.account.withdrawal"), "withdrawal")}
-              {this.genMenuButtonDiv(i18n.t("web.account.transfer"), "transfer")}
+              {this.genMenuButtonDiv(
+                i18n.t("web.account.withdrawal"),
+                "withdrawal"
+              )}
+              {this.genMenuButtonDiv(
+                i18n.t("web.account.transfer"),
+                "transfer"
+              )}
               {this.genMenuButtonDiv(i18n.t("web.account.report"), "report")}
 
               <MenuTitle>{i18n.t("web.account.personal")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.profile"), "profile")}
 
               {this.genMenuButtonDiv(i18n.t("web.account.inbox"), "inbox")}
-              {this.genMenuButtonDiv(i18n.t("web.account.affiliate"), "affiliate")}
-              <BtnLogout onClick={this.onhandleLogout}>{i18n.t("web.header.logout")}</BtnLogout>
+
+              <BtnLogout onClick={this.onhandleLogout}>
+                {i18n.t("web.header.logout")}
+              </BtnLogout>
             </LeftMenu>
             <RightContent>
-            <Header
+              <Header
                 info={this.props.account.info}
                 vip={this.props.account.vip}
                 wallet={this.props.wallet}
@@ -395,7 +431,9 @@ class Account extends Component {
                       />
                     )}
                   />
-                  <Redirect to={"/" + i18n.language + "/account/profile"}></Redirect>
+                  <Redirect
+                    to={"/" + i18n.language + "/account/profile"}
+                  ></Redirect>
                 </Switch>
               </Router>
             </RightContent>
@@ -407,7 +445,6 @@ class Account extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-
     account: state.account,
     wallet: state.wallet,
   };

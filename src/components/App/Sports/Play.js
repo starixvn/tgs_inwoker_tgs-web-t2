@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import {GameService} from  '@Inwoker/tgs-api';
+import { GameService } from "@Inwoker/tgs-api";
 import { GameTypeEnum } from "../../../utils/Enum";
 import Maintenance from "../../Share/Maintenance";
 import SportsBGNewPNG from "../../../assets/images/sportsbook/sports-bg2.jpg";
@@ -12,10 +12,10 @@ const Container = styled.div`
   background: url(${SportsBGNewPNG}) no-repeat center;
 `;
 const IFrame = styled.iframe`
-  display: block; 
+  display: block;
   border: none;
   height: 100%;
-  margin:0 auto;
+  margin: 0 auto;
 `;
 class Play extends Component {
   constructor(props) {
@@ -46,16 +46,19 @@ class Play extends Component {
     window.removeEventListener("resize", this.updateWindowDimensions);
   }
   JoinGame = (gameCode) => {
-    GameService.JoinLobbyGame(GameTypeEnum.SPORTS, gameCode).then((response) => {
-      if (response.IsSuccess) {
-        this.setState({ ...this.state, maintenance: false });
-        if (this.myRef.current) this.myRef.current.src = "https://" + response.data.url;
-      } else {
-        document.getElementsByTagName("body")[0].style.overflow = "";
-        window.removeEventListener("resize", this.updateWindowDimensions);
-        this.setState({ ...this.state, maintenance: true });
+    GameService.JoinLobbyGame(GameTypeEnum.SPORTS, gameCode).then(
+      (response) => {
+        if (response.IsSuccess) {
+          this.setState({ ...this.state, maintenance: false });
+          if (this.myRef.current)
+            this.myRef.current.src = "https://" + response.data.url;
+        } else {
+          document.getElementsByTagName("body")[0].style.overflow = "";
+          window.removeEventListener("resize", this.updateWindowDimensions);
+          this.setState({ ...this.state, maintenance: true });
+        }
       }
-    });
+    );
   };
   updateWindowDimensions() {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
@@ -66,10 +69,12 @@ class Play extends Component {
     } else {
       return (
         <Container style={{ height: this.state.height - 154 + "px" }}>
-          <IFrame ref={this.myRef}
+          <IFrame
+            ref={this.myRef}
             style={{ width: "1280px" }}
             scrolling="yes"
-            frameBorder="0"></IFrame>
+            frameBorder="0"
+          ></IFrame>
         </Container>
       );
     }

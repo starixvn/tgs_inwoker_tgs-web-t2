@@ -6,7 +6,7 @@ import { AppHistory } from "../../../history/History";
 
 import Header from "../../Wap/Share/Header";
 
-import { accountAction } from "../../../actions/accountAction";
+import { accountAction } from "@Inwoker/tgs-api";
 import BottomScrollListener from "react-bottom-scroll-listener";
 
 import Loading from "../../Wap/Share/Loading";

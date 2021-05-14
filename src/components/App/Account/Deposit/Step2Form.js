@@ -8,7 +8,7 @@ const Container = styled.div`
 `;
 
 const CustomTable = styled.table`
-  width: 645px;
+  width: 870px;
   margin: 20px auto;
   border: solid 1px #d9d9d9;
 `;
@@ -28,7 +28,7 @@ const ValueTD = styled.td`
 `;
 const ButtonContainer = styled.div`
   margin: 0 auto;
-  width: 540px;
+  width: 258px;
 `;
 
 class Step2Form extends Component {
@@ -38,37 +38,32 @@ class Step2Form extends Component {
     this.setState({
       ...this.state,
     });
-
   }
 
   render() {
-    const jsonResult = JSON.parse(this.props.depositResult.data.params);
     return (
       <Container>
         <CustomTable cellPadding="0" cellSpacing="0">
           <tbody>
             <tr>
               <TitleTD>{i18n.t("deposit.orderNumber")}</TitleTD>
-              <ValueTD>{jsonResult.order_id}</ValueTD>
+              <ValueTD>{this.props.depositResult.data.formid}</ValueTD>
               <TitleTD>{i18n.t("deposit.depositAmount")}</TitleTD>
-              <ValueTD>{this.props.depositResult.data.amount}</ValueTD>
+              <ValueTD>{this.props.amount}</ValueTD>
             </tr>
 
-            <tr>
-
-            </tr>
+            <tr></tr>
           </tbody>
         </CustomTable>
         <ButtonContainer>
-
           <CustomButton
             name={i18n.t("deposit.completeDeposit")}
             width={257}
             marginTop={1}
             marginLeft={0}
-            handleClick={() => this.props.handleDepositConfirmClick()}
+            handleClick={() => this.props.handleRestartClick()}
           ></CustomButton>
-          <CustomButton
+          {/* <CustomButton
             name={i18n.t("common.back")}
             width={257}
             marginTop={1}
@@ -76,7 +71,7 @@ class Step2Form extends Component {
             marginLeft={0}
             handleClick={() => this.props.handleDepositCancelClick()}
             grayMode={true}
-          ></CustomButton>
+          ></CustomButton> */}
         </ButtonContainer>
       </Container>
     );

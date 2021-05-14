@@ -14,7 +14,6 @@ const SubTitle = styled.div`
   font-weight: bold;
   text-align: center;
   color: #16242a;
-  margin-top: 50px;
 `;
 
 const CardContainer = styled.div`
@@ -63,14 +62,16 @@ const Label = styled.div`
 `;
 
 const CardTitle = styled(Label)`
-  float: right;
+  float: left;
 `;
 const CardNumber = styled(Label)`
-  float: right;
-  margin-right: 8px;
   font-weight: bold;
-
+  max-width: 120px;
   color: #162429;
+  white-space: nowrap;
+  float: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 const LeftLabel = styled(Label)`
   float: left;
@@ -86,17 +87,17 @@ function CardManage(props) {
     <Container>
       <SubTitle>{i18n.t("card.title")}</SubTitle>
       <CardContainer>
-        {props.cardList.map((item, key) => {
+        {props.bankCardList.map((item, key) => {
           return (
             <CardFrame key={item.id}>
               <ContainerHeader>
                 <CardBankIcon></CardBankIcon>
                 <Label>{i18n.t("card.myCard")}</Label>
-                <CardNumber>{item.bank_account}</CardNumber>
-                <CardTitle>{i18n.t("card.tail")}</CardTitle>
+                {/* <CardNumber>{item.bank_account}</CardNumber>
+                <CardTitle>{i18n.t("card.tail")}</CardTitle> */}
               </ContainerHeader>
 
-              <RowContainer>
+              {/* <RowContainer>
                 <LeftLabel>{i18n.t("card.transferRecord")}</LeftLabel>
                 <Button
                   name={i18n.t("card.checkDetails")}
@@ -107,8 +108,11 @@ function CardManage(props) {
                   handleClick={() => props.onhandleReportClick(item.id)}
                   float={"right"}
                 ></Button>
+              </RowContainer> */}
+              <RowContainer>
+                <CardTitle>{i18n.t("card.tail")}</CardTitle>
+                <CardNumber>{item.detail.address}</CardNumber>
               </RowContainer>
-
               <RowContainer>
                 <LeftLabel>{i18n.t("card.removeCard")}</LeftLabel>
                 <Button

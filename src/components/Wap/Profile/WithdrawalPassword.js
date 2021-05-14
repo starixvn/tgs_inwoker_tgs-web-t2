@@ -4,43 +4,42 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { withSnackbar } from "notistack";
 import Textbox from "../Share/Textbox";
-import {AccountService} from  '@Inwoker/tgs-api';
+import { AccountService } from "@Inwoker/tgs-api";
 import BaseProfile from "./BaseProfile";
-// import { ProfileAction } from "../../../actions/ProfileAction";
-import { accountAction } from '@Inwoker/tgs-api';
+
+import { accountAction } from "@Inwoker/tgs-api";
 import { AppHistory } from "../../../history/History";
-import i18n from "../../../utils/i18n"
+import i18n from "../../../utils/i18n";
 
 class WithdrawalPassword extends BaseProfile {
-  componentDidMount() { }
-  handleOldPassword = e => {
+  componentDidMount() {}
+  handleOldPassword = (e) => {
     this.setState({ ...this.state, oldPassword: e.target.value });
     this.onTextChanged();
   };
-  handlePassword = e => {
+  handlePassword = (e) => {
     this.setState({ ...this.state, password: e.target.value });
     this.onTextChanged();
   };
-  handleConfirmPassword = e => {
+  handleConfirmPassword = (e) => {
     this.setState({ ...this.state, confirmPassword: e.target.value });
     this.onTextChanged();
   };
-  handleSubmitClicked = e => {
+  handleSubmitClicked = (e) => {
     const password = this.state.password;
     const confirmPassword = this.state.confirmPassword;
     if (password !== confirmPassword)
-      this.props.alert("", i18n.t("profile.withdrawalPassword.msgInvalidConPass"));
+      this.props.alert(
+        "",
+        i18n.t("profile.withdrawalPassword.msgInvalidConPass")
+      );
     this.showLoading(true);
-    AccountService.AddWithdrawalPassword(
-      password,
-    ).then(response => {
+    AccountService.AddWithdrawalPassword(password).then((response) => {
       if (response.IsSuccess) {
-        this.props
-          .getAccountProfile()
-          .then(responseUpdate => {
-            this.showLoading(false);
-            AppHistory.goBack();
-          });
+        this.props.getAccountProfile().then((responseUpdate) => {
+          this.showLoading(false);
+          AppHistory.goBack();
+        });
       } else {
         this.props.alert("", response.msg);
         this.showLoading(false);
@@ -81,15 +80,15 @@ class WithdrawalPassword extends BaseProfile {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    account: state.account
+    account: state.account,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getAccountProfile: token =>
-      dispatch(accountAction.getAccountProfile(true))
+    getAccountProfile: (token) =>
+      dispatch(accountAction.getAccountProfile(true)),
   };
 };
 export default connect(

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import Loading from "../App/Loading";
-import {GameService} from  '@Inwoker/tgs-api';
+import { GameService } from "@Inwoker/tgs-api";
 
 import config from "../../config/config";
 
@@ -18,7 +18,6 @@ class JoinLobbyGame extends Component {
     const gameCode = this.props.match.params.params.trim();
 
     GameService.JoinLobbyGame(gameType, gameCode).then((response) => {
-      console.log(response)
       if (response.IsSuccess) {
         window.location.href = response.data.url;
       } else {

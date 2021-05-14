@@ -2,14 +2,12 @@ import {
   BONUSNEW_BEGIN,
   BONUSNEW_SUCCESS,
   BONUSNEW_FAILURE,
-  GETPROMOLIST_BEGIN,
-  GETPROMOLIST_SUCCESS,
-  GETPROMOLIST_FAILURE,
-} from "../constants/actionType";
+} from "@Inwoker/tgs-api";
 const initialState = {
   pending: false,
   new: [],
-  promoList: [],
+
+  joinPromoResult: null,
   token: null,
   error: null,
 };
@@ -32,23 +30,7 @@ export function bonusReducer(state = initialState, action) {
         ...state,
         loading: action.loading,
       };
-    case GETPROMOLIST_BEGIN:
-      return {
-        ...state,
-        loading: action.loading,
-      };
-    case GETPROMOLIST_SUCCESS:
-      return {
-        ...state,
-        promoList: action.payload.data,
-        loading: action.loading,
-      };
-    case GETPROMOLIST_FAILURE:
-      return {
-        ...state,
-        promoList: [],
-        loading: action.loading,
-      };
+
     default:
       return state;
   }

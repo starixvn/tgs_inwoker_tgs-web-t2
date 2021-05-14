@@ -4,8 +4,8 @@ import styled from "styled-components";
 import CustomTextField from "../../../Share/TextField";
 import CustomButton from "../../../Share/Button";
 
-import {AccountService} from  '@Inwoker/tgs-api';
-import { UPDATE_INFO } from "../../../../constants/actionType";
+import { AccountService, UPDATE_INFO } from "@Inwoker/tgs-api";
+
 import { withSnackbar } from "notistack";
 import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.png";
 const Container = styled.div``;
@@ -15,11 +15,13 @@ class QQ extends Component {
     super(props);
 
     this.state = {
-      member_qq: this.props.account.info.member_qq?this.props.account.info.member_qq:"",
+      member_qq: this.props.account.info.member_qq
+        ? this.props.account.info.member_qq
+        : "",
     };
   }
   onhandleTextChange = (e) => {
-    this.setState({member_qq:e.target.value})
+    this.setState({ member_qq: e.target.value });
   };
 
   onhandleClick = () => {
@@ -31,9 +33,7 @@ class QQ extends Component {
       return;
     }
 
-    AccountService.UpdateQQ(
-      this.state.member_qq
-    ).then((response) => {
+    AccountService.UpdateQQ(this.state.member_qq).then((response) => {
       if (response.IsSuccess) {
         this.props.dispatch({
           type: UPDATE_INFO,

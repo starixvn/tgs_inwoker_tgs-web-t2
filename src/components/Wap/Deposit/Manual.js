@@ -12,14 +12,12 @@ import "slick-carousel/slick/slick-theme.css";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 import { withSnackbar } from "notistack";
-import { walletAction } from "../../../actions/walletAction";
+import { walletAction, RESET_WALLETRESULT } from "@Inwoker/tgs-api";
 import Button from "../../Wap/Share/Button";
 import { AppHistory } from "../../../history/History";
 import Loading from "../../Wap/Share/Loading";
 import i18n from "../../../utils/i18n";
-import {
-    RESET_WALLETRESULT,
-} from "../../../constants/actionType";
+
 const Container = styled.div``;
 const ContentBg = styled.div`
   background: #fff;
@@ -63,17 +61,17 @@ const QRImage = styled.img`
   display: block;
   margin: 20px auto;
 `;
-const StyledModalPopup = withStyles(theme => ({
-    paper: {
-        borderRadius: "50px",
-        fontSize: "28px",
-        color: "#666666",
-        padding: "30px",
-        width: "600px",
-        maxWidth: "690px",
+const StyledModalPopup = withStyles((theme) => ({
+  paper: {
+    borderRadius: "50px",
+    fontSize: "28px",
+    color: "#666666",
+    padding: "30px",
+    width: "600px",
+    maxWidth: "690px",
 
-        display: "block"
-    }
+    display: "block",
+  },
 }))(Modal);
 const DialoMessage = styled.div`
   font-size: 26px;
@@ -99,189 +97,171 @@ const ButtonConfirm = styled.div`
   color: #2b2b2b;
 `;
 class Manual extends Component {
-    constructor(props) {
-        super(props)
-        this.myRef = React.createRef();
-        this.state = {
-            expired_time: 0,
-            loading: false,
-            openPopup: false
-        };
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+    this.state = {
+      expired_time: 0,
+      loading: false,
+      openPopup: false,
+    };
+  }
+
+  componentDidMount() {
+    if (this.props.order == null) {
+      AppHistory.replace("/" + i18n.language + "/deposit");
+    } else {
     }
-
-    componentDidMount() {
-
-        if (this.props.order == null) {
-            AppHistory.replace("/" + i18n.language + "/deposit");
-        } else {
-
-        }
+  }
+  componentDidUpdate(preProps, preState) {
+    if (
+      preProps.wallet.depositUploadResult === null &&
+      this.props.wallet.depositUploadResult !== null
+    ) {
+      if (this.props.wallet.depositUploadResult.IsSuccess) {
+        this.props.alert("", i18n.t("deposit.uploadSuccess"));
+        AppHistory.goBack();
+      } else {
+        this.props.alert("", this.props.wallet.depositUploadResult.info);
+      }
     }
-    componentDidUpdate(preProps, preState) {
+    if (
+      preProps.wallet.cancelDepositResult !=
+        this.props.wallet.cancelDepositResult &&
+      this.props.wallet.cancelDepositResult !== null
+    ) {
+      this.props.resetDeposit();
+      if (this.props.wallet.cancelDepositResult.IsSuccess) {
+        this.props.alert("", i18n.t("deposit.cancelDeposit"));
+        AppHistory.goBack();
+      } else {
+        this.props.alert("", this.props.wallet.cancelDepositResult.info);
+      }
+    }
+  }
+  handleDepositConfirmClick = (e) => {
+    if (!this.myRef.current.files[0]) {
+      this.props.alert("", i18n.t("deposit.msgPlsSelectFile"));
+      return;
+    }
+    this.props.doDepositUpload(
+      this.myRef.current.files[0],
+      "image",
+      this.props.order.depositResult.data.order_id
+    );
+  };
 
-        if (
-            preProps.wallet.depositUploadResult === null &&
-            this.props.wallet.depositUploadResult !== null
-        ) {
-            if (this.props.wallet.depositUploadResult.IsSuccess) {
-                this.props.alert("", i18n.t("deposit.uploadSuccess"));
-                AppHistory.goBack();
+  handleDepositCancelClick = (e) => {
+    this.props.cancelDeposit(
+      this.props.order.depositResult.data.order_id,
+      this.props.order.depositResult.data.notice_id
+    );
+  };
+  handleOpenPopupUrl = () => {
+    this.setState({
+      ...this.state,
+
+      openPopup: false,
+    });
+    let form = document.getElementById("form");
+    form.submit();
+  };
+  handleClosePopup = () => {
+    this.setState({
+      ...this.state,
+
+      openPopup: false,
+    });
+  };
+  render() {
+    if (this.props.order == null) {
+      return <></>;
+    }
+    return (
+      <Container>
+        <ContentBg>
+          <BalanceLabel>{i18n.t("deposit.depositAmount")}：</BalanceLabel>
+          <DepositAmount>¥ {this.props.order.amount}</DepositAmount>
+          <SplitLine></SplitLine>
+          <LeftLabel>{i18n.t("deposit.depositMethod")}</LeftLabel>
+          <RightLabel>{this.props.order.selectedType.title}</RightLabel>
+          <SplitBoth></SplitBoth>
+          <LeftLabel>{i18n.t("deposit.depositTunnel")}</LeftLabel>
+          <RightLabel>{this.props.order.selectedChannel.title}</RightLabel>
+          <SplitBoth></SplitBoth>
+
+          <LeftLabel>{i18n.t("deposit.uploadReceipt")}</LeftLabel>
+          <RightLabel>
+            <input type="file" ref={this.myRef} accept="image/*"></input>
+          </RightLabel>
+          <SplitBoth></SplitBoth>
+          {(() => {
+            if (this.props.order.selectedChannel.is_transfer === true) {
+              return (
+                <>
+                  <LeftLabel>{i18n.t("deposit.receiverBank")}</LeftLabel>
+                  <RightLabel>{this.props.order.bankInfo.bank_name}</RightLabel>
+                  <SplitBoth></SplitBoth>
+                  <LeftLabel>{i18n.t("deposit.receiverAccount")}</LeftLabel>
+                  <RightLabel>{this.props.order.bankInfo.user_name}</RightLabel>
+                  <SplitBoth></SplitBoth>
+                  <LeftLabel>{i18n.t("deposit.receiverNumber")}</LeftLabel>
+                  <RightLabel>{this.props.order.bankInfo.account}</RightLabel>
+                  <SplitBoth></SplitBoth>
+                </>
+              );
             } else {
-                this.props.alert("", this.props.wallet.depositUploadResult.info);
+              return null;
             }
-        }
-        if (
-            preProps.wallet.cancelDepositResult != this.props.wallet.cancelDepositResult &&
-            this.props.wallet.cancelDepositResult !== null
-        ) {
-            this.props.resetDeposit();
-            if (this.props.wallet.cancelDepositResult.IsSuccess) {
-                this.props.alert("", i18n.t("deposit.cancelDeposit"));
-                AppHistory.goBack();
-
+          })()}
+          {(() => {
+            if (this.props.order.selectedChannel.is_qr === true) {
+              return (
+                <QRImage
+                  src={
+                    this.props.order.depositResult
+                      ? this.props.order.depositResult.data.pic_url
+                      : ""
+                  }
+                ></QRImage>
+              );
             } else {
-                this.props.alert("", this.props.wallet.cancelDepositResult.info);
+              return null;
             }
-        }
-    }
-    handleDepositConfirmClick = e => {
-        if (!this.myRef.current.files[0]) {
-            this.props.alert("", i18n.t("deposit.msgPlsSelectFile"))
-            return;
-        }
-        this.props.doDepositUpload(this.myRef.current.files[0], "image", this.props.order.depositResult.data.order_id)
+          })()}
+        </ContentBg>
 
+        <Button
+          style={{ margin: "20px auto" }}
+          labelStyle={{ color: "#fff" }}
+          label={i18n.t("deposit.upload")}
+          onClick={this.handleDepositConfirmClick}
+        ></Button>
 
-    };
-
-    handleDepositCancelClick = e => {
-        this.props.cancelDeposit(this.props.order.depositResult.data.order_id, this.props.order.depositResult.data.notice_id);
-    };
-    handleOpenPopupUrl = () => {
-        this.setState({
-            ...this.state,
-
-            openPopup: false
-        });
-        let form = document.getElementById("form");
-        form.submit();
-    };
-    handleClosePopup = () => {
-        this.setState({
-            ...this.state,
-
-            openPopup: false
-        });
-    };
-    render() {
-        if (this.props.order == null) {
-            return <></>;
-        }
-        return (
-            <Container>
-                <Header onBackClick={() => AppHistory.goBack()} title={i18n.t("deposit.title")}></Header>
-                <ContentBg>
-                    <BalanceLabel>{i18n.t("deposit.depositAmount")}：</BalanceLabel>
-                    <DepositAmount>¥ {this.props.order.amount}</DepositAmount>
-                    <SplitLine></SplitLine>
-                    <LeftLabel>{i18n.t("deposit.depositMethod")}</LeftLabel>
-                    <RightLabel>{this.props.order.selectedType.title}</RightLabel>
-                    <SplitBoth></SplitBoth>
-                    <LeftLabel>{i18n.t("deposit.depositTunnel")}</LeftLabel>
-                    <RightLabel>{this.props.order.selectedChannel.title}</RightLabel>
-                    <SplitBoth></SplitBoth>
-
-                    <LeftLabel>{i18n.t("deposit.uploadReceipt")}</LeftLabel>
-                    <RightLabel><input type="file" ref={this.myRef} accept="image/*"></input></RightLabel>
-                    <SplitBoth></SplitBoth>
-                    {(() => {
-                        if (this.props.order.selectedChannel.is_transfer === true) {
-                            return (
-                                <>
-                                    <LeftLabel>{i18n.t("deposit.receiverBank")}</LeftLabel>
-                                    <RightLabel>{this.props.order.bankInfo.bank_name}</RightLabel>
-                                    <SplitBoth></SplitBoth>
-                                    <LeftLabel>{i18n.t("deposit.receiverAccount")}</LeftLabel>
-                                    <RightLabel>{this.props.order.bankInfo.user_name}</RightLabel>
-                                    <SplitBoth></SplitBoth>
-                                    <LeftLabel>{i18n.t("deposit.receiverNumber")}</LeftLabel>
-                                    <RightLabel>{this.props.order.bankInfo.account}</RightLabel>
-                                    <SplitBoth></SplitBoth>
-                                </>
-                            );
-                        } else {
-                            return null;
-                        }
-                    })()}
-                    {(() => {
-                        if (this.props.order.selectedChannel.is_qr === true) {
-                            return (
-                                <QRImage src={this.props.order.depositResult ? this.props.order.depositResult.data.pic_url : ""}></QRImage>
-                            );
-                        } else {
-                            return null;
-                        }
-                    })()}
-                </ContentBg>
-                <Button
-                    style={{ margin: "20px auto" }}
-                    labelStyle={{ color: "#fff" }}
-                    label={i18n.t("common.cancel")}
-                    onClick={this.handleDepositCancelClick}
-                ></Button>
-                <Button
-                    style={{ margin: "20px auto" }}
-                    labelStyle={{ color: "#fff" }}
-                    label={i18n.t("deposit.upload")}
-                    onClick={this.handleDepositConfirmClick}
-                ></Button>
-                <StyledModalPopup
-                    onClose={this.handleClosePopup}
-                    open={this.state.openPopup}
-                >
-                    <DialoMessage>{i18n.t("deposit.msgDialog")}</DialoMessage>
-                    <ButtonConfirm
-                        onClick={this.handleOpenPopupUrl}
-                        style={{ float: "left" }}
-                    >
-                        {i18n.t("common.confirm")}
-                    </ButtonConfirm>
-                    <ButtonConfirm
-                        onClick={this.handleClosePopup}
-                        style={{ float: "right" }}
-                    >
-                        {i18n.t("common.cancel")}
-                    </ButtonConfirm>
-                </StyledModalPopup>
-                <Loading show={this.state.loading}></Loading>
-                <form id="form" target="_blank" method="post">
-                    <input type="hidden" name="cid" id="cid"></input>
-                    <input type="hidden" name="oid" id="oid"></input>
-                </form>
-            </Container>
-        );
-    }
+        <Loading show={this.state.loading}></Loading>
+      </Container>
+    );
+  }
 }
 
-const mapStateToProps = state => {
-    return {
-        wallet: state.wallet,
-    };
+const mapStateToProps = (state) => {
+  return {
+    wallet: state.wallet,
+  };
 };
 const mapDispatchToProps = (dispatch) => {
-    return {
-        doDepositUpload: (file, fileType, orderId) =>
-            dispatch(walletAction.doManualDepositUpload(file, fileType, orderId)),
-        cancelDeposit: (id, notice_id) =>
-            dispatch(walletAction.cancelDeposit(id, notice_id)),
-        resetDeposit: () =>
-            dispatch({
-                type: RESET_WALLETRESULT,
-            }),
-
-    };
+  return {
+    doDepositUpload: (file, fileType, orderId) =>
+      dispatch(walletAction.doManualDepositUpload(file, fileType, orderId)),
+    cancelDeposit: (id, notice_id) =>
+      dispatch(walletAction.cancelDeposit(id, notice_id)),
+    resetDeposit: () =>
+      dispatch({
+        type: RESET_WALLETRESULT,
+      }),
+  };
 };
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(withRouter(withSnackbar(Manual)));

@@ -6,10 +6,10 @@ import CustomButton from "../../../Share/Button";
 
 import Password2IconPNG from "../../../../assets/images/password2-icon.png";
 import IconInputNewpassPNG from "../../../../assets/images/icon-input-newpass.png";
-import {AccountService} from  '@Inwoker/tgs-api';
-import { UPDATE_INFO } from "../../../../constants/actionType";
+import { AccountService, UPDATE_INFO } from "@Inwoker/tgs-api";
+
 import { withSnackbar } from "notistack";
-import i18n from "../../../../utils/i18n"
+import i18n from "../../../../utils/i18n";
 const Container = styled.div``;
 
 class WithdrawalPassword extends Component {
@@ -28,33 +28,34 @@ class WithdrawalPassword extends Component {
     this.local_props.rpassword = e.target.value;
   };
   onhandleClick = () => {
-    if(this.local_props.rpassword!==this.local_props.password){
+    if (this.local_props.rpassword !== this.local_props.password) {
       this.props.enqueueSnackbar(i18n.t("common.msgInvalidConfirmPass"), {
         variant: "error",
       });
-    }
-    else{
-      AccountService.AddWithdrawalPassword(
-        this.local_props.password,
-        // this.props.code
-      ).then((response) => {
-        if (response.IsSuccess) {
-          this.props.dispatch({
-            type: UPDATE_INFO,
-            payload: {
-              member_safe_password: "set",
-            },
-          });
-          this.props.handleCloseDialog();
-          this.props.enqueueSnackbar(i18n.t("common.msgSuccessUpdateProfile"), {
-            variant: "success",
-          });
-        } else {
-          this.props.enqueueSnackbar(response.info, {
-            variant: "error",
-          });
+    } else {
+      AccountService.AddWithdrawalPassword(this.local_props.password).then(
+        (response) => {
+          if (response.IsSuccess) {
+            this.props.dispatch({
+              type: UPDATE_INFO,
+              payload: {
+                member_safe_password: "set",
+              },
+            });
+            this.props.handleCloseDialog();
+            this.props.enqueueSnackbar(
+              i18n.t("common.msgSuccessUpdateProfile"),
+              {
+                variant: "success",
+              }
+            );
+          } else {
+            this.props.enqueueSnackbar(response.info, {
+              variant: "error",
+            });
+          }
         }
-      });
+      );
     }
   };
   render() {

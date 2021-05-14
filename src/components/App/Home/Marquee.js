@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import i18n from "../../../utils/i18n";
-
+import { UiService } from "@Inwoker/tgs-api";
 const AnnounceContainer = styled.div`
   width: 1280px;
   height: 40px;
   margin: 0 auto;
 `;
 const MarqueeContainer = styled.div`
-  position:absolute;
-  top:15px;
+  position: absolute;
+  top: 15px;
   width: 100%;
   white-space: nowrap;
   font-weight: bold;
@@ -18,16 +18,34 @@ const MarqueeContainer = styled.div`
   color: #f0ca83;
   float: left;
   padding-top: 4px;
-  background-color: rgba(0, 0, 0, 0.5)
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 function Marquee(props) {
+  const [loaded, setLoaded] = useState(false);
+
+  const [announcement, setAnnouncement] = useState([]);
+
+  useEffect(() => {
+    setLoaded(true);
+  });
+
+  useEffect(() => {
+    if (loaded) {
+      UiService.GetMarquee().then((result) => {
+        if (result.IsSuccess) {
+          setAnnouncement(result.data);
+        }
+      });
+    }
+  }, [loaded]);
+
+  useEffect(() => {});
   return (
     <AnnounceContainer>
       <MarqueeContainer>
-        <marquee>
-          test testestsetssssssssssssssssssssssssssssssssssssssss
-          {/* {props.text.map((row, index) => {
+        <marquee style={{ marginTop: "10px" }}>
+          {announcement.map((row, index) => {
             return (
               <div
                 key={index}
@@ -38,10 +56,10 @@ function Marquee(props) {
                   overflow: "visible",
                 }}
               >
-                {row}
+                {row.content}
               </div>
             );
-          })} */}
+          })}
         </marquee>
       </MarqueeContainer>
     </AnnounceContainer>

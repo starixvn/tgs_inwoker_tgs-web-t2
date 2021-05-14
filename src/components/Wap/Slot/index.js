@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { GameService } from '@Inwoker/tgs-api';
+import { GameService } from "@Inwoker/tgs-api";
 import { withRouter } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -9,11 +9,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Modal from "@material-ui/core/Dialog";
 import Tab from "@material-ui/core/Tab";
 import { AppHistory } from "../../../history/History";
-import {
-
-  GameTypeEnum,
-  SlotFilterType,
-} from "../../../utils/Enum";
+import { GameTypeEnum, SlotFilterType } from "../../../utils/Enum";
 import BookmarkPNG from "../../../assets/images/wap/bookmark.png";
 import BookmarkFullPNG from "../../../assets/images/wap/bookmark-full.png";
 import Header from "../Share/Header";
@@ -45,23 +41,19 @@ const ListItem = styled.div`
 
   margin: 10px 0 10px 20px;
 
- 
-
- 
-
   width: 345px;
   height: 273px;
   border-radius: 10px;
   background-color: #404040;
 `;
 const ListitemLabelBackground = styled.div`
-width: 345px;
-height:76px;
-background-image: linear-gradient(to top, #91030c,#c40511);
-position: absolute;
-bottom: 0;
-left: 0;
-`
+  width: 345px;
+  height: 76px;
+  background-image: linear-gradient(to top, #91030c, #c40511);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+`;
 const LeftContainer = styled.div`
   position: absolute;
   top: 170px;
@@ -108,19 +100,16 @@ const StyledAppBar = withStyles({
   },
 })(AppBar);
 
-
 const GameItemSelection = styled.div`
   width: 100%;
   height: 60px;
   margin: 12px 0;
 `;
 const GameItem = styled.div`
- 
   padding: 6px 20px 0 20px;
   font-size: 25px;
 
   text-align: center;
-  
 
   float: left;
   ${(props) =>
@@ -132,12 +121,11 @@ const GameItem = styled.div`
   height: 46px;
 
   border-radius: 22.8px;
-
 `;
 const StyleSearchIcon = styled(SearchIcon)`
   font-size: 60px;
   margin: 14px 20px 0 0;
-  color:#fff;
+  color: #fff;
 `;
 const StyledModal = withStyles((theme) => ({
   root: {},
@@ -156,11 +144,9 @@ const StyledModal = withStyles((theme) => ({
 }))(Modal);
 const SearchContainer = styled.div``;
 const SearchKeywordWrap = styled.div`
-
   width: 750px;
   height: 90px;
 `;
-
 
 const SearchInputBG = styled.div`
   width: 600px;
@@ -171,15 +157,15 @@ const SearchInputBG = styled.div`
   margin: 15px 5px 0 5px;
 `;
 const SearchCancelButton = styled.div`
-font-size: 30px;
-    float: right;
-    color: #d7d7d7;
-    margin: 30px 0 0 0;
-    width: 140px;
-    text-align: center;
+  font-size: 30px;
+  float: right;
+  color: #d7d7d7;
+  margin: 30px 0 0 0;
+  width: 140px;
+  text-align: center;
 `;
 const SearchInput = styled.input`
-color:#404040;
+  color: #404040;
   float: left;
   margin: 13px 18px;
   font-size: 30px;
@@ -203,27 +189,25 @@ class Slot extends Component {
     super(props);
     var title = "";
 
-    var gameType = this.props.match.params.gameType
-      ? this.props.match.params.gameType
-      : "";
-
-    switch (this.props.match.params.parentId) {
-      case GameTypeEnum.SLOT:
+    switch (parseInt(this.props.match.params.type)) {
+      case GameTypeEnum.TABLEGAME:
         title = i18n.t("common.electron");
         break;
       case GameTypeEnum.FISH:
         title = i18n.t("common.fish");
         break;
       case GameTypeEnum.TIGERSLOT:
+        title = i18n.t("common.slot");
+        break;
       default:
         title = i18n.t("common.slot");
         break;
     }
     this.state = {
-      gameType: gameType,
-      parentId: this.props.match.params.parentId
-        ? parseInt(this.props.match.params.parentId)
-        : 0,
+      type: parseInt(this.props.match.params.type),
+      platform: this.props.match.params.platform
+        ? this.props.match.params.platform
+        : "",
       title: title,
       keyword: "",
       category: 0,
@@ -238,41 +222,27 @@ class Slot extends Component {
   }
 
   componentDidMount() {
-    this.getGameList(this.state.gameType);
-
+    this.getGameList();
   }
-  componentWillUnmount() {
 
-  }
   componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.parentId !== this.state.parentId ||
-      prevState.filterGame !== this.state.filterGame ||
-      prevProps.match.params.parent !== this.props.match.params.parent ||
-      prevState.page !== this.state.page
-    ) {
-      if (
-        prevProps.match.params.parentId !== this.props.match.params.parentId
-      ) {
-        this.setState({
-          ...this.state,
-          parentId: this.props.match.params.parentId
-            ? this.props.match.params.parentId
-            : "",
-        });
-      } else {
-        this.getGameList(this.state.gameType);
-      }
+    if (prevState.platform !== this.state.platform) {
+      this.getGameList();
+      // if (prevProps.match.params.type !== this.props.match.params.type) {
+      //   this.setState({
+      //     ...this.state,
+      //     type: this.props.match.params.type,
+      //   });
+      // } else {
+      //   this.getGameList();
+      // }
     }
   }
-  getGameList(gameType, page = this.state.page) {
+  getGameList(platform = this.state.platform, page = this.state.page) {
     this.setState({ ...this.state, loading: true });
     let result = null;
 
-    result = GameService.GetGameList(
-      this.state.gameType,
-      GameTypeEnum.SLOT
-    );
+    result = GameService.GetGameList(platform, this.state.type);
     result.then((response) => {
       this.setState({ ...this.state, loading: false });
       if (response.IsSuccess) {
@@ -295,23 +265,28 @@ class Slot extends Component {
       }
     });
   }
-  handleScrollBottom = () => {
-    if (this.state.gameList.length < this.state.total) {
-      this.setState({ ...this.state, page: this.state.page + 1 });
-    }
-  };
+  // handleScrollBottom = () => {
+  //   if (this.state.gameList.length < this.state.total) {
+  //     this.setState({ ...this.state, page: this.state.page + 1 });
+  //   }
+  // };
   handleBackClick = () => {
     AppHistory.goBack();
   };
-  handleParentChange = (parentId) => {
-    this.setState({ ...this.state, parentId: parentId });
+  // handleParentChange = (parentId) => {
+  //   this.setState({ ...this.state, parentId: parentId });
+  //   window.scrollTo({ top: 0, behavior: "smooth" });
+  // };
+  handlePlatformChange = (platform) => {
+    this.setState({ ...this.state, platform: platform });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   handleChangeKeyword = (e) => {
     this.setState({
       ...this.state,
       keyword: e.target.value,
-      showSuggest: e.target.value.length <= 0,
+      // showSuggest: e.target.value.length <= 0,
     });
   };
 
@@ -319,15 +294,13 @@ class Slot extends Component {
     this.setState({
       ...this.state,
       showSearch: true,
-      showSuggest: this.state.keyword.length <= 0,
-      filterGame: 0,
-      parentId: 0,
+      // showSuggest: this.state.keyword.length <= 0,
+      // filterGame: 0,
+      // parentId: 0,
     });
   };
   handleCloseSearch = (e) => {
-    this.getGameList(this.state.parentId);
-    this.setState({ ...this.state, showSearch: false, loading: true });
-
+    this.setState({ ...this.state, showSearch: false });
   };
   handleResetSearch = (e) => {
     this.setState({
@@ -337,66 +310,63 @@ class Slot extends Component {
       keyword: "",
     });
   };
-  handleCategoryChange = (e) => {
-    this.setState({ ...this.state, category: e.target.value });
-  };
+  // handleCategoryChange = (e) => {
+  //   this.setState({ ...this.state, category: e.target.value });
+  // };
   handleGameClick = (gpcode, gpid) => {
     if (this.props.token) {
-      window.open(
-        `/${i18n.language}/joingame/${gpcode}/${gpid})}`)
+      window.open(`/${i18n.language}/joingame/${gpcode}/${gpid})}`);
     } else {
-      this.props.history.push(
-        `/${i18n.language}/}`
-      );
+      this.props.history.push(`/${i18n.language}/}`);
     }
   };
   handleChangeTab = (event, newValue) => {
     this.setState({ ...this.state, filterGame: newValue, page: 1 });
   };
-  handleBookmarkClick = (id, collect_id) => {
-    if (this.props.token) {
-      if (collect_id > 0) {
-        GameService.DeleteBookmarkSlotGame(collect_id).then((response) => {
-          if (response.IsSuccess) {
-            this.setState((preState) => {
-              let newList = [];
-              for (let k in this.state.gameList) {
-                var item = this.state.gameList[k];
-                if (item.id === id) {
-                  item.collect_id = 0;
-                  if (this.state.filterGame !== SlotFilterType.Bookmark) {
-                    newList.push(item);
-                  }
-                } else {
-                  newList.push(item);
-                }
-              }
-              return { ...preState, gameList: newList };
-            });
-          } else {
-          }
-        });
-      } else {
-        GameService.BookmarkSlotGame(this.props.token, id).then((response) => {
-          if (response.IsSuccess) {
-            var collect_id = response.data;
-            this.setState((preState) => {
-              let newList = [];
-              for (let k in this.state.gameList) {
-                var item = this.state.gameList[k];
-                if (item.id === id) {
-                  item.collect_id = collect_id;
-                }
-                newList.push(item);
-              }
-              return { ...preState, gameList: newList };
-            });
-          } else {
-          }
-        });
-      }
-    }
-  };
+  // handleBookmarkClick = (id, collect_id) => {
+  //   if (this.props.token) {
+  //     if (collect_id > 0) {
+  //       GameService.DeleteBookmarkSlotGame(collect_id).then((response) => {
+  //         if (response.IsSuccess) {
+  //           this.setState((preState) => {
+  //             let newList = [];
+  //             for (let k in this.state.gameList) {
+  //               var item = this.state.gameList[k];
+  //               if (item.id === id) {
+  //                 item.collect_id = 0;
+  //                 if (this.state.filterGame !== SlotFilterType.Bookmark) {
+  //                   newList.push(item);
+  //                 }
+  //               } else {
+  //                 newList.push(item);
+  //               }
+  //             }
+  //             return { ...preState, gameList: newList };
+  //           });
+  //         } else {
+  //         }
+  //       });
+  //     } else {
+  //       GameService.BookmarkSlotGame(this.props.token, id).then((response) => {
+  //         if (response.IsSuccess) {
+  //           var collect_id = response.data;
+  //           this.setState((preState) => {
+  //             let newList = [];
+  //             for (let k in this.state.gameList) {
+  //               var item = this.state.gameList[k];
+  //               if (item.id === id) {
+  //                 item.collect_id = collect_id;
+  //               }
+  //               newList.push(item);
+  //             }
+  //             return { ...preState, gameList: newList };
+  //           });
+  //         } else {
+  //         }
+  //       });
+  //     }
+  //   }
+  // };
   render() {
     if (!this.props.game.homePageGameList) {
       return <></>;
@@ -425,87 +395,96 @@ class Slot extends Component {
               <Tab label={i18n.t("slot.allGame")} value={SlotFilterType.All} />
               <Tab label={i18n.t("slot.hotGame")} value={SlotFilterType.Hot} />
               <Tab label={i18n.t("slot.newGame")} value={SlotFilterType.New} />
-              {(() => {
-                if (this.props.token) {
-                  return (
-                    <Tab
-                      label={i18n.t("slot.bookmarkGame")}
-                      value={SlotFilterType.Bookmark}
-                    />
-                  );
-                } else {
-                  return null;
-                }
-              })()}
-
-              {(() => {
-                if (this.props.token) {
-                  return (
-                    <Tab
-                      label={i18n.t("slot.historyGame")}
-                      value={SlotFilterType.Histroy}
-                    />
-                  );
-                } else {
-                  return null;
-                }
-              })()}
+              <Tab
+                label={i18n.t("slot.recommendGame")}
+                value={SlotFilterType.Recommend}
+              />
             </Tabs>
             <GameItemSelection>
               <GameItem
-                selected={this.state.parentId === 0}
-                onClick={() => this.handleParentChange(0)}
+                selected={this.state.platform === ""}
+                onClick={() => this.handlePlatformChange("")}
               >
                 {i18n.t("slot.all")}
               </GameItem>
-              {this.props.game.homePageGameList
-                .filter((item) => item.type === this.state.gameType)
-                .map((item) => {
-
-                  return (
-                    <GameItem
-                      selected={this.state.parentId === item.game_platform_id}
-                      onClick={() => this.handleParentChange(item.game_platform_id)}
-                    >
-                      {item.name}
-                    </GameItem>
-                  );
-                })}
-
-
+              {(() => {
+                return this.props.game.homePageGameList
+                  .filter((item) => item.type === this.state.type)
+                  .map((item, index) => {
+                    return (
+                      <GameItem
+                        key={index}
+                        selected={this.state.platform === item.abbreviation}
+                        onClick={() =>
+                          this.handlePlatformChange(item.abbreviation)
+                        }
+                      >
+                        {item.name}
+                      </GameItem>
+                    );
+                  });
+              })()}
             </GameItemSelection>
           </StyledAppBar>
 
           <ListView>
-            {this.state.gameList.map((row) => {
-              return (
-                <ListItem key={row.id}>
-                  <LazyLoadImage
-                    height={194}
-                    width={344}
-                    alt={""}
-                    effect="blur"
-                    src={`${process.env.PUBLIC_URL}/assets/images/slotGame/${row.gpcode.toLowerCase()}/${row.code.replace(/_/g, "")}.png`}
-                    style={{ borderRadius: "20px 20px 0 0" }}
-                    onClick={() => this.handleGameClick(row.gpcode,
-                      row.id)}
-                  />
-                  <ListitemLabelBackground></ListitemLabelBackground>
-                  <LeftContainer>
-                    <GameProvider>{row.gpcode}</GameProvider>
-                    <GameName>{row.name}</GameName>
-                  </LeftContainer>
+            {this.state.gameList
+              .filter((a) => {
+                if (this.state.filterGame === SlotFilterType.All) return true;
+                else {
+                  if (this.state.filterGame === SlotFilterType.Hot) {
+                    return a.tag.hot === true;
+                  } else if (this.state.filterGame === SlotFilterType.New) {
+                    return a.tag.new === true;
+                  } else if (
+                    this.state.filterGame === SlotFilterType.Recommend
+                  ) {
+                    return a.tag.recommend === true;
+                  }
+                }
 
-                  <Bookmark
-                    isBookmark={row.collect_id > 0}
-                    onClick={() =>
-                      this.handleBookmarkClick(row.id, row.collect_id)
-                    }
-                  ></Bookmark>
-                </ListItem>
-              );
-            })}
-            <BottomScrollListener onBottom={this.handleScrollBottom} />
+                return false;
+              })
+              .filter((a) => {
+                if (this.state.keyword === "") return true;
+                else
+                  return a.name
+                    .toUpperCase()
+                    .includes(this.state.keyword.toUpperCase());
+              })
+              .map((row) => {
+                return (
+                  <ListItem key={row.id}>
+                    <LazyLoadImage
+                      height={194}
+                      width={344}
+                      alt={""}
+                      effect="blur"
+                      src={`${
+                        process.env.PUBLIC_URL
+                      }/assets/images/slotGame/${row.gpcode.toLowerCase()}/${row.code.replace(
+                        /_/g,
+                        ""
+                      )}.png`}
+                      style={{ borderRadius: "20px 20px 0 0" }}
+                      onClick={() => this.handleGameClick(row.gpcode, row.id)}
+                    />
+                    <ListitemLabelBackground></ListitemLabelBackground>
+                    <LeftContainer>
+                      <GameProvider>{row.gpcode}</GameProvider>
+                      <GameName>{row.name}</GameName>
+                    </LeftContainer>
+
+                    <Bookmark
+                      isBookmark={row.collect_id > 0}
+                      onClick={() =>
+                        this.handleBookmarkClick(row.id, row.collect_id)
+                      }
+                    ></Bookmark>
+                  </ListItem>
+                );
+              })}
+            {/* <BottomScrollListener onBottom={this.handleScrollBottom} /> */}
           </ListView>
           <StyledModal
             open={this.state.showSearch}
@@ -528,7 +507,6 @@ class Slot extends Component {
                   {i18n.t("common.cancel")}
                 </SearchCancelButton>
               </SearchKeywordWrap>
-
             </SearchContainer>
           </StyledModal>
           <Loading show={this.state.loading}></Loading>

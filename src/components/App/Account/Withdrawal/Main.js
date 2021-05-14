@@ -10,7 +10,7 @@ import IconBankDisablePNG from "../../../../assets/images/icon-bank-disable.png"
 import CustomButton from "../../../Share/Button";
 import Messagebox from "../../Messagebox";
 import CustomTextField from "../../../Share/TextField";
-import i18n from "../../../../utils/i18n"
+import i18n from "../../../../utils/i18n";
 const TabButton = styled.div`
   height: 41px;
   font-size: 14px;
@@ -57,7 +57,6 @@ const BankCardButton = styled(TabButton)`
   text-align: left;
   padding: 10px 0 0 38px;
   background: url(${IconBankDisablePNG}) no-repeat 15px center;
-  
 `;
 const BankCardButtonLabel = styled.div`
   width: 86px;
@@ -82,14 +81,12 @@ const SplitLine = styled.div`
   margin: 20px 0;
 `;
 
-
 const LimitPopupContainer = styled.div`
   min-width: 150px;
   font-size: 14px;
   color: #c30005;
   padding: 5px 10px 10px 55px;
 `;
-
 
 const WithdrawalLimitListItem = styled.div`
   width: 355px;
@@ -114,17 +111,17 @@ const WithdrawalLimitItemRight = styled.div`
 `;
 class Main extends Component {
   state = {
-    selectedCard: 0,
+    selectedCardIndex: 0,
     showDetails: false,
     amount: 0,
     password: "",
   };
   componentDidMount() {
-    this.setState({ ...this.state, selectedCard: this.props.defaultCard });
+    //  this.setState({ ...this.state, selectedCard: this.props.defaultCard });
   }
 
-  handleSelectCardChange = (id) => {
-    this.setState({ ...this.state, selectedCard: id });
+  handleSelectCardChange = (index) => {
+    this.setState({ ...this.state, selectedCardIndex: index });
   };
   handleAmountChange = (e) => {
     this.setState({ ...this.state, amount: e.target.value });
@@ -134,7 +131,7 @@ class Main extends Component {
   };
   handleWithdrawalClick = (e) => {
     this.props.onhandleWithdrawalClick(
-      this.state.selectedCard,
+      this.props.cardList[this.state.selectedCardIndex].id,
       this.state.amount,
       this.state.password
     );
@@ -148,19 +145,26 @@ class Main extends Component {
           <SubTitle>{i18n.t("withdrawal.msgEnterBank")}</SubTitle>
         </SubHeaderContainer>
         <SelectionContainer>
-          {this.prosps.cardList.map((item, key) => {
+          {this.props.cardList.map((item, index) => {
             return (
               <BankCardButton
-                key={item.id}
-                active={item.id === this.state.selectedCard}
-                onClick={() => this.handleSelectCardChange(item.id)}
+                key={index}
+                active={index === this.state.selectedCardIndex}
+                onClick={() => this.handleSelectCardChange(index)}
               >
-                <BankCardButtonLabel>{i18n.t("withdrawal.bankCard")}</BankCardButtonLabel>
+                <BankCardButtonLabel>
+                  {i18n.t("withdrawal.bankCard")}
+                </BankCardButtonLabel>
 
                 <BankCardButtonCardNoHL>
-                  {item.bank_account}
+                  {item.detail.address.substring(
+                    item.detail.address.length - 4,
+                    item.detail.address.length
+                  )}
                 </BankCardButtonCardNoHL>
-                <BankCardButtonCardNo>{i18n.t("withdrawal.tail")}</BankCardButtonCardNo>
+                <BankCardButtonCardNo>
+                  {i18n.t("withdrawal.tail")}
+                </BankCardButtonCardNo>
               </BankCardButton>
             );
           })}
@@ -178,14 +182,14 @@ class Main extends Component {
 
         <SelectionContainer>
           <CurrencyTextField
-              className="CurrencyTextField"
-              style={{
-                height: "40px",
-                width: "200px",
-                borderRadius: "12px",
-                boxShadow:"0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
-                backgroundColor: "#fff",
-              }}
+            className="CurrencyTextField"
+            style={{
+              height: "40px",
+              width: "200px",
+              borderRadius: "12px",
+              boxShadow: "0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
+              backgroundColor: "#fff",
+            }}
             placeholder={i18n.t("withdrawal.enterAmount")}
             onChange={this.handleAmountChange}
             outputFormat="string"
@@ -199,7 +203,7 @@ class Main extends Component {
             decimalPlaces={0}
           ></CurrencyTextField>
           <LimitPopupContainer>
-           * {i18n.t("withdrawal.msgWithdrawalAmount")}
+            * {i18n.t("withdrawal.msgWithdrawalAmount")}
           </LimitPopupContainer>
         </SelectionContainer>
         <SplitLine></SplitLine>
@@ -224,11 +228,10 @@ class Main extends Component {
         <CustomButton
           name={i18n.t("common.nextStep")}
           width={160}
-          marginTop={"150"}
+          marginTop={"50"}
           float={"none"}
           handleClick={this.handleWithdrawalClick}
         ></CustomButton>
-
       </>
     );
   }

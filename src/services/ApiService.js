@@ -9,11 +9,10 @@ export const ApiService = {
   patch,
   postFormData,
   postExternal,
-  getImage, postFile
+  getImage,
+  postFile,
 };
-const custmHeader = {
-
-};
+const custmHeader = {};
 function getImage(apiEndpoint) {
   return axios
     .get(config.baseUrl + apiEndpoint, {
@@ -31,13 +30,11 @@ function getImage(apiEndpoint) {
 }
 
 function get(apiEndpoint) {
-
   return axios
     .get(config.baseUrl + apiEndpoint, {
-
       headers: {
-        'Content-Type': 'application/json',
-      }
+        "Content-Type": "application/json",
+      },
     })
     .then((response) => {
       return response;
@@ -66,7 +63,7 @@ function post(apiEndpoint, payload, formData = false) {
           ...custmHeader,
         },
       }
-    )
+    );
   }
   // axios.post('https://dev.operator.tgsdev.gq/api/Player/create',
   //   { "username": "asd", "currency": "CNY", "pwd": "abc123456", "confirmpwd": "abc123456", "invitationcode": "", "agent": true, "testplayer": true },
@@ -162,7 +159,7 @@ function postFormData(url, bodyFormData) {
 }
 function postFile(apiEndpoint, file, payload) {
   var data = new FormData();
-  data.append('file', file, file.fileName);
+  data.append("file", file, file.name);
   for (var key in payload) {
     data.append(key, payload[key]);
   }
@@ -173,8 +170,8 @@ function postFile(apiEndpoint, file, payload) {
     data: data,
 
     headers: {
-      'accept': 'application/json',
-      'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+      accept: "application/json",
+      "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
       ...custmHeader,
     },
   });
@@ -210,7 +207,6 @@ function postExternal(url, payload, formData = false) {
       }
     );
   }
-
 
   return request;
 }

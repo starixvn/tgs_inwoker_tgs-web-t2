@@ -12,10 +12,7 @@ import Button from "../../Wap/Share/Button";
 import IconCardManagePNG from "../../../assets/images/wap/icon-card-manage.png";
 import Textbox from "../../Wap/Share/Textbox";
 
-import { RESET_WALLETRESULT } from "../../../constants/actionType";
-
-
-import { walletAction } from "../../../actions/walletAction";
+import { walletAction, RESET_WALLETRESULT } from "@Inwoker/tgs-api";
 import { withSnackbar } from "notistack";
 import Loading from "../../Wap/Share/Loading";
 
@@ -92,7 +89,6 @@ const ButtonCardManage = styled.div`
   color: #404040;
 `;
 
-
 const StyledModalBank = withStyles((theme) => ({
   paper: {
     color: "#666666",
@@ -150,7 +146,6 @@ const DialoTitle = styled.div`
   color: #4a4a4a;
 `;
 
-
 const OTPContainer = styled.div`
   position: relative;
   text-align: center;
@@ -173,7 +168,7 @@ const OTPTextBox = styled.input`
   width: 500px;
   text-indent: 9px;
   padding-left: 64px;
-  color:#404040;
+  color: #404040;
   -webkit-letter-spacing: 25.6px;
   -moz-letter-spacing: 25.6px;
   -ms-letter-spacing: 25.6px;
@@ -182,13 +177,13 @@ const OTPTextBox = styled.input`
 `;
 class Withdrawal extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.initialState = {
       withdrawalInfo: {
         bonus_limit_list: [],
       },
       bankCardList: [],
-      selectedBankCard: null,
+      selectedBankCardIndex: 0,
       defaultCard: "",
       amount: "",
       card: "",
@@ -196,18 +191,21 @@ class Withdrawal extends Component {
       loading: false,
       open: false,
       password: "",
-      otp: false
+      otp: false,
     };
     this.state = this.initialState;
   }
 
-
   componentDidMount() {
-    if (this.props.token != null) {
-      if (this.props.wallet.bankCardList.length === 0)
-        this.props.getBankCardList();
+    if (this.props.account.info.member_safe_password !== "set") {
+      AppHistory.replace(`/${i18n.language}/profile/withdrawalpassword/`);
+    } else {
+      if (this.props.token != null) {
+        if (this.props.wallet.bankCardList.length === 0)
+          this.props.getBankCardList();
 
-      // this.GetWithdrawalDetails();
+        // this.GetWithdrawalDetails();
+      }
     }
   }
   componentDidUpdate(preProps) {
@@ -226,9 +224,8 @@ class Withdrawal extends Component {
         this.props.getBalanceList();
         this.props.alert("", i18n.t("withdrawal.msgSuccess"));
         this.setState({
-          ...this.initialState
-
-        })
+          ...this.initialState,
+        });
       } else {
         this.props.alert("", this.props.wallet.withdrawalResult.info);
       }
@@ -238,35 +235,40 @@ class Withdrawal extends Component {
     AppHistory.goBack();
   };
 
-  handleSubmitClicked = (e) => {
+  handleSubmitClick = (e) => {
     const amount = this.state.amount;
-
     const formatedamount = amount.toString().replace(/,/g, "");
-    if (parseFloat(formatedamount) <= 0) {
-      this.props.alert("", i18n.t("withdrawal.msgInvalidAmt"));
-
-      return;
-    }
-
-    if (
-      parseFloat(formatedamount) > parseFloat(this.props.wallet.mainBalance)
-    ) {
-      this.props.alert(
-        "",
-        i18n.t("withdrawal.msgCanWithdrawal").replace(/{{amount}}/g, this.props.wallet.mainBalance)
-      );
-      // this.props.enqueueSnackbar(
-      //   "您可的可提款余额为：" + this.props.account.info.can_withdrawal,
-      //   {
-      //     variant: "warning"
-      //   }
-      // );
-      return;
-    }
-    this.setState({ ...this.state, otp: true })
+    this.props.doWithdraw(
+      formatedamount,
+      this.state.password,
+      this.props.wallet.bankCardList[this.state.selectedBankCardIndex].id
+    );
+    // const amount = this.state.amount;
+    // const formatedamount = amount.toString().replace(/,/g, "");
+    // if (parseFloat(formatedamount) <= 0) {
+    //   this.props.alert("", i18n.t("withdrawal.msgInvalidAmt"));
+    //   return;
+    // }
+    // if (
+    //   parseFloat(formatedamount) > parseFloat(this.props.wallet.mainBalance)
+    // ) {
+    //   this.props.alert(
+    //     "",
+    //     i18n
+    //       .t("withdrawal.msgCanWithdrawal")
+    //       .replace(/{{amount}}/g, this.props.wallet.mainBalance)
+    //   );
+    //   // this.props.enqueueSnackbar(
+    //   //   "您可的可提款余额为：" + this.props.account.info.can_withdrawal,
+    //   //   {
+    //   //     variant: "warning"
+    //   //   }
+    //   // );
+    //   return;
+    // }
+    // this.setState({ ...this.state, otp: true });
     // AppHistory.replace({
     //   pathname: "/" + i18n.language + "/withdrawal/details",
-
     //   state: {
     //     order: {
     //       id: this.state.selectedBankCard.id,
@@ -274,8 +276,6 @@ class Withdrawal extends Component {
     //     },
     //   },
     // });
-
-
   };
 
   handleChangeAmount = (e) => {
@@ -286,10 +286,10 @@ class Withdrawal extends Component {
     this.props.resetResult();
   };
 
-  handleBankClick = (bankCard) => {
+  handleBankClick = (index) => {
     this.setState({
       ...this.state,
-      selectedBankCard: bankCard,
+      selectedBankCardIndex: index,
       bankOpen: false,
     });
   };
@@ -297,16 +297,16 @@ class Withdrawal extends Component {
     const amount = this.state.amount;
 
     const formatedamount = amount.toString().replace(/,/g, "");
-    if (parseFloat(formatedamount) <= 0) {
-      this.props.alert("", i18n.t("withdrawal.msgInvalidAmt"));
+    // if (parseFloat(formatedamount) <= 0) {
+    //   this.props.alert("", i18n.t("withdrawal.msgInvalidAmt"));
 
-      return;
-    }
-    this.setState({ ...this.state, otp: false });
+    //   return;
+    // }
+    // this.setState({ ...this.state, otp: false });
     this.props.doWithdrawal(
       formatedamount,
       this.state.password,
-      this.state.selectedBankCard.id
+      this.props.wallet.bankCardList[this.state.selectedBankCardIndex].id
     );
   };
   handlePasswordChange = (e) => {
@@ -336,7 +336,6 @@ class Withdrawal extends Component {
               {this.props.wallet.mainBalance}
             </LeftLabelValue>
           </RowContainer>
-
         </InnerContainer>
         <ButtonCardManage
           onClick={() => AppHistory.push("/" + i18n.language + "/card")}
@@ -347,8 +346,9 @@ class Withdrawal extends Component {
         <Textbox
           style={{ margin: "20px auto 20px auto" }}
           value={
-            this.state.selectedBankCard
-              ? this.state.selectedBankCard.bank_name
+            this.props.wallet.bankCardList.length > 0
+              ? this.props.wallet.bankCardList[this.state.selectedBankCardIndex]
+                  .detail.address
               : ""
           }
           onClick={() => this.setState({ ...this.state, bankOpen: true })}
@@ -361,23 +361,28 @@ class Withdrawal extends Component {
           style={{ margin: "50px auto 20px auto" }}
           value={this.state.amount}
           onChange={this.handleChangeAmount}
-          placeholder={i18n.t("withdrawal.msgWithdrawalAmount")}
+          placeholder={i18n.t("withdrawal.enterAmount")}
           label={i18n.t("common.amount")}
           type={"number"}
         ></Textbox>
-        <BottomDesc>
-          {i18n.t("withdrawal.notice")}
 
-        </BottomDesc>
+        <Textbox
+          style={{ margin: "50px auto 20px auto" }}
+          onChange={this.handlePasswordChange}
+          value={this.state.password}
+          placeholder={i18n.t("withdrawal.msgEnterWithdrawalPass")}
+          label={i18n.t("common.withdrawalPassword")}
+          type={"password"}
+        ></Textbox>
+        <BottomDesc>{i18n.t("withdrawal.notice")}</BottomDesc>
         <Button
           style={{ margin: "40px auto 0 auto" }}
           label={i18n.t("common.submit")}
-          onClick={this.handleSubmitClicked}
+          onClick={this.handleSubmitClick}
           disabled={(() => {
             return (
-              !this.state.amount ||
               parseFloat(this.state.amount.toString().replace(/,/g, "")) < 1 ||
-              this.state.selectedBankCard === null
+              this.state.password <= 0
             );
           })()}
         ></Button>
@@ -395,13 +400,13 @@ class Withdrawal extends Component {
               <StyledListItem
                 button
                 key={index}
-                onClick={() => this.handleBankClick(item)}
+                onClick={() => this.handleBankClick(index)}
               >
-                <StyledListItemIcon>
-                  <StyledListItemImage src={item.file}></StyledListItemImage>
-                </StyledListItemIcon>
                 <StyledListItemText
-                  primary={item.bank_name}
+                  primary={item.banktype}
+                ></StyledListItemText>
+                <StyledListItemText
+                  primary={item.detail.address}
                 ></StyledListItemText>
               </StyledListItem>
             );
@@ -415,8 +420,15 @@ class Withdrawal extends Component {
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
         >
-          <DialoTitle>{i18n.t("common.withdrawalPassword")}</DialoTitle>
-          <OTPContainer>
+          {/* <DialoTitle>{i18n.t("common.withdrawalPassword")}</DialoTitle>
+          <Textbox
+            style={{ margin: "50px auto 20px auto" }}
+            onChange={this.handlePasswordChange}
+            value={this.state.password}
+            label={i18n.t("common.withdrawalPassword")}
+            type={"password"}
+          ></Textbox> */}
+          {/* <OTPContainer>
             <OTPTextBox
               type={"password"}
               inputmode="numeric"
@@ -426,7 +438,7 @@ class Withdrawal extends Component {
               onChange={this.handlePasswordChange}
               value={this.state.password}
             ></OTPTextBox>
-          </OTPContainer>
+          </OTPContainer> */}
           <Button
             style={{
               width: "250px",
@@ -476,8 +488,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: RESET_WALLETRESULT,
       }),
-    doWithdrawal: (amount, password, user_account_id) =>
-      dispatch(walletAction.doWithdrawal(amount, password, user_account_id)),
+    doWithdraw: (amount, password, user_account_id) =>
+      dispatch(walletAction.doWithdraw(amount, user_account_id, password)),
   };
 };
 

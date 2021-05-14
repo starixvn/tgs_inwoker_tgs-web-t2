@@ -5,7 +5,8 @@ import DynamicFont from "react-dynamic-font";
 import IconRefreshPNG from "../../../assets/images/icon-refresh.png";
 
 import { WalletType } from "../../../utils/Enum";
-import i18n from "../../../utils/i18n"
+import i18n from "../../../utils/i18n";
+import Common from "../../../utils/Common";
 export const rotateKeyFrame = keyframes`
   0% {
     transform:rotate(0deg)
@@ -19,7 +20,7 @@ const Container = styled.div`
   height: 70px;
   margin-bottom: 20px;
   background-color: #ffffff;
-  box-shadow: 0px 1px 12px -5px rgba(0,0,0,0.75);
+  box-shadow: 0px 1px 12px -5px rgba(0, 0, 0, 0.75);
   padding-left: 10px;
 `;
 const AvatarContainer = styled.img`
@@ -33,18 +34,13 @@ const PlayerInfoContainer = styled.div`
   width: 210px;
 `;
 const PlayerName = styled.div`
-font-size: 18px;
+  font-size: 18px;
   color: #404040;
   height: 21px;
 `;
 
 const MissionContainer = styled.div`
-
-
-
   margin-top: 10px;
-
-
 
   font-size: 12px;
 
@@ -83,7 +79,6 @@ const RefreshButton = styled.div`
   margin: 22px 0px 0 4px;
   float: left;
   &:hover {
-
     cursor: pointer;
   }
 `;
@@ -96,8 +91,6 @@ const RefreshButtonIcon = styled.div`
     animation: ${rotateKeyFrame} 1s linear 0s infinite;
   }
 `;
-
-
 
 function Header(props) {
   var total = 0;
@@ -123,9 +116,16 @@ function Header(props) {
 
       </PlayerInfoContainer> */}
       <MainWalletContainer>
-        <MainAccountLabel>{i18n.t("web.account.header.total")}:</MainAccountLabel>
+        <MainAccountLabel>
+          {i18n.t("web.account.header.total")}:
+        </MainAccountLabel>
         <AmountContainer>
-          <DynamicFont content={props.wallet.mainSymbol + total.toFixed(2)} />
+          <DynamicFont
+            content={
+              props.wallet.mainSymbol +
+              Common.formatNumberWithThousand(props.wallet.mainBalance)
+            }
+          />
         </AmountContainer>
         <RefreshButton onClick={props.onhandleRefreshClick}>
           <RefreshButtonIcon></RefreshButtonIcon>
@@ -133,9 +133,16 @@ function Header(props) {
       </MainWalletContainer>
       <SpliterLine></SpliterLine>
       <MainWalletContainer>
-        <MainAccountLabel>{i18n.t("web.account.header.mainWallet")}:</MainAccountLabel>
+        <MainAccountLabel>
+          {i18n.t("web.account.header.mainWallet")}:
+        </MainAccountLabel>
         <AmountContainer>
-          <DynamicFont content={props.wallet.mainSymbol + main.toFixed(2)} />
+          <DynamicFont
+            content={
+              props.wallet.mainSymbol +
+              Common.formatNumberWithThousand(props.wallet.mainBalance)
+            }
+          />
         </AmountContainer>
         <RefreshButton onClick={props.onhandleRefreshClick}>
           <RefreshButtonIcon></RefreshButtonIcon>
@@ -143,7 +150,9 @@ function Header(props) {
       </MainWalletContainer>
       <SpliterLine></SpliterLine>
       <MainWalletContainer>
-        <MainAccountLabel>{i18n.t("web.account.header.allGameWallet")}:</MainAccountLabel>
+        <MainAccountLabel>
+          {i18n.t("web.account.header.allGameWallet")}:
+        </MainAccountLabel>
         <AmountContainer>
           <DynamicFont content={props.wallet.mainSymbol + ingame.toFixed(2)} />
         </AmountContainer>
@@ -151,7 +160,6 @@ function Header(props) {
           <RefreshButtonIcon></RefreshButtonIcon>
         </RefreshButton>
       </MainWalletContainer>
-
     </Container>
   );
 }

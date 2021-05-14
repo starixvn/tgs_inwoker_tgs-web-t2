@@ -6,35 +6,18 @@ import {
   GETGAMEPLATFORMLIST_BEGIN,
   GETGAMEPLATFORMLIST_SUCCESS,
   GETGAMEPLATFORMLIST_FAIL,
-} from "../constants/actionType";
-import { GameTypeEnum } from "../utils/Enum"
+} from "@Inwoker/tgs-api";
+
 const initialState = {
   pending: false,
   kyGameList: [],
   kyHotGameList: [],
   homePageGameList: [],
+  providerList: [],
   error: null,
-};
-const gameImageMapping = {
-  Wm: {
-    pcHeaderMenu: "/assets/images/submenu-live-agv2.png",
-  },
-  Sa: {
-    pcHeaderMenu: "/assets/images/submenu-live-bbinv2.png",
-  },
-  Ab: {
-    pcHeaderMenu: "/assets/images/submenu-live-dgv2.png",
-  },
-  Bg: {
-    pcHeaderMenu: "/assets/images/submenu-live-mgv2.png",
-  },
-  default: {
-    pcHeaderMenu: "",
-  },
 };
 
 export function gameReducer(state = initialState, action) {
-
   switch (action.type) {
     case KYGAMELIST_SUCCESS:
       return {
@@ -52,6 +35,7 @@ export function gameReducer(state = initialState, action) {
     case GETHOMEPAGEGAMELIST_SUCCESS:
       var gameList = action.payload.data;
       var list = [];
+      var providerList = [];
       for (var i = 0; i < gameList.length; i++) {
         for (var x = 0; x < gameList[i].gametypes.length; x++) {
           list.push({
@@ -63,15 +47,20 @@ export function gameReducer(state = initialState, action) {
             params: null,
             type: gameList[i].gametypes[x],
             status: gameList[i].status,
-          })
+          });
         }
-
+        providerList.push({
+          abbreviation: gameList[i].code,
+          transferwallet: gameList[i].transferwallet,
+          name: gameList[i].name,
+          status: gameList[i].status,
+        });
       }
-
 
       return {
         ...state,
         homePageGameList: list,
+        providerList: providerList,
         loading: false,
       };
     case GETHOMEPAGEGAMELIST_FAIL:

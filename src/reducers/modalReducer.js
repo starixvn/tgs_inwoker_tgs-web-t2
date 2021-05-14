@@ -1,7 +1,7 @@
-import { CLOSE_MODAL, SHOW_MODAL } from "../constants/actionType";
+import { CLOSE_MODAL, SHOW_MODAL } from "@Inwoker/tgs-api";
 const initState = {
   isOpen: false,
-  pageName: ""
+  pageName: "",
 };
 
 const modalReducer = (state = initState, action) => {
@@ -10,13 +10,13 @@ const modalReducer = (state = initState, action) => {
       return {
         ...state,
         isOpen: true,
-        pageName: action.pageName
+        pageName: action.pageName,
       };
     case CLOSE_MODAL:
       return {
         ...state,
         isOpen: false,
-        pageName: ""
+        pageName: "",
       };
     default:
       return state;

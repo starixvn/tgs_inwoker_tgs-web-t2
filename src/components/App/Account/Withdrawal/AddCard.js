@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import CustomTextField from "../../../Share/TextField";
 import Button from "../../../Share/Button";
-import i18n from "../../../../utils/i18n"
+import i18n from "../../../../utils/i18n";
+import { Select, FormControl, withStyles } from "@material-ui/core";
 const Container = styled.div`
   width: 100%;
 `;
@@ -76,82 +77,137 @@ const TunnelButton = styled(TabButton)`
   padding-top: 10px;
   margin-top: 0px;
 `;
+const CustomSelect = withStyles((theme) => ({
+  root: {
+    fontSize: "14px",
+    color: "#818181",
+  },
+}))(Select);
+const CustomFormControl = withStyles((theme) => ({
+  root: {
+    width: "395px",
+    height: "38px",
+    marginTop: "12px",
+    marginRight: "5px",
+    float: "left",
+    backgroundColor: "#fff",
+    padding: 0,
+    "&:before": {
+      borderRight: "1px solid #b6b6b6",
+      content: '"\\00a0"',
+      position: "absolute",
+      top: "1px",
+      right: "36px",
+      zIndex: " 1",
+      display: "block",
+      height: "100%",
+    },
+    "& label.Mui-focused": {
+      color: "#b6b6b6",
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#b6b6b6",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#b6b6b6",
+        marginTop: "1px",
+      },
+      "&:hover fieldset": {
+        borderColor: "#b6b6b6",
+        marginTop: "1px",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#b6b6b6",
+        marginTop: "1px",
+      },
+    },
+  },
+}))(FormControl);
 class AddCard extends Component {
   state = {
-    number: "",
     password: "",
+    number: "",
+    selectedChannelIndex: 0,
+
+    selectedBankTypeIndex: 0,
   };
-  handleBankChange = (bankId) => {
-    this.setState({ ...this.state, bankId: bankId });
+  componentDidMount() {}
+  handleBankTypeChange = (e) => {
+    this.setState({ ...this.state, selectedBankTypeIndex: e.target.value });
   };
-  handleBankBranchChange = (e) => {
-    this.setState({ ...this.state, bankBranch: e.target.value });
-  };
-  handleAccountHolderChange = (e) => {
-    this.setState({ ...this.state, accountHolder: e.target.value });
+  handleChannelChange = (e) => {
+    this.setState({ ...this.state, selectedChannelIndex: e.target.value });
   };
   handleNumberChange = (e) => {
     this.setState({ ...this.state, number: e.target.value });
   };
 
   handleNextClick = (e) => {
+    var selected = this.props.withdrawalList[this.state.selectedBankTypeIndex];
+
     this.props.onhandleNextClick(
-      this.state.bankId,
-      this.state.bankBranch,
-      this.state.accountHolder,
+      selected.channel[this.state.selectedChannelIndex].channelid,
+      selected.banktype,
       this.state.number
     );
   };
   render() {
+    const { withdrawalList } = this.props;
     return (
       <Container>
-          <SubHeaderContainer>
+        <SubHeaderContainer>
           <NumberContainer>1</NumberContainer>
           <SubTitle>{i18n.t("card.addCard.title")}</SubTitle>
         </SubHeaderContainer>
-        <SubTitleDesc>{i18n.t("card.addCard.subTitle")}</SubTitleDesc>
-        <TextFieldLabel>{i18n.t("common.bank")}</TextFieldLabel>
-        <SelectionContainer>
-          {this.props.bankList.map((item, key) => {
-            return (
-              <TunnelButton
-                img={item.file}
-                key={item.id}
-                onClick={() => this.handleBankChange(item.id)}
-                active={this.state.bankId === item.id}
-              >
-                {item.name}
-              </TunnelButton>
-            );
-          })}
-        </SelectionContainer>
-        <TextFieldLabel>{i18n.t("card.addCard.branch")}</TextFieldLabel>
+        <TextFieldLabel>{i18n.t("common.withdrawalBankType")}</TextFieldLabel>
         <TextFieldContainer>
-          <CustomTextField
-            marginTop={10}
-            placeholder={i18n.t("card.addCard.branchPlaceHolder")}
-            width={395}
-            height={38}
-            float={"none"}
-            handleTextFieldChange={this.handleBankBranchChange}
-          ></CustomTextField>
+          <CustomFormControl>
+            <CustomSelect
+              native
+              variant="outlined"
+              displayEmpty
+              value={this.state.selectedBankTypeIndex}
+              onChange={this.handleBankTypeChange}
+            >
+              {withdrawalList.map((item, index) => {
+                return (
+                  <option value={index} key={index}>
+                    {item.banktype}
+                  </option>
+                );
+              })}
+            </CustomSelect>
+          </CustomFormControl>
         </TextFieldContainer>
-        <TextFieldLabel>{i18n.t("card.addCard.cardHolder")}</TextFieldLabel>
+        <TextFieldLabel>{i18n.t("common.withdrawalChannel")}</TextFieldLabel>
         <TextFieldContainer>
-          <CustomTextField
-            marginTop={10}
-            placeholder={i18n.t("card.addCard.msgEnterCardHolder")}
-            width={395}
-            height={38}
-            float={"none"}
-            handleTextFieldChange={this.handleAccountHolderChange}
-          ></CustomTextField>
+          <CustomFormControl>
+            <CustomSelect
+              native
+              variant="outlined"
+              displayEmpty
+              value={this.state.selectedChannelIndex}
+              onChange={this.handleChannelChange}
+            >
+              {withdrawalList.length > 0 &&
+                withdrawalList[this.state.selectedBankTypeIndex].channel.map(
+                  (item, index) => {
+                    return (
+                      <option value={index} key={index}>
+                        {item.channelname}
+                      </option>
+                    );
+                  }
+                )}
+            </CustomSelect>
+          </CustomFormControl>
         </TextFieldContainer>
-        <TextFieldLabel>{i18n.t("card.addCard.cardNum")}</TextFieldLabel>
+        <TextFieldLabel>{i18n.t("common.withdrawalNumber")}</TextFieldLabel>
         <TextFieldContainer>
           <CustomTextField
             marginTop={10}
-            placeholder={i18n.t("card.addCard.msgEnterCard")}
+            placeholder={i18n.t("common.msgEnterWithdrawalNumber")}
             width={395}
             height={38}
             float={"none"}

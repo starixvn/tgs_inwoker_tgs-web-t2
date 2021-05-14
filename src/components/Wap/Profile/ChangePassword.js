@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Textbox from "../Share/Textbox";
 import BaseProfile from "./BaseProfile";
-// import { ProfileAction } from "../../../actions/ProfileAction";
-import {AccountService} from  '@Inwoker/tgs-api';
+
+import { AccountService } from "@Inwoker/tgs-api";
 import { withSnackbar } from "notistack";
 import { AppHistory } from "../../../history/History";
 import i18n from "../../../utils/i18n";
 class ChangePassword extends BaseProfile {
-  componentDidMount() { }
+  componentDidMount() {}
   handleChangeOldPassword = (e) => {
     this.setState({ ...this.state, oldpassword: e.target.value });
     this.onTextChanged();
@@ -39,12 +39,13 @@ class ChangePassword extends BaseProfile {
       .then((response) => {
         if (response.IsSuccess) {
           this.updateInfo({});
+          this.props.alert("", i18n.t("common.msgSuccessUpdateProfile"));
+
+          AppHistory.replace("/" + i18n.language + "/profile");
+        } else {
+          this.props.alert("", i18n.t("common.msgInvalidOldPass"));
         }
-        this.props.alert("", i18n.t("common.msgSuccessUpdateProfile"));
         this.showLoading(false);
-        AppHistory.replace(
-          "/" + i18n.language + "/profile"
-        );
       })
       .catch((err) => {
         this.props.alert("", err);

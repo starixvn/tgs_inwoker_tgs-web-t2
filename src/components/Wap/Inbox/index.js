@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import Moment from "react-moment";
-import { AppHistory } from "../../../history/History";
 
+import { AppHistory } from "../../../history/History";
 
 import Header from "../../Wap/Share/Header";
 
-import { accountAction } from '@Inwoker/tgs-api';
+import { accountAction, InboxService, inboxAction } from "@Inwoker/tgs-api";
 import BottomScrollListener from "react-bottom-scroll-listener";
-import { InboxService } from "../../../services/InboxService";
+
 import IconInboxCheckedPNG from "../../../assets/images/wap/icon-inbox-checked.png";
 import Loading from "../../Wap/Share/Loading";
 import i18n from "../../../utils/i18n";
 
+import InboxList from "./InboxList";
 
 const CheckboxContainer = styled.div`
   float: left;
@@ -91,30 +91,36 @@ class Inbox extends Component {
     selected: [],
     selectedGuid: [],
     loading: false,
+    inbox: "",
+    view: false,
   };
 
   componentDidMount() {
-    if (this.props.token != null) {
-      InboxService.UpdateReadMessage().then(response => {
-        this.props.getAccountInfo();
-        this.getMessageList(0);
-      })
+    // InboxService.InboxList(0).then((response) => {
+    //   if (response.IsSuccess) {
+    //     this.setState({
+    //       ...this.state,
+    //       inbox: response.data,
+    //     });
+    //   }
+    // });
 
+    if (this.props.token != null) {
+      this.getMessageList(0, true);
     }
   }
   componentDidUpdate(preProps) {
-    if (preProps.token == null && this.props.token != null) {
-      this.getMessageList(0);
-    }
+    // if (preProps.token == null && this.props.token != null) {
+    //   this.getMessageList(0);
+    // }
   }
-  getMessageList = (page) => {
-    this.props.getMessageList(this.state.limit, page);
-
+  getMessageList = (page, isNew = false) => {
+    this.props.getMessages(this.state.limit, page + 1, isNew);
   };
   handleScrollBottom = () => {
     if (this.state.isBottom === false) {
-      if (this.props.inbox.list.length < this.props.inbox.count) {
-        this.props.getMessageList(this.state.limit, this.state.page + 1);
+      if (this.props.inbox.items.length < this.props.inbox.totalcount) {
+        this.getMessageList(this.state.page + 1);
         this.setState({ ...this.state, page: this.state.page + 1 });
       }
     }
@@ -123,16 +129,20 @@ class Inbox extends Component {
     AppHistory.goBack();
   };
   handleEditClick = () => {
-    if (this.props.inbox.list.length > 0) {
+    if (this.props.inbox.items.length > 0) {
       this.setState({ ...this.state, edit: !this.state.edit });
     }
   };
   handleItemClick = (id) => {
     if (this.state.edit === false) {
-      // InboxService.UpdateReadMessage(this.props.token, id).then((response) => {
-      //   this.handleCallback();
-      // });
-      AppHistory.push("/" + i18n.language + "/inbox/details/" + id);
+      this.props.setMessageRead([id]).then((response) => {
+        this.props.getMessages(1, 99, true, true);
+      });
+
+      this.setState({
+        ...this.state,
+        view: true,
+      });
     }
   };
   handleCheckboxClick = (SubjectID, GUID) => {
@@ -152,31 +162,31 @@ class Inbox extends Component {
     });
   };
   callbackCount = 0;
-  handleCallback = () => {
-    this.getMessageList(0);
-    this.setState({
-      ...this.state,
-      edit: false,
-      selectedGuid: [],
-      selected: [],
-    });
-  };
-  handleDeleteClick = () => {
-    this.callbackCount = 0;
-    InboxService.DeleteMessage(this.props.token, this.state.selected).then(
-      (response) => {
-        this.handleCallback();
-      }
-    );
-  };
-  // handleReadClick = () => {
+  // handleCallback = () => {
+  //   this.getMessageList(0);
+  //   this.setState({
+  //     ...this.state,
+  //     edit: false,
+  //     selectedGuid: [],
+  //     selected: [],
+  //   });
+  // };
+  // handleDeleteClick = () => {
   //   this.callbackCount = 0;
-  //   InboxService.UpdateReadMessage(this.props.token, this.state.selected).then(
+  //   InboxService.DeleteMessage(this.props.token, this.state.selected).then(
   //     (response) => {
   //       this.handleCallback();
   //     }
   //   );
   // };
+  handleReadClick = () => {
+    // this.callbackCount = 0;
+    // InboxService.UpdateReadMessage(this.props.token, this.state.selected).then(
+    //   (response) => {
+    //     this.handleCallback();
+    //   }
+    // );
+  };
   render() {
     return (
       <div style={{ paddingBottom: this.state.edit ? 120 : 0 }}>
@@ -188,32 +198,46 @@ class Inbox extends Component {
           title={i18n.t("inbox.title")}
         ></Header>
 
-        {this.props.inbox.list.map((row, index) => {
-          return (
-            <ListItem key={index}>
-              <CheckboxContainer edit={this.state.edit}>
-                <CheckboxCircle
-                  onClick={() => this.handleCheckboxClick(row.id, row.id)}
-                  checked={this.state.selected.includes(row.id)}
-                ></CheckboxCircle>
-              </CheckboxContainer>
-              <ItemContainer key={row.id} edit={this.state.edit}>
-
-                <ContentContainer
-                  onClick={() => this.handleItemClick(row.id, row.id)}
-                >
-                  <MsgTitle>
-                    <MsgTitleSpan>{row.title_text}</MsgTitleSpan>
-                  </MsgTitle>
-                  <MsgDate>
-                    <Moment format="YYYY-MM-DD">{row.create_time_text}</Moment>
-                  </MsgDate>
-                </ContentContainer>
-
-              </ItemContainer>
-            </ListItem>
-          );
-        })}
+        {
+          this.props.inbox
+            ? this.props.inbox.items.map((row, index) => {
+                return (
+                  <InboxList
+                    row={row}
+                    index={index}
+                    selected={this.state.selected}
+                    edit={this.state.edit}
+                    handleCheckboxClick={this.handleCheckboxClick}
+                    handleItemClick={this.handleItemClick}
+                  />
+                );
+              })
+            : ""
+          // this.props.inbox.list.map((row, index) => {
+          //   return (
+          //     <ListItem key={index}>
+          //       <CheckboxContainer edit={this.state.edit}>
+          //         <CheckboxCircle
+          //           onClick={() => this.handleCheckboxClick(row.id, row.id)}
+          //           checked={this.state.selected.includes(row.id)}
+          //         ></CheckboxCircle>
+          //       </CheckboxContainer>
+          //       <ItemContainer key={row.id} edit={this.state.edit}>
+          //         <ContentContainer
+          //           onClick={() => this.handleItemClick(row.id, row.id)}
+          //         >
+          //           <MsgTitle>
+          //             <MsgTitleSpan>{row.title_text}</MsgTitleSpan>
+          //           </MsgTitle>
+          //           <MsgDate>
+          //             <Moment format="YYYY-MM-DD">{row.create_time_text}</Moment>
+          //           </MsgDate>
+          //         </ContentContainer>
+          //       </ItemContainer>
+          //     </ListItem>
+          //   );
+          // })
+        }
         <BottomScrollListener onBottom={this.handleScrollBottom} />
 
         <Loading show={this.state.loading}></Loading>
@@ -230,11 +254,11 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getMessageList: (limit, page) =>
-      dispatch(accountAction.getMessageList(limit, page)),
+    getMessages: (limit, page, isNew, getCount = false) =>
+      dispatch(inboxAction.getMessages(page, limit, isNew, getCount)),
     dispatch: dispatch,
-    getAccountInfo: () =>
-      dispatch(accountAction.getAccountInfo()),
+    getAccountInfo: () => dispatch(accountAction.getAccountInfo()),
+    setMessageRead: (ids) => dispatch(inboxAction.setMessageRead(ids)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Inbox);
