@@ -57,7 +57,7 @@ function IDVerification(props) {
   return (
     <Container>
       <CustomTextField
-        placeholder="真实姓名"
+        placeholder={i18n.t("common.realName")}
         adornment={IconInputReceivePNG}
         handleTextFieldChange={onhandleNameChange}
         defaultValue={props.account.info.member_name}

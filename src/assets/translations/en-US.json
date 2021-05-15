@@ -310,6 +310,7 @@
     "details": "Details",
     "phoneVerification": "Phone Verification",
     "emailVerification": "Email Verification",
+    "msgPlsBindEmailAddress":"Please bind email address",
     "changePassword": {
       "msgConfirmPassFail": "Confirm Password Wrong",
       "editPassword": "Edit Password",
@@ -351,6 +352,14 @@
     },
     "email": {
       "bindEmail": "Bind Email Address"
+    },
+    "qq":{
+      "msgInvalidQQ" :"Invalid QQ number",
+      "qqAccount":"QQ Number"
+    },
+    "wechat":{
+      "msgInvalidWeChat" :"Invalid WeChat account",
+      "weChatAccount":"WeChat"
     },
     "resetResetWithdrawalPassword": {
       "title": "Reset Withdrawal Password",

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import CustomTextField from "../../../Share/TextField";
 import CustomButton from "../../../Share/Button";
-
+import i18n from "../../../../utils/i18n";
 import { AccountService, UPDATE_INFO } from "@Inwoker/tgs-api";
 
 import { withSnackbar } from "notistack";
@@ -27,7 +27,7 @@ class Wechat extends Component {
   onhandleClick = () => {
     const re = new RegExp("^[a-zA-Z]{1}[-_a-zA-Z0-9]{5,19}$");
     if (!this.state.member_wechat.match(re)) {
-      this.props.enqueueSnackbar("微信号码格式不正确", {
+      this.props.enqueueSnackbar(i18n.t("profile.wechat.msgInvalidWeChat"), {
         variant: "error",
       });
       return;
@@ -53,7 +53,7 @@ class Wechat extends Component {
     return (
       <Container>
         <CustomTextField
-          placeholder="Wechat账号"
+          placeholder={i18n.t("profile.wechat.weChatAccount")}
           adornment={IconInputReceivePNG}
           handleTextFieldChange={this.onhandleTextChange}
           defaultValue={this.state.member_wechat}
@@ -61,7 +61,7 @@ class Wechat extends Component {
         ></CustomTextField>
 
         <CustomButton
-          name="提交"
+          name={i18n.t("common.submit")}
           handleClick={this.onhandleClick}
         ></CustomButton>
       </Container>

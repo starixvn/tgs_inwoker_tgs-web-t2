@@ -7,15 +7,15 @@ import i18n from "../../utils/i18n";
 import CloseIcon from "@material-ui/icons/Close";
 import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 const Container = styled.div`
-width: 506px;
+  width: 506px;
 
-background: url(${LoginBGPNG});
-display: table;
+  background: url(${LoginBGPNG});
+  display: table;
 `;
 const CloseIconContainer = styled(CloseIcon)`
-background:url(${IconLoginClosePNG}) no-repeat;
-width:28px;
-height:28px;
+  background: url(${IconLoginClosePNG}) no-repeat;
+  width: 28px;
+  height: 28px;
   float: right;
   margin: 10px 10px 0 0;
   &:hover {
@@ -23,24 +23,18 @@ height:28px;
   }
 `;
 const TitleContainer = styled.div`
-text-align: center;
+  text-align: center;
 
+  font-size: 28px;
 
-text-shadow: 0px 4px 2px rgba(24, 28, 31, 0.8);
-
-font-size: 28px;
-
-color: #ffffff;
+  color: #000;
 `;
 
 const FormContainer = styled.div`
-margin: 10px 78px 0 78px;
+  margin: 10px 78px 0 78px;
 `;
 const ButtonStyle = styled.div`
-
- 
   margin-top: 15px;
-
 
   color: #fff;
   font-size: 20px;
@@ -49,26 +43,22 @@ const ButtonStyle = styled.div`
 
   border: solid 1px #ffffff;
   background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
-  text-align:center;
+  text-align: center;
   padding-top: 8px;
 
-  
   &:hover {
     cursor: pointer;
 
-    box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);
-    
+    box-shadow: inset 1px 1px 9px 0 rgba(255, 255, 255, 0.75);
   }
 `;
 const Button = styled(ButtonStyle)`
   width: 347px;
   height: 46px;
-
-  
 `;
 
 const LinkStyle = styled.a`
-font-size: 14px;
+  font-size: 14px;
 
   margin-top: 5px;
   text-decoration: underline;
@@ -78,16 +68,14 @@ font-size: 14px;
 `;
 
 const Description = styled.p`
-text-align: center;
-display: inline-block;
-width: 100%;
+  text-align: center;
+  display: inline-block;
+  width: 100%;
 
+  font-size: 14px;
 
-font-size: 14px;
-
-color: #ffffff;
+  color: #ffffff;
 `;
-
 
 const ContactUsLink = styled(LinkStyle)`
   font-size: 13px;
@@ -96,13 +84,13 @@ const ContactUsLink = styled(LinkStyle)`
 class ResetPasswordSuccess extends Component {
   state = {
     password: "",
-    confirmpassword: ""
+    confirmpassword: "",
   };
-  componentDidMount() { }
-  handlePasswordChange = e => {
+  componentDidMount() {}
+  handlePasswordChange = (e) => {
     this.setState({ ...this.state, password: e.target.value });
   };
-  handleNewPasswordChange = e => {
+  handleNewPasswordChange = (e) => {
     this.setState({ ...this.state, confirmpassword: e.target.value });
   };
   render() {
@@ -113,7 +101,9 @@ class ResetPasswordSuccess extends Component {
           onClick={this.props.onhandleClose}
         ></CloseIconContainer>
         <div className="clear"></div>
-        <TitleContainer>{i18n.t("web.resetPassword.resetSuccess")}</TitleContainer>
+        <TitleContainer>
+          {i18n.t("web.resetPassword.resetSuccess")}
+        </TitleContainer>
 
         <FormContainer>
           <Button onClick={this.props.onhandleSubmitClick}>

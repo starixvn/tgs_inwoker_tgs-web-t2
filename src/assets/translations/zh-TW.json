@@ -310,6 +310,7 @@
     "details": "查看",
     "phoneVerification": "手機驗證",
     "emailVerification": "郵箱驗證",
+    "msgPlsBindEmailAddress":"請綁定郵箱地址",
     "changePassword": {
       "msgConfirmPassFail": "確認密碼錯誤",
       "editPassword": "修改密碼",
@@ -351,6 +352,14 @@
     },
     "email": {
       "bindEmail": "绑定邮箱地址"
+    },
+    "qq":{
+      "msgInvalidQQ" :"QQ号码格式不正确",
+      "qqAccount":"QQ賬號"
+    },
+    "wechat":{
+      "msgInvalidWeChat" :"微信賬號格式不正確",
+      "weChatAccount":"微信賬號"
     },
     "resetResetWithdrawalPassword": {
       "title": "修改提款密碼",

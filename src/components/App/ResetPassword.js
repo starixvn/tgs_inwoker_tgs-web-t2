@@ -7,17 +7,16 @@ import i18n from "../../utils/i18n";
 import TextField from "@material-ui/core/TextField";
 import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 
-
 const Container = styled.div`
-width: 506px;
-height: 360px;
-background: url(${LoginBGPNG});
-display: table;
+  width: 506px;
+  height: 360px;
+  background: url(${LoginBGPNG});
+  display: table;
 `;
 const CloseIconContainer = styled.div`
-background:url(${IconLoginClosePNG}) no-repeat;
-width:28px;
-height:28px;
+  background: url(${IconLoginClosePNG}) no-repeat;
+  width: 28px;
+  height: 28px;
   float: right;
   margin: 10px 10px 0 0;
   &:hover {
@@ -25,18 +24,15 @@ height:28px;
   }
 `;
 const TitleContainer = styled.div`
-text-align: center;
+  text-align: center;
 
+  font-size: 28px;
 
-text-shadow: 0px 4px 2px rgba(24, 28, 31, 0.8);
-
-font-size: 28px;
-
-color: #ffffff;
+  color: #000;
 `;
 
 const FormContainer = styled.div`
-margin: 10px 78px 0 78px;
+  margin: 10px 78px 0 78px;
 `;
 const CustomText = withStyles({
   root: {
@@ -47,26 +43,26 @@ const CustomText = withStyles({
     background: "white",
 
     "& .MuiOutlinedInput-input": {
-      fontSize: "14px"
+      fontSize: "14px",
     },
     "& label.Mui-focused": {
-      color: "#b6b6b6"
+      color: "#b6b6b6",
     },
     "& .MuiInput-underline:after": {
-      borderBottomColor: "#b6b6b6"
+      borderBottomColor: "#b6b6b6",
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "#b6b6b6"
+        borderColor: "#b6b6b6",
       },
       "&:hover fieldset": {
-        borderColor: "#b6b6b6"
+        borderColor: "#b6b6b6",
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#b6b6b6"
-      }
-    }
-  }
+        borderColor: "#b6b6b6",
+      },
+    },
+  },
 })(TextField);
 const ButtonStyle = styled.div`
   width: 170px;
@@ -77,22 +73,21 @@ const ButtonStyle = styled.div`
   border-radius: 6px;
   border: solid 1px #ffffff;
   background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
-  text-align:center;
+  text-align: center;
   padding-top: 8px;
   &:hover {
     cursor: pointer;
-    box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);
-    
+    box-shadow: inset 1px 1px 9px 0 rgba(255, 255, 255, 0.75);
   }
 `;
 const ButtonSubmit = styled(ButtonStyle)`
-float:right;
+  float: right;
 `;
 const ButtonBack = styled(ButtonStyle)`
-float:left;
+  float: left;
 `;
 const LinkStyle = styled.a`
-font-size: 14px;
+  font-size: 14px;
 
   margin-top: 5px;
   text-decoration: underline;
@@ -102,11 +97,11 @@ font-size: 14px;
 `;
 
 const Description = styled.p`
-    text-align: center;
-    display: inline-block;
-    width: 100%;
-    font-size: 14px;
-    color: #ffffff;
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+  font-size: 14px;
+  color: #ffffff;
 `;
 
 const ContactUsLink = styled(LinkStyle)`
@@ -116,13 +111,13 @@ const ContactUsLink = styled(LinkStyle)`
 class ResetPassword extends Component {
   state = {
     password: "",
-    confirmpassword: ""
+    confirmpassword: "",
   };
-  componentDidMount() { }
-  handlePasswordChange = e => {
+  componentDidMount() {}
+  handlePasswordChange = (e) => {
     this.setState({ ...this.state, password: e.target.value });
   };
-  handleNewPasswordChange = e => {
+  handleNewPasswordChange = (e) => {
     this.setState({ ...this.state, confirmpassword: e.target.value });
   };
   render() {
@@ -150,13 +145,7 @@ class ResetPassword extends Component {
             value={this.state.confirmpassword}
             type={"password"}
           />
-          <ButtonBack
-            onClick={() =>
-              this.props.onhandleBackClick(
-
-              )
-            }
-          >
+          <ButtonBack onClick={() => this.props.onhandleBackClick()}>
             {i18n.t("common.back")}
           </ButtonBack>
           <ButtonSubmit

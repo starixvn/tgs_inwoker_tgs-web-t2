@@ -6,19 +6,19 @@ import LoginBGPNG from "../../assets/images/login-bg.png";
 
 import TextField from "@material-ui/core/TextField";
 import { withSnackbar } from "notistack";
-import {AccountService} from '@Inwoker/tgs-api';
+import { AccountService } from "@Inwoker/tgs-api";
 import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
 const Container = styled.div`
-width: 506px;
-height: 360px;
-background: url(${LoginBGPNG});
-display: table;
+  width: 506px;
+  height: 360px;
+  background: url(${LoginBGPNG});
+  display: table;
 `;
 const CloseIconContainer = styled.div`
-background:url(${IconLoginClosePNG}) no-repeat;
-width:28px;
-height:28px;
+  background: url(${IconLoginClosePNG}) no-repeat;
+  width: 28px;
+  height: 28px;
   float: right;
   margin: 10px 10px 0 0;
   &:hover {
@@ -26,18 +26,15 @@ height:28px;
   }
 `;
 const TitleContainer = styled.div`
-text-align: center;
+  text-align: center;
 
+  font-size: 28px;
 
-text-shadow: 0px 4px 2px rgba(24, 28, 31, 0.8);
-
-font-size: 28px;
-
-color: #ffffff;
+  color: #000;
 `;
 
 const FormContainer = styled.div`
-margin: 10px 78px 0 78px;
+  margin: 10px 78px 0 78px;
 `;
 const CustomText = withStyles({
   root: {
@@ -48,33 +45,30 @@ const CustomText = withStyles({
     float: "left",
     background: "white",
     "& .MuiOutlinedInput-input": {
-      fontSize: "14px"
+      fontSize: "14px",
     },
     "& label.Mui-focused": {
-      color: "#b6b6b6"
+      color: "#b6b6b6",
     },
     "& .MuiInput-underline:after": {
-      borderBottomColor: "#b6b6b6"
+      borderBottomColor: "#b6b6b6",
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "#b6b6b6"
+        borderColor: "#b6b6b6",
       },
       "&:hover fieldset": {
-        borderColor: "#b6b6b6"
+        borderColor: "#b6b6b6",
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#b6b6b6"
-      }
-    }
-  }
+        borderColor: "#b6b6b6",
+      },
+    },
+  },
 })(TextField);
 
-
-
 const LinkStyle = styled.a`
- 
-font-size: 14px;
+  font-size: 14px;
 
   margin-top: 5px;
   text-decoration: underline;
@@ -84,11 +78,9 @@ font-size: 14px;
 `;
 
 const Description = styled.p`
-
   text-align: center;
   display: inline-block;
   width: 100%;
-
 
   font-size: 14px;
 
@@ -106,29 +98,27 @@ const StyleButton = styled.div`
   border-radius: 6px;
   border: solid 1px #ffffff;
   background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
-  text-align:center;
+  text-align: center;
   padding-top: 8px;
-  float:right;
-    margin: 13px 0 0 0;
-    &:hover {
-      cursor: pointer;
-      box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);
-      
-    }
+  float: right;
+  margin: 13px 0 0 0;
+  &:hover {
+    cursor: pointer;
+    box-shadow: inset 1px 1px 9px 0 rgba(255, 255, 255, 0.75);
+  }
 `;
 const Button = styled(StyleButton)`
   width: 100%;
   height: 46px;
   float: left;
- 
+
   margin-top: 15px;
- 
+
   float: left;
- 
 `;
 class ForgotPasswordPhone extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       phone: this.props.phone,
       code: this.props.code,
@@ -138,41 +128,40 @@ class ForgotPasswordPhone extends Component {
   }
 
   timer = null;
-  componentDidMount() { }
+  componentDidMount() {}
   componentWillUnmount() {
     if (this.timer != null) {
       clearTimeout(this.timer);
     }
   }
-  handleCodeChange = e => {
+  handleCodeChange = (e) => {
     this.setState({ ...this.state, code: e.target.value });
   };
-  handlePhoneChange = e => {
+  handlePhoneChange = (e) => {
     this.setState({ ...this.state, phone: e.target.value });
   };
   onhandleGetCodeClick = () => {
     if (this.state.countdown <= 0) {
-      if(this.state.phone.length>0){
-          AccountService.VerifyForgotPassword(
-            this.state.phone,
-          ).then(response => {
+      if (this.state.phone.length > 0) {
+        AccountService.VerifyForgotPassword(this.state.phone).then(
+          (response) => {
             if (response.IsSuccess) {
-              this.setState({securityKey: response.data})
+              this.setState({ securityKey: response.data });
               this.props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
-                variant: "info"
+                variant: "info",
               });
             } else {
               this.props.enqueueSnackbar(response.info, {
-                variant: "error"
+                variant: "error",
               });
             }
-          });
-          this.setState({ ...this.state, countdown: 60 });
-          this.checkCountdown();
-      }
-      else{
+          }
+        );
+        this.setState({ ...this.state, countdown: 60 });
+        this.checkCountdown();
+      } else {
         this.props.enqueueSnackbar(i18n.t("common.msgEnterPhone"), {
-          variant: "error"
+          variant: "error",
         });
       }
       // AccountService.GetPhoneVerificationCode(
@@ -196,12 +185,15 @@ class ForgotPasswordPhone extends Component {
     }
   };
   onhandleNextClick = () => {
-    if (this.state.code.length>0&&this.state.securityKey.length>0) {
-      this.props.onhandleNextClick(this.state.code, this.state.phone, this.state.securityKey)
-    }
-    else{
+    if (this.state.code.length > 0 && this.state.securityKey.length > 0) {
+      this.props.onhandleNextClick(
+        this.state.code,
+        this.state.phone,
+        this.state.securityKey
+      );
+    } else {
       this.props.enqueueSnackbar(i18n.t("common.msgEnterCode"), {
-        variant: "error"
+        variant: "error",
       });
     }
   };
@@ -240,7 +232,7 @@ class ForgotPasswordPhone extends Component {
             autoComplete="off"
             style={{
               width: "345px",
-              height: "46px"
+              height: "46px",
             }}
           />
           <StyleButton
@@ -249,7 +241,10 @@ class ForgotPasswordPhone extends Component {
           >
             {this.state.countdown <= 0
               ? i18n.t("common.msgSendToken")
-              : i18n.t("common.btnTokenResendLabel") + "(" + this.state.countdown + "s)"}
+              : i18n.t("common.btnTokenResendLabel") +
+                "(" +
+                this.state.countdown +
+                "s)"}
           </StyleButton>
 
           <Button onClick={this.onhandleNextClick}>

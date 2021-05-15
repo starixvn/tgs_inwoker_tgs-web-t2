@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import CustomTextField from "../../../Share/TextField";
 import CustomButton from "../../../Share/Button";
-
+import i18n from "../../../../utils/i18n";
 import { AccountService, UPDATE_INFO } from "@Inwoker/tgs-api";
 
 import { withSnackbar } from "notistack";
@@ -20,6 +20,7 @@ class QQ extends Component {
         : "",
     };
   }
+
   onhandleTextChange = (e) => {
     this.setState({ member_qq: e.target.value });
   };
@@ -27,7 +28,7 @@ class QQ extends Component {
   onhandleClick = () => {
     const re = new RegExp("^[1-9]\\d{4,14}$");
     if (!this.state.member_qq.match(re)) {
-      this.props.enqueueSnackbar("QQ号码格式不正确", {
+      this.props.enqueueSnackbar(i18n.t("profile.qq.msgInvalidQQ"), {
         variant: "error",
       });
       return;
@@ -53,14 +54,14 @@ class QQ extends Component {
     return (
       <Container>
         <CustomTextField
-          placeholder="QQ账号"
+          placeholder={i18n.t("profile.qq.qqAccount")}
           adornment={IconInputReceivePNG}
           handleTextFieldChange={this.onhandleTextChange}
           defaultValue={this.state.member_qq}
         ></CustomTextField>
 
         <CustomButton
-          name="提交"
+          name={i18n.t("common.submit")}
           handleClick={this.onhandleClick}
         ></CustomButton>
       </Container>

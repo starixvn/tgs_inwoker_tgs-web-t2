@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import Login from "./Login";
 
-import ForgotPasswordPhone from "./ForgotPasswordPhone";
+import ForgotPasswordEmail from "./ForgotPasswordEmail";
 
 import ResetPassword from "./ResetPassword";
 import ResetPasswordSuccess from "./ResetPasswordSuccess";
@@ -314,6 +314,19 @@ class GuestContainer extends Component {
       });
     }
   };
+  onhandleForgotPasswordEmailClick = (code, email, securityKey) => {
+    if (code !== "") {
+      this.setState({
+        ...this.state,
+        code: code,
+        email: email,
+        securityKey: securityKey,
+        openDialog: true,
+        openDialogName: "resetpassword",
+      });
+    }
+  };
+
   handleLoginClick = async (username, password) => {
     if (username === "") {
       this.props.enqueueSnackbar(i18n.t("web.login.errorMsg.emptyUsername"), {
@@ -432,14 +445,14 @@ class GuestContainer extends Component {
                 );
               } else if (this.state.openDialogName === "forgotpassword") {
                 return (
-                  <ForgotPasswordPhone
+                  <ForgotPasswordEmail
                     onhandleClose={this.onhandleCloseDialog}
-                    onhandleNextClick={this.onhandleForgotPasswordPhoneClick}
+                    onhandleNextClick={this.onhandleForgotPasswordEmailClick}
                     onhandleBackClick={this.onhandleForgotPasswordBackClick}
                     onhandleOnlineSupport={this.onhandleOnlineSupport}
                     code={this.state.code}
-                    phone={this.state.phone}
-                  ></ForgotPasswordPhone>
+                    email={this.state.email}
+                  ></ForgotPasswordEmail>
                 );
               } else if (this.state.openDialogName === "resetpassword") {
                 return (

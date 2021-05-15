@@ -344,7 +344,7 @@ class Profile extends Component {
 
     switch (type) {
       case "member_wechat":
-        title = "Wechat账号";
+        title = i18n.t("profile.wechat.weChatAccount");
         component = (
           <Wechat
             handleCloseDialog={this.handleCloseDialog}
@@ -353,7 +353,7 @@ class Profile extends Component {
         );
         break;
       case "member_qq":
-        title = "QQ账号";
+        title = i18n.t("profile.qq.qqAccount");
         component = (
           <QQ
             handleCloseDialog={this.handleCloseDialog}
