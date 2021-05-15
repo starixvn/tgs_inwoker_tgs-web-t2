@@ -388,7 +388,7 @@
 //           <ContentWrap>
 //             <ContentCount>4</ContentCount>
 //             <Content>
-//               我们在任何时候保留修改、修订所有WG永高条款、协议与规则。恕不另行通知，若发现会员以不诚实手段套取特权优惠或不遵守用户协议条款与规则，本公司可直接取消VIP会员资格
+//               我们在任何时候保留修改、修订所有PG Gaming条款、协议与规则。恕不另行通知，若发现会员以不诚实手段套取特权优惠或不遵守用户协议条款与规则，本公司可直接取消VIP会员资格
 //             </Content>
 //           </ContentWrap>
 
@@ -400,7 +400,7 @@
 //           </ContentWrap>
 //         </VIPTnCContainer>
 
-//         <TnCFooter>最终解释权归WG永高所有</TnCFooter>
+//         <TnCFooter>最终解释权归PG Gaming所有</TnCFooter>
 //         <IconBacktoTop
 //           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
 //         ></IconBacktoTop>

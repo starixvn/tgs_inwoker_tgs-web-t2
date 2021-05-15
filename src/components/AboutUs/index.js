@@ -216,7 +216,7 @@
 
 // const Tabs = [
 //   {
-//     name: "关于WG永高",
+//     name: "关于PG Gaming",
 //     path: "",
 //     icon: IconAbout1PNG,
 //     iconHover: IconAbout1HoverPNG,

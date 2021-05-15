@@ -1,14 +1,14 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import KyHotGame1PNG from "../../../assets/images/ky-hotgame1.png";
 import KyHotGame2PNG from "../../../assets/images/ky-hotgame2.png";
 import KyHotGame3PNG from "../../../assets/images/ky-hotgame3.png";
-import { GameTypeEnum } from "../../../utils/Enum";
-
+import KyHotGame4PNG from "../../../assets/images/ky-hotgame4.png";
+import { GameEnum, GameTypeEnum } from "../../../utils/Enum";
+import i18n from "../../../utils/i18n";
 export default function KySlider(props) {
-  
   const getConfigurableProps = () => ({
     showArrows: true,
     showStatus: false,
@@ -26,136 +26,124 @@ export default function KySlider(props) {
     transitionTime: 500,
     centerMode: true,
     swipeScrollTolerance: 5,
-    centerSlidePercentage:100/4
+    centerSlidePercentage: 100 / 4,
   });
-  
+
   const CarouselContainer = styled(Carousel)`
-  background: none;
-  margin: 8px 0px;
-  height: 400px;
-  width: 100%;
-  overflow:visible;
-`;
-const KYHotGameTitle = styled.div`
-  width:100%;
-  height: 200px;
-  background-color: #f9f9f9;
-  height: 60px;
-  border-bottom: 5px solid #8a7f73;
-  font-family: Roboto;
-  font-size: 30px;
-  font-weight: 600;
-  color: #8a7f73;
-  line-height: 55px;
-`;
-const AGSlideContainer = styled.div`
-  height:400px;
-  cursor: pointer;
-  &:hover ${KYHotGameTitle} {
-    border-bottom: 5px solid #f0ca83;
-    color: #f0ca83;
-  }
-`;
-const KyGameContainer = styled.div`
-    position: absolute;
-`;
-const KYHotGame = styled.img`
-  width:500px;
-`;
+    background: none;
+    margin: 8px 0px;
+    height: 400px;
+    width: 100%;
+    overflow: visible;
+  `;
+  const KYHotGameTitle = styled.div`
+    width: 100%;
+    height: 200px;
+    background-color: #f9f9f9;
+    height: 60px;
+    border-bottom: 5px solid #8a7f73;
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: 600;
+    color: #8a7f73;
+    line-height: 55px;
+    text-align: center;
+    margin-top: 300px;
+  `;
+
+  const KyGameContainer = styled.div`
+    float: left;
+    width: 195px;
+    height: 300px;
+    overflow: visible;
+    background: url(${(props) => props.img}) no-repeat;
+    background-position: center bottom;
+    &:hover {
+      cursor: pointer;
+    }
+    &:hover ${KYHotGameTitle} {
+      border-bottom: 5px solid #f0ca83;
+      color: #f0ca83;
+    }
+  `;
+
   return (
-        <CarouselContainer
-            {...getConfigurableProps()}
-          >
-                <AGSlideContainer>
-                    <KyGameContainer style={{bottom:"0px"}} 
-                        onClick={() =>
-                            props.handleJoinGameClick(
-                                GameTypeEnum.QIPAI,
-                                {
-                                "KindID": "830",
-                                "game_platform_id": 26
-                                }
-                            )}
-                    >
-                        <KYHotGame src={KyHotGame1PNG}></KYHotGame>
-                        <KYHotGameTitle>抢庄牛牛</KYHotGameTitle>
-                    </KyGameContainer>
-                </AGSlideContainer>
-                <AGSlideContainer>
-                    <KyGameContainer style={{bottom:"50px"}} 
-                            onClick={() =>
-                                props.handleJoinGameClick(
-                                    GameTypeEnum.QIPAI,
-                                    {
-                                    "KindID": "910",
-                                    "game_platform_id": 26
-                                    }
-                                )}
-                        >
-                        <KYHotGame src={KyHotGame2PNG}></KYHotGame>
-                        <KYHotGameTitle>百家乐</KYHotGameTitle>
-                    </KyGameContainer>
-                </AGSlideContainer>
-                <AGSlideContainer>
-                    <KyGameContainer style={{bottom:"0px"}} 
-                            onClick={() =>
-                                props.handleJoinGameClick(
-                                    GameTypeEnum.QIPAI,
-                                    {
-                                    "KindID": "220",
-                                    "game_platform_id": 26
-                                    }
-                                )}
-                        >
-                        <KYHotGame src={KyHotGame3PNG}></KYHotGame>
-                        <KYHotGameTitle>炸金花</KYHotGameTitle>
-                    </KyGameContainer>
-                </AGSlideContainer>
-                <AGSlideContainer>
-                        <KyGameContainer style={{bottom:"50px"}} 
-                            onClick={() =>
-                                props.handleJoinGameClick(
-                                    GameTypeEnum.QIPAI,
-                                    {
-                                    "KindID": "630",
-                                    "game_platform_id": 26
-                                    }
-                                )}
-                        >
-                        <KYHotGame src={KyHotGame2PNG}></KYHotGame>
-                        <KYHotGameTitle>十三水</KYHotGameTitle>
-                    </KyGameContainer>
-                </AGSlideContainer>
-                <AGSlideContainer>
-                    <KyGameContainer style={{bottom:"0px"}} 
-                            onClick={() =>
-                                props.handleJoinGameClick(
-                                    GameTypeEnum.QIPAI,
-                                    {
-                                    "KindID": "900",
-                                    "game_platform_id": 26
-                                    }
-                                )}
-                        >
-                        <KYHotGame src={KyHotGame1PNG}></KYHotGame>
-                        <KYHotGameTitle>押庄老虎</KYHotGameTitle>
-                    </KyGameContainer>
-                </AGSlideContainer>
-                <AGSlideContainer>
-                    <KyGameContainer style={{bottom:"50px"}} 
-                            onClick={() =>
-                                props.handleJoinGameClick(
-                                    GameTypeEnum.QIPAI,
-                                    {
-                                    "KindID": "870",
-                                    "game_platform_id": 26
-                                    }
-                                )}
-                        >
-                        <KYHotGame src={KyHotGame3PNG}></KYHotGame>
-                        <KYHotGameTitle>通比牛牛</KYHotGameTitle>
-                    </KyGameContainer>
-                </AGSlideContainer>
-          </CarouselContainer>
+    <>
+      <KyGameContainer
+        onClick={() =>
+          props.handleJoinGameClick(
+            GameTypeEnum.QIPAILOBBY,
+            "",
+            GameEnum.KY,
+            "/" +
+              i18n.language +
+              "/joingame/" +
+              GameTypeEnum.QIPAILOBBY +
+              "/" +
+              GameEnum.KY
+          )
+        }
+        img={KyHotGame1PNG}
+      >
+        <KYHotGameTitle>抢庄牛牛</KYHotGameTitle>
+      </KyGameContainer>
+
+      <KyGameContainer
+        style={{ marginTop: "80px" }}
+        onClick={() =>
+          props.handleJoinGameClick(
+            GameTypeEnum.QIPAILOBBY,
+            "",
+            GameEnum.KY,
+            "/" +
+              i18n.language +
+              "/joingame/" +
+              GameTypeEnum.QIPAILOBBY +
+              "/" +
+              GameEnum.KY
+          )
+        }
+        img={KyHotGame3PNG}
+      >
+        <KYHotGameTitle>21点</KYHotGameTitle>
+      </KyGameContainer>
+      <KyGameContainer
+        onClick={() =>
+          props.handleJoinGameClick(
+            GameTypeEnum.QIPAILOBBY,
+            "",
+            GameEnum.KY,
+            "/" +
+              i18n.language +
+              "/joingame/" +
+              GameTypeEnum.QIPAILOBBY +
+              "/" +
+              GameEnum.KY
+          )
+        }
+        img={KyHotGame2PNG}
+      >
+        <KYHotGameTitle>三公</KYHotGameTitle>
+      </KyGameContainer>
+      <KyGameContainer
+        style={{ marginTop: "80px" }}
+        onClick={() =>
+          props.handleJoinGameClick(
+            GameTypeEnum.QIPAILOBBY,
+            "",
+            GameEnum.KY,
+            "/" +
+              i18n.language +
+              "/joingame/" +
+              GameTypeEnum.QIPAILOBBY +
+              "/" +
+              GameEnum.KY
+          )
+        }
+        img={KyHotGame4PNG}
+      >
+        <KYHotGameTitle>炸金花</KYHotGameTitle>
+      </KyGameContainer>
+    </>
   );
 }

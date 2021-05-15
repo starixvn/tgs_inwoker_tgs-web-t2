@@ -404,17 +404,17 @@ const MenuItemList = [
   {
     path: "live",
     title: i18n.t("common.live"),
-    gameType: GameTypeEnum.LIVE,
+    gameType: GameTypeEnum.LIVELOBBY,
   },
   {
     path: "chess",
     title: i18n.t("common.chess"),
-    gameType: GameTypeEnum.QIPAI,
+    gameType: GameTypeEnum.QIPAILOBBY,
   },
   {
     path: "lottery",
     title: i18n.t("common.lottery"),
-    gameType: GameTypeEnum.LOTTERY,
+    gameType: GameTypeEnum.LOTTERYLOBBY,
   },
   {
     path: `slots`,
@@ -611,6 +611,10 @@ class Header extends Component {
         this.props.history.push(`/${i18n.language}/${path}/${gameCode}`);
       }
     } else {
+      if (!this.props.account.token) {
+        this.props.showLogin(true);
+        return;
+      }
       Common.PopupCenter(url, gameCode, 1280, 720);
     }
   };
@@ -816,7 +820,6 @@ class Header extends Component {
                                     }/${game.abbreviation.toLowerCase()}.png`}
                                     alt=""
                                     onClick={() => {
-                                      console.log(game);
                                       this.handleJoinGameClick(
                                         item.gameType,
                                         item.path,

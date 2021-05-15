@@ -2,19 +2,17 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import Common from "../../../utils/Common";
-import { GameTypeEnum } from "../../../utils/Enum";
+import { GameTypeEnum, GameEnum } from "../../../utils/Enum";
 import Slider from "./Slider";
 import { withRouter } from "react-router-dom";
 
 import StartGamePNG from "../../../assets/images/start-game.png";
 import StartGameHoverPNG from "../../../assets/images/start-game-hover.png";
 
-
-
 import HomeAGBgJPG from "../../../assets/images/home-ag-bg.png";
 import AGBGPNG from "../../../assets/images/ag-bg.png";
-import Game1 from "../../../assets/images/slot-game1.png";
-import Game2 from "../../../assets/images/slot-game2.png";
+import HomeSportSabaPNG from "../../../assets/images/home-sport-saba.png";
+import HomeSportSboPNG from "../../../assets/images/home-sport-sbo.png";
 import HomeAGRoom1PNG from "../../../assets/images/home-ag-room1.png";
 import HomeAGRoom2PNG from "../../../assets/images/home-ag-room2.png";
 import HomeAGRoom3PNG from "../../../assets/images/home-ag-room3.png";
@@ -32,7 +30,7 @@ import { SHOW_MODAL, SHOW_LOGIN } from "../../../constants/actionType";
 
 import i18n from "../../../utils/i18n";
 import SlotSection from "./SlotSection";
-import ScrollAnimation from 'react-animate-on-scroll';
+import ScrollAnimation from "react-animate-on-scroll";
 import KySlider from "./KySlider";
 import AGSlider from "./AgSlider";
 export const floatKeyframe = keyframes`
@@ -66,12 +64,12 @@ const AGContainer = styled.div`
 const AGImgBGContainer = styled.div`
   position: absolute;
   z-index: 3;
-  top:-75px;
+  top: -75px;
   overflow: hidden;
-  width:100%;
+  width: 100%;
 `;
 const AGImageBGFlex = styled.div`
-  width:100%;
+  width: 100%;
 
   display: flex;
   justify-content: center;
@@ -79,7 +77,6 @@ const AGImageBGFlex = styled.div`
 const AGImgBG = styled.img`
   width: 100%;
   min-width: 1920px;
-
 `;
 const AGTitle = styled.div`
   background: url(${`${process.env.PUBLIC_URL}/assets/images/${i18n.language}/sport-hotgame.png`}) no-repeat 10px center;
@@ -97,46 +94,50 @@ const AGText = styled.div`
 `;
 const AGGameIconBar = styled.div`
   width: 500px;
-  height:100px;
+  height: 100px;
   margin-top: 40px;
   padding-left: 15px;
   overflow: visible;
 `;
 const AGGameRoomHover = styled.div`
-width: 223px;
-height: 248px;
-margin-left: 10px;
-margin-top: 3px;
-border-radius: 26px 0 0 0;
+  width: 223px;
+  height: 248px;
+  margin-left: 10px;
+  margin-top: 3px;
+  border-radius: 26px 0 0 0;
   pointer-event: none;
   display: none;
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(35, 35, 35, 0.5));
+  background-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8),
+    rgba(35, 35, 35, 0.5)
+  );
   background-repeat: no-repeat;
   background-position: center center;
-  position:absolute;
-  top:0;
+  position: absolute;
+  top: 0;
 `;
 const AGGameRoomHoverLine1 = styled.div`
-color: #fff;
-font-size: 54px;
-text-align: center;
-border-bottom: 1px solid #fff;
-margin: 56px 74px 0 74px;
-font-weight: 500;
-`
+  color: #fff;
+  font-size: 54px;
+  text-align: center;
+  border-bottom: 1px solid #fff;
+  margin: 56px 74px 0 74px;
+  font-weight: 500;
+`;
 const AGGameRoomHoverLine2 = styled.div`
-color: #fff;
-font-size: 20px;
-text-align: center;
+  color: #fff;
+  font-size: 20px;
+  text-align: center;
 
-margin: 6px 0px 0 0px;
-font-weight: 500;
-`
+  margin: 6px 0px 0 0px;
+  font-weight: 500;
+`;
 const AGGameRoom = styled.div`
   width: 243px;
   height: 268px;
   display: inline-block;
-  position:relative;
+  position: relative;
   float: left;
   &:hover {
     cursor: pointer;
@@ -146,11 +147,11 @@ const AGGameRoom = styled.div`
   }
 `;
 const AGGameRoomName = styled.div`
-    color:#fde73f;
-    font-size:25px;
-    width: 120px;
-    margin: 88px 0 0 29px;
-`
+  color: #fde73f;
+  font-size: 25px;
+  width: 120px;
+  margin: 88px 0 0 29px;
+`;
 const AGGameRoom1 = styled(AGGameRoom)`
   background: url(${HomeAGRoom1PNG}) no-repeat;
 `;
@@ -175,7 +176,7 @@ const AGGameRightContentLogo = styled.div`
   width: 158px;
   height: 60px;
 
-  background: url(${props => props.src}) no-repeat;
+  background: url(${(props) => props.src}) no-repeat;
   background-size: contain;
   background-position: center;
   position: absolute;
@@ -219,7 +220,6 @@ const KYContainer = styled.div`
   width: 100%;
   height: 530px;
   margin-top: 30px;
-
 `;
 const KYContent = styled.div`
   width: 1280px;
@@ -252,7 +252,7 @@ const KYButton = styled.div`
   bottom: 0px;
   cursor: pointer;
   background-size: 80%;
-  background-color:#292828c7;
+  background-color: #292828c7;
   transition: height 2s;
 `;
 const KyModel = styled.img`
@@ -276,6 +276,7 @@ const KYMainCharacter = styled.div`
   background-size: 100%;
   position: relative;
   overflow:visible;
+  margin-top:49px;
   &:hover ${KyCard} {
     animation: none;
   }
@@ -291,20 +292,21 @@ const KYMainCharacter = styled.div`
 }
 `;
 const KYHotGameTitle = styled.div`
-background: url(${`${process.env.PUBLIC_URL}/assets/images/${i18n.language}/home-ky-hotgame.png`}) no-repeat right center;
-width: 406px;
-height: 128px;
-margin-left: 150px;
+  background: url(${`${process.env.PUBLIC_URL}/assets/images/${i18n.language}/home-ky-hotgame.png`})
+    no-repeat right center;
+  width: 406px;
+  height: 128px;
+  margin-left: 150px;
 
-float:left;
-`
+  float: left;
+`;
 const KYButtonQG = styled(AGContentStartGame)`
-  position:initial;
+  position: initial;
   margin: 415px 0 0 274px;
 `;
 
 const KYHotgameContainer = styled.div`
-  float:left;
+  float: left;
   width: 780px;
   height: 500px;
 `;
@@ -323,23 +325,23 @@ const KYHotgameImg = styled.img`
   margin-top: 20px;
   display: block;
   transition: transform 100ms ease-in;
-  &:hover{
-    transform:scale(1.2);
-    transform-origin:center;
-    cursor:pointer;
+  &:hover {
+    transform: scale(1.2);
+    transform-origin: center;
+    cursor: pointer;
   }
 `;
 const GameIcon = styled.img`
-    width: 55px;
-    float: left;
-    margin-right: 20px;
+  width: 150px;
+  float: left;
+  margin-right: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in;
+  &:hover {
+    transform: scale(1.2);
+    transform-origin: center;
     cursor: pointer;
-    transition: transform 0.5s ease-in;
-    &:hover{
-        transform:scale(1.2);
-        transform-origin:center;
-        cursor:pointer;
-    }
+  }
 `;
 class Home extends Component {
   constructor(props) {
@@ -368,7 +370,7 @@ class Home extends Component {
   componentDidUpdate(preProps) {
     if (
       preProps.game.homePageGameList.length !==
-      this.props.game.homePageGameList.length &&
+        this.props.game.homePageGameList.length &&
       this.props.game.homePageGameList.length > 0
     ) {
       var displayGame = this.getHomePageDisplayGame();
@@ -376,7 +378,7 @@ class Home extends Component {
         ...this.state,
         wm: displayGame.wm,
         ky: displayGame.ky,
-      })
+      });
     }
   }
   getHomePageDisplayGame() {
@@ -407,13 +409,30 @@ class Home extends Component {
 
     return { wm, ky };
   }
-  handleJoinGameClick = (gameType, params) => {
-    if (this.props.token != null) {
-      Common.PopupCenter(
-        `/${i18n.language}/joingame/${gameType}/${JSON.stringify(params)}`,
-        1280,
-        720
-      );
+  handleJoinGameClick = (gameType, path, gameCode, url) => {
+    if (this.props.token !== "" && this.props.token !== null) {
+      var slotPageGameType = [
+        GameTypeEnum.FISH,
+        GameTypeEnum.SLOT,
+        GameTypeEnum.TIGERSLOT,
+        GameTypeEnum.SPORTS,
+        GameTypeEnum.TABLEGAME,
+      ];
+      if (slotPageGameType.indexOf(gameType) >= 0) {
+        if (gameType == GameTypeEnum.SPORTS) {
+          if (!this.props.token) {
+            this.props.showLogin(true);
+          } else {
+            this.props.history.push(
+              `/${i18n.language}/sports/play/${gameCode}`
+            );
+          }
+        } else {
+          this.props.history.push(`/${i18n.language}/${path}/${gameCode}`);
+        }
+      } else {
+        Common.PopupCenter(url, gameCode, 1280, 720);
+      }
     } else {
       this.props.showLogin(true);
     }
@@ -446,7 +465,6 @@ class Home extends Component {
             })()} */}
             <Marquee text={this.props.ui.marqueeText}></Marquee>
           </MarqueeContainer>
-         
         </SliderContainer>
         <AGContainer>
           <AGImgBGContainer>
@@ -455,21 +473,28 @@ class Home extends Component {
             </AGImageBGFlex>
           </AGImgBGContainer>
           <ItemContainer>
-          <ScrollAnimation animateIn='bounce' duration={1} animateOnce={true} style={{overflow: "visible"}}>
-            <AGContent>
+            <ScrollAnimation
+              animateIn="bounce"
+              duration={1}
+              animateOnce={true}
+              style={{ overflow: "visible" }}
+            >
+              <AGContent>
                 <AGGameLeftContent>
-                    <AGSlider></AGSlider>
+                  <AGSlider
+                    handleJoinGameClick={this.handleJoinGameClick}
+                  ></AGSlider>
                 </AGGameLeftContent>
-            <AGGameRightContent>
-            <AGTitle></AGTitle>
-            <AGText>
-              如果您正在寻找好用的亚洲的体育博彩平台，请不要再犹豫了Sample是亚洲最值得信赖和最佳的体育博彩选择。快速的存取款让您可以随时随地通过桌面或移动设备下注您最喜欢的体育活动和赛事。各色各样体育投注，包括篮球、棒球、冰球、美式足球、足球、网球、桌球、排球等投注、还有特殊赛事等，让您从早到晚都能体验到iBET体育博彩的多元化玩法及高赔率。
-            </AGText>
-            <AGGameIconBar>
-                <GameIcon src={Game1}></GameIcon>
-                <GameIcon src={Game2} style={{marginTop:"4px"}}></GameIcon>
-            </AGGameIconBar>
-                {/* <AGGameRightContentLogo src={this.state.wm ? `${process.env.PUBLIC_URL}/assets/images/gameLogo/${this.state.wm.abbreviation.toLowerCase()}.png` : ""}></AGGameRightContentLogo>
+                <AGGameRightContent>
+                  <AGTitle></AGTitle>
+                  <AGText>
+                    如果您正在寻找好用的亚洲的体育博彩平台，请不要再犹豫了Sample是亚洲最值得信赖和最佳的体育博彩选择。快速的存取款让您可以随时随地通过桌面或移动设备下注您最喜欢的体育活动和赛事。各色各样体育投注，包括篮球、棒球、冰球、美式足球、足球、网球、桌球、排球等投注、还有特殊赛事等，让您从早到晚都能体验到iBET体育博彩的多元化玩法及高赔率。
+                  </AGText>
+                  <AGGameIconBar>
+                    <GameIcon src={HomeSportSboPNG}></GameIcon>
+                    <GameIcon src={HomeSportSabaPNG}></GameIcon>
+                  </AGGameIconBar>
+                  {/* <AGGameRightContentLogo src={this.state.wm ? `${process.env.PUBLIC_URL}/assets/images/gameLogo/${this.state.wm.abbreviation.toLowerCase()}.png` : ""}></AGGameRightContentLogo>
                 <AGContentStartGame
                   onClick={() =>
                     this.handleJoinGameClick(
@@ -480,8 +505,8 @@ class Home extends Component {
                 >
                   {i18n.t("common.startGame")}
                 </AGContentStartGame> */}
-              </AGGameRightContent> 
-              {/* <AGGameLeftContent>
+                </AGGameRightContent>
+                {/* <AGGameLeftContent>
                 <AGTitle></AGTitle>
                 <AGGameRoom1
                   onClick={() =>
@@ -527,32 +552,53 @@ class Home extends Component {
                   </AGGameRoomHover>
                 </AGGameRoom3>
               </AGGameLeftContent> */}
-
-            </AGContent>
+              </AGContent>
             </ScrollAnimation>
-          <KYContainer>
-            <KYContent>
-              <KYHotgameContainer>
-              <ScrollAnimation animateIn='fadeInLeft' duration={1} animateOnce={true} style={{overflow: "visible"}}>
-                <KySlider handleJoinGameClick={this.handleJoinGameClick}></KySlider>
-              </ScrollAnimation>
-              </KYHotgameContainer>
-              <KYMainCharacter>
-              <ScrollAnimation animateIn='fadeInRight' duration={1} animateOnce={true} style={{overflow: "visible"}}>
-                  <KyModel src={KYContentModelPNG}></KyModel>
-              </ScrollAnimation>
-                <KyCard src={KYContentCardPNG}></KyCard>
-                <KYButton onClick={() =>
-                    this.handleJoinGameClick(
-                      GameTypeEnum.QIPAI,
-                      this.state.ky.params
-                    )}>
-                      <KYButtonTitle>GO</KYButtonTitle>
-                      <KYButtonText>{i18n.t("common.startGame")}</KYButtonText>
-                    </KYButton>
-              </KYMainCharacter>
-            </KYContent>
-          </KYContainer>
+            <KYContainer>
+              <KYContent>
+                <KYHotgameContainer>
+                  <ScrollAnimation
+                    animateIn="fadeInLeft"
+                    duration={1}
+                    animateOnce={true}
+                    style={{ overflow: "visible" }}
+                  >
+                    <KySlider
+                      handleJoinGameClick={this.handleJoinGameClick}
+                    ></KySlider>
+                  </ScrollAnimation>
+                </KYHotgameContainer>
+                <KYMainCharacter>
+                  <ScrollAnimation
+                    animateIn="fadeInRight"
+                    duration={1}
+                    animateOnce={true}
+                    style={{ overflow: "visible" }}
+                  >
+                    <KyModel src={KYContentModelPNG}></KyModel>
+                  </ScrollAnimation>
+                  <KyCard src={KYContentCardPNG}></KyCard>
+                  <KYButton
+                    onClick={() =>
+                      this.handleJoinGameClick(
+                        GameTypeEnum.QIPAILOBBY,
+                        "",
+                        GameEnum.KY,
+                        "/" +
+                          i18n.language +
+                          "/joingame/" +
+                          GameTypeEnum.QIPAILOBBY +
+                          "/" +
+                          GameEnum.KY
+                      )
+                    }
+                  >
+                    <KYButtonTitle>GO</KYButtonTitle>
+                    <KYButtonText>{i18n.t("common.startGame")}</KYButtonText>
+                  </KYButton>
+                </KYMainCharacter>
+              </KYContent>
+            </KYContainer>
           </ItemContainer>
         </AGContainer>
         <SlotSection></SlotSection>

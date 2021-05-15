@@ -148,7 +148,7 @@
 //               <SuccessTitle>恭喜您完成注册</SuccessTitle>
 
 //               <SuccessDesc>
-//                 亲爱的 {props.match.params.username}，欢迎您加入WG永高
+//                 亲爱的 {props.match.params.username}，欢迎您加入PG Gaming
 //               </SuccessDesc>
 //             </SuccessIcon>
 //           </HeaderContainer>

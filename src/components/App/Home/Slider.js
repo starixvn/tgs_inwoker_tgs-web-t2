@@ -7,12 +7,14 @@ import LeftArrowPNG from "../../../assets/images/left-arrow.png";
 import Slick from "react-slick";
 import Image1 from "../../../assets/images/slider/banner-1.jpg";
 import Image2 from "../../../assets/images/slider/banner-2.jpg";
-
+import Image1En from "../../../assets/images/slider/banner-1-en.jpg";
+import Image2En from "../../../assets/images/slider/banner-2-en.jpg";
+import i18n from "../../../utils/i18n";
 const Container = styled.div`
   position: relative;
   width: 100%;
   margin: 0 auto;
-  height: 468px;
+  height: 400px;
 `;
 const PreNextContainer = styled.div`
   position: absolute;
@@ -49,7 +51,7 @@ const ATag = styled.a`
 const Img = styled.img`
   border: none;
   width: 1920px;
-  height: 468px;
+  height: 400px;
 
   margin: 0 auto 0 -960px;
   position: relative;
@@ -85,15 +87,15 @@ class Slider extends React.Component {
       arrows: true,
       autoplay: true,
     };
-
+    const isChinese = i18n.language === "zh-CN" || i18n.language === "zh-TW";
     return (
       <Container>
         <Slick {...settings}>
           <ATag href={""}>
-            <Img src={Image1}></Img>
+            <Img src={isChinese ? Image1 : Image1En}></Img>
           </ATag>
           <ATag href={""}>
-            <Img src={Image2}></Img>
+            <Img src={isChinese ? Image2 : Image2En}></Img>
           </ATag>
           {/* {this.props.list.map((row, index) => {
             return (
