@@ -16,7 +16,7 @@ import _633Description from "../../../assets/images/lottery/633-lotterydescripti
 import { GameTypeEnum } from "../../../utils/Enum";
 import i18n from "../../../utils/i18n";
 import CommonMarquee from "../CommonMarquee";
-import ScrollAnimation from 'react-animate-on-scroll';
+import ScrollAnimation from "react-animate-on-scroll";
 
 export const floatKeyframe = keyframes`
   0%, 100% {
@@ -91,9 +91,9 @@ const rightLeftRightHide = keyframes`
     `;
 
 const Tabheader = styled.div`
-     width: 1080px;
-     margin: 0 auto;
-     text-align: center;
+  width: 1080px;
+  margin: 0 auto;
+  text-align: center;
 `;
 const TabContainer = styled.div`
   z-index: 3;
@@ -142,7 +142,9 @@ const ButtonTab = styled.button`
 `;
 const ButtonIcon = styled.div`
   background: url(${(props) =>
-    `${process.env.PUBLIC_URL}/assets/images/pcGamePage/lottery/right/${props.abbreviation.toLowerCase()}.png`})
+      `${
+        process.env.PUBLIC_URL
+      }/assets/images/pcGamePage/lottery/right/${props.abbreviation.toLowerCase()}.png`})
     no-repeat center;
   background-size: contain;
   height: 100%;
@@ -151,7 +153,9 @@ const ButtonIcon = styled.div`
 `;
 const MenuIcon = styled.div`
   background: url(${(props) =>
-    `${process.env.PUBLIC_URL}/assets/images/pcGamePage/lottery/right/${props.abbreviation.toLowerCase()}.png`})
+      `${
+        process.env.PUBLIC_URL
+      }/assets/images/pcGamePage/lottery/right/${props.abbreviation.toLowerCase()}.png`})
     no-repeat center;
   background-size: contain;
   height: 105px;
@@ -169,11 +173,10 @@ const LotteryContainer = styled.div`
   overflow: visible;
 `;
 const Model = styled.img`
-  width: 295px;
-  height: 447px;
+  height: 600px;
   position: absolute;
   right: 50px;
-  bottom: -319px;
+  bottom: -296px;
 `;
 const Element = styled.img`
   width: 455px;
@@ -190,17 +193,19 @@ const LotteryGames = styled.div`
   top: 0;
   transition: animation 1s;
   background: url(${(props) =>
-    `${process.env.PUBLIC_URL}/assets/images/pcGamePage/lottery/left/${props.abbreviation.toLowerCase()}.png`})
+      `${
+        process.env.PUBLIC_URL
+      }/assets/images/pcGamePage/lottery/left/${props.abbreviation.toLowerCase()}.png`})
     no-repeat center bottom;
 
   ${(props) =>
     props.index === 0
       ? ""
       : props.loaded
-        ? `
+      ? `
           visibility:hidden;
           `
-        : `
+      : `
         visibility:visible;
           `}
   animation: ${(props) =>
@@ -214,33 +219,36 @@ const LotteryGames = styled.div`
 `;
 
 const ButtonJoin = styled.div`
-  background-color:#322e2a;
+  background-color: #322e2a;
   width: 180px;
   height: 50px;
   position: absolute;
-  bottom: 80px;
+  bottom: 128px;
   z-index: 10;
-  left: 150px;
+  left: 145px;
   border-radius: 25px;
   border: 2px solid transparent;
   &:hover {
     cursor: pointer;
+    background-color: #f0ca83;
   }
   color: #fff;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
-  line-height:45px;
- 
+  line-height: 45px;
 `;
 const LiveGameDescription = styled.div`
-  width: 420px
+  width: 420px;
   position: absolute;
-  color: #000;
-  font-size: 16px;
-  text-align: left;
-  bottom: 150px;
+
+  top: -150px;
   left: 70px;
+
+  color: rgb(138, 127, 115);
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
 `;
 
 class Lottery extends Component {
@@ -263,26 +271,15 @@ class Lottery extends Component {
     //test for lottery
     var qipaiList = [
       {
-        id: 1,
-        name: "bg",
-        abbreviation: "bg"
-      },
-      {
-        id: 2,
-        name: "km",
-        abbreviation: "km"
-      },
-      {
         id: 3,
         name: "vr",
-        abbreviation: "vr"
+        abbreviation: "vr",
       },
-    ]
-    this.setState(
-      {
-        selected: qipaiList[0],
-        list: qipaiList
-      })
+    ];
+    this.setState({
+      selected: qipaiList[0],
+      list: qipaiList,
+    });
     setTimeout(() => {
       this.setState({
         hide: false,
@@ -306,10 +303,17 @@ class Lottery extends Component {
       });
     }
   }
-  handleJoinGameClick = (params) => {
-    if (this.props.account.token) {
-      this.props.history.push(
-        "/" + i18n.language + "/lottery/play/" + JSON.stringify(params)
+  handleJoinGameClick = (kind) => {
+    if (this.props.account.token != null) {
+      window.open(
+        "/" +
+          i18n.language +
+          "/joingame/" +
+          GameTypeEnum.LOTTERYLOBBY +
+          "/" +
+          kind.toUpperCase(),
+        "_blank",
+        "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1280,height=720"
       );
     } else {
       this.props.showLogin(true);
@@ -319,7 +323,6 @@ class Lottery extends Component {
   handleGameChange = (game) => {
     this.setState({
       selected: game,
-
     });
   };
 
@@ -363,15 +366,36 @@ class Lottery extends Component {
               >
                 <LotteryContainer>
                   <MenuIcon abbreviation={data.abbreviation}></MenuIcon>
-                  <LiveGameDescription
-                    game={this.state.selected}
-                  >{i18n.t(`web.lotteryGame.${this.state.selected.abbreviation.toLowerCase()}Desc`)}</LiveGameDescription>
-                  <ScrollAnimation animateIn='fadeInRight' duration={1} animateOnce={true} style={{ overflow: "visible" }}>
-                    <Model src={process.env.PUBLIC_URL + "/assets/images/pcGamePage/lottery/left/" + data.abbreviation.toLowerCase() + "-model.png"}></Model>
-                    <Element src={process.env.PUBLIC_URL + "/assets/images/pcGamePage/lottery/left/" + data.abbreviation.toLowerCase() + "-element.png"}></Element>
+                  <LiveGameDescription game={this.state.selected}>
+                    {i18n.t(
+                      `web.lotteryGame.${this.state.selected.abbreviation.toLowerCase()}Desc`
+                    )}
+                  </LiveGameDescription>
+                  <ScrollAnimation
+                    animateIn="fadeInRight"
+                    duration={1}
+                    animateOnce={true}
+                    style={{ overflow: "visible" }}
+                  >
+                    <Model
+                      src={
+                        process.env.PUBLIC_URL +
+                        "/assets/images/pcGamePage/lottery/left/" +
+                        data.abbreviation.toLowerCase() +
+                        "-model.png"
+                      }
+                    ></Model>
+                    <Element
+                      src={
+                        process.env.PUBLIC_URL +
+                        "/assets/images/pcGamePage/lottery/left/" +
+                        data.abbreviation.toLowerCase() +
+                        "-element.png"
+                      }
+                    ></Element>
                   </ScrollAnimation>
                   <ButtonJoin
-                    onClick={() => this.handleJoinGameClick(data.params)}
+                    onClick={() => this.handleJoinGameClick(data.abbreviation)}
                   >
                     {i18n.t("common.startGame")}
                   </ButtonJoin>

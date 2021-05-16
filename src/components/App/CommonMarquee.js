@@ -1,26 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import i18n from "../../utils/i18n";
 import MarqueeIconPNG from "../../assets/images/marqueeicon.png";
+import { UiService } from "@Inwoker/tgs-api";
 const AnnounceContainer = styled.div`
   width: 100%;
   height: 40px;
   margin: 0 auto;
 `;
 const MarqueeIcon = styled.img`
-    width: 80px;
-    margin-top: 5px;
-    padding-right: 25px;
-    float: right;
-    @media (max-width: 320px) {
-       display: none;
-      }
+  width: 80px;
+  margin-top: 5px;
+  padding-right: 25px;
+  float: right;
+  @media (max-width: 320px) {
+    display: none;
+  }
 `;
 const MarqueeContainer = styled.div`
   position: relative;
   overflow: visible;
-  float:right;
+  float: right;
   width: 78%;
   white-space: nowrap;
   font-weight: bold;
@@ -42,18 +43,36 @@ const MarqueeContainer = styled.div`
     border-right: 23px solid rgba(0, 0, 0, 0.7);
     border-bottom: 24px solid transparent;
     @media (max-width: 320px) {
-        display: none;
-      }
+      display: none;
+    }
   }
 `;
 
 function CommonMarquee(props) {
+  const [loaded, setLoaded] = useState(false);
+
+  const [announcement, setAnnouncement] = useState([]);
+
+  useEffect(() => {
+    setLoaded(true);
+  });
+
+  useEffect(() => {
+    if (loaded) {
+      UiService.GetMarquee().then((result) => {
+        if (result.IsSuccess) {
+          setAnnouncement(result.data);
+        }
+      });
+    }
+  }, [loaded]);
+
+  useEffect(() => {});
   return (
     <AnnounceContainer>
       <MarqueeContainer>
         <marquee>
-          test testestsetssssssssssssssssssssssssssssssssssssssss
-          {/* {props.text.map((row, index) => {
+          {announcement.map((row, index) => {
             return (
               <div
                 key={index}
@@ -64,10 +83,10 @@ function CommonMarquee(props) {
                   overflow: "visible",
                 }}
               >
-                {row}
+                {row.content}
               </div>
             );
-          })} */}
+          })}
         </marquee>
       </MarqueeContainer>
       <MarqueeIcon src={MarqueeIconPNG}></MarqueeIcon>

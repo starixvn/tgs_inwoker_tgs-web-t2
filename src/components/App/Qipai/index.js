@@ -9,9 +9,7 @@ import BtnRedHoverPNG from "../../../assets/images/btn-red-hover.png";
 import BtnJoinQipaiPNG from "../../../assets/images/btn-join-qipai.png";
 import BtnJoinQipaiHoverPNG from "../../../assets/images/btn-join-qipai-hover.png";
 
-
 import { SHOW_LOGIN } from "../../../constants/actionType";
-
 
 import _633SelectedPNG from "../../../assets/images/qipai/633-selectedv2.png";
 
@@ -19,10 +17,10 @@ import { GameTypeEnum } from "../../../utils/Enum";
 import i18n from "../../../utils/i18n";
 import CommonMarquee from "../CommonMarquee";
 import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Left from "../../../assets/images/arrow-left.svg";
 import Right from "../../../assets/images/arrow-right.svg";
-import ScrollAnimation from 'react-animate-on-scroll';
+import ScrollAnimation from "react-animate-on-scroll";
 
 const Container = styled.div`
   width: 100%;
@@ -130,19 +128,19 @@ const ButtonJoin = styled.div`
   font-weight: bold;
   text-align: center;
 
-  line-height:64px;
+  line-height: 64px;
 `;
 
 const LiveGameDescription = styled.div`
-height: 100%;
-width: 280px;
-position: absolute;
-top: 145px;
-left: 60px;
-color: #8a7f73;
-font-size: 17px;
-font-weight: 600;
-text-align: center;
+  height: 100%;
+  width: 280px;
+  position: absolute;
+  top: 145px;
+  left: 60px;
+  color: #8a7f73;
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
 `;
 
 const RightContainer = styled.div`
@@ -152,12 +150,11 @@ const RightContainer = styled.div`
   top: 0;
   opacity: 0;
   animation: ${(props) =>
-    props.first?
-    css`
+    props.first
+      ? css`
           ${rightLeftRightFirst} 800ms   forwards;
         `
-    :
-    props.transition
+      : props.transition
       ? css`
           ${rightLeftRight} 1000ms   forwards;
         `
@@ -173,11 +170,11 @@ const LogoImg = styled.img`
 `;
 
 const CarouselContainer = styled(Carousel)`
-background: none;
-margin: 8px 0px;
-height: 420px;
-width: 100%;
-overflow: visible;
+  background: none;
+  margin: 8px 0px;
+  height: 420px;
+  width: 100%;
+  overflow: visible;
 `;
 const KYHotGameTitle = styled.div`
   position: absolute;
@@ -192,36 +189,28 @@ const KYHotGameTitle = styled.div`
   z-index: 8;
 `;
 const ImageContainer = styled.div`
-clip-path: polygon(15% 0,100% 0%,80% 120%,-2% 96%);
-width: 275px;
-height:500px;
-cursor: pointer;
-position: relative;
-overflow-y: visible;
-cursor: pointer;
-display:flex;
-justify-content: center;
-aligin-item: center;
-${(props) =>
-  props.active
-    ? `
+  clip-path: polygon(15% 0, 100% 0%, 80% 120%, -2% 96%);
+  width: 275px;
+  height: 500px;
+  cursor: pointer;
+  position: relative;
+  overflow-y: visible;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  aligin-item: center;
+  float: left;
+  ${(props) =>
+    props.active
+      ? `
    z-index:2;
   `
-    : `
+      : `
   `}
 `;
 
 const KYHotGame = styled.img`
-  height: 400px!important;
-  ${(props) =>
-    props.active
-      ? `
-      filter: grayscale(0%);
-      transition: transform 0.5s ease-in,filter 0.5s ease-in;
-    `
-      : `
-      filter: grayscale(100%);
-    `}
+  height: 400px !important;
 `;
 const ArrowButton = styled.a`
   margin-left: calc(50%);
@@ -231,7 +220,7 @@ const ArrowButton = styled.a`
   width: 40px;
   display: flex;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
 `;
 
 const ArrowContainer = styled.div`
@@ -251,8 +240,7 @@ const ArrowContainer = styled.div`
   }
 `;
 
-const LeftArrowButton = styled(ArrowButton)`
-`;
+const LeftArrowButton = styled(ArrowButton)``;
 
 const RightArrowButton = styled(ArrowButton)``;
 
@@ -263,11 +251,10 @@ const LeftArrowContainer = styled(ArrowContainer)`
 
 const RightArrowContainer = styled(ArrowContainer)`
   right: 0;
-
 `;
 
 const ArrowIcon = styled.img`
-  width: 20px!important;
+  width: 20px !important;
 `;
 class Qipai extends Component {
   constructor(props) {
@@ -283,33 +270,32 @@ class Qipai extends Component {
       trigger: true,
       list: qipaiList,
       selectedIndex: 0,
-      first: true
+      first: true,
     };
   }
   componentDidMount() {
     //test for fake input
-    var qipaiList=[
-      { 
+    var qipaiList = [
+      {
         id: 1,
-        name: "开元棋牌", 
-        abbreviation:"ky"
+        name: "炸金花",
+        abbreviation: "ky",
       },
       {
         id: 2,
-        name: "AS棋牌", 
-        abbreviation:"as"
+        name: "21点",
+        abbreviation: "ky",
       },
       {
         id: 3,
-        name: "AP棋牌", 
-        abbreviation:"ap"
+        name: "三公",
+        abbreviation: "ky",
       },
-    ]
-    this.setState(
-      {
-        selected: qipaiList[0],
-        list: qipaiList
-      })
+    ];
+    this.setState({
+      selected: qipaiList[0],
+      list: qipaiList,
+    });
   }
   componentDidUpdate(preProps, preStates) {
     // if (
@@ -319,27 +305,25 @@ class Qipai extends Component {
     //   var qipaiList = this.props.game.homePageGameList.filter((item) => {
     //     return item.type == GameTypeEnum.QIPAI;
     //   });
-
     //   this.setState({
     //     ...this.state,
     //     selected: qipaiList[0],
-
     //     list: qipaiList,
     //   });
     // }
   }
 
   handleJoinGameClick = (kind) => {
-    if (this.props.token) {
-      Common.PopupCenter(
+    if (this.props.account.token != null) {
+      window.open(
         "/" +
-        i18n.language +
-        "/joingame/" +
-        GameTypeEnum.QIPAI +
-        "/" +
-        JSON.stringify(this.state.selected.params),
-        1280,
-        720
+          i18n.language +
+          "/joingame/" +
+          GameTypeEnum.QIPAILOBBY +
+          "/" +
+          kind.toUpperCase(),
+        "_blank",
+        "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1280,height=720"
       );
     } else {
       this.props.showLogin(true);
@@ -347,12 +331,11 @@ class Qipai extends Component {
   };
 
   handleGameChange = (index) => {
-    var gameSelected = this.state.list.filter(function(el) {
+    var gameSelected = this.state.list.filter(function (el) {
       return el.id === index;
     });
     this.setState({
       selected: gameSelected[0],
-
     });
   };
   getConfigurableProps = (listSize) => ({
@@ -373,89 +356,82 @@ class Qipai extends Component {
     selectedItem: 0,
     centerMode: true,
     swipeScrollTolerance: 5,
-    centerSlidePercentage:listSize>3?100/4:100/listSize,
-    onClickItem:(index)=>{
-        this.setState({
-          trigger:  !this.state.trigger,
-          selectedIndex: index,
-          first: false,
-        })
-        this.handleGameChange(index+1)
-  },
-  onChange:(index)=>{
+    centerSlidePercentage: listSize > 3 ? 100 / 4 : 100 / listSize,
+    onClickItem: (index) => {
       this.setState({
-        trigger:  !this.state.trigger,
+        trigger: !this.state.trigger,
         selectedIndex: index,
         first: false,
-      })
-      this.handleGameChange(index+1)
-    }
-});
-  
+      });
+      this.handleGameChange(index + 1);
+    },
+    onChange: (index) => {
+      this.setState({
+        trigger: !this.state.trigger,
+        selectedIndex: index,
+        first: false,
+      });
+      this.handleGameChange(index + 1);
+    },
+  });
+
   render() {
     return (
       <Container>
         <CommonMarquee></CommonMarquee>
         <GameContainer>
-          <LeftContainer>
-          <ScrollAnimation animateIn='fadeInLeft' duration={2} animateOnce={true} style={{overflow: "visible"}}>
-            <CarouselContainer
-                {...this.getConfigurableProps(this.state.list.length)}
-                renderArrowPrev={(onClickHandler, hasPrev, label) =>
-                  hasPrev && (
-                    <LeftArrowContainer onClick={onClickHandler}>
-                      <LeftArrowButton>
-                        <ArrowIcon src={Left} />
-                      </LeftArrowButton>
-                    </LeftArrowContainer>
-                  )
-                }
-                renderArrowNext={(onClickHandler, hasNext, label) =>
-                  hasNext && (
-                    <RightArrowContainer onClick={onClickHandler}>
-                      <RightArrowButton>
-                        <ArrowIcon src={Right} />
-                      </RightArrowButton>
-                    </RightArrowContainer>
-                  )
-                }
-              >
-                {this.state.list.map((data, index) => {
-                    return (
-                      <React.Fragment key={index}>
-                        <ImageContainer active={this.state.selectedIndex===index}>
-                          <KYHotGameTitle>{data.name}</KYHotGameTitle>
-                            <KYHotGame src={process.env.PUBLIC_URL+"/assets/images/pcGamePage/qipai/left/"+data.abbreviation.toLowerCase()+".png"} active={this.state.selectedIndex===index}></KYHotGame>
-                    </ImageContainer>
-                      </React.Fragment>
-                    );
-                  })}
-              </CarouselContainer>
-              </ScrollAnimation>
-            </LeftContainer>
-            <RightSideContainer>
-            {this.state.list.length>0?
-            <>
-            <RightContainer
+          {this.state.list.map((data, index) => {
+            return (
+              <React.Fragment key={index}>
+                <ImageContainer active={this.state.selectedIndex === index}>
+                  <KYHotGameTitle>{data.name}</KYHotGameTitle>
+                  <KYHotGame
+                    src={
+                      process.env.PUBLIC_URL +
+                      "/assets/images/pcGamePage/qipai/left/" +
+                      index +
+                      ".png"
+                    }
+                    active={this.state.selectedIndex === index}
+                  ></KYHotGame>
+                </ImageContainer>
+              </React.Fragment>
+            );
+          })}
+          <RightSideContainer>
+            {this.state.list.length > 0 ? (
+              <>
+                <RightContainer
                   transition={this.state.trigger}
                   first={this.state.first}
                 >
-                   <LogoImg src={process.env.PUBLIC_URL+"/assets/images/pcGamePage/qipai/right/"+this.state.selected.abbreviation.toLowerCase()+".png"} ></LogoImg>
-                  <LiveGameDescription
-                  >
-                    {i18n.t(`web.chessGame.${this.state.selected.abbreviation.toLowerCase()}Desc`)}</LiveGameDescription>
+                  <LogoImg
+                    src={
+                      process.env.PUBLIC_URL +
+                      "/assets/images/pcGamePage/qipai/right/" +
+                      this.state.selected.abbreviation.toLowerCase() +
+                      ".png"
+                    }
+                  ></LogoImg>
+                  <LiveGameDescription>
+                    {i18n.t(
+                      `web.chessGame.${this.state.selected.abbreviation.toLowerCase()}Desc`
+                    )}
+                  </LiveGameDescription>
                   <ButtonJoin
                     onClick={() =>
-                      this.handleJoinGameClick(this.state.selected.params)
+                      this.handleJoinGameClick(this.state.selected.abbreviation)
                     }
                   >
                     {i18n.t("common.startGame")}
                   </ButtonJoin>
                 </RightContainer>
-                </>:<></>
-            }
-            </RightSideContainer>
-            </GameContainer>
+              </>
+            ) : (
+              <></>
+            )}
+          </RightSideContainer>
+        </GameContainer>
       </Container>
     );
   }
@@ -469,9 +445,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 const mapStateToProps = (state) => {
   return {
-    token: state.account.token,
+    account: state.account,
     game: state.game,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Qipai);
-

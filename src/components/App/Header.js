@@ -59,7 +59,6 @@ const TopContainer = styled.div`
   background-color: #8a7f73;
 `;
 const TimerContainer = styled.div`
-  padding-top: 4px;
   font-family: Roboto;
   width: 100%;
   max-width: 1280px;
@@ -79,7 +78,7 @@ const TimerSpan = styled.span`
 `;
 const LinkContainer = styled.div`
   padding-top: 2px;
-  float: left;
+
   @media (max-width: 950px) {
     display: none;
   }
@@ -97,7 +96,7 @@ const CustomExternalLink = styled.a`
   ${(props) =>
     props.selected === true
       ? `
- color:#fde73f; 
+ color:#f0ca83; 
 font-weight:bold;
 pointer-event:none;
 `
@@ -114,6 +113,7 @@ color:#f6f6f6;
 const LinkList = styled.ul`
   list-style: none;
   padding: 0;
+  margin: 0;
 `;
 const LinkListItem = styled.li`
   display: inline;
@@ -122,7 +122,7 @@ const LinkListItem = styled.li`
 const RightContainer = styled.div`
   float: right;
   height: 80px;
-  width: 280px;
+  width: 300px;
 `;
 
 const BtnAppsAndCS = styled.div`
@@ -164,8 +164,8 @@ const BottomContainer = styled.div`
 const LogoContainer = styled.div`
   background-image: url(${Logo140x44PNG});
   background-repeat: no-repeat;
-  background-size: auto 60px;
-  width: 180px;
+  background-size: contain;
+  width: 160px;
   height: 110px;
   background-position: left center;
   float: left;
@@ -660,23 +660,48 @@ class Header extends Component {
         <InnerWrap>
           <TopContainer>
             <TimerContainer>
-              <TimerSpan>GMT+8 {this.state.systemDateTime}</TimerSpan>
+              <LinkContainer style={{ float: "left" }}>
+                <LinkList>
+                  <LinkListItem style={{ lineHeight: "1.7em" }}>
+                    GMT+8 {this.state.systemDateTime}
+                  </LinkListItem>
+                </LinkList>
+              </LinkContainer>
+
+              <LinkContainer style={{ float: "right" }}>
+                <LinkList>
+                  <LinkListItem>
+                    <CustomExternalLink
+                      selected={i18n.language === "zh-CN"}
+                      onClick={() => {
+                        window.location.href = "/zh-CN";
+                      }}
+                    >
+                      简体
+                    </CustomExternalLink>
+                    {" | "}
+                    <CustomExternalLink
+                      selected={i18n.language === "zh-TW"}
+                      onClick={() => {
+                        window.location.href = "/zh-TW";
+                      }}
+                    >
+                      繁体
+                    </CustomExternalLink>
+                    {" | "}
+                    <CustomExternalLink
+                      selected={i18n.language === "en-US"}
+                      onClick={() => {
+                        window.location.href = "/en-US";
+                      }}
+                    >
+                      English
+                    </CustomExternalLink>
+                  </LinkListItem>
+                </LinkList>
+              </LinkContainer>
             </TimerContainer>
-            {/* <LinkContainer>
-              <LinkList>
-                <LinkListItem>
-                  <CustomExternalLink selected={i18n.language === "zh-CN"} onClick={() => { window.location.href = "/zh-CN" }}>
-                    简体
-                  </CustomExternalLink>{" | "}
-                  <CustomExternalLink selected={i18n.language === "zh-TW"} onClick={() => { window.location.href = "/zh-TW" }}>
-                    繁体
-                  </CustomExternalLink>{" | "}
-                  <CustomExternalLink selected={i18n.language === "en-US"} onClick={() => { window.location.href = "/en-US" }}>
-                    English
-                  </CustomExternalLink>
-                </LinkListItem>
-              </LinkList>
-            </LinkContainer> */}
+
             {/* <RightContainer>
               <BtnApps onClick={this.handleDownloadAppsClick}></BtnApps>
               <BtnCS onClick={this.props.onhandleShowCSClick}>
