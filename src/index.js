@@ -32,7 +32,7 @@ import InfoPNG from "../src/assets/images/info.png";
 import SuccessPNG from "../src/assets/images/success.png";
 import { makeStyles } from "@material-ui/core";
 import i18n from "./utils/i18n";
-import {ConfigService} from '@Inwoker/tgs-api';
+import { ConfigService } from "@Inwoker/tgs-api";
 
 const baseRouteUrl = "/:locale(zh-CN|zh-TW|en-US)";
 
@@ -68,9 +68,12 @@ Config.from = isMobile ? "h5" : "h5";
 Config.isPC = isMobile ? 1 : 0;
 
 //add config at tgs library
-ConfigService.setFrom(isMobile ? "h5" : "h5")
-ConfigService.setPc(isMobile ? 1 : 0)
-ConfigService.setLang(i18n.language)
+ConfigService.setFrom(isMobile ? "h5" : "h5");
+ConfigService.setPc(isMobile ? 1 : 0);
+ConfigService.setLang(i18n.language);
+ConfigService.setBaseUrl(Config.baseUrl);
+ConfigService.setClient(Config.client);
+ConfigService.setCurrency(Config.currency);
 
 // if (
 //   process.env.REACT_APP_CUSTOM_NODE_ENV !== "development" &&
