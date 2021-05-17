@@ -133,7 +133,7 @@ const TunnelButton = styled(TabButton)`
   min-width: 133px;
   height: 41px;
 
-  margin-top: 0px;
+  margin-top: 3px;
   padding: 10px 20px 0 20px;
 `;
 const SplitLine = styled.div`
@@ -286,7 +286,7 @@ class NewStepOne extends Component {
                 <SplitLine></SplitLine>
 
                 {(() => {
-                  if (paymentType.paymentcode.toUpperCase() !== "LEEPAY") {
+                  if (paymentType.paymentcode.toUpperCase() === "MANUAL") {
                     return (
                       <>
                         <SubHeaderContainer>
@@ -321,7 +321,7 @@ class NewStepOne extends Component {
 
                 <SubHeaderContainer>
                   <NumberContainer>
-                    {paymentType.paymentcode.toUpperCase() !== "LEEPAY"
+                    {paymentType.paymentcode.toUpperCase() === "MANUAL"
                       ? "4"
                       : "3"}
                   </NumberContainer>
@@ -391,7 +391,7 @@ class NewStepOne extends Component {
                       methodList[selectedMethodIndex].channel[
                         selectedChannelIndex
                       ].transferlimit.to ||
-                    (paymentType.paymentcode.toUpperCase() !== "LEEPAY" &&
+                    (paymentType.paymentcode.toUpperCase() === "MANUAL" &&
                       name.length <= 0)
                   }
                 ></CustomButton>

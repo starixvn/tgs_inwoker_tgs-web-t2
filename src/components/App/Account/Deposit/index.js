@@ -147,12 +147,12 @@ class Deposit extends Component {
         var payment =
           this.props.wallet.depositTypeList[this.state.selectedPaymentIndex];
 
-        if (payment.paymentcode.toUpperCase() === "LEEPAY")
+        if (payment.paymentcode.toUpperCase() !== "MANUAL")
           window.open(response.data.paymenturl, "_blank");
 
         this.setState({
           ...this.state,
-          step: payment.paymentcode.toUpperCase() !== "LEEPAY" ? 2 : 3,
+          step: payment.paymentcode.toUpperCase() === "MANUAL" ? 2 : 3,
           loading: false,
         });
       } else {
@@ -187,6 +187,10 @@ class Deposit extends Component {
       this.setState({
         ...this.state,
         selectedPaymentIndex: index,
+        amount: 0,
+        name: "",
+        selectedChannelIndex: 0,
+        selectedMethodIndex: 0,
       });
     }
   };
@@ -213,7 +217,7 @@ class Deposit extends Component {
 
     var channel = method.channel[this.state.selectedChannelIndex];
 
-    if (payment.paymentcode.toUpperCase() !== "LEEPAY") {
+    if (payment.paymentcode.toUpperCase() === "MANUAL") {
       // handle manual deposit
 
       this.props.doManualDeposit(
@@ -340,6 +344,16 @@ class Deposit extends Component {
                 this.state.selectedChannelIndex
               ].extended
             }
+            methodcode={
+              this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
+                .method[this.state.selectedMethodIndex].methodcode
+            }
+            channelname={
+              this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
+                .method[this.state.selectedMethodIndex].channel[
+                this.state.selectedChannelIndex
+              ].channelname
+            }
             depositResult={this.props.wallet.depositResult}
             amount={this.state.amount}
             performUploadImage={this.performUploadImage}
@@ -349,6 +363,16 @@ class Deposit extends Component {
       case 3:
         return (
           <Step2Form
+            methodcode={
+              this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
+                .method[this.state.selectedMethodIndex].methodcode
+            }
+            channelname={
+              this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
+                .method[this.state.selectedMethodIndex].channel[
+                this.state.selectedChannelIndex
+              ].channelname
+            }
             depositResult={this.props.wallet.depositResult}
             amount={this.state.amount}
             handleRestartClick={this.handleRestartClick}

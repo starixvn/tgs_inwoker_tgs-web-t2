@@ -94,6 +94,14 @@ class NewStepTwo extends Component {
         <CustomTable cellPadding="0" cellSpacing="0">
           <tbody>
             <tr>
+              <TitleTD>{i18n.t("deposit.depositMethod")}</TitleTD>
+              <ValueTD>{this.props.methodcode}</ValueTD>
+            </tr>
+            <tr>
+              <TitleTD>{i18n.t("deposit.depositTunnel")}</TitleTD>
+              <ValueTD>{this.props.channelname}</ValueTD>
+            </tr>
+            <tr>
               <TitleTD>{i18n.t("deposit.receiverBank")}</TitleTD>
               <ValueTD>{extended.name}</ValueTD>
             </tr>

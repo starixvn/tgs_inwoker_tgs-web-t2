@@ -243,7 +243,7 @@ class Deposit extends Component {
 
         this.setState({
           ...this.state,
-          step: payment.paymentcode.toUpperCase() !== "LEEPAY" ? 2 : 3,
+          step: payment.paymentcode.toUpperCase() === "MANUAL" ? 2 : 3,
           loading: false,
         });
       } else {
@@ -361,7 +361,7 @@ class Deposit extends Component {
 
     var channel = method.channel[this.state.selectedChannelIndex];
 
-    if (payment.paymentcode.toUpperCase() !== "LEEPAY") {
+    if (payment.paymentcode.toUpperCase() === "MANUAL") {
       // handle manual deposit
 
       this.props.doManualDeposit(
@@ -508,7 +508,7 @@ class Deposit extends Component {
                 if (
                   this.props.wallet.depositTypeList[
                     this.state.selectedPaymentIndex
-                  ].paymentcode.toUpperCase() !== "LEEPAY"
+                  ].paymentcode.toUpperCase() === "MANUAL"
                 ) {
                   return (
                     <Textbox
@@ -567,7 +567,7 @@ class Deposit extends Component {
                 disabled={
                   (this.props.wallet.depositTypeList[
                     this.state.selectedPaymentIndex
-                  ].paymentcode.toUpperCase() !== "LEEPAY" &&
+                  ].paymentcode.toUpperCase() === "MANUAL" &&
                     this.state.account === "") ||
                   this.state.amount <
                     this.props.wallet.depositTypeList[
@@ -608,7 +608,7 @@ class Deposit extends Component {
               isManual={
                 this.props.wallet.depositTypeList[
                   this.state.selectedPaymentIndex
-                ].paymentcode.toUpperCase() !== "LEEPAY"
+                ].paymentcode.toUpperCase() === "MANUAL"
               }
               extended={
                 this.props.wallet.depositTypeList[

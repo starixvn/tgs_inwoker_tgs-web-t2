@@ -25,13 +25,13 @@ const TabButton = styled.div`
     color:#fff;
     box-shadow: 0px 3px 5px 0 rgba(0, 0, 0, 0.3);
   }
-    ${props =>
-    props.active
-      ? ` border: solid 1px #8a7f73;
+    ${(props) =>
+      props.active
+        ? ` border: solid 1px #8a7f73;
       background-color:#f0ca83;
       box-shadow: 0px 2px 3px 0 rgba(0, 0, 0, 0.18);
       `
-      : ` border: solid 1px #151a34;
+        : ` border: solid 1px #151a34;
       `};
   &:hover {
     cursor: pointer;
@@ -51,43 +51,43 @@ class DateSelection extends Component {
   state = {
     dateFrom: this.props.defaultDateFrom,
     dateTo: this.props.defaultDateTo,
-    dateRange: -1
+    dateRange: -1,
   };
 
   callbackDateChange = (from, to) => {
     this.props.onhandleDateChange({
       dateFrom: moment(from).format("YYYY-MM-DD"),
-      dateTo: moment(to).format("YYYY-MM-DD")
+      dateTo: moment(to).format("YYYY-MM-DD"),
     });
   };
 
-  handleDateFromChange = e => {
+  handleDateFromChange = (e) => {
     this.callbackDateChange(e, this.state.dateTo);
 
     this.setState({
       ...this.state,
       dateFrom: e,
-      dateRange: -1
+      dateRange: -1,
     });
   };
-  handleDateToChange = e => {
+  handleDateToChange = (e) => {
     this.callbackDateChange(this.state.dateFrom, e);
 
     this.setState({
       ...this.state,
       dateTo: e,
-      dateRange: -1
+      dateRange: -1,
     });
   };
 
-  handleTodayClick = date => {
+  handleTodayClick = (date) => {
     let today = new Date();
 
     this.setState({
       ...this.state,
       dateFrom: today,
       dateTo: today,
-      dateRange: 0
+      dateRange: 0,
     });
     this.callbackDateChange(today, today);
   };
@@ -99,7 +99,7 @@ class DateSelection extends Component {
       ...this.state,
       dateFrom: newdateFrom,
       dateTo: today,
-      dateRange: 1
+      dateRange: 1,
     });
     this.callbackDateChange(newdateFrom, today);
   };
@@ -111,7 +111,7 @@ class DateSelection extends Component {
       ...this.state,
       dateFrom: newdateFrom,
       dateTo: today,
-      dateRange: 2
+      dateRange: 2,
     });
     this.callbackDateChange(newdateFrom, today);
   };
@@ -123,7 +123,7 @@ class DateSelection extends Component {
           onhandleDateChange={this.handleDateFromChange}
           selectedDate={this.state.dateFrom}
         ></DatePicker>
-        <LabelDash>{i18n.t("common.until")}</LabelDash>
+        <LabelDash>-</LabelDash>
         <DatePicker
           onhandleDateChange={this.handleDateToChange}
           selectedDate={this.state.dateTo}

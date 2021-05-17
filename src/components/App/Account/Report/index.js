@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import IconReportRedPNG from "../../../../assets/images/icon-report-active.png";
 
-import { ReportService } from "../../../../services/ReportService";
-import {ReportService as TGSReportService} from  '@Inwoker/tgs-api';
+import { ReportService } from "@Inwoker/tgs-api";
 import { GameService } from "../../../../services/GameService";
 
 import AccountDetails from "./AccountDetails";
@@ -39,7 +38,8 @@ const InnerWrap = styled.div`
   margin-top: 18px;
   box-sizing: border-box;
   padding: 25px;
-  position: relative;border-radius: 10px;
+  position: relative;
+  border-radius: 10px;
 `;
 const TabButton = styled.div`
   width: 150px;
@@ -56,13 +56,13 @@ const TabButton = styled.div`
   border-radius: 15px;
   box-shadow: 0px 3px 5px 0 rgba(0, 0, 0, 0.3);
   background-color: #f2f2f2;
-  background-position:center   14px;
-  background-repeat:no-repeat;
+  background-position: center 14px;
+  background-repeat: no-repeat;
   border: solid 1px #151a34;
   transition: background-color 0.5s ease;
   &:hover {
     background-color: #f0ca83;
-    color:#fff;
+    color: #fff;
     border: solid 1px #ffffff;
   }
   ${(props) =>
@@ -82,11 +82,12 @@ const SplitLine = styled.div`
 `;
 class Report extends Component {
   state = {
-    tab: 1,
+    tab: 2,
     isGetNewBonusList: false,
     newBonusList: [],
     completedBonusList: [],
     type: 0,
+    limit: 20,
     accountList: {
       list: [],
       count: 0,
@@ -136,15 +137,15 @@ class Report extends Component {
     }
   }
 
-  handleAccountGetReportTrigger = (dateFrom, dateTo, page, type) => {
-    ReportService.GetAccountDetails(dateFrom, dateTo, page, type).then(
-      (response) => {
-        if (response.IsSuccess) {
-          this.setState({ ...this.state, accountList: response.data });
-        }
-      }
-    );
-  };
+  // handleAccountGetReportTrigger = (dateFrom, dateTo, page, type) => {
+  //   ReportService.GetAccountDetails(dateFrom, dateTo, page, type).then(
+  //     (response) => {
+  //       if (response.IsSuccess) {
+  //         this.setState({ ...this.state, accountList: response.data });
+  //       }
+  //     }
+  //   );
+  // };
   handleTransactionGetReportTrigger = (
     dateFrom,
     dateTo,
@@ -161,45 +162,52 @@ class Report extends Component {
     //     ",  thirdparty_id=" +
     //     thirdparty_id
     // );
-    TGSReportService.GetTransactionDetails(
+    ReportService.GetTransactionDetails(
       dateFrom,
-      dateTo,
+      `${dateTo} 23:59:59`,
       page,
-      game_platform_id
+      this.state.limit,
+      true,
+      "",
+      false
     ).then((response) => {
       if (response.IsSuccess) {
-        this.setState({ ...this.state, transactionList: {list:response.data.items, count: response.data.totalCount } });
+        this.setState({
+          ...this.state,
+          transactionList: {
+            list: response.data.items,
+            count: response.data.totalcount,
+          },
+        });
       }
     });
   };
-  handleWithdrawalGetReportTrigger = (dateFrom, dateTo, page, status) => {
-    ReportService.GetWithdrawalDetails(dateFrom, dateTo, page, status).then(
-      (response) => {
-        if (response.IsSuccess) {
-          this.setState({ ...this.state, withdrawalList: response.data });
-        }
-      }
-    );
-  };
-  handleDepositGetReportTrigger = (dateFrom, dateTo, page, status) => {
-    ReportService.GetDepositDetails(dateFrom, dateTo, page, status).then(
-      (response) => {
-        if (response.IsSuccess) {
-          this.setState({ ...this.state, depositList: response.data });
-        }
-      }
-    );
-  };
+  // handleWithdrawalGetReportTrigger = (dateFrom, dateTo, page, status) => {
+  //   ReportService.GetWithdrawalDetails(dateFrom, dateTo, page, status).then(
+  //     (response) => {
+  //       if (response.IsSuccess) {
+  //         this.setState({ ...this.state, withdrawalList: response.data });
+  //       }
+  //     }
+  //   );
+  // };
+  // handleDepositGetReportTrigger = (dateFrom, dateTo, page, status) => {
+  //   ReportService.GetDepositDetails(dateFrom, dateTo, page, status).then(
+  //     (response) => {
+  //       if (response.IsSuccess) {
+  //         this.setState({ ...this.state, depositList: response.data });
+  //       }
+  //     }
+  //   );
+  // };
 
-  handleRebateGetReportTrigger = (dateFrom, dateTo, page) => {
-    ReportService.GetRebateDetails(dateFrom, dateTo, page).then(
-      (response) => {
-        if (response.IsSuccess) {
-          this.setState({ ...this.state, rebateList: response.data });
-        }
-      }
-    );
-  };
+  // handleRebateGetReportTrigger = (dateFrom, dateTo, page) => {
+  //   ReportService.GetRebateDetails(dateFrom, dateTo, page).then((response) => {
+  //     if (response.IsSuccess) {
+  //       this.setState({ ...this.state, rebateList: response.data });
+  //     }
+  //   });
+  // };
 
   handleTabClick = (tab) => {
     this.setState({ ...this.state, tab: tab });
@@ -213,19 +221,19 @@ class Report extends Component {
         </Title>
 
         <InnerWrap>
-          <TabButton
+          {/* <TabButton
             active={this.state.tab === 1}
             onClick={() => this.handleTabClick(1)}
           >
             {i18n.t("report.transferDetails")}
-          </TabButton>
+          </TabButton> */}
           <TabButton
             active={this.state.tab === 2}
             onClick={() => this.handleTabClick(2)}
           >
             {i18n.t("report.bettingDetails")}
           </TabButton>
-          <TabButton
+          {/* <TabButton
             active={this.state.tab === 3}
             onClick={() => this.handleTabClick(3)}
           >
@@ -242,7 +250,7 @@ class Report extends Component {
             onClick={() => this.handleTabClick(5)}
           >
             {i18n.t("report.rebateDetails")}
-          </TabButton>
+          </TabButton> */}
           <SplitLine></SplitLine>
           {(() => {
             switch (this.state.tab) {
@@ -250,7 +258,9 @@ class Report extends Component {
                 return (
                   <AccountDetails
                     gameList={this.state.gameList}
-                    onhandleGetReportTrigger={this.handleAccountGetReportTrigger}
+                    onhandleGetReportTrigger={
+                      this.handleAccountGetReportTrigger
+                    }
                     accountList={this.state.accountList}
                   />
                 );
@@ -278,7 +288,9 @@ class Report extends Component {
                 return (
                   <DepositReport
                     token={this.props.token}
-                    onhandleGetReportTrigger={this.handleDepositGetReportTrigger}
+                    onhandleGetReportTrigger={
+                      this.handleDepositGetReportTrigger
+                    }
                     depositList={this.state.depositList}
                   />
                 );
@@ -294,7 +306,6 @@ class Report extends Component {
             }
           })()}
         </InnerWrap>
-
       </Container>
     );
   }
