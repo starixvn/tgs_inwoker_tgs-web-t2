@@ -283,8 +283,7 @@ class Report extends Component {
   }
 
   componentDidMount() {
-    this.GetGameList();
-
+    //this.GetGameList();
     // this.handleAccountGetReportTrigger(
     //   this.state.page,
     //   this.state.pageSize,
@@ -531,9 +530,12 @@ class Report extends Component {
     this.setState({ ...this.state, loading: true });
     ReportService.GetTransactionDetails(
       moment(this.state.dateFrom).format("YYYY-MM-DD"),
-      moment(this.state.dateTo).format("YYYY-MM-DD"),
+      moment(this.state.dateTo).format("YYYY-MM-DD 23:59:59"),
       page,
-      game_platform_id
+      this.state.pageSize,
+      true,
+      "",
+      false
     ).then((response) => {
       if (response.IsSuccess) {
         const dataList =
@@ -791,6 +793,7 @@ class Report extends Component {
           </DateRangContainer>
         </DateContainer>
         {(() => {
+          return <></>;
           if (this.state.selectedType === 1 || this.state.selectedType === 2) {
             return (
               <SelectContainer>
