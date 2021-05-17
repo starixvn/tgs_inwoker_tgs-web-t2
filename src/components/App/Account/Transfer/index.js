@@ -13,14 +13,14 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
-import { WalletService } from "../../../../services/WalletService";
+
 import { WalletType } from "../../../../utils/Enum";
-import { walletAction } from "../../../../actions/walletAction";
-import { RESET_WALLETRESULT } from "../../../../constants/actionType";
+import { walletAction, RESET_WALLETRESULT } from "@Inwoker/tgs-api";
+
 import Loading from "../../Loading";
 import Common from "../../../../utils/Common";
 import Messagebox from "../../Messagebox";
-import i18n from "../../../../utils/i18n"
+import i18n from "../../../../utils/i18n";
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box
@@ -47,7 +47,8 @@ const InnerWrap = styled.div`
   margin-top: 18px;
   box-sizing: border-box;
   padding: 25px 40px;
-  position: relative;border-radius: 10px;
+  position: relative;
+  border-radius: 10px;
 `;
 const WalletFrame = styled.div`
   width: 220px;
@@ -55,7 +56,8 @@ const WalletFrame = styled.div`
   float: left;
   border: 1.5px solid #8a7f73;
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
   margin-right: 50px;
 `;
 const IconContainer = styled.div`
@@ -92,7 +94,6 @@ const WalletAmount = styled.div`
   border: 1.5px solid #8a7f73;
   border-radius: 10px;
   white-space: nowrap;
-
 `;
 const TransferAllButton = styled.div`
   color: #404040;
@@ -109,7 +110,7 @@ const TransferAllButton = styled.div`
   font-weight: 600;
   &:hover {
     cursor: pointer;
-    box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);
+    box-shadow: inset 1px 1px 9px 0 rgba(255, 255, 255, 0.75);
   }
 `;
 const SubTitle = styled.div`
@@ -138,8 +139,8 @@ const QuickTransferLabel = styled.div`
   color: #404040;
 `;
 const QuickTransferButton = styled.div`
-  display:inline-block;
-  vertical-align:middle;
+  display: inline-block;
+  vertical-align: middle;
   text-align: center;
   padding: 10px;
   color: #fff;
@@ -147,19 +148,16 @@ const QuickTransferButton = styled.div`
   width: 160px;
   max-height: 39px;
   border-radius: 6px;
-  
+
   ${(props) =>
     props.disabled === true
       ? "background-blend-mode: multiply, normal; background-image:  linear-gradient(to bottom, #bfbfbf, #bfbfbf), linear-gradient(to top, #797979, #c3c3c3);"
-      : "background-color: #8a7f73;"
-  }
+      : "background-color: #8a7f73;"}
   &:hover {
-
     ${(props) =>
-    props.disabled === true
-      ? " "
-      : "cursor: pointer;box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);"
-  }
+      props.disabled === true
+        ? " "
+        : "cursor: pointer;box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);"}
   }
 `;
 
@@ -177,19 +175,17 @@ const GameTranferLeftWrap = styled.div`
   padding: 10px 0;
 `;
 const GameIcon = styled.div`
-height: 50px;
-width: 50px;
-background:url(${props => props.src}) no-repeat;
-background-size:cover;
-margin: 0 auto;
-display: block;
-  
+  height: 50px;
+  width: 50px;
+  background: url(${(props) => props.src}) no-repeat;
+  background-size: cover;
+  margin: 0 auto;
+  display: block;
 `;
 const GameName = styled.div`
   font-size: 20px;
-  text-align:center;
+  text-align: center;
   color: #404141;
-
 `;
 const GameWalletAmount = styled.div`
   font-family: Arial;
@@ -222,9 +218,9 @@ const GameWalletButton = styled.div`
     cursor: pointer;
     background-blend-mode: screen, normal;
     ${(props) =>
-    props.disabled
-      ? "   background-image: linear-gradient(to top, #797979, #c3c3c3);"
-      : " box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);"}
+      props.disabled
+        ? "   background-image: linear-gradient(to top, #797979, #c3c3c3);"
+        : " box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);"}
   }
 `;
 const TransferContainer = styled.div`
@@ -235,7 +231,7 @@ const CustomFormControl = withStyles((theme) => ({
     width: "250px",
     height: "40px",
     borderRadius: "12px",
-    boxShadow:"0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
+    boxShadow: "0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
     marginRight: "5px",
     float: "left",
     backgroundColor: "#fff",
@@ -295,54 +291,54 @@ class Transfer extends Component {
     transferWalletQuickList: [],
     showMessagebox: false,
     messageboxText: "",
+    mainAccountId: "0",
   };
-  mainAccountId = 0;
-  bindData() {
-    let singleWalletGameName = "";
-    let transferWalletAmount = 0;
-    let mainWalletAmount = 0;
-    let totalAmount = 0;
-    let transferWalletList = [];
-    for (let wallet of this.props.wallet.balanceList) {
-      if (wallet.purse_type === WalletType.MainWallet) {
-        mainWalletAmount = parseFloat(wallet.balance);
-        transferWalletList.push(wallet);
-        this.mainAccountId = wallet.id;
-      } else if (wallet.purse_type === WalletType.SingleWallet) {
-        singleWalletGameName += wallet.name + "、";
-      } else if (wallet.purse_type === WalletType.TransferWallet) {
-        transferWalletAmount += parseFloat(wallet.balance);
-        transferWalletList.push(wallet);
-      }
-      totalAmount += parseFloat(wallet.balance);
-    }
-    if (singleWalletGameName.length > 1) {
-      singleWalletGameName = singleWalletGameName.substring(
-        0,
-        singleWalletGameName.length - 1
-      );
-    }
-    this.setState({
-      ...this.state,
-      mainWalletAmount: Common.formatNumberWithCommas(mainWalletAmount),
-      singleWalletGameName,
-      transferWalletAmount: Common.formatNumberWithCommas(transferWalletAmount),
-      totalAmount: Common.formatNumberWithCommas(totalAmount),
-      transferWalletSelectList: transferWalletList
-        .filter((item) => item.maintenance !== 1)
-        .map((item, key) => (
-          <option
-            value={isNaN(item.id) === true ? item.id : item.parent_id}
-            key={item.id}
-          >
-            {item.name}
-          </option>
-        )),
-      transferWalletQuickList: this.GetTransferWalletQuickList(
-        transferWalletList
-      ),
-    });
-  }
+
+  // bindData() {
+  //   let singleWalletGameName = "";
+  //   let transferWalletAmount = 0;
+  //   let mainWalletAmount = 0;
+  //   let totalAmount = 0;
+  //   let transferWalletList = [];
+  //   for (let wallet of this.props.wallet.balanceList) {
+  //     if (wallet.purse_type === WalletType.MainWallet) {
+  //       mainWalletAmount = parseFloat(wallet.balance);
+  //       transferWalletList.push(wallet);
+  //       this.mainAccountId = wallet.id;
+  //     } else if (wallet.purse_type === WalletType.SingleWallet) {
+  //       singleWalletGameName += wallet.name + "、";
+  //     } else if (wallet.purse_type === WalletType.TransferWallet) {
+  //       transferWalletAmount += parseFloat(wallet.balance);
+  //       transferWalletList.push(wallet);
+  //     }
+  //     totalAmount += parseFloat(wallet.balance);
+  //   }
+  //   if (singleWalletGameName.length > 1) {
+  //     singleWalletGameName = singleWalletGameName.substring(
+  //       0,
+  //       singleWalletGameName.length - 1
+  //     );
+  //   }
+  //   this.setState({
+  //     ...this.state,
+  //     mainWalletAmount: Common.formatNumberWithCommas(mainWalletAmount),
+  //     singleWalletGameName,
+  //     transferWalletAmount: Common.formatNumberWithCommas(transferWalletAmount),
+  //     totalAmount: Common.formatNumberWithCommas(totalAmount),
+  //     transferWalletSelectList: transferWalletList
+  //       .filter((item) => item.maintenance !== 1)
+  //       .map((item, key) => (
+  //         <option
+  //           value={isNaN(item.id) === true ? item.id : item.parent_id}
+  //           key={item.id}
+  //         >
+  //           {item.name}
+  //         </option>
+  //       )),
+  //     transferWalletQuickList:
+  //       this.GetTransferWalletQuickList(transferWalletList),
+  //   });
+  // }
 
   GetTransferWalletQuickList = (transferWalletList) => {
     return transferWalletList
@@ -361,7 +357,7 @@ class Transfer extends Component {
           </GameWalletAmount>
           <GameWalletButton
             disabled={item.maintenance === 1}
-            onClick={() => this.handleTranferIn(item)}
+            onClick={() => this.handleTranferIn(item.abbreviation)}
           >
             {i18n.t("transfer.oneKeyTransfer")}
           </GameWalletButton>
@@ -369,29 +365,25 @@ class Transfer extends Component {
       ));
   };
   componentDidMount() {
-    if (this.props.wallet.balanceList.length > 0) {
-      this.bindData();
-    }
+    // if (this.props.wallet.balanceList.length > 0) {
+    //   this.bindData();
+    // }
   }
   componentDidUpdate(preProps) {
-    if (
-      this.props.wallet.balanceList.length !==
-      preProps.wallet.balanceList.length &&
-      this.props.wallet.balanceList.length > 0
-    ) {
-      this.bindData();
-    } else {
-      if (
-        this.props.wallet.loading !==
-        preProps.wallet.loading &&
-        this.props.wallet.loading === false
-      ) {
-        this.bindData();
-      }
-
-    }
-
-
+    // if (
+    //   this.props.wallet.balanceList.length !==
+    //     preProps.wallet.balanceList.length &&
+    //   this.props.wallet.balanceList.length > 0
+    // ) {
+    //   this.bindData();
+    // } else {
+    //   if (
+    //     this.props.wallet.loading !== preProps.wallet.loading &&
+    //     this.props.wallet.loading === false
+    //   ) {
+    //     this.bindData();
+    //   }
+    // }
 
     if (
       preProps.wallet.transferResult !== this.props.wallet.transferResult &&
@@ -400,8 +392,8 @@ class Transfer extends Component {
       if (this.props.wallet.transferResult.IsSuccess) {
         this.props.resetResult();
         this.props.getBalanceList();
+        this.props.getAllGameBalance();
         this.setState({
-
           fromWallet: "",
           toWallet: "",
           loading: false,
@@ -418,7 +410,7 @@ class Transfer extends Component {
     // withdrawal all response
     if (
       preProps.wallet.withdrawalAllResult !==
-      this.props.wallet.withdrawalAllResult &&
+        this.props.wallet.withdrawalAllResult &&
       this.props.wallet.withdrawalAllResult !== null
     ) {
       if (this.props.wallet.withdrawalAllResult.IsSuccess) {
@@ -433,50 +425,32 @@ class Transfer extends Component {
         });
         // AppHistory.replace("/" + i18n.language + "/withdrawal");
       } else {
-        this.props.enqueueSnackbar(this.props.wallet.withdrawalAllResult.info, { variant: "error" });
+        this.props.enqueueSnackbar(this.props.wallet.withdrawalAllResult.info, {
+          variant: "error",
+        });
       }
     }
   }
   handleTransferFromChange = (e) => {
     const fromWallet = e.target.value;
-    if (fromWallet != this.mainAccountId) {
-      this.setState({
-        ...this.state,
-        transferFrom: fromWallet,
-        transferTo: this.mainAccountId,
-      });
-    } else {
-      this.setState({
-        ...this.state,
-        transferFrom: fromWallet,
-        transferTo: "",
-      });
-    }
-
-
+    this.setState({
+      ...this.state,
+      transferFrom: fromWallet,
+      transferTo: this.state.mainAccountId,
+    });
   };
   handleTransferToChange = (e) => {
     const toWallet = e.target.value;
-    if (toWallet != this.mainAccountId) {
-      this.setState({
-        ...this.state,
-        transferFrom: this.mainAccountId,
-        transferTo: toWallet,
-      });
-    } else {
-      this.setState({
-        ...this.state,
-        transferFrom: "",
-        transferTo: toWallet,
-      });
-    }
-
+    this.setState({
+      ...this.state,
+      transferFrom: this.state.mainAccountId,
+      transferTo: toWallet,
+    });
   };
   handleTransferAmountChange = (e) => {
     this.setState({ ...this.state, transferAmount: e.target.value });
   };
   handleTranferClick = (e) => {
-
     const transferFrom = this.state.transferFrom;
     const transferTo = this.state.transferTo;
     const transferAmount = parseFloat(
@@ -491,52 +465,50 @@ class Transfer extends Component {
     }
     if (
       parseFloat(transferAmount) > parseFloat(balance) &&
-      transferFrom === 10000
+      transferFrom === this.state.mainAccountId
     ) {
       if (parseFloat(transferAmount) <= 0) {
         this.props.enqueueSnackbar(i18n.t("transfer.invalidAmount"), {
           variant: "error",
         });
-
       } else {
         this.props.enqueueSnackbar(i18n.t("transfer.insufficient"), {
           variant: "error",
         });
-
       }
     } else {
-      this.transfer(transferFrom, transferTo, transferAmount);
+      if (transferFrom === this.state.mainAccountId)
+        this.props.doTransfer(transferTo, transferAmount);
+      else this.props.doWithdrawalFromGame(transferFrom, transferAmount);
     }
   };
   transfer = (transferFrom, transferTo, transferAmount) => {
     this.props.doTransfer(
       transferAmount,
-      this.mainAccountId,
-      transferTo == this.mainAccountId ? transferFrom : transferTo,
-      transferFrom == this.mainAccountId ? 1 : 2
+      this.state.mainAccountId,
+      transferTo == this.state.mainAccountId ? transferFrom : transferTo,
+      transferFrom == this.state.mainAccountId ? 1 : 2
     );
-
   };
   handleWithdrawAllClick = (e) => {
     this.props.doWithdrawAll();
-
-
   };
-  handleTranferIn = (item) => {
-    if (item.maintenance !== 1) {
-      const transferFrom = this.props.wallet.mainId; //main account
-      const transferTo = item.parent_id;
-      const transferAmount = parseInt(this.props.wallet.mainBalance);
-      if (parseFloat(transferAmount) > 0) {
-        this.transfer(transferFrom, transferTo, transferAmount);
-      } else {
-        this.props.enqueueSnackbar(i18n.t("transfer.insufficient"), {
-          variant: "error",
-        });
-
-      }
-    }
+  handleTranferIn = (gpcode) => {
+    this.props.doTransfer(gpcode, this.props.wallet.mainBalance);
+    // if (item.maintenance !== 1) {
+    //   const transferFrom = this.props.wallet.mainId; //main account
+    //   const transferTo = item.parent_id;
+    //   const transferAmount = parseInt(this.props.wallet.mainBalance);
+    //   if (parseFloat(transferAmount) > 0) {
+    //     this.transfer(transferFrom, transferTo, transferAmount);
+    //   } else {
+    //     this.props.enqueueSnackbar(i18n.t("transfer.insufficient"), {
+    //       variant: "error",
+    //     });
+    //   }
+    // }
   };
+
   render() {
     return (
       <Container>
@@ -546,16 +518,21 @@ class Transfer extends Component {
         </Title>
         <InnerWrap>
           <WalletFrame>
-            <TransferAllButton onClick={this.handleWithdrawAllClick}>
+            {/* <TransferAllButton onClick={this.handleWithdrawAllClick}>
               {i18n.t("transfer.oneKeyReceive")}
-            </TransferAllButton>
+            </TransferAllButton> */}
             <IconContainer>
               <WalletIcon src={TransferMWalletPNG}></WalletIcon>
             </IconContainer>
             <WalletTitle>{i18n.t("transfer.mainAccount")}</WalletTitle>
             <div className="clear"></div>
             <WalletAmount>
-              ￥ <DynamicFont content={this.props.wallet.mainBalance} />
+              ￥
+              <DynamicFont
+                content={Common.formatNumberWithThousand(
+                  this.props.wallet.mainBalance
+                )}
+              />
             </WalletAmount>
           </WalletFrame>
           <WalletFrame>
@@ -565,7 +542,18 @@ class Transfer extends Component {
             <WalletTitle>{i18n.t("transfer.transferWallet")}</WalletTitle>
             <div className="clear"></div>
             <WalletAmount>
-              ￥ <DynamicFont content={this.state.transferWalletAmount} />
+              ￥
+              <DynamicFont
+                content={Common.formatNumberWithThousand(
+                  this.props.game.providerList.reduce(
+                    (total, item) =>
+                      item.transferwallet === true
+                        ? (total += item.balance)
+                        : (total += 0),
+                    0
+                  )
+                )}
+              />
             </WalletAmount>
           </WalletFrame>
           <WalletFrame>
@@ -575,7 +563,18 @@ class Transfer extends Component {
             <WalletTitle>{i18n.t("transfer.totalFund")}</WalletTitle>
             <div className="clear"></div>
             <WalletAmount>
-              ￥ <DynamicFont content={this.state.totalAmount} />
+              ￥
+              <DynamicFont
+                content={Common.formatNumberWithThousand(
+                  this.props.game.providerList.reduce(
+                    (total, item) =>
+                      item.transferwallet === true
+                        ? (total += item.balance)
+                        : (total += 0),
+                    0
+                  ) + this.props.wallet.mainBalance
+                )}
+              />
             </WalletAmount>
           </WalletFrame>
 
@@ -589,10 +588,18 @@ class Transfer extends Component {
                 displayEmpty
                 onChange={this.handleTransferFromChange}
               >
-                <option value="" disabled>
-                  {i18n.t("transfer.transferFrom")}
+                <option value={this.state.mainAccountId}>
+                  {i18n.t("transfer.mainAccount")}
                 </option>
-                {this.state.transferWalletSelectList}
+                {this.props.game.providerList
+                  .filter(
+                    (item) => item.status === 0 && item.transferwallet === true
+                  )
+                  .map((item, index) => (
+                    <option value={item.id} key={index}>
+                      {item.name}
+                    </option>
+                  ))}
               </CustomSelect>
             </CustomFormControl>
 
@@ -605,10 +612,18 @@ class Transfer extends Component {
                 displayEmpty
                 onChange={this.handleTransferToChange}
               >
-                <option value="" disabled>
-                  {i18n.t("transfer.transferTo")}
+                <option value={this.state.mainAccountId}>
+                  {i18n.t("transfer.mainAccount")}
                 </option>
-                {this.state.transferWalletSelectList}
+                {this.props.game.providerList
+                  .filter(
+                    (item) => item.status === 0 && item.transferwallet === true
+                  )
+                  .map((item, index) => (
+                    <option value={item.id} key={index}>
+                      {item.name}
+                    </option>
+                  ))}
               </CustomSelect>
             </CustomFormControl>
 
@@ -620,7 +635,7 @@ class Transfer extends Component {
                 width: "160px",
                 float: "left",
                 borderRadius: "12px",
-                boxShadow:"0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
+                boxShadow: "0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
                 backgroundColor: "#fff",
               }}
               value={this.state.transferAmount}
@@ -636,16 +651,46 @@ class Transfer extends Component {
               decimalPlaces={0}
             ></CurrencyTextField>
           </QuickTransferContainer>
-          <QuickTransferButton disabled={this.state.transferFrom === "" || this.state.transferTo === ""} onClick={this.handleTranferClick}>
-              {i18n.t("transfer.transfer")}
+          <QuickTransferButton
+            disabled={
+              this.state.transferFrom === "" || this.state.transferTo === ""
+            }
+            onClick={this.handleTranferClick}
+          >
+            {i18n.t("transfer.transfer")}
           </QuickTransferButton>
 
           <SubTitle>{i18n.t("transfer.transferWallet")}</SubTitle>
           <TransferContainer>
-            {this.state.transferWalletQuickList}
+            {this.props.game.providerList
+              .filter(
+                (item) => item.status === 0 && item.transferwallet === true
+              )
+              .map((item, key) => (
+                <GameTranferWallet key={item.id}>
+                  <GameTranferLeftWrap>
+                    <GameName> {item.name}</GameName>
+                  </GameTranferLeftWrap>
+                  <GameWalletAmount>
+                    {item.maintenance === 1
+                      ? i18n.t("transfer.maintenance")
+                      : "￥ " + Common.formatNumberWithCommas(item.balance)}
+                  </GameWalletAmount>
+                  <GameWalletButton
+                    disabled={item.maintenance === 1}
+                    onClick={() => this.handleTranferIn(item.abbreviation)}
+                  >
+                    {i18n.t("transfer.oneKeyTransfer")}
+                  </GameWalletButton>
+                </GameTranferWallet>
+              ))}
           </TransferContainer>
           <Loading
-            show={this.state.loading || this.props.wallet.transferLoading || this.props.wallet.updateBalanceloading}
+            show={
+              this.state.loading ||
+              this.props.wallet.transferLoading ||
+              this.props.wallet.updateBalanceloading
+            }
           ></Loading>
         </InnerWrap>
         <Messagebox
@@ -661,9 +706,9 @@ class Transfer extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-
     account: state.account,
     wallet: state.wallet,
+    game: state.game,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -673,15 +718,11 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: RESET_WALLETRESULT,
       }),
-    doTransfer: (amount, center_wallet_id, game_platform_id, transform_type) =>
-      dispatch(
-        walletAction.doTransfer(
-          amount,
-          center_wallet_id,
-          game_platform_id,
-          transform_type
-        )
-      ),
+    doTransfer: (gpcode, amount) =>
+      dispatch(walletAction.doTransfer(gpcode, amount)),
+    doWithdrawalFromGame: (gpcode, amount) =>
+      dispatch(walletAction.doWithdrawalFromGame(gpcode, amount)),
+    getGameBalance: (gpcode) => dispatch(walletAction.getGameBalance(gpcode)),
     doWithdrawAll: () => dispatch(walletAction.doWithdrawAll()),
   };
 };

@@ -93,16 +93,9 @@ const RefreshButtonIcon = styled.div`
 `;
 
 function Header(props) {
-  var total = 0;
   var ingame = 0;
-  var main = 0;
-  props.wallet.balanceList.map((item) => {
-    total += parseFloat(item.balance);
-    if (item.purse_type !== WalletType.MainWallet) {
-      ingame += parseFloat(item.balance);
-    } else {
-      main = parseFloat(item.balance);
-    }
+  props.game.providerList.map((item) => {
+    if (item.transferwallet === true) ingame += parseFloat(item.balance);
   });
 
   return (
@@ -123,7 +116,7 @@ function Header(props) {
           <DynamicFont
             content={
               props.wallet.mainSymbol +
-              Common.formatNumberWithThousand(props.wallet.mainBalance)
+              Common.formatNumberWithThousand(props.wallet.mainBalance + ingame)
             }
           />
         </AmountContainer>
@@ -154,7 +147,11 @@ function Header(props) {
           {i18n.t("web.account.header.allGameWallet")}:
         </MainAccountLabel>
         <AmountContainer>
-          <DynamicFont content={props.wallet.mainSymbol + ingame.toFixed(2)} />
+          <DynamicFont
+            content={
+              props.wallet.mainSymbol + Common.formatNumberWithThousand(ingame)
+            }
+          />
         </AmountContainer>
         <RefreshButton onClick={props.onhandleRefreshClick}>
           <RefreshButtonIcon></RefreshButtonIcon>
