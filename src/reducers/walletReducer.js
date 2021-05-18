@@ -53,6 +53,9 @@ import {
   DOLEEPAYDEPOSIT_BEGIN,
   DOLEEPAYDEPOSIT_SUCCESS,
   DOLEEPAYDEPOSIT_FAIL,
+  DOPRIMEPAYDEPOSIT_BEGIN,
+  DOPRIMEPAYDEPOSIT_SUCCESS,
+  DOPRIMEPAYDEPOSIT_FAIL,
 } from "@Inwoker/tgs-api";
 import { WalletType } from "../utils/Enum";
 const initState = {
@@ -465,12 +468,15 @@ const walletReducer = (state = initState, action) => {
         depositResult: action.payload,
         depositLoading: false,
       };
+    case DOPRIMEPAYDEPOSIT_BEGIN:
     case DOLEEPAYDEPOSIT_BEGIN:
       return {
         ...state,
         message: "",
         depositLoading: true,
       };
+    case DOPRIMEPAYDEPOSIT_SUCCESS:
+    case DOPRIMEPAYDEPOSIT_FAIL:
     case DOLEEPAYDEPOSIT_SUCCESS:
     case DOLEEPAYDEPOSIT_FAIL:
       return {

@@ -226,10 +226,17 @@ class Deposit extends Component {
         channel.id
       );
     } else {
-      this.props.doLeePayDeposit(
-        this.state.amount.replace(/,/g, ""),
-        channel.id
-      );
+      if (payment.paymentcode.toUpperCase() === "LEEPAY") {
+        this.props.doLeePayDeposit(
+          this.state.amount.replace(/,/g, ""),
+          channel.id
+        );
+      } else if (payment.paymentcode.toUpperCase() === "PRIMEPAY") {
+        this.props.doPrimePayDeposit(
+          this.state.amount.replace(/,/g, ""),
+          channel.id
+        );
+      }
     }
   };
 
@@ -530,6 +537,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(walletAction.doManualDepositUpload(file, fileType, orderId)),
     doLeePayDeposit: (amount, payment_id) =>
       dispatch(walletAction.doLeePayDeposit(amount, payment_id)),
+    doPrimePayDeposit: (amount, payment_id) =>
+      dispatch(walletAction.doPrimePayDeposit(amount, payment_id)),
     cancelDeposit: (id, notice_id) =>
       dispatch(walletAction.cancelDeposit(id, notice_id)),
     getBalanceList: () => dispatch(walletAction.getBalanceList()),
