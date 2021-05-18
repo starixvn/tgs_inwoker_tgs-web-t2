@@ -192,6 +192,7 @@
     "msgPlsSelectPayment": "请选择支付方式",
     "msgPlsSelectMethod": "请选择支付渠道",
     "msgPlsEnterAccount": "请输入银行账号名称",
+    "msgInvalidFileSize":"文件太大，请选择小于2mb的文件",
     "details": {
       "bank": "银行",
       "account": "账户",

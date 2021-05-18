@@ -589,6 +589,7 @@ class Deposit extends Component {
         case 3:
           return (
             <Details
+              alert={this.props.alert}
               performUploadImage={this.performUploadImage}
               amount={this.state.amount}
               depositResult={this.props.wallet.depositResult}

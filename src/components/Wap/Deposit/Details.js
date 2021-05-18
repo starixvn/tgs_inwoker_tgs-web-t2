@@ -153,8 +153,15 @@ class Details extends Component {
   };
   handleFileChange = (e) => {
     var files = e.target.files;
-
-    this.setState({ ...this.state, files: files });
+    if (files.length > 0) {
+      const fileSize = Math.round(files[0].size / 1024);
+      if (fileSize > 2048) {
+        this.props.alert("", i18n.t("deposit.msgInvalidFileSize"));
+        e.target.value = null;
+      } else {
+        this.setState({ ...this.state, files: files });
+      }
+    }
   };
   handleUploadClick = () => {
     this.props.performUploadImage(this.state.files[0]);
@@ -210,7 +217,7 @@ class Details extends Component {
                     <input
                       type="file"
                       onChange={this.handleFileChange}
-                      accept="image/*"
+                      accept="image/*,.pdf"
                     ></input>
                   </RightLabel>
                   <SplitBoth></SplitBoth>
