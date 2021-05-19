@@ -75,6 +75,7 @@ ConfigService.setBaseUrl(Config.baseUrl);
 ConfigService.setClient(Config.client);
 ConfigService.setCurrency(Config.currency);
 
+ConfigService.setLiveChatUrl(Config.liveChatUrl);
 // if (
 //   process.env.REACT_APP_CUSTOM_NODE_ENV !== "development" &&
 //   (process.env.REACT_APP_CUSTOM_NODE_ENV !== "qa" || Config.baseUrl === "") &&
