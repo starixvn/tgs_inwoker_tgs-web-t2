@@ -74,7 +74,20 @@ class NewStepTwo extends Component {
   };
   handleFileChange = (e) => {
     var files = e.target.files;
+    var fileName = e.target.value;
     if (files.length > 0) {
+      if (
+        !fileName.endsWith(".jpg") &&
+        !fileName.endsWith(".jpeg") &&
+        !fileName.endsWith(".png") &&
+        !fileName.endsWith(".tiff")
+      ) {
+        this.props.enqueueSnackbar(i18n.t("deposit.msgInvalidFileType"), {
+          variant: "error",
+        });
+        e.target.value = null;
+        return false;
+      }
       const fileSize = Math.round(files[0].size / 1024);
       if (fileSize > 2048) {
         this.props.enqueueSnackbar(i18n.t("deposit.msgInvalidFileSize"), {
@@ -131,7 +144,7 @@ class NewStepTwo extends Component {
               <ValueTD>
                 <CustomInput
                   type="file"
-                  accept="image/*,.pdf"
+                  accept="image/jpg, image/jpeg, image/png, image/tiff"
                   onChange={this.handleFileChange}
                 ></CustomInput>
               </ValueTD>

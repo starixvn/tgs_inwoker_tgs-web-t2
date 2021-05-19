@@ -193,6 +193,7 @@
     "msgPlsSelectMethod": "Please select the payment channel",
     "msgPlsEnterAccount": "Please enter the bank account name",
     "msgInvalidFileSize":"File too Big, please select a file less than 2mb",
+    "msgInvalidFileType":"Please upload image file only. (.jpg/.jpeg/.png/.tiff)",
     "details": {
       "bank": "Bank",
       "account": "Account",
