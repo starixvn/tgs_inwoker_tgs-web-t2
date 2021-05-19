@@ -328,15 +328,18 @@ class Login extends Component {
     const promotion_id = this.state.promoId;
     const promotion_channel_id = this.state.promotionChannelId;
     const tnc = this.state.tnc;
-    if (username.length < 6 || username.length > 32) {
+    var expr = /^[a-zA-Z0-9]{6,32}$/;
+    if (!expr.test(username)) {
       this.props.alert("", i18n.t("common.msgRegisterUserNameInvalid"));
       return;
     }
-    if (password.length < 6) {
+    var expr = /^.{6,20}$/;
+    if (!expr.test(password)) {
       this.props.alert("", i18n.t("common.msgRegisterPassInvalid"));
 
       return;
     }
+
     if (password !== confirmPassword) {
       this.props.alert("", i18n.t("common.msgRegisterPassMatchInvalid"));
 

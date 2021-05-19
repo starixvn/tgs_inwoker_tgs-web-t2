@@ -40,15 +40,15 @@
     "msgInvalidConfirmPass": "两次密码要一致",
     "msgInvalidOldPass": "旧密码不正确",
     "msgRegisterUserNameInvalid": "账户长度必须是在6到32位之间,且必须由数字，字母或组合",
-    "msgRegisterPassInvalid": "密码应该是8位的字母或者数字",
+    "msgRegisterPassInvalid": "密码长度必须在6到20位数字之间",
     "msgRegisterPassMatchInvalid": "密码必须与确认密码相同",
     "msgRegisterTermAndCondition": "请确认您已阅读我们的条款和条件",
     "msgRegisterWithdrawalPassInvalid": "提款密码应为6位数字",
     "msgRegisterWithdrawalPassMatchInvalid": "提款密码必须与确认提款密码相同",
     "msgAlreadyExist": "用戶名稱已存在",
     "emailAddress": "邮箱地址",
-    "qqNumber": "QQ号码",
-    "wechatNumber": "微信号码",
+    "qqNumber": "QQ账号",
+    "wechatNumber": "微信账号",
     "receiverAddress": "收货地址",
     "loginPassword": "登录密码",
     "contact": "联系",
@@ -175,8 +175,8 @@
     "orderNumber": "订单编号",
     "completeDeposit": "完成付款",
     "confirmRedirect": "将跳出本站，前往支付平台",
-    "depositMethod": "存款方式",
-    "depositTunnel": "存款通道",
+    "depositMethod": "支付方式",
+    "depositTunnel": "支付渠道",
     "senderName": "汇款账户名",
     "uploadSuccess": "凭证上传成功，请耐心等待确认。",
     "cancelDeposit": "存款取消成功。",
@@ -353,14 +353,23 @@
       "phoneDesc": "请放心，我们不会泄露任何用户信息，以及发送骚扰信息。"
     },
     "email": {
-      "bindEmail": "綁定郵箱地址"
+      "editEmail":"修改邮箱",
+      "verifyEmail":"验证原邮箱",
+      "addEmail":"设定新邮箱",
+      "plsEnterEmail":"请输入邮箱地址",
+      
+      "bindEmail": "綁定郵箱地址",
+      "toEdit": "要修改邮箱地址，请点击",
+      "here": "这里"
     },
     "qq":{
-      "msgInvalidQQ" :"QQ号码格式不正确",
+      "msgInvalidQQ" :"QQ账号格式不正确",
+      "plsEnterQQ" :"请输入QQ账号",
       "qqAccount":"QQ账号"
     },
     "wechat":{
       "msgInvalidWeChat" :"微信账号格式不正确",
+      "plsEnterWechat" :"请输入微信账号",
       "weChatAccount":"微信账号"
     },
     "resetResetWithdrawalPassword": {
@@ -368,6 +377,7 @@
       "editWithdrawalPassword": "修改提款密码",
       "bindMobile": "绑定手机号码",
       "verifiedOriPhone": "验证手机号码",
+      "verifiedEmail": "验证邮箱地址",
       "setNewWithdrawalPassword": "设定新提款密码",
       "resetSuccess": "提款密码修改成功"
     },

@@ -44,7 +44,7 @@ class ChangeEmail extends BaseProfile {
       this.setState({
         ...this.state,
         countdownToken: this.state.countdownToken - 1,
-        btnTokenLabel: "获取验证码",
+        btnTokenLabel: i18n.t("common.btnTokenLabel"),
       });
     }
   };
@@ -157,36 +157,45 @@ class ChangeEmail extends BaseProfile {
   };
   render() {
     return this.setupContent(
-      "修改邮箱",
+      i18n.t("profile.email.editEmail"),
       <>
         <Step
-          steps={[{ label: "验证原邮箱" }, { label: "设定新邮箱" }]}
+          steps={[
+            { label: i18n.t("profile.email.verifyEmail") },
+            { label: i18n.t("profile.email.addEmail") },
+          ]}
           currentStep={this.state.currentStep}
         ></Step>
         <Textbox
           style={{ margin: "50px auto 20px auto" }}
           value={this.state.email}
           onChange={this.handleChangeEmail}
-          placeholder={"请输入邮箱地址"}
+          placeholder={i18n.t("profile.email.plsEnterEmail")}
           disabled={this.state.currentStep === 1}
-          label={"邮箱地址"}
+          label={i18n.t("common.emailAddress")}
         ></Textbox>
         <TextboxWithButton
           buttonlabel={
             this.state.countdownToken <= 0
-              ? "发送验证码"
-              : "重新发送(" + this.state.countdownToken + "s)"
+              ? i18n.t("common.msgSendToken")
+              : i18n.t("common.btnTokenResendLabel") +
+                "(" +
+                this.state.countdownToken +
+                "s)"
           }
+          type={"number"}
           style={{ margin: "20px auto 20px auto" }}
           value={this.state.code}
           onChange={this.handleChangeCode}
-          placeholder={"请输入邮箱验证码"}
-          label={"验证码"}
+          placeholder={i18n.t("common.msgEnterEmailCode")}
+          label={i18n.t("common.token")}
           onClick={this.handleGetCodeClick}
           maxLength={6}
         ></TextboxWithButton>
       </>,
-      this.state.currentStep === 1 ? "下一步" : "提交"
+      this.state.currentStep === 1
+        ? i18n.t("common.nextStep")
+        : i18n.t("common.submit")
     );
   }
 }

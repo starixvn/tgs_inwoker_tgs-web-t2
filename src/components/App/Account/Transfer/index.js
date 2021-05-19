@@ -13,7 +13,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
-
+import IconRefreshPNG from "../../../../assets/images/icon-refresh.png";
 import { WalletType } from "../../../../utils/Enum";
 import { walletAction, RESET_WALLETRESULT } from "@Inwoker/tgs-api";
 
@@ -59,6 +59,25 @@ const WalletFrame = styled.div`
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
     rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
   margin-right: 50px;
+  position: relative;
+`;
+const RefreshButton = styled.div`
+  width: 28px;
+  height: 29px;
+
+  position: absolute;
+  right: 5px;
+  top: 5px;
+
+  background: url(${IconRefreshPNG}) no-repeat;
+  background-position: center;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+const RefreshButtonIcon = styled.div`
+  width: 28px;
+  height: 29px;
 `;
 const IconContainer = styled.div`
   width: 60px;
@@ -525,6 +544,12 @@ class Transfer extends Component {
               <WalletIcon src={TransferMWalletPNG}></WalletIcon>
             </IconContainer>
             <WalletTitle>{i18n.t("transfer.mainAccount")}</WalletTitle>
+            <RefreshButton
+              onClick={() => {
+                this.props.getAllGameBalance();
+                this.props.getBalanceList();
+              }}
+            ></RefreshButton>
             <div className="clear"></div>
             <WalletAmount>
               ￥
@@ -540,6 +565,7 @@ class Transfer extends Component {
               <WalletIcon src={TransferTWalletPNG}></WalletIcon>
             </IconContainer>
             <WalletTitle>{i18n.t("transfer.transferWallet")}</WalletTitle>
+
             <div className="clear"></div>
             <WalletAmount>
               ￥

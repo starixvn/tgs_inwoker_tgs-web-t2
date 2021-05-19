@@ -40,14 +40,14 @@
     "msgInvalidConfirmPass": "兩次密碼要一致",
     "msgInvalidOldPass": "舊密碼不正確",
     "msgRegisterUserNameInvalid": "賬戶長度必須是在6到32位之間,且必須由數字，字母或組合",
-    "msgRegisterPassInvalid": "密碼應該是8位的字母或者數字",
+    "msgRegisterPassInvalid": "密碼長度必須在6到20位數字之間",
     "msgRegisterPassMatchInvalid": "密碼必須與確認密碼相同",
     "msgRegisterTermAndCondition": "請確認您已閱讀我們的條款和條件",
     "msgRegisterWithdrawalPassInvalid": "提款密碼應為6位數字",
     "msgRegisterWithdrawalPassMatchInvalid": "提款密碼必須與確認提款密碼相同",
     "msgAlreadyExist": "用戶名稱已存在",
     "emailAddress": "郵箱地址",
-    "qqNumber": "QQ號碼",
+    "qqNumber": "QQ賬號",
     "wechatNumber": "微信號碼",
     "receiverAddress": "收貨地址",
     "loginPassword": "登錄密碼",
@@ -175,8 +175,8 @@
     "orderNumber": "訂單編號",
     "completeDeposit": "完成付款",
     "confirmRedirect": "將跳出本站，前往支付平台",
-    "depositMethod": "存款方式",
-    "depositTunnel": "存款通道",
+    "depositMethod": "支付方式",
+    "depositTunnel": "支付渠道",
     "senderName": "匯款賬戶名",
     "uploadSuccess": "憑證上傳成功，請耐心等待確認。",
     "cancelDeposit": "存款取消成功。",
@@ -353,14 +353,23 @@
       "phoneDesc": "請放心，我們不會洩露任何用戶信息，以及發送騷擾信息。"
     },
     "email": {
-      "bindEmail": "绑定邮箱地址"
+      "editEmail":"修改郵箱",
+      "verifyEmail":"驗證原郵箱",
+      "addEmail":"設定新郵箱",
+      "plsEnterEmail":"請輸入郵箱地址",
+
+      "bindEmail": "绑定邮箱地址",
+      "toEdit": "要修改郵箱地址，請點擊",
+      "here": "這裡"
     },
     "qq":{
-      "msgInvalidQQ" :"QQ号码格式不正确",
+      "msgInvalidQQ" :"QQ賬號格式不正确",
+      "plsEnterQQ" :"請輸入QQ賬號",
       "qqAccount":"QQ賬號"
     },
     "wechat":{
       "msgInvalidWeChat" :"微信賬號格式不正確",
+      "plsEnterWechat" :"請輸入微信賬號",
       "weChatAccount":"微信賬號"
     },
     "resetResetWithdrawalPassword": {
@@ -368,6 +377,7 @@
       "editWithdrawalPassword": "修改提款密碼",
       "bindMobile": "綁定手機號碼",
       "verifiedOriPhone": "驗證手機號碼",
+      "verifiedEmail": "驗證郵箱地址",
       "setNewWithdrawalPassword": "設定新提款密碼",
       "resetSuccess": "提款密碼修改成功"
     },
@@ -383,7 +393,7 @@
     "withdrawalPassword": {
       "msgInvalidConPass": "兩次輸入的密碼不一致",
       "title": "提款密碼",
-      "newPass": "提款密码",
+      "newPass": "提款密碼",
       "msgEnterNewPass": "请输入提款密碼",
       "conPass": "確認提款密码",
       "msgEnterConPass": "请输入確認提款密碼",

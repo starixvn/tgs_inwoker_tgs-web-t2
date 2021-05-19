@@ -57,7 +57,7 @@ class WithdrawalPassword extends BaseProfile {
   };
   render() {
     return this.setupContent(
-      "提款密码",
+      i18n.t("profile.withdrawalPassword.title"),
       <>
         <Textbox
           type={"password"}

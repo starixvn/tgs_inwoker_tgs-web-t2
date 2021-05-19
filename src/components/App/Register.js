@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { accountAction } from '@Inwoker/tgs-api';
+import { accountAction } from "@Inwoker/tgs-api";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import LoginBGPNG from "../../assets/images/login-bg.png";
@@ -13,7 +13,6 @@ import UserIconPNG from "../../assets/images/user-icon.png";
 import Password1IconPNG from "../../assets/images/password1-icon.png";
 import Password2IconPNG from "../../assets/images/password2-icon.png";
 import IconInboxSelectedPNG from "../../assets/images/icon-inbox-selected.png";
-
 
 import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
@@ -30,9 +29,9 @@ const Container = styled.div`
   display: table;
 `;
 const CloseIconContainer = styled.div`
-background:url(${IconLoginClosePNG}) no-repeat;
-width:28px;
-height:28px;
+  background: url(${IconLoginClosePNG}) no-repeat;
+  width: 28px;
+  height: 28px;
   float: right;
   margin: 10px 10px 0 0;
   &:hover {
@@ -40,24 +39,22 @@ height:28px;
   }
 `;
 const TitleContainer = styled.div`
-text-align: center;
+  text-align: center;
 
+  font-size: 42px;
 
-font-size: 42px;
-
-color: #404040;
+  color: #404040;
 `;
 const SubTitleContainer = styled.div`
-text-align: center;
+  text-align: center;
 
+  font-size: 18px;
 
-font-size: 18px;
-
-color: #404040;
+  color: #404040;
 `;
 const FormContainer = styled.div`
-margin: 10px 78px 0 78px;
-padding:0 3px;
+  margin: 10px 78px 0 78px;
+  padding: 0 3px;
 `;
 const CustomText = withStyles({
   root: {
@@ -71,47 +68,45 @@ const CustomText = withStyles({
     background: "white",
 
     "& .MuiOutlinedInput-input": {
-      fontSize: "14px"
+      fontSize: "14px",
     },
     "& label.Mui-focused": {
-      color: "#b6b6b6"
+      color: "#b6b6b6",
     },
     "& .MuiInput-underline:after": {
-      borderBottomColor: "none"
+      borderBottomColor: "none",
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        border: "none"
+        border: "none",
       },
       "&:hover fieldset": {
-        border: "none"
+        border: "none",
       },
       "&.Mui-focused fieldset": {
-        border: "none"
-      }
-    }
-  }
+        border: "none",
+      },
+    },
+  },
 })(TextField);
 
 const ButtonLogin = styled.div`
-margin-top: 24px;
-margin-bottom: 35px;
-color: #fff;
-font-size: 20px;
-width: 350px;
-height: 51px;
-border-radius: 6px;
+  margin-top: 24px;
+  margin-bottom: 35px;
+  color: #fff;
+  font-size: 20px;
+  width: 350px;
+  height: 51px;
+  border-radius: 6px;
 
-border: solid 1px #ffffff;
-background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
+  border: solid 1px #ffffff;
+  background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
 
+  &:hover {
+    cursor: pointer;
 
-&:hover {
-  cursor: pointer;
-
-  box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);
-  
-}
+    box-shadow: inset 1px 1px 9px 0 rgba(255, 255, 255, 0.75);
+  }
 `;
 const ButtonLoginLabel = styled.span`
   text-align: center;
@@ -123,14 +118,12 @@ const DescriptionContainer = styled.div`
   padding: 12px 0 0 8px;
 `;
 const Description = styled.div`
-
   float: left;
   width: 310px;
   margin-left: 5px;
   font-size: 14px;
- 
+
   line-height: 1.43;
- 
 
   color: #404040;
 `;
@@ -138,7 +131,7 @@ const Description = styled.div`
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: "2px",
-    border: "solid #404040 1px"
+    border: "solid #404040 1px",
   },
   formControl: {
     width: "78px",
@@ -178,8 +171,8 @@ const useStyles = makeStyles((theme) => ({
     float: "left",
     "& .MuiIconButton-label": {
       borderRadius: "6px",
-      border: "solid 1px #000"
-    }
+      border: "solid 1px #000",
+    },
   },
   icon: {
     width: 20,
@@ -226,17 +219,15 @@ function Register(props) {
 
   const [tnc, setTnc] = React.useState(true);
   const handleRegisterClick = async () => {
-   if (username.length < 6 || username.length > 32) {
-      props.enqueueSnackbar(
-        i18n.t("common.msgRegisterUserNameInvalid"),
-        {
-          variant: "warning",
-        }
-      );
+    var expr = /^[a-zA-Z0-9]{6,32}$/;
+    if (!expr.test(username)) {
+      props.enqueueSnackbar(i18n.t("common.msgRegisterUserNameInvalid"), {
+        variant: "warning",
+      });
       return;
     }
-
-    if (password.length < 8) {
+    var expr = /^.{6,20}$/;
+    if (!expr.test(password)) {
       props.enqueueSnackbar(i18n.t("common.msgRegisterPassInvalid"), {
         variant: "warning",
       });
@@ -262,16 +253,14 @@ function Register(props) {
           password,
           password2,
 
-          promotionId,
-
+          promotionId
         )
         .then(async (response) => {
-          if(response.IsSuccess&&response.data.isnew===false){
+          if (response.IsSuccess && response.data.isnew === false) {
             props.enqueueSnackbar(i18n.t("common.msgAlreadyExist"), {
               variant: "warning",
             });
-          }
-          else if (response.IsSuccess) {
+          } else if (response.IsSuccess) {
             let urlParams = new URLSearchParams(props.location.search);
             if (urlParams.has("return_url")) {
               const returnValue = urlParams.get("return_url");
@@ -300,7 +289,6 @@ function Register(props) {
     setUsername(e.target.value);
   };
 
-
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
@@ -322,7 +310,9 @@ function Register(props) {
       ></CloseIconContainer>
       <div className="clear"></div>
       <TitleContainer>{i18n.t("web.register.registerTitle")}</TitleContainer>
-      <SubTitleContainer>{i18n.t("web.register.registerTitleLine2")}</SubTitleContainer>
+      <SubTitleContainer>
+        {i18n.t("web.register.registerTitleLine2")}
+      </SubTitleContainer>
       <FormContainer>
         <CustomText
           onChange={handleUsernameChange}
@@ -388,8 +378,6 @@ function Register(props) {
           }}
         />
 
-
-
         <CustomText
           onChange={handlePromoChange}
           value={promotionId}
@@ -408,9 +396,7 @@ function Register(props) {
             }
             icon={<span className={classes.icon} />}
           />
-          <Description>
-            {i18n.t("web.register.contract")}
-          </Description>
+          <Description>{i18n.t("web.register.contract")}</Description>
         </DescriptionContainer>
 
         <ButtonLogin onClick={handleRegisterClick}>
@@ -426,19 +412,9 @@ const mapDispatchToProps = (dispatch) => {
     getAccountInfo: (token) => dispatch(accountAction.getAccountInfo(token)),
     getAccountProfile: (token) =>
       dispatch(accountAction.getAccountProfile(token, true)),
-    register: (
-      username,
-      pwd,
-      confirmpwd,
-      invitationcode,
-    ) =>
+    register: (username, pwd, confirmpwd, invitationcode) =>
       dispatch(
-        accountAction.registerAccount(
-          username,
-          pwd,
-          confirmpwd,
-          invitationcode,
-        )
+        accountAction.registerAccount(username, pwd, confirmpwd, invitationcode)
       ),
   };
 };
