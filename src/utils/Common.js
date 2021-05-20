@@ -105,6 +105,7 @@ function GetBankImageByCode(code) {
 function GetDisplayGameType() {
   return [
     GameTypeEnum.SPORTS,
+    GameTypeEnum.ESPORTS,
     GameTypeEnum.LIVELOBBY,
     GameTypeEnum.QIPAILOBBY,
     GameTypeEnum.FISHLOBBY,

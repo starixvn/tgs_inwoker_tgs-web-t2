@@ -360,6 +360,8 @@ class Home extends Component {
         return i18n.t("wap.main.home.gameTab.chess");
       case GameTypeEnum.SPORTS:
         return i18n.t("wap.main.home.gameTab.sports");
+      case GameTypeEnum.ESPORTS:
+        return i18n.t("wap.main.home.gameTab.esports");
       case GameTypeEnum.LOTTERYLOBBY:
         return i18n.t("wap.main.home.gameTab.lottery");
       case GameTypeEnum.SLOT:
@@ -389,6 +391,8 @@ class Home extends Component {
         return "slot";
       case GameTypeEnum.SPORTS:
         return "sports";
+      case GameTypeEnum.ESPORTS:
+        return "esports";
       case GameTypeEnum.TIGERSLOT:
         return "slot";
       case GameTypeEnum.TABLEGAME:

@@ -157,10 +157,15 @@ class Main extends Component {
                 </BankCardButtonLabel>
 
                 <BankCardButtonCardNoHL>
-                  {item.detail.address.substring(
-                    item.detail.address.length - 4,
-                    item.detail.address.length
-                  )}
+                  {item.detail.address
+                    ? item.detail.address.substring(
+                        item.detail.address.length - 4,
+                        item.detail.address.length
+                      )
+                    : item.detail.bankAccount.substring(
+                        item.detail.bankAccount.length - 4,
+                        item.detail.bankAccount.length
+                      )}
                 </BankCardButtonCardNoHL>
                 <BankCardButtonCardNo>
                   {i18n.t("withdrawal.tail")}

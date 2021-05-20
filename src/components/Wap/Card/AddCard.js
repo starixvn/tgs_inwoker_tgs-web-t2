@@ -149,13 +149,25 @@ class AddCard extends Component {
     AppHistory.goBack();
   };
   handleNextClick = () => {
-    var selected = this.props.wallet.withdrawalList[
-      this.state.selectedBankTypeIndex
-    ];
+    var selected =
+      this.props.wallet.withdrawalList[this.state.selectedBankTypeIndex];
+    var detail = {};
+    if (selected.banktype === "Bank") {
+      detail = {
+        bankAccount: this.state.number,
+        bankName: this.state.bankName,
+        name: this.state.bankAccountName,
+        bankBranch: this.state.bankBranch,
+      };
+    } else {
+      detail = {
+        address: this.state.number,
+      };
+    }
     this.props.addBankCard(
       selected.channel[this.state.selectedChannelIndex].channelid,
       selected.banktype,
-      this.state.number
+      detail
     );
   };
 
@@ -227,6 +239,45 @@ class AddCard extends Component {
           placeholder={i18n.t("common.msgEnterWithdrawalNumber")}
           label={i18n.t("common.withdrawalNumber")}
         ></Textbox>
+
+        {(() => {
+          if (
+            this.props.wallet.withdrawalList.length > 0 &&
+            this.props.wallet.withdrawalList[this.state.selectedBankTypeIndex]
+              .banktype === "Bank"
+          ) {
+            return (
+              <>
+                <Textbox
+                  style={{ margin: "20px auto 20px auto" }}
+                  value={this.state.bankName}
+                  onChange={this.handleBankNameChange}
+                  type={"text"}
+                  placeholder={i18n.t("card.addCard.msgEnterBankName")}
+                  label={i18n.t("card.addCard.BankName")}
+                ></Textbox>
+
+                <Textbox
+                  style={{ margin: "20px auto 20px auto" }}
+                  value={this.state.bankAccountName}
+                  onChange={this.handleBankAccountNameChange}
+                  type={"text"}
+                  placeholder={i18n.t("card.addCard.msgEnterBankAccountName")}
+                  label={i18n.t("card.addCard.BankAccountName")}
+                ></Textbox>
+
+                <Textbox
+                  style={{ margin: "20px auto 20px auto" }}
+                  value={this.state.bankBranch}
+                  onChange={this.handleBankBranchChange}
+                  type={"text"}
+                  placeholder={i18n.t("card.addCard.branchPlaceHolder")}
+                  label={i18n.t("card.addCard.branch")}
+                ></Textbox>
+              </>
+            );
+          }
+        })()}
 
         <BottomInfo>{i18n.t("card.addCard.desc")}</BottomInfo>
         <Button

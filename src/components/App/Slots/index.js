@@ -607,7 +607,7 @@ class Slots extends Component {
             }/assets/images/slotGame/${el.gpcode.toLowerCase()}/${el.code.replace(
               /_/g,
               ""
-            )}.png`}
+            )}.${el.gpcode === "JDB" ? "jpg" : "png"}`}
           >
             <GameDesc>
               <GameProvider>{el.gpcode}</GameProvider>

@@ -223,7 +223,7 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/sports/play/:params"}
+                      path={baseRouteUrl + "/sports/play/:params/:type"}
                       component={SportsPlay}
                     />
                     <Route

@@ -104,8 +104,8 @@
     "joinGame": "立刻体验",
     "withdrawalBankType":"类别",
     "withdrawalChannel":"渠道",
-    "withdrawalNumber":"银行号码/加密货币地址",
-    "msgEnterWithdrawalNumber":"请输入银行号码/加密货币地址"
+    "withdrawalNumber":"银行卡号码/加密货币地址",
+    "msgEnterWithdrawalNumber":"请输入银行卡号码/加密货币地址"
   },
   "affiliate": {
     "title": "推广赚钱",
@@ -140,6 +140,10 @@
       "subTitle": "银行卡卡号需是15-19位数字",
       "msgSelectBank": "请输入银行",
       "msgEnterCard": "请输入银行卡号",
+      "BankName": "银行名称",
+      "msgEnterBankName": "请输入银行名称",
+      "BankAccountName": "银行账号名称",
+      "msgEnterBankAccountName": "请输入银行账号名称",
       "cardHolder": "持卡人",
       "msgEnterCardHolder": "请输入持卡人姓名",
       "cardNum": "银行卡号",
@@ -696,16 +700,10 @@
       "btn": "联系我们"
     }
   },
-  "LeePay":"LeePay",
+  "PrimePay":"一等付",
+  "LeePay":"利付钱包",
   "Manual":"手动存款",
   "Crypto":"加密货币",
-  "BankTransfer":"银行转账",
-  "LeePay_Crypto_USDT":"Leepay USDT加密货币",
-  "LeePay_Crypto_RichBank":"Leepay RichBank加密货币",
-  "LeePay_BankTransfer_USDT":"Leepay USDT转账",
-  "LeePay_BankTransfer_RichBank":"Leepay RichBank转账",
-  "Manual_Crypto_USDT":"手动USDT加密货币",
-  "Manual_Crypto_RichBank":"手动RichBank加密货币",
-  "Manual_BankTransfer_USDT":"手动USDT转账",
-  "Manual_BankTransfer_RichBank":"手动RichBank转账"
+  "BankTransfer":"银行转账"
+
 }

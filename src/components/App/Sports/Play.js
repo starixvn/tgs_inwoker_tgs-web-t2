@@ -36,6 +36,7 @@ class Play extends Component {
   componentDidUpdate(preProps) {
     if (
       preProps.match.params.params !== this.props.match.params.params ||
+      preProps.match.params.type !== this.props.match.params.type ||
       preProps.token != this.props.token
     ) {
       this.JoinGame(this.props.match.params.params);
@@ -46,7 +47,7 @@ class Play extends Component {
     window.removeEventListener("resize", this.updateWindowDimensions);
   }
   JoinGame = (gameCode) => {
-    GameService.JoinLobbyGame(GameTypeEnum.SPORTS, gameCode).then(
+    GameService.JoinLobbyGame(this.props.match.params.type, gameCode).then(
       (response) => {
         if (response.IsSuccess) {
           this.setState({ ...this.state, maintenance: false });

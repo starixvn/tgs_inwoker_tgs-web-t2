@@ -128,6 +128,9 @@ class AddCard extends Component {
   state = {
     password: "",
     number: "",
+    bankName: "",
+    bankAccountName: "",
+    bankBranch: "",
     selectedChannelIndex: 0,
 
     selectedBankTypeIndex: 0,
@@ -142,14 +145,34 @@ class AddCard extends Component {
   handleNumberChange = (e) => {
     this.setState({ ...this.state, number: e.target.value });
   };
-
+  handleBankNameChange = (e) => {
+    this.setState({ ...this.state, bankName: e.target.value });
+  };
+  handleBankAccountNameChange = (e) => {
+    this.setState({ ...this.state, bankAccountName: e.target.value });
+  };
+  handleBankBranchChange = (e) => {
+    this.setState({ ...this.state, bankBranch: e.target.value });
+  };
   handleNextClick = (e) => {
     var selected = this.props.withdrawalList[this.state.selectedBankTypeIndex];
-
+    var detail = {};
+    if (selected.banktype === "Bank") {
+      detail = {
+        bankAccount: this.state.number,
+        bankName: this.state.bankName,
+        name: this.state.bankAccountName,
+        bankBranch: this.state.bankBranch,
+      };
+    } else {
+      detail = {
+        address: this.state.number,
+      };
+    }
     this.props.onhandleNextClick(
       selected.channel[this.state.selectedChannelIndex].channelid,
       selected.banktype,
-      this.state.number
+      detail
     );
   };
   render() {
@@ -210,11 +233,61 @@ class AddCard extends Component {
             placeholder={i18n.t("common.msgEnterWithdrawalNumber")}
             width={395}
             height={38}
+            maxLength={50}
             float={"none"}
             handleTextFieldChange={this.handleNumberChange}
           ></CustomTextField>
         </TextFieldContainer>
-
+        {(() => {
+          if (
+            withdrawalList.length > 0 &&
+            withdrawalList[this.state.selectedBankTypeIndex].banktype === "Bank"
+          ) {
+            return (
+              <>
+                <TextFieldLabel>
+                  {i18n.t("card.addCard.BankName")}
+                </TextFieldLabel>
+                <TextFieldContainer>
+                  <CustomTextField
+                    marginTop={10}
+                    placeholder={i18n.t("card.addCard.msgEnterBankName")}
+                    width={395}
+                    height={38}
+                    float={"none"}
+                    handleTextFieldChange={this.handleBankNameChange}
+                  ></CustomTextField>
+                </TextFieldContainer>
+                <TextFieldLabel>
+                  {i18n.t("card.addCard.BankAccountName")}
+                </TextFieldLabel>
+                <TextFieldContainer>
+                  <CustomTextField
+                    marginTop={10}
+                    placeholder={i18n.t("card.addCard.msgEnterBankAccountName")}
+                    width={395}
+                    height={38}
+                    float={"none"}
+                    handleTextFieldChange={this.handleBankAccountNameChange}
+                  ></CustomTextField>
+                </TextFieldContainer>
+                <TextFieldLabel>{i18n.t("card.addCard.branch")}</TextFieldLabel>
+                <TextFieldContainer>
+                  <CustomTextField
+                    marginTop={10}
+                    placeholder={i18n.t("card.addCard.branchPlaceHolder")}
+                    width={395}
+                    height={38}
+                    float={"none"}
+                    handleTextFieldChange={this.handleBankBranchChange}
+                  ></CustomTextField>
+                </TextFieldContainer>
+              </>
+            );
+          } else {
+            return null;
+          }
+        })()}
         <TextFieldContainer>
           {(() => {
             if (this.props.showBack === true) {

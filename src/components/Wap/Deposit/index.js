@@ -675,7 +675,7 @@ class Deposit extends Component {
                   {this.props.wallet.depositTypeList.map((item, index) => {
                     return (
                       <Tab key={index} value={index} label={item.paymentcode}>
-                        {item.paymentcode}
+                        {i18n.t(item.paymentcode)}
                       </Tab>
                     );
                   })}

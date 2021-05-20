@@ -104,8 +104,8 @@
     "joinGame": "Enter",
     "withdrawalBankType":"Type",
     "withdrawalChannel":"Channel",
-    "withdrawalNumber":"Bank number/Crypto currency address",
-    "msgEnterWithdrawalNumber":"Please enter bank number/crypto currency address"
+    "withdrawalNumber":"Bank card number/Crypto currency address",
+    "msgEnterWithdrawalNumber":"Please enter bank card number/crypto currency address"
   },
   "affiliate": {
     "title": "Promote",
@@ -139,6 +139,10 @@
       "title": "Add Bank Card",
       "subTitle": "Bank card number must be 15-19 digits",
       "msgSelectBank": "Please select bank",
+      "BankName": "Bank name",
+      "msgEnterBankName": "Please enter bank name",
+      "BankAccountName": "Bank account name",
+      "msgEnterBankAccountName": "Please enter bank account name",
       "msgEnterCard": "Enter Card Number",
       "cardHolder": "Card Holder",
       "msgEnterCardHolder": "Enter Card Holder Name",
@@ -695,16 +699,10 @@
       "btn": "Contact Us"
     }
   },
+  "PrimePay":"PrimePay",
   "LeePay":"LeePay",
   "Manual":"Manual",
   "Crypto":"Crypto",
-  "BankTransfer":"BankTransfer",
-  "LeePay_Crypto_USDT":"LeePay_Crypto_USDT",
-  "LeePay_Crypto_RichBank":"LeePay_Crypto_RichBank",
-  "LeePay_BankTransfer_USDT":"LeePay_BankTransfer_USDT",
-  "LeePay_BankTransfer_RichBank":"LeePay_BankTransfer_RichBank",
-  "Manual_Crypto_USDT":"Manual_Crypto_USDT",
-  "Manual_Crypto_RichBank":"Manual_Crypto_RichBank",
-  "Manual_BankTransfer_USDT":"Manual_BankTransfer_USDT",
-  "Manual_BankTransfer_RichBank":"Manual_BankTransfer_RichBank"
+  "BankTransfer":"BankTransfer"
+
 }

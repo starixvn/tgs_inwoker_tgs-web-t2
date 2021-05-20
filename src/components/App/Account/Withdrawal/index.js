@@ -128,9 +128,8 @@ class Withdrawal extends Component {
       }
     }
   }
-
-  handleAddCardNextClick = (channelid, bankType, address) => {
-    this.props.addBankCard(channelid, bankType, address);
+  handleAddCardNextClick = (channelid, bankType, detail) => {
+    this.props.addBankCard(channelid, bankType, detail);
     // this.setState({ ...this.state, loading: true });
     // WalletService.AddBankCard(this.props.token, number, 1, password).then(
     //   (response) => {
@@ -421,8 +420,8 @@ const mapDispatchToProps = (dispatch) => {
     getBalanceList: (token) => dispatch(walletAction.getBalanceList()),
     getBankCardList: () => dispatch(walletAction.getBankCardList()),
     deleteBankCard: (id) => dispatch(walletAction.deleteBankCard(id)),
-    addBankCard: (channelid, bankType, address) =>
-      dispatch(walletAction.addBankCard(channelid, bankType, address)),
+    addBankCard: (channelid, bankType, detail) =>
+      dispatch(walletAction.addBankCard(channelid, bankType, detail)),
     getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
     resetResult: () =>
       dispatch({

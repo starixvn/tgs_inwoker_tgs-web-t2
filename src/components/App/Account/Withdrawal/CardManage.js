@@ -111,7 +111,17 @@ function CardManage(props) {
               </RowContainer> */}
               <RowContainer>
                 <CardTitle>{i18n.t("card.tail")}</CardTitle>
-                <CardNumber>{item.detail.address}</CardNumber>
+                <CardNumber>
+                  {item.detail.address
+                    ? item.detail.address.substring(
+                        item.detail.address.length - 4,
+                        item.detail.address.length
+                      )
+                    : item.detail.bankAccount.substring(
+                        item.detail.bankAccount.length - 4,
+                        item.detail.bankAccount.length
+                      )}
+                </CardNumber>
               </RowContainer>
               <RowContainer>
                 <LeftLabel>{i18n.t("card.removeCard")}</LeftLabel>

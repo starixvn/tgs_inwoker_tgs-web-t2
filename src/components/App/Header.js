@@ -397,40 +397,53 @@ const styles = {
 
 const MenuItemList = [
   {
-    path: "sports",
-    title: i18n.t("common.sports"),
-    gameType: GameTypeEnum.SPORTS,
-  },
-  {
     path: "live",
     title: i18n.t("common.live"),
-    gameType: GameTypeEnum.LIVELOBBY,
+    img: TopMenuLivePNG,
+    hoverImg: TopMenuLiveHoverPNG,
+    gameType: [GameTypeEnum.LIVELOBBY],
   },
   {
     path: "chess",
     title: i18n.t("common.chess"),
-    gameType: GameTypeEnum.QIPAILOBBY,
+    img: TopMenuQipaiPNG,
+    hoverImg: TopMenuQipaiHoverPNG,
+    gameType: [GameTypeEnum.QIPAILOBBY],
+  },
+  {
+    path: "sports",
+    title: i18n.t("common.sports"),
+    img: TopMenuSportsPNG,
+    hoverImg: TopMenuSportsHoverPNG,
+    gameType: [GameTypeEnum.SPORTS, GameTypeEnum.ESPORTS],
   },
   {
     path: "lottery",
     title: i18n.t("common.lottery"),
-    gameType: GameTypeEnum.LOTTERYLOBBY,
+    img: TopMenuLotteryPNG,
+    hoverImg: TopMenuLotteryHoverPNG,
+    gameType: [GameTypeEnum.LOTTERYLOBBY],
   },
   {
     path: `slots`,
     title: i18n.t("common.slot"),
-    gameType: GameTypeEnum.SLOT,
+    img: TopMenuTigerPNG,
+    hoverImg: TopMenuTigerHoverPNG,
+    gameType: [GameTypeEnum.SLOT],
   },
   {
     path: `electron`,
     title: i18n.t("common.electron"),
-    gameType: GameTypeEnum.TABLEGAME,
+    img: TopMenuSlotPNG,
+    hoverImg: TopMenuSlotHoverPNG,
+    gameType: [GameTypeEnum.TABLEGAME],
   },
   {
     path: `fish`,
     title: i18n.t("common.fish"),
-
-    gameType: GameTypeEnum.FISH,
+    img: TopMenuFishPNG,
+    hoverImg: TopMenuFishHoverPNG,
+    gameType: [GameTypeEnum.FISH],
   },
 ];
 class Header extends Component {
@@ -594,18 +607,20 @@ class Header extends Component {
   };
   handleJoinGameClick = (gameType, path, gameCode, url) => {
     var slotPageGameType = [
-      GameTypeEnum.FISH,
       GameTypeEnum.SLOT,
       GameTypeEnum.TIGERSLOT,
       GameTypeEnum.SPORTS,
+      GameTypeEnum.ESPORTS,
       GameTypeEnum.TABLEGAME,
     ];
     if (slotPageGameType.indexOf(gameType) >= 0) {
-      if (gameType == GameTypeEnum.SPORTS) {
+      if (gameType == GameTypeEnum.SPORTS || gameType == GameTypeEnum.ESPORTS) {
         if (!this.props.account.token) {
           this.props.showLogin(true);
         } else {
-          this.props.history.push(`/${i18n.language}/sports/play/${gameCode}`);
+          this.props.history.push(
+            `/${i18n.language}/sports/play/${gameCode}/${gameType}`
+          );
         }
       } else {
         this.props.history.push(`/${i18n.language}/${path}/${gameCode}`);
@@ -825,7 +840,7 @@ class Header extends Component {
                           {/* <ImagePromo src={`${process.env.PUBLIC_URL}/assets/images/pcHeaderMenu/${item.path}/rebate.png`} alt=""></ImagePromo> */}
                           {(() => {
                             var list = this.props.game.homePageGameList.filter(
-                              (game) => game.type === item.gameType
+                              (game) => item.gameType.indexOf(game.type) >= 0
                             );
 
                             return list.map((game, index) => {
@@ -846,13 +861,13 @@ class Header extends Component {
                                     alt=""
                                     onClick={() => {
                                       this.handleJoinGameClick(
-                                        item.gameType,
+                                        game.type,
                                         item.path,
                                         game.abbreviation,
                                         "/" +
                                           i18n.language +
                                           "/joingame/" +
-                                          item.gameType +
+                                          game.type +
                                           "/" +
                                           game.abbreviation
                                       );

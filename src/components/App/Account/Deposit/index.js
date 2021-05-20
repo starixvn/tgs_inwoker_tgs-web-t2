@@ -420,7 +420,7 @@ class Deposit extends Component {
                             <TabIconContainer>
                               <TabIcon src={IconDepositCard}></TabIcon>
                             </TabIconContainer>
-                            <TabLabel>{item.paymentcode}</TabLabel>
+                            <TabLabel>{i18n.t(item.paymentcode)}</TabLabel>
                           </TabButton>
                         );
                       })}

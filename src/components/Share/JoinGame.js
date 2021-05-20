@@ -4,7 +4,7 @@ import Loading from "../App/Loading";
 import { GameService } from "@Inwoker/tgs-api";
 
 import config from "../../config/config";
-
+import { GameTypeEnum } from "../../utils/Enum";
 import Maintenance from "./Maintenance";
 
 class JoinGame extends Component {
@@ -16,14 +16,24 @@ class JoinGame extends Component {
     const gameType = this.props.match.params.type;
 
     const gameCode = this.props.match.params.params;
+    if (gameType === GameTypeEnum.FISH) {
+      GameService.JoinGame(gameType, gameCode).then((response) => {
+        if (response.IsSuccess) {
+          window.location.href = response.data.url;
+        } else {
+          this.handleJoinGameMaintenance(response);
+        }
+      });
+    } else {
+      GameService.JoinLobbyGame(gameType, gameCode).then((response) => {
+        if (response.IsSuccess) {
+          window.location.href = response.data.url;
+        } else {
+          this.handleJoinGameMaintenance(response);
+        }
+      });
+    }
 
-    GameService.JoinLobbyGame(gameType, gameCode).then((response) => {
-      if (response.IsSuccess) {
-        window.location.href = response.data.url;
-      } else {
-        this.handleJoinGameMaintenance(response);
-      }
-    });
     // if (gameType === GameTypeEnum.LIVE) {
     //   let result = null;
     //   if (game === GameEnum.AG) {

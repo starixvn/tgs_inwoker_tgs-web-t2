@@ -196,7 +196,11 @@ class Card extends Component {
             >
               <CardItem>
                 <BankName>{row.banktype}</BankName>
-                <BankNumber>{row.detail.address}</BankNumber>
+                <BankNumber>
+                  {row.detail.address
+                    ? row.detail.address
+                    : row.detail.bankAccount}
+                </BankNumber>
               </CardItem>
             </SwipeToDelete>
           );
