@@ -61,7 +61,7 @@ const ButtonIcon = styled.div`
   }
 `;
 const ButtonContainer = styled.div`
-  width: 390px;
+  width: 600px;
   height: 200px;
   float: left;
   overflow: visible;
@@ -112,7 +112,7 @@ const GameSlideContainer = styled.div`
   overflow: visible;
 `;
 const ImageContainer = styled.div`
-  width: 390px;
+  width: 600px;
   height: 450px;
   background: url(${(props) => props.img}) no-repeat;
   background-size: contain;
@@ -219,10 +219,6 @@ class LiveGame extends Component {
       {
         name: "BG",
         abbreviation: "BG",
-      },
-      {
-        name: "SE",
-        abbreviation: "SE",
       },
     ];
     this.setState({
