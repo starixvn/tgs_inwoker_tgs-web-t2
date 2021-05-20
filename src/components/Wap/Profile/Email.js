@@ -56,7 +56,8 @@ class Email extends BaseProfile {
   };
   handleGetCodeClick = (e) => {
     if (this.state.countdownToken > 0) return;
-    if (!this.state.email) return this.showErrorMessage("请输入您的邮箱地址");
+    if (!this.state.email)
+      return this.showErrorMessage(i18n.t("common.msgEnterEmail"));
     this.showLoading(true);
     AccountService.VerifyEmail(this.state.email)
       .then((response) => {
@@ -151,14 +152,14 @@ class Email extends BaseProfile {
 
   render() {
     return this.setupContent(
-      "邮箱地址",
+      i18n.t("common.emailAddress"),
       <>
         <Textbox
           style={{ margin: "50px auto 20px auto" }}
           value={this.state.email}
           onChange={this.handleChangeEmail}
-          placeholder={"请输入您的邮箱地址"}
-          label={"邮箱地址"}
+          placeholder={i18n.t("common.msgEnterEmail")}
+          label={i18n.t("common.emailAddress")}
           disabled={this.state.isConfigured}
         ></Textbox>
         {(() => {
@@ -167,14 +168,17 @@ class Email extends BaseProfile {
               <TextboxWithButton
                 buttonlabel={
                   this.state.countdownToken <= 0
-                    ? "发送验证码"
-                    : "重新发送(" + this.state.countdownToken + "s)"
+                    ? i18n.t("common.msgSendToken")
+                    : i18n.t("common.btnTokenResendLabel") +
+                      "(" +
+                      this.state.countdownToken +
+                      "s)"
                 }
                 style={{ margin: "20px auto 20px auto" }}
                 value={this.state.code}
                 onChange={this.handleChangeCode}
-                placeholder={"请输入邮箱验证码"}
-                label={"验证码"}
+                placeholder={i18n.t("common.msgEnterEmailCode")}
+                label={i18n.t("common.token")}
                 onClick={this.handleGetCodeClick}
                 maxLength={6}
               ></TextboxWithButton>
@@ -182,14 +186,16 @@ class Email extends BaseProfile {
           }
         })()}
       </>,
-      this.state.isConfigured ? "已验证" : "完成",
+      this.state.isConfigured
+        ? i18n.t("common.configured")
+        : i18n.t("common.complete"),
       (() => {
         if (this.state.isConfigured) {
           return (
             <BottomNote
-              text1={"如需修改邮箱地址，请点击"}
+              text1={i18n.t("profile.email.toEdit")}
               link={"./changeemail"}
-              text2={"这里"}
+              text2={i18n.t("profile.email.here")}
             ></BottomNote>
           );
         }

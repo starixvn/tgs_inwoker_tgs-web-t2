@@ -38,7 +38,7 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 const InnerWrap = styled.div`
-width: 100%;
+  width: 100%;
   float: left;
   margin-top: 8px;
   box-sizing: border-box;
@@ -52,7 +52,6 @@ function TransactionDetailsList(props) {
   const handleChangePage = (event, newPage) => {
     props.onhandleChangePage(newPage + 1);
   };
-  
 
   // const emptyRows =
   //   rowsPerPage - Math.min(rowsPerPage, props.total - page * rowsPerPage);
@@ -110,25 +109,17 @@ function TransactionDetailsList(props) {
         </TableHead>
         <TableBody>
           {props.rows.map((row, index) => {
-              const date = moment(row.createdOn, ["HH:mm"]).format('YYYY-MM-DD hh:mm a');
+            const date = moment(row.createdOn).format("YYYY-MM-DD hh:mm a");
             return (
               <StyledTableRow hover role="checkbox" tabIndex={-1} key={index}>
-                <StyledTableCell>
-                    {date}
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    {row.id}
-                  </StyledTableCell>
+                <StyledTableCell>{date}</StyledTableCell>
+                <StyledTableCell>{row.id}</StyledTableCell>
                 <StyledTableCell>{row.gameProviderName}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {row.betAmount}
-                </StyledTableCell>
+                <StyledTableCell align="right">{row.betAmount}</StyledTableCell>
                 <StyledTableCell align="right">
                   {row.validBetAmount}
                 </StyledTableCell>
-                <StyledTableCell align="right">
-                  {row.winLoss}
-                </StyledTableCell>
+                <StyledTableCell align="right">{row.winLoss}</StyledTableCell>
               </StyledTableRow>
             );
           })}

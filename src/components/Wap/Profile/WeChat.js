@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 import Textbox from "../Share/Textbox";
 
 import BaseProfile from "./BaseProfile";
-
+import i18n from "../../../utils/i18n";
 import { AccountService } from "@Inwoker/tgs-api";
 import { withSnackbar } from "notistack";
 import { accountAction } from "@Inwoker/tgs-api";
@@ -32,7 +32,7 @@ class WeChat extends BaseProfile {
     //sdasdasdasda
     const re = new RegExp("^[a-zA-Z]{1}[-_a-zA-Z0-9]{5,19}$");
     if (!wechat.match(re)) {
-      this.props.alert("", "微信号码格式不正确");
+      this.props.alert("", i18n.t("profile.wechat.msgInvalidWeChat"));
       // this.props.enqueueSnackbar("微信号码格式不正确", {
       //   key: "error"
       // });
@@ -72,13 +72,13 @@ class WeChat extends BaseProfile {
 
   render() {
     return this.setupContent(
-      "微信号码",
+      i18n.t("common.wechatNumber"),
       <Textbox
         style={{ margin: "50px auto 20px auto" }}
         value={this.state.wechat}
         onChange={this.handleChangeNumber}
-        placeholder={"请输入您的微信号码"}
-        label={"微信号码"}
+        placeholder={i18n.t("profile.wechat.plsEnterWechat")}
+        label={i18n.t("common.wechatNumber")}
       ></Textbox>
     );
   }

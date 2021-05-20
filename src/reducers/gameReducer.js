@@ -6,6 +6,9 @@ import {
   GETGAMEPLATFORMLIST_BEGIN,
   GETGAMEPLATFORMLIST_SUCCESS,
   GETGAMEPLATFORMLIST_FAIL,
+  GETGAMEBALANCE_BEGIN,
+  GETGAMEBALANCE_SUCCESS,
+  GETGAMEBALANCE_FAIL,
 } from "@Inwoker/tgs-api";
 
 const initialState = {
@@ -54,6 +57,7 @@ export function gameReducer(state = initialState, action) {
           transferwallet: gameList[i].transferwallet,
           name: gameList[i].name,
           status: gameList[i].status,
+          balance: 0,
         });
       }
 
@@ -89,6 +93,27 @@ export function gameReducer(state = initialState, action) {
         message: action.payload,
         gamePlatformList: [],
         loading: false,
+      };
+    case GETGAMEBALANCE_BEGIN:
+      return {
+        ...state,
+      };
+    case GETGAMEBALANCE_SUCCESS:
+      var providerList = [...state.providerList];
+      var index = -1;
+      providerList.map((a, i) => {
+        if (a.abbreviation === action.gpcode) {
+          index = i;
+        }
+      });
+      providerList[index].balance = action.payload.data.balance;
+      return {
+        providerList: providerList,
+        ...state,
+      };
+    case GETGAMEBALANCE_FAIL:
+      return {
+        ...state,
       };
     default:
       return state;

@@ -36,19 +36,19 @@
     "msgEnterCode": "Please enter verify code",
     "msgEnterEmailCode": "Email Verify Code",
     "msgEnterPhoneCode": "Phone Verify Code",
-    "msgInvalidPhoneCode": "Invalid Phone Verify Code",
+    "msgInvalidPhoneCode": "Invalid Verify Code",
     "msgInvalidConfirmPass": "Invalid Confirm Password",
     "msgInvalidOldPass": "Invalid Old Password",
-    "msgRegisterUserNameInvalid": "The account length must be between 3 and 20 digits, and must consist of numbers, letters or a combination",
-    "msgRegisterPassInvalid": "Password should be 8 letters or numbers",
+    "msgRegisterUserNameInvalid": "The account length must be between 6 and 32 digits, and must consist of numbers, letters or a combination",
+    "msgRegisterPassInvalid": "The password length must be between 6 and 20 digits",
     "msgRegisterPassMatchInvalid": "The password must be the same as the confirmed password",
     "msgRegisterTermAndCondition": "Please confirm you’ve read our terms and conditions",
     "msgRegisterWithdrawalPassInvalid": "The withdrawal password should be 6 digits",
     "msgRegisterWithdrawalPassMatchInvalid": "The withdrawal password must be the same as the confirmed withdrawal password",
     "msgAlreadyExist": "Username Already Exist",
     "emailAddress": "Email Address",
-    "qqNumber": "QQ Number",
-    "wechatNumber": "Wechat Number",
+    "qqNumber": "QQ Account",
+    "wechatNumber": "Wechat Account",
     "receiverAddress": "Receiver Address",
     "loginPassword": "Login Password",
     "contact": "Contact",
@@ -175,8 +175,8 @@
     "orderNumber": "Order Number",
     "completeDeposit": "Complete Deposit",
     "confirmRedirect": "Will jump out of this site and go to the payment platform",
-    "depositMethod": "Deposit method",
-    "depositTunnel": "Deposit tunnel",
+    "depositMethod": "Payment type",
+    "depositTunnel": "Payment channel",
     "senderName": "Sender Username",
     "uploadSuccess": "Receipt uploaded successfully, please wait for verification.",
     "cancelDeposit": "Deposit canceled successfully.",
@@ -192,6 +192,8 @@
     "msgPlsSelectPayment": "Please select the payment type",
     "msgPlsSelectMethod": "Please select the payment channel",
     "msgPlsEnterAccount": "Please enter the bank account name",
+    "msgInvalidFileSize":"File too Big, please select a file less than 2mb",
+    "msgInvalidFileType":"Please upload image file only. (.jpg/.jpeg/.png/.tiff)",
     "details": {
       "bank": "Bank",
       "account": "Account",
@@ -351,14 +353,23 @@
       "phoneDesc": "Please be assured that we will not disclose any user information"
     },
     "email": {
-      "bindEmail": "Bind Email Address"
+      "editEmail":"Modify email",
+      "verifyEmail":"Verify email",
+      "addEmail":"Setup email",
+      "plsEnterEmail":"Please enter email address",
+
+      "bindEmail": "Bind Email Address",
+      "toEdit": "If Required To Edit Email, Please Click ",
+      "here": "Here"
     },
     "qq":{
-      "msgInvalidQQ" :"Invalid QQ number",
-      "qqAccount":"QQ Number"
+      "msgInvalidQQ" :"Invalid QQ account",
+      "plsEnterQQ" :"Please enter QQ account",
+      "qqAccount":"QQ Account"
     },
     "wechat":{
       "msgInvalidWeChat" :"Invalid WeChat account",
+      "plsEnterWechat" :"Please enter WeChat account",
       "weChatAccount":"WeChat"
     },
     "resetResetWithdrawalPassword": {
@@ -366,6 +377,7 @@
       "editWithdrawalPassword": "Edit Withdrawal Password",
       "bindMobile": "Mobile Number",
       "verifiedOriPhone": "Verify Phone",
+      "verifiedEmail": "Verify Email",
       "setNewWithdrawalPassword": "Edit Withdrawal Password",
       "resetSuccess": "Withdrawal password reset successful"
     },

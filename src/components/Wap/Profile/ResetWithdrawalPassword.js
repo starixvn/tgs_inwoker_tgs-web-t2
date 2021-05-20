@@ -156,7 +156,11 @@ class ResetResetWithdrawalPassword extends Component {
       <>
         <Step
           steps={[
-            { label: i18n.t("profile.changePhone.step1Title") },
+            {
+              label: i18n.t(
+                "profile.resetResetWithdrawalPassword.verifiedEmail"
+              ),
+            },
             { label: i18n.t("common.reset") },
           ]}
           currentStep={this.state.step}

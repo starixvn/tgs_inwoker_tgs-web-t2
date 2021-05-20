@@ -370,10 +370,17 @@ class Deposit extends Component {
         channel.id
       );
     } else {
-      this.props.doLeePayDeposit(
-        this.state.amount.replace(/,/g, ""),
-        channel.id
-      );
+      if (payment.paymentcode.toUpperCase() === "LEEPAY") {
+        this.props.doLeePayDeposit(
+          this.state.amount.replace(/,/g, ""),
+          channel.id
+        );
+      } else if (payment.paymentcode.toUpperCase() === "PRIMEPAY") {
+        this.props.doPrimePayDeposit(
+          this.state.amount.replace(/,/g, ""),
+          channel.id
+        );
+      }
     }
   };
 
@@ -589,6 +596,7 @@ class Deposit extends Component {
         case 3:
           return (
             <Details
+              alert={this.props.alert}
               performUploadImage={this.performUploadImage}
               amount={this.state.amount}
               depositResult={this.props.wallet.depositResult}
@@ -711,6 +719,8 @@ const mapDispatchToProps = (dispatch) => {
     getDepositMethod: () => dispatch(walletAction.getDepositMethod()),
     doLeePayDeposit: (amount, payment_id) =>
       dispatch(walletAction.doLeePayDeposit(amount, payment_id)),
+    doPrimePayDeposit: (amount, payment_id) =>
+      dispatch(walletAction.doPrimePayDeposit(amount, payment_id)),
     doManualDeposit: (amount, account, paymentid) =>
       dispatch(walletAction.doManualDeposit(amount, account, paymentid)),
     doUploadDepositProof: (id, file) =>

@@ -966,7 +966,7 @@ class Report extends Component {
                     return (
                       <DataContent>
                         {this.state.dataList.map((row, index) => {
-                          const date = moment(row.createdOn, ["HH:mm"]).format(
+                          const date = moment(row.createdOn).format(
                             "YYYY-MM-DD hh:mm a"
                           );
                           return (

@@ -22,7 +22,7 @@ import IconProfileRecommendPNG from "../../../../assets/images/wap/icon-profile-
 
 import IconProfileAboutPNG from "../../../../assets/images/wap/icon-profile-about.png";
 import IconProfileLanguagePNG from "../../../../assets/images/wap/icon-profile-language.png";
-
+import AvatarPNG from "../../../../assets/images/avatar.png";
 import BtnLogout from "../../../Share/ButtonBlankWap";
 import Common from "../../../../utils/Common";
 
@@ -233,24 +233,7 @@ class My extends Component {
           </LevelContainer>
           <div className="clear"></div>
           <AvatarContainer>
-            {(() => {
-              if (this.state.avatarError) {
-                return (
-                  <AvatarImg
-                    src={"/static/image/wap/profile-avatar.png"}
-                  ></AvatarImg>
-                );
-              } else {
-                return (
-                  <AvatarImg
-                    src={this.props.account.info.avatar}
-                    onError={(e) =>
-                      this.setState({ ...this.state, avatarError: true })
-                    }
-                  ></AvatarImg>
-                );
-              }
-            })()}
+            <AvatarImg src={AvatarPNG}></AvatarImg>
           </AvatarContainer>
           <InfoContainer>
             <NameContainer>

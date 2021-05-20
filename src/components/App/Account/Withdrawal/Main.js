@@ -202,9 +202,9 @@ class Main extends Component {
             currencySymbol=""
             decimalPlaces={0}
           ></CurrencyTextField>
-          <LimitPopupContainer>
+          {/* <LimitPopupContainer>
             * {i18n.t("withdrawal.msgWithdrawalAmount")}
-          </LimitPopupContainer>
+          </LimitPopupContainer> */}
         </SelectionContainer>
         <SplitLine></SplitLine>
         <SubHeaderContainer>

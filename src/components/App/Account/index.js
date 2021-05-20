@@ -213,8 +213,25 @@ class Account extends Component {
       if (this.props.account.token === null) {
         AppHistory.replace(`/${i18n.language}/`);
       }
+      this.getAllGameBalance();
     }
   }
+  componentDidUpdate(preProps) {
+    if (
+      this.props.game.providerList.length !==
+        preProps.game.providerList.length &&
+      this.props.game.providerList.length > 0
+    ) {
+      this.getAllGameBalance();
+    }
+  }
+  getAllGameBalance = () => {
+    this.props.game.providerList
+      .filter((item) => item.status === 0 && item.transferwallet === true)
+      .map((a) => {
+        this.props.getGameBalance(a.abbreviation);
+      });
+  };
   handleRefreshClick = () => {
     this.props.updateBalanceList();
   };
@@ -353,6 +370,7 @@ class Account extends Component {
               <Header
                 info={this.props.account.info}
                 vip={this.props.account.vip}
+                game={this.props.game}
                 wallet={this.props.wallet}
                 onhandleClickTab={this.handleClickTab}
                 onhandleRefreshClick={this.handleRefreshClick}
@@ -405,7 +423,10 @@ class Account extends Component {
                     exact
                     path={baseRouteUrl + "/account/transfer"}
                     render={(props) => (
-                      <Transfer token={this.props.account.token} />
+                      <Transfer
+                        token={this.props.account.token}
+                        getAllGameBalance={this.getAllGameBalance}
+                      />
                     )}
                   />
 
@@ -447,12 +468,14 @@ const mapStateToProps = (state) => {
   return {
     account: state.account,
     wallet: state.wallet,
+    game: state.game,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     updateBalanceList: () => dispatch(walletAction.updateBalanceList()),
     logout: (token) => dispatch(accountAction.accountLogout(token)),
+    getGameBalance: (gpcode) => dispatch(walletAction.getGameBalance(gpcode)),
   };
 };
 

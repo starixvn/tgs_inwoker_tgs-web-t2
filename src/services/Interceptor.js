@@ -73,28 +73,37 @@ export default {
         return newResponse;
       },
       function (error) {
-        if (
-          error.response.data.err == 102 ||
-          error.response.data.err == 101 ||
-          error.response.data.errmsg ===
-            "request platform is not matched with player login platform."
-        ) {
+        if (error.response) {
           if (
-            error.response.config.url.indexOf("Player/Login") < 0 &&
-            error.response.config.url.indexOf("player/password") < 0
+            error.response.data.err == 102 ||
+            error.response.data.err == 101 ||
+            error.response.data.errmsg ===
+              "request platform is not matched with player login platform."
           ) {
-            localStorage.removeItem("token" + (isMobile ? "1" : "0"));
-            store.dispatch({ type: UNAUTHORIZE });
+            if (
+              error.response.config.url.indexOf("Player/Login") < 0 &&
+              error.response.config.url.indexOf("player/password") < 0
+            ) {
+              localStorage.removeItem("token" + (isMobile ? "1" : "0"));
+              store.dispatch({ type: UNAUTHORIZE });
 
-            AppHistory.replace("/" + i18n.language + "/");
+              AppHistory.replace("/" + i18n.language + "/");
+            }
           }
+          return {
+            IsSuccess: false,
+            info: error.response.data.errmsg,
+            code: error.response.data.err,
+            data: {},
+          };
+        } else {
+          return {
+            IsSuccess: false,
+            info: "Internal Server Error",
+            code: "",
+            data: {},
+          };
         }
-        return {
-          IsSuccess: false,
-          info: error.response.data.errmsg,
-          code: error.response.data.err,
-          data: {},
-        };
       }
     );
   },

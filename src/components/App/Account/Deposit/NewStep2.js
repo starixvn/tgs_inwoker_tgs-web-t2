@@ -3,7 +3,7 @@ import { Component } from "react";
 import styled from "styled-components";
 import i18n from "../../../../utils/i18n";
 import CustomButton from "../../../Share/Button";
-
+import { withSnackbar } from "notistack";
 const Container = styled.div`
   font-size: 14px;
   color: #818181;
@@ -74,8 +74,30 @@ class NewStepTwo extends Component {
   };
   handleFileChange = (e) => {
     var files = e.target.files;
-
-    this.setState({ ...this.state, files: files });
+    var fileName = e.target.value;
+    if (files.length > 0) {
+      if (
+        !fileName.endsWith(".jpg") &&
+        !fileName.endsWith(".jpeg") &&
+        !fileName.endsWith(".png") &&
+        !fileName.endsWith(".tiff")
+      ) {
+        this.props.enqueueSnackbar(i18n.t("deposit.msgInvalidFileType"), {
+          variant: "error",
+        });
+        e.target.value = null;
+        return false;
+      }
+      const fileSize = Math.round(files[0].size / 1024);
+      if (fileSize > 2048) {
+        this.props.enqueueSnackbar(i18n.t("deposit.msgInvalidFileSize"), {
+          variant: "error",
+        });
+        e.target.value = null;
+      } else {
+        this.setState({ ...this.state, files: files });
+      }
+    }
   };
   handleUploadClick = () => {
     this.props.performUploadImage(this.state.files[0]);
@@ -122,6 +144,7 @@ class NewStepTwo extends Component {
               <ValueTD>
                 <CustomInput
                   type="file"
+                  accept="image/jpg, image/jpeg, image/png, image/tiff"
                   onChange={this.handleFileChange}
                 ></CustomInput>
               </ValueTD>
@@ -153,4 +176,4 @@ class NewStepTwo extends Component {
   }
 }
 
-export default NewStepTwo;
+export default withSnackbar(NewStepTwo);

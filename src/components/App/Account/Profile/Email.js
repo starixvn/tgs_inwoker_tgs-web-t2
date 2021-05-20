@@ -116,20 +116,16 @@ class Address extends Component {
   };
   onhandleGetCodeClick = () => {
     if (this.state.countdown <= 0) {
-      let events = "";
-      // if (this.props.isForSecurityQuestion) {
-      //   events = "resetQuestion";
-      // } else {
-      //   if (this.state.isNew) {
-      //     events = "bind";
-      //   } else {
-      //     if (this.state.step === 1) {
-      //       events = "check";
-      //     } else if (this.state.step === 2) {
-      //       events = "bind";
-      //     }
-      //   }
-      // }
+      if (
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+          this.state.email
+        ) === false
+      ) {
+        this.props.enqueueSnackbar(i18n.t("common.msgInvalidEmail"), {
+          variant: "error",
+        });
+        return;
+      }
       AccountService.VerifyEmail(this.state.email).then((response) => {
         if (response.IsSuccess) {
           this.setState({
@@ -203,86 +199,12 @@ class Address extends Component {
         }
       }
     );
-    // if (this.state.isNew) {
-    //   AccountService.UpdateEmail(
-    //     this.state.email,
-    //   ).then((response) => {
-    //     if (response.IsSuccess) {
-    //       this.props.getAccountInfo();
-    //       this.props.handleCloseDialog();
-    //     } else {
-    //       this.props.enqueueSnackbar(response.msg, {
-    //         variant: "error",
-    //       });
-    //     }
-    //   });
-    // } else {
-    //   if (this.props.isForSecurityQuestion) {
-    //     AccountService.VerifySecurityQuestionByEmail(
-    //       this.props.token,
-    //       this.state.code
-    //     ).then((response) => {
-    //       if (response.IsSuccess) {
-    //         this.props.onhandleVerifySuccess(
-    //           this.props.isForSecurityQuestion,
-    //           this.props.isForWithdrawalPassword
-    //         );
-    //       } else {
-    //         this.props.enqueueSnackbar(response.msg, {
-    //           variant: "error",
-    //         });
-    //         // this.setState({ ...this.state, message: response.msg });
-    //       }
-    //     });
-    //   } else {
-    //     if (this.state.step === 1) {
-    //       AccountService.UpdateEmailStep1(
-    //         this.props.token,
-    //         this.state.code
-    //       ).then((response) => {
-    //         if (response.IsSuccess) {
-    //           this.setState({
-    //             ...this.state,
-    //             code: "",
-    //             email: "",
-    //             step: 2,
-    //             message: response.msg,
-    //             countdown: 0,
-    //           });
-    //         } else {
-    //           this.props.enqueueSnackbar(response.msg, {
-    //             variant: "error",
-    //           });
-    //           // this.setState({ ...this.state, message: response.msg });
-    //         }
-    //       });
-    //     } else if (this.state.step === 2) {
-    //       AccountService.UpdateEmailStep2(
-    //         this.props.token,
-    //         this.state.email,
-    //         this.state.code
-    //       ).then((response) => {
-    //         if (response.IsSuccess) {
-    //           this.props.getAccountProfile(this.props.token);
-    //           this.props.handleCloseDialog();
-    //           this.props.enqueueSnackbar(response.msg, {
-    //             variant: "info",
-    //           });
-    //         } else {
-    //           this.props.enqueueSnackbar(response.msg, {
-    //             variant: "error",
-    //           });
-    //         }
-    //       });
-    //     }
-    //   }
-    // }
   };
   render() {
     return (
       <Container>
         <CustomText
-          placeholder="请输入您的邮箱地址"
+          placeholder={i18n.t("common.msgEnterEmail")}
           adornment={IconInputEmailPNG}
           onChange={this.onhandleEmailChange}
           inputProps={{
@@ -298,7 +220,7 @@ class Address extends Component {
           disabled={this.state.isNew === false && this.state.step === 1}
         ></CustomText>
         <CustomText
-          placeholder="请输入验证码"
+          placeholder={i18n.t("common.msgEnterCode")}
           adornment={IconInputVerifyCodePNG}
           onChange={this.onhandleCodeChange}
           value={this.state.code}
@@ -321,13 +243,16 @@ class Address extends Component {
         >
           <ButtonLabel>
             {this.state.countdown <= 0
-              ? "发送验证码"
-              : "重新发送(" + this.state.countdown + "s)"}
+              ? i18n.t("common.msgSendToken")
+              : i18n.t("common.btnTokenResendLabel") +
+                "(" +
+                this.state.countdown +
+                "s)"}
           </ButtonLabel>
         </StyleButton>
         <Message>{this.state.message}</Message>
         <CustomButton
-          name="提交"
+          name={i18n.t("common.submit")}
           handleClick={this.onhandleClick}
           marginTop={15}
         ></CustomButton>

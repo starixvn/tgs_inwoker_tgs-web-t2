@@ -165,7 +165,7 @@ class Profile extends Component {
 
           {ContentItem(
             IconEmailPNG,
-            "邮箱地址",
+            i18n.t("common.emailAddress"),
             this.isConfigured(this.props.account.info.member_email),
             () => {
               this.handleNavigate("/profile/email");
@@ -178,7 +178,7 @@ class Profile extends Component {
           <BlockLabel>{i18n.t("profile.otherInfo")}</BlockLabel>
           {ContentItem(
             IconQQPNG,
-            "QQ号码",
+            i18n.t("common.qqNumber"),
             this.isConfigured(this.props.account.info.member_qq),
             () => {
               this.handleNavigate("/profile/qq");
@@ -188,7 +188,7 @@ class Profile extends Component {
 
           {ContentItem(
             IconWechatPNG,
-            "微信号码",
+            i18n.t("common.wechatNumber"),
             this.isConfigured(this.props.account.info.member_wechat),
             () => {
               this.handleNavigate("/profile/wechat");

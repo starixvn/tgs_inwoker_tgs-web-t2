@@ -6,6 +6,7 @@ import BottomNote from "../Share/BottomNote";
 import styled from "styled-components";
 import Header from "../Share/Header";
 import Loading from "../Share/Loading";
+import i18n from "../../../utils/i18n";
 import { UPDATE_INFO } from "@Inwoker/tgs-api";
 const Container = styled.div`
   width: 100%;
@@ -74,7 +75,7 @@ class BaseProfile extends Component {
   showLoading(loading) {
     this.setState({ ...this.state, loading: loading });
   }
-  setupContent(title, body, buttonTitle = "确认", bottomNode) {
+  setupContent(title, body, buttonTitle = i18n.t("common.submit"), bottomNode) {
     return (
       <Container>
         <Header
