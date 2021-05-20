@@ -1,5 +1,5 @@
 module.exports = {
-  baseUrl: "https://dev.operator.tgsdev.gq/api/",
+  baseUrl: "https://operator.srvptt.com/api/",
   client: "I7nKiimrZQOqnJ6ryjUw74c0Hi64KC6Myunhob4cHh8VOUIuZh4p63czefxyyzbZ",
   currency: "CNY",
   sourceUrl: "",
