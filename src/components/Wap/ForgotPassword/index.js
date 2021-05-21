@@ -141,6 +141,7 @@ class ForgotPassword extends Component {
                   placeholder={i18n.t("common.msgEnterCode")}
                   label={i18n.t("common.token")}
                   onClick={this.handleGetCodeClick}
+                  type={"number"}
                 ></TextboxWithButton>
               </>
             );
