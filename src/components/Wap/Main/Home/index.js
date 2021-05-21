@@ -534,7 +534,7 @@ class Home extends Component {
                     <GameFrameImg
                       src={`${
                         process.env.PUBLIC_URL
-                      }/assets/images/wapGame/new/${this.getImgPrefix(
+                      }/assets/images/wapGame/${this.getImgPrefix(
                         row.type
                       )}-${row.abbreviation.toLowerCase()}.png`}
                       key={index}

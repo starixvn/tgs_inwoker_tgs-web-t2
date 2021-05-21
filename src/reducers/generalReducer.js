@@ -6,6 +6,9 @@ import {
   GETPROMOLIST_BEGIN,
   GETPROMOLIST_SUCCESS,
   GETPROMOLIST_FAILURE,
+  GETPLAYERPROMOLIST_BEGIN,
+  GETPLAYERPROMOLIST_SUCCESS,
+  GETPLAYERPROMOLIST_FAILURE,
   JOINPROMO_BEGIN,
   JOINPROMO_SUCCESS,
   JOINPROMO_FAILURE,
@@ -39,21 +42,24 @@ export function generalReducer(state = initialState, action) {
         ...state,
         token: action.payload.token,
       };
+    case GETPLAYERPROMOLIST_BEGIN:
     case GETPROMOLIST_BEGIN:
       return {
         ...state,
         loading: action.loading,
       };
+    case GETPLAYERPROMOLIST_SUCCESS:
     case GETPROMOLIST_SUCCESS:
       return {
         ...state,
         promotionList: action.payload.data,
         loading: action.loading,
       };
+    case GETPLAYERPROMOLIST_FAILURE:
     case GETPROMOLIST_FAILURE:
       return {
         ...state,
-        promotionList: [],
+        promotionList: { items: [] },
         loading: action.loading,
       };
     case JOINPROMO_BEGIN:

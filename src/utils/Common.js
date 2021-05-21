@@ -31,6 +31,21 @@ import Provider10PNG from "../assets/images/provider10.png";
 import PromoImage1 from "../assets/images/promotion/promo-1.jpg";
 import PromoImage2 from "../assets/images/promotion/promo-2.jpg";
 import PromoImage3 from "../assets/images/promotion/promo-3.jpg";
+import i18n from "./i18n";
+function getLanguagePrefixFolder() {
+  var prefix = "";
+  var arr = [
+    { lang: ["zh-CN", "zh-TW"], prefix: "cn" },
+    { lang: ["en-US"], prefix: "en" },
+  ];
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].lang.indexOf(i18n.language) >= 0) {
+      prefix = arr[i].prefix;
+      break;
+    }
+  }
+  return prefix;
+}
 function readFileDataAsBinary(e) {
   const file = e.files[0];
 
@@ -108,7 +123,7 @@ function GetDisplayGameType() {
     GameTypeEnum.ESPORTS,
     GameTypeEnum.LIVELOBBY,
     GameTypeEnum.QIPAILOBBY,
-    GameTypeEnum.FISHLOBBY,
+    GameTypeEnum.FISH,
     GameTypeEnum.LOTTERYLOBBY,
     GameTypeEnum.SLOT,
     GameTypeEnum.TABLEGAME,
@@ -390,5 +405,6 @@ const Common = {
   GetDisplayGameType,
   gameImageMapping,
   GetPromoImg,
+  getLanguagePrefixFolder,
 };
 export default Common;
