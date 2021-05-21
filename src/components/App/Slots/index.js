@@ -417,6 +417,7 @@ class Slots extends Component {
             ...this.state,
             page: page,
             platform: platform,
+            type: type,
             gameList: response.data,
             loading: false,
           });
@@ -425,6 +426,7 @@ class Slots extends Component {
             ...this.state,
             page: page,
             platform: platform,
+            type: type,
             gameList: this.state.gameList.concat(response.data),
             loading: false,
           });
@@ -434,6 +436,7 @@ class Slots extends Component {
           ...this.state,
           gameList: [],
           platform: platform,
+          type: type,
           loading: false,
         });
       }
