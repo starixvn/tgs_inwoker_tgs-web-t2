@@ -480,11 +480,10 @@ class Header extends Component {
         systemDateTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
       });
 
+      const localStorageToken = localStorage.getItem("token0");
       if (
-        this.props.account.token !== null &&
-        this.props.account.token !== "" &&
-        this.props.account.info.token !== null &&
-        this.props.account.info.token !== ""
+        this.props.account.token === localStorageToken &&
+        localStorageToken !== null
       ) {
         this.tickCount++;
         if (this.tickCount >= 10) {
