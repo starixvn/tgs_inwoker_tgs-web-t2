@@ -122,7 +122,7 @@ const CSContainer = styled(AffAndCSContainer)`
 const MiddleContainer = styled.div`
   height: 100px;
   width: 100%;
-  padding-top: 15px;
+  padding-top: 20px;
   border-bottom: solid 1px #443f3b;
   border-top: solid 1px #443f3b;
 `;
@@ -144,8 +144,14 @@ const ProductLI = styled.li`
   margin: 0;
   display: inline-block;
 `;
-const ProductImg = styled.img`
-  margin: 0 16px;
+const ProductImg = styled.div`
+  margin: 0 8px;
+  width: 100px;
+  height: 60px;
+  background: url(${(props) => props.img}) no-repeat;
+  background-position: center;
+  background-size: contain;
+  display: block;
   &:hover {
     -webkit-transition: transform 0.8s;
     -webkit-transition: -webkit-transform 0.8s;
@@ -282,34 +288,37 @@ function Footer(props) {
         <MiddleInnerWrap>
           <ProductUL>
             <ProductLI>
-              <ProductImg src={Provider1PNG}></ProductImg>
+              <ProductImg img={Provider1PNG}></ProductImg>
             </ProductLI>
             <ProductLI>
-              <ProductImg src={Provider2PNG}></ProductImg>
+              <ProductImg img={Provider2PNG}></ProductImg>
             </ProductLI>
             <ProductLI>
-              <ProductImg src={Provider3PNG}></ProductImg>
+              <ProductImg img={Provider3PNG}></ProductImg>
             </ProductLI>
             <ProductLI>
-              <ProductImg src={Provider4PNG}></ProductImg>
+              <ProductImg img={Provider4PNG}></ProductImg>
             </ProductLI>
             <ProductLI>
-              <ProductImg src={Provider5PNG}></ProductImg>
+              <ProductImg img={Provider5PNG}></ProductImg>
             </ProductLI>
             <ProductLI>
-              <ProductImg src={Provider6PNG}></ProductImg>
+              <ProductImg img={Provider6PNG}></ProductImg>
             </ProductLI>
             <ProductLI>
-              <ProductImg src={Provider7PNG}></ProductImg>
+              <ProductImg img={Provider7PNG}></ProductImg>
             </ProductLI>
             <ProductLI>
-              <ProductImg src={Provider8PNG}></ProductImg>
+              <ProductImg img={Provider8PNG}></ProductImg>
             </ProductLI>
             <ProductLI>
-              <ProductImg src={Provider9PNG}></ProductImg>
+              <ProductImg img={Provider9PNG}></ProductImg>
             </ProductLI>
             <ProductLI>
-              <ProductImg src={Provider10PNG}></ProductImg>
+              <ProductImg img={Provider10PNG}></ProductImg>
+            </ProductLI>
+            <ProductLI>
+              <ProductImg img={Provider11PNG}></ProductImg>
             </ProductLI>
           </ProductUL>
         </MiddleInnerWrap>

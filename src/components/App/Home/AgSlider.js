@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Carousel from "react-spring-3d-carousel";
+
+import { config } from "react-spring";
 import HomeSport1PNG from "../../../assets/images/home-sport-1.png";
 import HomeSport2PNG from "../../../assets/images/home-sport-2.png";
+import HomeSport3PNG from "../../../assets/images/home-sport-3.png";
 import { GameEnum, GameTypeEnum } from "../../../utils/Enum";
 import i18n from "../../../utils/i18n";
 const Container = styled.div`
@@ -14,61 +16,73 @@ const Container = styled.div`
 `;
 const ImageContainer = styled.div`
   cursor: pointer;
-  width: 280px;
+  width: 415px;
   height: 455px;
 
   background: url(${(props) => props.img}) no-repeat;
   background-size: contain;
   background-position: center bottom;
-  transition: all 0.2s linear;
-  &:hover {
-    transform: scale(1.1);
-  }
+*/}
 `;
 
 class AgSlider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      slideIndex: 0,
+      goToSlide: 0,
+      offsetRadius: 2,
+      showNavigation: false,
+      config: config.slow,
     };
   }
-  getConfigurableProps = () => ({
-    showArrows: false,
-    showStatus: false,
-    showIndicators: true,
-    infiniteLoop: true,
-    showThumbs: false,
-    autoPlay: false,
-    stopOnHover: true,
-    dynamicHeight: false,
-    emulateTouch: false,
-    autoFocus: false,
-    thumbWidth: false,
-    selectedItem: false,
-    transitionTime: 500,
-    centerMode: true,
-    swipeScrollTolerance: 5,
-    centerSlidePercentage: 100 / 3,
-    onClickItem: (index) => {
-      this.setState({
-        slideIndex: index,
-      });
+  interval = null;
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      this.autoSlide();
+    }, 2000);
+  }
+  componentWillUnmount() {
+    if (this.interval !== null) clearInterval(this.interval);
+  }
+  autoSlide() {
+    var gotoSlide = this.state.goToSlide + 1;
+    if (gotoSlide > 2) gotoSlide = 0;
+    this.setState({ ...this.state, goToSlide: gotoSlide });
+  }
+  slides = [
+    {
+      key: 1,
+      content: <ImageContainer img={HomeSport1PNG} alt="1" />,
     },
-    onChange: (index) => {
-      this.setState({
-        slideIndex: index,
-      });
+    {
+      key: 2,
+      content: <ImageContainer img={HomeSport2PNG} alt="2" />,
     },
+    {
+      key: 3,
+      content: <ImageContainer img={HomeSport3PNG} alt="3" />,
+    },
+  ].map((slide, index) => {
+    return { ...slide };
   });
-
+  onChangeInput = (e) => {
+    this.setState({
+      [e.target.name]: parseInt(e.target.value, 10) || 0,
+    });
+  };
   render() {
     return (
       <Container>
-        <ImageContainer
+        <Carousel
+          slides={this.slides}
+          goToSlide={this.state.goToSlide}
+          offsetRadius={this.state.offsetRadius}
+          showNavigation={this.state.showNavigation}
+          animationConfig={this.state.config}
+        />
+        {/* <ImageContainer
           img={HomeSport1PNG}
           style={{ float: "left", width: "370px" }}
-          active={this.state.slideIndex === 0 ? true : false}
           onClick={() =>
             this.props.handleJoinGameClick(
               GameTypeEnum.SPORTS,
@@ -86,7 +100,6 @@ class AgSlider extends Component {
         <ImageContainer
           img={HomeSport2PNG}
           style={{ float: "right" }}
-          active={this.state.slideIndex === 1 ? true : false}
           onClick={() =>
             this.props.handleJoinGameClick(
               GameTypeEnum.SPORTS,
@@ -100,7 +113,7 @@ class AgSlider extends Component {
                 GameEnum.SABA
             )
           }
-        ></ImageContainer>
+        ></ImageContainer> */}
       </Container>
     );
   }

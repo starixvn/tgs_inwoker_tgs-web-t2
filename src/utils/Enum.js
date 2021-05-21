@@ -35,6 +35,7 @@ export const GameEnum = {
   PT: "PT",
   SE: "SE",
   VR: "VR",
+  IMES: "IMES",
 };
 export const LotteryGameTypeEnum = {
   K3: "k3",

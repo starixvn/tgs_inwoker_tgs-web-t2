@@ -19,7 +19,7 @@ import MiddleText from "../../../assets/images/sportsbook/middletext.png";
 
 import { SHOW_LOGIN } from "../../../constants/actionType";
 import i18n from "../../../utils/i18n";
-import { GameTypeEnum } from "../../../utils/Enum";
+import { GameTypeEnum, GameEnum } from "../../../utils/Enum";
 import CommonMarquee from "../CommonMarquee";
 import Left from "../../../assets/images/arrow-left.svg";
 import Right from "../../../assets/images/arrow-right.svg";
@@ -210,12 +210,12 @@ class Sports extends Component {
     //   });
     // }
   }
-  handleJoinGameClick = (gameCode) => {
+  handleJoinGameClick = (gameCode, type) => {
     if (!this.props.account.token) {
       this.props.showLogin(true);
     } else {
       this.props.history.push(
-        `/${i18n.language}/sports/play/${gameCode.toUpperCase()}`
+        `/${i18n.language}/sports/play/${gameCode.toUpperCase()}/${type}`
       );
     }
   };
@@ -253,6 +253,30 @@ class Sports extends Component {
         <CommonMarquee></CommonMarquee>
         <GameSlideContainer>
           <ScrollAnimation
+            animateIn="fadeIn"
+            duration={1}
+            animateOnce={true}
+            delay={500}
+            style={{
+              position: "absolute",
+              left: "50%",
+              marginLeft: "-86px",
+              top: "385px",
+              zIndex: 99,
+              width: "168px",
+              height: "41px",
+            }}
+          >
+            <ButtonJoin
+              style={{ position: "initial" }}
+              onClick={() =>
+                this.handleJoinGameClick(GameEnum.Sabah, GameTypeEnum.SPORTS)
+              }
+            >
+              {i18n.t("common.startGame")}
+            </ButtonJoin>
+          </ScrollAnimation>
+          <ScrollAnimation
             animateIn="flipInY"
             duration={1}
             animateOnce={true}
@@ -273,6 +297,13 @@ class Sports extends Component {
                   "/assets/images/pcGamePage/sports/mid.png"
                 }
               ></SportSlideImage>
+              <Logo
+                style={{ left: "200px", top: "315px" }}
+                img={
+                  process.env.PUBLIC_URL +
+                  "/assets/images/pcGamePage/sports/logo-saba.png"
+                }
+              ></Logo>
             </ImageContainer>
           </ScrollAnimation>
 
@@ -283,7 +314,7 @@ class Sports extends Component {
             style={{ float: "left" }}
           >
             <ImageContainer
-              style={{ float: "left", zIndex: 1, marginTop: "180px" }}
+              style={{ float: "left", zIndex: 1, marginTop: "250px" }}
             >
               <SportSlideImage
                 src={
@@ -299,7 +330,9 @@ class Sports extends Component {
                 }
               ></Logo>
               <ButtonJoin
-                onClick={() => this.handleJoinGameClick("sbo")}
+                onClick={() =>
+                  this.handleJoinGameClick(GameEnum.SBO, GameTypeEnum.SPORTS)
+                }
                 style={{ right: "44px" }}
               >
                 {i18n.t("common.startGame")}
@@ -314,7 +347,7 @@ class Sports extends Component {
             style={{ float: "right" }}
           >
             <ImageContainer
-              style={{ float: "right", zIndex: 1, marginTop: "180px" }}
+              style={{ float: "right", zIndex: 1, marginTop: "250px" }}
             >
               <SportSlideImage
                 src={
@@ -326,11 +359,13 @@ class Sports extends Component {
                 style={{ left: "25px" }}
                 img={
                   process.env.PUBLIC_URL +
-                  "/assets/images/pcGamePage/sports/logo-saba.png"
+                  "/assets/images/pcGamePage/sports/logo-imes.png"
                 }
               ></Logo>
               <ButtonJoin
-                onClick={() => this.handleJoinGameClick("saba")}
+                onClick={() =>
+                  this.handleJoinGameClick(GameEnum.IMES, GameTypeEnum.ESPORTS)
+                }
                 style={{ left: "44px" }}
               >
                 {i18n.t("common.startGame")}
