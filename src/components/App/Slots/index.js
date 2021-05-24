@@ -395,6 +395,8 @@ class Slots extends Component {
         ? GameTypeEnum.TABLEGAME
         : this.props.match.url.indexOf("slots") >= 0
         ? GameTypeEnum.SLOT
+        : this.props.match.url.indexOf("fish") >= 0
+        ? GameTypeEnum.FISH
         : GameTypeEnum.TIGERSLOT;
     return type;
   }

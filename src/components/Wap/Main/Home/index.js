@@ -336,7 +336,8 @@ class Home extends Component {
     if (
       type === GameTypeEnum.SLOT ||
       type === GameTypeEnum.TIGERSLOT ||
-      type === GameTypeEnum.TABLEGAME
+      type === GameTypeEnum.TABLEGAME ||
+      type === GameTypeEnum.FISH
     ) {
       this.props.navigate(`/slots/${params}/${type}`);
     } else {

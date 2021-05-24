@@ -467,7 +467,7 @@ class Slot extends Component {
                       }/assets/images/slotGame/${row.gpcode.toLowerCase()}/${row.code.replace(
                         /_/g,
                         ""
-                      )}.png`}
+                      )}.${row.gpcode === "JDB" ? "jpg" : "png"}`}
                       style={{ borderRadius: "20px 20px 0 0" }}
                       onClick={() => this.handleGameClick(row.gpcode, row.id)}
                     />
