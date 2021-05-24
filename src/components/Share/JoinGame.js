@@ -13,7 +13,7 @@ class JoinGame extends Component {
     maintenance: false,
   };
   componentDidMount() {
-    const gameType = this.props.match.params.type;
+    const gameType = parseInt(this.props.match.params.type);
 
     const gameCode = this.props.match.params.params;
     if (gameType === GameTypeEnum.FISH) {
@@ -24,6 +24,20 @@ class JoinGame extends Component {
           this.handleJoinGameMaintenance(response);
         }
       });
+    } else if (
+      gameType === GameTypeEnum.ARCADE ||
+      gameType === GameTypeEnum.SLOT ||
+      gameType === GameTypeEnum.TABLEGAME
+    ) {
+      GameService.JoinGame(this.props.match.params.params2, gameCode).then(
+        (response) => {
+          if (response.IsSuccess) {
+            window.location.href = response.data.url;
+          } else {
+            this.handleJoinGameMaintenance(response);
+          }
+        }
+      );
     } else {
       GameService.JoinLobbyGame(gameType, gameCode).then((response) => {
         if (response.IsSuccess) {

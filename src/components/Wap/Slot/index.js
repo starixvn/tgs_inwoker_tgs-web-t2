@@ -315,7 +315,9 @@ class Slot extends Component {
   // };
   handleGameClick = (gpcode, gpid) => {
     if (this.props.token) {
-      window.open(`/${i18n.language}/joingame/${gpcode}/${gpid})}`);
+      window.open(
+        `/${i18n.language}/joingame/${this.props.match.params.type}/${gpcode}/${gpid}`
+      );
     } else {
       this.props.history.push(`/${i18n.language}/}`);
     }

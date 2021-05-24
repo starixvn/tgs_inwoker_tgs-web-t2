@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
-import {GameService} from  '@Inwoker/tgs-api';
+import { GameService } from "@Inwoker/tgs-api";
 import LoadingGIF from "../../../assets/images/loading.gif";
 import LogoPNG from "../../../assets/images/logo.png";
 import BGJPG from "../../../assets/images/bg.jpg";
@@ -87,31 +87,23 @@ const GameName = styled.div`
   margin: 14px 0 0 20px;
 `;
 const StyleButton = styled.div`
+  border-radius: 4px;
 
-
-border-radius: 4px;
-
-
-
-border: solid 1px #ffffff;
+  border: solid 1px #ffffff;
   background-image: linear-gradient(to top, #91030c, #c40511);
   &:hover {
     cursor: pointer;
-    box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);
+    box-shadow: inset 1px 1px 9px 0 rgba(255, 255, 255, 0.75);
   }
-
 
   width: 96px;
   height: 32px;
   margin: 9px 0 0 20px;
 
-
   border-radius: 5px;
   font-size: 14px;
   color: #fff;
   float: left;
-
-
 `;
 const ButtonLabel = styled.span`
   text-align: center;
@@ -124,14 +116,14 @@ class Play extends Component {
     this.state = {
       loading: true,
       maintenance: false,
-      fullScreen: false
+      fullScreen: false,
     };
     this.myRef = React.createRef();
   }
   componentDidMount() {
     window.scrollTo(0, 0);
     if (this.props.token != null) {
-        this.DoJoinGame();
+      this.DoJoinGame();
     }
   }
   handleRefreshClick = () => {
@@ -139,24 +131,24 @@ class Play extends Component {
     this.myRef.current.src = "";
     this.DoJoinGame();
   };
-  componentWillUpdate() { }
+  componentWillUpdate() {}
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.token == null && this.props.token != null) {
       this.DoJoinGame();
     }
   }
   handleFullScreenClick = () => {
-
-    var elem = this.myRef.current
+    var elem = this.myRef.current;
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
-    } else if (elem.webkitRequestFullscreen) { /* Safari */
+    } else if (elem.webkitRequestFullscreen) {
+      /* Safari */
       elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE11 */
+    } else if (elem.msRequestFullscreen) {
+      /* IE11 */
       elem.msRequestFullscreen();
     }
-
-  }
+  };
   // handleTestPlayClick = () => {
   //   let test =
   //     this.state.test == SlotGameIsTest.Yes
@@ -173,7 +165,7 @@ class Play extends Component {
   DoJoinGame = () => {
     const params = parseInt(this.props.match.params.params);
     const type = this.props.match.params.type;
-    GameService.JoinGame(type,params).then((response) => {
+    GameService.JoinGame(params, type).then((response) => {
       if (response.IsSuccess) {
         if (response.data.url != null && this.myRef.current != null) {
           this.myRef.current.src = response.data.url;
@@ -217,13 +209,8 @@ class Play extends Component {
               <RefreshButton onClick={this.handleRefreshClick}></RefreshButton>
               <Spliter></Spliter>
               <GameName>{this.props.match.params.name}</GameName>
-              <StyleButton
-                onClick={this.handleFullScreenClick}
-
-              >
-                <ButtonLabel>
-                  {i18n.t("slot.fullscreen")}
-                </ButtonLabel>
+              <StyleButton onClick={this.handleFullScreenClick}>
+                <ButtonLabel>{i18n.t("slot.fullscreen")}</ButtonLabel>
               </StyleButton>
             </GameFrameHeader>
             <GameFrame

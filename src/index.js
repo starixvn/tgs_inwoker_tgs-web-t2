@@ -124,7 +124,7 @@ const AppWrapper = () => {
           <Switch>
             <Route
               exact
-              path={baseRouteUrl + "/joingame/:type/:params"}
+              path={baseRouteUrl + "/joingame/:type/:params/:params2?"}
               component={JoinGame}
             />
             <Route
