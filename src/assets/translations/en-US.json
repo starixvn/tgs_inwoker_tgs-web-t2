@@ -67,10 +67,10 @@
     "esports": "eSports",
     "live": "Live Casino",
     "lottery": "Lottery",
-    "chess": "Chess",
+    "chess": "Card Game",
     "slot": "Slot",
-    "electron": "Electron",
-    "fish": "Fish",
+    "electron": "E-Game",
+    "fish": "Fishing",
     "promotion": "Promotion",
     "download": "Download",
     "home": "Home",
@@ -267,10 +267,10 @@
           "esports": "E-Sport",
           "live": "Live",
           "lottery": "Lotto",
-          "chess": "Chess",
-          "electron": "Elect.",
+          "chess": "Card Game",
+          "electron": "E-Game",
           "slot": "Slot",
-          "fish": "Fish"
+          "fish": "Fishing"
         },
         "profile": {
           "announcement": "An.",
