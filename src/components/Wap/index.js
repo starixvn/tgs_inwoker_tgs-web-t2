@@ -77,7 +77,7 @@ import i18n from "../../utils/i18n";
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
 import Common from "../../utils/Common";
 
-const baseRouteUrl = "/:locale(zh-CN|zh-TW|en-US)";
+const baseRouteUrl = Common.baseRouteUrl;
 const THEME = createMuiTheme({
   palette: {
     primary: {
@@ -865,6 +865,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(generalAction.getPromotionList(1, 99, true, "", true)),
     getPlayerPromotionList: () =>
       dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
+
     // getBanner: () => dispatch(uiAction.getBanner()),
     // getBankList: () => dispatch(walletAction.getBankList()),
     // getDepositChannel: () => dispatch(walletAction.getDepositChannel()),

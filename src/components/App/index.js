@@ -42,7 +42,7 @@ import Download from "./Download/index";
 import { SupportService } from "../../services/SupportService";
 
 import i18n from "../../utils/i18n";
-const baseRouteUrl = "/:locale(zh-CN|zh-TW|en-US)";
+const baseRouteUrl = Common.baseRouteUrl;
 const Main = styled.div`
   min-height: 600px;
 `;

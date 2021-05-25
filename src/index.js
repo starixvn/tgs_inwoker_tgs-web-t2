@@ -34,7 +34,7 @@ import { makeStyles } from "@material-ui/core";
 import i18n from "./utils/i18n";
 import { ConfigService } from "@Inwoker/tgs-api";
 
-const baseRouteUrl = "/:locale(zh-CN|zh-TW|en-US)";
+import Common from "./utils/Common";
 
 require("es6-promise").polyfill();
 const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -124,19 +124,19 @@ const AppWrapper = () => {
           <Switch>
             <Route
               exact
-              path={baseRouteUrl + "/joingame/:type/:params/:params2?"}
+              path={Common.baseRouteUrl + "/joingame/:type/:params/:params2?"}
               component={JoinGame}
             />
             <Route
               exact
-              path={baseRouteUrl + "/joinlobbygame/:type/:params"}
+              path={Common.baseRouteUrl + "/joinlobbygame/:type/:params"}
               component={JoinLobbyGame}
             />
             <Route
-              path={baseRouteUrl + "/"}
+              path={Common.baseRouteUrl + "/"}
               render={(props) => (isMobile ? <Wap /> : <Web />)}
             />
-            <Redirect to={"/zh-CN/"} />
+            <Redirect to={`/${Config.defaultLanguage}`} />
           </Switch>
         </Router>
       </SnackbarProvider>

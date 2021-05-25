@@ -32,6 +32,7 @@ import PromoImage1 from "../assets/images/promotion/promo-1.jpg";
 import PromoImage2 from "../assets/images/promotion/promo-2.jpg";
 import PromoImage3 from "../assets/images/promotion/promo-3.jpg";
 import i18n from "./i18n";
+import config from "../config/config";
 function getLanguagePrefixFolder() {
   var prefix = "";
   var arr = [
@@ -390,7 +391,12 @@ function GetPromoImg(index) {
   return promoImgMap[index % 3];
 }
 
+const baseRouteUrl = `/:locale(${config.languages
+  .map((item) => item.name)
+  .join("|")})`;
+
 const Common = {
+  baseRouteUrl,
   ConvertSlotGameParentIdToString,
   GetBonusCategory,
   formatNumberWithCommas,

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import "react-sticky-header/styles.css";
-
+import config from "../../config/config";
 import { withStyles } from "@material-ui/core/styles";
 
 import { withRouter } from "react-router-dom";
@@ -685,7 +685,22 @@ class Header extends Component {
               <LinkContainer style={{ float: "right" }}>
                 <LinkList>
                   <LinkListItem>
-                    <CustomExternalLink
+                    {config.languages.map((lang, index) => {
+                      return (
+                        <>
+                          <CustomExternalLink
+                            selected={i18n.language === lang.name}
+                            onClick={() => {
+                              window.location.href = `/${lang.name}`;
+                            }}
+                          >
+                            {lang.label}
+                          </CustomExternalLink>
+                          {index < config.languages.length - 1 ? " | " : ""}
+                        </>
+                      );
+                    })}
+                    {/* <CustomExternalLink
                       selected={i18n.language === "zh-CN"}
                       onClick={() => {
                         window.location.href = "/zh-CN";
@@ -710,7 +725,7 @@ class Header extends Component {
                       }}
                     >
                       English
-                    </CustomExternalLink>
+                    </CustomExternalLink> */}
                   </LinkListItem>
                 </LinkList>
               </LinkContainer>

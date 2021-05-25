@@ -1,6 +1,6 @@
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-
+import config from "../config/config";
 i18n.on("languageChanged", function (lng) {
   // if the language we switched to is the default language we need to remove the /en from URL
   //   if (lng === i18n.options.fallbackLng[0]) {
@@ -26,8 +26,10 @@ i18n.use(LanguageDetector).init({
       translation: require("../assets/translations/zh-TW.json"),
     },
   },
-  whitelist: ["zh-CN", "zh-TW", "en-US"],
-  fallbackLng: ["zh-CN"],
+  whitelist: config.languages.map((item) => {
+    return item.name;
+  }),
+  fallbackLng: [config.defaultLanguage],
   detection: {
     order: ["path"],
     lookupFromPathIndex: 0,

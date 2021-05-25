@@ -30,7 +30,7 @@ import LoginBgJPG from "../../../assets/images/wap/login-bg.jpg";
 import IconUserPNG from "../../../assets/images/wap/icon-user.png";
 import IconUnlockPNG from "../../../assets/images/wap/icon-unlock.png";
 import IconPromoPNG from "../../../assets/images/wap/icon-promo.png";
-
+import config from "../../../config/config";
 import { errorSwitcher } from "../../../utils/ErrorSwitcher";
 const Container = styled.div`
   z-index: 10;
@@ -454,33 +454,26 @@ class Login extends Component {
                     ></ButtonWap>
                   </LoginActionContainer>
                   <LanguageWrap>
-                    <LanguageLink
-                      selected={i18n.language === "zh-CN"}
-                      onClick={() => {
-                        window.location.href = "/zh-CN";
-                      }}
-                    >
-                      简体中文
-                    </LanguageLink>
+                    {config.languages.map((lang, index) => {
+                      return (
+                        <>
+                          <LanguageLink
+                            selected={i18n.language === lang.name}
+                            onClick={() => {
+                              window.location.href = `/${lang.name}`;
+                            }}
+                          >
+                            {lang.label}
+                          </LanguageLink>
 
-                    <LanguageLink> | </LanguageLink>
-                    <LanguageLink
-                      selected={i18n.language === "zh-TW"}
-                      onClick={() => {
-                        window.location.href = "/zh-TW";
-                      }}
-                    >
-                      繁体中文
-                    </LanguageLink>
-                    <LanguageLink> | </LanguageLink>
-                    <LanguageLink
-                      selected={i18n.language === "en-US"}
-                      onClick={() => {
-                        window.location.href = "/en-US";
-                      }}
-                    >
-                      English
-                    </LanguageLink>
+                          {index < config.languages.length - 1 ? (
+                            <LanguageLink> | </LanguageLink>
+                          ) : (
+                            ""
+                          )}
+                        </>
+                      );
+                    })}
                   </LanguageWrap>
                 </>
               );
