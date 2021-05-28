@@ -4,6 +4,7 @@ import TitleImg from "../../../assets/images/slot-title.png";
 import BGimage from "../../../assets/images/slot-bg.png";
 import HomeSportSabaPNG from "../../../assets/images/home-sport-saba.png";
 import HomeSportSboPNG from "../../../assets/images/home-sport-sbo.png";
+import HomeSportImesPNG from "../../../assets/images/home-sport-imes.png";
 import ScrollAnimation from "react-animate-on-scroll";
 
 export default function SlotSection(props) {
@@ -102,6 +103,17 @@ export default function SlotSection(props) {
               style={{ overflow: "visible" }}
             >
               <GameIcon src={HomeSportSabaPNG}></GameIcon>
+            </ScrollAnimation>
+            <ScrollAnimation
+              animateIn="fadeInDown"
+              duration={8}
+              animateOnce={true}
+              style={{ overflow: "visible" }}
+            >
+              <GameIcon
+                src={HomeSportImesPNG}
+                style={{ marginTop: "8px" }}
+              ></GameIcon>
             </ScrollAnimation>
           </SlotGameContainer>
         </TitleContainer>

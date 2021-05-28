@@ -4,13 +4,14 @@ import styled from "styled-components";
 
 import { GameService } from "@Inwoker/tgs-api";
 import LoadingGIF from "../../../assets/images/loading.gif";
-import LogoPNG from "../../../assets/images/logo.png";
+
 import BGJPG from "../../../assets/images/bg.jpg";
 import IconRefreshLargePNG from "../../../assets/images/icon-refresh-large.png";
-import { SlotGameIsTest } from "../../../utils/Enum";
+
 import Maintenance from "../../Share/Maintenance";
 import { withSnackbar } from "notistack";
 import i18n from "../../../utils/i18n";
+import config from "../../../config/config";
 const Container = styled.div`
   width: 100%;
   background: url(${BGJPG});
@@ -18,7 +19,7 @@ const Container = styled.div`
 `;
 const InnerContainer = styled.div`
   margin: 35px auto;
-  width: 1000px;
+  width: 1280px;
   height: 837px;
   overflow: hidden;
   background-color: #eaeaea;
@@ -47,6 +48,7 @@ const LoadingInner = styled.div`
 const LoadingLogoImg = styled.img`
   margin: 0 auto;
   display: block;
+  width: 150px;
 `;
 const LoadingLogoImg2 = styled.img`
   margin: 0 auto;
@@ -56,7 +58,7 @@ const GameFrameHeader = styled.div`
   width: 100%;
   height: 50px;
   margin: 0 0 10px 0;
-  background-color: #c40511;
+  background-color: #8a7f73;
 `;
 const RefreshButton = styled.div`
   width: 48px;
@@ -90,7 +92,7 @@ const StyleButton = styled.div`
   border-radius: 4px;
 
   border: solid 1px #ffffff;
-  background-image: linear-gradient(to top, #91030c, #c40511);
+  background-color: #f0ca83;
   &:hover {
     cursor: pointer;
     box-shadow: inset 1px 1px 9px 0 rgba(255, 255, 255, 0.75);
@@ -195,7 +197,12 @@ class Play extends Component {
                 return (
                   <LoadingContainer>
                     <LoadingInner>
-                      <LoadingLogoImg src={LogoPNG} />
+                      <LoadingLogoImg
+                        src={
+                          process.env.PUBLIC_URL +
+                          `/assets/images/logo/${config.brand}.png`
+                        }
+                      />
                       <div className="clear"></div>
                       <LoadingLogoImg2 src={LoadingGIF} />
                     </LoadingInner>

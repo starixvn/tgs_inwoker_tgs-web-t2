@@ -2,6 +2,7 @@ module.exports = {
   baseUrl: "https://operator.srvptt.com/api/",
   client: "I7nKiimrZQOqnJ6ryjUw74c0Hi64KC6Myunhob4cHh8VOUIuZh4p63czefxyyzbZ",
   currency: "CNY",
+  brand: "PGG",
   languages: [
     { name: "zh-CN", label: "简体" },
     { name: "zh-TW", label: "繁體" },

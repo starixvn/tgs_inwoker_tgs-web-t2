@@ -52,7 +52,10 @@ class Play extends Component {
         if (response.IsSuccess) {
           this.setState({ ...this.state, maintenance: false });
           if (this.myRef.current)
-            this.myRef.current.src = "https://" + response.data.url;
+            this.myRef.current.src =
+              response.data.url.indexOf("http") < 0
+                ? "https://" + response.data.url
+                : response.data.url;
         } else {
           document.getElementsByTagName("body")[0].style.overflow = "";
           window.removeEventListener("resize", this.updateWindowDimensions);

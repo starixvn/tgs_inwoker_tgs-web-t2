@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-
+import config from "../../config/config";
 import LoadingGIF from "../../assets/images/loading.gif";
-import LogoPNG from "../../assets/images/logo.png";
 
 const Container = styled.div`
   width: 100%;
@@ -16,9 +15,9 @@ const Container = styled.div`
     0,
     0,
     0,
-    ${props => (props.opacity ? props.opacity : 0.8)}
+    ${(props) => (props.opacity ? props.opacity : 0.8)}
   );
-  ${props =>
+  ${(props) =>
     props.open ? "opacity:1;height: 100%;" : "opacity:0;height:0px;"};
 `;
 const Inner = styled.div`
@@ -30,6 +29,7 @@ const Inner = styled.div`
 `;
 const LogoImg = styled.img`
   margin: 0 auto;
+  width: 180px;
   display: block;
 `;
 const LogoImg2 = styled.img`
@@ -40,7 +40,11 @@ function Loading(props) {
   return (
     <Container open={props.show} opacity={props.opacity}>
       <Inner>
-        <LogoImg src={LogoPNG} />
+        <LogoImg
+          src={
+            process.env.PUBLIC_URL + `/assets/images/logo/${config.brand}.png`
+          }
+        />
         <div className="clear"></div>
         <LogoImg2 src={LoadingGIF} />
       </Inner>

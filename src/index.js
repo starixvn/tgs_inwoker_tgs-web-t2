@@ -76,6 +76,8 @@ ConfigService.setClient(Config.client);
 ConfigService.setCurrency(Config.currency);
 
 ConfigService.setLiveChatUrl(Config.liveChatUrl);
+document.getElementById("favicon").href =
+  process.env.PUBLIC_URL + `/assets/images/logo/${Config.brand}.ico`;
 // if (
 //   process.env.REACT_APP_CUSTOM_NODE_ENV !== "development" &&
 //   (process.env.REACT_APP_CUSTOM_NODE_ENV !== "qa" || Config.baseUrl === "") &&

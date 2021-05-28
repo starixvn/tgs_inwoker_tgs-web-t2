@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-import LogoPNG from "../../../assets/images/logo.png";
+import config from "../../../config/config";
 const Container = styled.div`
   width: 100%;
 
@@ -37,7 +36,11 @@ function Loading(props) {
   return (
     <Container open={props.show} opacity={props.opacity}>
       <Inner>
-        <LogoImg src={LogoPNG} />
+        <LogoImg
+          src={
+            process.env.PUBLIC_URL + `/assets/images/logo/${config.brand}.png`
+          }
+        />
         <div className="clear"></div>
         <CircularProgress
           size={80}

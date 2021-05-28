@@ -15,7 +15,6 @@ import BtnAppsPNG from "../../assets/images/btn-apps.png";
 import BtnCSPNG from "../../assets/images/btn-cs.png";
 import BtnAppsHoverPNG from "../../assets/images/btn-apps-hover.png";
 import BtnCSHoverPNG from "../../assets/images/btn-cs-hover.png";
-import Logo140x44PNG from "../../assets/images/wap/logo.png";
 
 import { SHOWING_DIALOG, SHOW_LOGIN } from "../../constants/actionType";
 import ArrowDropDownCircleOutlinedIcon from "@material-ui/icons/ArrowDropDownCircleOutlined";
@@ -162,11 +161,12 @@ const BottomContainer = styled.div`
   max-width: 1280px;
 `;
 const LogoContainer = styled.div`
-  background-image: url(${Logo140x44PNG});
+  background-image: url(${process.env
+    .PUBLIC_URL}/assets/images/logo/${config.brand}.png);
   background-repeat: no-repeat;
   background-size: contain;
   width: 160px;
-  height: 110px;
+
   background-position: left center;
   float: left;
   &:hover {
@@ -187,7 +187,7 @@ const RightMenuUL = styled.ul`
   float: left;
   list-style: none;
   padding: 0;
-  margin: 0 0 0 20px;
+  margin: 0 0 0 10px;
   height: 110px;
 `;
 
@@ -293,18 +293,9 @@ const RightMenuBottomLine = styled.div`
 `;
 const RightMenuLI = styled.li`
   display: inline-block;
-  width: 100px;
+  padding: 0 11px;
   height: 95%;
   color: #f6f6f6;
-  @media (max-width: 925px) {
-    width: 100px;
-  }
-  @media (max-width: 770px) {
-    width: 80px;
-  }
-  @media (max-width: 650px) {
-    width: 100px;
-  }
 
   &:hover {
     color: #f0ca83;
@@ -611,6 +602,7 @@ class Header extends Component {
       GameTypeEnum.SPORTS,
       GameTypeEnum.ESPORTS,
       GameTypeEnum.TABLEGAME,
+      GameTypeEnum.FISH,
     ];
     if (slotPageGameType.indexOf(gameType) >= 0) {
       if (gameType == GameTypeEnum.SPORTS || gameType == GameTypeEnum.ESPORTS) {
@@ -621,6 +613,8 @@ class Header extends Component {
             `/${i18n.language}/sports/play/${gameCode}/${gameType}`
           );
         }
+      } else if (gameType == GameTypeEnum.FISH) {
+        this.props.history.push(`/${i18n.language}/fish`);
       } else {
         this.props.history.push(`/${i18n.language}/${path}/${gameCode}`);
       }

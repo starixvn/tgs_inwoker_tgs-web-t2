@@ -5,7 +5,6 @@ import { withSnackbar } from "notistack";
 import { withRouter } from "react-router-dom";
 import ButtonSwitch from "./ButtonSwitch";
 
-import LoginLogoPNG from "../../../assets/images/wap/logo.png";
 import IconCheckedPNG from "../../../assets/images/wap/icon-checked.png";
 import Textbox from "./Textbox";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -55,7 +54,9 @@ const ContentWrap = styled.div`
   padding-bottom: 60px;
 `;
 const Logo = styled.div`
-  background: url(${LoginLogoPNG}) no-repeat center center;
+  background: url(${process.env.PUBLIC_URL +
+    `/assets/images/logo/${config.brand}.png`})
+    no-repeat center center;
   width: 400px;
   height: 200px;
   margin: 60px auto 60px auto;

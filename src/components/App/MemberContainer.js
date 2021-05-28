@@ -106,7 +106,7 @@ const MemberUserName = styled.span`
 const Spliter = styled.div`
   width: 2px;
   height: 16px;
-  margin: 12px 10px 0px 10px;
+  margin: 12px 5px 0px 5px;
   float: right;
   background-color: #8a7f73;
 `;
