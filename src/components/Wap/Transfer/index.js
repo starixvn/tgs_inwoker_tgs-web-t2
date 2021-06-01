@@ -7,7 +7,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Dialog";
 import { AppHistory } from "../../../history/History";
 
-import { WalletType } from "../../../utils/Enum";
 import Button from "../../Wap/Share/Button";
 
 import IconTransferTotalPNG from "../../../assets/images/wap/icon-transfer-total.png";
@@ -21,6 +20,7 @@ import {
   accountAction,
   walletAction,
   RESET_WALLETRESULT,
+  WalletType,
 } from "@Inwoker/tgs-api";
 
 import { withSnackbar } from "notistack";

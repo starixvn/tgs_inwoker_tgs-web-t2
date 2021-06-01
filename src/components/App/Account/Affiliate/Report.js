@@ -7,9 +7,9 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { AccountService } from "../../../../services/AccountService";
+import { AccountService } from "@Inwoker/tgs-api";
 import TablePagination from "@material-ui/core/TablePagination";
-import i18n from "../../../../utils/i18n"
+import i18n from "../../../../utils/i18n";
 const Container = styled.div``;
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -71,8 +71,12 @@ class Member extends Component {
           <TableHead>
             <TableRow>
               <StyledTableCell>{i18n.t("affiliate.dateTime")}</StyledTableCell>
-              <StyledTableCell>{i18n.t("affiliate.transAmount")}</StyledTableCell>
-              <StyledTableCell>{i18n.t("affiliate.commission")}</StyledTableCell>
+              <StyledTableCell>
+                {i18n.t("affiliate.transAmount")}
+              </StyledTableCell>
+              <StyledTableCell>
+                {i18n.t("affiliate.commission")}
+              </StyledTableCell>
               <StyledTableCell>{i18n.t("affiliate.status")}</StyledTableCell>
             </TableRow>
           </TableHead>

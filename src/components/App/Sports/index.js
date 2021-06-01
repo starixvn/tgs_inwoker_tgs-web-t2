@@ -17,9 +17,9 @@ import LeftSoccer from "../../../assets/images/sportsbook/leftman.png";
 import RightSoccer from "../../../assets/images/sportsbook/rightman.png";
 import MiddleText from "../../../assets/images/sportsbook/middletext.png";
 
-import { SHOW_LOGIN } from "../../../constants/actionType";
+import { SHOW_LOGIN, GameTypeEnum, GameEnum } from "@Inwoker/tgs-api";
 import i18n from "../../../utils/i18n";
-import { GameTypeEnum, GameEnum } from "../../../utils/Enum";
+
 import CommonMarquee from "../CommonMarquee";
 import Left from "../../../assets/images/arrow-left.svg";
 import Right from "../../../assets/images/arrow-right.svg";

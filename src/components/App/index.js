@@ -13,6 +13,7 @@ import {
   accountAction,
   inboxAction,
   SHOW_LOGIN,
+  SupportService,
 } from "@Inwoker/tgs-api";
 
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
@@ -38,8 +39,6 @@ import Loading from "./Loading";
 import Download from "./Download/index";
 
 // import VIP from "./VIP/index";
-
-import { SupportService } from "../../services/SupportService";
 
 import i18n from "../../utils/i18n";
 const baseRouteUrl = Common.baseRouteUrl;

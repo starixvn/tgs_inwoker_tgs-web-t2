@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import IconReportRedPNG from "../../../../assets/images/icon-report-active.png";
 
-import { ReportService } from "@Inwoker/tgs-api";
-import { GameService } from "../../../../services/GameService";
+import { ReportService, GameService } from "@Inwoker/tgs-api";
 
 import AccountDetails from "./AccountDetails";
 import WithdrawalReport from "./WithdrawalReport";

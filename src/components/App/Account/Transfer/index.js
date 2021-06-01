@@ -14,8 +14,8 @@ import Select from "@material-ui/core/Select";
 
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import IconRefreshPNG from "../../../../assets/images/icon-refresh.png";
-import { WalletType } from "../../../../utils/Enum";
-import { walletAction, RESET_WALLETRESULT } from "@Inwoker/tgs-api";
+
+import { walletAction, RESET_WALLETRESULT, WalletType } from "@Inwoker/tgs-api";
 
 import Loading from "../../Loading";
 import Common from "../../../../utils/Common";

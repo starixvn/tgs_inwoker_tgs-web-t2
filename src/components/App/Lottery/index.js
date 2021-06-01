@@ -2,18 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
 
-import BtnRedPNG from "../../../assets/images/btn-red.png";
-import BtnRedHoverPNG from "../../../assets/images/btn-red-hover.png";
-
-import { SHOW_LOGIN } from "../../../constants/actionType";
+import { SHOW_LOGIN, GameTypeEnum } from "@Inwoker/tgs-api";
 
 import LotteryBGNewPNG from "../../../assets/images/lottery/lottery-bg-new.png";
 
-import BtnJoinPNG from "../../../assets/images/btn-join.png";
-import BtnJoinHoverPNG from "../../../assets/images/btn-join-hover.png";
 import _633Lottery from "../../../assets/images/lottery/633-lotteryball.png";
 import _633Description from "../../../assets/images/lottery/633-lotterydescription.png";
-import { GameTypeEnum } from "../../../utils/Enum";
+
 import i18n from "../../../utils/i18n";
 import CommonMarquee from "../CommonMarquee";
 import ScrollAnimation from "react-animate-on-scroll";

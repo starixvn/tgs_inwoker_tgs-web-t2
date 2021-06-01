@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { GameService } from "@Inwoker/tgs-api";
-import { GameTypeEnum } from "../../../utils/Enum";
+import { GameService, GameTypeEnum } from "@Inwoker/tgs-api";
+
 import Maintenance from "../../Share/Maintenance";
 import SportsBGNewPNG from "../../../assets/images/sportsbook/sports-bg2.jpg";
 const Container = styled.div`

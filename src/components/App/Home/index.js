@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import Common from "../../../utils/Common";
-import { GameTypeEnum, GameEnum } from "../../../utils/Enum";
+
 import Slider from "./Slider";
 import { withRouter } from "react-router-dom";
 
@@ -27,7 +27,12 @@ import KYContentButtonPNG from "../../../assets/images/ky-content-button.png";
 import Recommend from "./Recommend";
 import Marquee from "./Marquee";
 import FloatPanel from "./FloatPanel";
-import { SHOW_MODAL, SHOW_LOGIN } from "../../../constants/actionType";
+import {
+  SHOW_MODAL,
+  SHOW_LOGIN,
+  GameTypeEnum,
+  GameEnum,
+} from "@Inwoker/tgs-api";
 
 import i18n from "../../../utils/i18n";
 import SlotSection from "./SlotSection";

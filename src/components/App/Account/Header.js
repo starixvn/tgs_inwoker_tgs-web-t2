@@ -4,7 +4,6 @@ import DynamicFont from "react-dynamic-font";
 
 import IconRefreshPNG from "../../../assets/images/icon-refresh.png";
 
-import { WalletType } from "../../../utils/Enum";
 import i18n from "../../../utils/i18n";
 import Common from "../../../utils/Common";
 export const rotateKeyFrame = keyframes`

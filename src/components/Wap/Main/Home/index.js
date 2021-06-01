@@ -8,7 +8,7 @@ import Slider from "./Slider";
 import DoubleMarquee from "react-marquee-double";
 import { withRouter } from "react-router-dom";
 
-import { GameTypeEnum } from "../../../../utils/Enum";
+import { GameTypeEnum } from "@Inwoker/tgs-api";
 import Common from "../../../../utils/Common";
 
 import IconDepositPNG from "../../../../assets/images/wap/icon-deposit.png";

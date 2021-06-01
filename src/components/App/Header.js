@@ -7,8 +7,14 @@ import { withStyles } from "@material-ui/core/styles";
 
 import { withRouter } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
-import { GameTypeEnum } from "../../utils/Enum";
-import { accountAction, walletAction } from "@Inwoker/tgs-api";
+
+import {
+  accountAction,
+  walletAction,
+  SHOWING_DIALOG,
+  SHOW_LOGIN,
+  GameTypeEnum,
+} from "@Inwoker/tgs-api";
 
 import TimerPNG from "../../assets/images/timer.png";
 import BtnAppsPNG from "../../assets/images/btn-apps.png";
@@ -16,7 +22,6 @@ import BtnCSPNG from "../../assets/images/btn-cs.png";
 import BtnAppsHoverPNG from "../../assets/images/btn-apps-hover.png";
 import BtnCSHoverPNG from "../../assets/images/btn-cs-hover.png";
 
-import { SHOWING_DIALOG, SHOW_LOGIN } from "../../constants/actionType";
 import ArrowDropDownCircleOutlinedIcon from "@material-ui/icons/ArrowDropDownCircleOutlined";
 
 import { Link } from "react-router-dom";

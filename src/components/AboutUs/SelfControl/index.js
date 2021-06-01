@@ -4,7 +4,7 @@ import styled from "styled-components";
 import LoginBGPNG from "../../../assets/images/login-bg.png";
 import IconCloseWhite from "../../../assets/images/icon-close-white.png";
 import { withSnackbar } from "notistack";
-import { AccountService } from "../../../services/AccountService";
+import { AccountService } from "@Inwoker/tgs-api";
 import TextField from "@material-ui/core/TextField";
 import IconInputVerifyCodePNG from "../../../assets/images/icon-input-verifycode.png";
 import Stepper from "@material-ui/core/Stepper";
@@ -25,30 +25,30 @@ const CustomText = withStyles({
     overflow: "initial",
     float: "left",
     "& .MuiOutlinedInput-input": {
-      fontSize: "14px"
+      fontSize: "14px",
     },
     "& .MuiOutlinedInput-input[readonly]": {
       backgroundColor: "transparent",
-      color: "#b6b6b6"
+      color: "#b6b6b6",
     },
     "& label.Mui-focused": {
-      color: "#b6b6b6"
+      color: "#b6b6b6",
     },
     "& .MuiInput-underline:after": {
-      borderBottomColor: "#b6b6b6"
+      borderBottomColor: "#b6b6b6",
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "#b6b6b6"
+        borderColor: "#b6b6b6",
       },
       "&:hover fieldset": {
-        borderColor: "#b6b6b6"
+        borderColor: "#b6b6b6",
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#b6b6b6"
-      }
-    }
-  }
+        borderColor: "#b6b6b6",
+      },
+    },
+  },
 })(TextField);
 const StyleButton = styled.div`
   width: 140px;
@@ -59,7 +59,7 @@ const StyleButton = styled.div`
   margin-left: 5px;
   float: left;
 
-  ${props =>
+  ${(props) =>
     props.disable === true
       ? `  background-image: linear-gradient(90deg, rgba(89,89,89,1) 0%, rgba(126,126,126,1) 100%);`
       : `  background-image: linear-gradient(
@@ -75,10 +75,10 @@ const StyleButton = styled.div`
 
   &:hover {
     cursor: pointer;
-    ${props =>
-    props.disable === true
-      ? `  background-image: linear-gradient(90deg, rgba(89,89,89,1) 0%, rgba(126,126,126,1) 100%);`
-      : `      background-blend-mode: screen, normal;
+    ${(props) =>
+      props.disable === true
+        ? `  background-image: linear-gradient(90deg, rgba(89,89,89,1) 0%, rgba(126,126,126,1) 100%);`
+        : `      background-blend-mode: screen, normal;
         background-image: linear-gradient(
             to bottom,
             rgba(59, 171, 204, 0.08),
@@ -149,23 +149,23 @@ const MiddleContainer = styled.div`
 const StyledStepper = withStyles({
   root: {
     width: "100%",
-    backgroundColor: "transparent"
-  }
+    backgroundColor: "transparent",
+  },
 })(Stepper);
 const StyledStep = withStyles({
   root: {
     overflow: "initial",
     "& .MuiStepIcon-root": {
-      color: "#bfbfbf"
+      color: "#bfbfbf",
     },
     "& .MuiStepIcon-root.MuiStepIcon-active": {
-      color: "#c0252d"
+      color: "#c0252d",
     },
 
     "& .MuiStepIcon-root.MuiStepIcon-completed": {
-      color: "#c0252d"
-    }
-  }
+      color: "#c0252d",
+    },
+  },
 })(Step);
 // dateFrom: moment(addDays(new Date(), -7)).format("YYYY-MM-DD"),
 // dateTo: moment(new Date()).format("YYYY-MM-DD")
@@ -178,7 +178,7 @@ class SelfControl extends Component {
     phone: "",
     code: "",
     freezeDay: 0,
-    freezeUntil: moment(new Date()).format("YYYY/MM/DD")
+    freezeUntil: moment(new Date()).format("YYYY/MM/DD"),
   };
   steps = ["验证码确认", "设定冻结时间", "冻结账户完成"];
 
@@ -188,20 +188,20 @@ class SelfControl extends Component {
       clearTimeout(this.timer);
     }
   }
-  onhandlePhoneChange = e => {
+  onhandlePhoneChange = (e) => {
     this.setState({ ...this.state, phone: e.target.value });
   };
-  handlePrefixChange = e => {
+  handlePrefixChange = (e) => {
     this.setState({ ...this.state, prefix: e.target.value });
   };
 
-  handleNumberChange = e => {
+  handleNumberChange = (e) => {
     this.setState({ ...this.state, number: e.target.value });
   };
-  onhandleCodeChange = e => {
+  onhandleCodeChange = (e) => {
     this.setState({ ...this.state, code: e.target.value });
   };
-  onhandleFreezeDayChange = e => {
+  onhandleFreezeDayChange = (e) => {
     let day = 0;
     if (e.target.value === "") {
       day = 0;
@@ -211,7 +211,7 @@ class SelfControl extends Component {
     this.setState({
       ...this.state,
       freezeDay: day,
-      freezeUntil: moment(addDays(new Date(), day)).format("YYYY/MM/DD")
+      freezeUntil: moment(addDays(new Date(), day)).format("YYYY/MM/DD"),
     });
   };
   onhandleGetCodeClick = () => {
@@ -220,7 +220,7 @@ class SelfControl extends Component {
         this.props.account.token,
         this.state.phone,
         "check"
-      ).then(response => {
+      ).then((response) => {
         // this.setState({ ...this.state, message: response.msg });
         if (response.IsSuccess) {
           // this.props.enqueueSnackbar(response.msg, {
@@ -228,7 +228,7 @@ class SelfControl extends Component {
           // });
         } else {
           this.props.enqueueSnackbar(response.msg, {
-            variant: "error"
+            variant: "error",
           });
         }
         this.setState({ ...this.state, countdown: response.data });
@@ -241,13 +241,13 @@ class SelfControl extends Component {
       AccountService.SelfControlVerify(
         this.props.account.token,
         this.state.code
-      ).then(response => {
+      ).then((response) => {
         // this.setState({ ...this.state, message: response.msg });
         if (response.IsSuccess) {
           this.setState({ ...this.state, activeStep: 1 });
         } else {
           this.props.enqueueSnackbar(response.msg, {
-            variant: "error"
+            variant: "error",
           });
         }
       });
@@ -263,13 +263,13 @@ class SelfControl extends Component {
       AccountService.SelfControlSetTime(
         this.props.account.token,
         this.state.freezeDay
-      ).then(response => {
+      ).then((response) => {
         // this.setState({ ...this.state, message: response.msg });
         if (response.IsSuccess) {
           this.props.onCloseDialog();
         } else {
           this.props.enqueueSnackbar(response.msg, {
-            variant: "error"
+            variant: "error",
           });
         }
       });
@@ -284,7 +284,7 @@ class SelfControl extends Component {
       phone: "",
       code: "",
       freezeDay: 0,
-      freezeUntil: moment(new Date()).format("YYYY/MM/DD")
+      freezeUntil: moment(new Date()).format("YYYY/MM/DD"),
     });
     this.props.onCloseDialog();
   };
@@ -307,7 +307,7 @@ class SelfControl extends Component {
         </Header>
         <Container>
           <StyledStepper activeStep={this.state.activeStep} alternativeLabel>
-            {this.steps.map(label => (
+            {this.steps.map((label) => (
               <StyledStep key={label}>
                 <StepLabel>{label}</StepLabel>
               </StyledStep>
@@ -329,7 +329,7 @@ class SelfControl extends Component {
                           marginTop: "10px",
                           width: "110px",
 
-                          marginRight: "5px"
+                          marginRight: "5px",
                         }}
                       >
                         <Select
@@ -346,14 +346,14 @@ class SelfControl extends Component {
                         onChange={this.onhandlePhoneChange}
                         value={this.state.phone}
                         type={"number"}
-                        onInput={e => {
+                        onInput={(e) => {
                           e.target.value = Math.max(0, parseInt(e.target.value))
                             .toString()
                             .slice(0, 20);
                         }}
                         style={{
                           width: "240px",
-                          height: "46px"
+                          height: "46px",
                         }}
                         variant="outlined"
                         autoComplete="off"
@@ -366,7 +366,7 @@ class SelfControl extends Component {
                         placeholder="请输入验证码"
                         adornment={IconInputVerifyCodePNG}
                         onChange={this.onhandleCodeChange}
-                        onInput={e => {
+                        onInput={(e) => {
                           e.target.value = Math.max(0, parseInt(e.target.value))
                             .toString()
                             .slice(0, 6);
@@ -377,7 +377,7 @@ class SelfControl extends Component {
                         type={"number"}
                         style={{
                           width: "208px",
-                          height: "46px"
+                          height: "46px",
                         }}
                       ></CustomText>
 
@@ -406,14 +406,14 @@ class SelfControl extends Component {
                         onChange={this.onhandleFreezeDayChange}
                         value={this.state.freezeDay}
                         type={"number"}
-                        onInput={e => {
+                        onInput={(e) => {
                           e.target.value = Math.max(0, parseInt(e.target.value))
                             .toString()
                             .slice(0, 5);
                         }}
                         style={{
                           width: "356px",
-                          height: "46px"
+                          height: "46px",
                         }}
                         variant="outlined"
                         autoComplete="off"
@@ -421,7 +421,7 @@ class SelfControl extends Component {
                         label="冻结时间(天)"
                         type="number"
                         InputLabelProps={{
-                          shrink: true
+                          shrink: true,
                         }}
                       ></CustomText>
                       <div className="clear"></div>

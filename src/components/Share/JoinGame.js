@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 
 import Loading from "../App/Loading";
-import { GameService } from "@Inwoker/tgs-api";
+import { GameService, GameTypeEnum } from "@Inwoker/tgs-api";
 
 import config from "../../config/config";
-import { GameTypeEnum } from "../../utils/Enum";
+
 import Maintenance from "./Maintenance";
 
 class JoinGame extends Component {

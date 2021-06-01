@@ -5,8 +5,6 @@ import { AppHistory } from "../../../history/History";
 
 import BGGamePNG from "../../../assets/images/slot/bg-game.png";
 
-import { GameService } from "@Inwoker/tgs-api";
-
 import SlotAllPNG from "../../../assets/images/slot-all.png";
 import SlotAllInactivePNG from "../../../assets/images/slot-all-inactive.png";
 
@@ -28,14 +26,16 @@ import SlotBookmark1PNG from "../../../assets/images/slot-bookmark-1.png";
 import SlotBookmark2PNG from "../../../assets/images/slot-bookmark-2.png";
 
 import SlotMoreGamePNG from "../../../assets/images/slot-moregame.png";
-import { SHOW_LOGIN } from "../../../constants/actionType";
+
 import Loading from "../../../components/App/Loading";
 import {
   SlotGameIsTest,
   SlotGameWithTest,
   GameTypeEnum,
   SlotFilterType,
-} from "../../../utils/Enum";
+  SHOW_LOGIN,
+  GameService,
+} from "@Inwoker/tgs-api";
 
 import i18n from "../../../utils/i18n";
 import CommonMarquee from "../CommonMarquee";

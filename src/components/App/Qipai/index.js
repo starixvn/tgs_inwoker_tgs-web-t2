@@ -9,11 +9,10 @@ import BtnRedHoverPNG from "../../../assets/images/btn-red-hover.png";
 import BtnJoinQipaiPNG from "../../../assets/images/btn-join-qipai.png";
 import BtnJoinQipaiHoverPNG from "../../../assets/images/btn-join-qipai-hover.png";
 
-import { SHOW_LOGIN } from "../../../constants/actionType";
+import { SHOW_LOGIN, GameTypeEnum } from "@Inwoker/tgs-api";
 
 import _633SelectedPNG from "../../../assets/images/qipai/633-selectedv2.png";
 
-import { GameTypeEnum } from "../../../utils/Enum";
 import i18n from "../../../utils/i18n";
 import CommonMarquee from "../CommonMarquee";
 import { Carousel } from "react-responsive-carousel";

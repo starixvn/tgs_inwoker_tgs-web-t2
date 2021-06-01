@@ -8,14 +8,11 @@ import PromoModelPNG from "../../../assets/images/promo-bg-model.png";
 import PromoPresentPNG from "../../../assets/images/promo-bg-present.png";
 import PromoItemPNG from "../../../assets/images/promot-item.png";
 
-import { AppHistory } from "../../../history/History";
-
 import { withSnackbar } from "notistack";
 import Collapse from "@material-ui/core/Collapse";
 
-import { SHOW_LOGIN } from "../../../constants/actionType";
 import i18n from "../../../utils/i18n";
-import { generalAction } from "@Inwoker/tgs-api";
+import { generalAction, SHOW_LOGIN } from "@Inwoker/tgs-api";
 import CommonMarquee from "../CommonMarquee";
 import ScrollAnimation from "react-animate-on-scroll";
 

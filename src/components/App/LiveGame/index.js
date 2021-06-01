@@ -3,14 +3,10 @@ import { connect } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
 
 import LiveBgNewJPG from "../../../assets/images/live/live-bg-new.png";
-import Left from "../../../assets/images/arrow-left.svg";
-import Right from "../../../assets/images/arrow-right.svg";
 
 import i18n from "../../../utils/i18n";
 
-import { GameTypeEnum } from "../../../utils/Enum";
-
-import { SHOW_LOGIN } from "../../../constants/actionType";
+import { SHOW_LOGIN, GameTypeEnum } from "@Inwoker/tgs-api";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import ImgBtnPng from "../../../assets/images/live-btn.png";

@@ -6,8 +6,7 @@ import { config } from "react-spring";
 import HomeSport1PNG from "../../../assets/images/home-sport-1.png";
 import HomeSport2PNG from "../../../assets/images/home-sport-2.png";
 import HomeSport3PNG from "../../../assets/images/home-sport-3.png";
-import { GameEnum, GameTypeEnum } from "../../../utils/Enum";
-import i18n from "../../../utils/i18n";
+
 const Container = styled.div`
   width: 700px;
   height: 500px;

@@ -1,4 +1,4 @@
-import { SlotGameParentId, GameTypeEnum } from "../utils/Enum";
+import { SlotGameParentId, GameTypeEnum } from "@Inwoker/tgs-api";
 import ABCPNG from "../assets/images/wap/bank/abc.png";
 import BCMPNG from "../assets/images/wap/bank/bcm.png";
 import BOBPNG from "../assets/images/wap/bank/bob.png";

@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import TextField from "../../Share/TextField";
 import Button from "../../Share/Button";
-import { AccountService } from "../../../services/AccountService";
-import { UPDATE_INFO } from "../../../constants/actionType";
+import { AccountService } from "@Inwoker/tgs-api";
+import { UPDATE_INFO } from "@Inwoker/tgs-api";
 import { withSnackbar } from "notistack";
 const Container = styled.div`
   width: 100%;
@@ -33,7 +33,6 @@ const TextFieldLabel = styled.div`
   margin-top: 20px;
 `;
 const TextFieldContainer = styled.div`
-
   display: table;
 `;
 const DepositDescContainer = styled.div`

@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import IconProfileRedPNG from "../../../../assets/images/icon-profile-active.png";
 import { connect } from "react-redux";
-import { SHOWING_DIALOG } from "../../../../constants/actionType";
+
 import Dialog from "@material-ui/core/Dialog";
 import LoginBGPNG from "../../../../assets/images/login-bg.png";
 import IconLoginClosePNG from "../../../../assets/images/icon-login-close.png";
-import { accountAction } from "@Inwoker/tgs-api";
+import { accountAction, SHOWING_DIALOG } from "@Inwoker/tgs-api";
 import { withStyles } from "@material-ui/core/styles";
 // import Address from "./Address";
 import ChangePassword from "./ChangePassword";

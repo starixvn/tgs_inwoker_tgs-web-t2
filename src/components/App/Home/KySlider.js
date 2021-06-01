@@ -6,7 +6,7 @@ import KyHotGame1PNG from "../../../assets/images/ky-hotgame1.png";
 import KyHotGame2PNG from "../../../assets/images/ky-hotgame2.png";
 import KyHotGame3PNG from "../../../assets/images/ky-hotgame3.png";
 import KyHotGame4PNG from "../../../assets/images/ky-hotgame4.png";
-import { GameEnum, GameTypeEnum } from "../../../utils/Enum";
+import { GameEnum, GameTypeEnum } from "@Inwoker/tgs-api";
 import i18n from "../../../utils/i18n";
 export default function KySlider(props) {
   const getConfigurableProps = () => ({

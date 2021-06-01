@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { GameService } from "@Inwoker/tgs-api";
+import { GameService, GameTypeEnum, SlotFilterType } from "@Inwoker/tgs-api";
 import { withRouter } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -9,7 +9,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Modal from "@material-ui/core/Dialog";
 import Tab from "@material-ui/core/Tab";
 import { AppHistory } from "../../../history/History";
-import { GameTypeEnum, SlotFilterType } from "../../../utils/Enum";
+
 import BookmarkPNG from "../../../assets/images/wap/bookmark.png";
 import BookmarkFullPNG from "../../../assets/images/wap/bookmark-full.png";
 import Header from "../Share/Header";

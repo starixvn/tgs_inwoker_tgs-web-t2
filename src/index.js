@@ -13,7 +13,7 @@ import { isMobileOnly } from "react-device-detect";
 import { Provider } from "react-redux";
 //import store from "./store/index";
 import { createStore, applyMiddleware } from "redux";
-import rootReducer from "./reducers/rootReducer";
+
 import thunk from "redux-thunk";
 import Interceptor from "./services/Interceptor";
 import JoinGame from "./components/Share/JoinGame";
@@ -32,7 +32,7 @@ import InfoPNG from "../src/assets/images/info.png";
 import SuccessPNG from "../src/assets/images/success.png";
 import { makeStyles } from "@material-ui/core";
 import i18n from "./utils/i18n";
-import { ConfigService } from "@Inwoker/tgs-api";
+import { ConfigService, rootReducer } from "@Inwoker/tgs-api";
 
 import Common from "./utils/Common";
 
