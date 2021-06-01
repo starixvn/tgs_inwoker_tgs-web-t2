@@ -3,7 +3,7 @@ import { UNAUTHORIZE } from "@Inwoker/tgs-api";
 import { AppHistory } from "../history/History";
 import i18n from "../utils/i18n";
 import Promise from "promise-polyfill";
-import { isMobile } from "react-device-detect";
+import { isMobileOnly } from "react-device-detect";
 export default {
   setupInterceptors: (store) => {
     // Add a response interceptor
@@ -14,7 +14,9 @@ export default {
           config.headers["Authorization"] = "bearer " + client;
         }
 
-        const token = localStorage.getItem("token" + (isMobile ? "1" : "0"));
+        const token = localStorage.getItem(
+          "token" + (isMobileOnly ? "1" : "0")
+        );
         if (token != null && token != "") {
           config.headers["Token"] = token;
         }
@@ -51,20 +53,20 @@ export default {
           response.config.url.toUpperCase().indexOf("/API/PLAYER/LOGIN") >= 0
         ) {
           localStorage.setItem(
-            "token" + (isMobile ? "1" : "0"),
+            "token" + (isMobileOnly ? "1" : "0"),
             response.data.token
           );
         }
         if (
           response.config.url.toUpperCase().indexOf("/API/PLAYER/LOGOUT") >= 0
         ) {
-          localStorage.removeItem("token" + (isMobile ? "1" : "0"));
+          localStorage.removeItem("token" + (isMobileOnly ? "1" : "0"));
         }
 
         if (newResponse.code === 0) {
           newResponse.IsSuccess = true;
         } else if (newResponse.code === 102 || newResponse.code === 101) {
-          localStorage.removeItem("token" + (isMobile ? "1" : "0"));
+          localStorage.removeItem("token" + (isMobileOnly ? "1" : "0"));
           store.dispatch({ type: UNAUTHORIZE });
 
           AppHistory.replace("/" + i18n.language + "/");
@@ -84,7 +86,7 @@ export default {
               error.response.config.url.indexOf("Player/Login") < 0 &&
               error.response.config.url.indexOf("player/password") < 0
             ) {
-              localStorage.removeItem("token" + (isMobile ? "1" : "0"));
+              localStorage.removeItem("token" + (isMobileOnly ? "1" : "0"));
               store.dispatch({ type: UNAUTHORIZE });
 
               AppHistory.replace("/" + i18n.language + "/");

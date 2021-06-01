@@ -33,7 +33,7 @@ import {
   SETMESSAGEREAD_SUCCESS,
   SETMESSAGEREAD_FAILED,
 } from "@Inwoker/tgs-api";
-import { isMobile } from "react-device-detect";
+import { isMobileOnly } from "react-device-detect";
 const initialState = {
   pending: false,
   updateCardResult: null,
@@ -181,10 +181,10 @@ export function accountReducer(state = initialState, action) {
     case CHECKTOKEN_SUCCESS:
       return {
         ...state,
-        token: localStorage.getItem("token" + (isMobile ? 1 : 0)),
+        token: localStorage.getItem("token" + (isMobileOnly ? 1 : 0)),
         info: {
           ...mapToAccountState(state, action.payload.data),
-          token: localStorage.getItem("token" + (isMobile ? 1 : 0)),
+          token: localStorage.getItem("token" + (isMobileOnly ? 1 : 0)),
         },
         loading: false,
       };

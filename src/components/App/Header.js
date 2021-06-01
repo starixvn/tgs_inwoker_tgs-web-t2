@@ -172,11 +172,12 @@ const LogoContainer = styled.div`
   &:hover {
     cursor: pointer;
   }
-  @media (max-width: 525px) {
+
+  @media (max-width: 1261px) {
     display: none;
   }
-  @media (max-width: 1261px) {
-    margin-left: 50px;
+  @media (max-width: 1100px) {
+    display: block;
   }
 `;
 

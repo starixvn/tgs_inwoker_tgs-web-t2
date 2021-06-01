@@ -9,7 +9,7 @@ import { Router, Route, Switch, Redirect } from "react-router";
 import Web from "./components/App/index";
 import Wap from "./components/Wap/index";
 import * as serviceWorker from "./utils/serviceWorker";
-import { isMobile } from "react-device-detect";
+import { isMobileOnly } from "react-device-detect";
 import { Provider } from "react-redux";
 //import store from "./store/index";
 import { createStore, applyMiddleware } from "redux";
@@ -64,12 +64,12 @@ const Icon = styled.img`
   margin-right: 12px;
 `;
 
-Config.from = isMobile ? "h5" : "h5";
-Config.isPC = isMobile ? 1 : 0;
+Config.from = isMobileOnly ? "h5" : "h5";
+Config.isPC = isMobileOnly ? 1 : 0;
 
 //add config at tgs library
-ConfigService.setFrom(isMobile ? "h5" : "h5");
-ConfigService.setPc(isMobile ? 1 : 0);
+ConfigService.setFrom(isMobileOnly ? "h5" : "h5");
+ConfigService.setPc(isMobileOnly ? 1 : 0);
 ConfigService.setLang(i18n.language);
 ConfigService.setBaseUrl(Config.baseUrl);
 ConfigService.setClient(Config.client);
@@ -136,7 +136,7 @@ const AppWrapper = () => {
             />
             <Route
               path={Common.baseRouteUrl + "/"}
-              render={(props) => (isMobile ? <Wap /> : <Web />)}
+              render={(props) => (isMobileOnly ? <Wap /> : <Web />)}
             />
             <Redirect to={`/${Config.defaultLanguage}`} />
           </Switch>

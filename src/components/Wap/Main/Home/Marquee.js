@@ -31,9 +31,7 @@ function Marquee(props) {
   useEffect(() => {
     if (loaded) {
       UiService.GetMarquee().then((result) => {
-        if (result.IsSuccess) {
-          setAnnouncement(result.data);
-        }
+        setAnnouncement(result.data);
       });
     }
   }, [loaded]);

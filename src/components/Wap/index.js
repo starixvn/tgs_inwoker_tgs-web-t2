@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Router, Switch, Route } from "react-router";
 import { AppHistory } from "../../history/History";
 import { withRouter } from "react-router-dom";
-import { isMobile } from "react-device-detect";
+
 import {
   UPDATING_SCREEN_SIZE,
   SHOW_LOGIN,

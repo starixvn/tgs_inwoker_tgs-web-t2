@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import config from "../../config/config";
 import UnderconstructionPNG from "../../assets/images/underconstruction.png";
-import { isMobile } from "react-device-detect";
+import { isMobileOnly } from "react-device-detect";
 const Container = styled.div`
   width: 100%;
   background-color: #fff;
@@ -19,7 +19,7 @@ const MaintenanceText = styled.div`
 `;
 class Maintenance extends Component {
   componentDidMount() {
-    if (isMobile) {
+    if (isMobileOnly) {
       document
         .getElementById("viewport")
         .setAttribute("content", "width=750, user-scalable=no");
@@ -27,12 +27,12 @@ class Maintenance extends Component {
   }
   render() {
     return (
-      <Container style={isMobile ? {} : { minHeight: "800px" }}>
+      <Container style={isMobileOnly ? {} : { minHeight: "800px" }}>
         <MaintenanceImage
           src={UnderconstructionPNG}
-          style={isMobile ? { width: "750px" } : {}}
+          style={isMobileOnly ? { width: "750px" } : {}}
         ></MaintenanceImage>
-        <MaintenanceText style={isMobile ? { fontSize: "40px" } : {}}>
+        <MaintenanceText style={isMobileOnly ? { fontSize: "40px" } : {}}>
           系统维护中...
         </MaintenanceText>
       </Container>
