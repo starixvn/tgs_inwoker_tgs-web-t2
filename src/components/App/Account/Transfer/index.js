@@ -622,7 +622,7 @@ class Transfer extends Component {
                     (item) => item.status === 0 && item.transferwallet === true
                   )
                   .map((item, index) => (
-                    <option value={item.id} key={index}>
+                    <option value={item.abbreviation} key={index}>
                       {item.name}
                     </option>
                   ))}
@@ -646,7 +646,7 @@ class Transfer extends Component {
                     (item) => item.status === 0 && item.transferwallet === true
                   )
                   .map((item, index) => (
-                    <option value={item.id} key={index}>
+                    <option value={item.abbreviation} key={index}>
                       {item.name}
                     </option>
                   ))}

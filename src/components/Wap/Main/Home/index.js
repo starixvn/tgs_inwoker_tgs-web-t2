@@ -508,6 +508,11 @@ class Home extends Component {
                 return this.state.gameTypeListSorting.map((type, index) => {
                   return (
                     <GameSelectionLI
+                      style={
+                        i18n.language === "en-US"
+                          ? { fontSize: "29px", paddingTop: "6px" }
+                          : {}
+                      }
                       key={index}
                       selected={this.state.selectedGameType === type}
                       onClick={() => this.handleGameTypeClick(type)}
