@@ -24,6 +24,8 @@ import HomeFooterIcon1PNG from "../../assets/images/home-footer-icon1.png";
 import HomeFooterIcon1ActivePNG from "../../assets/images/home-footer-icon1-active.png";
 import Common from "../../utils/Common";
 import i18n from "../../utils/i18n";
+import config from "../../config/config";
+
 import { AppHistory } from "../../history/History";
 const Container = styled.div`
   width: 100%;
@@ -340,7 +342,11 @@ function Footer(props) {
       </HelperContainer>
       <BottomContainer>
         <CopyRightLine1>{i18n.t("web.footer.copyright")}</CopyRightLine1>
-        <CopyRightLine2>{i18n.t("web.footer.copyrightLine2")}</CopyRightLine2>
+        <CopyRightLine2>
+          {i18n
+            .t("web.footer.copyrightLine2")
+            .replace(/{brand}/g, config.brand)}
+        </CopyRightLine2>
         <Version>
           Version {process.env.REACT_APP_VERSION} (
           {process.env.REACT_APP_CUSTOM_NODE_ENV})

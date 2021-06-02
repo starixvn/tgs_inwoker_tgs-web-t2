@@ -6,6 +6,7 @@
     "ERR401": "Please check your input."
   },
   "common": {
+    "title":"{brand} | The Biggest & Most Trusted Online Casino",
     "register": "Register",
     "login": "Login",
     "submit": "Submit",
@@ -600,9 +601,9 @@
     },
     "footer": {
       "footerDescTitle": "AFFILIATES",
-      "footerDescText": "No matter what you want to play, WG's partners will provide you better gaming experience.",
+      "footerDescText": "No matter what you want to play, {brand}'s partners will provide you better gaming experience.",
       "paymentTitle": "Payment and license",
-      "cautionText": "This site is owned by Wilshire Worldwide Co. Ltd., an entity authorized and licensed by the Philippine Amusement and Gaming Corporation (PAGCOR). Wilshire Worldwide Company Ltd. is authorized to use the WG trademark in Vietnam and Thailand",
+      "cautionText": "This site is owned by Wilshire Worldwide Co. Ltd., an entity authorized and licensed by the Philippine Amusement and Gaming Corporation (PAGCOR). Wilshire Worldwide Company Ltd. is authorized to use the {brand} trademark in Vietnam and Thailand",
       "appDownload": "Apps",
       "appDownloadLine2": "Download",
       "wapQRCodeDesc": "Mobile Web",
@@ -615,7 +616,7 @@
       "contactEmail": "Contact Email:cs@mrcat.com",
 
       "copyright": "This website belongs to（PAGCOR）Philippine Amusement and Gaming Corporation Authorization and supervision",
-      "copyrightLine2": "WG Copyright© 2020 WG Casino Co.Group All Rights Reserved"
+      "copyrightLine2": "{brand} Copyright© 2020 {brand} All Rights Reserved"
     },
     "login": {
       "login": "Login",

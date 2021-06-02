@@ -6,6 +6,7 @@
     "ERR401": "请检查您的输入。"
   },
   "common": {
+    "title":"{brand} - 专业娱乐平台",
     "register": "注册",
     "login": "登录",
     "submit": "提交",
@@ -601,9 +602,9 @@
     },
     "footer": {
       "footerDescTitle": "合作伙伴",
-      "footerDescText": "无论你想玩些什么，WG 的合作伙伴都会让你的游戏体验更加美好",
+      "footerDescText": "无论你想玩些什么，{brand} 的合作伙伴都会让你的游戏体验更加美好",
       "paymentTitle": "支付·牌照",
-      "cautionText": "未满18岁的人士进行博彩属非法行为，WG会在此方面绝对严格执行。我们会对客户进行年龄验证，并可能要求其上交补充档",
+      "cautionText": "未满18岁的人士进行博彩属非法行为，{brand}会在此方面绝对严格执行。我们会对客户进行年龄验证，并可能要求其上交补充档",
       "appDownload": "APP下载",
       "appDownloadLine2": "随时随地 最佳体验",
       "wapQRCodeDesc": "手机免下载访问",
@@ -613,10 +614,10 @@
       "customerServiceHotline": "国内24小时客服热线",
       "contactUs": "联系我们",
       "contactNumber": "服务电话:400-120-8118",
-      "contactEmail": "联系邮箱:cs@wg12388.com",
+      "contactEmail": "联系邮箱:cs@{brand}.com",
 
       "copyright": "本网站属于（PAGCOR）Philippine Amusement and Gaming Corporation授权和监管",
-      "copyrightLine2": "WG Copyright© 2020 WG Casino Co.Group All Rights Reserved"
+      "copyrightLine2": "{brand} Copyright© 2020 {brand} All Rights Reserved"
     },
     "login": {
       "login": "登录",
@@ -685,7 +686,7 @@
     },
 
     "download": {
-      "titleDesc": "触手可及的信息，从指尖到脑海，存取转安全便捷。真人娱乐，体育投注，电子游艺等尽在一手掌握。PG Gaming力求给每一位用户呈现别样、缤纷的极致体验。",
+      "titleDesc": "触手可及的信息，从指尖到脑海，存取转安全便捷。真人娱乐，体育投注，电子游艺等尽在一手掌握。{brand} Gaming力求给每一位用户呈现别样、缤纷的极致体验。",
       "supportPlatform": "(支持Android/iOS)",
       "pcDownload": "手机免下载访问",
       "mobileDownload": "APP扫码下载"

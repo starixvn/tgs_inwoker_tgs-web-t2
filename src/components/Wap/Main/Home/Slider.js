@@ -5,10 +5,7 @@ import config from "../../../../config/config";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slick from "react-slick";
-import Image1 from "../../../../assets/images/wap/slider/banner-1.jpg";
-import Image2 from "../../../../assets/images/wap/slider/banner-2.jpg";
-import Image1En from "../../../../assets/images/wap/slider/banner-1-en.jpg";
-import Image2En from "../../../../assets/images/wap/slider/banner-2-en.jpg";
+
 import i18n from "../../../../utils/i18n";
 const SlideImage = styled.img`
   height: 310px;
@@ -59,12 +56,28 @@ class Slider extends React.Component {
     const isChinese = i18n.language === "zh-CN" || i18n.language === "zh-TW";
     return (
       <Slick {...settings}>
-        <ATag>
+        {(() => {
+          var banner = [];
+          for (var i = 1; i <= config.bannerCount; i++) {
+            banner.push(
+              process.env.PUBLIC_URL +
+                `/assets/images/wapBanner/${i18n.language}/${config.brand}/${i}.jpg`
+            );
+          }
+          return banner.map((item, index) => {
+            return (
+              <ATag href={"#"} key={index}>
+                <SlideImage src={item}></SlideImage>
+              </ATag>
+            );
+          });
+        })()}
+        {/* <ATag>
           <SlideImage src={isChinese ? Image1 : Image1En}></SlideImage>
         </ATag>
         <ATag>
           <SlideImage src={isChinese ? Image2 : Image2En}></SlideImage>
-        </ATag>
+        </ATag> */}
         {/* {this.props.list.map((row, index) => {
           return (
             <ATag href={"/" + i18n.language + "/" + row.url} key={index}>

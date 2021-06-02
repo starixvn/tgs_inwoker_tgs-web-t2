@@ -6,6 +6,7 @@
     "ERR401": "請檢查您的輸入。"
   },
   "common": {
+    "title":"{brand} - 专业娱乐平台",
     "register": "註冊",
     "login": "登錄",
     "submit": "提交",
@@ -601,9 +602,9 @@
     },
     "footer": {
       "footerDescTitle": "合作夥伴",
-      "footerDescText": "無論你想玩些什麼，WG 的合作夥伴都會讓你的遊戲體驗更加美好",
+      "footerDescText": "無論你想玩些什麼，{brand} 的合作夥伴都會讓你的遊戲體驗更加美好",
       "paymentTitle": "支付·牌照",
-      "cautionText": "未滿18歲的人士進行博彩屬非法行為，WG會在此方面絕對嚴格執行。我們會對客戶進行年齡驗證，並可能要求其上交補充檔",
+      "cautionText": "未滿18歲的人士進行博彩屬非法行為，{brand}會在此方面絕對嚴格執行。我們會對客戶進行年齡驗證，並可能要求其上交補充檔",
       "appDownload": "APP下載",
       "appDownloadLine2": "隨時隨地 最佳體驗",
       "wapQRCodeDesc": "手機免下載訪問",
@@ -613,10 +614,10 @@
       "customerServiceHotline": "國內24小時客服熱線",
       "contactUs": "聯繫我們",
       "contactNumber": "服務電話:400-120-8118",
-      "contactEmail": "聯繫郵箱:cs@wg12388.com",
+      "contactEmail": "聯繫郵箱:cs@{brand}.com",
 
       "copyright": "本網站屬於（PAGCOR）Philippine Amusement and Gaming Corporation授權和監管",
-      "copyrightLine2": "WG Cop​​yright© 2020 WG Casino Co.Group All Rights Reserved"
+      "copyrightLine2": "{brand} Cop​​yright© 2020 {brand} All Rights Reserved"
     },
     "login": {
       "login": "登錄",

@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import BGAppDownloadJPG from "../../../assets/images/bg-app-download.jpg";
 
-import AppDownloadPhoneIconPNG from "../../../assets/images/appdownload-phone-icon.png";
 import i18n from "../../../utils/i18n";
+import config from "../../../config/config";
 const Container = styled.div`
   width: 100%;
   height: 600px;
@@ -27,7 +27,9 @@ const RightContainer = styled.div`
   float: right;
 `;
 const TitleContainer = styled.div`
-  background: url(${AppDownloadPhoneIconPNG}) no-repeat center;
+  background: url(${process.env.PUBLIC_URL +
+    `/assets/images/${i18n.language}/appdownload-phone-icon.png`})
+    no-repeat center;
 
   font-weight: bold;
   color: #404040;
@@ -93,7 +95,11 @@ class Download extends Component {
           <LeftContainer></LeftContainer>
           <RightContainer>
             <TitleContainer></TitleContainer>
-            <DescContainer>{i18n.t("web.download.titleDesc")}</DescContainer>
+            <DescContainer>
+              {i18n
+                .t("web.download.titleDesc")
+                .replace(/{brand}/g, config.brand)}
+            </DescContainer>
             <QRContainer>
               <QRRedTitle>{i18n.t("web.download.supportPlatform")}</QRRedTitle>
               <QRMiniTitle>{i18n.t("web.download.mobileDownload")}</QRMiniTitle>
@@ -107,7 +113,7 @@ class Download extends Component {
               <QRRedTitle>{i18n.t("web.download.pcDownload")}</QRRedTitle>
 
               <QRImg
-                src={`${process.env.PUBLIC_URL}/assets/images/qrcode/website.png`}
+                src={`${process.env.PUBLIC_URL}/assets/images/qrcode/${config.brand}/download.png`}
               ></QRImg>
             </QRContainerVisit>
           </RightContainer>

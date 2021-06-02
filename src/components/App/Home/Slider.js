@@ -10,6 +10,8 @@ import Image2 from "../../../assets/images/slider/banner-2.jpg";
 import Image1En from "../../../assets/images/slider/banner-1-en.jpg";
 import Image2En from "../../../assets/images/slider/banner-2-en.jpg";
 import i18n from "../../../utils/i18n";
+import config from "../../../config/config";
+
 const Container = styled.div`
   position: relative;
   width: 100%;
@@ -87,16 +89,27 @@ class Slider extends React.Component {
       arrows: true,
       autoplay: true,
     };
-    const isChinese = i18n.language === "zh-CN" || i18n.language === "zh-TW";
+
     return (
       <Container>
         <Slick {...settings}>
-          <ATag href={""}>
-            <Img src={isChinese ? Image1 : Image1En}></Img>
-          </ATag>
-          <ATag href={""}>
-            <Img src={isChinese ? Image2 : Image2En}></Img>
-          </ATag>
+          {(() => {
+            var banner = [];
+            for (var i = 1; i <= config.bannerCount; i++) {
+              banner.push(
+                process.env.PUBLIC_URL +
+                  `/assets/images/banner/${i18n.language}/${config.brand}/${i}.jpg`
+              );
+            }
+            return banner.map((item, index) => {
+              return (
+                <ATag href={"#"} key={index}>
+                  <Img src={item}></Img>
+                </ATag>
+              );
+            });
+          })()}
+
           {/* {this.props.list.map((row, index) => {
             return (
               <ATag href={row.go_url} key={index}>
