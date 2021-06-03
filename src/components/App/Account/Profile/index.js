@@ -75,8 +75,9 @@ const ContentValue = styled.div`
   text-overflow: ellipsis;
 `;
 const ContentButton = styled.div`
-  width: 89px;
+  min-width: 89px;
   height: 32px;
+  padding: 0 20px;
   border-radius: 3.8px;
   color: #fff;
   float: right;

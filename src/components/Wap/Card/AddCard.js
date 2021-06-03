@@ -220,9 +220,11 @@ class AddCard extends Component {
           style={{ margin: "20px auto 20px auto" }}
           value={
             this.props.wallet.withdrawalList.length > 0
-              ? this.props.wallet.withdrawalList[
-                  this.state.selectedBankTypeIndex
-                ].channel[this.state.selectedChannelIndex].channelname
+              ? i18n.t(
+                  this.props.wallet.withdrawalList[
+                    this.state.selectedBankTypeIndex
+                  ].channel[this.state.selectedChannelIndex].channelcode
+                )
               : ""
           }
           onClick={() => this.setState({ ...this.state, channelOpen: true })}
@@ -230,6 +232,27 @@ class AddCard extends Component {
           label={i18n.t("common.withdrawalChannel")}
           disabled={true}
         ></Textbox>
+
+        {(() => {
+          if (
+            this.props.wallet.withdrawalList.length > 0 &&
+            this.props.wallet.withdrawalList[this.state.selectedBankTypeIndex]
+              .banktype === "Bank"
+          ) {
+            return (
+              <>
+                <Textbox
+                  style={{ margin: "20px auto 20px auto" }}
+                  value={this.state.bankAccountName}
+                  onChange={this.handleBankAccountNameChange}
+                  type={"text"}
+                  placeholder={i18n.t("card.addCard.msgEnterBankAccountName")}
+                  label={i18n.t("card.addCard.BankAccountName")}
+                ></Textbox>
+              </>
+            );
+          }
+        })()}
 
         <Textbox
           style={{ margin: "20px auto 20px auto" }}
@@ -255,15 +278,6 @@ class AddCard extends Component {
                   type={"text"}
                   placeholder={i18n.t("card.addCard.msgEnterBankName")}
                   label={i18n.t("card.addCard.BankName")}
-                ></Textbox>
-
-                <Textbox
-                  style={{ margin: "20px auto 20px auto" }}
-                  value={this.state.bankAccountName}
-                  onChange={this.handleBankAccountNameChange}
-                  type={"text"}
-                  placeholder={i18n.t("card.addCard.msgEnterBankAccountName")}
-                  label={i18n.t("card.addCard.BankAccountName")}
                 ></Textbox>
 
                 <Textbox
@@ -331,7 +345,7 @@ class AddCard extends Component {
                   <StyledListItemImage src={item.file}></StyledListItemImage>
                 </StyledListItemIcon> */}
                   <StyledListItemText
-                    primary={item.channelname}
+                    primary={i18n.t(item.channelcode)}
                   ></StyledListItemText>
                 </StyledListItem>
               );

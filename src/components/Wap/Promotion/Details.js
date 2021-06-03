@@ -99,12 +99,23 @@ class Details extends Component {
   handleBonusChange = (e) => {
     this.setState({ ...this.state, bonusSubId: parseInt(e.target.value) });
   };
-  handleJoinClick = (id) => {
+  handleJoinClick = (id, promotionType) => {
     if (this.props.token === null || this.props.token === "") {
       AppHistory.replace({
         pathname: "/" + i18n.language + "/",
       });
-    } else this.props.joinPromotion(id);
+    } else {
+      this.props.joinPromotion(id);
+      if (
+        ["FirstDeposit", "DailySecondDeposit", "DailyFirstDeposit"].indexOf(
+          promotionType
+        ) >= 0
+      ) {
+        AppHistory.push({
+          pathname: "/" + i18n.language + "/deposit/" + id,
+        });
+      }
+    }
   };
   async componentDidMount() {
     // if (this.props.promo == null) {
@@ -166,7 +177,12 @@ class Details extends Component {
         <Button
           style={{ margin: "40px auto 0 auto" }}
           label={i18n.t("promotion.joinPromo")}
-          onClick={() => this.handleJoinClick(this.state.details.id)}
+          onClick={() =>
+            this.handleJoinClick(
+              this.state.details.id,
+              this.state.details.promotionType
+            )
+          }
         ></Button>
       </>
     );

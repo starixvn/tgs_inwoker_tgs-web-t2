@@ -349,7 +349,7 @@ const RouteMapping = [
   },
 
   {
-    path: "/deposit",
+    path: "/deposit/:promotionid?",
     component: Deposit,
     alert: true,
     navigate: true,

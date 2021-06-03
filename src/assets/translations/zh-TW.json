@@ -182,6 +182,8 @@
     "confirmRedirect": "將跳出本站，前往支付平台",
     "depositMethod": "支付方式",
     "depositTunnel": "支付渠道",
+    "promotion": "優惠活動",
+    "msgPlsSelectPromotion": "請選擇優惠活動",
     "senderName": "匯款賬戶名",
     "uploadSuccess": "憑證上傳成功，請耐心等待確認。",
     "cancelDeposit": "存款取消成功。",
@@ -705,6 +707,7 @@
   "LeePay":"利付錢包",
   "Manual":"手動存款",
   "Crypto":"加密貨幣",
-  "BankTransfer":"銀行轉賬"
+  "BankTransfer":"銀行轉賬",
+  "CustomBank":"自定銀行"
 
 }

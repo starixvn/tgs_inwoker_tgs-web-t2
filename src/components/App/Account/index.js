@@ -385,7 +385,7 @@ class Account extends Component {
                 <Switch>
                   <Route
                     exact
-                    path={baseRouteUrl + "/account/deposit"}
+                    path={baseRouteUrl + "/account/deposit/:promotionid?"}
                     render={(props) => (
                       <Deposit
                         token={this.props.account.token}

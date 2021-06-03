@@ -19,7 +19,7 @@ class NameVerify extends BaseProfile {
 
     const name = this.props.account.info.member_name;
     const ic = this.props.account.info.member_card_no;
-    const isConfigured = name !== "" && name !== null;
+    const isConfigured = this.props.account.info.check_pass_account;
     this.state = {
       name: name,
       ic: ic,
@@ -36,7 +36,7 @@ class NameVerify extends BaseProfile {
       this.props.account.info.member_card_no
     ) {
       const ic = this.props.account.info.member_card_no;
-      const isConfigured = ic !== "" && ic !== null;
+      const isConfigured = this.props.account.info.check_pass_account;
       this.setState({ ...this.state, ic: ic, isConfigured: isConfigured });
     }
     if (
@@ -46,7 +46,8 @@ class NameVerify extends BaseProfile {
     ) {
       if (this.props.account.updateCardResult.IsSuccess) {
         this.props.resetResult();
-        this.props.getIDCardNo();
+        this.setState({ disableButton: true });
+        // this.props.getIDCardNo();
         AppHistory.replace("/" + i18n.language + "/profile");
       } else {
         if (this.props.account.updateCardResult.code === 401) {
@@ -73,7 +74,6 @@ class NameVerify extends BaseProfile {
     this.showLoading(true);
     this.props.updateMemberCardNo(name, ic);
     this.showLoading(false);
-    this.setState({ disableButton: true });
   };
 
   isDisableButton = () => {
@@ -93,29 +93,28 @@ class NameVerify extends BaseProfile {
           onChange={this.handleChangeName}
           placeholder={i18n.t("profile.nameVerify.title")}
           label={i18n.t("profile.nameVerify.verifyName")}
-          disabled={this.state.isConfigured}
+          disabled={this.props.account.info.check_pass_account === true}
           maxLength={10}
         ></Textbox>
-        {this.props.account.info.member_name === "" ||
-        this.props.account.info.member_name === null ? (
+        {this.props.account.info.check_pass_account == false ? (
           <Textbox
             style={{ margin: "50px auto 20px auto" }}
             value={this.state.ic}
             onChange={this.handleChangeIC}
             placeholder={i18n.t("profile.nameVerify.msgEnterICNum")}
             label={i18n.t("profile.nameVerify.icNum")}
-            disabled={this.state.isConfigured}
+            disabled={this.props.account.info.check_pass_account === true}
             maxLength={30}
           ></Textbox>
         ) : (
           <></>
         )}
       </>,
-      this.state.isConfigured
+      this.props.account.info.check_pass_account
         ? i18n.t("common.configured")
         : i18n.t("common.complete"),
       (() => {
-        if (this.state.isConfigured) {
+        if (this.props.account.info.check_pass_account === true) {
           return (
             <BottomNote
               text1={i18n.t("profile.nameVerify.toEdit")}

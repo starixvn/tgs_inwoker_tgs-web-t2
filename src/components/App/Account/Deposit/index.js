@@ -125,7 +125,7 @@ class Deposit extends Component {
       selectedChannelIndex: 0,
       selectedMethodIndex: 0,
       loading: false,
-
+      depositPromotion: this.props.match.params.promotionid,
       amount: 0,
       name: "",
       step: 1,
@@ -189,6 +189,7 @@ class Deposit extends Component {
         selectedPaymentIndex: index,
         amount: 0,
         name: "",
+        depositPromotion: "",
         selectedChannelIndex: 0,
         selectedMethodIndex: 0,
       });
@@ -223,18 +224,21 @@ class Deposit extends Component {
       this.props.doManualDeposit(
         this.state.name,
         this.state.amount.replace(/,/g, ""),
-        channel.id
+        channel.id,
+        this.state.depositPromotion
       );
     } else {
       if (payment.paymentcode.toUpperCase() === "LEEPAY") {
         this.props.doLeePayDeposit(
           this.state.amount.replace(/,/g, ""),
-          channel.id
+          channel.id,
+          this.state.depositPromotion
         );
       } else if (payment.paymentcode.toUpperCase() === "PRIMEPAY") {
         this.props.doPrimePayDeposit(
           this.state.amount.replace(/,/g, ""),
-          channel.id
+          channel.id,
+          this.state.depositPromotion
         );
       }
     }
@@ -270,7 +274,12 @@ class Deposit extends Component {
       paymentId: value,
     });
   };
-
+  handleDepositPromotionChange = (e) => {
+    this.setState({
+      ...this.state,
+      depositPromotion: e.target.value,
+    });
+  };
   performSendData = () => {
     // TGSWalletService.PerformManualDeposit(
     //   this.state.amount,
@@ -332,6 +341,16 @@ class Deposit extends Component {
             selectedMethodIndex={this.state.selectedMethodIndex}
             onMethodChange={this.handleMethodChange}
             selectedPaymentIndex={this.state.selectedPaymentIndex}
+            depositPromotion={this.state.depositPromotion}
+            promotionList={this.props.general.promotionList.items.filter(
+              (item) =>
+                [
+                  "FirstDeposit",
+                  "DailySecondDeposit",
+                  "DailyFirstDeposit",
+                ].indexOf(item.promotionType) >= 0
+            )}
+            handleDepositPromotionChange={this.handleDepositPromotionChange}
             paymentType={
               this.props.wallet.depositTypeList.length > 0
                 ? this.props.wallet.depositTypeList[
@@ -527,18 +546,21 @@ const mapStateToProps = (state) => {
   return {
     wallet: state.wallet,
     account: state.account,
+    general: state.general,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    doManualDeposit: (amount, account, paymentid) =>
-      dispatch(walletAction.doManualDeposit(amount, account, paymentid)),
+    doManualDeposit: (amount, account, paymentid, promotionid) =>
+      dispatch(
+        walletAction.doManualDeposit(amount, account, paymentid, promotionid)
+      ),
     doDepositUpload: (file, fileType, orderId) =>
       dispatch(walletAction.doManualDepositUpload(file, fileType, orderId)),
-    doLeePayDeposit: (amount, payment_id) =>
-      dispatch(walletAction.doLeePayDeposit(amount, payment_id)),
-    doPrimePayDeposit: (amount, payment_id) =>
-      dispatch(walletAction.doPrimePayDeposit(amount, payment_id)),
+    doLeePayDeposit: (amount, payment_id, promotionid) =>
+      dispatch(walletAction.doLeePayDeposit(amount, payment_id, promotionid)),
+    doPrimePayDeposit: (amount, payment_id, promotionid) =>
+      dispatch(walletAction.doPrimePayDeposit(amount, payment_id, promotionid)),
     cancelDeposit: (id, notice_id) =>
       dispatch(walletAction.cancelDeposit(id, notice_id)),
     getBalanceList: () => dispatch(walletAction.getBalanceList()),

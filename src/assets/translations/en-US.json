@@ -182,6 +182,8 @@
     "confirmRedirect": "Will jump out of this site and go to the payment platform",
     "depositMethod": "Payment type",
     "depositTunnel": "Payment channel",
+    "promotion": "Promotion ",
+    "msgPlsSelectPromotion": "Please select promotion",
     "senderName": "Sender Username",
     "uploadSuccess": "Receipt uploaded successfully, please wait for verification.",
     "cancelDeposit": "Deposit canceled successfully.",
@@ -333,7 +335,7 @@
 
     "nameVerify": {
       "title": "Real Name",
-      "msgEnterRealName": "Enter Real Name",
+      "msgEnterICNum": "Enter Real Name",
       "icNum": "IC Number",
       "msgInvalidICNum": "Invalid IC number",
       "toEdit": "If Required to Edit Real Name, Please Contact ",
@@ -704,6 +706,7 @@
   "LeePay":"LeePay",
   "Manual":"Manual",
   "Crypto":"Crypto",
-  "BankTransfer":"BankTransfer"
+  "BankTransfer":"BankTransfer",
+  "CustomBank":"Custom Bank"
 
 }

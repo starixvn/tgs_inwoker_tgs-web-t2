@@ -61,12 +61,7 @@ function IDVerification(props) {
         adornment={IconInputReceivePNG}
         handleTextFieldChange={onhandleNameChange}
         defaultValue={props.account.info.member_name}
-        readOnly={
-          props.account.info.member_name === "" ||
-          props.account.info.member_name === null
-            ? false
-            : true
-        }
+        readOnly={props.account.info.check_pass_account}
         maxLength={10}
       ></CustomTextField>
       {props.account.info.member_name === "" ||
@@ -76,22 +71,14 @@ function IDVerification(props) {
           adornment={IconInputIDPNG}
           handleTextFieldChange={onhandleIDChange}
           defaultValue={props.account.info.member_card_no}
-          readOnly={
-            props.account.info.member_card_no === "" ||
-            props.account.info.member_card_no === null
-              ? false
-              : true
-          }
+          readOnly={props.account.info.check_pass_account}
           maxLength={20}
         ></CustomTextField>
       ) : (
         <></>
       )}
       {(() => {
-        if (
-          props.account.info.member_name === "" ||
-          props.account.info.member_name === null
-        ) {
+        if (props.account.info.check_pass_account === false) {
           return (
             <CustomButton
               name={i18n.t("common.submit")}

@@ -48,7 +48,7 @@ const CustomFormControl = withStyles((theme) => ({
   root: {
     width: "340px",
     height: "47.63px",
-    marginTop: "12px",
+
     marginRight: "5px",
     float: "left",
     backgroundColor: "#fff",
@@ -368,6 +368,39 @@ class NewStepOne extends Component {
                       )}
                     </LimitAmount>
                   </LimitPopupContainer>
+                </SelectionContainer>
+                <SplitLine></SplitLine>
+                <SubHeaderContainer>
+                  <NumberContainer>
+                    {paymentType.paymentcode.toUpperCase() === "MANUAL"
+                      ? "5"
+                      : "4"}
+                  </NumberContainer>
+
+                  <SubTitle>{i18n.t("deposit.promotion")}</SubTitle>
+                </SubHeaderContainer>
+
+                <SelectionContainer>
+                  <CustomFormControl>
+                    <CustomSelect
+                      variant="outlined"
+                      value={this.props.depositPromotion}
+                      displayEmpty
+                      onChange={this.props.handleDepositPromotionChange}
+                      native
+                    >
+                      <option value="">
+                        {i18n.t("deposit.msgPlsSelectPromotion")}
+                      </option>
+                      {this.props.promotionList.map((data, key) => {
+                        return (
+                          <option value={data.id} key={key}>
+                            {data.name}
+                          </option>
+                        );
+                      })}
+                    </CustomSelect>
+                  </CustomFormControl>
                 </SelectionContainer>
                 <SplitLine></SplitLine>
 

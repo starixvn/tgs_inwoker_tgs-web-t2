@@ -207,12 +207,13 @@ const CustomInput = styled.input`
 class Deposit extends Component {
   constructor(props) {
     super(props);
+
     this.initialState = {
       selectedPaymentIndex: 0,
       selectedMethodIndex: 0,
 
       selectedChannelIndex: 0,
-
+      depositPromotion: this.props.match.params.promotionid,
       account: "",
       amount: "",
 
@@ -316,6 +317,7 @@ class Deposit extends Component {
       amount: e.target.value.replace(/,/g, ""),
     });
   };
+
   handleBackClick = () => {
     AppHistory.goBack();
   };
@@ -367,18 +369,21 @@ class Deposit extends Component {
       this.props.doManualDeposit(
         this.state.name,
         this.state.amount.replace(/,/g, ""),
-        channel.id
+        channel.id,
+        this.state.depositPromotion
       );
     } else {
       if (payment.paymentcode.toUpperCase() === "LEEPAY") {
         this.props.doLeePayDeposit(
           this.state.amount.replace(/,/g, ""),
-          channel.id
+          channel.id,
+          this.state.depositPromotion
         );
       } else if (payment.paymentcode.toUpperCase() === "PRIMEPAY") {
         this.props.doPrimePayDeposit(
           this.state.amount.replace(/,/g, ""),
-          channel.id
+          channel.id,
+          this.state.depositPromotion
         );
       }
     }
@@ -560,7 +565,48 @@ class Deposit extends Component {
                 }
                 label={i18n.t("deposit.depositAmount")}
               ></Textbox>
-
+              <CustomText>
+                <CustomLabel>{i18n.t("deposit.promotion")}</CustomLabel>
+                <CustomFormControl variant="outlined">
+                  <CustomSelect
+                    native
+                    id="customSelect"
+                    style={{
+                      fontSize: "28px",
+                      height: "78px",
+                      border: "none",
+                      color: "#d09f58",
+                    }}
+                    value={this.state.depositPromotion}
+                    onChange={(e) => {
+                      this.setState({
+                        ...this.state,
+                        depositPromotion: e.target.value,
+                      });
+                    }}
+                  >
+                    <option value={""}>
+                      {i18n.t("deposit.msgPlsSelectPromotion")}
+                    </option>
+                    {this.props.general.promotionList.items
+                      .filter(
+                        (item) =>
+                          [
+                            "FirstDeposit",
+                            "DailySecondDeposit",
+                            "DailyFirstDeposit",
+                          ].indexOf(item.promotionType) >= 0
+                      )
+                      .map((item, index) => {
+                        return (
+                          <option value={item.id} key={index}>
+                            {item.name}
+                          </option>
+                        );
+                      })}
+                  </CustomSelect>
+                </CustomFormControl>
+              </CustomText>
               <Button
                 style={{ margin: "40px auto 0 auto" }}
                 label={
@@ -710,6 +756,7 @@ const mapStateToProps = (state) => {
     account: state.account,
     token: state.account.token,
     wallet: state.wallet,
+    general: state.general,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -717,12 +764,14 @@ const mapDispatchToProps = (dispatch) => {
     doDepositUpload: (file, fileType, orderId) =>
       dispatch(walletAction.doManualDepositUpload(file, fileType, orderId)),
     getDepositMethod: () => dispatch(walletAction.getDepositMethod()),
-    doLeePayDeposit: (amount, payment_id) =>
-      dispatch(walletAction.doLeePayDeposit(amount, payment_id)),
-    doPrimePayDeposit: (amount, payment_id) =>
-      dispatch(walletAction.doPrimePayDeposit(amount, payment_id)),
-    doManualDeposit: (amount, account, paymentid) =>
-      dispatch(walletAction.doManualDeposit(amount, account, paymentid)),
+    doLeePayDeposit: (amount, payment_id, promotionid) =>
+      dispatch(walletAction.doLeePayDeposit(amount, payment_id, promotionid)),
+    doPrimePayDeposit: (amount, payment_id, promotionid) =>
+      dispatch(walletAction.doPrimePayDeposit(amount, payment_id, promotionid)),
+    doManualDeposit: (amount, account, paymentid, promotionid) =>
+      dispatch(
+        walletAction.doManualDeposit(amount, account, paymentid, promotionid)
+      ),
     doUploadDepositProof: (id, file) =>
       dispatch(walletAction.doUploadDepositProof(id, file)),
     hideAlert: () =>

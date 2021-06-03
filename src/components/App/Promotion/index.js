@@ -15,7 +15,7 @@ import i18n from "../../../utils/i18n";
 import { generalAction, SHOW_LOGIN } from "@Inwoker/tgs-api";
 import CommonMarquee from "../CommonMarquee";
 import ScrollAnimation from "react-animate-on-scroll";
-
+import { AppHistory } from "../../../history/History";
 export const floatKeyframe = keyframes`
   0%, 100% {
     transform: translateY(0);
@@ -196,11 +196,21 @@ class Promotion extends Component {
     }
   }
 
-  handlejoinPromotionClick = (id) => {
+  handlejoinPromotionClick = (id, promotionType) => {
     if (this.props.account.token === null) this.props.showLogin(true);
-    else this.props.joinPromotion(id);
+    else {
+      this.props.joinPromotion(id);
+      if (
+        ["FirstDeposit", "DailySecondDeposit", "DailyFirstDeposit"].indexOf(
+          promotionType
+        ) >= 0
+      ) {
+        AppHistory.push({
+          pathname: "/" + i18n.language + "/account/deposit/" + id,
+        });
+      }
+    }
   };
-
   render() {
     return (
       <Container>
@@ -225,7 +235,12 @@ class Promotion extends Component {
                 <Content key={index}>
                   <LeftContent>
                     <Viewall
-                      onClick={() => this.handlejoinPromotionClick(data.id)}
+                      onClick={() =>
+                        this.handlejoinPromotionClick(
+                          data.id,
+                          data.promotionType
+                        )
+                      }
                       style={
                         index % 2 === 0
                           ? { backgroundColor: "#8a7f73" }
