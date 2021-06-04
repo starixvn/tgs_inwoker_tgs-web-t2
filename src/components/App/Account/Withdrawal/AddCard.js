@@ -218,7 +218,7 @@ class AddCard extends Component {
                   (item, index) => {
                     return (
                       <option value={index} key={index}>
-                        {item.channelname}
+                        {i18n.t(item.channelcode)}
                       </option>
                     );
                   }
@@ -226,18 +226,7 @@ class AddCard extends Component {
             </CustomSelect>
           </CustomFormControl>
         </TextFieldContainer>
-        <TextFieldLabel>{i18n.t("common.withdrawalNumber")}</TextFieldLabel>
-        <TextFieldContainer>
-          <CustomTextField
-            marginTop={10}
-            placeholder={i18n.t("common.msgEnterWithdrawalNumber")}
-            width={395}
-            height={38}
-            maxLength={50}
-            float={"none"}
-            handleTextFieldChange={this.handleNumberChange}
-          ></CustomTextField>
-        </TextFieldContainer>
+
         {(() => {
           if (
             withdrawalList.length > 0 &&
@@ -258,6 +247,19 @@ class AddCard extends Component {
                     handleTextFieldChange={this.handleBankNameChange}
                   ></CustomTextField>
                 </TextFieldContainer>
+
+                <TextFieldLabel>{i18n.t("card.addCard.branch")}</TextFieldLabel>
+                <TextFieldContainer>
+                  <CustomTextField
+                    marginTop={10}
+                    placeholder={i18n.t("card.addCard.branchPlaceHolder")}
+                    width={395}
+                    height={38}
+                    float={"none"}
+                    handleTextFieldChange={this.handleBankBranchChange}
+                  ></CustomTextField>
+                </TextFieldContainer>
+
                 <TextFieldLabel>
                   {i18n.t("card.addCard.BankAccountName")}
                 </TextFieldLabel>
@@ -271,23 +273,26 @@ class AddCard extends Component {
                     handleTextFieldChange={this.handleBankAccountNameChange}
                   ></CustomTextField>
                 </TextFieldContainer>
-                <TextFieldLabel>{i18n.t("card.addCard.branch")}</TextFieldLabel>
-                <TextFieldContainer>
-                  <CustomTextField
-                    marginTop={10}
-                    placeholder={i18n.t("card.addCard.branchPlaceHolder")}
-                    width={395}
-                    height={38}
-                    float={"none"}
-                    handleTextFieldChange={this.handleBankBranchChange}
-                  ></CustomTextField>
-                </TextFieldContainer>
               </>
             );
           } else {
             return null;
           }
         })()}
+
+        <TextFieldLabel>{i18n.t("common.withdrawalNumber")}</TextFieldLabel>
+        <TextFieldContainer>
+          <CustomTextField
+            marginTop={10}
+            placeholder={i18n.t("common.msgEnterWithdrawalNumber")}
+            width={395}
+            height={38}
+            maxLength={50}
+            float={"none"}
+            handleTextFieldChange={this.handleNumberChange}
+          ></CustomTextField>
+        </TextFieldContainer>
+
         <TextFieldContainer>
           {(() => {
             if (this.props.showBack === true) {
