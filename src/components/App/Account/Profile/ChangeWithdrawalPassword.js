@@ -120,6 +120,13 @@ class ChangeWithdrawalPassword extends Component {
     this.props.handleChangeTitle(i18n.t("profile.emailVerification"));
   };
   onhandleSubmit = () => {
+    var expr = /^.{6,20}$/;
+    if (!expr.test(this.state.newpassword)) {
+      this.props.enqueueSnackbar(i18n.t("common.msgRegisterPassInvalid"), {
+        variant: "error",
+      });
+      return;
+    }
     if (this.state.newpassword !== this.state.confirmpassword) {
       this.props.enqueueSnackbar(i18n.t("common.msgInvalidConfirmPass"), {
         variant: "error",

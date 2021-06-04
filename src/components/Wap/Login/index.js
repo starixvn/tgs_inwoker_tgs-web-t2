@@ -373,7 +373,12 @@ class Login extends Component {
           } else if (response.IsSuccess) {
             this.doLogin(username, password);
           } else {
-            this.props.alert("", response.info);
+            if (response.code === 206) {
+              this.props.alert("", i18n.t("common.msgInvalidInvitationCode"));
+            } else {
+              this.props.alert("", response.info);
+            }
+
             this.setState({ ...this.state, loading: false });
             // this.props.enqueueSnackbar(response.msg, {
             //   variant: "warning"

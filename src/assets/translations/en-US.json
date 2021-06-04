@@ -28,6 +28,7 @@
     "btnTokenLabel": "Get Code",
     "token": "Verify code",
     "btnTokenResendLabel": "Resend",
+    "msgInvalidInvitationCode": "Invalid invitation code.",
     "msgSendToken": "Send Code",
     "msgTokenSent": "Verify Code Sent Successfully",
     "msgTokenVerified": "Verified",
@@ -106,7 +107,9 @@
     "withdrawalBankType":"Type",
     "withdrawalChannel":"Channel",
     "withdrawalNumber":"Bank card number/Crypto currency address",
-    "msgEnterWithdrawalNumber":"Please enter bank card number/crypto currency address"
+    "msgEnterWithdrawalNumber":"Please enter bank card number/crypto currency address",
+    "msgEmailExist":"Email address already exists",
+    "msgRequiredTurnover":"Turnover required"
   },
   "affiliate": {
     "title": "Promote",
@@ -335,9 +338,11 @@
 
     "nameVerify": {
       "title": "Real Name",
-      "msgEnterICNum": "Enter Real Name",
+      "msgEnterICNum": "Enter IC number",
       "icNum": "IC Number",
       "msgInvalidICNum": "Invalid IC number",
+      "msgPlsEnterName": "Please enter your real name",
+      "msgPlsEnterICNum": "Please enter your IC number",
       "toEdit": "If Required to Edit Real Name, Please Contact ",
       "verifyName": "Real Name Verify",
       "tips": "Tips:  Real name needs same as withdrawal card name to withdraw money"
@@ -546,9 +551,10 @@
   },
   "web": {
     "home": {
-      "hotGame1Title": "BACCARAT",
-      "hotGame2Title": "DRAGON TIGER",
-      "hotGame3Title": "ROULETTE"
+      "Section1Chess": "CARD GAME",
+      "Section1Slot": "SLOT GAME",
+      "Section1Lottery": "LOTTERY GAME",
+      "Section1FISHing": "FISHING GAME"
     },
     "liveGame": {
       "wmDesc": "Exclusive custom interface for asian players, according to the user experience and habits. Extreme interface, extreme game control, unqiue live casino.",
@@ -615,10 +621,10 @@
       "customerServiceHotline": "24-hours hotline",
       "contactUs": "Contact us",
       "contactNumber": "Hotline :400-120-8118",
-      "contactEmail": "Contact Email:cs@mrcat.com",
+      "contactEmail": "Contact Email:cs@{brand}.com",
 
       "copyright": "This website belongs to（PAGCOR）Philippine Amusement and Gaming Corporation Authorization and supervision",
-      "copyrightLine2": "{brand} Copyright© 2020 {brand} All Rights Reserved"
+      "copyrightLine2": "{brand} Copyright© 2020 {brand} Casino Co.Group All Rights Reserved"
     },
     "login": {
       "login": "Login",
@@ -708,5 +714,4 @@
   "Crypto":"Crypto",
   "BankTransfer":"BankTransfer",
   "CustomBank":"Custom Bank"
-
 }

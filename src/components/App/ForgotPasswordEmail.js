@@ -84,7 +84,7 @@ const Description = styled.p`
 
   font-size: 14px;
 
-  color: #ffffff;
+  color: #000;
 `;
 
 const ContactUsLink = styled(LinkStyle)`

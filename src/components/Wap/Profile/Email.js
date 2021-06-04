@@ -138,6 +138,9 @@ class Email extends BaseProfile {
         } else {
           if (response.code === 405) {
             this.showErrorMessage(i18n.t("common.msgInvalidPhoneCode"));
+          } else if (response.code === 900) {
+            this.setState({ ...this.state, countdownToken: 0 });
+            this.showErrorMessage(i18n.t("common.msgEmailExist"));
           } else {
             this.showErrorMessage(response.info);
           }

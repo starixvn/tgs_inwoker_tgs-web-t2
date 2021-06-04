@@ -28,6 +28,18 @@ function IDVerification(props) {
     member_card_no: props.account.info.member_card_no,
   };
   const onhandleClick = () => {
+    if (local_props.member_name === "") {
+      props.enqueueSnackbar(i18n.t("profile.nameVerify.msgPlsEnterName"), {
+        variant: "error",
+      });
+      return;
+    }
+    if (local_props.member_card_no === "") {
+      props.enqueueSnackbar(i18n.t("profile.nameVerify.msgPlsEnterICNum"), {
+        variant: "error",
+      });
+      return;
+    }
     AccountService.AddRealName(
       local_props.member_name,
       local_props.member_card_no
@@ -57,7 +69,7 @@ function IDVerification(props) {
   return (
     <Container>
       <CustomTextField
-        placeholder={i18n.t("common.realName")}
+        placeholder={i18n.t("profile.nameVerify.msgPlsEnterName")}
         adornment={IconInputReceivePNG}
         handleTextFieldChange={onhandleNameChange}
         defaultValue={props.account.info.member_name}
@@ -67,7 +79,7 @@ function IDVerification(props) {
       {props.account.info.member_name === "" ||
       props.account.info.member_name === null ? (
         <CustomTextField
-          placeholder={i18n.t("profile.nameVerify.icNum")}
+          placeholder={i18n.t("profile.nameVerify.msgPlsEnterICNum")}
           adornment={IconInputIDPNG}
           handleTextFieldChange={onhandleIDChange}
           defaultValue={props.account.info.member_card_no}

@@ -191,6 +191,10 @@ class Address extends Component {
             this.props.enqueueSnackbar(i18n.t("common.msgInvalidPhoneCode"), {
               variant: "error",
             });
+          } else if (response.code === 900) {
+            this.props.enqueueSnackbar(i18n.t("common.msgEmailExist"), {
+              variant: "error",
+            });
           } else {
             this.props.enqueueSnackbar(response.info, {
               variant: "error",

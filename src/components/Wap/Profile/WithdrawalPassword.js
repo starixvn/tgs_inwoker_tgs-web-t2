@@ -28,11 +28,20 @@ class WithdrawalPassword extends BaseProfile {
   handleSubmitClicked = (e) => {
     const password = this.state.password;
     const confirmPassword = this.state.confirmPassword;
-    if (password !== confirmPassword)
+    var expr = /^.{6,20}$/;
+    if (!expr.test(password)) {
+      this.props.alert("", i18n.t("common.msgRegisterPassInvalid"));
+      return;
+    }
+
+    if (password !== confirmPassword) {
       this.props.alert(
         "",
         i18n.t("profile.withdrawalPassword.msgInvalidConPass")
       );
+      return;
+    }
+
     this.showLoading(true);
     AccountService.AddWithdrawalPassword(password).then((response) => {
       if (response.IsSuccess) {

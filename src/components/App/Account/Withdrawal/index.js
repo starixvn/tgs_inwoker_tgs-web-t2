@@ -122,9 +122,15 @@ class Withdrawal extends Component {
         this.props.getBalanceList();
         this.setState({ ...this.state, displayView: 4 });
       } else {
-        this.props.enqueueSnackbar(this.props.wallet.withdrawalResult.info, {
-          variant: "error",
-        });
+        if (this.props.wallet.withdrawalResult.code === 207) {
+          this.props.enqueueSnackbar(i18n.t("common.msgRequiredTurnover"), {
+            variant: "error",
+          });
+        } else {
+          this.props.enqueueSnackbar(this.props.wallet.withdrawalResult.info, {
+            variant: "error",
+          });
+        }
       }
     }
   }
