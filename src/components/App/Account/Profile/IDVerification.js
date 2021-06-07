@@ -7,9 +7,23 @@ import IconInputIDPNG from "../../../../assets/images/icon-input-id.png";
 import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.png";
 import { withSnackbar } from "notistack";
 import { AccountService, UPDATE_INFO } from "@Inwoker/tgs-api";
-
+import { Link } from "react-router-dom";
 import i18n from "../../../../utils/i18n";
 const Container = styled.div``;
+const Content = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 90px;
+  padding: 0 30px;
+  color: #404040;
+`;
+const LabelLink = styled(Link)`
+  color: #f0ca83;
+  text-decoration: none;
+`;
+
 let local_props = {
   member_name: "",
   member_card_no: "",
@@ -87,7 +101,21 @@ function IDVerification(props) {
           maxLength={20}
         ></CustomTextField>
       ) : (
-        <></>
+        <Content>
+          {i18n.t("profile.nameVerify.toEdit")}
+          {
+            <LabelLink
+              onClick={() =>
+                props.handleCSClick(
+                  props.account.info.member_username,
+                  props.account.info.member_username
+                )
+              }
+            >
+              {i18n.t("common.customerService")}
+            </LabelLink>
+          }
+        </Content>
       )}
       {(() => {
         if (props.account.info.check_pass_account === false) {

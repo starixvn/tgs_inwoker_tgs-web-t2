@@ -113,17 +113,11 @@ class NameVerify extends BaseProfile {
       this.props.account.info.check_pass_account
         ? i18n.t("common.configured")
         : i18n.t("common.complete"),
-      (() => {
-        if (this.props.account.info.check_pass_account === true) {
-          return (
-            <BottomNote
-              text1={i18n.t("profile.nameVerify.toEdit")}
-              link={"../chat"}
-              text2={i18n.t("common.customerService")}
-            ></BottomNote>
-          );
-        }
-      })()
+      <BottomNote
+        text1={i18n.t("profile.nameVerify.toEdit")}
+        link={"../chat"}
+        text2={i18n.t("common.customerService")}
+      ></BottomNote>
     );
   }
 }

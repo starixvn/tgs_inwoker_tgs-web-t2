@@ -617,10 +617,10 @@ class Slots extends Component {
             <GameDesc>
               <GameProvider>{el.gpcode}</GameProvider>
               <Spliter></Spliter>
-              <Bookmark
+              {/* <Bookmark
                 bookmark={el.collect_id > 0}
                 // onClick={() => this.handleBookmarkClick(el.id, el.collect_id)}
-              ></Bookmark>
+              ></Bookmark> */}
             </GameDesc>
             <GameHoverSelection
               onClick={() => this.handleJoinGameClick(el.gpcode, el.id)}

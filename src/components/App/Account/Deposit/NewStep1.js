@@ -218,7 +218,7 @@ class NewStepOne extends Component {
                 onClick={() => onMethodChange(index)}
                 active={selectedMethodIndex === index}
               >
-                {item.methodcode}
+                {i18n.t(item.methodcode)}
               </TunnelButton>
             );
           })}

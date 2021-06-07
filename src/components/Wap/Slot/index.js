@@ -477,12 +477,12 @@ class Slot extends Component {
                       <GameName>{row.name}</GameName>
                     </LeftContainer>
 
-                    <Bookmark
+                    {/* <Bookmark
                       isBookmark={row.collect_id > 0}
                       onClick={() =>
                         this.handleBookmarkClick(row.id, row.collect_id)
                       }
-                    ></Bookmark>
+                    ></Bookmark> */}
                   </ListItem>
                 );
               })}

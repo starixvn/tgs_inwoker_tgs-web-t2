@@ -475,7 +475,11 @@ class Deposit extends Component {
                       this.props.wallet.depositTypeList[
                         this.state.selectedPaymentIndex
                       ].method.map((item, index) => {
-                        return <option value={index}>{item.methodcode}</option>;
+                        return (
+                          <option value={index}>
+                            {i18n.t(item.methodcode)}
+                          </option>
+                        );
                       })}
                   </CustomSelect>
                 </CustomFormControl>

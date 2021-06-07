@@ -433,6 +433,7 @@ class Profile extends Component {
         component = (
           <IDVerification
             getIDCardNo={this.props.getIDCardNo}
+            handleCSClick={this.props.onhandleCSClick}
             handleCloseDialog={this.handleCloseDialog}
             account={this.props.account}
           ></IDVerification>
