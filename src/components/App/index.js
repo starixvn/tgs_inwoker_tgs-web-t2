@@ -102,41 +102,45 @@ class App extends Component {
           break;
       }
     } else {
-      const localStorageToken = localStorage.getItem("token0");
-      if (
-        localStorageToken != null &&
-        this.props.account.token == null &&
-        this.props.account.info.token === ""
-      ) {
-        const responseToken = await this.props.checkTokenIsValid();
-        if (responseToken.IsSuccess) {
-          this.props.getAccountInfo();
-          // this.props.checkGame();
-          // this.props.getBankList();
-          this.props.getBalanceList();
-          this.props.getMessageList(0, 99);
-          this.props.getBankCardList();
-          this.props.getPlayerPromotionList();
-
-          // if (inbox.IsSuccess) {
-          //   this.setState({ inbox: inbox.data });
-          // }
-          // this.props.getIDCardNo();
-          // this.props.getInviteLink();
-          // this.props.getDepositChannel();
-        }
-      }
     }
   }
-  componentDidUpdate(preProps) {
+  async componentDidUpdate(preProps) {
     if (preProps.general.token !== this.props.general.token) {
       if (this.props.general.token == null || this.props.general.token == "") {
         this.props.getSiteToken();
       } else {
         localStorage.setItem("client-token", this.props.general.token);
+
+        const localStorageToken = localStorage.getItem("token0");
+        if (
+          localStorageToken != null &&
+          this.props.account.token == null &&
+          this.props.account.info.token === ""
+        ) {
+          const responseToken = await this.props.checkTokenIsValid();
+          if (responseToken.IsSuccess) {
+            this.props.getAccountInfo();
+            // this.props.checkGame();
+            // this.props.getBankList();
+            this.props.getBalanceList();
+            this.props.getMessageList(0, 99);
+            this.props.getBankCardList();
+            this.props.getPlayerPromotionList();
+
+            // if (inbox.IsSuccess) {
+            //   this.setState({ inbox: inbox.data });
+            // }
+            // this.props.getIDCardNo();
+            // this.props.getInviteLink();
+            // this.props.getDepositChannel();
+          } else {
+            this.props.getPromotionList();
+          }
+        } else {
+          this.props.getPromotionList();
+        }
         this.props.getMarquee();
         this.props.getHomePageGameList();
-        this.props.getPromotionList();
       }
     }
   }

@@ -120,7 +120,7 @@ function Header(props) {
             }
           />
         </AmountContainer>
-        <RefreshButton onMouseOver={props.onhandleRefreshClick}>
+        <RefreshButton onClick={props.onhandleRefreshClick}>
           <RefreshButtonIcon></RefreshButtonIcon>
         </RefreshButton>
       </MainWalletContainer>

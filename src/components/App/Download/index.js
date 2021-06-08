@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-
+import QRCode from "react-qr-code";
 import BGAppDownloadJPG from "../../../assets/images/bg-app-download.jpg";
 
 import i18n from "../../../utils/i18n";
@@ -12,7 +12,7 @@ const Container = styled.div`
   background: url(${BGAppDownloadJPG}) no-repeat center bottom;
 `;
 const Inner = styled.div`
-  width: 880px;
+  width: 1000px;
   margin: 0 auto;
   padding-top: 90px;
 `;
@@ -22,7 +22,7 @@ const LeftContainer = styled.div`
   float: left;
 `;
 const RightContainer = styled.div`
-  width: 450px;
+  width: 490px;
   height: 600px;
   float: right;
 `;
@@ -46,7 +46,7 @@ const DescContainer = styled.div`
 const QRContainer = styled.div`
   margin: 50px 0 0 60px;
   float: left;
-  width: 160px;
+  width: 180px;
 `;
 const QRRedTitle = styled.div`
   text-align: center;
@@ -67,11 +67,13 @@ const QRMiniTitle = styled.div`
 const QRContainerVisit = styled(QRContainer)`
   padding-top: 15px;
 `;
-const QRImg = styled.img`
-  width: 103px;
-  margin: 0 auto;
-  display: block;
+const QRImg = styled.div`
+  width: 100px;
+  height: 100px;
   margin: 20px auto 0 auto;
+  display: block;
+  padding: 5px;
+  background-color: #ffffff;
 `;
 
 const QRImgDiv = styled.div`
@@ -112,9 +114,12 @@ class Download extends Component {
             <QRContainerVisit>
               <QRRedTitle>{i18n.t("web.download.pcDownload")}</QRRedTitle>
 
-              <QRImg
-                src={`${process.env.PUBLIC_URL}/assets/images/qrcode/${config.brand}/download.png`}
-              ></QRImg>
+              <QRImg>
+                <QRCode
+                  value={`${window.location.protocol}//${window.location.hostname}`}
+                  size={90}
+                />
+              </QRImg>
             </QRContainerVisit>
           </RightContainer>
         </Inner>

@@ -42,13 +42,16 @@ function IDVerification(props) {
     member_card_no: props.account.info.member_card_no,
   };
   const onhandleClick = () => {
-    if (local_props.member_name === "") {
+    if (local_props.member_name === "" || local_props.member_name === null) {
       props.enqueueSnackbar(i18n.t("profile.nameVerify.msgPlsEnterName"), {
         variant: "error",
       });
       return;
     }
-    if (local_props.member_card_no === "") {
+    if (
+      local_props.member_card_no === "" ||
+      local_props.member_card_no === null
+    ) {
       props.enqueueSnackbar(i18n.t("profile.nameVerify.msgPlsEnterICNum"), {
         variant: "error",
       });

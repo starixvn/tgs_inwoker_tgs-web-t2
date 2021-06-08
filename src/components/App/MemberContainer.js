@@ -184,9 +184,7 @@ class MemberContainer extends Component {
               {Common.formatNumberWithThousand(this.props.mainBalance)}{" "}
             </BalanceAmountLabel>
             <span>{i18n.t("web.header.dollor")}</span>
-            <RefreshBalance
-              onMouseOver={this.props.onhandleRefreshBalanceClick}
-            >
+            <RefreshBalance onClick={this.props.onhandleRefreshBalanceClick}>
               <RefreshBalanceIcon></RefreshBalanceIcon>
             </RefreshBalance>
           </BalanceContainer>

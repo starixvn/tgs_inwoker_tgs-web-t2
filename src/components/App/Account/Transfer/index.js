@@ -563,7 +563,7 @@ class Transfer extends Component {
             </IconContainer>
             <WalletTitle>{i18n.t("transfer.mainAccount")}</WalletTitle>
             <RefreshButton
-              onMouseOver={() => {
+              onClick={() => {
                 this.props.getAllGameBalance();
                 this.props.getBalanceList();
               }}
