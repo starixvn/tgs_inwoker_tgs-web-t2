@@ -36,9 +36,9 @@
     "msgEnterEmail": "請輸入您的郵箱地址",
     "msgInvalidEmail": "郵箱地址不正確",
     "msgEnterCode": "請輸入驗證碼",
+    "msgInvalidPhoneCode": "驗證碼錯誤",
     "msgEnterEmailCode": "請輸入郵箱驗證碼",
     "msgEnterPhoneCode": "請輸入手機驗證碼",
-    "msgInvalidPhoneCode": "驗證碼錯誤",
     "msgInvalidConfirmPass": "兩次密碼要一致",
     "msgInvalidOldPass": "舊密碼不正確",
     "msgRegisterUserNameInvalid": "賬戶長度必須是在6到32位之間,且必須由數字，字母或組合",
@@ -50,7 +50,7 @@
     "msgAlreadyExist": "用戶名稱已存在",
     "emailAddress": "郵箱地址",
     "qqNumber": "QQ賬號",
-    "wechatNumber": "微信號碼",
+    "wechatNumber": "微信賬號",
     "receiverAddress": "收貨地址",
     "loginPassword": "登錄密碼",
     "contact": "聯繫",
@@ -204,6 +204,7 @@
     "msgPlsEnterAccount": "請輸入銀行賬號名稱",
     "msgInvalidFileSize":"文件太大，請選擇小於2mb的文件",
     "msgInvalidFileType":"請僅上傳圖像文件。(.jpg/.jpeg/.png/.tiff)",
+    "msgFailedJoinPromotion": "參加優惠活動失敗",
     "details": {
       "bank": "銀行",
       "account": "賬戶",
@@ -240,7 +241,7 @@
       "forgetPass": "忘記密碼?"
     },
     "register": {
-      "username": "請輸入用戶名 (6-32位英文或數字)",
+      "username": "請輸入用戶名 (8-16位英文或數字)",
       "password": "請輸入密碼 (6-20位大小寫英文，數字或特殊符號)",
       "confirmPassword": "重複密碼",
       "withdrawalPassword": "請輸入提款密碼 (6位數字)",
@@ -253,8 +254,8 @@
       "cs": "客服",
       "my": "我的",
       "account": {
-        "mainAccount": "中心錢包：",
-        "totalFund": "總資金",
+        "mainAccount": "中心錢包餘額：",
+        "totalFund": "玩家總資金",
         "accountReport": "帳戶明細",
         "betReport": "投註記錄",
         "transferReport": "轉換記錄",
@@ -369,13 +370,13 @@
       "verifyEmail":"驗證原郵箱",
       "addEmail":"設定新郵箱",
       "plsEnterEmail":"請輸入郵箱地址",
-
-      "bindEmail": "绑定邮箱地址",
+      
+      "bindEmail": "綁定郵箱地址",
       "toEdit": "要修改郵箱地址，請點擊",
       "here": "這裡"
     },
     "qq":{
-      "msgInvalidQQ" :"QQ賬號格式不正确",
+      "msgInvalidQQ" :"QQ賬號格式不正確",
       "plsEnterQQ" :"請輸入QQ賬號",
       "qqAccount":"QQ賬號"
     },
@@ -406,9 +407,9 @@
       "msgInvalidConPass": "兩次輸入的密碼不一致",
       "title": "提款密碼",
       "newPass": "提款密碼",
-      "msgEnterNewPass": "请输入提款密碼",
-      "conPass": "確認提款密码",
-      "msgEnterConPass": "请输入確認提款密碼",
+      "msgEnterNewPass": "請輸入提款密碼",
+      "conPass": "確認提款密碼",
+      "msgEnterConPass": "請輸入確認提款密碼",
       "setWithdrawalPassword": "設置提款密碼",
       "settledWithdrawalPassword": "您的提款密碼已經設定，請妥善保管。"
     }
@@ -459,7 +460,7 @@
     "dateTime": "時間",
 
     "betDateTime": "投注時間",
-    "betid": "单号",
+    "betid": "單號",
     "amount": "金額",
     "betAmount": "投注金額",
     "totalBet": "總投注",
@@ -499,7 +500,7 @@
     "msgUnderMaintenance": "維修中請銷後再試",
     "refresh": "刷新",
     "title": "轉賬",
-    "totalFund": "總資金",
+    "totalFund": "玩家總資金",
     "mainAccount": "中心錢包",
     "oneKeyReceive": "一鍵回收",
     "oneKeyTransfer": "一鍵轉入",
@@ -512,7 +513,8 @@
     "msgEnterAmount": "請輸入轉帳金額",
     "maxAmount": "最大金額",
     "transfer": "轉賬",
-    "noticeTitle": "溫馨提示"
+    "noticeTitle": "溫馨提示",
+    "msgFailedTransfer":"轉賬失敗"
   },
 
   "withdrawal": {
@@ -520,7 +522,7 @@
     "msgCanWithdrawal": "您可的可提款餘額為：{{amount}}",
     "msgEnterWithdrawalPass": "請輸入提款密碼",
     "msgInsufficient": "中心錢包餘額不足",
-    "msgSuccess": "您的提款請求已成功提交，請耐心等待確認",
+    "msgSuccess": "您的提款請求已成功提交, 請耐心等待確認",
     "title": "提款",
     "limitDeposit": "單筆限額",
     "canWithdrawal": "可提資金",
@@ -538,6 +540,8 @@
     "receiverAmount": "到賬金額"
   },
   "promotion": {
+    "emptyLine1":"目前尚未有活動",
+    "emptyLine2":"請敬請期待",
     "moreInfo": "更多資訊",
     "startDate": "開始時間：",
     "endDate": "結束時間：",
@@ -621,11 +625,11 @@
       "affiliateCampaignLine2": "100%加獎佣金計劃",
       "customerServiceHotline": "國內24小時客服熱線",
       "contactUs": "聯繫我們",
-      "contactNumber": "服務電話:000-000-0000",
+      "contactNumber": "服務電話:400-120-8118",
       "contactEmail": "聯繫郵箱:cs@{brand}.com",
 
       "copyright": "本網站屬於（PAGCOR）Philippine Amusement and Gaming Corporation授權和監管",
-      "copyrightLine2": "{brand} Cop​​yright© 2020 {brand} All Rights Reserved"
+      "copyrightLine2": "{brand} Copyright© 2020 {brand} Casino Co.Group All Rights Reserved"
     },
     "login": {
       "login": "登錄",
@@ -679,9 +683,9 @@
       "affiliate": "推廣賺錢",
       "header": {
         "lastLogin": "上次登陸時間",
-        "total": "總餘額",
-        "mainWallet": "中心錢包餘額",
-        "allGameWallet": "全部平台總餘額"
+        "total": "玩家總資金",
+        "mainWallet": "中心錢包",
+        "allGameWallet": "轉帳錢包"
       },
       "msgCenterAcc": {
         "inbox": "收件箱",
@@ -694,7 +698,7 @@
     },
 
     "download": {
-      "titleDesc": "觸手可及的信息，從指尖到腦海，存取轉安全便捷。真人娛樂，體育投注，電子遊藝等盡在一手掌握。凱旋娛樂城力求給每一位用戶呈現別樣、繽紛的極致體驗。",
+      "titleDesc": "觸手可及的信息，從指尖到腦海，存取轉安全便捷。真人娛樂，體育投注，電子遊藝等盡在一手掌握。{brand}力求給每一位用戶呈現別樣、繽紛的極致體驗。",
       "supportPlatform": "(支持Android/iOS)",
       "pcDownload": "手機免下載訪問",
       "mobileDownload": "APP掃碼下載"

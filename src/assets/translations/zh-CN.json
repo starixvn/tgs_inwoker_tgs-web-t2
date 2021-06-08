@@ -204,6 +204,7 @@
     "msgPlsEnterAccount": "请输入银行账号名称",
     "msgInvalidFileSize":"文件太大，请选择小于2mb的文件",
     "msgInvalidFileType":"请仅上传图像文件。(.jpg/.jpeg/.png/.tiff)",
+    "msgFailedJoinPromotion": "参加优惠活动失败",
     "details": {
       "bank": "银行",
       "account": "账户",
@@ -253,8 +254,8 @@
       "cs": "客服",
       "my": "我的",
       "account": {
-        "mainAccount": "中心钱包：",
-        "totalFund": "总资金",
+        "mainAccount": "中心钱包余额：",
+        "totalFund": "玩家总资金",
         "accountReport": "帐户明细",
         "betReport": "投注记录",
         "transferReport": "转换记录",
@@ -499,7 +500,7 @@
     "msgUnderMaintenance": "维修中请销后再试",
     "refresh": "刷新",
     "title": "转账",
-    "totalFund": "总资金",
+    "totalFund": "玩家总资金",
     "mainAccount": "中心钱包",
     "oneKeyReceive": "一键回收",
     "oneKeyTransfer": "一键转入",
@@ -512,7 +513,8 @@
     "msgEnterAmount": "请输入转帐金额",
     "maxAmount": "最大金额",
     "transfer": "转账",
-    "noticeTitle": "温馨提示"
+    "noticeTitle": "温馨提示",
+    "msgFailedTransfer":"转账失败"
   },
 
   "withdrawal": {
@@ -538,6 +540,8 @@
     "receiverAmount": "到账金额"
   },
   "promotion": {
+    "emptyLine1":"目前尚未有活动",
+    "emptyLine2":"请敬请期待",
     "moreInfo": "更多资讯",
     "startDate": "开始时间：",
     "endDate": "结束时间：",
@@ -679,9 +683,9 @@
       "affiliate": "推广赚钱",
       "header": {
         "lastLogin": "上次登陆时间",
-        "total": "总余额",
-        "mainWallet": "中心钱包余额",
-        "allGameWallet": "全部平台总余额"
+        "total": "玩家总资金",
+        "mainWallet": "中心钱包",
+        "allGameWallet": "转帐钱包"
       },
       "msgCenterAcc": {
         "inbox": "收件箱",

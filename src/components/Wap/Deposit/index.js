@@ -248,7 +248,12 @@ class Deposit extends Component {
           loading: false,
         });
       } else {
-        this.props.alert("", this.props.wallet.depositResult.info);
+        if (this.props.wallet.depositResult.code === 407) {
+          this.props.alert("", i18n.t("deposit.msgFailedJoinPromotion"));
+        } else {
+          this.props.alert("", this.props.wallet.depositResult.info);
+        }
+
         this.setState({ ...this.state, loading: false });
       }
     }

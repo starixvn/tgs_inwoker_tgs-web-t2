@@ -329,7 +329,7 @@ class NewStepOne extends Component {
                   <SubTitle>{i18n.t("deposit.plsEnterDepositAmount")}</SubTitle>
                 </SubHeaderContainer>
                 <SelectionContainer>
-                  <CurrencyTextField
+                  <TextField
                     style={{
                       height: "38px",
                       width: "220px",
@@ -343,15 +343,9 @@ class NewStepOne extends Component {
                     variant="outlined"
                     autoComplete="off"
                     value={amount}
-                    maximumValue={methodList[selectedMethodIndex].channel[
-                      selectedChannelIndex
-                    ].transferlimit.to.toString()}
-                    inputProps={{
-                      maxLength: 15,
-                    }}
-                    currencySymbol=""
-                    decimalPlaces={0}
-                  ></CurrencyTextField>
+                    pattern="[0-9]*"
+                    type={"number"}
+                  ></TextField>
                   <LimitPopupContainer>
                     <LimitLabel>{i18n.t("deposit.limitDeposit")} </LimitLabel>
                     <LimitAmount>

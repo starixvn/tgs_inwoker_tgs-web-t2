@@ -204,6 +204,7 @@
     "msgPlsEnterAccount": "Please enter the bank account name",
     "msgInvalidFileSize":"File too Big, please select a file less than 2mb",
     "msgInvalidFileType":"Please upload image file only. (.jpg/.jpeg/.png/.tiff)",
+    "msgFailedJoinPromotion": "Failed to participate in the promotion activity",
     "details": {
       "bank": "Bank",
       "account": "Account",
@@ -418,7 +419,7 @@
     "transferDetails": "Transfer",
     "withdrawalDetails": "Withdrawal",
     "depositDetails": "Deposit",
-    "bettingDetails": "Betting",
+    "bettingDetails": "Bet History",
     "rebateDetails": "Rebate",
     "platform": "Platform",
     "date": "Date",
@@ -498,8 +499,8 @@
     "msgUnderMaintenance": " was under maintenance, try again later",
     "refresh": "Refresh",
     "title": "Transfer",
-    "totalFund": "Total Fund",
-    "mainAccount": "Main Account",
+    "totalFund": "Balance",
+    "mainAccount": "Main Wallet",
     "oneKeyReceive": "Receive All",
     "oneKeyTransfer": "Transfer All",
     "maintenance": "maintenance",
@@ -511,7 +512,8 @@
     "msgEnterAmount": "Enter Transfer Amount",
     "maxAmount": "Max Amt",
     "transfer": "Transfer",
-    "noticeTitle": "Tips"
+    "noticeTitle": "Tips",
+    "msgFailedTransfer":"Transfer failed"
   },
 
   "withdrawal": {
@@ -537,6 +539,8 @@
     "receiverAmount": "Amount"
   },
   "promotion": {
+    "emptyLine1":"MORE PROMOTIONS AND ACTIVITIES ARE",
+    "emptyLine2":"COMING SOON!",
     "moreInfo": "More Info",
     "startDate": "Start Date: ",
     "endDate": "End Date: ",
@@ -680,7 +684,7 @@
         "lastLogin": "Last Login",
         "total": "Balance",
         "mainWallet": "Main Wallet",
-        "allGameWallet": "All Game Wallet"
+        "allGameWallet": "Transfer Wallet"
       },
       "msgCenterAcc": {
         "inbox": "Mailbox",

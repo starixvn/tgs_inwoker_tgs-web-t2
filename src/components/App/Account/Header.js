@@ -107,23 +107,7 @@ function Header(props) {
         </MissionContainer>
 
       </PlayerInfoContainer> */}
-      <MainWalletContainer>
-        <MainAccountLabel>
-          {i18n.t("web.account.header.total")}:
-        </MainAccountLabel>
-        <AmountContainer>
-          <DynamicFont
-            content={
-              props.wallet.mainSymbol +
-              Common.formatNumberWithThousand(props.wallet.mainBalance + ingame)
-            }
-          />
-        </AmountContainer>
-        <RefreshButton onClick={props.onhandleRefreshClick}>
-          <RefreshButtonIcon></RefreshButtonIcon>
-        </RefreshButton>
-      </MainWalletContainer>
-      <SpliterLine></SpliterLine>
+
       <MainWalletContainer>
         <MainAccountLabel>
           {i18n.t("web.account.header.mainWallet")}:
@@ -136,7 +120,7 @@ function Header(props) {
             }
           />
         </AmountContainer>
-        <RefreshButton onClick={props.onhandleRefreshClick}>
+        <RefreshButton onMouseOver={props.onhandleRefreshClick}>
           <RefreshButtonIcon></RefreshButtonIcon>
         </RefreshButton>
       </MainWalletContainer>
@@ -149,6 +133,23 @@ function Header(props) {
           <DynamicFont
             content={
               props.wallet.mainSymbol + Common.formatNumberWithThousand(ingame)
+            }
+          />
+        </AmountContainer>
+        <RefreshButton onClick={props.onhandleRefreshClick}>
+          <RefreshButtonIcon></RefreshButtonIcon>
+        </RefreshButton>
+      </MainWalletContainer>
+      <SpliterLine></SpliterLine>
+      <MainWalletContainer>
+        <MainAccountLabel>
+          {i18n.t("web.account.header.total")}:
+        </MainAccountLabel>
+        <AmountContainer>
+          <DynamicFont
+            content={
+              props.wallet.mainSymbol +
+              Common.formatNumberWithThousand(props.wallet.mainBalance + ingame)
             }
           />
         </AmountContainer>

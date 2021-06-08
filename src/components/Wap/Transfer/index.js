@@ -262,7 +262,14 @@ class Transfer extends Component {
         });
         // AppHistory.replace("/" + i18n.language + "/withdrawal");
       } else {
-        this.props.alert("", this.props.wallet.transferResult.info);
+        if (
+          this.props.wallet.transferResult.code === 208 ||
+          this.props.wallet.transferResult.code === 209
+        ) {
+          this.props.alert("", i18n.t("transfer.msgFailedTransfer"));
+        } else {
+          this.props.alert("", this.props.wallet.transferResult.info);
+        }
       }
     }
     // withdrawal all response

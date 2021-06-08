@@ -671,6 +671,7 @@ class Slots extends Component {
                 maxLength="15"
                 autocomplete="off"
                 onChange={this.handleKeywordChange}
+                placeholder={i18n.t("slot.search")}
               ></SearchFilterItemInput>
             </SearchFilterItemContainer>
           </GameSubFilterContainer>

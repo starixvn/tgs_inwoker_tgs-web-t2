@@ -156,9 +156,16 @@ class Deposit extends Component {
           loading: false,
         });
       } else {
-        this.props.enqueueSnackbar(this.props.wallet.depositResult.info, {
-          variant: "error",
-        });
+        if (this.props.wallet.depositResult.code === 407) {
+          this.props.enqueueSnackbar(i18n.t("deposit.msgFailedJoinPromotion"), {
+            variant: "error",
+          });
+        } else {
+          this.props.enqueueSnackbar(this.props.wallet.depositResult.info, {
+            variant: "error",
+          });
+        }
+
         this.setState({ ...this.state, loading: false });
       }
     }
