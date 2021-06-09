@@ -109,7 +109,9 @@
     "withdrawalNumber":"銀行卡號碼/加密貨幣地址",
     "msgEnterWithdrawalNumber":"請輸入銀行卡號碼/加密貨幣地址",
     "msgEmailExist":"電子郵件地址已存在",
-    "msgRequiredTurnover":"流水未達標"
+    "msgRequiredTurnover":"您的投注流水不足，無法提款。如有問題，請聯繫客服。",
+    "msgInvalidUsername":"帳號或密碼錯誤",
+    "msgInvalidWithdrawalPassword":"提款密码不正确"
   },
   "affiliate": {
     "title": "推廣賺錢",
@@ -204,7 +206,7 @@
     "msgPlsEnterAccount": "請輸入銀行賬號名稱",
     "msgInvalidFileSize":"文件太大，請選擇小於2mb的文件",
     "msgInvalidFileType":"請僅上傳圖像文件。(.jpg/.jpeg/.png/.tiff)",
-    "msgFailedJoinPromotion": "參加優惠活動失敗",
+    "msgFailedJoinPromotion": "您已參加過此活動。如有問題，請聯繫客服。",
     "details": {
       "bank": "銀行",
       "account": "賬戶",
@@ -645,7 +647,8 @@
       "footerDesc": "本網站採用Global Trust 最先進的128/256 bit SSL服務",
       "controlTitle": "責任博彩",
       "controlDesc": "您已設定自我控制，賬戶將在",
-      "controlText": "後解鎖",
+      "controlText": "後解鎖",      
+      
       "errorMsg": {
         "emptyUsername": "用戶名不能為空",
         "emptyPassword": "密碼不能為空"

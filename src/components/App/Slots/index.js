@@ -39,6 +39,9 @@ import {
 
 import i18n from "../../../utils/i18n";
 import CommonMarquee from "../CommonMarquee";
+import jsonUS from "../../../assets/translations/slot_en-US.json";
+import jsonCN from "../../../assets/translations/slot_zh-CN.json";
+import jsonTW from "../../../assets/translations/slot_zh-TW.json";
 const Container = styled.div`
   width: 100%;
   position: relative;
@@ -356,8 +359,19 @@ class Slots extends Component {
         : "",
     };
   }
-
+  language = null;
   componentDidMount() {
+    switch (i18n.language) {
+      case "zh-CN":
+        this.language = jsonCN;
+        break;
+      case "zh-TW":
+        this.language = jsonTW;
+        break;
+      default:
+        this.language = jsonUS;
+        break;
+    }
     this.getGameList();
   }
   componentDidUpdate(prevProps, prevState) {
@@ -627,7 +641,7 @@ class Slots extends Component {
             >
               GO
             </GameHoverSelection>
-            <Namecontainer>{el.name}</Namecontainer>
+            <Namecontainer>{this.language[el.code] || el.name}</Namecontainer>
           </ItemContainer>
         ));
     }

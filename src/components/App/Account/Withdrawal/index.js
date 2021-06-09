@@ -126,6 +126,13 @@ class Withdrawal extends Component {
           this.props.enqueueSnackbar(i18n.t("common.msgRequiredTurnover"), {
             variant: "error",
           });
+        } else if (this.props.wallet.withdrawalResult.code === 901) {
+          this.props.enqueueSnackbar(
+            i18n.t("common.msgInvalidWithdrawalPassword"),
+            {
+              variant: "error",
+            }
+          );
         } else {
           this.props.enqueueSnackbar(this.props.wallet.withdrawalResult.info, {
             variant: "error",

@@ -30,7 +30,6 @@ import IconUserPNG from "../../../assets/images/wap/icon-user.png";
 import IconUnlockPNG from "../../../assets/images/wap/icon-unlock.png";
 import IconPromoPNG from "../../../assets/images/wap/icon-promo.png";
 import config from "../../../config/config";
-import { errorSwitcher } from "../../../utils/ErrorSwitcher";
 const Container = styled.div`
   z-index: 10;
   overflow-y: scroll;
@@ -250,7 +249,7 @@ class Login extends Component {
             loading: false,
           });
         } else {
-          this.props.alert("", errorSwitcher(result.code));
+          this.props.alert("", i18n.t("common.msgInvalidUsername"));
           // this.props.enqueueSnackbar(result.msg, {
           //   variant: "warning"
           // });

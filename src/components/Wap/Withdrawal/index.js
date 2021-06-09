@@ -231,6 +231,8 @@ class Withdrawal extends Component {
       } else {
         if (this.props.wallet.withdrawalResult.code === 207) {
           this.props.alert("", i18n.t("common.msgRequiredTurnover"));
+        } else if (this.props.wallet.withdrawalResult.code === 901) {
+          this.props.alert("", i18n.t("common.msgInvalidWithdrawalPassword"));
         } else {
           this.props.alert("", this.props.wallet.withdrawalResult.info);
         }

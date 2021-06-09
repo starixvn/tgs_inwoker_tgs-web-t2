@@ -109,7 +109,9 @@
     "withdrawalNumber":"Bank card number/Crypto currency address",
     "msgEnterWithdrawalNumber":"Please enter bank card number/crypto currency address",
     "msgEmailExist":"Email address already exists",
-    "msgRequiredTurnover":"Turnover required"
+    "msgRequiredTurnover":"Withdrawal unavailable. Please make sure you meet the wagering requirements, or contact Customer Service for further information.",
+    "msgInvalidUsername":"Invalid username/ password.",
+    "msgInvalidWithdrawalPassword":"Invalid withdrawal password"
   },
   "affiliate": {
     "title": "Promote",
@@ -204,7 +206,7 @@
     "msgPlsEnterAccount": "Please enter the bank account name",
     "msgInvalidFileSize":"File too Big, please select a file less than 2mb",
     "msgInvalidFileType":"Please upload image file only. (.jpg/.jpeg/.png/.tiff)",
-    "msgFailedJoinPromotion": "Failed to participate in the promotion activity",
+    "msgFailedJoinPromotion": "You've already registered. Please contact Customer Service if you need further information.",
     "details": {
       "bank": "Bank",
       "account": "Account",
@@ -667,7 +669,7 @@
       "oldPassword": "Old Password",
       "newPassword": "New Password",
       "confirmNewPassword": "Confirm New Password",
-      "resetSuccess": "Confirm New Password"
+      "resetSuccess": "Password reset successfully"
     },
 
     "account": {

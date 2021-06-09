@@ -226,27 +226,34 @@ class GuestContainer extends Component {
     password,
     confirmPassword
   ) => {
+    var expr = /^.{6,20}$/;
+    if (!expr.test(password)) {
+      this.props.enqueueSnackbar(i18n.t("common.msgRegisterPassInvalid"), {
+        variant: "warning",
+      });
+      return;
+    }
     if (password !== confirmPassword) {
       this.props.enqueueSnackbar(i18n.t("common.msgInvalidConfirmPass"), {
         variant: "error",
       });
-    } else {
-      AccountService.ResetPassword(securityKey, code, password).then(
-        (response) => {
-          if (response.IsSuccess) {
-            this.setState({
-              ...this.state,
-              openDialog: true,
-              openDialogName: "resetpasswordsuccess",
-            });
-          } else {
-            this.props.enqueueSnackbar(response.info, {
-              variant: "error",
-            });
-          }
-        }
-      );
+      return;
     }
+    AccountService.ResetPassword(securityKey, code, password).then(
+      (response) => {
+        if (response.IsSuccess) {
+          this.setState({
+            ...this.state,
+            openDialog: true,
+            openDialogName: "resetpasswordsuccess",
+          });
+        } else {
+          this.props.enqueueSnackbar(response.info, {
+            variant: "error",
+          });
+        }
+      }
+    );
   };
   onhandleForgotPasswordBackClick = () => {
     this.setState({
@@ -348,7 +355,7 @@ class GuestContainer extends Component {
     if (result.IsSuccess) {
       this.handleLoginSuccess(result.data);
     } else {
-      this.props.enqueueSnackbar(errorSwitcher(result.code, result.info), {
+      this.props.enqueueSnackbar(i18n.t("common.msgInvalidUsername"), {
         variant: "warning",
       });
 

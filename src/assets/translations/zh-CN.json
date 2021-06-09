@@ -109,7 +109,9 @@
     "withdrawalNumber":"银行卡号码/加密货币地址",
     "msgEnterWithdrawalNumber":"请输入银行卡号码/加密货币地址",
     "msgEmailExist":"电子邮件地址已存在",
-    "msgRequiredTurnover":"流水未达标"
+    "msgRequiredTurnover":"您的投注流水不足，无法提款。 如有问题，请联系客服。",
+    "msgInvalidUsername":"帐号或密码错误",
+    "msgInvalidWithdrawalPassword":"提款密码不正确"
   },
   "affiliate": {
     "title": "推广赚钱",
@@ -204,7 +206,7 @@
     "msgPlsEnterAccount": "请输入银行账号名称",
     "msgInvalidFileSize":"文件太大，请选择小于2mb的文件",
     "msgInvalidFileType":"请仅上传图像文件。(.jpg/.jpeg/.png/.tiff)",
-    "msgFailedJoinPromotion": "参加优惠活动失败",
+    "msgFailedJoinPromotion": "您已参加过此活动。 如有问题，请联系客服。",
     "details": {
       "bank": "银行",
       "account": "账户",
