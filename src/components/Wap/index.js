@@ -373,13 +373,13 @@ const RouteMapping = [
   },
   {
     path: "/card",
-    component: Card,
+    component: Wapp.Card,
     alert: true,
     navigate: true,
   },
   {
     path: "/card/add",
-    component: AddCard,
+    component: Wapp.AddCard,
     alert: true,
     navigate: true,
   },
