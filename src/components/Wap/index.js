@@ -205,27 +205,27 @@ const ButtonCancel = styled(ButtonConfirm)``;
 const RouteMapping = [
   {
     path: "/",
-    component: Wapp.Login,
+    component: Login,
     alert: true,
   },
   {
     path: "/a/:promotionid",
-    component: Wapp.Login,
+    component: Login,
     alert: true,
   },
   {
     path: "/t/:promotionid",
-    component: Wapp.Login,
+    component: Login,
     alert: true,
   },
   {
     path: "/f/:promotionid",
-    component: Wapp.Login,
+    component: Login,
     alert: true,
   },
   {
     path: "/main/:page",
-    component: Wapp.Main,
+    component: Main,
     alert: true,
     popup: true,
     navigate: true,
