@@ -235,6 +235,7 @@ class Account extends Component {
   };
   handleRefreshClick = () => {
     this.props.updateBalanceList();
+    this.getAllGameBalance();
   };
   timeout(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));

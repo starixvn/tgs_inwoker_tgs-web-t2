@@ -248,7 +248,12 @@ class Deposit extends Component {
           loading: false,
         });
       } else {
-        this.props.alert("", this.props.wallet.depositResult.info);
+        if (this.props.wallet.depositResult.code === 407) {
+          this.props.alert("", i18n.t("deposit.msgFailedJoinPromotion"));
+        } else {
+          this.props.alert("", this.props.wallet.depositResult.info);
+        }
+
         this.setState({ ...this.state, loading: false });
       }
     }
@@ -475,7 +480,11 @@ class Deposit extends Component {
                       this.props.wallet.depositTypeList[
                         this.state.selectedPaymentIndex
                       ].method.map((item, index) => {
-                        return <option value={index}>{item.methodcode}</option>;
+                        return (
+                          <option value={index}>
+                            {i18n.t(item.methodcode)}
+                          </option>
+                        );
                       })}
                   </CustomSelect>
                 </CustomFormControl>

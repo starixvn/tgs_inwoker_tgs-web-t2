@@ -232,7 +232,6 @@ class AddCard extends Component {
           label={i18n.t("common.withdrawalChannel")}
           disabled={true}
         ></Textbox>
-
         {(() => {
           if (
             this.props.wallet.withdrawalList.length > 0 &&

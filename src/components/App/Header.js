@@ -525,6 +525,11 @@ class Header extends Component {
   handleRefreshBalanceClick = () => {
     this.tickCount = 0;
     this.props.updateBalanceList();
+    this.props.game.providerList
+      .filter((item) => item.status === 0 && item.transferwallet === true)
+      .map((a) => {
+        this.props.getGameBalance(a.abbreviation);
+      });
   };
   handleDownloadAppsClick = () => {
     this.setState({ selected: "/download" });
@@ -928,7 +933,7 @@ const mapDispatchToProps = (dispatch) => {
     // checkTokenIsValid: token =>
     //   dispatch(accountAction.checkTokenIsValid(token)),
     logout: (token) => dispatch(accountAction.accountLogout(token)),
-
+    getGameBalance: (gpcode) => dispatch(walletAction.getGameBalance(gpcode)),
     getBalanceList: (loading) => dispatch(walletAction.getBalanceList(loading)),
     updateBalanceList: (loading) => dispatch(walletAction.updateBalanceList()),
     showLogin: (payload) => {

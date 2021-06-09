@@ -65,7 +65,7 @@ import AddCard from "./Card/AddCard";
 import Report from "./Report/index";
 import { SupportService } from "@Inwoker/tgs-api";
 // import CustomerService from "./CustomerService/index";
-// import CustomerServiceChat from "./CustomerService/Chat";
+import CustomerServiceChat from "./CustomerService/index";
 
 import ForgotPassword from "./ForgotPassword/index";
 

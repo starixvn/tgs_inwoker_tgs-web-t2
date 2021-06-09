@@ -101,7 +101,7 @@ const Description = styled.p`
   display: inline-block;
   width: 100%;
   font-size: 14px;
-  color: #ffffff;
+  color: #000;
 `;
 
 const ContactUsLink = styled(LinkStyle)`

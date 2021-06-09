@@ -28,6 +28,7 @@
     "btnTokenLabel": "Get Code",
     "token": "Verify code",
     "btnTokenResendLabel": "Resend",
+    "msgInvalidInvitationCode": "Invalid invitation code.",
     "msgSendToken": "Send Code",
     "msgTokenSent": "Verify Code Sent Successfully",
     "msgTokenVerified": "Verified",
@@ -106,7 +107,11 @@
     "withdrawalBankType":"Type",
     "withdrawalChannel":"Channel",
     "withdrawalNumber":"Bank card number/Crypto currency address",
-    "msgEnterWithdrawalNumber":"Please enter bank card number/crypto currency address"
+    "msgEnterWithdrawalNumber":"Please enter bank card number/crypto currency address",
+    "msgEmailExist":"Email address already exists",
+    "msgRequiredTurnover":"Withdrawal unavailable. Please make sure you meet the wagering requirements, or contact Customer Service for further information.",
+    "msgInvalidUsername":"Invalid username/ password.",
+    "msgInvalidWithdrawalPassword":"Invalid withdrawal password"
   },
   "affiliate": {
     "title": "Promote",
@@ -201,6 +206,7 @@
     "msgPlsEnterAccount": "Please enter the bank account name",
     "msgInvalidFileSize":"File too Big, please select a file less than 2mb",
     "msgInvalidFileType":"Please upload image file only. (.jpg/.jpeg/.png/.tiff)",
+    "msgFailedJoinPromotion": "You've already registered. Please contact Customer Service if you need further information.",
     "details": {
       "bank": "Bank",
       "account": "Account",
@@ -335,9 +341,11 @@
 
     "nameVerify": {
       "title": "Real Name",
-      "msgEnterICNum": "Enter Real Name",
+      "msgEnterICNum": "Enter IC number",
       "icNum": "IC Number",
       "msgInvalidICNum": "Invalid IC number",
+      "msgPlsEnterName": "Please enter your real name",
+      "msgPlsEnterICNum": "Please enter your IC number",
       "toEdit": "If Required to Edit Real Name, Please Contact ",
       "verifyName": "Real Name Verify",
       "tips": "Tips:  Real name needs same as withdrawal card name to withdraw money"
@@ -413,7 +421,7 @@
     "transferDetails": "Transfer",
     "withdrawalDetails": "Withdrawal",
     "depositDetails": "Deposit",
-    "bettingDetails": "Betting",
+    "bettingDetails": "Bet History",
     "rebateDetails": "Rebate",
     "platform": "Platform",
     "date": "Date",
@@ -493,8 +501,8 @@
     "msgUnderMaintenance": " was under maintenance, try again later",
     "refresh": "Refresh",
     "title": "Transfer",
-    "totalFund": "Total Fund",
-    "mainAccount": "Main Account",
+    "totalFund": "Balance",
+    "mainAccount": "Main Wallet",
     "oneKeyReceive": "Receive All",
     "oneKeyTransfer": "Transfer All",
     "maintenance": "maintenance",
@@ -506,7 +514,8 @@
     "msgEnterAmount": "Enter Transfer Amount",
     "maxAmount": "Max Amt",
     "transfer": "Transfer",
-    "noticeTitle": "Tips"
+    "noticeTitle": "Tips",
+    "msgFailedTransfer":"Transfer failed"
   },
 
   "withdrawal": {
@@ -532,6 +541,8 @@
     "receiverAmount": "Amount"
   },
   "promotion": {
+    "emptyLine1":"MORE PROMOTIONS AND ACTIVITIES ARE",
+    "emptyLine2":"COMING SOON!",
     "moreInfo": "More Info",
     "startDate": "Start Date: ",
     "endDate": "End Date: ",
@@ -546,9 +557,10 @@
   },
   "web": {
     "home": {
-      "hotGame1Title": "BACCARAT",
-      "hotGame2Title": "DRAGON TIGER",
-      "hotGame3Title": "ROULETTE"
+      "Section1Chess": "CARD GAME",
+      "Section1Slot": "SLOT GAME",
+      "Section1Lottery": "LOTTERY GAME",
+      "Section1FISHing": "FISHING GAME"
     },
     "liveGame": {
       "wmDesc": "Exclusive custom interface for asian players, according to the user experience and habits. Extreme interface, extreme game control, unqiue live casino.",
@@ -615,10 +627,10 @@
       "customerServiceHotline": "24-hours hotline",
       "contactUs": "Contact us",
       "contactNumber": "Hotline :400-120-8118",
-      "contactEmail": "Contact Email:cs@mrcat.com",
+      "contactEmail": "Contact Email:cs@{brand}.com",
 
       "copyright": "This website belongs to（PAGCOR）Philippine Amusement and Gaming Corporation Authorization and supervision",
-      "copyrightLine2": "{brand} Copyright© 2020 {brand} All Rights Reserved"
+      "copyrightLine2": "{brand} Copyright© 2020 {brand} Casino Co.Group All Rights Reserved"
     },
     "login": {
       "login": "Login",
@@ -657,7 +669,7 @@
       "oldPassword": "Old Password",
       "newPassword": "New Password",
       "confirmNewPassword": "Confirm New Password",
-      "resetSuccess": "Confirm New Password"
+      "resetSuccess": "Password reset successfully"
     },
 
     "account": {
@@ -674,7 +686,7 @@
         "lastLogin": "Last Login",
         "total": "Balance",
         "mainWallet": "Main Wallet",
-        "allGameWallet": "All Game Wallet"
+        "allGameWallet": "Transfer Wallet"
       },
       "msgCenterAcc": {
         "inbox": "Mailbox",
@@ -706,7 +718,6 @@
   "LeePay":"LeePay",
   "Manual":"Manual",
   "Crypto":"Crypto",
-  "BankTransfer":"BankTransfer",
+  "BankTransfer":"Bank Transfer",
   "CustomBank":"Custom Bank"
-
 }

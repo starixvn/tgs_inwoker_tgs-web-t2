@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import DynamicFont from "react-dynamic-font";
 import { withSnackbar } from "notistack";
 import IconTransferRedPNG from "../../../../assets/images/icon-transfer-active.png";
@@ -21,6 +21,14 @@ import Loading from "../../Loading";
 import Common from "../../../../utils/Common";
 import Messagebox from "../../Messagebox";
 import i18n from "../../../../utils/i18n";
+export const rotateKeyFrame = keyframes`
+  0% {
+    transform:rotate(0deg)
+  }
+  100% {
+    transform:rotate(-359deg)
+  }
+`;
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box
@@ -73,6 +81,7 @@ const RefreshButton = styled.div`
   background-position: center;
   &:hover {
     cursor: pointer;
+    animation: ${rotateKeyFrame} 1s linear 0s infinite;
   }
 `;
 const RefreshButtonIcon = styled.div`
@@ -420,9 +429,18 @@ class Transfer extends Component {
         });
         // AppHistory.replace("/" + i18n.language + "/withdrawal");
       } else {
-        this.props.enqueueSnackbar(this.props.wallet.transferResult.info, {
-          variant: "error",
-        });
+        if (
+          this.props.wallet.transferResult.code === 208 ||
+          this.props.wallet.transferResult.code === 209
+        ) {
+          this.props.enqueueSnackbar(i18n.t("transfer.msgFailedTransfer"), {
+            variant: "error",
+          });
+        } else {
+          this.props.enqueueSnackbar(this.props.wallet.transferResult.info, {
+            variant: "error",
+          });
+        }
       }
     }
 

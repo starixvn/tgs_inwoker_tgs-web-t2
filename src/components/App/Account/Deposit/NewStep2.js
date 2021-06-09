@@ -74,7 +74,7 @@ class NewStepTwo extends Component {
   };
   handleFileChange = (e) => {
     var files = e.target.files;
-    var fileName = e.target.value;
+    var fileName = e.target.value.toLowerCase();
     if (files.length > 0) {
       if (
         !fileName.endsWith(".jpg") &&

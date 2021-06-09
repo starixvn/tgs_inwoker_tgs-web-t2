@@ -23,6 +23,9 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import BottomScrollListener from "react-bottom-scroll-listener";
 import i18n from "../../../utils/i18n";
+import jsonUS from "../../../assets/translations/slot_en-US.json";
+import jsonCN from "../../../assets/translations/slot_zh-CN.json";
+import jsonTW from "../../../assets/translations/slot_zh-TW.json";
 const Container = styled.div`
   width: 100%;
   overflow: hidden;
@@ -220,8 +223,19 @@ class Slot extends Component {
       loading: false,
     };
   }
-
+  language = null;
   componentDidMount() {
+    switch (i18n.language) {
+      case "zh-CN":
+        this.language = jsonCN;
+        break;
+      case "zh-TW":
+        this.language = jsonTW;
+        break;
+      default:
+        this.language = jsonUS;
+        break;
+    }
     this.getGameList();
   }
 
@@ -474,15 +488,15 @@ class Slot extends Component {
                     <ListitemLabelBackground></ListitemLabelBackground>
                     <LeftContainer>
                       <GameProvider>{row.gpcode}</GameProvider>
-                      <GameName>{row.name}</GameName>
+                      <GameName>{this.language[row.code] || row.name}</GameName>
                     </LeftContainer>
 
-                    <Bookmark
+                    {/* <Bookmark
                       isBookmark={row.collect_id > 0}
                       onClick={() =>
                         this.handleBookmarkClick(row.id, row.collect_id)
                       }
-                    ></Bookmark>
+                    ></Bookmark> */}
                   </ListItem>
                 );
               })}

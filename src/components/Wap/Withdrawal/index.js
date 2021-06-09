@@ -197,7 +197,9 @@ class Withdrawal extends Component {
   }
 
   componentDidMount() {
-    if (this.props.account.info.member_safe_password !== "set") {
+    if (this.props.account.info.check_pass_email === false) {
+      AppHistory.replace(`/${i18n.language}/profile/email`);
+    } else if (this.props.account.info.member_safe_password !== "set") {
       AppHistory.replace(`/${i18n.language}/profile/withdrawalpassword/`);
     } else {
       if (this.props.token != null) {
@@ -227,7 +229,13 @@ class Withdrawal extends Component {
           ...this.initialState,
         });
       } else {
-        this.props.alert("", this.props.wallet.withdrawalResult.info);
+        if (this.props.wallet.withdrawalResult.code === 207) {
+          this.props.alert("", i18n.t("common.msgRequiredTurnover"));
+        } else if (this.props.wallet.withdrawalResult.code === 901) {
+          this.props.alert("", i18n.t("common.msgInvalidWithdrawalPassword"));
+        } else {
+          this.props.alert("", this.props.wallet.withdrawalResult.info);
+        }
       }
     }
   }
@@ -348,7 +356,9 @@ class Withdrawal extends Component {
           value={
             this.props.wallet.bankCardList.length > 0
               ? this.props.wallet.bankCardList[this.state.selectedBankCardIndex]
-                  .detail.address
+                  .detail.address ||
+                this.props.wallet.bankCardList[this.state.selectedBankCardIndex]
+                  .detail.bankAccount
               : ""
           }
           onClick={() => this.setState({ ...this.state, bankOpen: true })}
@@ -406,7 +416,7 @@ class Withdrawal extends Component {
                   primary={item.banktype}
                 ></StyledListItemText>
                 <StyledListItemText
-                  primary={item.detail.address}
+                  primary={item.detail.address || item.detail.bankAccount}
                 ></StyledListItemText>
               </StyledListItem>
             );

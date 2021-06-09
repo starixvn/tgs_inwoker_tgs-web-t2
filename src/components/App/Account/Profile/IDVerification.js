@@ -7,9 +7,23 @@ import IconInputIDPNG from "../../../../assets/images/icon-input-id.png";
 import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.png";
 import { withSnackbar } from "notistack";
 import { AccountService, UPDATE_INFO } from "@Inwoker/tgs-api";
-
+import { Link } from "react-router-dom";
 import i18n from "../../../../utils/i18n";
 const Container = styled.div``;
+const Content = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 90px;
+  padding: 0 30px;
+  color: #404040;
+`;
+const LabelLink = styled(Link)`
+  color: #f0ca83;
+  text-decoration: none;
+`;
+
 let local_props = {
   member_name: "",
   member_card_no: "",
@@ -28,6 +42,21 @@ function IDVerification(props) {
     member_card_no: props.account.info.member_card_no,
   };
   const onhandleClick = () => {
+    if (local_props.member_name === "" || local_props.member_name === null) {
+      props.enqueueSnackbar(i18n.t("profile.nameVerify.msgPlsEnterName"), {
+        variant: "error",
+      });
+      return;
+    }
+    if (
+      local_props.member_card_no === "" ||
+      local_props.member_card_no === null
+    ) {
+      props.enqueueSnackbar(i18n.t("profile.nameVerify.msgPlsEnterICNum"), {
+        variant: "error",
+      });
+      return;
+    }
     AccountService.AddRealName(
       local_props.member_name,
       local_props.member_card_no
@@ -57,7 +86,7 @@ function IDVerification(props) {
   return (
     <Container>
       <CustomTextField
-        placeholder={i18n.t("common.realName")}
+        placeholder={i18n.t("profile.nameVerify.msgPlsEnterName")}
         adornment={IconInputReceivePNG}
         handleTextFieldChange={onhandleNameChange}
         defaultValue={props.account.info.member_name}
@@ -67,7 +96,7 @@ function IDVerification(props) {
       {props.account.info.member_name === "" ||
       props.account.info.member_name === null ? (
         <CustomTextField
-          placeholder={i18n.t("profile.nameVerify.icNum")}
+          placeholder={i18n.t("profile.nameVerify.msgPlsEnterICNum")}
           adornment={IconInputIDPNG}
           handleTextFieldChange={onhandleIDChange}
           defaultValue={props.account.info.member_card_no}
@@ -75,7 +104,21 @@ function IDVerification(props) {
           maxLength={20}
         ></CustomTextField>
       ) : (
-        <></>
+        <Content>
+          {i18n.t("profile.nameVerify.toEdit")}
+          {
+            <LabelLink
+              onClick={() =>
+                props.handleCSClick(
+                  props.account.info.member_username,
+                  props.account.info.member_username
+                )
+              }
+            >
+              {i18n.t("common.customerService")}
+            </LabelLink>
+          }
+        </Content>
       )}
       {(() => {
         if (props.account.info.check_pass_account === false) {

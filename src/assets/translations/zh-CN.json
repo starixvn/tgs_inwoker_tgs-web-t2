@@ -28,6 +28,7 @@
     "btnTokenLabel": "获取验证码",
     "token": "验证码",
     "btnTokenResendLabel": "重新发送",
+    "msgInvalidInvitationCode": "邀请码无效",
     "msgSendToken": "发送验证码",
     "msgTokenSent": "验证码发送成功",
     "msgTokenVerified": "验证成功",
@@ -106,7 +107,11 @@
     "withdrawalBankType":"类别",
     "withdrawalChannel":"渠道",
     "withdrawalNumber":"银行卡号码/加密货币地址",
-    "msgEnterWithdrawalNumber":"请输入银行卡号码/加密货币地址"
+    "msgEnterWithdrawalNumber":"请输入银行卡号码/加密货币地址",
+    "msgEmailExist":"电子邮件地址已存在",
+    "msgRequiredTurnover":"您的投注流水不足，无法提款。 如有问题，请联系客服。",
+    "msgInvalidUsername":"帐号或密码错误",
+    "msgInvalidWithdrawalPassword":"提款密码不正确"
   },
   "affiliate": {
     "title": "推广赚钱",
@@ -201,6 +206,7 @@
     "msgPlsEnterAccount": "请输入银行账号名称",
     "msgInvalidFileSize":"文件太大，请选择小于2mb的文件",
     "msgInvalidFileType":"请仅上传图像文件。(.jpg/.jpeg/.png/.tiff)",
+    "msgFailedJoinPromotion": "您已参加过此活动。 如有问题，请联系客服。",
     "details": {
       "bank": "银行",
       "account": "账户",
@@ -250,8 +256,8 @@
       "cs": "客服",
       "my": "我的",
       "account": {
-        "mainAccount": "中心钱包：",
-        "totalFund": "总资金",
+        "mainAccount": "中心钱包余额：",
+        "totalFund": "玩家总资金",
         "accountReport": "帐户明细",
         "betReport": "投注记录",
         "transferReport": "转换记录",
@@ -338,6 +344,8 @@
       "msgEnterICNum": "请输入您的身份证号码",
       "icNum": "身份证",
       "msgInvalidICNum": "身份证号码不正确",
+      "msgPlsEnterName": "请输入您的真实姓名",
+      "msgPlsEnterICNum": "请输入您的身份证号码",
       "toEdit": "如需修改真实姓名，请联系",
       "verifyName": "实名认证",
       "tips": "提示： 真实姓名需要与提款卡姓名相同才可提款"
@@ -494,7 +502,7 @@
     "msgUnderMaintenance": "维修中请销后再试",
     "refresh": "刷新",
     "title": "转账",
-    "totalFund": "总资金",
+    "totalFund": "玩家总资金",
     "mainAccount": "中心钱包",
     "oneKeyReceive": "一键回收",
     "oneKeyTransfer": "一键转入",
@@ -507,7 +515,8 @@
     "msgEnterAmount": "请输入转帐金额",
     "maxAmount": "最大金额",
     "transfer": "转账",
-    "noticeTitle": "温馨提示"
+    "noticeTitle": "温馨提示",
+    "msgFailedTransfer":"转账失败"
   },
 
   "withdrawal": {
@@ -533,6 +542,8 @@
     "receiverAmount": "到账金额"
   },
   "promotion": {
+    "emptyLine1":"目前尚未有活动",
+    "emptyLine2":"请敬请期待",
     "moreInfo": "更多资讯",
     "startDate": "开始时间：",
     "endDate": "结束时间：",
@@ -547,9 +558,10 @@
   },
   "web": {
     "home": {
-      "hotGame1Title": "百家乐",
-      "hotGame2Title": "龙虎",
-      "hotGame3Title": "轮盘"
+      "Section1Chess": "棋牌游戏",
+      "Section1Slot": "电子游戏",
+      "Section1Lottery": "彩票游戏",
+      "Section1FISHing": "捕鱼游戏"
     },
     "liveGame": {
       "wmDesc": "以高规格打造的WM真人配备最先进的设备以及富丽堂皇的装潢，为玩家打造绝佳真人视讯游戏体验。",
@@ -619,7 +631,7 @@
       "contactEmail": "联系邮箱:cs@{brand}.com",
 
       "copyright": "本网站属于（PAGCOR）Philippine Amusement and Gaming Corporation授权和监管",
-      "copyrightLine2": "{brand} Copyright© 2020 {brand} All Rights Reserved"
+      "copyrightLine2": "{brand} Copyright© 2020 {brand} Casino Co.Group All Rights Reserved"
     },
     "login": {
       "login": "登录",
@@ -673,9 +685,9 @@
       "affiliate": "推广赚钱",
       "header": {
         "lastLogin": "上次登陆时间",
-        "total": "总余额",
-        "mainWallet": "中心钱包余额",
-        "allGameWallet": "全部平台总余额"
+        "total": "玩家总资金",
+        "mainWallet": "中心钱包",
+        "allGameWallet": "转帐钱包"
       },
       "msgCenterAcc": {
         "inbox": "收件箱",
@@ -688,7 +700,7 @@
     },
 
     "download": {
-      "titleDesc": "触手可及的信息，从指尖到脑海，存取转安全便捷。真人娱乐，体育投注，电子游艺等尽在一手掌握。{brand} Gaming力求给每一位用户呈现别样、缤纷的极致体验。",
+      "titleDesc": "触手可及的信息，从指尖到脑海，存取转安全便捷。真人娱乐，体育投注，电子游艺等尽在一手掌握。{brand}力求给每一位用户呈现别样、缤纷的极致体验。",
       "supportPlatform": "(支持Android/iOS)",
       "pcDownload": "手机免下载访问",
       "mobileDownload": "APP扫码下载"
@@ -706,7 +718,7 @@
   "PrimePay":"一等付",
   "LeePay":"利付钱包",
   "Manual":"手动存款",
-  "Crypto":"加密货币",
+  "Crypto":"虚拟币",
   "BankTransfer":"银行转账",
   "CustomBank":"自定银行"
 

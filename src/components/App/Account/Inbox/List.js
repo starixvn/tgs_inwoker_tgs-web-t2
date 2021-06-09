@@ -95,9 +95,13 @@ function List(props) {
       <Table aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>{i18n.t("inbox.dateTime")}</StyledTableCell>
+            <StyledTableCell style={{ width: "170px" }}>
+              {i18n.t("inbox.dateTime")}
+            </StyledTableCell>
 
-            <StyledTableCell>{i18n.t("inbox.inboxTitle")}</StyledTableCell>
+            <StyledTableCell style={{ width: "200px" }}>
+              {i18n.t("inbox.inboxTitle")}
+            </StyledTableCell>
             <StyledTableCell>{i18n.t("inbox.details")}</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -124,7 +128,7 @@ function List(props) {
                       : { fontWeight: "normal" }
                   }
                 >
-                  {moment(row.createon).format("YYYY-MM-DD hh:mm:ss")}
+                  {moment(row.createon).format("YYYY-MM-DD hh:mm:ss a")}
                 </StyledTableCell>
                 <StyledTableCell
                   id={labelId}

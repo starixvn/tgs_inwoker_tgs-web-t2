@@ -153,14 +153,20 @@ class CustomerService extends Component {
   };
 
   componentDidMount() {
-    if (this.props.account.token != null) {
-      this.GetSupportUrl(
-        this.props.account.info.member_id,
-        this.props.account.info.member_username + "(会员)",
-        this.state.question
-      );
-      AppHistory.goBack();
-    }
+    this.props.GetSupportUrl(
+      this.props.account.info.member_id,
+      this.props.account.info.member_username,
+      ""
+    );
+    AppHistory.goBack();
+    // if (this.props.account.token != null) {
+    //   this.GetSupportUrl(
+    //     this.props.account.info.member_id,
+    //     this.props.account.info.member_username + "(会员)",
+    //     this.state.question
+    //   );
+    //   AppHistory.goBack();
+    // }
   }
 
   handleBackClick = () => {
@@ -292,6 +298,7 @@ class CustomerService extends Component {
     this.setState({ ...this.state, loading: false });
   };
   render() {
+    return <></>;
     return (
       <Container>
         <Header onBackClick={this.handleBackClick} title={"客服中心"}></Header>
