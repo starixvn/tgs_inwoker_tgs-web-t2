@@ -717,6 +717,7 @@
   },
   "PrimePay":"一等付",
   "LeePay":"利付钱包",
+  "ApplePay":"苹果支付",
   "Manual":"手动存款",
   "Crypto":"虚拟币",
   "BankTransfer":"银行转账",

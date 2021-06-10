@@ -718,6 +718,7 @@
   },
   "PrimePay":"一等付",
   "LeePay":"利付錢包",
+  "ApplePay":"蘋果支付",
   "Manual":"手動存款",
   "Crypto":"虛擬幣",
   "BankTransfer":"銀行轉賬",

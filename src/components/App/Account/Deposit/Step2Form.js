@@ -47,7 +47,7 @@ class Step2Form extends Component {
           <tbody>
             <tr>
               <TitleTD>{i18n.t("deposit.depositMethod")}</TitleTD>
-              <ValueTD>{this.props.methodcode}</ValueTD>
+              <ValueTD>{i18n.t(this.props.methodcode)}</ValueTD>
 
               <TitleTD>{i18n.t("deposit.depositTunnel")}</TitleTD>
               <ValueTD>{this.props.channelname}</ValueTD>

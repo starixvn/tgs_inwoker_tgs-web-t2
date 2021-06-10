@@ -125,7 +125,6 @@ class App extends Component {
             this.props.getBalanceList();
             this.props.getMessageList(0, 99);
             this.props.getBankCardList();
-            this.props.getPlayerPromotionList();
 
             // if (inbox.IsSuccess) {
             //   this.setState({ inbox: inbox.data });
@@ -133,11 +132,7 @@ class App extends Component {
             // this.props.getIDCardNo();
             // this.props.getInviteLink();
             // this.props.getDepositChannel();
-          } else {
-            this.props.getPromotionList();
           }
-        } else {
-          this.props.getPromotionList();
         }
         this.props.getMarquee();
         this.props.getHomePageGameList();
@@ -343,10 +338,6 @@ const mapDispatchToProps = (dispatch) => {
 
     getMessageList: (pages, limit) =>
       dispatch(inboxAction.getMessages(pages, limit, true, true)),
-    getPromotionList: () =>
-      dispatch(generalAction.getPromotionList(1, 99, true, "", true)),
-    getPlayerPromotionList: () =>
-      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
   };
 };
 

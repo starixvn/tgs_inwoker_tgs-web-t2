@@ -4,7 +4,11 @@ import styled from "styled-components";
 
 import IconDepositRedPNG from "../../../../assets/images/icon-deposit-active.png";
 
-import { walletAction, RESET_WALLETRESULT } from "@Inwoker/tgs-api";
+import {
+  walletAction,
+  RESET_WALLETRESULT,
+  generalAction,
+} from "@Inwoker/tgs-api";
 import { withRouter } from "react-router-dom";
 
 import NameVerification from "../../Share/NameVerification";
@@ -135,6 +139,7 @@ class Deposit extends Component {
 
   componentDidMount() {
     this.props.getDepositMethod();
+    this.props.getPlayerPromotionList();
   }
 
   componentDidUpdate(preProps, preState) {
@@ -246,6 +251,13 @@ class Deposit extends Component {
           this.state.amount.replace(/,/g, ""),
           channel.id,
           this.state.depositPromotion
+        );
+      } else if (payment.paymentcode.toUpperCase() === "APPLEPAY") {
+        this.props.doApplePayDeposit(
+          this.state.amount.replace(/,/g, ""),
+          channel.id,
+          this.state.depositPromotion,
+          this.state.name
         );
       }
     }
@@ -566,12 +578,23 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(walletAction.doManualDepositUpload(file, fileType, orderId)),
     doLeePayDeposit: (amount, payment_id, promotionid) =>
       dispatch(walletAction.doLeePayDeposit(amount, payment_id, promotionid)),
+    doApplePayDeposit: (amount, payment_id, promotionid, transname) =>
+      dispatch(
+        walletAction.doApplePayDeposit(
+          amount,
+          payment_id,
+          promotionid,
+          transname
+        )
+      ),
     doPrimePayDeposit: (amount, payment_id, promotionid) =>
       dispatch(walletAction.doPrimePayDeposit(amount, payment_id, promotionid)),
     cancelDeposit: (id, notice_id) =>
       dispatch(walletAction.cancelDeposit(id, notice_id)),
     getBalanceList: () => dispatch(walletAction.getBalanceList()),
     getDepositMethod: () => dispatch(walletAction.getDepositMethod()),
+    getPlayerPromotionList: () =>
+      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
     doUploadDepositProof: (id, file) =>
       dispatch(walletAction.doUploadDepositProof(id, file)),
     resetDeposit: () =>

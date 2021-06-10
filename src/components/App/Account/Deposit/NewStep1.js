@@ -286,7 +286,10 @@ class NewStepOne extends Component {
                 <SplitLine></SplitLine>
 
                 {(() => {
-                  if (paymentType.paymentcode.toUpperCase() === "MANUAL") {
+                  if (
+                    paymentType.paymentcode.toUpperCase() === "MANUAL" ||
+                    paymentType.paymentcode.toUpperCase() === "APPLEPAY"
+                  ) {
                     return (
                       <>
                         <SubHeaderContainer>
@@ -321,7 +324,8 @@ class NewStepOne extends Component {
 
                 <SubHeaderContainer>
                   <NumberContainer>
-                    {paymentType.paymentcode.toUpperCase() === "MANUAL"
+                    {paymentType.paymentcode.toUpperCase() === "MANUAL" ||
+                    paymentType.paymentcode.toUpperCase() === "APPLEPAY"
                       ? "4"
                       : "3"}
                   </NumberContainer>
@@ -366,7 +370,8 @@ class NewStepOne extends Component {
                 <SplitLine></SplitLine>
                 <SubHeaderContainer>
                   <NumberContainer>
-                    {paymentType.paymentcode.toUpperCase() === "MANUAL"
+                    {paymentType.paymentcode.toUpperCase() === "MANUAL" ||
+                    paymentType.paymentcode.toUpperCase() === "APPLEPAY"
                       ? "5"
                       : "4"}
                   </NumberContainer>
@@ -418,7 +423,8 @@ class NewStepOne extends Component {
                       methodList[selectedMethodIndex].channel[
                         selectedChannelIndex
                       ].transferlimit.to ||
-                    (paymentType.paymentcode.toUpperCase() === "MANUAL" &&
+                    ((paymentType.paymentcode.toUpperCase() === "MANUAL" ||
+                      paymentType.paymentcode.toUpperCase() === "APPLEPAY") &&
                       name.length <= 0)
                   }
                 ></CustomButton>

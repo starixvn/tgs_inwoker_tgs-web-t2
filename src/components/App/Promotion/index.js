@@ -176,8 +176,22 @@ class Promotion extends Component {
     openJoin: false,
     selectedPromoSpecifications: [],
   };
-
+  componentDidMount() {
+    if (this.props.account.token === null) {
+      this.props.getPromotionList();
+    } else {
+      this.props.getPlayerPromotionList();
+    }
+  }
   componentDidUpdate(prevProps, prevState) {
+    if (prevProps.account.token !== this.props.account.token) {
+      if (this.props.account.token === null) {
+        this.props.getPromotionList();
+      } else {
+        this.props.getPlayerPromotionList();
+      }
+    }
+
     if (
       this.props.general.joinPromoResult !== null &&
       prevProps.general.joinPromoResult !== this.props.general.joinPromoResult
@@ -288,6 +302,10 @@ const mapDispatchToProps = (dispatch) => {
     joinPromotion: (id) => {
       dispatch(generalAction.joinPromotion(id));
     },
+    getPromotionList: () =>
+      dispatch(generalAction.getPromotionList(1, 99, true, "", true)),
+    getPlayerPromotionList: () =>
+      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
   };
 };
 export default withRouter(

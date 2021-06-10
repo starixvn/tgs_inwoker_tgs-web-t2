@@ -22,7 +22,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Loading from "./Share/Loading";
 
 import Main from "./Main/index";
-import {Wapp, setConfigApi} from "@Inwoker/tgs-wap-t1";
+// import {Wapp, setConfigApi} from "@Inwoker/tgs-wap-t1";
 import Login from "./Login/index";
 import Slot from "./Slot/index";
 import Profile from "./Profile/index";
@@ -585,7 +585,7 @@ class Wap extends Component {
         this.props.getBalanceList();
         this.props.getMessageList(1, 99);
         this.props.getBankCardList();
-        this.props.getPlayerPromotionList();
+
         // this.props.getIDCardNo();
         //this.props.getDepositChannel();
 
@@ -629,7 +629,6 @@ class Wap extends Component {
         localStorage.setItem("client-token", this.props.general.token);
         this.props.getMarquee();
         this.props.getHomePageGameList();
-        this.props.getPromotionList();
       }
     }
   }
@@ -864,10 +863,6 @@ const mapDispatchToProps = (dispatch) => {
     checkTokenIsValid: () => dispatch(accountAction.checkTokenIsValid()),
     getMarquee: () => dispatch(uiAction.getMarquee()),
     getBankCardList: () => dispatch(walletAction.getBankCardList()),
-    getPromotionList: () =>
-      dispatch(generalAction.getPromotionList(1, 99, true, "", true)),
-    getPlayerPromotionList: () =>
-      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
 
     // getBanner: () => dispatch(uiAction.getBanner()),
     // getBankList: () => dispatch(walletAction.getBankList()),

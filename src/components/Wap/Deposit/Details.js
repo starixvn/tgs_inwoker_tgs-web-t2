@@ -213,7 +213,7 @@ class Details extends Component {
           </RightLabel>
           <SplitBoth></SplitBoth>
           <LeftLabel>{i18n.t("deposit.depositMethod")}</LeftLabel>
-          <RightLabel>{this.props.methodcode}</RightLabel>
+          <RightLabel>{i18n.t(this.props.methodcode)}</RightLabel>
           <SplitBoth></SplitBoth>
           <LeftLabel>{i18n.t("deposit.depositTunnel")}</LeftLabel>
           <RightLabel>{this.props.channelname}</RightLabel>

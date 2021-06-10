@@ -7,6 +7,7 @@ import {
   WalletService,
   WALLET_HIDEMESSAGE,
   RESET_WALLETRESULT,
+  generalAction,
 } from "@Inwoker/tgs-api";
 import { withRouter } from "react-router-dom";
 import Common from "../../../utils/Common";
@@ -229,6 +230,7 @@ class Deposit extends Component {
   componentDidMount() {
     if (this.props.token != null) {
       this.props.getDepositMethod();
+      this.props.getPlayerPromotionList();
     } else {
       AppHistory.replace("/" + i18n.language + "/");
     }
@@ -367,12 +369,12 @@ class Deposit extends Component {
     var method = payment.method[this.state.selectedMethodIndex];
 
     var channel = method.channel[this.state.selectedChannelIndex];
-
+    debugger;
     if (payment.paymentcode.toUpperCase() === "MANUAL") {
       // handle manual deposit
 
       this.props.doManualDeposit(
-        this.state.name,
+        this.state.account,
         this.state.amount.replace(/,/g, ""),
         channel.id,
         this.state.depositPromotion
@@ -389,6 +391,13 @@ class Deposit extends Component {
           this.state.amount.replace(/,/g, ""),
           channel.id,
           this.state.depositPromotion
+        );
+      } else if (payment.paymentcode.toUpperCase() === "APPLEPAY") {
+        this.props.doApplePayDeposit(
+          this.state.amount.replace(/,/g, ""),
+          channel.id,
+          this.state.depositPromotion,
+          this.state.account
         );
       }
     }
@@ -529,7 +538,10 @@ class Deposit extends Component {
                 if (
                   this.props.wallet.depositTypeList[
                     this.state.selectedPaymentIndex
-                  ].paymentcode.toUpperCase() === "MANUAL"
+                  ].paymentcode.toUpperCase() === "MANUAL" ||
+                  this.props.wallet.depositTypeList[
+                    this.state.selectedPaymentIndex
+                  ].paymentcode.toUpperCase() === "APPLEPAY"
                 ) {
                   return (
                     <Textbox
@@ -627,9 +639,12 @@ class Deposit extends Component {
                 }
                 onClick={this.handleDepositClick}
                 disabled={
-                  (this.props.wallet.depositTypeList[
+                  ((this.props.wallet.depositTypeList[
                     this.state.selectedPaymentIndex
-                  ].paymentcode.toUpperCase() === "MANUAL" &&
+                  ].paymentcode.toUpperCase() === "MANUAL" ||
+                    this.props.wallet.depositTypeList[
+                      this.state.selectedPaymentIndex
+                    ].paymentcode.toUpperCase() === "APPLEPAY") &&
                     this.state.account === "") ||
                   this.state.amount <
                     this.props.wallet.depositTypeList[
@@ -729,7 +744,11 @@ class Deposit extends Component {
                 >
                   {this.props.wallet.depositTypeList.map((item, index) => {
                     return (
-                      <Tab key={index} value={index} label={item.paymentcode}>
+                      <Tab
+                        key={index}
+                        value={index}
+                        label={i18n.t(item.paymentcode)}
+                      >
                         {i18n.t(item.paymentcode)}
                       </Tab>
                     );
@@ -777,6 +796,17 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(walletAction.doLeePayDeposit(amount, payment_id, promotionid)),
     doPrimePayDeposit: (amount, payment_id, promotionid) =>
       dispatch(walletAction.doPrimePayDeposit(amount, payment_id, promotionid)),
+    doApplePayDeposit: (amount, payment_id, promotionid, transname) =>
+      dispatch(
+        walletAction.doApplePayDeposit(
+          amount,
+          payment_id,
+          promotionid,
+          transname
+        )
+      ),
+    getPlayerPromotionList: () =>
+      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
     doManualDeposit: (amount, account, paymentid, promotionid) =>
       dispatch(
         walletAction.doManualDeposit(amount, account, paymentid, promotionid)

@@ -13,6 +13,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import Common from "../../../utils/Common";
 import i18n from "../../../utils/i18n";
+import { generalAction } from "@Inwoker/tgs-api";
 const Container = styled.div`
   width: 100%;
   overflow: hidden;
@@ -53,66 +54,14 @@ class Promotion extends Component {
     openJoin: false,
     selectedPromoSpecifications: [],
   };
+  componentDidMount() {
+    if (this.props.token === null || this.props.token === "") {
+      this.props.getPromotionList();
+    } else {
+      this.props.getPlayerPromotionList();
+    }
+  }
 
-  getList = (firstLoad, selectedId) => {
-    // BonusService.GetActivityList().then((response) => {
-    //   if (response.IsSuccess) {
-    //     let list = response.data.list;
-    // let preSelectedItem = null;
-    // for (let item of list) {
-    //   item.checked = false;
-    //   if (selectedId) {
-    //     if (item.activity_id == selectedId) {
-    //       preSelectedItem = item;
-    //       item.checked = true;
-    //     }
-    //   }
-    // }
-    // let selectedTab = 0;
-    // let selectedPromoId = "";
-    // let selectedPromoSpecifications = [];
-    // let selectedPromoTitle = "";
-    // if (preSelectedItem != null) {
-    //   if (preSelectedItem.is_hot !== 1) {
-    //     selectedTab = preSelectedItem.type_id;
-    //   }
-    //   selectedPromoId = preSelectedItem.activity_id;
-    //   selectedPromoSpecifications = preSelectedItem.specifications;
-    //   selectedPromoTitle = preSelectedItem.title;
-    //   // selectedPromoId: this.props.match.params.id,
-    //   // selectedPromoSpecifications:
-    //   //   promo.length > 0 ? promo[0].specifications : [],
-    //   // selectedPromoTitle: promo[0].title
-    //   // setTimeout(() => {
-    //   //   if (document.querySelector("#promo" + selectedId)) {
-    //   //     window.scrollTo({
-    //   //       top:
-    //   //         window.scrollY +
-    //   //         document
-    //   //           .querySelector("#promo" + selectedId)
-    //   //           .getBoundingClientRect().top -
-    //   //         120,
-    //   //       behavior: "smooth"
-    //   //     });
-    //   //     this.props.history.push("/promotion");
-    //   //   }
-    //   // }, 800);
-    // }
-    // this.state.selectedTab === 0
-    // ? item.is_hot === 1
-    // : item.type_id === this.state.selectedTab
-    //     this.setState({
-    //       ...this.state,
-    //       list: list,
-    //       // selectedPromoId: selectedPromoId,
-    //       // selectedPromoSpecifications: selectedPromoSpecifications,
-    //       // selectedPromoTitle: selectedPromoTitle
-    //     });
-    //   } else {
-    //     this.props.alert("", response.info);
-    //   }
-    //  });
-  };
   handleTabChange = (tab) => {
     // this.getList(tab);
     this.setState({ ...this.setState, selectedTab: tab });
@@ -122,9 +71,7 @@ class Promotion extends Component {
       pathname: "/" + i18n.language + "/promotion/" + id,
     });
   };
-  componentDidMount() {
-    this.getList(true, this.props.match.params.id);
-  }
+
   handleBackClick = () => {
     AppHistory.goBack();
   };
@@ -205,4 +152,16 @@ const mapStateToProps = (state) => {
     token: state.account.token,
   };
 };
-export default connect(mapStateToProps, null)(withRouter(Promotion));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getPromotionList: () =>
+      dispatch(generalAction.getPromotionList(1, 99, true, "", true)),
+    getPlayerPromotionList: () =>
+      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Promotion));

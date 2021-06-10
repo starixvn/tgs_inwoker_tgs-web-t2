@@ -716,6 +716,7 @@
   },
   "PrimePay":"PrimePay",
   "LeePay":"LeePay",
+  "ApplePay":"ApplePay",
   "Manual":"Manual",
   "Crypto":"Crypto",
   "BankTransfer":"Bank Transfer",
