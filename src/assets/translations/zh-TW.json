@@ -206,7 +206,7 @@
     "msgPlsEnterAccount": "請輸入銀行賬號名稱",
     "msgInvalidFileSize":"文件太大，請選擇小於2mb的文件",
     "msgInvalidFileType":"請僅上傳圖像文件。(.jpg/.jpeg/.png/.tiff)",
-    "msgFailedJoinPromotion": "您已參加過此活動。如有問題，請聯繫客服。",
+    "msgFailedJoinPromotion": "您無法參加此活動。如有問題，請聯繫客服。",
     "details": {
       "bank": "銀行",
       "account": "賬戶",

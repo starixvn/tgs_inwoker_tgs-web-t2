@@ -29,8 +29,6 @@ import SlotMoreGamePNG from "../../../assets/images/slot-moregame.png";
 
 import Loading from "../../../components/App/Loading";
 import {
-  SlotGameIsTest,
-  SlotGameWithTest,
   GameTypeEnum,
   SlotFilterType,
   SHOW_LOGIN,
@@ -42,6 +40,7 @@ import CommonMarquee from "../CommonMarquee";
 import jsonUS from "../../../assets/translations/slot_en-US.json";
 import jsonCN from "../../../assets/translations/slot_zh-CN.json";
 import jsonTW from "../../../assets/translations/slot_zh-TW.json";
+import config from "../../../config/config";
 const Container = styled.div`
   width: 100%;
   position: relative;
@@ -622,11 +621,8 @@ class Slots extends Component {
           <ItemContainer
             key={i}
             img={`${
-              process.env.PUBLIC_URL
-            }/assets/images/slotGame/${el.gpcode.toLowerCase()}/${el.code.replace(
-              /_/g,
-              ""
-            )}.${el.gpcode === "JDB" ? "jpg" : "png"}`}
+              config.sourceUrl
+            }${el.gpcode.toUpperCase()}/${el.code.replace(/_/g, "")}.jpg`}
           >
             <GameDesc>
               <GameProvider>{el.gpcode}</GameProvider>

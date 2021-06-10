@@ -206,7 +206,7 @@
     "msgPlsEnterAccount": "Please enter the bank account name",
     "msgInvalidFileSize":"File too Big, please select a file less than 2mb",
     "msgInvalidFileType":"Please upload image file only. (.jpg/.jpeg/.png/.tiff)",
-    "msgFailedJoinPromotion": "You've already registered. Please contact Customer Service if you need further information.",
+    "msgFailedJoinPromotion": "You can not register this promition. Please contact Customer Service if you need further information.",
     "details": {
       "bank": "Bank",
       "account": "Account",

@@ -26,6 +26,7 @@ import i18n from "../../../utils/i18n";
 import jsonUS from "../../../assets/translations/slot_en-US.json";
 import jsonCN from "../../../assets/translations/slot_zh-CN.json";
 import jsonTW from "../../../assets/translations/slot_zh-TW.json";
+import config from "../../../config/config";
 const Container = styled.div`
   width: 100%;
   overflow: hidden;
@@ -477,11 +478,11 @@ class Slot extends Component {
                       alt={""}
                       effect="blur"
                       src={`${
-                        process.env.PUBLIC_URL
-                      }/assets/images/slotGame/${row.gpcode.toLowerCase()}/${row.code.replace(
+                        config.sourceUrl
+                      }${row.gpcode.toUpperCase()}/${row.code.replace(
                         /_/g,
                         ""
-                      )}.${row.gpcode === "JDB" ? "jpg" : "png"}`}
+                      )}.jpg`}
                       style={{ borderRadius: "20px 20px 0 0" }}
                       onClick={() => this.handleGameClick(row.gpcode, row.id)}
                     />
