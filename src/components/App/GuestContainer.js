@@ -392,7 +392,6 @@ class GuestContainer extends Component {
       this.props.getMessageList(0, 99);
       this.props.getBankCardList();
       this.props.getBalanceList();
-      this.props.getPlayerPromotionList();
 
       // this.props.getIDCardNo();
       // this.props.getInviteLink();
