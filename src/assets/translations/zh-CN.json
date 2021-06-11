@@ -207,6 +207,10 @@
     "msgInvalidFileSize":"文件太大，请选择小于2mb的文件",
     "msgInvalidFileType":"请仅上传图像文件。(.jpg/.jpeg/.png/.tiff)",
     "msgFailedJoinPromotion": "您无法参加此活动。如有问题，请联系客服。",
+    "exchangeRate":"汇率",
+    "buyPrice":"买",
+    "sellPrice":"卖",
+    "expectedPayment":"预计支付",
     "details": {
       "bank": "银行",
       "account": "账户",

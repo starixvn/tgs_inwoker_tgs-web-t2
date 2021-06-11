@@ -207,6 +207,10 @@
     "msgInvalidFileSize":"File too Big, please select a file less than 2mb",
     "msgInvalidFileType":"Please upload image file only. (.jpg/.jpeg/.png/.tiff)",
     "msgFailedJoinPromotion": "You can not register this promition. Please contact Customer Service if you need further information.",
+    "exchangeRate":"Exchange Rate",
+    "buyPrice":"Buy",
+    "sellPrice":"Sell",
+    "expectedPayment":"Expected Amount",
     "details": {
       "bank": "Bank",
       "account": "Account",

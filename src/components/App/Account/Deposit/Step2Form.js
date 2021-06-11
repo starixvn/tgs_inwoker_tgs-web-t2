@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import i18n from "../../../../utils/i18n";
 import CustomButton from "../../../Share/Button";
+import { WalletService } from "@Inwoker/tgs-api";
 const Container = styled.div`
   font-size: 14px;
   color: #818181;
@@ -33,11 +34,23 @@ const ButtonContainer = styled.div`
 
 class Step2Form extends Component {
   // Similar to componentDidMount and componentDidUpdate:
-  state = {};
+  state = {
+    exchangeRate: { buyprice: 0, sellprice: 0 },
+  };
   componentDidMount() {
-    this.setState({
-      ...this.state,
-    });
+    if (this.props.isCrypto === true) {
+      WalletService.GetLeePayExchangeRate(this.props.channel.id).then(
+        (response) => {
+          if (response.IsSuccess) {
+            this.setState({ ...this.state, exchangeRate: response.data });
+          } else {
+            this.setState({
+              ...this.state,
+            });
+          }
+        }
+      );
+    }
   }
 
   render() {
@@ -50,7 +63,7 @@ class Step2Form extends Component {
               <ValueTD>{i18n.t(this.props.methodcode)}</ValueTD>
 
               <TitleTD>{i18n.t("deposit.depositTunnel")}</TitleTD>
-              <ValueTD>{this.props.channelname}</ValueTD>
+              <ValueTD>{this.props.channel.channelname}</ValueTD>
             </tr>
             <tr>
               <TitleTD>{i18n.t("deposit.orderNumber")}</TitleTD>
@@ -58,8 +71,20 @@ class Step2Form extends Component {
               <TitleTD>{i18n.t("deposit.depositAmount")}</TitleTD>
               <ValueTD>{this.props.amount}</ValueTD>
             </tr>
-
-            <tr></tr>
+            {this.props.isCrypto === true ? (
+              <tr>
+                <TitleTD>{i18n.t("deposit.exchangeRate")}</TitleTD>
+                <ValueTD>{this.state.exchangeRate.buyprice}</ValueTD>
+                <TitleTD>{i18n.t("deposit.expectedPayment")}</TitleTD>
+                <ValueTD>
+                  {(
+                    this.props.amount / this.state.exchangeRate.buyprice
+                  ).toFixed(2)}
+                </ValueTD>
+              </tr>
+            ) : (
+              <></>
+            )}
           </tbody>
         </CustomTable>
         <ButtonContainer>

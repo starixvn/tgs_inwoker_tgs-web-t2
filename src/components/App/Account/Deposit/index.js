@@ -8,6 +8,7 @@ import {
   walletAction,
   RESET_WALLETRESULT,
   generalAction,
+  WalletService,
 } from "@Inwoker/tgs-api";
 import { withRouter } from "react-router-dom";
 
@@ -133,6 +134,7 @@ class Deposit extends Component {
       amount: 0,
       name: "",
       step: 1,
+      exchangeRate: { buyprice: 0, sellprice: 0 },
     };
     this.state = this.initialState;
   }
@@ -190,6 +192,37 @@ class Deposit extends Component {
           variant: "error",
         });
         this.setState({ ...this.state, loading: false });
+      }
+    }
+    if (
+      preState.selectedPaymentIndex !== this.state.selectedPaymentIndex ||
+      preState.selectedMethodIndex !== this.state.selectedMethodIndex ||
+      preState.selectedChannelIndex !== this.state.selectedChannelIndex
+    ) {
+      if (
+        this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
+          .paymentcode === "LeePay"
+      ) {
+        WalletService.GetLeePayExchangeRate(
+          this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
+            .method[this.state.selectedMethodIndex].channel[
+            this.state.selectedChannelIndex
+          ].id
+        ).then((response) => {
+          if (response.IsSuccess) {
+            this.setState({ ...this.state, exchangeRate: response.data });
+          } else {
+            this.setState({
+              ...this.state,
+              exchangeRate: this.initialState.exchangeRate,
+            });
+          }
+        });
+      } else {
+        this.setState({
+          ...this.state,
+          exchangeRate: this.initialState.exchangeRate,
+        });
       }
     }
   }
@@ -354,6 +387,7 @@ class Deposit extends Component {
             amount={this.state.amount}
             onAmountChange={this.handleAmountChange}
             name={this.state.name}
+            exchangeRate={this.state.exchangeRate}
             onNameChange={this.handleNameChange}
             selectedChannelIndex={this.state.selectedChannelIndex}
             onChannelChange={this.handleChannelChange}
@@ -408,15 +442,19 @@ class Deposit extends Component {
       case 3:
         return (
           <Step2Form
+            isCrypto={
+              this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
+                .paymentcode === "LeePay"
+            }
             methodcode={
               this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
                 .method[this.state.selectedMethodIndex].methodcode
             }
-            channelname={
+            channel={
               this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
                 .method[this.state.selectedMethodIndex].channel[
                 this.state.selectedChannelIndex
-              ].channelname
+              ]
             }
             depositResult={this.props.wallet.depositResult}
             amount={this.state.amount}

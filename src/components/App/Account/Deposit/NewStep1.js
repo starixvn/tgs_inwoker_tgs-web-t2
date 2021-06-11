@@ -166,25 +166,7 @@ const LimitLabel = styled.span`
 const LimitAmount = styled.span`
   color: #c0252d;
 `;
-const CustomTable = styled.table`
-  width: 340px;
-  margin: 20px 0 20px 30px;
-  border: solid 1px #d9d9d9;
-`;
-const TitleTD = styled.td`
-  width: 112px;
-  height: 55px;
-  background-color: #f7f7f7;
-  text-align: center;
-  border: solid 1px #d9d9d9;
-`;
-const ValueTD = styled.td`
-  width: 209px;
-  height: 55px;
-  background-color: #ffffff;
-  padding-left: 15px;
-  border: solid 1px #d9d9d9;
-`;
+const ExchangeRateContainer = styled.div``;
 class NewStepOne extends Component {
   render() {
     const {
@@ -199,6 +181,7 @@ class NewStepOne extends Component {
       selectedPaymentIndex,
       paymentType,
       onNextClick,
+      exchangeRate,
     } = this.props;
     if (paymentType === null) return <></>;
 
@@ -366,6 +349,24 @@ class NewStepOne extends Component {
                       )}
                     </LimitAmount>
                   </LimitPopupContainer>
+                  {paymentType.paymentcode.toUpperCase() === "LEEPAY" ? (
+                    <ExchangeRateContainer style={{ marginTop: "10px" }}>
+                      <LimitLabel>
+                        {i18n.t("deposit.exchangeRate")}:{" "}
+                      </LimitLabel>
+                      <LimitAmount>{` ${exchangeRate.buyprice}`}</LimitAmount>
+                      <LimitLabel style={{ marginLeft: "26px" }}>
+                        {i18n.t("deposit.expectedPayment")}
+                      </LimitLabel>{" "}
+                      <LimitAmount>{` ${
+                        isNaN(amount) === false
+                          ? (amount / exchangeRate.buyprice).toFixed(2)
+                          : 0
+                      }`}</LimitAmount>
+                    </ExchangeRateContainer>
+                  ) : (
+                    <></>
+                  )}
                 </SelectionContainer>
                 <SplitLine></SplitLine>
                 <SubHeaderContainer>

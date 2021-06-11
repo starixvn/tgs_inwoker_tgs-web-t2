@@ -169,42 +169,18 @@ const ButtonConfirm = styled.div`
   background-image: linear-gradient(to top, #91030c, #c40511);
   color: #ffffff;
 `;
+const LimitLabel = styled.span`
+  color: #747474;
+`;
 
-const CustomTextContainer = styled(Grid)`
-  box-shadow: 0 2px 6px 0 rgba(58, 58, 58, 0.2);
-  border: solid 1px #f3f3f3;
-  background-color: #ffffff;
-  border-radius: 10px;
-  padding: 10px 20px;
+const LimitAmount = styled.span`
+  color: #c0252d;
+`;
+const ExchangeRateContainer = styled.div`
   margin: 20px auto;
+  font-size: 28px;
+  padding: 0px 20px 20px 48px;
 `;
-const CustomTextLabel = styled(Grid)`
-  font-weight: 600;
-  margin: 12px 0 0 3px;
-  float: left;
-  color: #212e31;
-  font-size: 34px;
-`;
-const CustomInput = styled.input`
-  color: #000;
-  font-size: 14px;
-  text-align: right;
-  margin: 12px 0 12px 10px;
-  font-weight: 500;
-  border: 0;
-  font-size: 34px;
-  padding: 0;
-  ::placeholder,
-  ::-webkit-input-placeholder {
-    color: #c3c3c3;
-  }
-  &:disabled {
-    background: #fff;
-    -webkit-text-fill-color: #000;
-    opacity: 1;
-  }
-`;
-
 class Deposit extends Component {
   constructor(props) {
     super(props);
@@ -217,7 +193,7 @@ class Deposit extends Component {
       depositPromotion: this.props.match.params.promotionid,
       account: "",
       amount: "",
-
+      exchangeRate: { buyprice: 0, sellprice: 0 },
       step: 1,
       upload: "",
 
@@ -270,6 +246,37 @@ class Deposit extends Component {
       } else {
         this.props.alert("", this.props.wallet.depositUploadResult.info);
         this.setState({ ...this.state, loading: false });
+      }
+    }
+    if (
+      preState.selectedPaymentIndex !== this.state.selectedPaymentIndex ||
+      preState.selectedMethodIndex !== this.state.selectedMethodIndex ||
+      preState.selectedChannelIndex !== this.state.selectedChannelIndex
+    ) {
+      if (
+        this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
+          .paymentcode === "LeePay"
+      ) {
+        WalletService.GetLeePayExchangeRate(
+          this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
+            .method[this.state.selectedMethodIndex].channel[
+            this.state.selectedChannelIndex
+          ].id
+        ).then((response) => {
+          if (response.IsSuccess) {
+            this.setState({ ...this.state, exchangeRate: response.data });
+          } else {
+            this.setState({
+              ...this.state,
+              exchangeRate: this.initialState.exchangeRate,
+            });
+          }
+        });
+      } else {
+        this.setState({
+          ...this.state,
+          exchangeRate: this.initialState.exchangeRate,
+        });
       }
     }
   }
@@ -369,7 +376,7 @@ class Deposit extends Component {
     var method = payment.method[this.state.selectedMethodIndex];
 
     var channel = method.channel[this.state.selectedChannelIndex];
-    debugger;
+
     if (payment.paymentcode.toUpperCase() === "MANUAL") {
       // handle manual deposit
 
@@ -586,6 +593,26 @@ class Deposit extends Component {
                 }
                 label={i18n.t("deposit.depositAmount")}
               ></Textbox>
+              {this.props.wallet.depositTypeList[
+                this.state.selectedPaymentIndex
+              ].paymentcode.toUpperCase() === "LEEPAY" ? (
+                <ExchangeRateContainer style={{ marginTop: "4px" }}>
+                  <LimitLabel>{i18n.t("deposit.exchangeRate")}: </LimitLabel>
+                  <LimitAmount>{` ${this.state.exchangeRate.buyprice}`}</LimitAmount>
+                  <LimitLabel style={{ marginLeft: "26px" }}>
+                    {i18n.t("deposit.expectedPayment")}
+                  </LimitLabel>{" "}
+                  <LimitAmount>{` ${
+                    isNaN(this.state.amount) === false
+                      ? (
+                          this.state.amount / this.state.exchangeRate.buyprice
+                        ).toFixed(2)
+                      : 0
+                  }`}</LimitAmount>
+                </ExchangeRateContainer>
+              ) : (
+                <></>
+              )}
               <CustomText>
                 <CustomLabel>{i18n.t("deposit.promotion")}</CustomLabel>
                 <CustomFormControl variant="outlined">
@@ -675,18 +702,23 @@ class Deposit extends Component {
                   this.state.selectedPaymentIndex
                 ].method[this.state.selectedMethodIndex].methodcode
               }
-              channelname={
+              channel={
                 this.props.wallet.depositTypeList[
                   this.state.selectedPaymentIndex
                 ].method[this.state.selectedMethodIndex].channel[
                   this.state.selectedChannelIndex
-                ].channelname
+                ]
               }
               handleRestartClick={this.handleRestartClick}
               isManual={
                 this.props.wallet.depositTypeList[
                   this.state.selectedPaymentIndex
                 ].paymentcode.toUpperCase() === "MANUAL"
+              }
+              isCrypto={
+                this.props.wallet.depositTypeList[
+                  this.state.selectedPaymentIndex
+                ].paymentcode.toUpperCase() === "LEEPAY"
               }
               extended={
                 this.props.wallet.depositTypeList[

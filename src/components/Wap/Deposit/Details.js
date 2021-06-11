@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-
+import { WalletService } from "@Inwoker/tgs-api";
 import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Dialog";
@@ -96,8 +96,22 @@ class Details extends Component {
     loading: false,
     openPopup: true,
     files: [],
+    exchangeRate: { buyprice: 0, sellprice: 0 },
   };
   componentDidMount() {
+    if (this.props.isCrypto === true) {
+      WalletService.GetLeePayExchangeRate(this.props.channel.id).then(
+        (response) => {
+          if (response.IsSuccess) {
+            this.setState({ ...this.state, exchangeRate: response.data });
+          } else {
+            this.setState({
+              ...this.state,
+            });
+          }
+        }
+      );
+    }
     this.setState({
       ...this.state,
       openPopup: this.props.isManual ? false : true,
@@ -216,8 +230,25 @@ class Details extends Component {
           <RightLabel>{i18n.t(this.props.methodcode)}</RightLabel>
           <SplitBoth></SplitBoth>
           <LeftLabel>{i18n.t("deposit.depositTunnel")}</LeftLabel>
-          <RightLabel>{this.props.channelname}</RightLabel>
+          <RightLabel>{this.props.channel.channelname}</RightLabel>
           <SplitBoth></SplitBoth>
+
+          {this.props.isCrypto === true ? (
+            <>
+              <LeftLabel>{i18n.t("deposit.exchangeRate")}</LeftLabel>
+              <RightLabel>{this.state.exchangeRate.buyprice}</RightLabel>
+              <SplitBoth></SplitBoth>
+              <LeftLabel>{i18n.t("deposit.expectedPayment")}</LeftLabel>
+              <RightLabel>
+                {(this.props.amount / this.state.exchangeRate.buyprice).toFixed(
+                  2
+                )}
+              </RightLabel>
+              <SplitBoth></SplitBoth>
+            </>
+          ) : (
+            <></>
+          )}
 
           {(() => {
             if (this.props.isManual === true) {
