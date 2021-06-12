@@ -18,7 +18,7 @@ const CustomLabel = styled.div`
   color: #212e31;
 `;
 const CustomInput = styled.input`
-color:#404040;
+  color: ${({ theme }) => theme.secondary};
   font-size: 28px;
   margin-top: 25px;
   font-weight: 500;

@@ -15,11 +15,11 @@ function ElevationScroll(props) {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
-    target: window ? window() : undefined
+    target: window ? window() : undefined,
   });
 
   return React.cloneElement(children, {
-    elevation: trigger ? 4 : 0
+    elevation: trigger ? 4 : 0,
   });
 }
 
@@ -29,17 +29,23 @@ ElevationScroll.propTypes = {
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
    */
-  window: PropTypes.func
+  window: PropTypes.func,
 };
 function Header(props) {
-  const CustomAppBar = withStyles({
+  const CustomAppBar = withStyles((theme) => ({
     root: {
       height: "90px",
       display: "block",
       backgroundColor: props.backgroundColor ? props.backgroundColor : "",
-      backgroundImage: props.backgroundColor ? "" : "linear-gradient(to top, #91030c,#c40511)"
-    }
-  })(AppBar);
+      backgroundImage: props.backgroundColor
+        ? ""
+        : "linear-gradient(to top, " +
+          theme.palette.primary.mainGradient +
+          ", " +
+          theme.palette.primary.main +
+          ")",
+    },
+  }))(AppBar);
   const Header = styled.div`
     height: 90px;
   `;
@@ -74,7 +80,6 @@ function Header(props) {
           <RightContentContainer>{props.rightContent}</RightContentContainer>
         </CustomAppBar>
       </ElevationScroll>
-
     </Header>
   );
 }

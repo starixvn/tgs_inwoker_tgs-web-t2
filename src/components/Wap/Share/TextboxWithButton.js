@@ -24,7 +24,7 @@ const CustomInput = styled.input`
   margin-top: 12px;
   border: 0;
   width: 65%;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   padding: 0;
   ::placeholder,
   ::-webkit-input-placeholder {
@@ -43,7 +43,11 @@ const Button = styled.div`
 
   height: 47px;
   border-radius: 10px;
-  background-image: linear-gradient(to top, #91030c, #c40511);
+  background-image: linear-gradient(
+    to top,
+    ${({ theme }) => theme.primaryGradient},
+    ${({ theme }) => theme.primary}
+  );
 `;
 class Textbox extends Component {
   render() {

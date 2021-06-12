@@ -26,17 +26,23 @@ import AvatarPNG from "../../../../assets/images/avatar.png";
 import BtnLogout from "../../../Share/ButtonBlankWap";
 import Common from "../../../../utils/Common";
 
-import BgProfilePNG from "../../../../assets/images/wap/bg-profile.png";
+import BgProfilePNG from "../../../../assets/images/wap/bg-profile2.jpg";
 import BgProfile2PNG from "../../../../assets/images/wap/bg-profile-2.png";
 import i18n from "../../../../utils/i18n";
-const StyledAppBar = withStyles({
+const StyledAppBar = withStyles((theme) => ({
   root: {
     height: "370px",
-    background: `url(${BgProfilePNG}) no-repeat left top`,
     display: "block",
-    backgroundSize: "cover",
+    background: theme.palette.primary.main,
+
+    background:
+      `linear-gradient(rgba(` +
+      theme.palette.primary.mainRgb +
+      `, 0.8), rgba(` +
+      theme.palette.primary.mainGradientRgb +
+      `, 0.8)), url(${BgProfilePNG})`,
   },
-})(AppBar);
+}))(AppBar);
 const Container = styled.div`
   width: 100%;
 `;
@@ -119,7 +125,7 @@ const IconImg = styled.div`
   display: block;
 `;
 const IconLabel = styled.div`
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   font-size: 28px;
   text-align: center;
   font-weight: bold;
@@ -151,7 +157,8 @@ const ListItem = styled.div`
   margin: 15px 32px;
 
   text-align: center;
-  color: ${(props) => (props.disabled ? `rgba(61, 61, 61, 0.3)` : `#404040`)};
+  color: ${(props) =>
+    props.disabled ? `rgba(61, 61, 61, 0.3)` : props.theme.secondary};
   padding-top: 110px;
   position: relative;
 `;

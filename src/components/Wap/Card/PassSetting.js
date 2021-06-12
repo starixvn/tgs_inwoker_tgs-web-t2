@@ -17,19 +17,25 @@ import Modal from "@material-ui/core/Dialog";
 
 import Loading from "../../Wap/Share/Loading";
 import i18n from "../../../utils/i18n";
-import BgProfilePNG from "../../../assets/images/wap/bg-profile.png";
+import BgProfilePNG from "../../../assets/images/wap/bg-profile2.jpg";
 const Container = styled.div`
   width: 100%;
   padding-top: 170px;
 `;
-const StyledAppBar = withStyles({
+const StyledAppBar = withStyles((theme) => ({
   root: {
     height: "170px",
-    background: `url(${BgProfilePNG}) no-repeat left top`,
+    background: theme.palette.primary.main,
+
+    background:
+      `linear-gradient(rgba(` +
+      theme.palette.primary.mainRgb +
+      `, 0.8), rgba(` +
+      theme.palette.primary.mainGradientRgb +
+      `, 0.8)), url(${BgProfilePNG})`,
     display: "block",
-    backgroundSize: "cover",
   },
-})(AppBar);
+}))(AppBar);
 const BalanceLabel = styled.div`
   font-size: 36px;
 
@@ -91,7 +97,9 @@ const ButtonConfirm = styled.div`
   padding-top: 24px;
 
   margin: 10px auto;
-  background-image: linear-gradient(to top, #91030c, #c40511);
+  background-image: linear-gradient(to top, ${({ theme }) =>
+    theme.primaryGradient},
+      ${({ theme }) => theme.primary}));
   color: #ffffff;
 `;
 

@@ -24,20 +24,27 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import BgProfilePNG from "../../../assets/images/wap/bg-profile.png";
+import BgProfilePNG from "../../../assets/images/wap/bg-profile2.jpg";
 import i18n from "../../../utils/i18n";
 const Container = styled.div`
   width: 100%;
   padding-top: 170px;
 `;
-const StyledAppBar = withStyles({
+const StyledAppBar = withStyles((theme) => ({
   root: {
     height: "170px",
-    background: `url(${BgProfilePNG}) no-repeat left top`,
+    background: theme.palette.primary.main,
+
+    background:
+      `linear-gradient(rgba(` +
+      theme.palette.primary.mainRgb +
+      `, 0.8), rgba(` +
+      theme.palette.primary.mainGradientRgb +
+      `, 0.8)), url(${BgProfilePNG})`,
     display: "block",
     backgroundSize: "cover",
   },
-})(AppBar);
+}))(AppBar);
 const BalanceLabel = styled.div`
   font-size: 36px;
 
@@ -50,14 +57,14 @@ const SubTitle = styled.div`
   font-size: 34px;
   font-weight: 550;
   margin: 40px 0 0 50px;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
 `;
 
 const BottomInfo = styled.div`
   font-size: 22px;
   font-weight: 600;
   height: 30px;
-  color: #c40511;
+  color: ${({ theme }) => theme.primary};
   background: url(${IconRedInfoPNG}) no-repeat left center;
   padding-left: 40px;
   display: table;
