@@ -126,7 +126,7 @@ const WalletActionContainer = styled.div`
 const WalletActionUL = styled.ul`
   text-align: center;
 
-  margin-top: 26px;
+  margin-top: 15px;
 
   font-size: 28px;
 
@@ -137,9 +137,15 @@ const WalletActionLI = styled.li`
   padding: 0 10px;
 
   text-align: center;
-  ${(props) => `background:url(${props.src}) no-repeat center top; `}
-  background-size:60px auto;
-  padding-top: 64px;
+`;
+const WalletActionIcon = styled.div`
+  ${(props) => `background:url(${props.img}) no-repeat center center; `}
+  background-color: ${(props) => props.theme.secondary};
+  margin: 0 auto;
+  border-radius: 50%;
+  background-size: 60px;
+  width: 80px;
+  height: 80px;
 `;
 const ButtonSignup = styled.div`
   width: 195px;
@@ -492,21 +498,25 @@ class Home extends Component {
                 <WalletActionContainer>
                   <WalletActionUL>
                     <WalletActionLI
-                      src={IconDepositPNG}
                       onClick={() => this.props.navigate("/deposit")}
                     >
+                      <WalletActionIcon img={IconDepositPNG}></WalletActionIcon>
                       {i18n.t("common.deposit")}
                     </WalletActionLI>
                     <WalletActionLI
-                      src={IconTransferPNG}
                       onClick={() => this.props.navigate("/transfer")}
                     >
+                      <WalletActionIcon
+                        img={IconTransferPNG}
+                      ></WalletActionIcon>
                       {i18n.t("common.transfer")}
                     </WalletActionLI>
                     <WalletActionLI
-                      src={IconWithdrawalPNG}
                       onClick={() => this.props.navigate("/withdrawal")}
                     >
+                      <WalletActionIcon
+                        img={IconWithdrawalPNG}
+                      ></WalletActionIcon>
                       {i18n.t("common.withdrawal")}
                     </WalletActionLI>
                   </WalletActionUL>

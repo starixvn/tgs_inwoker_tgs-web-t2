@@ -7,7 +7,7 @@ export const themeRed = {
   primaryGradientRgb: "145, 3, 12",
   primaryHightlight: "#fde73f",
   secondary: "#404040",
-  secondaryText: "rgba(0,0,0,0.5)",
+  secondaryText: "rgba(255,255,255,1)",
   tertiary: "rgba(255, 255, 255, 0.5)",
   tertiaryText: "rgba(255, 255, 255, 0.5)",
 };
@@ -21,7 +21,7 @@ export const themeBlue = {
   primaryGradientRgb: "4, 75, 163",
   primaryHightlight: "#fde73f",
   secondary: "#404040",
-  secondaryText: "rgba(0,0,0,0.5)",
+  secondaryText: "rgba(255,255,255,1)",
   tertiary: "rgba(255, 255, 255, 0.5)",
   tertiaryText: "rgba(255, 255, 255, 0.5)",
 };

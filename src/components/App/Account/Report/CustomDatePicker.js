@@ -16,7 +16,7 @@ function CustomDatePicker(props) {
       float: "left",
       backgroundColor: "#fff",
       borderRadius: "12px",
-      boxShadow:"0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
+      boxShadow: "0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
       "& .MuiInputBase-root": {
         paddingRight: 5,
         borderRadius: "12px",
@@ -55,6 +55,7 @@ function CustomDatePicker(props) {
         id="date-picker-inline"
         value={props.selectedDate ? props.selectedDate : new Date()}
         onChange={props.onhandleDateChange}
+        minDate={props.minDate}
         InputProps={{
           readOnly: true,
         }}

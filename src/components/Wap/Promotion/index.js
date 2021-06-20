@@ -11,6 +11,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import "react-lazy-load-image-component/src/effects/blur.css";
+import PromoEmpty from "../../../assets/images/wap/promo-empty.png";
 import Common from "../../../utils/Common";
 import i18n from "../../../utils/i18n";
 import { generalAction } from "@Inwoker/tgs-api";
@@ -44,7 +45,28 @@ const ListItemTitle = styled.div`
   margin: 33px 0 0 40px;
   line-height: 0.95em;
 `;
+const EmptyPromo = styled.div`
+  background: url(${PromoEmpty}) no-repeat;
+  background-size: cover;
+  position: relative;
 
+  margin: 10px auto;
+  border-radius: 10px;
+  width: 690px;
+  height: 240px;
+`;
+const PromoEmptyText = styled.div`
+  width: 350px;
+  padding-top: 62px;
+`;
+const PromoEmptyTextLine = styled.div`
+  font-size: 34px;
+  text-align: center;
+  font-weight: bold;
+  background: -webkit-linear-gradient(#446597, #282828);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
 class Promotion extends Component {
   state = {
     list: [],
@@ -94,50 +116,36 @@ class Promotion extends Component {
         ></Header>
 
         <ListView>
-          {this.props.general.promotionList.items.map((row, index) => {
-            return (
-              <ListItem
-                key={index}
-                src={Common.GetPromoImg(index)}
-                onClick={() => this.handlePromoClick(row.id)}
-              >
-                <ListItemTitle>{row.name}</ListItemTitle>
-              </ListItem>
-            );
-          })}
-          {/* <ListItem
-            id={"promo"}
-            src={Banner1}
-            // onClick={() => this.handlePromoClick(row)}
-          >
-            <ListItemTitle>活动1</ListItemTitle>
-          </ListItem>
-          <ListItem
-            id={"promo"}
-            src={Banner2}
-            // onClick={() => this.handlePromoClick(row)}
-          >
-            <ListItemTitle>活动2</ListItemTitle>
-          </ListItem>{" "}
-          <ListItem
-            id={"promo"}
-            src={Banner3}
-            // onClick={() => this.handlePromoClick(row)}
-          >
-            <ListItemTitle>活动3</ListItemTitle>
-          </ListItem> */}
-          {
-            //  this.state.list.map((row) => (
-            //    <ListItem
-            //      key={row.id}
-            //      id={"promo" + row.id}
-            //      src={row.app_thumbnail_text}
-            //      onClick={() => this.handlePromoClick(row)}
-            //    >
-            //      <ListItemTitle>{row.title}</ListItemTitle>
-            //    </ListItem>
-            //  ))
-          }
+          {this.props.general.promotionList.items.length <= 0 ? (
+            <EmptyPromo>
+              <PromoEmptyText>
+                <PromoEmptyTextLine
+                  style={
+                    i18n.language === "en-US"
+                      ? { fontSize: "26px", padding: "0px 32px" }
+                      : {}
+                  }
+                >
+                  {i18n.t("promotion.emptyLine1")}
+                </PromoEmptyTextLine>
+                <PromoEmptyTextLine>
+                  {i18n.t("promotion.emptyLine2")}
+                </PromoEmptyTextLine>
+              </PromoEmptyText>
+            </EmptyPromo>
+          ) : (
+            this.props.general.promotionList.items.map((row, index) => {
+              return (
+                <ListItem
+                  key={index}
+                  src={Common.GetPromoImg(index)}
+                  onClick={() => this.handlePromoClick(row.id)}
+                >
+                  <ListItemTitle>{row.name}</ListItemTitle>
+                </ListItem>
+              );
+            })
+          )}
         </ListView>
       </Container>
     );

@@ -129,9 +129,11 @@ const ButtonConfirm = styled.div`
   padding-top: 24px;
 
   margin: 10px auto;
-  background-image: linear-gradient(to top, ${({ theme }) =>
-    theme.primaryGradient},
-      ${({ theme }) => theme.primary}));
+  background-image: linear-gradient(
+    to top,
+    ${({ theme }) => theme.primaryGradient},
+    ${({ theme }) => theme.primary}
+  );
   color: #ffffff;
 `;
 const ButtonCancel = styled(ButtonConfirm)``;

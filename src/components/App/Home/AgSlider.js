@@ -13,6 +13,7 @@ const Container = styled.div`
   margin-left: 20px;
   cursor: pointer;
 `;
+
 const ImageContainer = styled.div`
   cursor: pointer;
   width: 415px;

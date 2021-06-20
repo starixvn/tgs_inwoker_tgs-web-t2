@@ -57,7 +57,7 @@ const ButtonIcon = styled.div`
   }
 `;
 const ButtonContainer = styled.div`
-  width: 600px;
+  width: 425px;
   height: 200px;
   float: left;
   overflow: visible;
@@ -108,7 +108,7 @@ const GameSlideContainer = styled.div`
   overflow: visible;
 `;
 const ImageContainer = styled.div`
-  width: 600px;
+  width: 425px;
   height: 450px;
   background: url(${(props) => props.img}) no-repeat;
   background-size: contain;
@@ -192,40 +192,15 @@ class LiveGame extends Component {
   constructor(props) {
     super(props);
 
-    var liveList = props.game.homePageGameList.filter((item) => {
-      return item.type === GameTypeEnum.LIVE;
-    });
-
     this.state = {
-      selected: liveList[0],
       subMenu: null,
       isSelected: false,
       hide: true,
-      list: liveList,
+
       slideIndex: 0,
     };
   }
-  componentDidMount() {
-    //test for fake input
-    var liveList = [
-      {
-        name: "ag",
-        abbreviation: "AG",
-      },
-      {
-        name: "BG",
-        abbreviation: "BG",
-      },
-    ];
-    this.setState({
-      list: liveList,
-    });
-    setTimeout(() => {
-      this.setState({
-        hide: false,
-      });
-    }, 1000);
-  }
+  componentDidMount() {}
   componentDidUpdate(preProps, preStates) {
     // if (
     //   preProps.game.homePageGameList.length !==
@@ -305,40 +280,46 @@ class LiveGame extends Component {
       <Container>
         <CommonMarquee></CommonMarquee>
         <GameSlideContainer>
-          {this.state.list.map((data, index) => {
-            return (
-              <React.Fragment key={index}>
+          {this.props.game.homePageGameList
+            .filter((item) => {
+              return item.type === GameTypeEnum.LIVE;
+            })
+            .map((data, index) => {
+              console.log(data);
+              return (
                 <ImageContainer
+                  key={index}
                   img={
                     process.env.PUBLIC_URL +
                     "/assets/images/pcGamePage/live/left/" +
                     data.abbreviation.toLowerCase() +
                     ".png"
                   }
-                  style={index === 0 ? { marginLeft: "45px" } : {}}
                   active={this.state.slideIndex === index}
                 ></ImageContainer>
-              </React.Fragment>
-            );
-          })}
-          <div style={{ clear: "both" }}></div>
-          <ButtonBg>
-            {this.state.list.map((data, index) => {
-              return (
-                <ButtonContainer
-                  key={index}
-                  style={index === 0 ? { marginLeft: "45px" } : {}}
-                >
-                  <ButtonJoin
-                    active={this.state.slideIndex === index}
-                    onClick={() => this.handleJoinGameClick(data.abbreviation)}
-                  >
-                    <ButtonDecoration src={LiveDice}></ButtonDecoration>
-                    <ButtonIcon abbreviation={data.abbreviation}></ButtonIcon>
-                  </ButtonJoin>
-                </ButtonContainer>
               );
             })}
+          <div style={{ clear: "both" }}></div>
+          <ButtonBg>
+            {this.props.game.homePageGameList
+              .filter((item) => {
+                return item.type === GameTypeEnum.LIVE;
+              })
+              .map((data, index) => {
+                return (
+                  <ButtonContainer key={index}>
+                    <ButtonJoin
+                      active={this.state.slideIndex === index}
+                      onClick={() =>
+                        this.handleJoinGameClick(data.abbreviation)
+                      }
+                    >
+                      <ButtonDecoration src={LiveDice}></ButtonDecoration>
+                      <ButtonIcon abbreviation={data.abbreviation}></ButtonIcon>
+                    </ButtonJoin>
+                  </ButtonContainer>
+                );
+              })}
           </ButtonBg>
         </GameSlideContainer>
       </Container>

@@ -724,5 +724,30 @@
   "Manual":"Manual",
   "Crypto":"Crypto",
   "BankTransfer":"Bank Transfer",
-  "CustomBank":"Custom Bank"
+  "CustomBank":"Custom Bank",
+  "VR":{
+    "desc":"VR Lottery has always been in the leading position in the industry with \"fairness, safety, fast and accuracy\", and has an all-round system of artificial intelligence. We have all kinds of mainstream lottery here, mainly divided into \"VR Live streaming lottery\" and \"VR lottery\". We are also developing the \"VR Electronic\" series of games, determined to give customers more diversified choices.    VR will continue to create and progress, in order to introduce more new kind lottery for the public, and create an all-round entertainment environment."
+  },
+  "KY":{
+    "BankerNiuNiu":"Niu-Niu",
+    "GoldenFlower":"Gloden Flower",
+    "The21Point":"The 21 Point",
+    "SanGong":"San-Gong"
+  },
+  "sports":{
+    "desc":"Pega Gaming provide innovative, variety of bet type and competitive odds for live matches.  Easy betting with quick, and secure way through any kind of devices anywhere, anytime!  In addition, we support all kinds of sport events, including soccer, basketball, baseball, tennis, football, and E-sports to fulfill your needs!"
+  },
+  "esports":{
+    "desc":"IM E-Sports is an industry-leading betting platform designed by gamers for gamers. Ready to be stunned by the aesthetically pleasing visual interface, endless betting options, and the ultimate betting experience.Visit 【PG】 Gaming, a proud partner of IM E-Sports, and stay up to date on your favorite games and teams!"
+  },
+  "services":{
+    "depositTitle":"Easy, Rapid Payouts",
+    "deposit":"We strive to have the fastest, easiest and most secure payouts in the industry, all of them are 100% secure and reliable. Through various deposit and withdrawal options, we  promise to make your playing experience enjoyable and easy.",
+    "securityTitle":"Safety & Security",
+    "security":"As the most trusted online betting platform in Asia, we are committed to providing the best gaming experience in every aspect. We use an 128-bit SSL to encrypt every private information you share with us.",
+    "oddsTitle":"500+ Top games",
+    "odds":"From exciting sports, to massive progressive jackpots, classic table games, live casino, lottery, and specialty games – we have it all! With 500+ games, our online casino offers hours of entertainment and exclusive rewards, prizes and bonuses just for you!",
+    "platformTitle":"Anywhere, any devices",
+    "platform":"No matter where you are, you can win your fortune and have fun at anytime, with any devices! We are available on apps for both Android and iOS devices, and also as a web-based platform. Take advantage of chances to win BIG with us today!"
+  }
 }

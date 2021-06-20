@@ -485,12 +485,11 @@ class Slot extends Component {
                       width={344}
                       alt={""}
                       effect="blur"
-                      src={`${
-                        config.sourceUrl
-                      }${row.gpcode.toUpperCase()}/${row.code.replace(
-                        /_/g,
-                        ""
-                      )}.jpg`}
+                      src={`${config.sourceUrl}${row.gpcode.toUpperCase()}${
+                        this.state.type === GameTypeEnum.FISH
+                          ? `/${i18n.language}`
+                          : ``
+                      }/${row.code.replace(/_/g, "")}.jpg`}
                       style={{ borderRadius: "20px 20px 0 0" }}
                       onClick={() => this.handleGameClick(row.gpcode, row.id)}
                     />

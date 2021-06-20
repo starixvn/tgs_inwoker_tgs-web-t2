@@ -325,7 +325,7 @@ function Footer(props) {
           </ProductUL>
         </MiddleInnerWrap>
       </MiddleContainer>
-      <HelperContainer>
+      {/* <HelperContainer>
         <HelperText>关于我们 </HelperText>
         <HelpIcon>|</HelpIcon>
         <HelperText>联系我们 </HelperText>
@@ -339,7 +339,7 @@ function Footer(props) {
         <HelperText>规则与条款 </HelperText>
         <HelpIcon>|</HelpIcon>
         <HelperText>App 下载 </HelperText>
-      </HelperContainer>
+      </HelperContainer> */}
       <BottomContainer>
         <CopyRightLine1>{i18n.t("web.footer.copyright")}</CopyRightLine1>
         <CopyRightLine2>

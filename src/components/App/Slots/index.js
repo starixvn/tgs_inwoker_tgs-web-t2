@@ -277,11 +277,12 @@ const ItemContainer = styled.div`
   background-image:url(` +
     props.img +
     `)`};
-  background-size: 190px 107px;
+  background-size: cover;
   background-repeat: no-repeat;
 `;
 const GameDesc = styled.div`
   padding-left: 10px;
+  padding-right: 10px;
   height: 28px;
   float: right;
   background-color: rgba(0, 0, 0, 0.8);
@@ -620,9 +621,9 @@ class Slots extends Component {
         .map((el, i) => (
           <ItemContainer
             key={i}
-            img={`${
-              config.sourceUrl
-            }${el.gpcode.toUpperCase()}/${el.code.replace(/_/g, "")}.jpg`}
+            img={`${config.sourceUrl}${el.gpcode.toUpperCase()}${
+              this.state.type === GameTypeEnum.FISH ? `/${i18n.language}` : ``
+            }/${el.code.replace(/_/g, "")}.jpg`}
           >
             <GameDesc>
               <GameProvider>{el.gpcode}</GameProvider>

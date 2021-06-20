@@ -86,8 +86,12 @@ const BottomNavigatorFrame = styled.div`
   height: 50px;
 `;
 const BottomNavigatorPlus = styled.div`
-  background: url(${IconPlusPNG}) no-repeat center;
-  background-size: contain;
+  background-image: url(${IconPlusPNG});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70px 70px;
+  background-color: ${(props) => props.theme.secondary};
+  border-radius: 50%;
   width: 70px;
   height: 70px;
 `;

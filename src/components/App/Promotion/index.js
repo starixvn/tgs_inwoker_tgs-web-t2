@@ -7,7 +7,7 @@ import BGPromotionJPG from "../../../assets/images/bg-promotion.png";
 import PromoModelPNG from "../../../assets/images/promo-bg-model.png";
 import PromoPresentPNG from "../../../assets/images/promo-bg-present.png";
 import PromoItemPNG from "../../../assets/images/promot-item.png";
-
+import PromoEmpty from "../../../assets/images/promo-empty.png";
 import { withSnackbar } from "notistack";
 import Collapse from "@material-ui/core/Collapse";
 
@@ -157,13 +157,27 @@ const Viewall = styled.div`
     box-shadow: inset 1px 1px 6px 0 rgba(255, 255, 255, 0.75);
   }
 `;
-const ViewallArrow = styled.img`
-  ${(props) =>
-    props.checked ? `transform: rotateX(0deg);` : `transform: rotateX(180deg);`}
+const PromoEmptyContainer = styled.div``;
+const PromoEmptyBg = styled.div`
+  background: url(${PromoEmpty}) no-repeat;
+  position: absolute;
 
-  float: right;
-  margin-left: 7px;
-  margin-top: 7px;
+  left: 50%;
+  bottom: -155px;
+  margin-left: -240px;
+  width: 1165px;
+  height: 877px;
+`;
+const PromoEmptyText = styled.div`
+  margin-top: 200px;
+`;
+const PromoEmptyTextLine = styled.div`
+  font-size: 56px;
+  text-align: center;
+  font-weight: bold;
+  background: -webkit-linear-gradient(#446597, #282828);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
 class Promotion extends Component {
@@ -245,41 +259,65 @@ class Promotion extends Component {
           </MainContentLeft>
           <MainContentRight className="scrollbar-wrap">
             <Inner>
-              {this.props.general.promotionList.items.map((data, index) => (
-                <Content key={index}>
-                  <LeftContent>
-                    <Viewall
-                      onClick={() =>
-                        this.handlejoinPromotionClick(
-                          data.id,
-                          data.promotionType
-                        )
-                      }
-                      style={
-                        index % 2 === 0
-                          ? { backgroundColor: "#8a7f73" }
-                          : { backgroundColor: "#a27d38" }
-                      }
-                    >
-                      {i18n.t("promotion.joinPromo")}
-                    </Viewall>
-                  </LeftContent>
-                  <RightContent>
-                    <PromoTitle>{data.name}</PromoTitle>
+              {(() => {
+                if (this.props.general.promotionList.items.length > 0)
+                  return this.props.general.promotionList.items.map(
+                    (data, index) => (
+                      <Content key={index}>
+                        <LeftContent>
+                          <Viewall
+                            onClick={() =>
+                              this.handlejoinPromotionClick(
+                                data.id,
+                                data.promotionType
+                              )
+                            }
+                            style={
+                              index % 2 === 0
+                                ? { backgroundColor: "#8a7f73" }
+                                : { backgroundColor: "#a27d38" }
+                            }
+                          >
+                            {i18n.t("promotion.joinPromo")}
+                          </Viewall>
+                        </LeftContent>
+                        <RightContent>
+                          <PromoTitle>{data.name}</PromoTitle>
 
-                    <PromoDate>
-                      {moment(data.from).format("YYYY/MM/DD HH:mm:ss")}
-                      {" - "}
-                      {moment(data.to).format("YYYY/MM/DD HH:mm:ss")}
-                    </PromoDate>
-                    <Collapse
-                      in={data.checked}
-                      collapsedHeight="70px"
-                      style={{ textAlign: "right" }}
-                    ></Collapse>
-                  </RightContent>
-                </Content>
-              ))}
+                          <PromoDate>
+                            {moment(data.from).format("YYYY/MM/DD HH:mm:ss")}
+                            {" - "}
+                            {moment(data.to).format("YYYY/MM/DD HH:mm:ss")}
+                          </PromoDate>
+                          <Collapse
+                            in={data.checked}
+                            collapsedHeight="70px"
+                            style={{ textAlign: "right" }}
+                          ></Collapse>
+                        </RightContent>
+                      </Content>
+                    )
+                  );
+                else
+                  return (
+                    <PromoEmptyContainer>
+                      <PromoEmptyText>
+                        <PromoEmptyTextLine
+                          style={
+                            i18n.language === "en-US"
+                              ? { fontSize: "40px", padding: "0 120px" }
+                              : {}
+                          }
+                        >
+                          {i18n.t("promotion.emptyLine1")}
+                        </PromoEmptyTextLine>
+                        <PromoEmptyTextLine>
+                          {i18n.t("promotion.emptyLine2")}
+                        </PromoEmptyTextLine>
+                      </PromoEmptyText>
+                    </PromoEmptyContainer>
+                  );
+              })()}
             </Inner>
           </MainContentRight>
         </MainContent>

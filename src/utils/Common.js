@@ -34,7 +34,7 @@ import PromoImage3 from "../assets/images/promotion/promo-3.jpg";
 import i18n from "./i18n";
 import config from "../config/config";
 function getLanguagePrefixFolder() {
-  var prefix = "";
+  var prefix = "en";
   var arr = [
     { lang: ["zh-CN", "zh-TW"], prefix: "cn" },
     { lang: ["en-US"], prefix: "en" },
