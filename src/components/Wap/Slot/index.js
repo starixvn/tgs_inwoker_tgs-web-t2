@@ -488,6 +488,8 @@ class Slot extends Component {
                       src={`${config.sourceUrl}${row.gpcode.toUpperCase()}${
                         this.state.type === GameTypeEnum.FISH
                           ? `/${i18n.language}`
+                          : this.state.platform === "JDB"
+                          ? `/zh-CN`
                           : ``
                       }/${row.code.replace(/_/g, "")}.jpg`}
                       style={{ borderRadius: "20px 20px 0 0" }}
