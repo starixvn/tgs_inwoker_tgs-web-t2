@@ -23,10 +23,12 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import BottomScrollListener from "react-bottom-scroll-listener";
 import i18n from "../../../utils/i18n";
+import Common from "../../../utils/Common";
 import jsonUS from "../../../assets/translations/slot_en-US.json";
 import jsonCN from "../../../assets/translations/slot_zh-CN.json";
 import jsonTW from "../../../assets/translations/slot_zh-TW.json";
 import config from "../../../config/config";
+
 const Container = styled.div`
   width: 100%;
   overflow: hidden;
@@ -489,7 +491,7 @@ class Slot extends Component {
                         this.state.type === GameTypeEnum.FISH
                           ? `/${i18n.language}`
                           : this.state.platform === "JDB"
-                          ? `/zh-CN`
+                          ? `/${Common.getCDNLanguagePrefix()}`
                           : ``
                       }/${row.code.replace(/_/g, "")}.jpg`}
                       style={{ borderRadius: "20px 20px 0 0" }}

@@ -41,6 +41,7 @@ import jsonUS from "../../../assets/translations/slot_en-US.json";
 import jsonCN from "../../../assets/translations/slot_zh-CN.json";
 import jsonTW from "../../../assets/translations/slot_zh-TW.json";
 import config from "../../../config/config";
+import Common from "../../../utils/Common";
 const Container = styled.div`
   width: 100%;
   position: relative;
@@ -625,7 +626,7 @@ class Slots extends Component {
               this.state.type === GameTypeEnum.FISH
                 ? `/${i18n.language}`
                 : this.state.platform === "JDB"
-                ? `/zh-CN`
+                ? `/${Common.getCDNLanguagePrefix()}`
                 : ``
             }/${el.code.replace(/_/g, "")}.jpg`}
           >
