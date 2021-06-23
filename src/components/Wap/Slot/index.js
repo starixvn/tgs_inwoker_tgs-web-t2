@@ -23,10 +23,12 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import BottomScrollListener from "react-bottom-scroll-listener";
 import i18n from "../../../utils/i18n";
+import Common from "../../../utils/Common";
 import jsonUS from "../../../assets/translations/slot_en-US.json";
 import jsonCN from "../../../assets/translations/slot_zh-CN.json";
 import jsonTW from "../../../assets/translations/slot_zh-TW.json";
 import config from "../../../config/config";
+
 const Container = styled.div`
   width: 100%;
   overflow: hidden;
@@ -48,12 +50,16 @@ const ListItem = styled.div`
   width: 345px;
   height: 273px;
   border-radius: 10px;
-  background-color: #404040;
+  background-color: ${({ theme }) => theme.secondary};
 `;
 const ListitemLabelBackground = styled.div`
   width: 345px;
   height: 76px;
-  background-image: linear-gradient(to top, #91030c, #c40511);
+  background-image: linear-gradient(
+    to top,
+    ${({ theme }) => theme.primaryGradient},
+    ${({ theme }) => theme.primary}
+  );
   position: absolute;
   bottom: 0;
   left: 0;
@@ -95,14 +101,14 @@ const Bookmark = styled.div`
       ? `  background-image: url(${BookmarkFullPNG});`
       : ` background-image: url(${BookmarkPNG});`}
 `;
-const StyledAppBar = withStyles({
+const StyledAppBar = withStyles((theme) => ({
   root: {
     top: "90px",
-    height: "155px",
-
+    height: "135px",
+    backgroundColor: theme.palette.tertiary.main,
     boxShadow: "none",
   },
-})(AppBar);
+}))(AppBar);
 
 const GameItemSelection = styled.div`
   width: 100%;
@@ -118,7 +124,11 @@ const GameItem = styled.div`
   float: left;
   ${(props) =>
     props.selected
-      ? `border: solid 1px #c40511;color: #c40511;`
+      ? `border: solid 1px ` +
+        props.theme.primary +
+        `;color: ` +
+        props.theme.primary +
+        `;`
       : `color: #bdbdbd;`}
 
   min-width: 143px;
@@ -169,7 +179,7 @@ const SearchCancelButton = styled.div`
   text-align: center;
 `;
 const SearchInput = styled.input`
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   float: left;
   margin: 13px 18px;
   font-size: 30px;
@@ -477,12 +487,13 @@ class Slot extends Component {
                       width={344}
                       alt={""}
                       effect="blur"
-                      src={`${
-                        config.sourceUrl
-                      }${row.gpcode.toUpperCase()}/${row.code.replace(
-                        /_/g,
-                        ""
-                      )}.jpg`}
+                      src={`${config.sourceUrl}${row.gpcode.toUpperCase()}${
+                        this.state.type === GameTypeEnum.FISH
+                          ? `/${i18n.language}`
+                          : this.state.platform === "JDB"
+                          ? `/${Common.getCDNLanguagePrefix()}`
+                          : ``
+                      }/${row.code.replace(/_/g, "")}.jpg`}
                       style={{ borderRadius: "20px 20px 0 0" }}
                       onClick={() => this.handleGameClick(row.gpcode, row.id)}
                     />

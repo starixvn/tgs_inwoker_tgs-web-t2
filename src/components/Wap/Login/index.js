@@ -70,7 +70,7 @@ const RememberPassLabel = styled.div`
   float: left;
   font-size: 28px;
   margin-top: 14px;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
 `;
 const CustomCheck = withStyles({
   root: {
@@ -93,20 +93,21 @@ const LoginActionContainer = styled.div`
 
 const LanguageWrap = styled.div`
   text-align: center;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   font-size: 28px;
   margin-top: 20px;
 `;
 const LanguageLink = styled.span`
   text-align: center;
-  ${(props) => (props.selected == true ? `color:#c40511;` : ``)}
+  ${(props) =>
+    props.selected == true ? `color:` + props.theme.primary + `;` : ``}
 `;
 
 const Version = styled.div`
   position: fixed;
   bottom: 5px;
   right: 5px;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
 `;
 class Login extends Component {
   state = {

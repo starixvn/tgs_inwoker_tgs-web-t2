@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
-import i18n from "../../utils/i18n";
-import MarqueeIconPNG from "../../assets/images/marqueeicon.png";
+import Common from "../../utils/Common";
 import { UiService } from "@Inwoker/tgs-api";
 const AnnounceContainer = styled.div`
   width: 100%;
@@ -10,7 +9,7 @@ const AnnounceContainer = styled.div`
   margin: 0 auto;
 `;
 const MarqueeIcon = styled.img`
-  width: 80px;
+  height: 16px;
   margin-top: 5px;
   padding-right: 25px;
   float: right;
@@ -89,7 +88,12 @@ function CommonMarquee(props) {
           })}
         </marquee>
       </MarqueeContainer>
-      <MarqueeIcon src={MarqueeIconPNG}></MarqueeIcon>
+      <MarqueeIcon
+        src={
+          process.env.PUBLIC_URL +
+          `/assets/images/${Common.getLanguagePrefixFolder()}/marqueeicon.png`
+        }
+      ></MarqueeIcon>
     </AnnounceContainer>
   );
 }

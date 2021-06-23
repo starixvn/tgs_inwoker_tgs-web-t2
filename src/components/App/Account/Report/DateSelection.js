@@ -125,6 +125,7 @@ class DateSelection extends Component {
         ></DatePicker>
         <LabelDash>-</LabelDash>
         <DatePicker
+          minDate={this.state.dateFrom}
           onhandleDateChange={this.handleDateToChange}
           selectedDate={this.state.dateTo}
         ></DatePicker>

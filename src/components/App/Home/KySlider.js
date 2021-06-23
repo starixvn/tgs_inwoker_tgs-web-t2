@@ -85,7 +85,7 @@ export default function KySlider(props) {
         }
         img={KyHotGame1PNG}
       >
-        <KYHotGameTitle>抢庄牛牛</KYHotGameTitle>
+        <KYHotGameTitle>{i18n.t("KY.BankerNiuNiu")}</KYHotGameTitle>
       </KyGameContainer>
 
       <KyGameContainer
@@ -105,7 +105,7 @@ export default function KySlider(props) {
         }
         img={KyHotGame3PNG}
       >
-        <KYHotGameTitle>21点</KYHotGameTitle>
+        <KYHotGameTitle>{i18n.t("KY.The21Point")}</KYHotGameTitle>
       </KyGameContainer>
       <KyGameContainer
         onClick={() =>
@@ -123,7 +123,7 @@ export default function KySlider(props) {
         }
         img={KyHotGame2PNG}
       >
-        <KYHotGameTitle>三公</KYHotGameTitle>
+        <KYHotGameTitle>{i18n.t("KY.SanGong")}</KYHotGameTitle>
       </KyGameContainer>
       <KyGameContainer
         style={{ marginTop: "80px" }}
@@ -142,7 +142,7 @@ export default function KySlider(props) {
         }
         img={KyHotGame4PNG}
       >
-        <KYHotGameTitle>炸金花</KYHotGameTitle>
+        <KYHotGameTitle>{i18n.t("KY.GoldenFlower")}</KYHotGameTitle>
       </KyGameContainer>
     </>
   );

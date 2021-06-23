@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { AppHistory } from "../../../history/History";
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from "@material-ui/core/Tooltip";
 import Header from "../../Wap/Share/Header";
 import copy from "copy-to-clipboard";
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 import Loading from "../../Wap/Share/Loading";
 import i18n from "../../../utils/i18n";
 import QRCode from "react-qr-code";
@@ -17,13 +17,13 @@ const QRCodeLabel = styled.div`
   margin: 30px auto;
   display: table;
   font-size: 30px;
-  color:#404040;
+  color: ${({ theme }) => theme.secondary};
 `;
 const QRCodeContainer = styled.div`
-padding: 20px;
-    margin: 0 auto;
-    display: table;
-    background-color: #fff;
+  padding: 20px;
+  margin: 0 auto;
+  display: table;
+  background-color: #fff;
 `;
 const CustomText = styled.div`
   width: 700px;
@@ -42,7 +42,7 @@ const CustomLabel = styled.div`
   color: #212e31;
 `;
 const CustomInput = styled.input`
-  color:#404040;
+  color: ${({ theme }) => theme.secondary};
   font-size: 28px;
   margin: 25px 0 25px 10px;
   font-weight: 500;
@@ -77,16 +77,14 @@ const ListView = styled.div`
   padding: 0px 30px;
 `;
 const ListItem = styled.div`
+  border-radius: 6px;
+  box-shadow: 0px 4px 10px 0 rgba(0, 0, 0, 0.25);
+  border: solid 1px #ffffff;
+  background-image: linear-gradient(to top, #e0e0e0, #ffffff);
 
-border-radius: 6px;
-box-shadow: 0px 4px 10px 0 rgba(0, 0, 0, 0.25);
-border: solid 1px #ffffff;
-background-image: linear-gradient(to top, #e0e0e0, #ffffff);
-
-background-image: url(${(props) => props.icon});
-background-repeat: no-repeat;
-background-position:center 40px;
-
+  background-image: url(${(props) => props.icon});
+  background-repeat: no-repeat;
+  background-position: center 40px;
 
   float: left;
   margin: 15px 30px;
@@ -94,21 +92,19 @@ background-position:center 40px;
   font-size: 30px;
 
   text-align: center;
-  color: ${(props) => (props.disabled ? `rgba(61, 61, 61, 0.3)` : `#404040`)};
+  color: ${(props) =>
+    props.disabled ? `rgba(61, 61, 61, 0.3)` : props.theme.secondary};
   padding-top: 100px;
   position: relative;
-
 
   width: 166px;
   height: 154px;
   border-radius: 6px;
   box-shadow: 0px 4px 12px 0 rgba(0, 0, 0, 0.8);
   border: solid 1px #ffffff;
- 
 `;
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
-
     fontSize: 30,
   },
 }))(Tooltip);
@@ -131,14 +127,10 @@ class Affiliate extends Component {
       `${window.location.hostname}/${i18n.language}/a/${this.props.account.info.promote_code}`
     );
     setTimeout(() => {
-
       this.setState({ ...this.state, copyTooltips: false });
-
-    }, 3000)
+    }, 3000);
   };
-  handleClickAway = () => {
-
-  };
+  handleClickAway = () => {};
 
   render() {
     return (
@@ -152,8 +144,9 @@ class Affiliate extends Component {
         ></Header>
         <QRCodeLabel>{i18n.t("affiliate.qrCode")}</QRCodeLabel>
         <QRCodeContainer>
-          <QRCode value={`http://${window.location.hostname}/${i18n.language}/a/${this.props.account.info.promote_code}`}></QRCode>
-
+          <QRCode
+            value={`http://${window.location.hostname}/${i18n.language}/a/${this.props.account.info.promote_code}`}
+          ></QRCode>
         </QRCodeContainer>
 
         <CustomText>
@@ -171,10 +164,15 @@ class Affiliate extends Component {
             value={`${window.location.hostname}/${i18n.language}/a/${this.props.account.info.promote_code}`}
             readOnly={true}
           ></CustomInput>
-          <LightTooltip open={this.state.copyTooltips} title={i18n.t("affiliate.copied")} placement="top">
-            <Button onClick={this.handleCopyLink}>{i18n.t("common.copy")}</Button>
+          <LightTooltip
+            open={this.state.copyTooltips}
+            title={i18n.t("affiliate.copied")}
+            placement="top"
+          >
+            <Button onClick={this.handleCopyLink}>
+              {i18n.t("common.copy")}
+            </Button>
           </LightTooltip>
-
         </CustomText>
         <ListView>
           <ListItem

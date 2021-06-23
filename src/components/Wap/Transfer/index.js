@@ -59,7 +59,9 @@ const LeftLabelIcon = styled.div`
   width: 100%;
   height: 87px;
   float: left;
-  background: url(${(props) => props.icon}) no-repeat center center;
+  border-radius: 50%;
+  background: url(${(props) => props.icon}) no-repeat center center,
+    ${({ theme }) => theme.primary};
 `;
 
 const LeftLabel = styled.div`
@@ -108,7 +110,7 @@ const ColumnGameName = styled.div`
 `;
 const ColumnGameBalance = styled.div`
   font-size: 30px;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   text-align: center;
   margin-top: 10px;
 `;
@@ -146,7 +148,7 @@ const TextboxLabel = styled.div`
   color: #141a36;
 `;
 const TextboxInput = styled.input`
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   float: left;
   height: 88px;
   font-size: 28px;
@@ -172,7 +174,7 @@ const ButtonDiv = styled.div`
   width: 146px;
   height: 47px;
   border-radius: 10px;
-  background-color: #d21f1f;
+  background-color: ${({ theme }) => theme.primary};
 `;
 const DialogHeader = styled.div`
   color: #4a4a4a;
@@ -213,7 +215,9 @@ const OneClickReceiveButton = styled.div`
   width: 146px;
   height: 47px;
   border-radius: 10px;
-  background-image: linear-gradient(to top, #91030c, #c40511);
+  background-image: linear-gradient(to top, ${({ theme }) =>
+    theme.primaryGradient},
+      ${({ theme }) => theme.primary}));
 `;
 class Transfer extends Component {
   constructor(props) {

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
-import i18n from "../../../utils/i18n"
+import i18n from "../../../utils/i18n";
 function MessageDialog(props) {
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -46,7 +46,11 @@ function MessageDialog(props) {
     padding-top: 24px;
 
     margin: 10px auto;
-    background-image: linear-gradient(to top, #91030c, #c40511);
+    background-image: linear-gradient(
+      to top,
+      ${({ theme }) => theme.primaryGradient},
+      ${({ theme }) => theme.primary}
+    );
     color: #ffffff;
   `;
   return (
@@ -57,7 +61,9 @@ function MessageDialog(props) {
     >
       <DialoTitle>{i18n.t("share.messageDialog.info")}</DialoTitle>
       <DialoMessage>{props.message}</DialoMessage>
-      <ButtonConfirm onClick={props.onClick}>{i18n.t("common.confirm")}</ButtonConfirm>
+      <ButtonConfirm onClick={props.onClick}>
+        {i18n.t("common.confirm")}
+      </ButtonConfirm>
     </StyledModalPopup>
   );
 }

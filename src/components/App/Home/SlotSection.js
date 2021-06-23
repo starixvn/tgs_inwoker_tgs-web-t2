@@ -1,12 +1,13 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import TitleImg from "../../../assets/images/slot-title.png";
+
 import BGimage from "../../../assets/images/slot-bg.png";
 import HomeSportSabaPNG from "../../../assets/images/home-sport-saba.png";
 import HomeSportSboPNG from "../../../assets/images/home-sport-sbo.png";
 import HomeSportImesPNG from "../../../assets/images/home-sport-imes.png";
 import ScrollAnimation from "react-animate-on-scroll";
-
+import Common from "../../../utils/Common";
+import i18n from "../../../utils/i18n";
 export default function SlotSection(props) {
   const Container = styled.div`
     width: 100%;
@@ -36,7 +37,7 @@ export default function SlotSection(props) {
     left: 365px;
   `;
   const SlotText = styled.div`
-    width: 850px;
+    width: 880px;
     position: absolute;
     z-index: 4;
     top: 285px;
@@ -45,7 +46,7 @@ export default function SlotSection(props) {
     font-size: 18px;
   `;
   const SlotGameContainer = styled.div`
-    width: 850px;
+    width: 880px;
     position: absolute;
     z-index: 4;
     top: 360px;
@@ -81,12 +82,15 @@ export default function SlotSection(props) {
             animateOnce={true}
             style={{ overflow: "visible", zIndex: "6" }}
           >
-            <Title src={TitleImg}></Title>
+            <Title
+              src={
+                process.env.PUBLIC_URL +
+                `/assets/images/${Common.getLanguagePrefixFolder()}/e-sports.png`
+              }
+            ></Title>
           </ScrollAnimation>
           <SlotImageBg src={BGimage}></SlotImageBg>
-          <SlotText>
-            电子竞技是由一群资深专业的电子竞技玩家研发的电竞竞猜平台。不但有顶尖的技术支持，还拥有令人惊叹的视觉界面及高效的用户体验。所以IM电竞竞猜平台能让您轻松上手，一目了然，轻松投注。
-          </SlotText>
+          <SlotText>{i18n.t("esports.desc")}</SlotText>
           <SlotGameContainer>
             <ScrollAnimation
               animateIn="fadeInDown"

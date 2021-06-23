@@ -14,15 +14,10 @@ import AGBGPNG from "../../../assets/images/ag-bg.png";
 import HomeSportSabaPNG from "../../../assets/images/home-sport-saba.png";
 import HomeSportSboPNG from "../../../assets/images/home-sport-sbo.png";
 import HomeSportImesPNG from "../../../assets/images/home-sport-imes.png";
-import HomeAGRoom1PNG from "../../../assets/images/home-ag-room1.png";
-import HomeAGRoom2PNG from "../../../assets/images/home-ag-room2.png";
-import HomeAGRoom3PNG from "../../../assets/images/home-ag-room3.png";
-import HomeAGContentPNG from "../../../assets/images/home-ag-content.png";
-import HomeKYBgJPG from "../../../assets/images/home-ky-bg.jpg";
+
 import KYContentPNG from "../../../assets/images/ky-content.png";
 import KYContentModelPNG from "../../../assets/images/ky-content-model.png";
 import KYContentCardPNG from "../../../assets/images/ky-content-card.png";
-import KYContentButtonPNG from "../../../assets/images/ky-content-button.png";
 
 import Recommend from "./Recommend";
 import Marquee from "./Marquee";
@@ -76,7 +71,7 @@ const AGImgBGContainer = styled.div`
 `;
 const AGImageBGFlex = styled.div`
   width: 100%;
-
+  position: relative;
   display: flex;
   justify-content: center;
 `;
@@ -84,8 +79,11 @@ const AGImgBG = styled.img`
   width: 100%;
   min-width: 1920px;
 `;
+
 const AGTitle = styled.div`
-  background: url(${`${process.env.PUBLIC_URL}/assets/images/${i18n.language}/sport-hotgame.png`}) no-repeat 10px center;
+  background: url(${`${
+    process.env.PUBLIC_URL
+  }/assets/images/${Common.getLanguagePrefixFolder()}/sport-event.png`}) no-repeat 10px center;
   width: 100%;
   height: 100px;
   display: inline-block;
@@ -158,15 +156,7 @@ const AGGameRoomName = styled.div`
   width: 120px;
   margin: 88px 0 0 29px;
 `;
-const AGGameRoom1 = styled(AGGameRoom)`
-  background: url(${HomeAGRoom1PNG}) no-repeat;
-`;
-const AGGameRoom2 = styled(AGGameRoom)`
-  background: url(${HomeAGRoom2PNG}) no-repeat;
-`;
-const AGGameRoom3 = styled(AGGameRoom)`
-  background: url(${HomeAGRoom3PNG}) no-repeat;
-`;
+
 const AGGameLeftContent = styled.div`
   float: left;
   width: 700px;
@@ -202,7 +192,17 @@ const AGContent = styled.div`
   background: url(${AGBGPNG}) no-repeat;
   background-size: 100%;
 `;
-
+const NewIcon = styled.div`
+  background: url(${process.env.PUBLIC_URL +
+    `/assets/images/${Common.getLanguagePrefixFolder()}/marqueeicon.png`})
+    no-repeat;
+  height: 16px;
+  width: 120px;
+  position: absolute;
+  top: 4px;
+  right: 50%;
+  margin-right: 210px;
+`;
 const AGContentStartGame = styled.div`
   position: absolute;
   left: 25px;
@@ -253,11 +253,13 @@ const KYButtonText = styled.div`
 const KYButton = styled.div`
   width: 500px;
   height: 85px;
-  background: url(${KYContentButtonPNG}) no-repeat center;
+  background: url(${process.env.PUBLIC_URL +
+    `/assets/images/${Common.getLanguagePrefixFolder()}/card-game.png`})
+    no-repeat center;
   position: absolute;
   bottom: 0px;
   cursor: pointer;
-  background-size: 80%;
+  background-size: auto 70px;
   background-color: #292828c7;
   transition: height 2s;
 `;
@@ -465,6 +467,7 @@ class Home extends Component {
         <AGContainer>
           <AGImgBGContainer>
             <AGImageBGFlex>
+              <NewIcon></NewIcon>
               <AGImgBG src={HomeAGBgJPG}></AGImgBG>
             </AGImageBGFlex>
           </AGImgBGContainer>
@@ -483,9 +486,7 @@ class Home extends Component {
                 </AGGameLeftContent>
                 <AGGameRightContent>
                   <AGTitle></AGTitle>
-                  <AGText>
-                    如果您正在寻找好用的亚洲的体育博彩平台，请不要再犹豫了Sample是亚洲最值得信赖和最佳的体育博彩选择。快速的存取款让您可以随时随地通过桌面或移动设备下注您最喜欢的体育活动和赛事。各色各样体育投注，包括篮球、棒球、冰球、美式足球、足球、网球、桌球、排球等投注、还有特殊赛事等，让您从早到晚都能体验到iBET体育博彩的多元化玩法及高赔率。
-                  </AGText>
+                  <AGText>{i18n.t("sports.desc")}</AGText>
                   <AGGameIconBar>
                     <GameIcon
                       src={HomeSportSboPNG}

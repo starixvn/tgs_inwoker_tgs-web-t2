@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
-import Common from "../../../utils/Common";
+
 import QipaiBGNewPNG from "../../../assets/images/qipai/qipai-bg-new.png";
 
-import BtnRedPNG from "../../../assets/images/btn-red.png";
-import BtnRedHoverPNG from "../../../assets/images/btn-red-hover.png";
 import BtnJoinQipaiPNG from "../../../assets/images/btn-join-qipai.png";
 import BtnJoinQipaiHoverPNG from "../../../assets/images/btn-join-qipai-hover.png";
 
@@ -17,9 +15,6 @@ import i18n from "../../../utils/i18n";
 import CommonMarquee from "../CommonMarquee";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Left from "../../../assets/images/arrow-left.svg";
-import Right from "../../../assets/images/arrow-right.svg";
-import ScrollAnimation from "react-animate-on-scroll";
 
 const Container = styled.div`
   width: 100%;
@@ -184,17 +179,18 @@ const KYHotGameTitle = styled.div`
   font-family: Roboto;
   font-size: 30px;
   font-weight: 600;
-  color: #fff;
+  color: ${(props) => props.theme.secondaryText};
+  background: ${(props) => props.theme.secondary};
   z-index: 8;
 `;
 const ImageContainer = styled.div`
   clip-path: polygon(15% 0, 100% 0%, 80% 120%, -2% 96%);
   width: 275px;
   height: 500px;
-  cursor: pointer;
+
   position: relative;
   overflow-y: visible;
-  cursor: pointer;
+
   display: flex;
   justify-content: center;
   aligin-item: center;
@@ -210,6 +206,7 @@ const ImageContainer = styled.div`
 
 const KYHotGame = styled.img`
   height: 400px !important;
+  pointer-events: none;
 `;
 const ArrowButton = styled.a`
   margin-left: calc(50%);
@@ -239,22 +236,6 @@ const ArrowContainer = styled.div`
   }
 `;
 
-const LeftArrowButton = styled(ArrowButton)``;
-
-const RightArrowButton = styled(ArrowButton)``;
-
-const LeftArrowContainer = styled(ArrowContainer)`
-  left: 0;
-  display: flex;
-`;
-
-const RightArrowContainer = styled(ArrowContainer)`
-  right: 0;
-`;
-
-const ArrowIcon = styled.img`
-  width: 20px !important;
-`;
 class Qipai extends Component {
   constructor(props) {
     super(props);
@@ -277,17 +258,17 @@ class Qipai extends Component {
     var qipaiList = [
       {
         id: 1,
-        name: "炸金花",
+        name: i18n.t("KY.GoldenFlower"),
         abbreviation: "ky",
       },
       {
         id: 2,
-        name: "21点",
+        name: i18n.t("KY.The21Point"),
         abbreviation: "ky",
       },
       {
         id: 3,
-        name: "三公",
+        name: i18n.t("KY.SanGong"),
         abbreviation: "ky",
       },
     ];
@@ -296,21 +277,7 @@ class Qipai extends Component {
       list: qipaiList,
     });
   }
-  componentDidUpdate(preProps, preStates) {
-    // if (
-    //   preProps.game.homePageGameList.length !==
-    //   this.props.game.homePageGameList.length
-    // ) {
-    //   var qipaiList = this.props.game.homePageGameList.filter((item) => {
-    //     return item.type == GameTypeEnum.QIPAI;
-    //   });
-    //   this.setState({
-    //     ...this.state,
-    //     selected: qipaiList[0],
-    //     list: qipaiList,
-    //   });
-    // }
-  }
+  componentDidUpdate(preProps, preStates) {}
 
   handleJoinGameClick = (kind) => {
     if (this.props.account.token != null) {

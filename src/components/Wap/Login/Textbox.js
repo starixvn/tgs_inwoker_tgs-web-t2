@@ -4,33 +4,29 @@ import styled from "styled-components";
 import HidePasswordPNG from "../../../assets/images/wap/hide-password.png";
 import ShowPasswordPNG from "../../../assets/images/wap/show-password.png";
 const Container = styled.div`
- 
-    margin:0 auto;
+  margin: 0 auto;
 
-
-    width: 635px;
-    height: 80px;
-    border-radius: 6px;
-    border: solid 1px #676666;
-    background-color: #ffffff;
-    box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.4);
+  width: 635px;
+  height: 80px;
+  border-radius: 6px;
+  border: solid 1px #676666;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.4);
 `;
 
 const TextSpan = styled.span`
+  margin: 22px 0 0 35px;
+  width: 56px;
+  height: 38px;
+  float: left;
 
-margin: 22px 0 0 35px;
-width: 56px;
-height: 38px;
-float: left;
-
-
-  background:url(${props => props.icon}) no-repeat;
+  background: url(${(props) => props.icon}) no-repeat;
   background-size: contain;
 `;
 
 const InputTextBox = styled.input`
   width: 390px;
-  color:#404040;
+  color: ${({ theme }) => theme.secondary};
   font-size: 30px;
   float: left;
   background: none;
@@ -55,12 +51,12 @@ const TextContainer = styled.div`
 const RightIcon = styled.div`
   width: 40px;
   height: 60px;
-  background: url(${props =>
-    props.password === true
-      ? props.hidden
-        ? HidePasswordPNG
-        : ShowPasswordPNG
-      : ""})
+  background: url(${(props) =>
+      props.password === true
+        ? props.hidden
+          ? HidePasswordPNG
+          : ShowPasswordPNG
+        : ""})
     no-repeat;
   background-size: contain;
   margin: 25px 25px 0 0;

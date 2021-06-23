@@ -33,8 +33,22 @@ import PromoImage2 from "../assets/images/promotion/promo-2.jpg";
 import PromoImage3 from "../assets/images/promotion/promo-3.jpg";
 import i18n from "./i18n";
 import config from "../config/config";
+function getCDNLanguagePrefix() {
+  var prefix = "en-US";
+  var arr = [
+    { lang: ["zh-CN", "zh-TW"], prefix: "zh-CN" },
+    { lang: ["en-US"], prefix: "en-US" },
+  ];
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].lang.indexOf(i18n.language) >= 0) {
+      prefix = arr[i].prefix;
+      break;
+    }
+  }
+  return prefix;
+}
 function getLanguagePrefixFolder() {
-  var prefix = "";
+  var prefix = "en";
   var arr = [
     { lang: ["zh-CN", "zh-TW"], prefix: "cn" },
     { lang: ["en-US"], prefix: "en" },
@@ -412,5 +426,6 @@ const Common = {
   gameImageMapping,
   GetPromoImg,
   getLanguagePrefixFolder,
+  getCDNLanguagePrefix,
 };
 export default Common;

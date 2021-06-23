@@ -68,7 +68,7 @@ const LeftLabelValue = styled.div`
   float: left;
   font-size: 28px;
   width: 450px;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   padding-left: 30px;
 `;
 
@@ -77,7 +77,7 @@ const BottomDesc = styled.div`
   width: 86%;
   font-size: 26px;
 
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
 `;
 const ButtonCardManage = styled.div`
   background: url(${IconCardManagePNG}) no-repeat left center;
@@ -86,7 +86,7 @@ const ButtonCardManage = styled.div`
   margin: 0px 50px 20px 0;
   font-size: 26px;
 
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
 `;
 
 const StyledModalBank = withStyles((theme) => ({
@@ -168,7 +168,7 @@ const OTPTextBox = styled.input`
   width: 500px;
   text-indent: 9px;
   padding-left: 64px;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   -webkit-letter-spacing: 25.6px;
   -moz-letter-spacing: 25.6px;
   -ms-letter-spacing: 25.6px;

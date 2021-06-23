@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import i18n from "../../../utils/i18n";
 const Container = styled.div`
-
   margin: 50px auto 0 auto;
 
   font-weight: 500;
@@ -15,8 +14,8 @@ const Container = styled.div`
   height: 81px;
   border-radius: 6px;
   border: solid 2px #ffffff;
-  background-color: #404040;
-  border-radius:10px;
+  background-color: ${({ theme }) => theme.secondary};
+  border-radius: 10px;
 `;
 
 const SwitchContainer = styled.div`
@@ -26,17 +25,18 @@ const SwitchContainer = styled.div`
   height: 81px;
 
   border: solid 1px #ffffff;
-  background-image: linear-gradient(to top, #91030c, #c40511);
+  background-image: linear-gradient(to top, ${({ theme }) =>
+    theme.primaryGradient},
+      ${({ theme }) => theme.primary}));
 `;
 
 const SwitchTextContainerComponent = styled.div`
-width: 319px;
-height: 81px;
+  width: 319px;
+  height: 81px;
   flaot: left;
   text-align: center;
   position: absolute;
   top: 0;
-
 
   text-shadow: 0px 2px 1px rgba(24, 28, 31, 0.8);
 
@@ -44,9 +44,6 @@ height: 81px;
 
   color: #ffffff;
 
-
-
- 
   padding-top: 14px;
 `;
 const SwitchTextLeftContainer = styled(SwitchTextContainerComponent)`

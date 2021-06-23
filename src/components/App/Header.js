@@ -171,7 +171,7 @@ const LogoContainer = styled.div`
   background-repeat: no-repeat;
   background-size: contain;
   width: 160px;
-
+  height: 80px;
   background-position: left center;
   float: left;
   &:hover {
@@ -194,7 +194,6 @@ const RightMenuUL = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0 0 0 10px;
-  height: 110px;
 `;
 
 const RightMenuTextSpan = styled.span`

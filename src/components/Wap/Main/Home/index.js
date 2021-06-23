@@ -60,7 +60,11 @@ const MarqueeContainer = styled.div`
   width: 640px;
   height: 36px;
   border-radius: 17px;
-  background-image: linear-gradient(to top, #91030c, #c40511);
+  background-image: linear-gradient(
+    to top,
+    ${({ theme }) => theme.primaryGradient},
+    ${({ theme }) => theme.primary}
+  );
 `;
 const ProfileContainer = styled.div`
   width: 723px;
@@ -70,7 +74,7 @@ const ProfileContainer = styled.div`
 const ProfileContainerTop = styled.div`
   width: 100%;
   height: 50px;
-  background-color: #c10411;
+  background-color: ${({ theme }) => theme.primary};
   border-radius: 10px 10px 0 0;
 
   padding: 15px 25px 0 26px;
@@ -79,7 +83,11 @@ const ProfileContainerBottom = styled.div`
   width: 100%;
 
   padding: 0 25px 0 26px;
-  background-image: linear-gradient(to top, #9e020c, #85020a);
+  background-image: linear-gradient(
+    to top,
+    ${({ theme }) => theme.primaryGradient},
+    ${({ theme }) => theme.primary}
+  );
 `;
 const WelcomeLabel = styled.div`
   float: left;
@@ -118,7 +126,7 @@ const WalletActionContainer = styled.div`
 const WalletActionUL = styled.ul`
   text-align: center;
 
-  margin-top: 26px;
+  margin-top: 15px;
 
   font-size: 28px;
 
@@ -129,9 +137,15 @@ const WalletActionLI = styled.li`
   padding: 0 10px;
 
   text-align: center;
-  ${(props) => `background:url(${props.src}) no-repeat center top; `}
-  background-size:60px auto;
-  padding-top: 64px;
+`;
+const WalletActionIcon = styled.div`
+  ${(props) => `background:url(${props.img}) no-repeat center center; `}
+  background-color: ${(props) => props.theme.secondary};
+  margin: 0 auto;
+  border-radius: 50%;
+  background-size: 60px;
+  width: 80px;
+  height: 80px;
 `;
 const ButtonSignup = styled.div`
   width: 195px;
@@ -185,7 +199,7 @@ const GameSelectionLI = styled.div`
 
   line-height: 1.7;
 
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   text-align: center;
   ${(props) =>
     props.selected
@@ -194,7 +208,11 @@ const GameSelectionLI = styled.div`
 
   border: solid 2px #000;
 
-  background-image: linear-gradient(to top, #91030c, #c40511);`
+  background-image: linear-gradient(to top, ` +
+        props.theme.primaryGradient +
+        `, ` +
+        props.theme.primary +
+        `);`
       : ``}
 `;
 
@@ -480,21 +498,25 @@ class Home extends Component {
                 <WalletActionContainer>
                   <WalletActionUL>
                     <WalletActionLI
-                      src={IconDepositPNG}
                       onClick={() => this.props.navigate("/deposit")}
                     >
+                      <WalletActionIcon img={IconDepositPNG}></WalletActionIcon>
                       {i18n.t("common.deposit")}
                     </WalletActionLI>
                     <WalletActionLI
-                      src={IconTransferPNG}
                       onClick={() => this.props.navigate("/transfer")}
                     >
+                      <WalletActionIcon
+                        img={IconTransferPNG}
+                      ></WalletActionIcon>
                       {i18n.t("common.transfer")}
                     </WalletActionLI>
                     <WalletActionLI
-                      src={IconWithdrawalPNG}
                       onClick={() => this.props.navigate("/withdrawal")}
                     >
+                      <WalletActionIcon
+                        img={IconWithdrawalPNG}
+                      ></WalletActionIcon>
                       {i18n.t("common.withdrawal")}
                     </WalletActionLI>
                   </WalletActionUL>

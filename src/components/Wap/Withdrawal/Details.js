@@ -40,7 +40,7 @@ const DepositAmount = styled.div`
   font-size: 80px;
   font-weight: bold;
 
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
 `;
 const SplitLine = styled.div`
   height: 2px;
@@ -105,7 +105,7 @@ const OTPTextBox = styled.input`
   width: 500px;
   text-indent: 9px;
   padding-left: 64px;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   -webkit-letter-spacing: 25.6px;
   -moz-letter-spacing: 25.6px;
   -ms-letter-spacing: 25.6px;

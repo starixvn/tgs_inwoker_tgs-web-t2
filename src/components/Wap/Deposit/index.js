@@ -166,7 +166,9 @@ const ButtonConfirm = styled.div`
   padding-top: 24px;
 
   margin: 10px auto;
-  background-image: linear-gradient(to top, #91030c, #c40511);
+  background-image: linear-gradient(to top, ${({ theme }) =>
+    theme.primaryGradient},
+      ${({ theme }) => theme.primary}));
   color: #ffffff;
 `;
 const LimitLabel = styled.span`

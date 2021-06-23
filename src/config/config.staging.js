@@ -11,6 +11,7 @@ module.exports = {
   ],
   defaultLanguage: "en-US",
   bannerCount: 2,
+  theme: "red",
   sourceUrl: "https://images.srvptt.com/",
   RSAKey:
     "-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCmartSvxYa2TbTV8eJl7kZwybk jjO9ysEYDiYoKPKY1jln+8PQ+WbMxdZWGcp1iiMkLTHo1ck6WD/DQvO5dlzoyeEA 2jt+YLFhOtQ9AR2/erL31CWumdc5U5HaCg/jGrl3ZJHvsM4l+XPcFuut2Ha0bcqs qk90+CWjAg0NS8LrwQIDAQAB-----END PUBLIC KEY-----",

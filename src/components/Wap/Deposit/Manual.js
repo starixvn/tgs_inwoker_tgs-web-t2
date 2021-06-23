@@ -34,7 +34,7 @@ const DepositAmount = styled.div`
   font-size: 80px;
   font-weight: bold;
 
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
 `;
 const SplitLine = styled.div`
   height: 2px;

@@ -9,15 +9,15 @@ const Content = styled.div`
 
   text-align: center;
   margin-top: 20px;
-  padding:0 30px;
-  color: #404040;
+  padding: 0 30px;
+  color: ${({ theme }) => theme.secondary};
 `;
 const LabelLink = styled(Link)`
-  color:#c40511;
+  color: ${({ theme }) => theme.primary};
   text-decoration: none;
 `;
 const LabelNormal = styled.span`
-  color:#c40511;
+  color: ${({ theme }) => theme.primary};
   text-decoration: none;
 `;
 class BottomNote extends Component {

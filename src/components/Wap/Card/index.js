@@ -20,19 +20,25 @@ import Header from "../../Wap/Share/Header";
 import SwipeToDelete from "react-swipe-to-delete-component";
 
 import i18n from "../../../utils/i18n";
-import BgProfilePNG from "../../../assets/images/wap/bg-profile.png";
+import BgProfilePNG from "../../../assets/images/wap/bg-profile2.jpg";
 const Container = styled.div`
   width: 100%;
   padding-top: 170px;
 `;
-const StyledAppBar = withStyles({
+const StyledAppBar = withStyles((theme) => ({
   root: {
     height: "170px",
-    background: `url(${BgProfilePNG}) no-repeat left top`,
+    background: theme.palette.primary.main,
+
+    background:
+      `linear-gradient(rgba(` +
+      theme.palette.primary.mainRgb +
+      `, 0.8), rgba(` +
+      theme.palette.primary.mainGradientRgb +
+      `, 0.8)), url(${BgProfilePNG})`,
     display: "block",
-    backgroundSize: "cover",
   },
-})(AppBar);
+}))(AppBar);
 const BalanceLabel = styled.div`
   font-size: 36px;
 
@@ -49,13 +55,13 @@ const CardItem = styled.div`
   border-radius: 16px;
   margin-left: 60px;
   padding: 0 0 0 44px;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
 `;
 const InfoLabel = styled.div`
   font-size: 18px;
   font-weight: 600;
 
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   float: right;
   margin: 15px 80px 0 0;
   background: url(${IconCardInfoPNG}) no-repeat left center;
@@ -88,7 +94,7 @@ const BankNumber = styled.div`
 const EmptyCardItem = styled.div`
   width: 632px;
   height: 170px;
-  border: 2px #404040 dashed;
+  border: 2px ${({ theme }) => theme.secondary} dashed;
   border-radius: 16px;
   margin: 30px auto 0 auto;
 `;
@@ -96,7 +102,7 @@ const EmptyCardTitle = styled.div`
   font-size: 24px;
   font-weight: 600;
   float: left;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   width: 450px;
 
   margin: 50px 0 0 45px;
@@ -104,7 +110,7 @@ const EmptyCardTitle = styled.div`
 const EmptyCardDesc = styled.div`
   font-size: 18px;
   float: left;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   width: 450px;
   margin: 5px 0 0 45px;
 `;

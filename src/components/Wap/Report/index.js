@@ -25,7 +25,7 @@ import zhLocale from "date-fns/locale/zh-CN";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
-import BgProfilePNG from "../../../assets/images/wap/bg-profile.png";
+import BgProfilePNG from "../../../assets/images/wap/bg-profile2.jpg";
 import i18n from "../../../utils/i18n";
 import Common from "../../../utils/Common";
 const moment = require("moment");
@@ -36,14 +36,20 @@ const Container = styled.div`
   width: 100%;
   padding-top: 230px;
 `;
-const StyledAppBar = withStyles({
+const StyledAppBar = withStyles((theme) => ({
   root: {
     height: "170px",
-    background: `url(${BgProfilePNG}) no-repeat left top`,
+    background: theme.palette.primary.main,
+
+    background:
+      `linear-gradient(rgba(` +
+      theme.palette.primary.mainRgb +
+      `, 0.8), rgba(` +
+      theme.palette.primary.mainGradientRgb +
+      `, 0.8)), url(${BgProfilePNG})`,
     display: "block",
-    backgroundSize: "cover",
   },
-})(AppBar);
+}))(AppBar);
 const BalanceLabel = styled.div`
   font-size: 36px;
 
@@ -69,13 +75,13 @@ const DateInner = styled.div`
 `;
 const DateLabel = styled.div`
   height: 40px;
-  border-left: 5px solid #c40511;
+  border-left: 5px solid ${({ theme }) => theme.primary};
   padding-left: 20px;
   padding-top: 5px;
   margin-left: 10px;
   font-size: 22px;
   font-weight: 600;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
 `;
 const DateRangContainer = styled.div`
   margin-top: 20px;
@@ -92,10 +98,14 @@ const DateRangSelection = styled.div`
   ${(props) =>
     props.selected
       ? `  
-  color: #c40511;`
+  color: ` +
+        props.theme.primary +
+        `;`
       : `
 
-  color: #404040;`}
+  color: ` +
+        props.theme.secondary +
+        `;`}
 `;
 const DataContent = styled.div`
   width: 690px;
@@ -114,7 +124,7 @@ const DataHeader = styled.div`
   margin: 0 auto;
 
   font-size: 26px;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   padding: 0 20px;
 `;
 const DataRowId = styled.div`

@@ -73,7 +73,7 @@ const NotSetLabel = styled.div`
   color: #afafaf;
 `;
 const SettedLabel = styled(NotSetLabel)`
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
 `;
 const BtnBack = styled.div`
   height: 100px;
