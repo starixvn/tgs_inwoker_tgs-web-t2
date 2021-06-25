@@ -43,7 +43,7 @@ export default function SlotSection(props) {
     top: 285px;
     left: 365px;
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
   `;
   const SlotGameContainer = styled.div`
     width: 880px;
@@ -52,7 +52,7 @@ export default function SlotSection(props) {
     top: 360px;
     left: 365px;
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
     overflow: visible;
   `;
   const GameIcon = styled.img`

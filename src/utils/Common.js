@@ -48,10 +48,11 @@ function getCDNLanguagePrefix() {
   return prefix;
 }
 function getLanguagePrefixFolder() {
-  var prefix = "en";
+  var prefix = "en-US";
   var arr = [
-    { lang: ["zh-CN", "zh-TW"], prefix: "cn" },
-    { lang: ["en-US"], prefix: "en" },
+    { lang: ["zh-CN"], prefix: "zh-CN" },
+    { lang: ["zh-TW"], prefix: "zh-TW" },
+    { lang: ["en-US"], prefix: "en-US" },
   ];
   for (var i = 0; i < arr.length; i++) {
     if (arr[i].lang.indexOf(i18n.language) >= 0) {

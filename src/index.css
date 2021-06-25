@@ -213,8 +213,7 @@ code {
   }
 
   body {
-    font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei", "微软雅黑",
-      STXihei, "华文细黑", sans-serif;
+
     background-color: #ECECEC;
     background-repeat: no-repeat;
     -webkit-text-size-adjust: 100%;
@@ -373,11 +372,6 @@ code {
 @media (min-width: 961px) {
   /* tablet, landscape iPad, lo-res laptops ands desktops */
 
-  body {
-    font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei", "微软雅黑",
-      STXihei, "华文细黑", sans-serif;
-
-  }
 
   html {
     -moz-text-size-adjust: inherit;

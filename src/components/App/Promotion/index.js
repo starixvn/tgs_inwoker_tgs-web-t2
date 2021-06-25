@@ -192,17 +192,17 @@ class Promotion extends Component {
   };
   componentDidMount() {
     if (this.props.account.token === null) {
-      this.props.getPromotionList();
+      this.props.getPromotionList(i18n.language);
     } else {
-      this.props.getPlayerPromotionList();
+      this.props.getPlayerPromotionList(i18n.language);
     }
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.account.token !== this.props.account.token) {
       if (this.props.account.token === null) {
-        this.props.getPromotionList();
+        this.props.getPromotionList(i18n.language);
       } else {
-        this.props.getPlayerPromotionList();
+        this.props.getPlayerPromotionList(i18n.language);
       }
     }
 
@@ -239,6 +239,11 @@ class Promotion extends Component {
       }
     }
   };
+  handlePromotionClick = (id, promotionType) => {
+    AppHistory.push({
+      pathname: "/" + i18n.language + "/promotion/" + id,
+    });
+  };
   render() {
     return (
       <Container>
@@ -267,7 +272,7 @@ class Promotion extends Component {
                         <LeftContent>
                           <Viewall
                             onClick={() =>
-                              this.handlejoinPromotionClick(
+                              this.handlePromotionClick(
                                 data.id,
                                 data.promotionType
                               )
@@ -278,11 +283,15 @@ class Promotion extends Component {
                                 : { backgroundColor: "#a27d38" }
                             }
                           >
-                            {i18n.t("promotion.joinPromo")}
+                            {i18n.t("promotion.details")}
                           </Viewall>
                         </LeftContent>
                         <RightContent>
-                          <PromoTitle>{data.name}</PromoTitle>
+                          <PromoTitle>
+                            {data.localization
+                              ? data.localization.name
+                              : data.name}
+                          </PromoTitle>
 
                           <PromoDate>
                             {moment(data.from).format("YYYY/MM/DD HH:mm:ss")}
@@ -340,10 +349,12 @@ const mapDispatchToProps = (dispatch) => {
     joinPromotion: (id) => {
       dispatch(generalAction.joinPromotion(id));
     },
-    getPromotionList: () =>
-      dispatch(generalAction.getPromotionList(1, 99, true, "", true)),
-    getPlayerPromotionList: () =>
-      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
+    getPromotionList: (language) =>
+      dispatch(generalAction.getPromotionList(language, 1, 99, true, "", true)),
+    getPlayerPromotionList: (language) =>
+      dispatch(
+        generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
+      ),
   };
 };
 export default withRouter(

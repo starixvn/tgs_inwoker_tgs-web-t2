@@ -199,7 +199,7 @@ class Login extends Component {
     // this.props.getInviteLink();
     this.props.getMessageList(1, 99);
     this.props.getBankCardList();
-    this.props.getPlayerPromotionList();
+    this.props.getPlayerPromotionList(i18n.language);
     this.props.getAccountInfo();
     if (this.state.rememberMe === true) {
       localStorage.setItem("remember", true);
@@ -625,8 +625,10 @@ const mapDispatchToProps = (dispatch) => {
     getMessageList: (pages, limit) =>
       dispatch(inboxAction.getMessages(pages, limit, true, true)),
     getBankCardList: () => dispatch(walletAction.getBankCardList()),
-    getPlayerPromotionList: () =>
-      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
+    getPlayerPromotionList: (language) =>
+      dispatch(
+        generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
+      ),
   };
 };
 export default connect(

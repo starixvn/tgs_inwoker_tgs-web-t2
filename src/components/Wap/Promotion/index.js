@@ -27,13 +27,13 @@ const Container = styled.div`
 const ListView = styled.div``;
 const ListItem = styled.div`
   background: url(${(props) => props.src}) no-repeat right top;
-  background-size: cover;
+  background-size: 100% 100%;
   position: relative;
 
   margin: 10px auto;
   border-radius: 10px;
   width: 690px;
-  height: 240px;
+  height: 280px;
 `;
 
 const ListItemTitle = styled.div`
@@ -78,9 +78,9 @@ class Promotion extends Component {
   };
   componentDidMount() {
     if (this.props.token === null || this.props.token === "") {
-      this.props.getPromotionList();
+      this.props.getPromotionList(i18n.language);
     } else {
-      this.props.getPlayerPromotionList();
+      this.props.getPlayerPromotionList(i18n.language);
     }
   }
 
@@ -135,15 +135,28 @@ class Promotion extends Component {
             </EmptyPromo>
           ) : (
             this.props.general.promotionList.items.map((row, index) => {
-              return (
-                <ListItem
-                  key={index}
-                  src={Common.GetPromoImg(index)}
-                  onClick={() => this.handlePromoClick(row.id)}
-                >
-                  <ListItemTitle>{row.name}</ListItemTitle>
-                </ListItem>
-              );
+              if (row.localization !== null) {
+                return (
+                  <ListItem
+                    key={index}
+                    src={
+                      row.localization.mobileBanner &&
+                      row.localization.mobileBanner !== null
+                        ? row.localization.mobileBanner
+                        : row.mobileBanner
+                    }
+                    onClick={() => this.handlePromoClick(row.id)}
+                  ></ListItem>
+                );
+              } else {
+                return (
+                  <ListItem
+                    key={index}
+                    src={row.mobileBanner}
+                    onClick={() => this.handlePromoClick(row.id)}
+                  ></ListItem>
+                );
+              }
             })
           )}
         </ListView>
@@ -162,10 +175,12 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPromotionList: () =>
-      dispatch(generalAction.getPromotionList(1, 99, true, "", true)),
-    getPlayerPromotionList: () =>
-      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
+    getPromotionList: (language) =>
+      dispatch(generalAction.getPromotionList(language, 1, 99, true, "", true)),
+    getPlayerPromotionList: (language) =>
+      dispatch(
+        generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
+      ),
   };
 };
 

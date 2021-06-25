@@ -110,6 +110,14 @@ document
 //   baseUrl = window.location.protocol + "//" + baseUrl + "/";
 //   Config.baseUrl = baseUrl;
 // }
+var fontFamily = "Tahoma, Helvetica, Arial, sans-serif";
+if (i18n.language === "zh-CN") {
+  fontFamily = "Microsoft Yahei, '微软雅黑', STXihei, '华文细黑'";
+} else if (i18n.language === "zh-TW") {
+  fontFamily = "Tahoma, Helvetica, Arial, sans-serif, '微軟正黑粗'";
+}
+document.getElementById("root").style.fontFamily = fontFamily;
+
 const muiThemeMode = themeList[Config.theme];
 const muiTheme = createMuiTheme({
   palette: {

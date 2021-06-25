@@ -28,7 +28,6 @@ import jsonUS from "../../../assets/translations/slot_en-US.json";
 import jsonCN from "../../../assets/translations/slot_zh-CN.json";
 import jsonTW from "../../../assets/translations/slot_zh-TW.json";
 import config from "../../../config/config";
-
 const Container = styled.div`
   width: 100%;
   overflow: hidden;
@@ -490,7 +489,7 @@ class Slot extends Component {
                       src={`${config.sourceUrl}${row.gpcode.toUpperCase()}${
                         this.state.type === GameTypeEnum.FISH
                           ? `/${i18n.language}`
-                          : this.state.platform === "JDB"
+                          : row.gpcode === "JDB" || row.gpcode === "SW"
                           ? `/${Common.getCDNLanguagePrefix()}`
                           : ``
                       }/${row.code.replace(/_/g, "")}.jpg`}

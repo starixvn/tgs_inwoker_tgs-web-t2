@@ -108,7 +108,6 @@ const GameSlideContainer = styled.div`
   overflow: visible;
 `;
 const ImageContainer = styled.div`
-  width: 425px;
   height: 450px;
   background: url(${(props) => props.img}) no-repeat;
   background-size: contain;
@@ -196,25 +195,26 @@ class LiveGame extends Component {
       subMenu: null,
       isSelected: false,
       hide: true,
-
+      length: this.props.game.homePageGameList.filter((item) => {
+        return item.type === GameTypeEnum.LIVE;
+      }).length,
       slideIndex: 0,
     };
   }
   componentDidMount() {}
   componentDidUpdate(preProps, preStates) {
-    // if (
-    //   preProps.game.homePageGameList.length !==
-    //   this.props.game.homePageGameList.length
-    // ) {
-    //   var liveList = this.props.game.homePageGameList.filter((item) => {
-    //     return item.type === GameTypeEnum.LIVE;
-    //   });
-    //   this.setState({
-    //     ...this.state,
-    //     selected: liveList[0],
-    //     list: liveList,
-    //   });
-    // }
+    if (
+      preProps.game.homePageGameList.length !==
+      this.props.game.homePageGameList.length
+    ) {
+      var liveList = this.props.game.homePageGameList.filter((item) => {
+        return item.type === GameTypeEnum.LIVE;
+      });
+      this.setState({
+        ...this.state,
+        length: liveList.length,
+      });
+    }
   }
   triggerSetSelected = (bool) => {
     this.setState({
@@ -285,10 +285,10 @@ class LiveGame extends Component {
               return item.type === GameTypeEnum.LIVE;
             })
             .map((data, index) => {
-              console.log(data);
               return (
                 <ImageContainer
                   key={index}
+                  style={{ width: "calc(1280px / " + this.state.length + ")" }}
                   img={
                     process.env.PUBLIC_URL +
                     "/assets/images/pcGamePage/live/left/" +
@@ -307,7 +307,12 @@ class LiveGame extends Component {
               })
               .map((data, index) => {
                 return (
-                  <ButtonContainer key={index}>
+                  <ButtonContainer
+                    key={index}
+                    style={{
+                      width: "calc(1280px / " + this.state.length + ")",
+                    }}
+                  >
                     <ButtonJoin
                       active={this.state.slideIndex === index}
                       onClick={() =>

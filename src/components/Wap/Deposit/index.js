@@ -207,8 +207,8 @@ class Deposit extends Component {
 
   componentDidMount() {
     if (this.props.token != null) {
-      this.props.getDepositMethod();
-      this.props.getPlayerPromotionList();
+      this.props.getDepositMethod(i18n.language);
+      this.props.getPlayerPromotionList(i18n.language);
     } else {
       AppHistory.replace("/" + i18n.language + "/");
     }
@@ -839,8 +839,10 @@ const mapDispatchToProps = (dispatch) => {
           transname
         )
       ),
-    getPlayerPromotionList: () =>
-      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
+    getPlayerPromotionList: (language) =>
+      dispatch(
+        generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
+      ),
     doManualDeposit: (amount, account, paymentid, promotionid) =>
       dispatch(
         walletAction.doManualDeposit(amount, account, paymentid, promotionid)

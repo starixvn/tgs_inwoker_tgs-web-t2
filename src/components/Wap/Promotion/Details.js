@@ -19,7 +19,7 @@ const PromoDetailImage = styled.div`
   width: 750px;
   height: 304px;
   background: url(${(props) => props.img}) no-repeat;
-  background-size: contain;
+  background-size: 100% 100%;
   position: relative;
   margin-bottom: 20px;
 `;
@@ -47,7 +47,9 @@ const EventText = styled.div`
   line-height: 26px;
   margin-bottom: 20px;
 `;
-
+const PromoDesc = styled.div`
+  font-size: 22px;
+`;
 class Details extends Component {
   constructor(props) {
     super(props);
@@ -149,9 +151,29 @@ class Details extends Component {
           onBackClick={this.handleBackClick}
           title={i18n.t("promotion.promoDetail")}
         ></Header>
-        <PromoDetailImage img={Common.GetPromoImg(this.state.index)}>
-          <PromoImgTitle>{this.state.details.name}</PromoImgTitle>
-        </PromoDetailImage>
+        {(() => {
+          if (this.state.details.localization !== null) {
+            return (
+              <PromoDetailImage
+                img={
+                  this.state.details.localization.mobileBanner &&
+                  this.state.details.localization.mobileBanner !== null
+                    ? this.state.details.localization.mobileBanner
+                    : this.state.details.mobileBanner
+                }
+                onClick={() => this.handlePromoClick(this.state.details.id)}
+              ></PromoDetailImage>
+            );
+          } else {
+            return (
+              <PromoDetailImage
+                img={this.state.details.mobileBanner}
+                onClick={() => this.handlePromoClick(this.state.details.id)}
+              ></PromoDetailImage>
+            );
+          }
+        })()}
+
         <Content>
           <EventTitle>【{i18n.t("promotion.promoDetail")}】</EventTitle>
           <EventText>
@@ -173,6 +195,24 @@ class Details extends Component {
             {" - "}
             {moment(this.state.details.to).format("YYYY/MM/DD HH:mm:ss")}
           </EventText>
+          <PromoDesc
+            dangerouslySetInnerHTML={{
+              __html:
+                "<div>" +
+                (() => {
+                  if (
+                    this.state.details.localization !== null &&
+                    this.state.details.localization.content &&
+                    this.state.details.localization.content !== null
+                  ) {
+                    return this.state.details.localization.content;
+                  } else {
+                    return this.state.details.content;
+                  }
+                })() +
+                "</div>",
+            }}
+          ></PromoDesc>
         </Content>
         <Button
           style={{ margin: "40px auto 0 auto" }}

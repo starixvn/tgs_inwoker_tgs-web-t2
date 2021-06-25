@@ -513,8 +513,10 @@ const mapDispatchToProps = (dispatch) => {
     getInviteLink: () => dispatch(accountAction.getInviteLink()),
     getMessageList: (pages, limit) =>
       dispatch(inboxAction.getMessages(pages, limit, true, true)),
-    getPlayerPromotionList: () =>
-      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
+    getPlayerPromotionList: (language) =>
+      dispatch(
+        generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
+      ),
   };
 };
 const mapStateToProps = (state) => {

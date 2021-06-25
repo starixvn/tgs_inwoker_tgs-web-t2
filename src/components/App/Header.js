@@ -228,7 +228,7 @@ const MouseOverContainer = styled.div`
 `;
 const MouseOverBackground = styled.div`
   width: 100%;
-  box-shadow: 4.5px 7.8px 13px 0 rgba(0, 0, 0, 0.75);
+
   background-color: rgba(0, 0, 0, 0.75);
   height: 160px;
   position: absolute;
