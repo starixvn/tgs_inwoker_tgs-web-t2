@@ -69,7 +69,7 @@ export default function Recommend(props) {
   `;
   const RecommendText = styled.div`
     color: #8a7f73;
-    font-size: 18px;
+    font-size: 16px;
     position: absolute;
     left: 220px;
     top: 60px;
