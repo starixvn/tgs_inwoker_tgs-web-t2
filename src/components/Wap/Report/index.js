@@ -751,7 +751,7 @@ class Report extends Component {
                   autoOk
                   clearable
                   disableFuture
-                  maxDate={new Date()}
+                  maxDate={new Date(this.state.dateTo)}
                   format="yyyy/MM/dd"
                   value={this.state.dateFrom}
                   onChange={this.handleDateFromChange}
@@ -771,6 +771,7 @@ class Report extends Component {
                   autoOk
                   clearable
                   disableFuture
+                  minDate={new Date(this.state.dateFrom)}
                   maxDate={new Date()}
                   format="yyyy/MM/dd"
                   value={this.state.dateTo}

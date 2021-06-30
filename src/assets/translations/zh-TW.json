@@ -109,9 +109,9 @@
     "withdrawalNumber":"銀行卡號碼/加密貨幣地址",
     "msgEnterWithdrawalNumber":"請輸入銀行卡號碼/加密貨幣地址",
     "msgEmailExist":"電子郵件地址已存在",
-    "msgRequiredTurnover":"您的投注流水不足，無法提款。如有問題，請聯繫客服。",
+    "msgRequiredTurnover":"您的投注流水不足，無法提款。 如有問題，請聯繫客服。",
     "msgInvalidUsername":"帳號或密碼錯誤",
-    "msgInvalidWithdrawalPassword":"提款密码不正确"
+    "msgInvalidWithdrawalPassword":"提款密碼不正確"
   },
   "affiliate": {
     "title": "推廣賺錢",
@@ -652,8 +652,7 @@
       "footerDesc": "本網站採用Global Trust 最先進的128/256 bit SSL服務",
       "controlTitle": "責任博彩",
       "controlDesc": "您已設定自我控制，賬戶將在",
-      "controlText": "後解鎖",      
-      
+      "controlText": "後解鎖",
       "errorMsg": {
         "emptyUsername": "用戶名不能為空",
         "emptyPassword": "密碼不能為空"
@@ -729,9 +728,11 @@
   "BankTransfer":"銀行轉賬",
   "CustomBank":"自定銀行",
   "VR":{
-    "desc":"VR獎源一直以“公正、安全、快速、精準”處於行業領先地位，擁有人工智能的全方位系統主流彩種應有盡有，主要分為「VR視訊彩」、「VR品牌彩票」等。亦在積極開發「VR電子」系列遊戲，立志給予客戶更多樣化的選擇。 VR將持續創造進步，為大眾推出更多的新彩種，創造一個全方位的娛樂環境。"
+    "lottery":"VR彩票",
+    "desc":"VR獎源一直以“公正、安全、快速、精準”處於行業領先地位，擁有人工智能的全方位系統主流彩種應有盡有，主要分為「VR視訊彩」、「VR品牌彩票」等。亦在積極開發「VR電子」系列遊戲，立志給予客戶更多樣化的選擇。 VR將持續創造進步，為大眾推出更多的新彩種，創造一個全方位的娛樂環境。 "
   },
   "KY":{
+    "chess":"開元棋牌",
     "desc":"搶莊牛牛龍虎鬥，多款棋牌任君選！棋牌彰顯胸懷，競技娛樂燒腦，好友相約競技，遊戲改變生活",
     "BankerNiuNiu":"搶莊牛牛",
     "GoldenFlower":"炸金花",
@@ -755,12 +756,41 @@
     "platform":"引領市場的卓越技術，自主研發了全套終端應用，讓您暢享Web、H5，更有iOS、Android原生APP，讓您隨時隨地，娛樂投注! 7x24小時在線客服提供最貼心，最優質的服務"
   },
   "AG":{
-    "name":"AG真人"
+    "name":"AG真人",
+    "live":"AG真人"
   },
   "BG":{
-    "name":"BG真人"
+    "name":"BG真人",
+    "live":"BG真人"
   },
   "SG":{
-    "name":"Sexy真人"
+    "name":"Sexy真人",
+    "live":"Sexy真人"
+  },
+  "SW":{
+    "live":"SW真人",
+    "slots":"SW老虎機",
+    "electron":"SW電子"
+  },
+  "SBO":{
+    "sports":"SBO體育"
+  },
+  "IMES":{
+    "sports":"IM電競"
+  },
+  "SABA":{
+    "sports":"沙巴體育"
+  },
+  "HABA":{
+    "slots":"HABANERO",
+    "electron":"HABANERO"
+  },
+  "JDB":{
+    "slots":"JDB",
+    "fish":"JDB捕魚"
+  },
+  "PP":{
+    "slots":"PP老虎機",
+    "electron":"PP電子"
   }
 }

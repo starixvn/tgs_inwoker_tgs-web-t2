@@ -727,9 +727,11 @@
   "BankTransfer":"Bank Transfer",
   "CustomBank":"Custom Bank",
   "VR":{
+    "lottery":"VR",
     "desc":"VR Lottery has always been in the leading position in the industry with \"fairness, safety, fast and accuracy\", and has an all-round system of artificial intelligence. We have all kinds of mainstream lottery here, mainly divided into \"VR Live streaming lottery\" and \"VR lottery\". We are also developing the \"VR Electronic\" series of games, determined to give customers more diversified choices.    VR will continue to create and progress, in order to introduce more new kind lottery for the public, and create an all-round entertainment environment."
   },
   "KY":{
+    "chess":"KaiYuan",
     "desc":"No 1 card game. Bull bull,blackjack,poker,dragon tiger and other real playercard game",
     "BankerNiuNiu":"Niu-Niu",
     "GoldenFlower":"Gloden Flower",
@@ -753,12 +755,41 @@
     "platform":"No matter where you are, you can win your fortune and have fun at anytime, with any devices! We are available on apps for both Android and iOS devices, and also as a web-based platform. Take advantage of chances to win BIG with us today!"
   },
   "AG":{
-    "name":"Asian gaming"
+    "name":"Asia Gaming",
+    "live":"Asia Gaming"
   },
   "BG":{
-    "name":"Big Gaming"
+    "name":"Big Gaming",
+    "live":"Big Gaming"
   },
   "SG":{
-    "name":"Sexy Gaming"
+    "name":"Sexy Gaming",
+    "live":"Sexy Gaming"
+  },
+  "SW":{
+    "live":"Skywind",
+    "slots":"Skywind",
+    "electron":"Skywind"
+  },
+  "SBO":{
+    "sports":"SBO"
+  },
+  "IMES":{
+    "sports":"IM"
+  },
+  "SABA":{
+    "sports":"SABA"
+  },
+  "HABA":{
+    "slots":"Habanero",
+    "electron":"Habanero"
+  },
+  "JDB":{
+    "slots":"JDB",
+    "fish":"JDB"
+  },
+  "PP":{
+    "slots":"Pragmatic Play",
+    "electron":"Pragmatic Play"
   }
 }

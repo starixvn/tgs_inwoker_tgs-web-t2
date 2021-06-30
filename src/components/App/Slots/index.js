@@ -429,13 +429,17 @@ class Slots extends Component {
     var result = GameService.GetGameList(platform, type);
     result.then((response) => {
       if (response.IsSuccess) {
+        var data = response.data.map((game) => {
+          game.name = this.language[game.code] || game.name;
+          return game;
+        });
         if (page === 1) {
           this.setState({
             ...this.state,
             page: page,
             platform: platform,
             type: type,
-            gameList: response.data,
+            gameList: data,
             loading: false,
           });
         } else {
@@ -444,7 +448,7 @@ class Slots extends Component {
             page: page,
             platform: platform,
             type: type,
-            gameList: this.state.gameList.concat(response.data),
+            gameList: this.state.gameList.concat(data),
             loading: false,
           });
         }
@@ -643,7 +647,7 @@ class Slots extends Component {
             >
               GO
             </GameHoverSelection>
-            <Namecontainer>{this.language[el.code] || el.name}</Namecontainer>
+            <Namecontainer>{el.name}</Namecontainer>
           </ItemContainer>
         ));
     }

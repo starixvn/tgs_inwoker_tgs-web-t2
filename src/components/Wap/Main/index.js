@@ -246,14 +246,12 @@ class Main extends Component {
                 </MenuLabel>
               </Menuitem>
 
-              <Menuitem onClick={() => this.handleChangeSelection("/report/1")}>
+              <Menuitem onClick={() => this.handleChangeSelection("/report/2")}>
                 <MenuImage img={IconMenuReportPNG}></MenuImage>
-                <MenuLabel>
-                  {i18n.t("wap.main.menuDrawer.transReport")}
-                </MenuLabel>
+                <MenuLabel>{i18n.t("wap.main.account.betReport")}</MenuLabel>
               </Menuitem>
 
-              <Menuitem onClick={() => this.handleChangeSelection("/report/2")}>
+              {/* <Menuitem onClick={() => this.handleChangeSelection("/report/2")}>
                 <MenuImage img={IconMenuReport2PNG}></MenuImage>
                 <MenuLabel>{i18n.t("wap.main.menuDrawer.betReport")}</MenuLabel>
               </Menuitem>
@@ -269,7 +267,7 @@ class Main extends Component {
                 <MenuLabel>
                   {i18n.t("wap.main.menuDrawer.depositReport")}
                 </MenuLabel>
-              </Menuitem>
+              </Menuitem> */}
               <Menuitem onClick={() => this.handleChangeSelection("/card")}>
                 <MenuImage img={IconMenuCardPNG}></MenuImage>
                 <MenuLabel>{i18n.t("wap.main.menuDrawer.bankCard")}</MenuLabel>

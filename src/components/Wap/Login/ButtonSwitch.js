@@ -19,15 +19,15 @@ const Container = styled.div`
 `;
 
 const SwitchContainer = styled.div`
-
-
   width: 319px;
   height: 81px;
 
   border: solid 1px #ffffff;
-  background-image: linear-gradient(to top, ${({ theme }) =>
-    theme.primaryGradient},
-      ${({ theme }) => theme.primary}));
+  background-image: linear-gradient(
+    to top,
+    ${({ theme }) => theme.primaryGradient},
+    ${({ theme }) => theme.primary}
+  );
 `;
 
 const SwitchTextContainerComponent = styled.div`

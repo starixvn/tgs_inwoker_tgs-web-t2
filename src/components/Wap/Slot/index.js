@@ -270,15 +270,19 @@ class Slot extends Component {
     result.then((response) => {
       this.setState({ ...this.state, loading: false });
       if (response.IsSuccess) {
+        var data = response.data.map((game) => {
+          game.name = this.language[game.code] || game.name;
+          return game;
+        });
         if (page === 1) {
           this.setState({
             ...this.state,
-            gameList: response.data,
+            gameList: data,
           });
         } else {
           this.setState({
             ...this.state,
-            gameList: this.state.gameList.concat(response.data),
+            gameList: this.state.gameList.concat(data),
           });
         }
       } else {
@@ -499,7 +503,7 @@ class Slot extends Component {
                     <ListitemLabelBackground></ListitemLabelBackground>
                     <LeftContainer>
                       <GameProvider>{row.gpcode}</GameProvider>
-                      <GameName>{this.language[row.code] || row.name}</GameName>
+                      <GameName>{row.name}</GameName>
                     </LeftContainer>
 
                     {/* <Bookmark
