@@ -111,7 +111,8 @@
     "msgEmailExist":"Email address already exists",
     "msgRequiredTurnover":"Withdrawal unavailable. Please make sure you meet the wagering requirements, or contact Customer Service for further information.",
     "msgInvalidUsername":"Invalid username/ password.",
-    "msgInvalidWithdrawalPassword":"Invalid withdrawal password"
+    "msgInvalidWithdrawalPassword":"Invalid withdrawal password",
+    "msgRequestFailed" : "Request failed, please contact Customer Service for further information."
   },
   "affiliate": {
     "title": "Promote",

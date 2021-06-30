@@ -230,6 +230,8 @@ class Deposit extends Component {
       } else {
         if (this.props.wallet.depositResult.code === 407) {
           this.props.alert("", i18n.t("deposit.msgFailedJoinPromotion"));
+        } else if (this.props.wallet.depositResult.code === 900) {
+          this.props.alert("", i18n.t("common.msgRequestFailed"));
         } else {
           this.props.alert("", this.props.wallet.depositResult.info);
         }

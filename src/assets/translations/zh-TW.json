@@ -111,7 +111,8 @@
     "msgEmailExist":"電子郵件地址已存在",
     "msgRequiredTurnover":"您的投注流水不足，無法提款。 如有問題，請聯繫客服。",
     "msgInvalidUsername":"帳號或密碼錯誤",
-    "msgInvalidWithdrawalPassword":"提款密碼不正確"
+    "msgInvalidWithdrawalPassword":"提款密碼不正確",
+    "msgRequestFailed" : "請求失敗，請聯繫客服"
   },
   "affiliate": {
     "title": "推廣賺錢",

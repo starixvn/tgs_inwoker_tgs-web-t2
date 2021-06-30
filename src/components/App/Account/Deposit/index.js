@@ -167,6 +167,10 @@ class Deposit extends Component {
           this.props.enqueueSnackbar(i18n.t("deposit.msgFailedJoinPromotion"), {
             variant: "error",
           });
+        } else if (this.props.wallet.depositResult.code === 900) {
+          this.props.enqueueSnackbar(i18n.t("common.msgRequestFailed"), {
+            variant: "error",
+          });
         } else {
           this.props.enqueueSnackbar(this.props.wallet.depositResult.info, {
             variant: "error",
