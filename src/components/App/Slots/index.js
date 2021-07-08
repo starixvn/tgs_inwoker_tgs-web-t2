@@ -629,9 +629,7 @@ class Slots extends Component {
             img={`${config.sourceUrl}${el.gpcode.toUpperCase()}${
               this.state.type === GameTypeEnum.FISH
                 ? `/${i18n.language}`
-                : el.gpcode === "JDB" || el.gpcode === "SW"
-                ? `/${Common.getCDNLanguagePrefix()}`
-                : ``
+                : `/${Common.getCDNLanguagePrefix()}`
             }/${el.code.replace(/_/g, "")}.jpg`}
           >
             <GameDesc>

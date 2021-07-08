@@ -493,9 +493,7 @@ class Slot extends Component {
                       src={`${config.sourceUrl}${row.gpcode.toUpperCase()}${
                         this.state.type === GameTypeEnum.FISH
                           ? `/${i18n.language}`
-                          : row.gpcode === "JDB" || row.gpcode === "SW"
-                          ? `/${Common.getCDNLanguagePrefix()}`
-                          : ``
+                          : `/${Common.getCDNLanguagePrefix()}`
                       }/${row.code.replace(/_/g, "")}.jpg`}
                       style={{ borderRadius: "20px 20px 0 0" }}
                       onClick={() => this.handleGameClick(row.gpcode, row.id)}

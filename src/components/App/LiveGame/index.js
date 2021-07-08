@@ -2,206 +2,67 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
 
-import LiveBgNewJPG from "../../../assets/images/live/live-bg-new.png";
-
 import i18n from "../../../utils/i18n";
 
-import { SHOW_LOGIN, GameTypeEnum } from "@Inwoker/tgs-api";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import ImgBtnPng from "../../../assets/images/live-btn.png";
-import BtnBackGround from "../../../assets/images/live-btn-bg.png";
-import LiveDice from "../../../assets/images/live-dice.png";
-
-import CommonMarquee from "../CommonMarquee";
-
-export const moveFromLeftIcon = keyframes`
-  from {
-    -webkit-transform: translateX(-320%); }
-  to {
-    -webkit-transform: translateX(0%); }
-`;
-
-export const floatKeyframe = keyframes`
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-`;
-
+import { SHOW_LOGIN, GameEnum, GameTypeEnum } from "@Inwoker/tgs-api";
+import ScrollAnimation from "react-animate-on-scroll";
 const Container = styled.div`
   width: 100%;
-  height: 700px;
+  height: auto;
+  min-height: 870px;
+  padding: 70px 0px;
   position: relative;
-  background: url(${LiveBgNewJPG}) no-repeat center;
-  background-size: auto 100%;
-`;
-
-const ButtonIcon = styled.div`
-  background: url(${(props) =>
-      `${
-        process.env.PUBLIC_URL
-      }/assets/images/pcGamePage/live/right/${props.abbreviation.toLowerCase()}.png`})
+  background: url(${process.env
+      .PUBLIC_URL}/assets/images/pcGamePage/live/background.jpg)
     no-repeat center;
-  width: 100px;
-  height: 75px;
-  background-size: contain;
-  position: absolute;
-  left: 68px;
-  top: 70px;
-  &:hover {
-    transition: transform 0.8s;
-    transform: rotateY(360deg);
-  }
 `;
-const ButtonContainer = styled.div`
-  width: 425px;
-  height: 200px;
-  float: left;
-  overflow: visible;
-`;
-const ButtonDecoration = styled.img`
-  position: absolute;
-  width: 400px !important;
-  position: absolute;
-  top: -60px;
-  left: -100px;
-  animation: ${floatKeyframe} 3s linear 0s infinite;
-  display: none;
-  z-index: 21;
-`;
-const ButtonJoin = styled.div`
-  position: relative;
-  background: url(${ImgBtnPng}) no-repeat center;
-  width: 236px;
-  height: 200px;
-  width: 236px;
-  margin: 0 auto;
-  overflow: visible;
-  transition: transform 0.3s ease-in, filter 0.3s ease-in;
 
-  filter: grayscale(100%);
-  transform: scale(0.65);
-
-  &:hover {
-    ${ButtonDecoration} {
-      display: block;
-    }
-    filter: grayscale(0%);
-
-    cursor: pointer;
-
-    transform: scale(0.8);
-  }
-`;
-const CarouselContainer = styled(Carousel)`
-  background: none;
-  height: 650px;
-  overflow: visible;
-`;
-const GameSlideContainer = styled.div`
-  margin: 0 auto;
-  width: 1280px;
-  height: 650px;
-  overflow: visible;
-`;
-const ImageContainer = styled.div`
-  height: 450px;
+const GirlImage = styled.div`
   background: url(${(props) => props.img}) no-repeat;
-  background-size: contain;
-  background-position: center bottom;
-  cursor: pointer;
+  width: 308px;
+  height: 172px;
   float: left;
-  overflow: visible;
-`;
-const SportSlideImage = styled.img`
-  cursor: pointer;
-  width: 270px;
-
-  transition: all 0.5s linear;
-
-  ${(props) =>
-    props.active
-      ? `
-      filter: grayscale(0%);
-      transition: transform 0.5s ease-in,filter 0.5s ease-in;
-      z-index: 5;
-    `
-      : `
-      filter: grayscale(100%);
-    `}
-`;
-
-const ButtonBg = styled.div`
-  margin: 0 auto;
-  width: 1280px;
-  height: 200px;
-  background: url(${BtnBackGround}) no-repeat center top;
-  overflow: visible;
-  background-size: contain;
-  transform: translateY(-25px);
-`;
-const ArrowButton = styled.a`
-  margin-left: calc(50%);
-  opacity: 0.7;
-  background-color: #86858247;
-  height: 225px;
-  width: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ArrowContainer = styled.div`
-  position: absolute;
-  z-index: 2;
-  top: 0 !important;
-  height: 590px;
-  width: 9.5%;
-
-  display: flex;
-  align-items: center;
-  cursor: pointer;
   &:hover {
-    ${ArrowButton} {
-      opacity: 1;
-    }
+    cursor: pointer;
   }
 `;
-
-const LeftArrowButton = styled(ArrowButton)``;
-
-const RightArrowButton = styled(ArrowButton)``;
-
-const LeftArrowContainer = styled(ArrowContainer)`
-  left: 0;
-  display: flex;
+const LeftSlide = styled(ScrollAnimation)`
+  position: absolute;
+  right: 50%;
+  margin-right: -440px;
+  top: 400px;
+  width: 1053px;
 `;
-
-const RightArrowContainer = styled(ArrowContainer)`
-  right: 0;
-`;
-
-const ArrowIcon = styled.img`
-  width: 20px !important;
+const RightSlide = styled(ScrollAnimation)`
+  position: absolute;
+  left: 50%;
+  top: 600px;
+  margin-left: -440px;
+  width: 1053px;
 `;
 class LiveGame extends Component {
   constructor(props) {
     super(props);
 
+    var liveList = props.game.homePageGameList.filter((item) => {
+      return item.type === GameTypeEnum.LIVELOBBY;
+    });
+
     this.state = {
+      selected: liveList[0],
       subMenu: null,
       isSelected: false,
       hide: true,
-      length: this.props.game.homePageGameList.filter((item) => {
-        return item.type === GameTypeEnum.LIVE;
-      }).length,
-      slideIndex: 0,
+      list: liveList,
     };
   }
-  componentDidMount() {}
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        hide: false,
+      });
+    }, 1000);
+  }
   componentDidUpdate(preProps, preStates) {
     if (
       preProps.game.homePageGameList.length !==
@@ -210,9 +71,11 @@ class LiveGame extends Component {
       var liveList = this.props.game.homePageGameList.filter((item) => {
         return item.type === GameTypeEnum.LIVE;
       });
+
       this.setState({
         ...this.state,
-        length: liveList.length,
+        selected: liveList[0],
+        list: liveList,
       });
     }
   }
@@ -246,87 +109,59 @@ class LiveGame extends Component {
       selected: game,
     });
   };
-  getConfigurableProps = (listSize) => ({
-    showArrows: true,
-    showStatus: false,
-    showIndicators: false,
-    infiniteLoop: false,
-    showThumbs: false,
-    autoPlay: false,
-    stopOnHover: true,
-    dynamicHeight: false,
-    emulateTouch: false,
-    autoFocus: false,
-    thumbWidth: false,
-    selectedItem: false,
-    transitionTime: 500,
-    centerMode: true,
-    swipeScrollTolerance: 5,
-    centerSlidePercentage: listSize > 4 ? 100 / 5 : 100 / listSize,
-    onClickItem: (index) => {
-      this.setState({
-        slideIndex: index,
-      });
-    },
-    onChange: (index) => {
-      this.setState({
-        slideIndex: index,
-      });
-    },
-  });
 
   render() {
     return (
       <Container>
-        <CommonMarquee></CommonMarquee>
-        <GameSlideContainer>
-          {this.props.game.homePageGameList
-            .filter((item) => {
-              return item.type === GameTypeEnum.LIVE;
-            })
-            .map((data, index) => {
+        <LeftSlide
+          animateIn="fadeInLeft"
+          duration={1}
+          animateOnce={true}
+          style={{ overflow: "visible" }}
+        >
+          {this.state.list.map((item, index) => {
+            if (index < 3) {
               return (
-                <ImageContainer
-                  key={index}
-                  style={{ width: "calc(1280px / " + this.state.length + ")" }}
+                <GirlImage
                   img={
                     process.env.PUBLIC_URL +
-                    "/assets/images/pcGamePage/live/left/" +
-                    data.abbreviation.toLowerCase() +
+                    "/assets/images/pcGamePage/live/" +
+                    item.abbreviation.toLowerCase() +
                     ".png"
                   }
-                  active={this.state.slideIndex === index}
-                ></ImageContainer>
+                  onClick={() => {
+                    this.handleJoinGameClick(item.abbreviation);
+                  }}
+                />
               );
-            })}
-          <div style={{ clear: "both" }}></div>
-          <ButtonBg>
-            {this.props.game.homePageGameList
-              .filter((item) => {
-                return item.type === GameTypeEnum.LIVE;
-              })
-              .map((data, index) => {
-                return (
-                  <ButtonContainer
-                    key={index}
-                    style={{
-                      width: "calc(1280px / " + this.state.length + ")",
-                    }}
-                  >
-                    <ButtonJoin
-                      active={this.state.slideIndex === index}
-                      onClick={() =>
-                        this.handleJoinGameClick(data.abbreviation)
-                      }
-                    >
-                      <ButtonDecoration src={LiveDice}></ButtonDecoration>
-                      <ButtonIcon abbreviation={data.abbreviation}></ButtonIcon>
-                    </ButtonJoin>
-                  </ButtonContainer>
-                );
-              })}
-          </ButtonBg>
-        </GameSlideContainer>
+            }
+          })}
+        </LeftSlide>
+        <RightSlide
+          animateIn="fadeInRight"
+          duration={1}
+          animateOnce={true}
+          style={{ overflow: "visible" }}
+        >
+          {this.state.list.map((item, index) => {
+            if (index >= 3) {
+              return (
+                <GirlImage
+                  style={{ float: "right" }}
+                  img={
+                    process.env.PUBLIC_URL +
+                    "/assets/images/pcGamePage/live/" +
+                    item.abbreviation.toLowerCase() +
+                    ".png"
+                  }
+                  onClick={() => {
+                    this.handleJoinGameClick(item.abbreviation);
+                  }}
+                />
+              );
+            }
+          })}
+        </RightSlide>
       </Container>
     );
   }
