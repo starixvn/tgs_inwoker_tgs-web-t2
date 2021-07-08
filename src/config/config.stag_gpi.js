@@ -2,7 +2,7 @@ module.exports = {
   baseUrl: "https://operator.tgsstg.gq/api/",
   client: "I7nKiimrZQOqnJ6ryjUw74c0Hi64KC6Myunhob4cHh8VOUIuZh4p63czefxyyzbZ",
   currency: "CNY",
-  brand: "BIN",
+  brand: "GPI",
   languages: [
     { name: "zh-CN", label: "简体" },
     { name: "zh-TW", label: "繁體" },
