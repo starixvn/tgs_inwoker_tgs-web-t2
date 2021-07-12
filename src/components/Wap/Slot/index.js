@@ -271,7 +271,10 @@ class Slot extends Component {
       this.setState({ ...this.state, loading: false });
       if (response.IsSuccess) {
         var data = response.data.map((game) => {
-          game.name = this.language[game.code] || game.name;
+          if (game.gpcode !== "PP" && game.gpcode !== "SW") {
+            game.name = this.language[game.code] || game.name;
+          }
+
           return game;
         });
         if (page === 1) {
