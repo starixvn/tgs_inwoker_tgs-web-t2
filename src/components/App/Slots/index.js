@@ -247,19 +247,18 @@ const ButtonMore = styled.div`
 `;
 
 const GameHoverSelection = styled.div`
-width:165px
-height:148px
-position:absolute;
-left:0;
-top:0;
-display:none;
-background-color:rgba(0,0,0,0.7);
-z-index: 2;
-color: #fff;
-font-size: 65px;
-text-align: center;
-padding-top: 32px;
-
+  width: 165px;
+  height: 182px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 2;
+  color: #fff;
+  font-size: 65px;
+  text-align: center;
+  padding-top: 46px;
 `;
 const ItemContainer = styled.div`
   width: 165px;
@@ -278,8 +277,9 @@ const ItemContainer = styled.div`
   background-image:url(` +
     props.img +
     `)`};
-  background-size: cover;
+  background-size: auto 160px;
   background-repeat: no-repeat;
+  background-position: center top;
 `;
 const GameDesc = styled.div`
   padding-left: 10px;
@@ -303,7 +303,7 @@ const Namecontainer = styled.div`
   font-size: 14px;
   padding: 10px 0 0 10px;
   box-sizing: border-box;
-  margin-top: 107px;
+  margin-top: 140px;
   float: left;
   white-space: nowrap;
   overflow: hidden;
