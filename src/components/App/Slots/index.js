@@ -305,6 +305,9 @@ const Namecontainer = styled.div`
   box-sizing: border-box;
   margin-top: 107px;
   float: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 const GameProvider = styled.div`
   float: left;
