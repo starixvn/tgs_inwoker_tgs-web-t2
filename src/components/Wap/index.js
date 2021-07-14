@@ -23,6 +23,7 @@ import Loading from "./Share/Loading";
 
 import Main from "./Main/index";
 import {Wapp, setConfigApi} from "@Inwoker/tgs-wap-t1";
+import config from "../../config/config";
 import Login from "./Login/index";
 import Slot from "./Slot/index";
 import Profile from "./Profile/index";
@@ -491,7 +492,7 @@ class Wap extends Component {
     this.props.updateScreenSize(w, h, scale);
   };
   async componentDidMount() {
-    setConfigApi();
+    setConfigApi(config);
     Common.loadScript("/js/config.js", () => {
       Common.loadScript("/js/iovation.js", () => {});
     });
