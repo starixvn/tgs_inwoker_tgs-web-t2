@@ -447,19 +447,17 @@
     "OrderNumber": "訂單號",
     "depositChannel": "付款方式",
     "withdrawal": {
-      "bankCard": "銀行卡",
-      "withdrawalStatus0": "預訂單失敗",
-      "withdrawalStatus1": "預訂單",
-      "withdrawalStatus2": "待審批",
-      "withdrawalStatus3": "已審批",
-      "withdrawalStatus4": "不通過",
-      "withdrawalStatus5": "已取消"
+      "bankCard": "银行卡",
+      "status1": "等待付款",
+      "status2": "審批中",
+      "status3": "已通過",
+      "status4": "已拒絕"
     },
     "deposit": {
-      "status1": "待審批",
-      "status2": "已審批",
-      "status3": "不通過",
-      "status4": "已取消"
+      "status1": "等待付款",
+      "status2": "審批中",
+      "status3": "已通過",
+      "status4": "已拒絕"
     },
     "rebate": {
       "sn": "編號",

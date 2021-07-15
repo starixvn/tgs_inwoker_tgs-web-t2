@@ -122,6 +122,7 @@ class DateSelection extends Component {
         <DatePicker
           onhandleDateChange={this.handleDateFromChange}
           selectedDate={this.state.dateFrom}
+          maxDate={this.state.dateTo}
         ></DatePicker>
         <LabelDash>-</LabelDash>
         <DatePicker

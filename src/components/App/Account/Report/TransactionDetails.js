@@ -24,7 +24,7 @@ const FilterContainer = styled.div`
   padding: 10px;
 `;
 const InnerWrap = styled.div`
-width: 888px;
+  width: 888px;
   float: left;
   margin-top: 8px;
   box-sizing: border-box;
@@ -42,7 +42,7 @@ const CustomFormControl = withStyles((theme) => ({
     marginRight: "5px",
     float: "left",
     borderRadius: "12px",
-    boxShadow:"0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
+    boxShadow: "0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
     backgroundColor: "#fff",
     "&:before": {
       borderRight: "1px solid #b6b6b6",
@@ -101,7 +101,6 @@ class TransactionDetails extends Component {
       this.state.type2
     );
   };
-
 
   onhandleType2Change = (e) => {
     this.setState({ ...this.state, type2: e.target.value, page: 1 });
@@ -167,35 +166,6 @@ class TransactionDetails extends Component {
             defaultDateTo={this.state.dateRange.dateTo}
           ></DateSelection>
           <div className="clear"></div>
-
-          <Label>{i18n.t("report.platform")}</Label>
-          <CustomFormControl style={{ width: "160px" }}>
-            <Select
-              native
-              value={this.state.type2}
-              onChange={this.onhandleType2Change}
-              variant="outlined"
-            >
-              <option value={0}>{i18n.t("report.all")}</option>
-
-              {(() => {
-
-
-                return this.props.gameList.map((row) => {
-
-                  return (
-                    <option value={row.id} key={row.id}>
-
-                      {row.name}
-                    </option>
-                  );
-                });
-              })()}
-
-
-            </Select>
-          </CustomFormControl>
-
         </FilterContainer>
         <InnerWrap>
           <TransactionDetailsList

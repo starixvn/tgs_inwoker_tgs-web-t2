@@ -10,6 +10,7 @@ import DepositReport from "./DepositReport";
 import RebateReport from "./RebateReport";
 import TransactionDetails from "./TransactionDetails";
 import i18n from "../../../../utils/i18n";
+const moment = require("moment");
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box
@@ -114,6 +115,8 @@ class Report extends Component {
 
     isLoaded: false,
     gameList: [],
+    depositStatusList: {},
+    withdrawalStatusList: {},
   };
   GetGameList = () => {
     GameService.GetGameList(this.props.token).then((response) => {
@@ -122,17 +125,29 @@ class Report extends Component {
       }
     });
   };
+  GetDepositWithdrawalStatus = () => {
+    ReportService.GetDepositStatus().then((response) => {
+      if (response.IsSuccess) {
+        this.setState({ ...this.state, depositStatusList: response.data });
+      }
+    });
+    ReportService.GetWithdrawalStatus().then((response) => {
+      if (response.IsSuccess) {
+        this.setState({ ...this.state, withdrawalStatusList: response.data });
+      }
+    });
+  };
   componentDidMount() {
     if (this.state.isLoaded === false && this.props.token != null) {
       this.setState({ ...this.state, isLoaded: true });
-      this.GetGameList();
+      this.GetDepositWithdrawalStatus();
     }
   }
 
   componentDidUpdate() {
     if (this.state.isLoaded === false && this.props.token != null) {
       this.setState({ ...this.state, isLoaded: true });
-      this.GetGameList();
+      this.GetDepositWithdrawalStatus();
     }
   }
 
@@ -151,19 +166,9 @@ class Report extends Component {
     page,
     game_platform_id
   ) => {
-    // if (thirdparty_id === 0 && thirdparty_parent_id !== 0) {
-    //   thirdparty_id = thirdparty_parent_id;
-    //   thirdparty_parent_id = 0;
-    // }
-    // console.log(
-    //   "thirdparty_parent_id=" +
-    //     thirdparty_parent_id +
-    //     ",  thirdparty_id=" +
-    //     thirdparty_id
-    // );
     ReportService.GetTransactionDetails(
-      dateFrom,
-      `${dateTo} 23:59:59`,
+      moment(dateFrom).format("YYYY-MM-DDT00:00:00.000") + "Z",
+      moment(dateTo).format("YYYY-MM-DDT23:59:59.999") + "Z",
       page,
       this.state.limit,
       true,
@@ -181,24 +186,50 @@ class Report extends Component {
       }
     });
   };
-  // handleWithdrawalGetReportTrigger = (dateFrom, dateTo, page, status) => {
-  //   ReportService.GetWithdrawalDetails(dateFrom, dateTo, page, status).then(
-  //     (response) => {
-  //       if (response.IsSuccess) {
-  //         this.setState({ ...this.state, withdrawalList: response.data });
-  //       }
-  //     }
-  //   );
-  // };
-  // handleDepositGetReportTrigger = (dateFrom, dateTo, page, status) => {
-  //   ReportService.GetDepositDetails(dateFrom, dateTo, page, status).then(
-  //     (response) => {
-  //       if (response.IsSuccess) {
-  //         this.setState({ ...this.state, depositList: response.data });
-  //       }
-  //     }
-  //   );
-  // };
+  handleWithdrawalGetReportTrigger = (dateFrom, dateTo, page, status) => {
+    ReportService.GetWithdrawalDetails(
+      status,
+      moment(dateFrom).format("YYYY-MM-DDT00:00:00.000") + "Z",
+      moment(dateTo).format("YYYY-MM-DDT23:59:59.999") + "Z",
+      page,
+      this.state.limit,
+      true,
+      "",
+      false
+    ).then((response) => {
+      if (response.IsSuccess) {
+        this.setState({
+          ...this.state,
+          withdrawalList: {
+            list: response.data.items,
+            count: response.data.totalCount,
+          },
+        });
+      }
+    });
+  };
+  handleDepositGetReportTrigger = (dateFrom, dateTo, page, status) => {
+    ReportService.GetDepositDetails(
+      status,
+      moment(dateFrom).format("YYYY-MM-DDT00:00:00.000") + "Z",
+      moment(dateTo).format("YYYY-MM-DDT23:59:59.999") + "Z",
+      page,
+      this.state.limit,
+      true,
+      "",
+      false
+    ).then((response) => {
+      if (response.IsSuccess) {
+        this.setState({
+          ...this.state,
+          depositList: {
+            list: response.data.items,
+            count: response.data.totalCount,
+          },
+        });
+      }
+    });
+  };
 
   // handleRebateGetReportTrigger = (dateFrom, dateTo, page) => {
   //   ReportService.GetRebateDetails(dateFrom, dateTo, page).then((response) => {
@@ -232,7 +263,7 @@ class Report extends Component {
           >
             {i18n.t("report.bettingDetails")}
           </TabButton>
-          {/* <TabButton
+          <TabButton
             active={this.state.tab === 3}
             onClick={() => this.handleTabClick(3)}
           >
@@ -244,7 +275,7 @@ class Report extends Component {
           >
             {i18n.t("report.depositDetails")}
           </TabButton>
-          <TabButton
+          {/* <TabButton
             active={this.state.tab === 5}
             onClick={() => this.handleTabClick(5)}
           >
@@ -270,7 +301,6 @@ class Report extends Component {
                       this.handleTransactionGetReportTrigger
                     }
                     transactionList={this.state.transactionList}
-                    gameList={this.state.gameList}
                   />
                 );
               case 3:
@@ -281,6 +311,7 @@ class Report extends Component {
                       this.handleWithdrawalGetReportTrigger
                     }
                     withdrawalList={this.state.withdrawalList}
+                    withdrawalStatusList={this.state.withdrawalStatusList}
                   />
                 );
               case 4:
@@ -291,6 +322,7 @@ class Report extends Component {
                       this.handleDepositGetReportTrigger
                     }
                     depositList={this.state.depositList}
+                    depositStatusList={this.state.depositStatusList}
                   />
                 );
               case 5:

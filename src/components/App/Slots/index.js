@@ -37,9 +37,7 @@ import {
 
 import i18n from "../../../utils/i18n";
 import CommonMarquee from "../CommonMarquee";
-import jsonUS from "../../../assets/translations/slot_en-US.json";
-import jsonCN from "../../../assets/translations/slot_zh-CN.json";
-import jsonTW from "../../../assets/translations/slot_zh-TW.json";
+
 import config from "../../../config/config";
 import Common from "../../../utils/Common";
 const Container = styled.div`
@@ -135,12 +133,11 @@ const CategoryContainer = styled.div`
   height: 30px;
   box-sizing: border-box;
 
-
   font-size: 16px;
   float: left;
-  margin-right: 40px
-margin-top: 6px
-&:hover {
+  margin-right: 40px;
+  margin-top: 6px;
+  &:hover {
     cursor: pointer;
   }
   ${(props) => (props.active ? ` color:  #c40511;` : ` color: #404040;`)};
@@ -365,17 +362,6 @@ class Slots extends Component {
   }
   language = null;
   componentDidMount() {
-    switch (i18n.language) {
-      case "zh-CN":
-        this.language = jsonCN;
-        break;
-      case "zh-TW":
-        this.language = jsonTW;
-        break;
-      default:
-        this.language = jsonUS;
-        break;
-    }
     this.getGameList();
   }
   componentDidUpdate(prevProps, prevState) {

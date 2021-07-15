@@ -448,18 +448,16 @@
     "depositChannel": "付款方式",
     "withdrawal": {
       "bankCard": "银行卡",
-      "withdrawalStatus0": "预订单失败",
-      "withdrawalStatus1": "预订单",
-      "withdrawalStatus2": "待审批",
-      "withdrawalStatus3": "已审批",
-      "withdrawalStatus4": "不通过",
-      "withdrawalStatus5": "已取消"
+      "status1": "等待付款",
+      "status2": "审批中",
+      "status3": "已通过",
+      "status4": "已拒绝"
     },
     "deposit": {
-      "status1": "待审批",
-      "status2": "已审批",
-      "status3": "不通过",
-      "status4": "已取消"
+      "status1": "等待付款",
+      "status2": "审批中",
+      "status3": "已通过",
+      "status4": "已拒绝"
     },
     "rebate": {
       "sn": "编号",
