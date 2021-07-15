@@ -45,7 +45,7 @@ const ListItem = styled.div`
   margin: 10px 0 10px 20px;
 
   width: 345px;
-  height: 330px;
+  height: 415px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.secondary};
 `;
@@ -63,7 +63,7 @@ const ListitemLabelBackground = styled.div`
 `;
 const LeftContainer = styled.div`
   position: absolute;
-  top: 225px;
+  top: 310px;
   left: 20px;
 `;
 const GameProvider = styled.div`
@@ -489,7 +489,6 @@ class Slot extends Component {
                       }.jpg`}
                       style={{
                         borderRadius: "20px 20px 0 0",
-                        marginTop: "-50px",
                       }}
                     />
                     <ListitemLabelBackground></ListitemLabelBackground>
