@@ -44,7 +44,7 @@ function Marquee(props) {
   return (
     <AnnounceContainer>
       <MarqueeContainer>
-        <marquee style={{ marginTop: "10px" }}>
+        <marquee>
           {announcement.map((row, index) => {
             return (
               <div
