@@ -34,6 +34,7 @@ import SlotSection from "./SlotSection";
 import ScrollAnimation from "react-animate-on-scroll";
 import KySlider from "./KySlider";
 import AGSlider from "./AgSlider";
+import AnotherFloatPanel from "./AnotherFloatPanel";
 export const floatKeyframe = keyframes`
   0%, 100% {
     transform: translateY(0);
@@ -463,6 +464,13 @@ class Home extends Component {
           <MarqueeContainer>
             <Marquee text={this.props.ui.marqueeText}></Marquee>
           </MarqueeContainer>
+          <AnotherFloatPanel
+            onhandleDepositClick={this.props.onhandleDepositClick}
+            onhandleShowCSClick={this.props.onhandleShowCSClick}
+            onDownloadClick={() =>
+              this.handleNavigateClick("/" + i18n.language + "/download")
+            }
+          ></AnotherFloatPanel>
         </SliderContainer>
         <AGContainer>
           <AGImgBGContainer>

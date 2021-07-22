@@ -61,6 +61,7 @@ function Marquee(props) {
             );
           })}
         </marquee>
+        
       </MarqueeContainer>
     </AnnounceContainer>
   );
