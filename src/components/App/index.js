@@ -134,7 +134,7 @@ class App extends Component {
             // this.props.getDepositChannel();
           }
         }
-        this.props.getMarquee();
+        //this.props.getMarquee();
         this.props.getHomePageGameList();
       }
     }
