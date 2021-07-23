@@ -20,18 +20,18 @@ import Help6PNG from "../../../assets/images/panel/icon-06.png";
 import i18n from "../../../utils/i18n";
 import { Dialog } from "@material-ui/core";
 
-const Container = styled.div`
-  height: auto;
-  position: absolute;
-  right: 3%;
-  top: 40%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: translateY(-50%);
-  overflow: visible;
-  color: white;
-  border-radius: 8px;
+const Icon = styled.div`
+  height: 50px;
+  width: 50px;
+
+  background: url(${({ active, src, src2 }) => (active ? src2 : src)}) no-repeat
+    center;
+  background-size: 100%;
+`;
+
+const Text = styled.div`
+  font-size: 10px;
+  pointer-events: none;
 `;
 
 const RotateBack = styled.div`
@@ -41,16 +41,21 @@ const RotateBack = styled.div`
   align-items: center;
 `;
 
-const Icon = styled.div`
-  height: 100px;
-
-  width: 100px;
-  background: url(${({ src }) => src}) no-repeat center;
-  background-size: 50%;
+const Container = styled.div`
+  height: auto;
+  position: fixed;
+  right: 2%;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(-50%);
+  overflow: visible;
+  color: white;
+  border-radius: 8px;
+  z-index: 10;
 
   :hover {
-    background: url(${({ src2 }) => src2}) no-repeat center;
-    background-size: 50%;
   }
 `;
 
@@ -63,16 +68,29 @@ const SidePanel = styled.div`
   height: 75px;
   transform: rotate(45deg);
   overflow: visible;
-  background-color: #ffff;
+
   border-width: 2px;
   border-color: #f4ddb1;
   border-style: solid;
   border-radius: 10px;
 
+  ${({ active }) => {
+    return active
+      ? `  
+       background-color: #c7a87c;`
+      : `  
+      background-color: #ffff;`;
+  }}
+
   &:hover {
     background-color: #c7a87c;
     cursor: pointer;
     border-color: transparent;
+
+    ${Icon} {
+      background: url(${({ src2 }) => src2}) no-repeat center;
+      background-size: 100%;
+    }
   }
   box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
   margin: 30px 10px 30px auto;
@@ -248,22 +266,39 @@ const AnotherFloatPanel = (props) => {
     <div>
       <Container>
         <SidePanel
+          active={supportModal}
           onClick={() => {
             performOpenSupportModal();
           }}
+          src2={PanelUserPNG2}
         >
-          <RotateBack>
-            <Icon src={PanelUserPNG} src2={PanelUserPNG2} alt="user-icon" />
+          <RotateBack active={supportModal}>
+            <Icon
+              src={PanelUserPNG}
+              src2={PanelUserPNG2}
+              active={supportModal}
+              alt="user-icon"
+            />
+
+            <Text active={supportModal}>{i18n.t("panel.cs")}</Text>
           </RotateBack>
         </SidePanel>
 
         <SidePanel
+          active={csModal}
           onClick={() => {
             performOpenCsModal();
           }}
+          src2={PanelCSPNG2}
         >
-          <RotateBack>
-            <Icon src={PanelCSPNG} src2={PanelCSPNG2} alt="user-cs" />
+          <RotateBack active={csModal}>
+            <Icon
+              src={PanelCSPNG}
+              src2={PanelCSPNG2}
+              active={csModal}
+              alt="user-cs"
+            />
+            <Text active={csModal}>{i18n.t("panel.im")} </Text>
           </RotateBack>
         </SidePanel>
       </Container>

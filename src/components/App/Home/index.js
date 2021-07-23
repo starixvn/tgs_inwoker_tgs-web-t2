@@ -464,13 +464,15 @@ class Home extends Component {
           <MarqueeContainer>
             <Marquee text={this.props.ui.marqueeText}></Marquee>
           </MarqueeContainer>
-          <AnotherFloatPanel
-            onhandleDepositClick={this.props.onhandleDepositClick}
-            onhandleShowCSClick={this.props.onhandleShowCSClick}
-            onDownloadClick={() =>
-              this.handleNavigateClick("/" + i18n.language + "/download")
-            }
-          ></AnotherFloatPanel>
+          {
+            //     <AnotherFloatPanel
+            //      onhandleDepositClick={this.props.onhandleDepositClick}
+            //    onhandleShowCSClick={this.props.onhandleShowCSClick}
+            //   onDownloadClick={() =>
+            //     this.handleNavigateClick("/" + i18n.language + "/download")
+            //   }
+            // ></AnotherFloatPanel>
+          }
         </SliderContainer>
         <AGContainer>
           <AGImgBGContainer>
@@ -599,13 +601,13 @@ class Home extends Component {
         <SlotSection></SlotSection>
         <Recommend></Recommend>
 
-        <FloatPanel
+        <AnotherFloatPanel
           onhandleDepositClick={this.props.onhandleDepositClick}
           onhandleShowCSClick={this.props.onhandleShowCSClick}
           onDownloadClick={() =>
             this.handleNavigateClick("/" + i18n.language + "/download")
           }
-        ></FloatPanel>
+        ></AnotherFloatPanel>
       </HomeContainer>
     );
   }
