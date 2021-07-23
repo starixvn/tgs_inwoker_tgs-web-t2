@@ -41,6 +41,7 @@ import Download from "./Download/index";
 // import VIP from "./VIP/index";
 
 import i18n from "../../utils/i18n";
+import Maintenance from "../Share/Maintenance";
 const baseRouteUrl = Common.baseRouteUrl;
 const Main = styled.div`
   min-height: 600px;
@@ -234,7 +235,6 @@ class App extends Component {
                       path={baseRouteUrl + "/lottery/play/:params?"}
                       component={LotteryPlay}
                     />
-
                     <Route
                       exact
                       path={baseRouteUrl + "/slots/:platform?"}
@@ -283,7 +283,12 @@ class App extends Component {
                       exact
                       path={baseRouteUrl + "/registersuccess/:username"}
                       component={RegisterSuccess}
-                    />*/}
+                    />*/}{" "}
+                    <Route
+                      exact
+                      path={baseRouteUrl + "/maintenance"}
+                      render={(props) => <Maintenance />}
+                    />
                     <Route
                       exact
                       path={baseRouteUrl + "/account/:tab/:popup?"}
