@@ -32,6 +32,7 @@ const Icon = styled.div`
 const Text = styled.div`
   font-size: 10px;
   pointer-events: none;
+  opacity: ${({ active }) => (active ? "1" : "0")};
 `;
 
 const RotateBack = styled.div`
@@ -90,6 +91,10 @@ const SidePanel = styled.div`
     ${Icon} {
       background: url(${({ src2 }) => src2}) no-repeat center;
       background-size: 100%;
+    }
+    ${Text} {
+      opacity: 1;
+      transition: opacity 0.25s;
     }
   }
   box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
@@ -309,7 +314,7 @@ const AnotherFloatPanel = (props) => {
           <CloseButton onClick={performCloseSupportModal}>✖</CloseButton>
         </DialogTitle2>
         <QRCodeContainer>
-          {brandsCommunication
+          {brandsCommunication.length
             ? brandsCommunication.map((data, index) => {
                 return (
                   <QRCodeHolder>
