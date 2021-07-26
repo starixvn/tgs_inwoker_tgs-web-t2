@@ -396,6 +396,11 @@ const RouteMapping = [
     component: Wapp.SettingLanguage,
     screenHeight: true,
   },
+  {
+    path: "/maintenance",
+    component: Wapp.Maintenance,
+    navigate: true,
+  },
 ];
 class Wap extends Component {
   constructor(props) {
