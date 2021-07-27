@@ -826,9 +826,15 @@
   },
   "EVO": {
     "live": "EVO真人",
-    "slots": "EVO電子"
+    "slots": "EVO老虎機"
   },
   "AB": {
     "live": "Allbet真人"
+  },
+  "RT": {
+    "slots": "RedTiger老虎機"
+  },
+  "NT": {
+    "slots": "Netent老虎機"
   }
 }

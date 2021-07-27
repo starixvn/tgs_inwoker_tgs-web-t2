@@ -8,9 +8,10 @@
     "ERR202": "Player is disabled.",
     "ERR401": "Please check your input."
   },
+
   "panel": {
     "im": "IM",
-    "cs": "Support",
+    "cs": "Live Chat",
     "liveChatWelcome": "[Live Chat] Welcome You!",
     "liveChatDescription": "Please select your question type to speed up the service!",
     "liveChatOptionFund": "Fund",
@@ -828,5 +829,11 @@
   },
   "AB": {
     "live": "Allbet"
+  },
+  "RT": {
+    "slots": "RedTiger"
+  },
+  "NT": {
+    "slots": "Netent"
   }
 }
