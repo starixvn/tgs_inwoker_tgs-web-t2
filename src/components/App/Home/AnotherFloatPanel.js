@@ -212,7 +212,7 @@ const IconHolder = styled.img`
 const AnotherFloatPanel = (props) => {
   const [supportModal, setSupportModal] = useState(false);
   const [csModal, setCsModal] = useState(false);
-  const [brandsCommunication, setBrandCommunication] = useState("");
+  const [brandsCommunication, setBrandCommunication] = useState(null);
 
   const performOpenSupportModal = () => {
     setSupportModal(true);
@@ -230,7 +230,9 @@ const AnotherFloatPanel = (props) => {
 
   useEffect(() => {
     props.getBrandCommunicationList().then((result) => {
-      setBrandCommunication(result.data);
+      if (result.IsSuccess) {
+        setBrandCommunication(result.data);
+      }
     });
   }, []);
 
