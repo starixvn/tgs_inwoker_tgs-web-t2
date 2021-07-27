@@ -271,50 +271,50 @@ const AnotherFloatPanel = (props) => {
     <div>
       <Container>
         <SidePanel
-          active={supportModal}
-          onClick={() => {
-            performOpenSupportModal();
-          }}
-          src2={PanelUserPNG2}
-        >
-          <RotateBack active={supportModal}>
-            <Icon
-              src={PanelUserPNG}
-              src2={PanelUserPNG2}
-              active={supportModal}
-              alt="user-icon"
-            />
-
-            <Text active={supportModal}>{i18n.t("panel.cs")}</Text>
-          </RotateBack>
-        </SidePanel>
-
-        <SidePanel
           active={csModal}
           onClick={() => {
             performOpenCsModal();
           }}
-          src2={PanelCSPNG2}
+          src2={PanelUserPNG2}
         >
           <RotateBack active={csModal}>
             <Icon
+              src={PanelUserPNG}
+              src2={PanelUserPNG2}
+              active={csModal}
+              alt="user-icon"
+            />
+
+            <Text active={csModal}>{i18n.t("panel.cs")}</Text>
+          </RotateBack>
+        </SidePanel>
+
+        <SidePanel
+          active={supportModal}
+          onClick={() => {
+            performOpenSupportModal();
+          }}
+          src2={PanelCSPNG2}
+        >
+          <RotateBack active={supportModal}>
+            <Icon
               src={PanelCSPNG}
               src2={PanelCSPNG2}
-              active={csModal}
+              active={supportModal}
               alt="user-cs"
             />
-            <Text active={csModal}>{i18n.t("panel.im")} </Text>
+            <Text active={supportModal}>{i18n.t("panel.im")} </Text>
           </RotateBack>
         </SidePanel>
       </Container>
 
       <CustomModal open={supportModal} onClose={performCloseSupportModal}>
         <DialogTitle2>
-          <div>{i18n.t("panel.cs")}</div>
+          <div>{i18n.t("panel.imLong")}</div>
           <CloseButton onClick={performCloseSupportModal}>✖</CloseButton>
         </DialogTitle2>
         <QRCodeContainer>
-          {brandsCommunication.length
+          {brandsCommunication
             ? brandsCommunication.map((data, index) => {
                 return (
                   <QRCodeHolder>
