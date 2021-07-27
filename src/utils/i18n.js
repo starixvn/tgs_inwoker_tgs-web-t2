@@ -4,6 +4,7 @@ import config from "../config/config";
 import en from "../assets/translations/en-US.json";
 import cn from "../assets/translations/zh-CN.json";
 import tw from "../assets/translations/zh-TW.json";
+import th from "../assets/translations/th-TH.json";
 i18n.on("languageChanged", function (lng) {
   // if the language we switched to is the default language we need to remove the /en from URL
   //   if (lng === i18n.options.fallbackLng[0]) {
@@ -27,6 +28,9 @@ i18n.use(LanguageDetector).init({
     },
     "zh-TW": {
       translation: tw,
+    },
+    "th-TH": {
+      translation: th,
     },
   },
   whitelist: config.languages.map((item) => {
