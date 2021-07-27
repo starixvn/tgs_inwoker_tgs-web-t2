@@ -189,7 +189,13 @@ class App extends Component {
       <Router history={AppHistory}>
         {(() => {
           if (this.state.isIpRestrict) {
-            return <Loading show={true} opacity={1}></Loading>;
+            if (this.props.general.isMaintenance === true) {
+              return (
+                <Redirect to={"/" + i18n.language + "/maintenance"}></Redirect>
+              );
+            } else {
+              return <Loading show={true} opacity={1}></Loading>;
+            }
           } else {
             return (
               <>

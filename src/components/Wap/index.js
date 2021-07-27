@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { Router, Switch, Route } from "react-router";
+import { Router, Switch, Route, Redirect } from "react-router";
 import { AppHistory } from "../../history/History";
 import { withRouter } from "react-router-dom";
 
@@ -396,11 +396,6 @@ const RouteMapping = [
     component: Wapp.SettingLanguage,
     screenHeight: true,
   },
-  {
-    path: "/maintenance",
-    component: Wapp.Maintenance,
-    navigate: true,
-  },
 ];
 class Wap extends Component {
   constructor(props) {
@@ -656,7 +651,11 @@ class Wap extends Component {
       this.props.general.token == "" ||
       this.props.general.token == null
     ) {
-      return <Loading show={this.state.loading}></Loading>;
+      if (this.props.general.isMaintenance === true) {
+        return <Redirect to={"/" + i18n.language + "/maintenance"}></Redirect>;
+      } else {
+        return <Loading show={this.state.loading}></Loading>;
+      }
     } else {
       return (
         <>
