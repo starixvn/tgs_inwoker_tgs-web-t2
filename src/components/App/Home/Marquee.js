@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import i18n from "../../../utils/i18n";
+import { connect } from "react-redux";
 import { UiService } from "@Inwoker/tgs-api";
 const AnnounceContainer = styled.div`
   width: 1280px;
@@ -22,30 +23,11 @@ const MarqueeContainer = styled.div`
 `;
 
 function Marquee(props) {
-  const [loaded, setLoaded] = useState(false);
-
-  const [announcement, setAnnouncement] = useState([]);
-
-  useEffect(() => {
-    setLoaded(true);
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      UiService.GetMarquee(i18n.language).then((result) => {
-        if (result.IsSuccess) {
-          setAnnouncement(result.data);
-        }
-      });
-    }
-  }, [loaded]);
-
-  useEffect(() => {});
   return (
     <AnnounceContainer>
       <MarqueeContainer>
         <marquee>
-          {announcement.map((row, index) => {
+          {props.ui.marqueeText.map((row, index) => {
             return (
               <div
                 key={index}
@@ -63,9 +45,16 @@ function Marquee(props) {
             );
           })}
         </marquee>
-        
       </MarqueeContainer>
     </AnnounceContainer>
   );
 }
-export default Marquee;
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+const mapStateToProps = (state) => {
+  return {
+    ui: state.ui,
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Marquee);

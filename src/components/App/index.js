@@ -65,6 +65,9 @@ class App extends Component {
     if (this.props.general.token == "") {
       this.props.getSiteToken();
     }
+
+    this.props.getBrandCommunicationList();
+    this.props.getMarquee(i18n.language);
     // this.props.getMobilePrefix();
     // this.props.getMarquee();
     // this.props.getBanner();
@@ -363,6 +366,11 @@ const mapDispatchToProps = (dispatch) => {
 
     getMessageList: (language, pages, limit) =>
       dispatch(inboxAction.getMessages(language, pages, limit, true, true)),
+    getBrandCommunicationList: (language) =>
+      dispatch(generalAction.getBrandCommunication()),
+    getMarquee: (language) => {
+      dispatch(uiAction.getMarquee(language));
+    },
   };
 };
 

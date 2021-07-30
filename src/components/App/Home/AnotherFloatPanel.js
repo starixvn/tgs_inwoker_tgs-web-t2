@@ -217,7 +217,6 @@ const IconHolder = styled.img`
 const AnotherFloatPanel = (props) => {
   const [supportModal, setSupportModal] = useState(false);
   const [csModal, setCsModal] = useState(false);
-  const [brandsCommunication, setBrandCommunication] = useState(null);
 
   const performOpenSupportModal = () => {
     setSupportModal(true);
@@ -232,14 +231,6 @@ const AnotherFloatPanel = (props) => {
   const performCloseCsModal = () => {
     setCsModal(false);
   };
-
-  useEffect(() => {
-    props.getBrandCommunicationList().then((result) => {
-      if (result.IsSuccess) {
-        setBrandCommunication(result.data);
-      }
-    });
-  }, []);
 
   //TODO: Pending CS
   const buttons = [
@@ -321,8 +312,8 @@ const AnotherFloatPanel = (props) => {
           <CloseButton onClick={performCloseSupportModal}>✖</CloseButton>
         </DialogTitle2>
         <QRCodeContainer>
-          {brandsCommunication
-            ? brandsCommunication.map((data, index) => {
+          {props.general
+            ? props.general.brandsSupport.map((data, index) => {
                 return (
                   <QRCodeHolder>
                     <QRCode value={data.qrcodeurl} bgColor={"#f6f8f7"} />
@@ -368,6 +359,8 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    general: state.general,
+  };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AnotherFloatPanel);
