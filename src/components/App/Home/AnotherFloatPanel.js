@@ -21,18 +21,20 @@ import i18n from "../../../utils/i18n";
 import { Dialog } from "@material-ui/core";
 
 const Icon = styled.div`
-  height: 50px;
+  height: 70px;
   width: 50px;
 
   background: url(${({ active, src, src2 }) => (active ? src2 : src)}) no-repeat
     center;
   background-size: 100%;
+  transform: translateY(${({ active }) => (active ? "-5px" : "0")});
 `;
 
 const Text = styled.div`
   font-size: 10px;
   pointer-events: none;
   opacity: ${({ active }) => (active ? "1" : "0")};
+  transform: translateY(${({ active }) => (active ? "-15px" : "0")});
 `;
 
 const RotateBack = styled.div`
@@ -91,10 +93,13 @@ const SidePanel = styled.div`
     ${Icon} {
       background: url(${({ src2 }) => src2}) no-repeat center;
       background-size: 100%;
+      transform: translateY(-5px);
+      transition: transform 0.5s;
     }
     ${Text} {
       opacity: 1;
-      transition: opacity 0.25s;
+      transform: translateY(-15px);
+      transition: opacity 1s;
     }
   }
   box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
