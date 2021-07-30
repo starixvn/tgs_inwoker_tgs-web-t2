@@ -98,7 +98,7 @@ const SidePanel = styled.div`
     }
   }
   box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
-  margin: 30px 10px 30px auto;
+  margin: 30px 10px 5px auto;
 `;
 
 const CustomModal = styled(Dialog)`
