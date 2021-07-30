@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { AppHistory } from "../../../history/History";
 
 import BGGamePNG from "../../../assets/images/slot/bg-game.png";
+import BGFishPNG from "../../../assets/images/slot/fishbg.jpg";
 
 import SlotAllPNG from "../../../assets/images/slot-all.png";
 import SlotAllInactivePNG from "../../../assets/images/slot-all-inactive.png";
@@ -43,9 +44,15 @@ import Common from "../../../utils/Common";
 const Container = styled.div`
   width: 100%;
   position: relative;
-  background: url(${BGGamePNG}) no-repeat center top, #e3e3e3;
+  background: url(${({ type }) => {
+        return type === GameTypeEnum.FISH ? BGFishPNG : BGGamePNG;
+      }})
+      no-repeat center top,
+    #e3e3e3;
   overflow: visible;
-  background-size: auto 100%;
+  background-size: ${({ type }) => {
+    return type === GameTypeEnum.FISH ? "" : "auto 100%";
+  }};
 `;
 
 const InnerWrap = styled.div`
@@ -53,17 +60,22 @@ const InnerWrap = styled.div`
   min-height: 580px;
   border-radius: 30px;
   background: rgba(255, 255, 255, 0.8);
-  margin: 60px auto 0px auto;
+  margin: ${({ type }) => {
+      return type === GameTypeEnum.FISH ? "700px" : "20px";
+    }}
+    auto 0px auto;
   padding: 16px 46px;
   box-sizing: border-box;
   overflow-y: auto;
 `;
 const GameTabContainer = styled.div`
   width: 1007px;
-  margin: 40px auto 0 auto;
+  margin: ${({ type }) => {
+      return type === GameTypeEnum.FISH ? "700px" : "40px";
+    }}
+    auto 5px auto;
   background-color: #76727252;
   border-radius: 30px;
-  margin: 5px auto;
 `;
 const GameTabButton = styled.div`
   width: 170px;
@@ -637,9 +649,9 @@ class Slots extends Component {
     }
 
     return (
-      <Container>
+      <Container type={this.state.type}>
         <CommonMarquee></CommonMarquee>
-        <GameTabContainer>
+        <GameTabContainer type={this.state.type}>
           <GameTabAll
             active={this.state.platform == ""}
             onClick={() => this.handleParentClick("")}
