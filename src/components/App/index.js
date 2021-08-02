@@ -64,10 +64,11 @@ class App extends Component {
   async componentDidMount() {
     if (this.props.general.token == "") {
       this.props.getSiteToken();
+    } else {
+      this.props.getBrandCommunicationList();
+      this.props.getMarquee(i18n.language);
     }
 
-    this.props.getBrandCommunicationList();
-    this.props.getMarquee(i18n.language);
     // this.props.getMobilePrefix();
     // this.props.getMarquee();
     // this.props.getBanner();
@@ -147,6 +148,8 @@ class App extends Component {
           }
         });
         this.props.getHomePageGameList();
+        this.props.getBrandCommunicationList();
+        this.props.getMarquee(i18n.language);
       }
     }
     if (
