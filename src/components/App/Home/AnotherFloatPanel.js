@@ -26,15 +26,17 @@ const Icon = styled.div`
 
   background: url(${({ active, src, src2 }) => (active ? src2 : src)}) no-repeat
     center;
+  transition: transform 0.5s;
   background-size: 100%;
-  transform: translateY(${({ active }) => (active ? "-5px" : "0")});
+  transform: translate(0px, ${({ active }) => (active ? "-5px" : "3px")});
 `;
 
 const Text = styled.div`
   font-size: 10px;
   pointer-events: none;
   opacity: ${({ active }) => (active ? "1" : "0")};
-  transform: translateY(${({ active }) => (active ? "-15px" : "0")});
+  transition: opacity 200ms;
+  transform: translateY(-15px);
 `;
 
 const RotateBack = styled.div`
@@ -93,13 +95,12 @@ const SidePanel = styled.div`
     ${Icon} {
       background: url(${({ src2 }) => src2}) no-repeat center;
       background-size: 100%;
-      transform: translateY(-5px);
-      transition: transform 0.5s;
+      transform: translate(0px, -5px);
     }
     ${Text} {
       opacity: 1;
-      transform: translateY(-15px);
-      transition: opacity 1s;
+      transition: opacity 200ms;
+      transition-delay: 100ms;
     }
   }
   box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
