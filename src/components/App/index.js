@@ -51,7 +51,7 @@ const Main = styled.div`
 const EmptyHeader = styled.div`
   height: 105px;
   background-image: linear-gradient(to top, #060d0f, #1b213f, #29356c);
-  @media (max-width: 1261px) {
+  @media (max-width: 1100px) {
     height: 187px;
   }
 `;

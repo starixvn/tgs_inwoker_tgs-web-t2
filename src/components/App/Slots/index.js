@@ -60,20 +60,14 @@ const InnerWrap = styled.div`
   min-height: 580px;
   border-radius: 30px;
   background: rgba(255, 255, 255, 0.8);
-  margin: ${({ type }) => {
-      return type === GameTypeEnum.FISH ? "700px" : "20px";
-    }}
-    auto 0px auto;
+  margin: 20px auto 0px auto;
   padding: 16px 46px;
   box-sizing: border-box;
   overflow-y: auto;
 `;
 const GameTabContainer = styled.div`
   width: 1007px;
-  margin: ${({ type }) => {
-      return type === GameTypeEnum.FISH ? "700px" : "40px";
-    }}
-    auto 5px auto;
+  margin: 40px auto 5px auto;
   background-color: #76727252;
   border-radius: 30px;
 `;
@@ -413,7 +407,7 @@ class Slots extends Component {
         ? GameTypeEnum.SLOT
         : this.props.match.url.indexOf("fish") >= 0
         ? GameTypeEnum.FISH
-        : GameTypeEnum.TIGERSLOT;
+        : GameTypeEnum.TABLEGAME;
     return type;
   }
   getGameList(
@@ -624,11 +618,11 @@ class Slots extends Component {
         .map((el, i) => (
           <ItemContainer
             key={i}
-            img={`${config.sourceUrl}${el.gpcode.toUpperCase()}${
-              this.state.type === GameTypeEnum.FISH
-                ? `/${i18n.language}`
-                : `/${Common.getCDNLanguagePrefix()}`
-            }/${el.code}.jpg`}
+            img={`${
+              config.sourceUrl
+            }${el.gpcode.toUpperCase()}/${Common.getCDNLanguagePrefix()}/${
+              el.code
+            }.jpg`}
           >
             <GameDesc>
               <GameProvider>{el.gpcode}</GameProvider>
