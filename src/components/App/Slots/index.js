@@ -616,13 +616,7 @@ class Slots extends Component {
               this.state.type === GameTypeEnum.FISH
                 ? `/${i18n.language}`
                 : `/${Common.getCDNLanguagePrefix()}`
-            }/${
-              (Common.getCDNLanguagePrefix() === "zh-CN" &&
-                (el.gpcode === "HABA" || el.gpcode === "PP")) ||
-              el.gpcode === "SW"
-                ? el.code
-                : el.code.replace(/_/g, "")
-            }.jpg`}
+            }/${el.code}.jpg`}
           >
             <GameDesc>
               <GameProvider>{el.gpcode}</GameProvider>

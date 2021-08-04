@@ -5,7 +5,9 @@ import { withRouter } from "react-router-dom";
 import { Router, Route, Switch, Redirect } from "react-router";
 import { AppHistory } from "../../history/History";
 import { withSnackbar } from "notistack";
+import ErrorSwitcher from "../../utils/ErrorSwitcher";
 import {
+  GeneralService,
   gameAction,
   walletAction,
   uiAction,
@@ -41,6 +43,7 @@ import Download from "./Download/index";
 // import VIP from "./VIP/index";
 
 import i18n from "../../utils/i18n";
+import Maintenance from "../Share/Maintenance";
 const baseRouteUrl = Common.baseRouteUrl;
 const Main = styled.div`
   min-height: 600px;
@@ -123,7 +126,7 @@ class App extends Component {
             // this.props.checkGame();
             // this.props.getBankList();
             this.props.getBalanceList();
-            this.props.getMessageList(0, 99);
+            this.props.getMessageList(i18n.language, 0, 99);
             this.props.getBankCardList();
 
             // if (inbox.IsSuccess) {
@@ -134,9 +137,20 @@ class App extends Component {
             // this.props.getDepositChannel();
           }
         }
-        this.props.getMarquee();
+        //this.props.getMarquee();
+        GeneralService.GetLocalization().then((response) => {
+          if (response.IsSuccess) {
+            ErrorSwitcher.setTranslation(response.data);
+          }
+        });
         this.props.getHomePageGameList();
       }
+    }
+    if (
+      preProps.general.isMaintenance !== this.props.general.isMaintenance &&
+      this.props.general.isMaintenance === true
+    ) {
+      this.props.history.push("/" + i18n.language + "/maintenance");
     }
   }
   GetSupportUrl = (userid, name, question) => {
@@ -180,7 +194,12 @@ class App extends Component {
     return (
       <Router history={AppHistory}>
         {(() => {
-          if (this.state.isIpRestrict) {
+          if (
+            (this.state.isIpRestrict ||
+              this.props.general.token == "" ||
+              this.props.general.token == null) &&
+            this.props.general.isMaintenance === false
+          ) {
             return <Loading show={true} opacity={1}></Loading>;
           } else {
             return (
@@ -234,7 +253,6 @@ class App extends Component {
                       path={baseRouteUrl + "/lottery/play/:params?"}
                       component={LotteryPlay}
                     />
-
                     <Route
                       exact
                       path={baseRouteUrl + "/slots/:platform?"}
@@ -283,7 +301,14 @@ class App extends Component {
                       exact
                       path={baseRouteUrl + "/registersuccess/:username"}
                       component={RegisterSuccess}
-                    />*/}
+                    />*/}{" "}
+                    <Route
+                      exact
+                      path={baseRouteUrl + "/maintenance"}
+                      render={(props) => (
+                        <Maintenance onhandleCSClick={this.GetSupportUrl} />
+                      )}
+                    />
                     <Route
                       exact
                       path={baseRouteUrl + "/account/:tab/:popup?"}
@@ -336,8 +361,8 @@ const mapDispatchToProps = (dispatch) => {
 
     getSiteToken: () => dispatch(generalAction.getSiteToken()),
 
-    getMessageList: (pages, limit) =>
-      dispatch(inboxAction.getMessages(pages, limit, true, true)),
+    getMessageList: (language, pages, limit) =>
+      dispatch(inboxAction.getMessages(language, pages, limit, true, true)),
   };
 };
 

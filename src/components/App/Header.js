@@ -200,7 +200,7 @@ const RightMenuTextSpan = styled.span`
   font-size: 16px;
   margin: 0 auto;
   display: block;
-  color: #8a7f73
+  color: #8a7f73;
   padding-top: 6px;
   text-align: center;
 `;
@@ -272,8 +272,7 @@ const GameImg = styled.img`
   height: 130px;
   float: right;
   position: absolute;
-  padding-left: 30px;
-  padding-right: 30px;
+
   padding-bottom: 10px;
   transition: transform 0.6s;
   bottom: 0;

@@ -10,7 +10,6 @@ import FloatingCSPhoneBlackPNG from "../../../assets/images/floating-cs-phone-bl
 import FloatingDownloadPNG from "../../../assets/images/floating-download.png";
 import FloatingDownloadHoverPNG from "../../../assets/images/floating-download-hover.png";
 
-
 import Floating4PNG from "../../../assets/images/floating-4.png";
 import Floating4HoverPNG from "../../../assets/images/floating-4-hover.png";
 import Floating5PNG from "../../../assets/images/floating-5.png";
@@ -22,35 +21,34 @@ import IconDollarBlackPNG from "../../../assets/images/icon-dollar-black.png";
 import IconDollarRedPNG from "../../../assets/images/icon-dollar-red.png";
 import i18n from "../../../utils/i18n";
 
-
 export default function FloatPanel(props) {
   const Container = styled.div`
     width: 62px;
     height: 300px;
     position: fixed;
     right: 15px;
-    top: 50%;
+    top: 60%;
     transform: translateY(-50%);
     overflow: visible;
-    z-index:8;
+    z-index: 8;
   `;
   const DiamondShapeContainer = styled.div`
     width: 62px;
     height: 62px;
-    transform:rotate(45deg);
-    overflow:visible;
-    background-color:#ffff;
+    transform: rotate(45deg);
+    overflow: visible;
+    background-color: #ffff;
     border-width: 2px;
     border-color: #f4ddb1;
     border-style: solid;
     &:hover {
-      background-color:#8a7f73;
+      background-color: #8a7f73;
       cursor: pointer;
       border-color: transparent;
     }
     box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
     margin: 30px 10px 30px auto;
-`;
+  `;
   const ButtonWrap = styled.div`
     width: 62px;
     height: 62px;
@@ -88,15 +86,15 @@ export default function FloatPanel(props) {
     border-bottom: 2px solid #8a7f73;
     position: relative;
     overflow: visible;
-    &:before{
-      content: '';
+    &:before {
+      content: "";
       position: absolute;
       width: 5px;
       height: 5px;
       top: 24px;
       left: 67px;
       background-color: #8a7f73;
-      transform:rotate(45deg);
+      transform: rotate(45deg);
     }
     &:hover {
       background: url(${(props) => props.iconhover}) no-repeat;
@@ -109,7 +107,7 @@ export default function FloatPanel(props) {
     &:hover ${HoverText} {
       color: #f0ca83;
       border-bottom: 2px solid #f0ca83;
-      &:before{
+      &:before {
         background-color: #f0ca83;
       }
     }
@@ -124,9 +122,6 @@ export default function FloatPanel(props) {
       display: block;
     }
   `;
-
-
-
 
   const CSContainer = styled.div`
     display: none;
@@ -156,15 +151,15 @@ export default function FloatPanel(props) {
     border-bottom: 2px solid #8a7f73;
     position: relative;
     overflow: visible;
-    &:before{
-      content: '';
+    &:before {
+      content: "";
       position: absolute;
       width: 5px;
       height: 5px;
       top: 24px;
       left: 67px;
       background-color: #8a7f73;
-      transform:rotate(45deg);
+      transform: rotate(45deg);
     }
   `;
 
@@ -194,16 +189,15 @@ export default function FloatPanel(props) {
     border-bottom: 2px solid #8a7f73;
     position: relative;
     overflow: visible;
-    float:left
-    &:before{
-      content: '';
+    float:left &:before {
+      content: "";
       position: absolute;
       width: 5px;
       height: 5px;
       top: 20px;
       left: 88px;
       background-color: #8a7f73;
-      transform:rotate(45deg);
+      transform: rotate(45deg);
     }
   `;
   const CSPhoneContainer = styled.div`
@@ -240,7 +234,7 @@ export default function FloatPanel(props) {
       background: url(${FloatingCSHoverPNG}) no-repeat center;
       cursor: pointer;
     }
-    
+
     &:hover ${CSContainer} {
       display: block;
     }
@@ -251,8 +245,7 @@ export default function FloatPanel(props) {
       background: url(${FloatingDownloadHoverPNG}) no-repeat center;
       cursor: pointer;
     }
-   
-  
+
     &:hover ${DownloadContainer} {
       display: block;
     }
@@ -278,15 +271,15 @@ export default function FloatPanel(props) {
     border-bottom: 2px solid #8a7f73;
     position: relative;
     overflow: visible;
-    &:before{
-      content: '';
+    &:before {
+      content: "";
       position: absolute;
       width: 5px;
       height: 5px;
       top: 24px;
       left: 67px;
       background-color: #8a7f73;
-      transform:rotate(45deg);
+      transform: rotate(45deg);
     }
     &:hover {
       color: #f0ca83;
@@ -297,48 +290,48 @@ export default function FloatPanel(props) {
     margin: 5px 0 0 0px;
     height: 100px;
     width: 152px;
-    line-height:100px;
-    background:url(${props => props.src}) no-repeat center;
-    background-size:contain;
-    text-align:center;
-    color:#000;
-    font-size:18px;
-    font-weight:bold;
+    line-height: 100px;
+    background: url(${(props) => props.src}) no-repeat center;
+    background-size: contain;
+    text-align: center;
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
   `;
   return (
     <Container>
       <DiamondShapeContainer>
-       <ButtonCS>
-        <CSContainer>
-          <CSOnlineContainer onClick={props.onhandleShowCSClick}>
-            <CSText>{i18n.t("web.rightNavBar.cs.csDesc")}</CSText>
-          </CSOnlineContainer>
-          <CSPhoneContainer>
-            <CSPhoneText>{i18n.t("web.rightNavBar.cs.contact")}</CSPhoneText>
-            <div className="clear"></div>
-            <CSPhoneNumber>{i18n.t("common.csPhoneNumber")}</CSPhoneNumber>
-          </CSPhoneContainer>
-        </CSContainer>
-      </ButtonCS>
+        <ButtonCS>
+          <CSContainer>
+            <CSOnlineContainer onClick={props.onhandleShowCSClick}>
+              <CSText>{i18n.t("web.rightNavBar.cs.csDesc")}</CSText>
+            </CSOnlineContainer>
+            <CSPhoneContainer>
+              <CSPhoneText>{i18n.t("web.rightNavBar.cs.contact")}</CSPhoneText>
+              <div className="clear"></div>
+              <CSPhoneNumber>{i18n.t("common.csPhoneNumber")}</CSPhoneNumber>
+            </CSPhoneContainer>
+          </CSContainer>
+        </ButtonCS>
       </DiamondShapeContainer>
       <DiamondShapeContainer>
-      <ButtonFund>
-        <FundContainer onClick={props.onhandleDepositClick}>
-          <HoverText>{i18n.t("web.rightNavBar.wallet")}</HoverText>
-        </FundContainer>
-      </ButtonFund>
+        <ButtonFund>
+          <FundContainer onClick={props.onhandleDepositClick}>
+            <HoverText>{i18n.t("web.rightNavBar.wallet")}</HoverText>
+          </FundContainer>
+        </ButtonFund>
       </DiamondShapeContainer>
       <DiamondShapeContainer>
-      <ButtonDownload onClick={props.onDownloadClick}>
-        <DownloadContainer>
-          <QRTitle>{i18n.t("web.rightNavBar.codeTitle")}</QRTitle>
-        </DownloadContainer>
-      </ButtonDownload>
+        <ButtonDownload onClick={props.onDownloadClick}>
+          <DownloadContainer>
+            <QRTitle>{i18n.t("web.rightNavBar.codeTitle")}</QRTitle>
+          </DownloadContainer>
+        </ButtonDownload>
       </DiamondShapeContainer>
       <DiamondShapeContainer>
-      <ButtonTop
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      ></ButtonTop>
+        <ButtonTop
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        ></ButtonTop>
       </DiamondShapeContainer>
     </Container>
   );
