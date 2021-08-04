@@ -5,7 +5,7 @@ pipeline {
 	    ENV = "dev"
 	    TAG = sh(script: "echo dev-`date +%Y%m%d%H%M`", returnStdout: true).trim()
 		Registry = "registry.gitlab.com/rayprosoft/turnkey-gaming-system/"
-		Component = "fe-lobby-gpi-t2"
+		Component = "fe-lobby-t2"
 		BuildEnv="staging"
 		gitlab_user_pwd = credentials('gitlab-user-pwd')
 	}
@@ -20,19 +20,19 @@ pipeline {
 
 		stage('Clone') {
 			steps {
-				git branch: "master", url: "https://${gitlab_user_pwd_USR}:${gitlab_user_pwd_PSW}@gitlab.com/yifan1997/tgstemplate1.git"
+				git branch: "develop", url: "https://${gitlab_user_pwd_USR}:${gitlab_user_pwd_PSW}@gitlab.com/yifan1997/tgstemplate1.git"
 			}
 		}
 		
 		stage('Deployment') {   
 			steps {	  
 			    sh "sudo docker login registry.gitlab.com -u ${gitlab_user_pwd_USR} -p ${gitlab_user_pwd_PSW}"
-				sh "sudo docker build --build-arg BuildEnv=${BuildEnv} -t ${Registry}${Component}:${TAG} ."
-				sh "sudo docker build --build-arg BuildEnv=${BuildEnv} -t ${Registry}${Component}:${ENV} ."
+				sh "sudo docker build -t ${Registry}${Component}:${TAG} ."
+				sh "sudo docker build -t ${Registry}${Component}:${ENV} ."
 				sh "sudo docker push ${Registry}${Component}:${TAG}"
 				sh "sudo docker push ${Registry}${Component}:${ENV}"
 							
-				withKubeConfig([credentialsId: 'k8s-kube-config', serverUrl: 'https://192.168.50.105:6443']) {
+				withKubeConfig([credentialsId: 'k8s-kube-config']) {
 					sh "kubectl set image deployment/${Component} ${Component}=${Registry}${Component}:${TAG} --record -n ${ENV}"
 				}
 			}
