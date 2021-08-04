@@ -178,15 +178,13 @@ const CSActualContent = styled.div`
 const QRCodeContainer = styled.div`
   min-height: 300px;
   display: grid;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-columns: auto auto;
   padding: 30px;
 `;
 
 const QRCodeHolder = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding: 20px;
 `;
 
 const QRCodeText = styled.div`
@@ -214,6 +212,28 @@ const CSButtonContainer = styled.div`
 const IconHolder = styled.img`
   height: auto;
   width: 75px;
+`;
+
+const QRCodeTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px;
+`;
+
+const QRCodeWrapper = styled.div`
+  position: relative;
+`;
+const Overlay = styled.div`
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  background: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
 `;
 const AnotherFloatPanel = (props) => {
   const [supportModal, setSupportModal] = useState(false);
@@ -313,16 +333,29 @@ const AnotherFloatPanel = (props) => {
           <CloseButton onClick={performCloseSupportModal}>✖</CloseButton>
         </DialogTitle2>
         <QRCodeContainer>
-          {props.general
-            ? props.general.brandsSupport.map((data, index) => {
-                return (
-                  <QRCodeHolder>
-                    <QRCode value={data.qrcodeurl} bgColor={"#f6f8f7"} />
-                    <QRCodeText>{data.type}</QRCodeText>
-                  </QRCodeHolder>
-                );
-              })
-            : ""}
+          {props.general.brandsSupport.map((data, index) => {
+            return (
+              <QRCodeHolder>
+                {data.qrcodeurl ? (
+                  <QRCode value={data.qrcodeurl} bgColor={"#f6f8f7"} />
+                ) : (
+                  <QRCodeWrapper>
+                    <QRCode value="coming soon" bgColor={"#f6f8f7"} />
+                    <Overlay>{i18n.t("common.comingSoon")}</Overlay>
+                  </QRCodeWrapper>
+                )}
+                <QRCodeTextContainer>
+                  <QRCodeText>{data.type}</QRCodeText>{" "}
+                  <div>
+                    {i18n.t("common.username")}: {data.appid}
+                  </div>
+                  <div>
+                    {i18n.t("common.phoneNumber")}: {data.phone}
+                  </div>
+                </QRCodeTextContainer>
+              </QRCodeHolder>
+            );
+          })}
         </QRCodeContainer>
       </CustomModal>
 
