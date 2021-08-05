@@ -386,7 +386,7 @@ class Transfer extends Component {
     showMessagebox: false,
     messageboxText: "",
     mainAccountId: "0",
-    autotransfer: this.props.wallet.autotransfer,
+    autotransfer: false,
   };
 
   // bindData() {
@@ -465,6 +465,12 @@ class Transfer extends Component {
     // }
   }
   componentDidUpdate(preProps) {
+    if (preProps.wallet.autotransfer !== this.props.wallet.autotransfer) {
+      this.setState({
+        ...this.state,
+        autotransfer: this.props.wallet.autotransfer,
+      });
+    }
     // if (
     //   this.props.wallet.balanceList.length !==
     //     preProps.wallet.balanceList.length &&
@@ -615,13 +621,17 @@ class Transfer extends Component {
     //   }
     // }
   };
+
   handleSwitchAutoTransfer = () => {
     this.props
       .updateAutoTransferStatus()
       .then((e) => {
         if (e.IsSuccess) {
-          this.setState({
-            autotransfer: !this.state.autotransfer,
+          //calling API again just to be sure
+          this.props.getAutoTransferStatus().then((e) => {
+            this.setState({
+              autotransfer: e.data,
+            });
           });
         }
       })
@@ -713,13 +723,13 @@ class Transfer extends Component {
               <CustomSwitchContainer>
                 <div>
                   {i18n.t("transfer.autoTransfer")} (
-                  {this.state.autotransfer
+                  {this.state.autotransfer === true
                     ? i18n.t("transfer.on")
                     : i18n.t("transfer.off")}
                   )
                 </div>
                 <CustomSwitch
-                  checked={this.state.autotransfer}
+                  checked={this.state.autotransfer === true}
                   onChange={this.handleSwitchAutoTransfer}
                 />
               </CustomSwitchContainer>
@@ -873,6 +883,7 @@ const mapDispatchToProps = (dispatch) => {
     doWithdrawAll: () => dispatch(walletAction.doWithdrawAll()),
     updateAutoTransferStatus: () =>
       dispatch(walletAction.updateAutoTransferStatus()),
+    getAutoTransferStatus: () => dispatch(walletAction.getAutoTransferStatus()),
   };
 };
 export default connect(
