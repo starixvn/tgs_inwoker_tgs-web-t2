@@ -463,6 +463,10 @@ class Transfer extends Component {
     // if (this.props.wallet.balanceList.length > 0) {
     //   this.bindData();
     // }
+    this.setState({
+      ...this.state,
+      autotransfer: this.props.wallet.autotransfer,
+    });
   }
   componentDidUpdate(preProps) {
     if (preProps.wallet.autotransfer !== this.props.wallet.autotransfer) {
