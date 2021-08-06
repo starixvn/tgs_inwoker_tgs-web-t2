@@ -318,6 +318,7 @@ const CustomSwitchContainer = styled.div`
   display: flex;
   align-items: center;
   font-weight: normal;
+  margin-bottom: 10px;
 `;
 
 const CustomFormControl = withStyles((theme) => ({
@@ -386,7 +387,6 @@ class Transfer extends Component {
     showMessagebox: false,
     messageboxText: "",
     mainAccountId: "0",
-    autotransfer: false,
   };
 
   // bindData() {
@@ -463,18 +463,8 @@ class Transfer extends Component {
     // if (this.props.wallet.balanceList.length > 0) {
     //   this.bindData();
     // }
-    this.setState({
-      ...this.state,
-      autotransfer: this.props.wallet.autotransfer,
-    });
   }
   componentDidUpdate(preProps) {
-    if (preProps.wallet.autotransfer !== this.props.wallet.autotransfer) {
-      this.setState({
-        ...this.state,
-        autotransfer: this.props.wallet.autotransfer,
-      });
-    }
     // if (
     //   this.props.wallet.balanceList.length !==
     //     preProps.wallet.balanceList.length &&
@@ -627,21 +617,7 @@ class Transfer extends Component {
   };
 
   handleSwitchAutoTransfer = () => {
-    this.props
-      .updateAutoTransferStatus()
-      .then((e) => {
-        if (e.IsSuccess) {
-          //calling API again just to be sure
-          this.props.getAutoTransferStatus().then((e) => {
-            this.setState({
-              autotransfer: e.data,
-            });
-          });
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    this.props.updateAutoTransferStatus();
   };
 
   render() {
@@ -719,27 +695,11 @@ class Transfer extends Component {
               />
             </WalletAmount>
           </WalletFrame>
-
           <SubTitle>
             <SubtitleContent>
               <div>{i18n.t("transfer.quickTransfer")}</div>
-
-              <CustomSwitchContainer>
-                <div>
-                  {i18n.t("transfer.autoTransfer")} (
-                  {this.state.autotransfer === true
-                    ? i18n.t("transfer.on")
-                    : i18n.t("transfer.off")}
-                  )
-                </div>
-                <CustomSwitch
-                  checked={this.state.autotransfer === true}
-                  onChange={this.handleSwitchAutoTransfer}
-                />
-              </CustomSwitchContainer>
             </SubtitleContent>
           </SubTitle>
-
           <QuickTransferContainer>
             <CustomFormControl>
               <CustomSelect
@@ -820,8 +780,20 @@ class Transfer extends Component {
           >
             {i18n.t("transfer.transfer")}
           </QuickTransferButton>
-
-          <SubTitle>{i18n.t("transfer.transferWallet")}</SubTitle>
+          <SubTitle>{i18n.t("transfer.transferWallet")}</SubTitle>{" "}
+          <CustomSwitchContainer>
+            <div>
+              {i18n.t("transfer.autoTransfer")} (
+              {this.props.wallet.autotransfer === true
+                ? i18n.t("transfer.on")
+                : i18n.t("transfer.off")}
+              )
+            </div>
+            <CustomSwitch
+              checked={this.props.wallet.autotransfer === true}
+              onChange={this.handleSwitchAutoTransfer}
+            />
+          </CustomSwitchContainer>
           <TransferContainer>
             {this.props.game.providerList
               .filter(
