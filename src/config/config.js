@@ -1,6 +1,7 @@
 //const config = require("./config." + process.env.REACT_APP_CUSTOM_NODE_ENV);
 
 const config = {
+  //baseUrl: window?.env?.baseUrl || "https://operator.tgsstg.gq/api/",
   baseUrl: window?.env?.baseUrl || "https://dev.operator.tgsdev.gq/api/",
   client:
     window?.env?.client ||
