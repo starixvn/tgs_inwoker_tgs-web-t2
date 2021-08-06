@@ -293,24 +293,26 @@ const AnotherFloatPanel = (props) => {
   return (
     <div>
       <Container>
-        <SidePanel
-          active={csModal}
-          onClick={() => {
-            performOpenCsModal();
-          }}
-          src2={PanelUserPNG2}
-        >
-          <RotateBack active={csModal}>
-            <Icon
-              src={PanelUserPNG}
-              src2={PanelUserPNG2}
-              active={csModal}
-              alt="user-icon"
-            />
+        {props.general.livechat && (
+          <SidePanel
+            active={csModal}
+            onClick={() => {
+              performOpenCsModal();
+            }}
+            src2={PanelUserPNG2}
+          >
+            <RotateBack active={csModal}>
+              <Icon
+                src={PanelUserPNG}
+                src2={PanelUserPNG2}
+                active={csModal}
+                alt="user-icon"
+              />
 
-            <Text active={csModal}>{i18n.t("panel.cs")}</Text>
-          </RotateBack>
-        </SidePanel>
+              <Text active={csModal}>{i18n.t("panel.cs")}</Text>
+            </RotateBack>
+          </SidePanel>
+        )}
 
         <SidePanel
           active={supportModal}
