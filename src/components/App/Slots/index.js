@@ -34,6 +34,7 @@ import {
   SlotFilterType,
   SHOW_LOGIN,
   GameService,
+  gameAction,
 } from "@Inwoker/tgs-api";
 
 import i18n from "../../../utils/i18n";
@@ -286,7 +287,7 @@ const ItemContainer = styled.div`
 `;
 const GameDesc = styled.div`
   padding-left: 10px;
-  padding-right: 10px;
+
   height: 28px;
   float: right;
   background-color: rgba(0, 0, 0, 0.8);
@@ -316,7 +317,7 @@ const GameProvider = styled.div`
   float: left;
   font-size: 14px;
   color: #ffffff;
-
+  padding-right: 5px;
   margin-top: 4px;
   text-align: center;
 `;
@@ -604,6 +605,13 @@ class Slots extends Component {
                   active={this.state.filterGame === category}
                 ></HistoryFilterItem>
               );
+            case "fav":
+              return (
+                <BookmarkFilterItem
+                  active={this.state.filterGame === category}
+                ></BookmarkFilterItem>
+              );
+
             default:
               return null;
           }
@@ -613,6 +621,26 @@ class Slots extends Component {
       </CategoryContainer>
     );
   }
+
+  handleToggleFavorite = (match, id, match2) => {
+    if (match) {
+      this.props.removeFavoriteGame(id).then(() => {
+        var array = [...this.state.favGame];
+        var index = array.indexOf(id);
+        if (index !== -1) {
+          array.splice(index, 1);
+          this.setState({ favGame: array });
+        }
+      });
+    } else {
+      this.props.setFavoriteGame(id).then(() => {
+        this.setState({
+          ...this.state,
+          favGame: [...this.state.favGame, id],
+        });
+      });
+    }
+  };
   render() {
     let list = null;
     if (this.state.gameList.length > 0) {
@@ -626,6 +654,8 @@ class Slots extends Component {
               return a.tag.new === true;
             } else if (this.state.filterGame === SlotFilterType.Recommend) {
               return a.tag.recommend === true;
+            } else if (this.state.filterGame === "fav") {
+              return this.state.favGame.indexOf(a.id) > -1;
             }
           }
 
@@ -650,10 +680,15 @@ class Slots extends Component {
             <GameDesc>
               <GameProvider>{el.gpcode}</GameProvider>
               <Spliter></Spliter>
-              {/* <Bookmark
-                bookmark={el.collect_id > 0}
-                // onClick={() => this.handleBookmarkClick(el.id, el.collect_id)}
-              ></Bookmark> */}
+              <Bookmark
+                bookmark={this.state.favGame.indexOf(el.id) > -1}
+                onClick={() =>
+                  this.handleToggleFavorite(
+                    this.state.favGame.indexOf(el.id) > -1,
+                    el.id
+                  )
+                }
+              ></Bookmark>
             </GameDesc>
             <GameHoverSelection
               onClick={() => this.handleJoinGameClick(el.gpcode, el.id)}
@@ -698,6 +733,7 @@ class Slots extends Component {
               SlotFilterType.Recommend,
               i18n.t("slot.recommendGame")
             )}
+            {this.genCategoryItem("fav", i18n.t("slot.bookmarkGame"))}
             <SearchFilterItemContainer>
               <SearchFilterItemInput
                 type="text"
@@ -732,6 +768,9 @@ const mapDispatchToProps = (dispatch) => {
     showLogin: (payload) => {
       dispatch({ type: SHOW_LOGIN, payload });
     },
+    setFavoriteGame: (gameId) => dispatch(gameAction.setFavoriteGame(gameId)),
+    removeFavoriteGame: (gameId) =>
+      dispatch(gameAction.removeFavoriteGame(gameId)),
   };
 };
 const mapStateToProps = (state) => {
