@@ -2,16 +2,19 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
-import { GameService } from "@Inwoker/tgs-api";
+import { gameAction, GameService, GameTypeEnum } from "@Inwoker/tgs-api";
 import LoadingGIF from "../../../assets/images/loading.gif";
 
 import BGJPG from "../../../assets/images/bg.jpg";
 import IconRefreshLargePNG from "../../../assets/images/icon-refresh-large.png";
+import IconLeftArrowPNG from "../../../assets/images/left-arrow-thicc.png";
+import IconFavPNG from "../../../assets/images/icon-fav.png";
 
 import Maintenance from "../../Share/Maintenance";
 import { withSnackbar } from "notistack";
 import i18n from "../../../utils/i18n";
 import config from "../../../config/config";
+import { AppHistory } from "../../../history/History";
 const Container = styled.div`
   width: 100%;
   background: url(${BGJPG});
@@ -58,7 +61,9 @@ const GameFrameHeader = styled.div`
   width: 100%;
   height: 50px;
   margin: 0 0 10px 0;
-  background-color: #8a7f73;
+  background-color: ${({ theme }) => theme.primary};
+  display: flex;
+  justify-content: space-between;
 `;
 const RefreshButton = styled.div`
   width: 48px;
@@ -71,6 +76,12 @@ const RefreshButton = styled.div`
     cursor: pointer;
   }
 `;
+
+const BackButton = styled(RefreshButton)`
+  background-image: url(${IconLeftArrowPNG});
+  background-size: 20px;
+`;
+
 const Spliter = styled.div`
   width: 1px;
   height: 38px;
@@ -92,7 +103,11 @@ const StyleButton = styled.div`
   border-radius: 4px;
 
   border: solid 1px #ffffff;
-  background-color: #f0ca83;
+  background-image: linear-gradient(
+    to top,
+    ${({ theme }) => theme.primaryGradient},
+    ${({ theme }) => theme.primary}
+  );
   &:hover {
     cursor: pointer;
     box-shadow: inset 1px 1px 9px 0 rgba(255, 255, 255, 0.75);
@@ -112,13 +127,38 @@ const ButtonLabel = styled.span`
   display: block;
   margin-top: 4px;
 `;
+
+const FavButtonButton = styled.div`
+  width: 20px;
+  height: 20px;
+
+  background: ${({ active }) => {
+    return active ? "white" : "red";
+  }};
+  -webkit-mask: url(${IconFavPNG}) no-repeat center / contain;
+  background-size: 100%;
+`;
+
+const FavButton = styled.div`
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 class Play extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       loading: true,
       maintenance: false,
       fullScreen: false,
+      isFav: false,
     };
     this.myRef = React.createRef();
   }
@@ -127,11 +167,45 @@ class Play extends Component {
     if (this.props.token != null) {
       this.DoJoinGame();
     }
+    GameService.GetFavoriteGame(this.getType()).then((e) => {
+      if (e.IsSuccess) {
+        if (e.data.indexOf(this.params) > -1) {
+          this.setState({
+            ...this.state,
+            isFav: true,
+          });
+        } else {
+          this.setState({
+            ...this.state,
+            isFav: false,
+          });
+        }
+      }
+    });
   }
+
+  params = parseInt(this.props.match.params.params);
+
+  getType() {
+    const type =
+      this.props.match.url.indexOf("electron") >= 0
+        ? GameTypeEnum.TABLEGAME
+        : this.props.match.url.indexOf("slots") >= 0
+        ? GameTypeEnum.SLOT
+        : this.props.match.url.indexOf("fish") >= 0
+        ? GameTypeEnum.FISH
+        : GameTypeEnum.SLOT;
+    return type;
+  }
+
   handleRefreshClick = () => {
     this.setState({ ...this.state, loading: true });
     this.myRef.current.src = "";
     this.DoJoinGame();
+  };
+
+  handleGoBack = () => {
+    AppHistory.goBack();
   };
   componentWillUpdate() {}
   componentDidUpdate(prevProps, prevState) {
@@ -185,12 +259,29 @@ class Play extends Component {
       }
     });
   };
+
+  handleToggleFavorite = () => {
+    if (this.state.isFav) {
+      this.props.removeFavoriteGame(this.params);
+      this.setState({
+        ...this.state,
+        isFav: false,
+      });
+    } else {
+      this.props.setFavoriteGame(this.params);
+      this.setState({
+        ...this.state,
+        isFav: true,
+      });
+    }
+  };
+
   render() {
     if (this.state.maintenance === true) {
       return <Maintenance></Maintenance>;
     } else
       return (
-        <Container>
+        <Container id={this.props.match.params.params}>
           <InnerContainer>
             {(() => {
               if (this.state.loading === true) {
@@ -213,12 +304,23 @@ class Play extends Component {
               }
             })()}
             <GameFrameHeader>
-              <RefreshButton onClick={this.handleRefreshClick}></RefreshButton>
-              <Spliter></Spliter>
-              <GameName>{this.props.match.params.name}</GameName>
-              <StyleButton onClick={this.handleFullScreenClick}>
-                <ButtonLabel>{i18n.t("slot.fullscreen")}</ButtonLabel>
-              </StyleButton>
+              <div>
+                <BackButton onClick={this.handleGoBack}></BackButton>
+                <Spliter></Spliter>
+                <RefreshButton
+                  onClick={this.handleRefreshClick}
+                ></RefreshButton>
+                <Spliter></Spliter>
+                <GameName>{this.props.match.params.name}</GameName>
+                <StyleButton onClick={this.handleFullScreenClick}>
+                  <ButtonLabel>{i18n.t("slot.fullscreen")}</ButtonLabel>
+                </StyleButton>
+              </div>
+              <div>
+                <FavButton onClick={this.handleToggleFavorite}>
+                  <FavButtonButton active={!this.state.isFav}></FavButtonButton>
+                </FavButton>
+              </div>
             </GameFrameHeader>
             <GameFrame
               ref={this.myRef}
@@ -230,6 +332,14 @@ class Play extends Component {
       );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setFavoriteGame: (gameId) => dispatch(gameAction.setFavoriteGame(gameId)),
+    removeFavoriteGame: (gameId) =>
+      dispatch(gameAction.removeFavoriteGame(gameId)),
+  };
+};
 const mapStateToProps = (state) => {
   return {
     // screenWidth: state.ui.screenWidth,
@@ -238,4 +348,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(withSnackbar(Play));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(Play));

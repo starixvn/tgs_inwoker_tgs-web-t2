@@ -11,7 +11,7 @@ import ArrowRightPNG from "../../../../assets/images/arrow-right.png";
 import { withStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-
+import Switch from "@material-ui/core/Switch";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import IconRefreshPNG from "../../../../assets/images/icon-refresh.png";
 
@@ -254,6 +254,73 @@ const GameWalletButton = styled.div`
 const TransferContainer = styled.div`
   min-height: 91px;
 `;
+
+const CustomSwitch = withStyles((theme) => ({
+  root: {
+    width: 42,
+    height: 26,
+    padding: 0,
+    marginLeft: 8,
+  },
+  switchBase: {
+    padding: 1,
+    "&$checked": {
+      transform: "translateX(16px)",
+      color: theme.palette.common.white,
+      "& + $track": {
+        backgroundColor: "#f0ca83",
+        opacity: 1,
+        border: "none",
+      },
+    },
+    "&$focusVisible $thumb": {
+      color: "#52d869",
+      border: "6px solid #fff",
+    },
+  },
+  thumb: {
+    width: 24,
+    height: 24,
+  },
+  track: {
+    borderRadius: 26 / 2,
+    border: `1px solid ${theme.palette.grey[400]}`,
+    backgroundColor: theme.palette.grey[50],
+    opacity: 1,
+    transition: theme.transitions.create(["background-color", "border"]),
+  },
+  checked: {},
+  focusVisible: {},
+}))(({ classes, ...props }) => {
+  return (
+    <Switch
+      focusVisibleClassName={classes.focusVisible}
+      disableRipple
+      classes={{
+        root: classes.root,
+        switchBase: classes.switchBase,
+        thumb: classes.thumb,
+        track: classes.track,
+        checked: classes.checked,
+      }}
+      {...props}
+    />
+  );
+});
+
+const SubtitleContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const CustomSwitchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+  margin-bottom: 10px;
+`;
+
 const CustomFormControl = withStyles((theme) => ({
   root: {
     width: "250px",
@@ -549,6 +616,10 @@ class Transfer extends Component {
     // }
   };
 
+  handleSwitchAutoTransfer = () => {
+    this.props.updateAutoTransferStatus();
+  };
+
   render() {
     return (
       <Container>
@@ -624,8 +695,11 @@ class Transfer extends Component {
               />
             </WalletAmount>
           </WalletFrame>
-
-          <SubTitle>{i18n.t("transfer.quickTransfer")}</SubTitle>
+          <SubTitle>
+            <SubtitleContent>
+              <div>{i18n.t("transfer.quickTransfer")}</div>
+            </SubtitleContent>
+          </SubTitle>
           <QuickTransferContainer>
             <CustomFormControl>
               <CustomSelect
@@ -706,8 +780,20 @@ class Transfer extends Component {
           >
             {i18n.t("transfer.transfer")}
           </QuickTransferButton>
-
-          <SubTitle>{i18n.t("transfer.transferWallet")}</SubTitle>
+          <SubTitle>{i18n.t("transfer.transferWallet")}</SubTitle>{" "}
+          <CustomSwitchContainer>
+            <div>
+              {i18n.t("transfer.autoTransfer")} (
+              {this.props.wallet.autotransfer === true
+                ? i18n.t("transfer.on")
+                : i18n.t("transfer.off")}
+              )
+            </div>
+            <CustomSwitch
+              checked={this.props.wallet.autotransfer === true}
+              onChange={this.handleSwitchAutoTransfer}
+            />
+          </CustomSwitchContainer>
           <TransferContainer>
             {this.props.game.providerList
               .filter(
@@ -771,6 +857,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(walletAction.doWithdrawalFromGame(gpcode, amount)),
     getGameBalance: (gpcode) => dispatch(walletAction.getGameBalance(gpcode)),
     doWithdrawAll: () => dispatch(walletAction.doWithdrawAll()),
+    updateAutoTransferStatus: () =>
+      dispatch(walletAction.updateAutoTransferStatus()),
+    getAutoTransferStatus: () => dispatch(walletAction.getAutoTransferStatus()),
   };
 };
 export default connect(

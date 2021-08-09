@@ -202,7 +202,7 @@ const NewIcon = styled.div`
   position: absolute;
   top: 4px;
   right: 50%;
-  margin-right: 210px;
+  margin-right: 225px;
 `;
 const AGContentStartGame = styled.div`
   position: absolute;
