@@ -1,46 +1,45 @@
-def message = ""
+def componentArray = [];
+def message = "";
 pipeline {
 	agent any
 	
 	environment {
-	    TAG = sh(script: "echo `date +%Y%m%d%H%M`", returnStdout: true).trim()
+		TAG = sh(script: "echo `date +%Y%m%d%H%M`", returnStdout: true).trim()
 		Registry = "registry.gitlab.com/rayprosoft/turnkey-gaming-system/"
-		Component = "lobby-t2"
 		gitlab_user_pwd = credentials('gitlab-user-pwd')
+		Image = "lobby-t2"
+		DevComponents = "lobby-t2"
+		StagingComponents = "lobby-gpi-t2"
+		ProdComponents = "lobby-gpi-t2"
 	}
 	
-	stages {   	
-		stage('Clear') {
-			steps {
-				cleanWs()
-			}
-		}
-
-		stage('Clone') {
-			steps {
-				git branch: "develop", url: "https://${gitlab_user_pwd_USR}:${gitlab_user_pwd_PSW}@gitlab.com/yifan1997/tgstemplate1.git"
-			}
-		}
-		
+	stages {		    	
 		stage('Prepare Env') {
             steps {
 			    sh "sudo docker login registry.gitlab.com -u ${gitlab_user_pwd_USR} -p ${gitlab_user_pwd_PSW}"
-                sh "echo 'Branch: $GIT_BRANCH'";
+			    sh "echo 'Branch: ${env.GIT_BRANCH}'";
                 script {
-                    switch('$GIT_BRANCH')
+                    switch(env.GIT_BRANCH)
                     {
-                        case 'origin/master':
+                        case ['master', 'origin/master']:
                             env.kube_ns = "prod";
+							env.k8s_config = 'stag-k8s-config';
+							componentArray = "${ProdComponents}".split(",") 	
                             break;
-                        case 'origin/release/current':
+                        case ['release/current', 'origin/release/current']:
                             env.kube_ns = "staging";
+							env.k8s_config = 'stag-k8s-config';
+							componentArray = "${StagingComponents}".split(",") 
                             break;
                         default:
                             env.kube_ns = "dev";
+							env.k8s_config = 'k8s-kube-config' 
+							componentArray = "${DevComponents}".split(",")
                             break;
                     }
 					TAG = env.kube_ns + '-' + TAG
-					message += "\nComponent:${Component}"
+					message += "\nBranch:${env.GIT_BRANCH}" 
+					message += "\nImage:${Image}"
 					message += "\nTag:${TAG}"
 					message += "\nEnv:$env.kube_ns"
                 }
@@ -51,27 +50,32 @@ pipeline {
         }
 		
 		stage('Docker Build') {   
-			steps {	  
-			    
-				sh "sudo docker build -t ${Registry}${Component}:${TAG} ."
-				sh "sudo docker build -t ${Registry}${Component}:$env.kube_ns ."
+			steps {	  			    
+				sh "sudo docker build -t ${Registry}${Image}:${TAG} ."
+				sh "sudo docker build -t ${Registry}${Image}:$env.kube_ns ."
 			}
 		}	
 		
 		stage('Docker Push') {   
 			steps {	  
-				sh "sudo docker push ${Registry}${Component}:${TAG}"
-				sh "sudo docker push ${Registry}${Component}:$env.kube_ns"
+				sh "sudo docker push ${Registry}${Image}:${TAG}"
+				sh "sudo docker push ${Registry}${Image}:$env.kube_ns"
 			}
 		}	
 		
 		stage('Deployment') {   
-			steps {	  			
-				withKubeConfig([credentialsId: 'k8s-kube-config']) {
-					sh "kubectl set image deployment/${Component} ${Component}=${Registry}${Component}:${TAG} --record -n $env.kube_ns"
+			steps {	  
+                script {			
+					withKubeConfig([credentialsId: env.k8s_config]) {
+					    message += "\nComponent:"
+						for (i = 0;i < componentArray.length; i++) {
+							message += "\n    ${componentArray[i]}"
+						    sh "kubectl set image deployment/${componentArray[i]} ${componentArray[i]}=${Registry}${Image}:${TAG} --record -n $env.kube_ns"
+						}
+					}
 				}
 			}
-		}		
+		}	
 	}
 	 post {
         success {
