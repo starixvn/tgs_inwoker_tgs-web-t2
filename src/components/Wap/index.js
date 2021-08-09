@@ -411,9 +411,12 @@ class Wap extends Component {
     message: "",
     loading: true,
   };
-  GetSupportUrl = (userid, name, question) => {
+  GetSupportUrl = (userid, name, question, email) => {
     var newURL = this.props.general.livechat
-      ? this.props.general.livechat.setting.url.replace("=name", "=" + name)
+      ? this.props.general.livechat.setting.url
+          .replace("{name}", name)
+          .replace("{email}", email)
+          .replace("{lang}", i18n.language)
       : "";
 
     if (newURL.length) {
