@@ -622,8 +622,6 @@ class Header extends Component {
             `/${i18n.language}/sports/play/${gameCode}/${gameType}`
           );
         }
-      } else if (gameType == GameTypeEnum.FISH) {
-        this.props.history.push(`/${i18n.language}/fish`);
       } else {
         this.props.history.push(`/${i18n.language}/${path}/${gameCode}`);
       }
