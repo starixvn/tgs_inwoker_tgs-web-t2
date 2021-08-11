@@ -87,7 +87,7 @@ pipeline {
 						
             steps {	
 				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'gitssh-user-pwd', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-				    sh 'git tag -a $TAG -m "${TAG}" '
+				    sh "git tag -a ${TAG} -m ${TAG}"
 				    sh 'git push https://$USERNAME:$PASSWORD@"${GitUrl}" --tags'
 				}
             }
