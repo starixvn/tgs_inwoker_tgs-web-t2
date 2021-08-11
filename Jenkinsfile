@@ -11,6 +11,7 @@ pipeline {
 		DevComponents = "lobby-t2"
 		StagingComponents = "lobby-gpi-t2"
 		ProdComponents = "lobby-gpi-t2"
+		GitUrl = "gitlab.com/yifan1997/tgstemplate1.git"
 	}
 	
 	stages {		    	
@@ -75,7 +76,22 @@ pipeline {
 					}
 				}
 			}
-		}	
+		}
+		
+		stage('Add Tag') {
+            when {
+                expression {
+                    return env.kube_ns == 'dev';
+                }
+            }
+						
+            steps {	
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'gitssh-user-pwd', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+				    sh 'git tag -a $TAG -m "${TAG}" '
+				    sh 'git push https://$USERNAME:$PASSWORD@"${GitUrl}"--tags'
+				}
+            }
+        }
 	}
 	 post {
         success {
