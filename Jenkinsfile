@@ -6,12 +6,12 @@ pipeline {
 	environment {
 		TAG = sh(script: "echo `date +%Y%m%d%H%M`", returnStdout: true).trim()
 		Registry = "registry.gitlab.com/rayprosoft/turnkey-gaming-system/"
+		GitUrl = "gitlab.com/yifan1997/tgstemplate1.git"
 		gitlab_user_pwd = credentials('gitlab-user-pwd')
 		Image = "lobby-t2"
 		DevComponents = "lobby-t2"
 		StagingComponents = "lobby-gpi-t2"
-		ProdComponents = "lobby-gpi-t2"
-		GitUrl = "gitlab.com/yifan1997/tgstemplate1.git"
+		ProdComponents = "lobby-gpi-t2"	
 	}
 	
 	stages {		    	
@@ -78,7 +78,7 @@ pipeline {
 			}
 		}
 		
-		stage('Add Tag') {
+		stage('Add Tag on Prod') {
             when {
                 expression {
                     return env.kube_ns == 'prod';
