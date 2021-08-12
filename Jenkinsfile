@@ -8,7 +8,6 @@ pipeline {
 		Registry = "registry.gitlab.com/rayprosoft/turnkey-gaming-system/"
 		GitUrl = "gitlab.com/yifan1997/tgstemplate1.git"
 		ImageTagUrl = "https://gitlab.com/api/v4/projects/20478010/registry/repositories/2172986/tags"
-		GitLabToken = "oD2cksJhGN1tgUuaE6C9"
 		gitlab_user_pwd = credentials('gitlab-user-pwd')
 		Image = "lobby-t2"
 		DevComponents = "lobby-t2"
@@ -97,7 +96,9 @@ pipeline {
 		
 		stage('Remove Image Tags') {					
             steps {	
-				sh "curl --request DELETE --data \'name_regex_delete=.*\' --data \'keep_n=10\' --header \'PRIVATE-TOKEN: ${GitLabToken}\' ${ImageTagUrl}"
+			    withCredentials([string(credentialsId: "GitLabToken", variable: "GitLabToken")]) {					
+					sh "curl --request DELETE --data \'name_regex_delete=.*\' --data \'keep_n=10\' --header \'PRIVATE-TOKEN: ${GitLabToken}\' ${ImageTagUrl}"
+				}
             }
         }
 	}
