@@ -396,6 +396,16 @@ class Account extends Component {
                   />
                   <Route
                     exact
+                    path={baseRouteUrl + "/account/manual/:paymentId"}
+                    render={(props) => (
+                      <Deposit
+                        token={this.props.account.token}
+                        account={this.props.account}
+                      />
+                    )}
+                  />
+                  <Route
+                    exact
                     path={baseRouteUrl + "/account/withdrawal"}
                     render={(props) => (
                       <Withdrawal
@@ -406,7 +416,6 @@ class Account extends Component {
                       />
                     )}
                   />
-
                   <Route
                     exact
                     path={baseRouteUrl + "/account/inbox"}
@@ -431,7 +440,6 @@ class Account extends Component {
                       />
                     )}
                   />
-
                   <Route
                     exact
                     path={baseRouteUrl + "/account/profile/:popup?"}
