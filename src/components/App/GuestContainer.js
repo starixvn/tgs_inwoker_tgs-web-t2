@@ -395,6 +395,8 @@ class GuestContainer extends Component {
       this.props.getMessageList(i18n.language, 0, 99);
       this.props.getBankCardList();
       this.props.getBalanceList();
+      this.props.getAutoTransferStatus();
+      
       this.props.game.providerList
         .filter((item) => item.status === 0 && item.transferwallet === true)
         .map((a) => {
@@ -525,6 +527,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(
         generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
       ),
+    getAutoTransferStatus: () => dispatch(walletAction.getAutoTransferStatus()),
   };
 };
 const mapStateToProps = (state) => {
