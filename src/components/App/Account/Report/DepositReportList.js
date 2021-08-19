@@ -74,9 +74,12 @@ const TheDepositButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${({ theme }) => theme.primary};
+  background: #f0ca83;
+  border: solid 1px black;
   padding: 0px 10px;
-  color: white;
+  color: black;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 `;
 function DepositReportList(props) {
   const handleChangePage = (event, newPage) => {
