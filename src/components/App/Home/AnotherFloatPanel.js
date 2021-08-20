@@ -111,13 +111,10 @@ const CustomModal = styled(Dialog)`
   .MuiBackdrop-root {
     background: transparent;
   }
-  .MuiDialog-scrollPaper {
-    align-items: flex-start;
-  }
 
   .MuiDialog-paper {
     min-width: 900px;
-    margin-top: 150px;
+
     border-radius: 16px;
     background: #f6f8f7;
     min-height: 200px;
