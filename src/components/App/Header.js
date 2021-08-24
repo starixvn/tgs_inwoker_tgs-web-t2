@@ -618,9 +618,16 @@ class Header extends Component {
         if (!this.props.account.token) {
           this.props.showLogin(true);
         } else {
-          this.props.history.push(
-            `/${i18n.language}/sports/play/${gameCode}/${gameType}`
-          );
+          if (gameCode === "WGFM" || gameCode === "WGVIA") {
+            window.open(
+              `/${i18n.language}/joinlobbygame/${gameType}/${gameCode}`,
+              "_blank"
+            );
+          } else {
+            this.props.history.push(
+              "/" + i18n.language + "/sports/play/" + gameCode + "/" + gameType
+            );
+          }
         }
       } else {
         this.props.history.push(`/${i18n.language}/${path}/${gameCode}`);
@@ -686,18 +693,20 @@ class Header extends Component {
               <LinkContainer style={{ float: "right" }}>
                 <LinkList>
                   <LinkListItem>
-                    {config.languages.map((lang, index) => {
+                    {this.props.general.brandLanguage.map((lang, index) => {
                       return (
                         <>
                           <CustomExternalLink
-                            selected={i18n.language === lang.name}
+                            selected={i18n.language === lang.culturecode}
                             onClick={() => {
-                              window.location.href = `/${lang.name}`;
+                              window.location.href = `/${lang.culturecode}`;
                             }}
                           >
-                            {lang.label}
+                            {i18n.t("lang." + lang.culturecode)}
                           </CustomExternalLink>
-                          {index < config.languages.length - 1 ? " | " : ""}
+                          {this.props.general.brandLanguage.length - 1 !== index
+                            ? " | "
+                            : ""}
                         </>
                       );
                     })}
@@ -918,6 +927,7 @@ const mapStateToProps = (state) => {
     ui: state.ui,
     account: state.account,
     game: state.game,
+    general: state.general,
   };
 };
 

@@ -1,6 +1,12 @@
 {
   "lang": {
-    "language": "Language"
+    "language": "Language",
+    "zh-TW":"繁体",
+    "zh-CN":"简体",
+    "en-US":"English",
+    "th-TH":"ไทย",
+    "id-ID":"Indonesia",
+    "vi-VN":"Tiếng Việt"
   },
   "error": {
     "ERR101": "Invalid credential.",

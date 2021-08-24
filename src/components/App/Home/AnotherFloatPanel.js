@@ -191,9 +191,9 @@ const QRCodeText = styled.div`
 `;
 
 const CSButtonContainer = styled.div`
-  padding: 20px;
+  padding: 5px;
   text-align: center;
-  margin: 20px;
+  margin: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;

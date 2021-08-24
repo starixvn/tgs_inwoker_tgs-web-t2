@@ -1,6 +1,12 @@
 {
   "lang": {
-    "language": "语言"
+    "language": "语言",
+    "zh-TW":"繁体",
+    "zh-CN":"简体",
+    "en-US":"English",
+    "th-TH":"ไทย",
+    "id-ID":"Indonesia",
+    "vi-VN":"Tiếng Việt"
   },
   "error": {
     "ERR101": "无效的凭证。",
