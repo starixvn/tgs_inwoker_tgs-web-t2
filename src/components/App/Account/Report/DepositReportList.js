@@ -120,7 +120,7 @@ function DepositReportList(props) {
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.amount}</StyledTableCell>{" "}
                 <StyledTableCell>
-                  {row.status === 1 && (
+                  {row.status === 1 && row.canuploadcerts === true && (
                     <TheDepositButton
                       onClick={() => {
                         handleManualDeposit(row.id);
