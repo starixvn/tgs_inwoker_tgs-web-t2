@@ -68,6 +68,8 @@ class App extends Component {
       this.props.getBrandCommunicationList();
       this.props.getMarquee(i18n.language);
       this.props.getLiveChatURL();
+      this.props.getBrandLanguage();
+      this.props.getBanner();
     }
 
     // this.props.getMobilePrefix();
@@ -153,6 +155,8 @@ class App extends Component {
         this.props.getBrandCommunicationList();
         this.props.getMarquee(i18n.language);
         this.props.getLiveChatURL();
+        this.props.getBrandLanguage();
+        this.props.getBanner();
       }
     }
     if (
@@ -376,7 +380,6 @@ const mapDispatchToProps = (dispatch) => {
     },
 
     checkTokenIsValid: () => dispatch(accountAction.checkTokenIsValid()),
-    getMarquee: () => dispatch(uiAction.getMarquee()),
 
     getBankCardList: () => dispatch(walletAction.getBankCardList()),
 
@@ -393,6 +396,11 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(generalAction.getBrandCommunication()),
     getMarquee: (language) => {
       dispatch(uiAction.getMarquee(language));
+    },
+    getBrandLanguage: () => dispatch(generalAction.getBrandLanguage()),
+
+    getBanner: () => {
+      dispatch(generalAction.getBanner());
     },
     getLiveChatURL: () => dispatch(generalAction.getLiveChatURL()),
     getAutoTransferStatus: () => dispatch(walletAction.getAutoTransferStatus()),

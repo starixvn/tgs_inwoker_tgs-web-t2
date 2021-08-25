@@ -293,6 +293,12 @@ const RouteMapping = [
     navigate: true,
   },
   {
+    path: "/manual/:paymentId?",
+    component: Wapp.Deposit,
+    alert: true,
+    navigate: true,
+  },
+  {
     path: "/deposit/payment/:id/:bank/:amount/:bonus?",
     component: Wapp.DepositPayment,
     alert: true,
@@ -415,8 +421,8 @@ class Wap extends Component {
     var newURL = this.props.general.livechat
       ? this.props.general.livechat.setting.url
           .replace("{name}", name)
-          .replace("{email}", email || "")
           .replace("{lang}", i18n.language)
+          .replace("{email}", email || "")
       : "";
 
     if (newURL.length) {
@@ -476,7 +482,9 @@ class Wap extends Component {
     if (this.props.general.token == "") {
       this.props.getSiteToken();
     } else {
+      this.props.getBrandLanguage();
       this.props.getMarquee(i18n.language);
+      this.props.getBanner();
       this.props.getBrandCommunicationList();
       this.props.getLiveChatURL();
     }
@@ -542,7 +550,6 @@ class Wap extends Component {
         this.props.getMessageList(i18n.language, 1, 99);
         this.props.getBankCardList();
         this.props.getAutoTransferStatus();
-
         // this.props.getIDCardNo();
         //this.props.getDepositChannel();
 
@@ -592,7 +599,9 @@ class Wap extends Component {
           }
         });
         this.props.getHomePageGameList();
+        this.props.getBrandLanguage();
         this.props.getMarquee(i18n.language);
+        this.props.getBanner();
         this.props.getBrandCommunicationList();
         this.props.getLiveChatURL();
       }
@@ -871,8 +880,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(inboxAction.getMessages(language, pages, limit, true, true)),
     getBrandCommunicationList: (language) =>
       dispatch(generalAction.getBrandCommunication()),
-    getMarquee: (language) => {
-      dispatch(uiAction.getMarquee(language));
+    getBrandLanguage: () => dispatch(generalAction.getBrandLanguage()),
+
+    getBanner: () => {
+      dispatch(generalAction.getBanner());
     },
     getLiveChatURL: () => dispatch(generalAction.getLiveChatURL()),
     getAutoTransferStatus: () => dispatch(walletAction.getAutoTransferStatus()),
