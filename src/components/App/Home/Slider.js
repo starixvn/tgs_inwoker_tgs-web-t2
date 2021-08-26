@@ -107,7 +107,7 @@ class Slider extends React.Component {
                   <Img
                     src={item.desktopurl}
                     alt={item.alt}
-                    title={item.title}
+                    title={item.alt}
                   ></Img>
                 </ATag>
               );
