@@ -8,15 +8,6 @@ const config = {
     "I7nKiimrZQOqnJ6ryjUw74c0Hi64KC6Myunhob4cHh8VOUIuZh4p63czefxyyzbZ",
   currency: window?.env?.currency || "CNY",
   brand: window?.env?.brand || "PGG",
-  languages: window?.env?.languages
-    ? window?.env?.languages
-    : [
-        { name: "zh-CN", label: "简体" },
-        { name: "zh-TW", label: "繁體" },
-        { name: "en-US", label: "English" },
-        { name: "th-TH", label: "Thai" },
-      ],
-  defaultLanguage: window?.env?.defaultLanguage || "zh-CN",
   bannerCount: window?.env?.bannerCount || 2,
   theme: window?.env?.theme || "blue",
   sourceUrl: window?.env?.sourceUrl || "https://images.srvptt.com/",

@@ -246,7 +246,7 @@ const AppWrapper = () => {
                     path={Common.baseRouteUrl + "/"}
                     render={(props) => (isMobileOnly ? <Wap /> : <Web />)}
                   />
-                  <Redirect to={`/${Config.defaultLanguage}`} />
+                  <Redirect to={`/${i18n.language}`} />
                 </Switch>
               </Router>
             </SnackbarProvider>

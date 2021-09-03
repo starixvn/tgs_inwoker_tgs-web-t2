@@ -176,6 +176,21 @@ class App extends Component {
     ) {
       this.props.history.push("/" + i18n.language + "/maintenance");
     }
+    if (
+      preProps.general.brandLanguage !== this.props.general.brandLanguage &&
+      this.props.general.brandLanguage.length > 0
+    ) {
+      if (
+        this.props.general.brandLanguage.filter(
+          (a) => a.culturecode === i18n.language
+        ).length <= 0
+      ) {
+        window.location.href = window.location.pathname.replace(
+          i18n.language,
+          this.props.general.brandLanguage[0].culturecode
+        );
+      }
+    }
   }
   GetSupportUrl = (userid, name, question, email) => {
     var newURL = this.props.general.livechat
