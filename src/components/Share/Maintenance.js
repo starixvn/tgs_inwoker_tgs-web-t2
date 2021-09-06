@@ -10,6 +10,7 @@ const Container = styled.div`
   width: 100%;
   background: url(${MaintenancePNG}) no-repeat center;
   background-size: cover;
+
   position: relative;
 `;
 const MaintenanceImage = styled.img`

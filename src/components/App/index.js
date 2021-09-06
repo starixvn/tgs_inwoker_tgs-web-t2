@@ -49,7 +49,9 @@ const Main = styled.div`
   min-height: 600px;
 `;
 const EmptyHeader = styled.div`
-  height: 105px;
+  height: ${({ hide }) => {
+    return hide ? "117px" : "105px";
+  }};
   background: #000103;
   @media (max-width: 1100px) {
     height: 187px;
@@ -244,7 +246,7 @@ class App extends Component {
                   onhandleShowCSClick={this.handleShowCSClick}
                   hide={this.maintenance}
                 ></Header>
-                <EmptyHeader></EmptyHeader>
+                <EmptyHeader hide={this.maintenance}></EmptyHeader>
                 <Main>
                   <Switch>
                     <Route
