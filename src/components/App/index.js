@@ -49,9 +49,7 @@ const Main = styled.div`
   min-height: 600px;
 `;
 const EmptyHeader = styled.div`
-  height: ${({ hide }) => {
-    return hide ? "117px" : "105px";
-  }};
+  height: 105px;
   background: #000103;
   @media (max-width: 1100px) {
     height: 187px;
