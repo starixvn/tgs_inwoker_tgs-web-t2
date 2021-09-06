@@ -37,7 +37,7 @@ i18n.use(LanguageDetector).init({
     },
   },
   whitelist: ["en-US", "zh-CN", "zh-TW", "th-TH", "id-ID", "vt-VN"],
-  fallbackLng: [config.defaultLanguage],
+  fallbackLng: ["en-US"],
   detection: {
     order: ["path"],
     lookupFromPathIndex: 0,

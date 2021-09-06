@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { Router, Switch, Route, Redirect } from "react-router";
 import { AppHistory } from "../../history/History";
 import { withRouter } from "react-router-dom";
-
 import {
   UPDATING_SCREEN_SIZE,
   SHOW_LOGIN,
@@ -14,65 +13,13 @@ import {
   walletAction,
   accountAction,
   inboxAction,
+  GeneralService,
 } from "@Inwoker/tgs-api";
+
 import debounce from "lodash.debounce";
-
 import { Wapp, setConfigApi, seti18n } from "@Inwoker/tgs-wap-t1";
-
-import Loading from "./Share/Loading";
-
-import Main from "./Main/index";
-
 import config from "../../config/config";
-import Login from "./Login/index";
-import Slot from "./Slot/index";
-import Profile from "./Profile/index";
-
-import NameVefiry from "./Profile/NameVerify";
-import WeChat from "./Profile/WeChat";
-import QQ from "./Profile/QQ";
-import Email from "./Profile/Email";
-import ChangeEmail from "./Profile/ChangeEmail";
-import ChangePhone from "./Profile/ChangePhone";
-import Phone from "./Profile/Phone";
-import ChangePassword from "./Profile/ChangePassword";
-
-import WithdrawalPassword from "./Profile/WithdrawalPassword";
-import ChangeWithdrawalPassword from "./Profile/ChangeWithdrawalPassword";
-import ResetWithdrawalPassword from "./Profile/ResetWithdrawalPassword";
-
-import Promotion from "./Promotion/index";
-import PromotionDetails from "./Promotion/Details";
-
-import Aboutus from "./Aboutus/index";
-
-import Inbox from "./Inbox/index";
-import InboxDetails from "./Inbox/Details";
-
-import Transfer from "./Transfer/index";
-
-import Withdrawal from "./Withdrawal/index";
-import WithdrawalDetails from "./Withdrawal/Details";
-import Deposit from "./Deposit/index";
-import DepositPayment from "./Deposit/Payment";
-import DepositDetails from "./Deposit/Details";
-import DepositManual from "./Deposit/Manual";
-
-import Card from "./Card/index";
-import AddCard from "./Card/AddCard";
-// import NameVerification from "./Card/NameVerification";
-// import PassSetting from "./Card/PassSetting";
-
-import Report from "./Report/index";
 import ErrorSwitcher from "../../utils/ErrorSwitcher";
-import { SupportService, GeneralService } from "@Inwoker/tgs-api";
-// import CustomerService from "./CustomerService/index";
-import CustomerServiceChat from "./CustomerService/index";
-
-import ForgotPassword from "./ForgotPassword/index";
-
-import SettingLanguage from "./Setting/Language";
-
 import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Dialog";
 import styled from "styled-components";
@@ -633,6 +580,21 @@ class Wap extends Component {
     ) {
       this.props.history.push("/" + i18n.language + "/maintenance");
     }
+    if (
+      preProps.general.brandLanguage !== this.props.general.brandLanguage &&
+      this.props.general.brandLanguage.length > 0
+    ) {
+      if (
+        this.props.general.brandLanguage.filter(
+          (a) => a.culturecode === i18n.language
+        ).length <= 0
+      ) {
+        window.location.href = window.location.pathname.replace(
+          i18n.language,
+          this.props.general.brandLanguage[0].culturecode
+        );
+      }
+    }
   }
   handleNavigate = (page) => {
     if (
@@ -705,7 +667,7 @@ class Wap extends Component {
         this.props.general.token == null) &&
       this.props.general.isMaintenance === false
     ) {
-      return <Loading show={this.state.loading}></Loading>;
+      return <Wapp.Loading show={this.state.loading}></Wapp.Loading>;
     } else {
       return (
         <>
