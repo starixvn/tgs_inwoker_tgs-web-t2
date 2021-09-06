@@ -50,7 +50,7 @@ const Main = styled.div`
 `;
 const EmptyHeader = styled.div`
   height: 105px;
-  background-image: linear-gradient(to top, #060d0f, #1b213f, #29356c);
+  background: #000103;
   @media (max-width: 1100px) {
     height: 187px;
   }
@@ -223,6 +223,9 @@ class App extends Component {
     }
   };
 
+  path = window.location.pathname.split("/");
+  maintenance = this.path[2] == "maintenance";
+
   render() {
     return (
       <Router history={AppHistory}>
@@ -237,7 +240,10 @@ class App extends Component {
           } else {
             return (
               <>
-                <Header onhandleShowCSClick={this.handleShowCSClick}></Header>
+                <Header
+                  onhandleShowCSClick={this.handleShowCSClick}
+                  hide={this.maintenance}
+                ></Header>
                 <EmptyHeader></EmptyHeader>
                 <Main>
                   <Switch>
@@ -370,7 +376,7 @@ class App extends Component {
                     <Redirect to={"/" + i18n.language} />
                   </Switch>
                 </Main>
-                <Footer target={"_blank"}></Footer>
+                <Footer hide={this.maintenance} target={"_blank"}></Footer>
               </>
             );
           }
