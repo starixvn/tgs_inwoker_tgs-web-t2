@@ -42,6 +42,7 @@ import { ConfigService, rootReducer } from "@Inwoker/tgs-api";
 import Common from "./utils/Common";
 import { ThemeProvider } from "styled-components";
 import { themeList } from "./theme";
+import { GlobalStyles } from "./global";
 require("es6-promise").polyfill();
 const store = createStore(rootReducer, applyMiddleware(thunk));
 Interceptor.setupInterceptors(store);
@@ -83,8 +84,6 @@ ConfigService.setCurrency(Config.currency);
 
 ConfigService.setLiveChatUrl(Config.liveChatUrl);
 
-document.getElementById("favicon").href =
-  process.env.PUBLIC_URL + `/assets/images/logo/${Config.brand}.ico`;
 document.getElementById("title").innerHTML = i18n
   .t("common.title")
   .replace(/{brand}/g, Config.brand);
@@ -139,7 +138,7 @@ const muiTheme = createMuiTheme({
     type: "light",
   },
   typography: {
-    fontFamily: "PingFangTC-Medium",
+    //  fontFamily: "PingFangTC-Medium",
 
     fontWeightLight: 300,
     fontWeightRegular: 400,
@@ -201,6 +200,7 @@ const AppWrapper = () => {
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={muiTheme}>
           <ThemeProvider theme={muiThemeMode}>
+            <GlobalStyles />
             <SnackbarProvider
               classes={{
                 variantSuccess: classes.success,
@@ -244,7 +244,7 @@ const AppWrapper = () => {
                     path={Common.baseRouteUrl + "/"}
                     render={(props) => (isMobileOnly ? <Wap /> : <Web />)}
                   />
-                  <Redirect to={`/${Config.defaultLanguage}`} />
+                  <Redirect to={`/${i18n.language}`} />
                 </Switch>
               </Router>
             </SnackbarProvider>

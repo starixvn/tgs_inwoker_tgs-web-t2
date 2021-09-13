@@ -308,6 +308,7 @@ class Deposit extends Component {
       ...this.state,
       amount: 0,
       selectedMethodIndex: index,
+      selectedChannelIndex: 0,
     });
   };
   handleNextClick = (e) => {

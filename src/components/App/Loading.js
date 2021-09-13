@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import config from "../../config/config";
 import LoadingGIF from "../../assets/images/loading.gif";
 
@@ -40,16 +41,16 @@ function Loading(props) {
   return (
     <Container open={props.show} opacity={props.opacity}>
       <Inner>
-        <LogoImg
-          src={
-            process.env.PUBLIC_URL + `/assets/images/logo/${config.brand}.png`
-          }
-        />
+        <LogoImg src={props.general.brand && props.general.brand.loadingUrl} />
         <div className="clear"></div>
         <LogoImg2 src={LoadingGIF} />
       </Inner>
     </Container>
   );
 }
-
-export default Loading;
+const mapStateToProps = (state) => {
+  return {
+    general: state.general,
+  };
+};
+export default connect(mapStateToProps, null)(Loading);

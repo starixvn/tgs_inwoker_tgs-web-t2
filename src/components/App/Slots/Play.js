@@ -290,8 +290,8 @@ class Play extends Component {
                     <LoadingInner>
                       <LoadingLogoImg
                         src={
-                          process.env.PUBLIC_URL +
-                          `/assets/images/logo/${config.brand}.png`
+                          this.props.general.brand &&
+                          this.props.general.brand.loadingUrl
                         }
                       />
                       <div className="clear"></div>

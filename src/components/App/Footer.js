@@ -16,6 +16,9 @@ const Container = styled.div`
   width: 100%;
   height: 240px;
   background-color: #151515;
+  display: ${({ hide }) => {
+    return hide ? "none" : "block";
+  }};
 `;
 
 const MiddleContainer = styled.div`
@@ -90,7 +93,7 @@ const settings = {
 
 function Footer(props) {
   return (
-    <Container>
+    <Container hide={props.hide}>
       <MiddleContainer>
         <MiddleInnerWrap>
           <Slider {...settings}>

@@ -50,7 +50,7 @@ const Main = styled.div`
 `;
 const EmptyHeader = styled.div`
   height: 105px;
-  background-image: linear-gradient(to top, #060d0f, #1b213f, #29356c);
+  background: #000103;
   @media (max-width: 1100px) {
     height: 187px;
   }
@@ -70,6 +70,7 @@ class App extends Component {
       this.props.getLiveChatURL();
       this.props.getBrandLanguage();
       this.props.getBanner();
+      this.props.getBrand();
     }
 
     // this.props.getMobilePrefix();
@@ -157,6 +158,7 @@ class App extends Component {
         this.props.getLiveChatURL();
         this.props.getBrandLanguage();
         this.props.getBanner();
+        this.props.getBrand();
       }
     }
     if (
@@ -175,6 +177,21 @@ class App extends Component {
       this.props.general.isMaintenance === true
     ) {
       this.props.history.push("/" + i18n.language + "/maintenance");
+    }
+    if (
+      preProps.general.brandLanguage !== this.props.general.brandLanguage &&
+      this.props.general.brandLanguage.length > 0
+    ) {
+      if (
+        this.props.general.brandLanguage.filter(
+          (a) => a.culturecode === i18n.language
+        ).length <= 0
+      ) {
+        window.location.href = window.location.pathname.replace(
+          i18n.language,
+          this.props.general.brandLanguage[0].culturecode
+        );
+      }
     }
   }
   GetSupportUrl = (userid, name, question, email) => {
@@ -208,6 +225,9 @@ class App extends Component {
     }
   };
 
+  path = window.location.pathname.split("/");
+  maintenance = this.path[2] == "maintenance";
+
   render() {
     return (
       <Router history={AppHistory}>
@@ -222,8 +242,11 @@ class App extends Component {
           } else {
             return (
               <>
-                <Header onhandleShowCSClick={this.handleShowCSClick}></Header>
-                <EmptyHeader></EmptyHeader>
+                <Header
+                  onhandleShowCSClick={this.handleShowCSClick}
+                  hide={this.maintenance}
+                ></Header>
+                <EmptyHeader hide={this.maintenance}></EmptyHeader>
                 <Main>
                   <Switch>
                     <Route
@@ -355,7 +378,7 @@ class App extends Component {
                     <Redirect to={"/" + i18n.language} />
                   </Switch>
                 </Main>
-                <Footer target={"_blank"}></Footer>
+                <Footer hide={this.maintenance} target={"_blank"}></Footer>
               </>
             );
           }
@@ -398,7 +421,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(uiAction.getMarquee(language));
     },
     getBrandLanguage: () => dispatch(generalAction.getBrandLanguage()),
-
+    getBrand: () => dispatch(generalAction.getBrand()),
     getBanner: () => {
       dispatch(generalAction.getBanner());
     },

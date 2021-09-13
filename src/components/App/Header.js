@@ -166,8 +166,7 @@ const BottomContainer = styled.div`
   max-width: 1280px;
 `;
 const LogoContainer = styled.div`
-  background-image: url(${process.env
-    .PUBLIC_URL}/assets/images/logo/${config.brand}.png);
+  background-image: url("${(props) => props.img}");
   background-repeat: no-repeat;
   background-size: contain;
   width: 160px;
@@ -349,6 +348,12 @@ const StyledAppBar = withStyles((theme) => ({
     },
   },
 }))(AppBar);
+
+const CustomAppBar = styled(StyledAppBar)`
+  display: ${({ hide }) => {
+    return hide ? "none" : "block";
+  }};
+`;
 const styles = {
   root: {
     flexGrow: 1,
@@ -678,7 +683,7 @@ class Header extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <StyledAppBar>
+      <CustomAppBar hide={this.props.hide}>
         <InnerWrap>
           <TopContainer>
             <TimerContainer>
@@ -774,6 +779,10 @@ class Header extends Component {
           </TopContainer>
           <BottomContainer>
             <LogoContainer
+              img={
+                this.props.general.brand &&
+                this.props.general.brand.desktopLogoUrl
+              }
               onClick={this.onhandleLogoClick}
               className={`${
                 this.state.shouldShow === null
@@ -915,7 +924,7 @@ class Header extends Component {
             </RightMenuUL>
           </BottomContainer>
         </InnerWrap>
-      </StyledAppBar>
+      </CustomAppBar>
     );
   }
 }
