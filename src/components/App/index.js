@@ -70,6 +70,7 @@ class App extends Component {
       this.props.getLiveChatURL();
       this.props.getBrandLanguage();
       this.props.getBanner();
+      this.props.getBrand();
     }
 
     // this.props.getMobilePrefix();
@@ -157,6 +158,7 @@ class App extends Component {
         this.props.getLiveChatURL();
         this.props.getBrandLanguage();
         this.props.getBanner();
+        this.props.getBrand();
       }
     }
     if (
@@ -419,7 +421,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(uiAction.getMarquee(language));
     },
     getBrandLanguage: () => dispatch(generalAction.getBrandLanguage()),
-
+    getBrand: () => dispatch(generalAction.getBrand()),
     getBanner: () => {
       dispatch(generalAction.getBanner());
     },

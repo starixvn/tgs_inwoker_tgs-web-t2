@@ -84,8 +84,6 @@ ConfigService.setCurrency(Config.currency);
 
 ConfigService.setLiveChatUrl(Config.liveChatUrl);
 
-document.getElementById("favicon").href =
-  process.env.PUBLIC_URL + `/assets/images/logo/${Config.brand}.ico`;
 document.getElementById("title").innerHTML = i18n
   .t("common.title")
   .replace(/{brand}/g, Config.brand);

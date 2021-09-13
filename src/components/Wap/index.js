@@ -432,6 +432,7 @@ class Wap extends Component {
       this.props.getBrandLanguage();
       this.props.getMarquee(i18n.language);
       this.props.getBanner();
+      this.props.getBrand();
       this.props.getBrandCommunicationList();
       this.props.getLiveChatURL();
     }
@@ -549,6 +550,7 @@ class Wap extends Component {
         this.props.getBrandLanguage();
         this.props.getMarquee(i18n.language);
         this.props.getBanner();
+        this.props.getBrand();
         this.props.getBrandCommunicationList();
         this.props.getLiveChatURL();
       }
@@ -843,7 +845,7 @@ const mapDispatchToProps = (dispatch) => {
     getBrandCommunicationList: (language) =>
       dispatch(generalAction.getBrandCommunication()),
     getBrandLanguage: () => dispatch(generalAction.getBrandLanguage()),
-
+    getBrand: () => dispatch(generalAction.getBrand()),
     getBanner: () => {
       dispatch(generalAction.getBanner());
     },

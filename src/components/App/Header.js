@@ -166,8 +166,7 @@ const BottomContainer = styled.div`
   max-width: 1280px;
 `;
 const LogoContainer = styled.div`
-  background-image: url(${process.env
-    .PUBLIC_URL}/assets/images/logo/${config.brand}.png);
+  background-image: url("${(props) => props.img}");
   background-repeat: no-repeat;
   background-size: contain;
   width: 160px;
@@ -780,6 +779,10 @@ class Header extends Component {
           </TopContainer>
           <BottomContainer>
             <LogoContainer
+              img={
+                this.props.general.brand &&
+                this.props.general.brand.desktopLogoUrl
+              }
               onClick={this.onhandleLogoClick}
               className={`${
                 this.state.shouldShow === null
