@@ -342,6 +342,12 @@ class Deposit extends Component {
           channel.id,
           this.state.depositPromotion
         );
+      } else if (payment.paymentcode.toUpperCase() === "MATICPAY") {
+        this.props.doMaticPayDeposit(
+          this.state.amount.replace(/,/g, ""),
+          channel.id,
+          this.state.depositPromotion
+        );
       } else if (payment.paymentcode.toUpperCase() === "APPLEPAY") {
         this.props.doApplePayDeposit(
           this.state.amount.replace(/,/g, ""),
@@ -722,6 +728,8 @@ const mapDispatchToProps = (dispatch) => {
       ),
     doPrimePayDeposit: (amount, payment_id, promotionid) =>
       dispatch(walletAction.doPrimePayDeposit(amount, payment_id, promotionid)),
+    doMaticPayDeposit: (amount, payment_id, promotionid) =>
+      dispatch(walletAction.doMaticPayDeposit(amount, payment_id, promotionid)),
     doUmPayCryptoDeposit: (amount, payment_id, promotionid) =>
       dispatch(
         walletAction.doUmPayCryptoDeposit(amount, payment_id, promotionid)
