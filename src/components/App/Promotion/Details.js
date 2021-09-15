@@ -251,6 +251,25 @@ class PromotionDetails extends Component {
                     "</div>",
                 }}
               ></PromoDesc>
+
+              <PromoDesc
+                dangerouslySetInnerHTML={{
+                  __html:
+                    "<div >" +
+                    (() => {
+                      if (
+                        this.state.details.localization !== null &&
+                        this.state.details.localization.terms &&
+                        this.state.details.localization.terms !== null
+                      ) {
+                        return this.state.details.localization.terms;
+                      } else {
+                        return this.state.details.terms;
+                      }
+                    })() +
+                    "</div>",
+                }}
+              ></PromoDesc>
             </EventText>
             <Grid container justify="center">
               <PromoButtonContainer
