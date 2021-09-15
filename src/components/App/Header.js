@@ -876,39 +876,60 @@ class Header extends Component {
                               (game) => item.gameType.indexOf(game.type) >= 0
                             );
 
-                            return list.map((game, index) => {
-                              return (
-                                <GameFrame
-                                  key={index}
-                                  style={{
-                                    width: `calc(1264px/${list.length})`,
-                                  }}
-                                >
-                                  <GameImg
-                                    index={index}
-                                    src={`${
-                                      process.env.PUBLIC_URL
-                                    }/assets/images/pcHeaderMenu/${
-                                      item.path
-                                    }/${game.abbreviation.toLowerCase()}.png`}
-                                    alt=""
-                                    onClick={() => {
-                                      this.handleJoinGameClick(
-                                        game.type,
-                                        item.path,
-                                        game.abbreviation,
-                                        "/" +
-                                          i18n.language +
-                                          "/joingame/" +
-                                          game.type +
-                                          "/" +
-                                          game.abbreviation
+                            return list
+                              .filter((a) => {
+                                if (a.abbreviation.includes("TCG")) {
+                                  switch (config.currency) {
+                                    case "CNY":
+                                      return (
+                                        a.abbreviation === "TCG_LOTTO" ||
+                                        a.abbreviation === "TCG_SEA"
                                       );
+                                    case "VND":
+                                      return (
+                                        a.abbreviation === "TCG_LOTTO_VN" ||
+                                        a.abbreviation === "TCG_SEA"
+                                      );
+                                    default:
+                                      return "";
+                                  }
+                                } else {
+                                  return a;
+                                }
+                              })
+                              .map((game, index) => {
+                                return (
+                                  <GameFrame
+                                    key={index}
+                                    style={{
+                                      width: `calc(1264px/${list.length})`,
                                     }}
-                                  ></GameImg>
-                                </GameFrame>
-                              );
-                            });
+                                  >
+                                    <GameImg
+                                      index={index}
+                                      src={`${
+                                        process.env.PUBLIC_URL
+                                      }/assets/images/pcHeaderMenu/${
+                                        item.path
+                                      }/${game.abbreviation.toLowerCase()}.png`}
+                                      alt=""
+                                      onClick={() => {
+                                        this.handleJoinGameClick(
+                                          game.type,
+                                          item.path,
+                                          game.abbreviation,
+                                          "/" +
+                                            i18n.language +
+                                            "/joingame/" +
+                                            game.type +
+                                            "/" +
+                                            game.abbreviation
+                                        );
+                                      }}
+                                    ></GameImg>
+                                  </GameFrame>
+                                );
+                              });
                           })()}
                         </MouseOverInner>
                       </MouseOverBackground>
