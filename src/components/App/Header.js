@@ -256,17 +256,7 @@ const MouseOverInner = styled.div`
   margin: 0 auto;
 `;
 
-const GameFrame = styled.div`
-  max-width: 290px;
-  float: left;
-  min-height: 160px;
-  position: relative;
-  transition: transform 0.6s;
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-  }
-`;
+
 const GameImg = styled.img`
   height: 130px;
   float: right;
@@ -354,6 +344,61 @@ const CustomAppBar = styled(StyledAppBar)`
     return hide ? "none" : "block";
   }};
 `;
+
+const GameFrameWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+const Maintenance = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  cursor: not-allowed;
+  pointer-event: none;
+  color: white;
+  font-size: 24px;
+`;
+
+
+
+const GameFrame = styled.div`
+  max-width: 290px;
+  float: left;
+  min-height: 160px;
+  position: relative;
+  transition: transform 0.6s;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+
+  ${({ maintenance }) => {
+    return maintenance
+      ? `
+      ${GameImg}{
+        filter: brightness(40%) grayscale(200%);
+      }
+
+      ${Maintenance}{
+
+        display: flex;
+      }
+
+    
+    
+    
+    `
+      : ``;
+  }}
+
+`;
+
+
 const styles = {
   root: {
     flexGrow: 1,
@@ -878,12 +923,16 @@ class Header extends Component {
 
                             return list.map((game, index) => {
                               return (
-                                <GameFrame
+                               <GameFrameWrapper >
+                                  <GameFrame
                                   key={index}
                                   style={{
                                     width: `calc(1264px/${list.length})`,
                                   }}
-                                >
+                                //TODO: To remove
+                                // maintenance={true}
+
+                                > <Maintenance>maintenance</Maintenance>
                                   <GameImg
                                     index={index}
                                     src={`${
@@ -907,6 +956,7 @@ class Header extends Component {
                                     }}
                                   ></GameImg>
                                 </GameFrame>
+                               </GameFrameWrapper>
                               );
                             });
                           })()}

@@ -6,6 +6,7 @@ import i18n from "../../../utils/i18n";
 
 import { SHOW_LOGIN, GameEnum, GameTypeEnum } from "@Inwoker/tgs-api";
 import ScrollAnimation from "react-animate-on-scroll";
+
 const Container = styled.div`
   width: 100%;
   height: auto;
@@ -21,25 +22,56 @@ const GirlImage = styled.div`
   background: url(${(props) => props.img}) no-repeat;
   width: 308px;
   height: 172px;
-  float: left;
+  float: right;
   &:hover {
     cursor: pointer;
   }
 `;
 const LeftSlide = styled(ScrollAnimation)`
-  position: absolute;
-  right: 50%;
-  margin-right: -440px;
-  top: 400px;
-  width: 1053px;
+  display: flex;
 `;
 const RightSlide = styled(ScrollAnimation)`
+  display: flex;
+`;
+const ItemContainer = styled.div`
   position: absolute;
   left: 50%;
-  top: 600px;
-  margin-left: -440px;
-  width: 1053px;
+  transform: translateX(-50%);
+  overflow: visible;
 `;
+
+const Maintenance = styled.div`
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  display: none;
+`;
+
+const ImageWrapper = styled.div`
+  position: relative;
+
+  ${({ maintenance }) => {
+    return maintenance
+      ? `
+
+    ${Maintenance}{
+     
+      display: flex;
+    }
+    ${GirlImage}{
+      filter: brightness(40%) grayscale(200%);
+    }
+    
+    
+    `
+      : ``;
+  }}
+`;
+
 class LiveGame extends Component {
   constructor(props) {
     super(props);
@@ -113,55 +145,71 @@ class LiveGame extends Component {
   render() {
     return (
       <Container>
-        <LeftSlide
-          animateIn="fadeInLeft"
-          duration={1}
-          animateOnce={true}
-          style={{ overflow: "visible" }}
-        >
-          {this.state.list.map((item, index) => {
-            if (index < 3) {
-              return (
-                <GirlImage
-                  img={
-                    process.env.PUBLIC_URL +
-                    "/assets/images/pcGamePage/live/" +
-                    item.abbreviation.toLowerCase() +
-                    ".png"
-                  }
-                  onClick={() => {
-                    this.handleJoinGameClick(item.abbreviation);
-                  }}
-                />
-              );
-            }
-          })}
-        </LeftSlide>
-        <RightSlide
-          animateIn="fadeInRight"
-          duration={1}
-          animateOnce={true}
-          style={{ overflow: "visible" }}
-        >
-          {this.state.list.map((item, index) => {
-            if (index >= 3) {
-              return (
-                <GirlImage
-                  style={{ float: "right" }}
-                  img={
-                    process.env.PUBLIC_URL +
-                    "/assets/images/pcGamePage/live/" +
-                    item.abbreviation.toLowerCase() +
-                    ".png"
-                  }
-                  onClick={() => {
-                    this.handleJoinGameClick(item.abbreviation);
-                  }}
-                />
-              );
-            }
-          })}
-        </RightSlide>
+        <ItemContainer style={{ marginTop: 370 }}>
+          <LeftSlide
+            animateIn="fadeInLeft"
+            duration={1}
+            animateOnce={true}
+            style={{ overflow: "visible" }}
+          >
+            {this.state.list
+              .slice(0, 3)
+              .reverse()
+              .map((item, index) => {
+                return (
+                  <ImageWrapper
+                  //TODO: To remove
+                  // maintenance={true}
+                  >
+                    <Maintenance>maintenance</Maintenance>
+                    <GirlImage
+                     img={
+                      process.env.PUBLIC_URL +
+                      "/assets/images/pcGamePage/live/" +
+                      item.abbreviation.toLowerCase() +
+                      ".png"
+                    }
+                      onClick={() => {
+                        this.handleJoinGameClick(item.abbreviation, item.type);
+                      }}
+                    />
+                  </ImageWrapper>
+                );
+              })}
+          </LeftSlide>
+        </ItemContainer>
+        <ItemContainer style={{ marginTop: 560 }}>
+          <RightSlide
+            animateIn="fadeInRight"
+            duration={1}
+            animateOnce={true}
+            style={{ overflow: "visible" }}
+          >
+            {this.state.list.map((item, index) => {
+              if (index >= 3) {
+                return (
+                  <ImageWrapper
+                  //TODO: To remove
+                  // maintenance={true}
+                  >
+                    <Maintenance>maintenance</Maintenance>
+                    <GirlImage
+                      img={
+                        process.env.PUBLIC_URL +
+                        "/assets/images/pcGamePage/live/" +
+                        item.abbreviation.toLowerCase() +
+                        ".png"
+                      }
+                      onClick={() => {
+                        this.handleJoinGameClick(item.abbreviation, item.type);
+                      }}
+                    />
+                  </ImageWrapper>
+                );
+              }
+            })}
+          </RightSlide>
+        </ItemContainer>
       </Container>
     );
   }
