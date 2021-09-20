@@ -362,6 +362,7 @@ const Maintenance = styled.div`
   pointer-event: none;
   color: white;
   font-size: 24px;
+  text-transform: capitalize;
 `;
 
 const GameFrame = styled.div`
@@ -946,10 +947,11 @@ class Header extends Component {
                                       style={{
                                         width: `calc(1264px/${list.length})`,
                                       }}
-                                      //TODO: To remove
-                                      // maintenance={true}
+                                      maintenance={game.status != 0}
                                     >
-                                      <Maintenance>maintenance</Maintenance>
+                                      <Maintenance>
+                                        {i18n.t("transfer.maintenance")}
+                                      </Maintenance>
                                       <GameImg
                                         index={index}
                                         src={`${

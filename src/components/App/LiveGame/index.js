@@ -49,6 +49,7 @@ const Maintenance = styled.div`
   justify-content: center;
   color: white;
   display: none;
+  text-transform: capitalize;
 `;
 
 const ImageWrapper = styled.div`
@@ -157,18 +158,15 @@ class LiveGame extends Component {
               .reverse()
               .map((item, index) => {
                 return (
-                  <ImageWrapper
-                  //TODO: To remove
-                  // maintenance={true}
-                  >
-                    <Maintenance>maintenance</Maintenance>
+                  <ImageWrapper maintenance={item.status != 0}>
+                    <Maintenance> {i18n.t("transfer.maintenance")}</Maintenance>
                     <GirlImage
-                     img={
-                      process.env.PUBLIC_URL +
-                      "/assets/images/pcGamePage/live/" +
-                      item.abbreviation.toLowerCase() +
-                      ".png"
-                    }
+                      img={
+                        process.env.PUBLIC_URL +
+                        "/assets/images/pcGamePage/live/" +
+                        item.abbreviation.toLowerCase() +
+                        ".png"
+                      }
                       onClick={() => {
                         this.handleJoinGameClick(item.abbreviation, item.type);
                       }}
@@ -188,11 +186,8 @@ class LiveGame extends Component {
             {this.state.list.map((item, index) => {
               if (index >= 3) {
                 return (
-                  <ImageWrapper
-                  //TODO: To remove
-                  // maintenance={true}
-                  >
-                    <Maintenance>maintenance</Maintenance>
+                  <ImageWrapper maintenance={item.status != 0}>
+                    <Maintenance> {i18n.t("transfer.maintenance")}</Maintenance>
                     <GirlImage
                       img={
                         process.env.PUBLIC_URL +
