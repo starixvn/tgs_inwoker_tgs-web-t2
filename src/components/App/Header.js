@@ -254,8 +254,8 @@ const MouseOverInner = styled.div`
   width: 1410px;
   height: 140px;
   margin: 0 auto;
+  display: flex;
 `;
-
 
 const GameImg = styled.img`
   height: 130px;
@@ -364,8 +364,6 @@ const Maintenance = styled.div`
   font-size: 24px;
 `;
 
-
-
 const GameFrame = styled.div`
   max-width: 290px;
   float: left;
@@ -395,9 +393,7 @@ const GameFrame = styled.div`
     `
       : ``;
   }}
-
 `;
-
 
 const styles = {
   root: {
@@ -921,44 +917,65 @@ class Header extends Component {
                               (game) => item.gameType.indexOf(game.type) >= 0
                             );
 
-                            return list.map((game, index) => {
-                              return (
-                               <GameFrameWrapper >
-                                  <GameFrame
-                                  key={index}
-                                  style={{
-                                    width: `calc(1264px/${list.length})`,
-                                  }}
-                                //TODO: To remove
-                                // maintenance={true}
-
-                                > <Maintenance>maintenance</Maintenance>
-                                  <GameImg
-                                    index={index}
-                                    src={`${
-                                      process.env.PUBLIC_URL
-                                    }/assets/images/pcHeaderMenu/${
-                                      item.path
-                                    }/${game.abbreviation.toLowerCase()}.png`}
-                                    alt=""
-                                    onClick={() => {
-                                      this.handleJoinGameClick(
-                                        game.type,
-                                        item.path,
-                                        game.abbreviation,
-                                        "/" +
-                                          i18n.language +
-                                          "/joingame/" +
-                                          game.type +
-                                          "/" +
-                                          game.abbreviation
+                            return list
+                              .filter((a) => {
+                                if (a.abbreviation.includes("TCG")) {
+                                  switch (config.currency) {
+                                    case "CNY":
+                                      return (
+                                        a.abbreviation === "TCG_LOTTO" ||
+                                        a.abbreviation === "TCG_SEA"
                                       );
-                                    }}
-                                  ></GameImg>
-                                </GameFrame>
-                               </GameFrameWrapper>
-                              );
-                            });
+                                    case "VND":
+                                      return (
+                                        a.abbreviation === "TCG_LOTTO_VN" ||
+                                        a.abbreviation === "TCG_SEA"
+                                      );
+                                    default:
+                                      return "";
+                                  }
+                                } else {
+                                  return a;
+                                }
+                              })
+                              .map((game, index) => {
+                                return (
+                                  <GameFrameWrapper>
+                                    <GameFrame
+                                      key={index}
+                                      style={{
+                                        width: `calc(1264px/${list.length})`,
+                                      }}
+                                      //TODO: To remove
+                                      // maintenance={true}
+                                    >
+                                      <Maintenance>maintenance</Maintenance>
+                                      <GameImg
+                                        index={index}
+                                        src={`${
+                                          process.env.PUBLIC_URL
+                                        }/assets/images/pcHeaderMenu/${
+                                          item.path
+                                        }/${game.abbreviation.toLowerCase()}.png`}
+                                        alt=""
+                                        onClick={() => {
+                                          this.handleJoinGameClick(
+                                            game.type,
+                                            item.path,
+                                            game.abbreviation,
+                                            "/" +
+                                              i18n.language +
+                                              "/joingame/" +
+                                              game.type +
+                                              "/" +
+                                              game.abbreviation
+                                          );
+                                        }}
+                                      ></GameImg>
+                                    </GameFrame>
+                                  </GameFrameWrapper>
+                                );
+                              });
                           })()}
                         </MouseOverInner>
                       </MouseOverBackground>
