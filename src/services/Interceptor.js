@@ -71,7 +71,11 @@ export default {
 
         if (newResponse.code === 0) {
           newResponse.IsSuccess = true;
-        } else if (newResponse.code === 102 || newResponse.code === 101) {
+        } else if (
+          newResponse.code === 102 ||
+          newResponse.code === 101 ||
+          newResponse.code === 210
+        ) {
           localStorage.removeItem("token" + (isMobileOnly ? "1" : "0"));
           store.dispatch({ type: UNAUTHORIZE });
 
@@ -85,6 +89,7 @@ export default {
           if (
             error.response.data.err == 102 ||
             error.response.data.err == 101 ||
+            error.response.data.err == 210 ||
             error.response.data.errmsg ===
               "request platform is not matched with player login platform."
           ) {
