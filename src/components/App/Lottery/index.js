@@ -136,7 +136,7 @@ class Lottery extends Component {
                         a.abbreviation === "TCG_SEA"
                       );
                     default:
-                      return "";
+                      return a.abbreviation === "TCG_SEA";
                   }
                 } else {
                   return a;
@@ -181,7 +181,7 @@ class Lottery extends Component {
                         a.abbreviation === "TCG_SEA"
                       );
                     default:
-                      return "";
+                      return a.abbreviation === "TCG_SEA";
                   }
                 } else {
                   return a;
