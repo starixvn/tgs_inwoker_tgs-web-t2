@@ -592,6 +592,7 @@ class Transfer extends Component {
           variant: "error",
         });
       }
+      this.setState({ ...this.state, disabled: false });
     } else {
       if (transferFrom === this.state.mainAccountId)
         this.props.doTransfer(transferTo, transferAmount);
