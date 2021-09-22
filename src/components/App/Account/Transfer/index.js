@@ -179,7 +179,7 @@ const QuickTransferButton = styled.div`
 
   ${(props) =>
     props.disabled === true
-      ? "background-blend-mode: multiply, normal; background-image:  linear-gradient(to bottom, #bfbfbf, #bfbfbf), linear-gradient(to top, #797979, #c3c3c3);"
+      ? "background-blend-mode: multiply, normal; background-image:  linear-gradient(to bottom, #bfbfbf, #bfbfbf), linear-gradient(to top, #797979, #c3c3c3);pointer-events:none;"
       : "background-color: #8a7f73;"}
   &:hover {
     ${(props) =>
@@ -387,6 +387,7 @@ class Transfer extends Component {
     showMessagebox: false,
     messageboxText: "",
     mainAccountId: "0",
+    disabled: false,
   };
 
   // bindData() {
@@ -489,15 +490,21 @@ class Transfer extends Component {
         this.props.getBalanceList();
         this.props.getAllGameBalance();
         this.setState({
+          ...this.state,
           fromWallet: "",
           toWallet: "",
           loading: false,
           open: false,
+          disabled: false,
         });
         // AppHistory.replace("/" + i18n.language + "/withdrawal");
       } else {
         this.props.enqueueSnackbar(this.props.wallet.transferResult.info, {
           variant: "error",
+        });
+        this.setState({
+          ...this.state,
+          disabled: false,
         });
         // if (
         //   this.props.wallet.transferResult.code === 208 ||
@@ -558,6 +565,7 @@ class Transfer extends Component {
     this.setState({ ...this.state, transferAmount: e.target.value });
   };
   handleTranferClick = (e) => {
+    this.setState({ ...this.state, disabled: true });
     const transferFrom = this.state.transferFrom;
     const transferTo = this.state.transferTo;
     const transferAmount = parseFloat(
@@ -568,6 +576,7 @@ class Transfer extends Component {
       this.props.enqueueSnackbar(i18n.t("transfer.invalidAmount"), {
         variant: "error",
       });
+      this.setState({ ...this.state, disabled: false });
       return;
     }
     if (
@@ -774,7 +783,9 @@ class Transfer extends Component {
           </QuickTransferContainer>
           <QuickTransferButton
             disabled={
-              this.state.transferFrom === "" || this.state.transferTo === ""
+              this.state.transferFrom === "" ||
+              this.state.transferTo === "" ||
+              this.state.disabled
             }
             onClick={this.handleTranferClick}
           >

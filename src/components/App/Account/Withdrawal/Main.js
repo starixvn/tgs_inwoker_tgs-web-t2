@@ -121,6 +121,7 @@ class Main extends Component {
     showDetails: false,
     amount: 0,
     password: "",
+    disabled: false,
   };
   componentDidMount() {
     //  this.setState({ ...this.state, selectedCard: this.props.defaultCard });
@@ -141,6 +142,10 @@ class Main extends Component {
       this.state.amount,
       this.state.password
     );
+    this.setState({ ...this.state, disabled: true });
+    setTimeout(() => {
+      this.setState({ ...this.state, disabled: false });
+    }, 1000);
   };
   render() {
     return (
@@ -242,7 +247,8 @@ class Main extends Component {
           disabled={
             parseFloat(this.state.amount) < this.props.withdrawalMinLimit ||
             parseFloat(this.state.amount) > this.props.withdrawalMaxLimit ||
-            this.state.password === ""
+            this.state.password === "" ||
+            this.state.disabled === true
           }
           width={160}
           marginTop={"50"}
