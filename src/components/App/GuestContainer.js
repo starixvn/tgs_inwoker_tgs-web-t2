@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import Login from "./Login";
-
+import { AppHistory } from "../../history/History";
 import ForgotPasswordEmail from "./ForgotPasswordEmail";
 
 import ResetPassword from "./ResetPassword";
@@ -354,6 +354,9 @@ class GuestContainer extends Component {
     }
     if (result.IsSuccess) {
       this.handleLoginSuccess(result.data);
+    } else if (result.code === 210) {
+      this.onhandleCloseDialog();
+      AppHistory.replace("/" + i18n.language + "/banned");
     } else {
       this.props.enqueueSnackbar(result.info, {
         variant: "warning",
@@ -396,7 +399,7 @@ class GuestContainer extends Component {
       this.props.getBankCardList();
       this.props.getBalanceList();
       this.props.getAutoTransferStatus();
-      
+
       this.props.game.providerList
         .filter((item) => item.status === 0 && item.transferwallet === true)
         .map((a) => {

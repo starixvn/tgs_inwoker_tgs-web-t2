@@ -2,7 +2,7 @@
 
 const config = {
   //baseUrl: window?.env?.baseUrl || "https://operator.tgsstg.gq/api/",
-  baseUrl: window?.env ? "/api/" : "https://dev.operator.tgsdev.gq/api/",
+  baseUrl: window?.env ? "/api/" : "https://dev-op.rpgp.cc/api/",
   client:
     window?.env?.client ||
     "I7nKiimrZQOqnJ6ryjUw74c0Hi64KC6Myunhob4cHh8VOUIuZh4p63czefxyyzbZ",

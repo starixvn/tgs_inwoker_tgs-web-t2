@@ -349,6 +349,11 @@ const RouteMapping = [
     component: Wapp.SettingLanguage,
     screenHeight: true,
   },
+  {
+    path: "/banned",
+    component: Wapp.Banned,
+    screenHeight: true,
+  },
 ];
 class Wap extends Component {
   constructor(props) {
