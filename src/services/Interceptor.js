@@ -79,7 +79,11 @@ export default {
           localStorage.removeItem("token" + (isMobileOnly ? "1" : "0"));
           store.dispatch({ type: UNAUTHORIZE });
 
-          AppHistory.replace("/" + i18n.language + "/");
+          if (newResponse.code === 210) {
+            AppHistory.replace("/" + i18n.language + "/banned");
+          } else {
+            AppHistory.replace("/" + i18n.language + "/");
+          }
         }
 
         return newResponse;
@@ -99,8 +103,11 @@ export default {
             ) {
               localStorage.removeItem("token" + (isMobileOnly ? "1" : "0"));
               store.dispatch({ type: UNAUTHORIZE });
-
-              AppHistory.replace("/" + i18n.language + "/");
+              if (error.response.data.err == 210) {
+                AppHistory.replace("/" + i18n.language + "/banned");
+              } else {
+                AppHistory.replace("/" + i18n.language + "/");
+              }
             }
           }
           return {

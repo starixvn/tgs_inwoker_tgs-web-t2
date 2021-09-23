@@ -361,8 +361,13 @@ const Maintenance = styled.div`
   cursor: not-allowed;
   pointer-event: none;
   color: white;
-  font-size: 24px;
+
   text-transform: capitalize;
+
+  font-weight: bold;
+  font-size: 18px;
+  user-select: none;
+  cursor: not-allowed;
 `;
 
 const GameFrame = styled.div`

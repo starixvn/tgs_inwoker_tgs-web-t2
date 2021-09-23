@@ -167,6 +167,11 @@ const LimitAmount = styled.span`
   color: #c0252d;
 `;
 const ExchangeRateContainer = styled.div``;
+
+const Remark = styled.div`
+  color: ${({ theme }) => theme.secondary};
+  opacity: 0.75;
+`;
 class NewStepOne extends Component {
   render() {
     const {
@@ -400,6 +405,9 @@ class NewStepOne extends Component {
                       }
                     }
                   })()}
+                  {paymentType.paymentcode.toUpperCase() === "UMPAY" && (
+                    <Remark>{i18n.t("deposit.ppRemark")}</Remark>
+                  )}
                 </SelectionContainer>
                 <SplitLine></SplitLine>
                 <SubHeaderContainer>
