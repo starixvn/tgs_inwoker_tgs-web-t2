@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
 
-import { SHOW_LOGIN, GameTypeEnum } from "@Inwoker/tgs-api";
+import { SHOW_LOGIN, GameTypeEnum, GameService } from "@Inwoker/tgs-api";
 
 import LotteryBGNewPNG from "../../../assets/images/lottery/lottery-bg-new.png";
 
@@ -86,18 +86,24 @@ class Lottery extends Component {
       });
     }
   }
-  handleJoinGameClick = (params) => {
+  handleJoinGameClick = (name) => {
     if (this.props.account.token != null) {
-      window.open(
-        "/" +
-          i18n.language +
-          "/joingame/" +
-          GameTypeEnum.LOTTERYLOBBY +
-          "/" +
-          params.toUpperCase(),
-        "_blank",
-        "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1280,height=720"
-      );
+      GameService.GetGameList(name, GameTypeEnum.LOTTERYLOBBY).then((e) => {
+        if (e.IsSuccess) {
+          GameService.JoinGame(e.data[0].id, name).then((response) => {
+            if (response.IsSuccess) {
+              this.setState({ ...this.state, maintenance: false });
+              window.open(
+                response.data.url,
+                "_blank",
+                "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1280,height=720"
+              );
+            } else {
+              this.setState({ ...this.state, maintenance: true });
+            }
+          });
+        }
+      });
     } else {
       this.props.showLogin(true);
     }
@@ -122,26 +128,7 @@ class Lottery extends Component {
             {this.state.list
               .slice(0, 3)
               .reverse()
-              .filter((a) => {
-                if (a.abbreviation.includes("TCG")) {
-                  switch (config.currency) {
-                    case "CNY":
-                      return (
-                        a.abbreviation === "TCG_LOTTO" ||
-                        a.abbreviation === "TCG_SEA"
-                      );
-                    case "VND":
-                      return (
-                        a.abbreviation === "TCG_LOTTO_VN" ||
-                        a.abbreviation === "TCG_SEA"
-                      );
-                    default:
-                      return a.abbreviation === "TCG_SEA";
-                  }
-                } else {
-                  return a;
-                }
-              })
+
               .map((item, index) => {
                 return (
                   <GirlImage
@@ -166,45 +153,24 @@ class Lottery extends Component {
             animateOnce={true}
             style={{ overflow: "visible" }}
           >
-            {this.state.list
-              .filter((a) => {
-                if (a.abbreviation.includes("TCG")) {
-                  switch (config.currency) {
-                    case "CNY":
-                      return (
-                        a.abbreviation === "TCG_LOTTO" ||
-                        a.abbreviation === "TCG_SEA"
-                      );
-                    case "VND":
-                      return (
-                        a.abbreviation === "TCG_LOTTO_VN" ||
-                        a.abbreviation === "TCG_SEA"
-                      );
-                    default:
-                      return a.abbreviation === "TCG_SEA";
-                  }
-                } else {
-                  return a;
-                }
-              })
-              .map((item, index) => {
-                if (index >= 3) {
-                  return (
-                    <GirlImage
-                      style={{ float: "left" }}
-                      img={
-                        process.env.PUBLIC_URL +
-                        "/assets/images/pcGamePage/lottery/" +
-                        item.abbreviation.toLowerCase() +
-                        ".png"
-                      }
-                      onClick={() => {
-                        this.handleJoinGameClick(item.abbreviation, item.type);
-                      }}
-                    />
-                  );
-                }
-              })}
+            {this.state.list.map((item, index) => {
+              if (index >= 3) {
+                return (
+                  <GirlImage
+                    style={{ float: "left" }}
+                    img={
+                      process.env.PUBLIC_URL +
+                      "/assets/images/pcGamePage/lottery/" +
+                      item.abbreviation.toLowerCase() +
+                      ".png"
+                    }
+                    onClick={() => {
+                      this.handleJoinGameClick(item.abbreviation, item.type);
+                    }}
+                  />
+                );
+              }
+            })}
           </RightSlide>
         </ItemContainer>
       </Container>

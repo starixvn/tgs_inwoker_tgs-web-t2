@@ -14,6 +14,7 @@ import {
   SHOWING_DIALOG,
   SHOW_LOGIN,
   GameTypeEnum,
+  GameService,
 } from "@Inwoker/tgs-api";
 
 import TimerPNG from "../../assets/images/timer.png";
@@ -656,6 +657,30 @@ class Header extends Component {
       </CustomLink>
     );
   };
+
+  handleJoinLotteryGame = (name) => {
+    if (this.props.account.token != null) {
+      GameService.GetGameList(name, GameTypeEnum.LOTTERYLOBBY).then((e) => {
+        if (e.IsSuccess) {
+          GameService.JoinGame(e.data[0].id, name).then((response) => {
+            if (response.IsSuccess) {
+              this.setState({ ...this.state, maintenance: false });
+              window.open(
+                response.data.url,
+                "_blank",
+                "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1280,height=720"
+              );
+            } else {
+              this.setState({ ...this.state, maintenance: true });
+            }
+          });
+        }
+      });
+    } else {
+      this.props.showLogin(true);
+    }
+  };
+
   handleJoinGameClick = (gameType, path, gameCode, url) => {
     var slotPageGameType = [
       GameTypeEnum.SLOT,
@@ -923,49 +948,37 @@ class Header extends Component {
                               (game) => item.gameType.indexOf(game.type) >= 0
                             );
 
-                            return list
-                              .filter((a) => {
-                                if (a.abbreviation.includes("TCG")) {
-                                  switch (config.currency) {
-                                    case "CNY":
-                                      return (
-                                        a.abbreviation === "TCG_LOTTO" ||
-                                        a.abbreviation === "TCG_SEA"
-                                      );
-                                    case "VND":
-                                      return (
-                                        a.abbreviation === "TCG_LOTTO_VN" ||
-                                        a.abbreviation === "TCG_SEA"
-                                      );
-                                    default:
-                                      return a.abbreviation === "TCG_SEA";
-                                  }
-                                } else {
-                                  return a;
-                                }
-                              })
-                              .map((game, index) => {
-                                return (
-                                  <GameFrameWrapper>
-                                    <GameFrame
-                                      key={index}
-                                      style={{
-                                        width: `calc(1264px/${list.length})`,
-                                      }}
-                                      maintenance={game.status != 0}
-                                    >
-                                      <Maintenance>
-                                        {i18n.t("transfer.maintenance")}
-                                      </Maintenance>
-                                      <GameImg
-                                        index={index}
-                                        src={`${
-                                          process.env.PUBLIC_URL
-                                        }/assets/images/pcHeaderMenu/${
-                                          item.path
-                                        }/${game.abbreviation.toLowerCase()}.png`}
-                                        alt=""
-                                        onClick={() => {
+                            return list.map((game, index) => {
+                              return (
+                                <GameFrameWrapper>
+                                  <GameFrame
+                                    key={index}
+                                    style={{
+                                      width: `calc(1264px/${list.length})`,
+                                    }}
+                                    maintenance={game.status != 0}
+                                  >
+                                    <Maintenance>
+                                      {i18n.t("transfer.maintenance")}
+                                    </Maintenance>
+                                    <GameImg
+                                      index={index}
+                                      src={`${
+                                        process.env.PUBLIC_URL
+                                      }/assets/images/pcHeaderMenu/${
+                                        item.path
+                                      }/${game.abbreviation.toLowerCase()}.png`}
+                                      alt=""
+                                      onClick={() => {
+                                        if (
+                                          game.type ===
+                                            GameTypeEnum.LOTTERYLOBBY ||
+                                          game.type === GameTypeEnum.LOBBY
+                                        ) {
+                                          this.handleJoinLotteryGame(
+                                            game.abbreviation
+                                          );
+                                        } else {
                                           this.handleJoinGameClick(
                                             game.type,
                                             item.path,
@@ -977,12 +990,13 @@ class Header extends Component {
                                               "/" +
                                               game.abbreviation
                                           );
-                                        }}
-                                      ></GameImg>
-                                    </GameFrame>
-                                  </GameFrameWrapper>
-                                );
-                              });
+                                        }
+                                      }}
+                                    ></GameImg>
+                                  </GameFrame>
+                                </GameFrameWrapper>
+                              );
+                            });
                           })()}
                         </MouseOverInner>
                       </MouseOverBackground>
