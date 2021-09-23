@@ -72,10 +72,31 @@ const GameTabContainer = styled.div`
   background-color: #76727252;
   border-radius: 30px;
 `;
+
+const DisabledOverlay = styled.div`
+  height: 50px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.75);
+  position: relative;
+  color: white;
+  font-weight: bold;
+  pointer-event: none;
+  text-transform: capitalize;
+  z-index: 3;
+  cursor: not-allowed;
+  font-size: 15px;
+  margin-top: -8px;
+  width: 100%;
+  border-radius: 35px;
+`;
+
 const GameTabButton = styled.div`
   width: 170px;
   height: 50px;
   outline: none;
+
   float: left;
   color: #fff;
   font-size: 20px;
@@ -100,6 +121,24 @@ const GameTabButton = styled.div`
     }
    `;
     }
+  }}
+
+  ${({ maintenance }) => {
+    return maintenance
+      ? `
+          pointer-events: none !important;
+        ${DisabledOverlay}{
+          display: flex; 
+          pointer-events: none !important;
+          cursor: not-allowed;
+        }
+    
+        ${GameTab}{
+          pointer-events: none;
+         z-index: -1;
+        }
+        `
+      : ``;
   }}
 `;
 const GameTab = styled.div`
@@ -677,6 +716,10 @@ class Slots extends Component {
               .toUpperCase()
               .includes(this.state.keyword.toUpperCase());
         })
+        .filter((s) => {
+          return s.isactive === true; // show only active game.
+        })
+
         .map((el, i) => (
           <ItemContainer
             key={i}
@@ -727,7 +770,11 @@ class Slots extends Component {
                   key={index}
                   active={this.state.platform == row.abbreviation}
                   onClick={() => this.handleParentClick(row.abbreviation)}
+                  maintenance={row.status != 0}
                 >
+                  <DisabledOverlay>
+                    {i18n.t("transfer.maintenance")}
+                  </DisabledOverlay>
                   <GameTab abbreviation={row.abbreviation}></GameTab>
                 </GameTabButton>
               );

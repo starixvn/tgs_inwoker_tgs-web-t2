@@ -50,6 +50,10 @@ const Maintenance = styled.div`
   color: white;
   display: none;
   text-transform: capitalize;
+  font-weight: bold;
+  font-size: 24px;
+  user-select: none;
+  cursor: not-allowed;
 `;
 
 const ImageWrapper = styled.div`
