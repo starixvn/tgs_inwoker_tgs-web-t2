@@ -12,7 +12,9 @@ const config = {
   theme: window?.env?.theme || "blue",
   sourceUrl: window?.env?.sourceUrl || "https://images.srvptt.com/",
   defaultLanguage: window?.env?.defaultLanguage
-    ? window?.env?.defaultLanguage === "" || "zh-CN"
+    ? window?.env?.defaultLanguage === ""
+      ? "zh-CN"
+      : window?.env?.defaultLanguage
     : "zh-CN",
 };
 
