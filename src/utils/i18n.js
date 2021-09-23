@@ -1,6 +1,6 @@
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import config from "../config/config";
+import Config from "../config/config";
 import { language } from "@Inwoker/tgs-api";
 i18n.on("languageChanged", function (lng) {
   // if the language we switched to is the default language we need to remove the /en from URL
@@ -37,7 +37,7 @@ i18n.use(LanguageDetector).init({
     },
   },
   whitelist: ["en-US", "zh-CN", "zh-TW", "th-TH", "id-ID", "vt-VN"],
-  fallbackLng: ["en-US"],
+  fallbackLng: [Config.defaultLanguage],
   detection: {
     order: ["path"],
     lookupFromPathIndex: 0,
