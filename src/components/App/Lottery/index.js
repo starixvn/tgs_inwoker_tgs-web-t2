@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import styled, { css, keyframes } from "styled-components";
-
-import { SHOW_LOGIN, GameTypeEnum, GameService } from "@Inwoker/tgs-api";
-
-import LotteryBGNewPNG from "../../../assets/images/lottery/lottery-bg-new.png";
-
+import styled from "styled-components";
+import {
+  SHOW_LOGIN,
+  GameEnum,
+  GameTypeEnum,
+  GameService,
+} from "@Inwoker/tgs-api";
+import ScrollAnimation from "react-animate-on-scroll";
 import _633Lottery from "../../../assets/images/lottery/633-lotteryball.png";
 import _633Description from "../../../assets/images/lottery/633-lotterydescription.png";
-
 import i18n from "../../../utils/i18n";
-import CommonMarquee from "../CommonMarquee";
-import ScrollAnimation from "react-animate-on-scroll";
 import config from "../../../config/config";
 
 const Container = styled.div`
@@ -46,6 +45,41 @@ const ItemContainer = styled.div`
   transform: translateX(-50%);
   overflow: visible;
 `;
+
+const Maintenance = styled.div`
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  display: none;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 24px;
+  user-select: none;
+  cursor: not-allowed;
+`;
+
+const ImageWrapper = styled.div`
+  position: relative;
+
+  ${({ maintenance }) => {
+    return maintenance
+      ? `
+
+    ${Maintenance}{
+      display: flex;
+    }
+    ${GirlImage}{
+      filter: brightness(40%) grayscale(200%);
+    }
+    `
+      : ``;
+  }}
+`;
+
 class Lottery extends Component {
   constructor(props) {
     super(props);
@@ -118,19 +152,17 @@ class Lottery extends Component {
   render() {
     return (
       <Container>
-        <ItemContainer style={{ marginTop: 370 }}>
+        <ItemContainer style={{ marginTop: 500 }}>
           <LeftSlide
             animateIn="fadeInLeft"
             duration={1}
             animateOnce={true}
             style={{ overflow: "visible" }}
           >
-            {this.state.list
-              .slice(0, 3)
-              .reverse()
-
-              .map((item, index) => {
-                return (
+            {this.state.list.map((item, index) => {
+              return (
+                <ImageWrapper maintenance={item.status != 0}>
+                  <Maintenance>{i18n.t("transfer.maintenance")}</Maintenance>
                   <GirlImage
                     img={
                       process.env.PUBLIC_URL +
@@ -139,40 +171,43 @@ class Lottery extends Component {
                       ".png"
                     }
                     onClick={() => {
-                      this.handleJoinGameClick(item.abbreviation, item.type);
+                      this.handleJoinGameClick(item.abbreviation);
                     }}
                   />
-                );
-              })}
+                </ImageWrapper>
+              );
+            })}
           </LeftSlide>
         </ItemContainer>
-        <ItemContainer style={{ marginTop: 560 }}>
-          <RightSlide
-            animateIn="fadeInRight"
-            duration={1}
-            animateOnce={true}
-            style={{ overflow: "visible" }}
-          >
-            {this.state.list.map((item, index) => {
-              if (index >= 3) {
-                return (
-                  <GirlImage
-                    style={{ float: "left" }}
-                    img={
-                      process.env.PUBLIC_URL +
-                      "/assets/images/pcGamePage/lottery/" +
-                      item.abbreviation.toLowerCase() +
-                      ".png"
-                    }
-                    onClick={() => {
-                      this.handleJoinGameClick(item.abbreviation, item.type);
-                    }}
-                  />
-                );
-              }
-            })}
-          </RightSlide>
-        </ItemContainer>
+        {
+          //    <ItemContainer style={{ marginTop: 560 }}>
+          //    <RightSlide
+          //      animateIn="fadeInRight"
+          //      duration={1}
+          //      animateOnce={true}
+          //      style={{ overflow: "visible" }}
+          //    >
+          //      {this.state.list.map((item, index) => {
+          //        if (index >= 3) {
+          //          return (
+          //            <GirlImage
+          //              style={{ float: "left" }}
+          //              img={
+          //                process.env.PUBLIC_URL +
+          //                "/assets/images/pcGamePage/lottery/" +
+          //                item.abbreviation.toLowerCase() +
+          //                ".png"
+          //              }
+          //              onClick={() => {
+          //                this.handleJoinGameClick(item.abbreviation, item.type);
+          //              }}
+          //            />
+          //          );
+          //        }
+          //      })}
+          //    </RightSlide>
+          //  </ItemContainer>
+        }
       </Container>
     );
   }
