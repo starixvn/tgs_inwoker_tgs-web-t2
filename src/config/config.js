@@ -5,7 +5,7 @@ const config = {
   baseUrl: window?.env ? "/api/" : "https://dev-op.rpgp.cc/api/",
   client:
     window?.env?.client ||
-    "Uj1QqQQyQfRNy2K8OQM5wwUE7AqMc9soyCfyyTenJ93GGRv5wmYMr4i",
+    "I7nKiimrZQOqnJ6ryjUw74c0Hi64KC6Myunhob4cHh8VOUIuZh4p63czefxyyzbZ",
   currency: window?.env?.currency || "CNY",
   brand: window?.env?.brand || "PGG",
   bannerCount: window?.env?.bannerCount || 2,
