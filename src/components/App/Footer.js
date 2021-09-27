@@ -98,18 +98,26 @@ function Footer(props) {
         <MiddleInnerWrap>
           <Slider {...settings}>
             {(() => {
-              return props.game.providerList.map((item, index) => {
-                return (
-                  <ThirdPartyLogoHolder>
-                    <BrandsImage
-                      img={
-                        process.env.PUBLIC_URL +
-                        `/assets/images/provider/${item.abbreviation.toLowerCase()}.png`
-                      }
-                    />
-                  </ThirdPartyLogoHolder>
-                );
-              });
+              return props.game.providerList
+                .filter((gp) => {
+                  if (gp.abbreviation.includes("TCG")) {
+                    return gp.abbreviation === "TCG_SEA";
+                  } else {
+                    return gp;
+                  }
+                })
+                .map((item, index) => {
+                  return (
+                    <ThirdPartyLogoHolder>
+                      <BrandsImage
+                        img={
+                          process.env.PUBLIC_URL +
+                          `/assets/images/provider/${item.abbreviation.toLowerCase()}.png`
+                        }
+                      />
+                    </ThirdPartyLogoHolder>
+                  );
+                });
             })()}
           </Slider>
         </MiddleInnerWrap>
