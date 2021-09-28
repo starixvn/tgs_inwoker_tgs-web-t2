@@ -589,13 +589,13 @@ class Profile extends Component {
             "member_birthday",
             this.handleButtonClick
           )} */}
-          {GetContentWrap(
+          {/* {GetContentWrap(
             this.props.account.info,
             i18n.t("profile.withdrawalPassword.title"),
             "member_safe_password",
             this.handleButtonClick,
             i18n.t("profile.edit")
-          )}
+          )} */}
           {GetContentWrap(
             this.props.account.info,
             i18n.t("profile.password.title"),

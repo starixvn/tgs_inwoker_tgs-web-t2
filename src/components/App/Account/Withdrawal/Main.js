@@ -223,7 +223,7 @@ class Main extends Component {
             {Common.formatNumberWithThousand(this.props.withdrawalMaxLimit)}
           </LimitPopupContainer>
         </SelectionContainer>
-        <SplitLine></SplitLine>
+        {/* <SplitLine></SplitLine>
         <SubHeaderContainer>
           <NumberContainer>3</NumberContainer>
 
@@ -240,7 +240,7 @@ class Main extends Component {
             value={this.state.password}
             handleTextFieldChange={this.handlePasswordChange}
           ></CustomTextField>
-        </SelectionContainer>
+        </SelectionContainer> */}
 
         <CustomButton
           name={i18n.t("common.nextStep")}
