@@ -247,7 +247,6 @@ class Main extends Component {
           disabled={
             parseFloat(this.state.amount) < this.props.withdrawalMinLimit ||
             parseFloat(this.state.amount) > this.props.withdrawalMaxLimit ||
-            this.state.password === "" ||
             this.state.disabled === true
           }
           width={160}
