@@ -172,8 +172,8 @@ class Report extends Component {
     game_platform_id
   ) => {
     ReportService.GetTransactionDetails(
-      moment(dateFrom).format("YYYY-MM-DDT00:00:00.000") + "Z",
-      moment(dateTo).format("YYYY-MM-DDT23:59:59.999") + "Z",
+      moment(dateFrom).utc().format(),
+      moment(dateTo).utc().add(1, "days").format(),
       page,
       this.state.limit,
       true,
@@ -194,8 +194,8 @@ class Report extends Component {
   handleWithdrawalGetReportTrigger = (dateFrom, dateTo, page, status) => {
     ReportService.GetWithdrawalDetails(
       status,
-      moment(dateFrom).format("YYYY-MM-DDT00:00:00.000") + "Z",
-      moment(dateTo).format("YYYY-MM-DDT23:59:59.999") + "Z",
+      moment(dateFrom).utc().format(),
+      moment(dateTo).utc().add(1, "days").format(),
       page,
       this.state.limit,
       true,
@@ -218,8 +218,8 @@ class Report extends Component {
   handleDepositGetReportTrigger = (dateFrom, dateTo, page, status) => {
     ReportService.GetDepositDetails(
       status,
-      moment(dateFrom).format("YYYY-MM-DDT00:00:00.000") + "Z",
-      moment(dateTo).format("YYYY-MM-DDT23:59:59.999") + "Z",
+      moment(dateFrom).utc().format(),
+      moment(dateTo).utc().add(1, "days").format(),
       page,
       this.state.limit,
       true,
@@ -249,8 +249,8 @@ class Report extends Component {
 
   handleGetTransferReportTrigger = (dateFrom, dateTo, page, order) => {
     ReportService.GetTransferReport(
-      moment(dateFrom).format("YYYY-MM-DDT00:00:00.000") + "Z",
-      moment(dateTo).format("YYYY-MM-DDT23:59:59.999") + "Z",
+      moment(dateFrom).utc().format(),
+      moment(dateTo).utc().add(1, "days").format(),
       page,
       this.state.limit,
       order,
