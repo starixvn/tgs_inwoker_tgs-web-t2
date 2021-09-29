@@ -11,8 +11,8 @@ import i18n from "../../../utils/i18n";
 const Container = styled.div`
   width: 100%;
   height: auto;
-  min-height: 870px;
-  padding: 70px 0px;
+  min-height: 730px;
+  padding: 0px 0px;
   position: relative;
   background: url(${process.env
       .PUBLIC_URL}/assets/images/pcGamePage/qipai/background.jpg)
