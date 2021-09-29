@@ -99,6 +99,14 @@ const PromoButtonContainer = styled(Grid)`
   border-radius: 5px;
   height: 62px;
   background-color: #f0ca83;
+
+  ${({ disableTheButton }) => {
+    return disableTheButton
+      ? `
+    opacity: 0.65;
+    cursor: not-allowed;`
+      : ``;
+  }}
 `;
 
 const PromoButtonText = styled(Grid)`
@@ -127,6 +135,7 @@ class PromotionDetails extends Component {
     this.state = {
       index: index,
       details: details,
+      joined: false,
     };
   }
 
@@ -147,6 +156,10 @@ class PromotionDetails extends Component {
       if (this.props.general.joinPromoResult.success === true) {
         this.props.enqueueSnackbar(i18n.t("promotion.joinSuccess"), {
           variant: "success",
+        });
+        this.setState({
+          ...this.state,
+          joined: true,
         });
       } else {
         if (this.props.general.joinPromoResult.err === 0) {
@@ -296,7 +309,9 @@ class PromotionDetails extends Component {
                 alignItems="center"
                 justify="center"
                 md={3}
+                disableTheButton={this.state.joined}
                 onClick={() =>
+                  !this.state.joined &&
                   this.handlejoinPromotionClick(
                     this.state.details.id,
                     this.state.details.promotionType
