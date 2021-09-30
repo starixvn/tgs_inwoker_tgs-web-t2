@@ -67,8 +67,17 @@ class Withdrawal extends Component {
     withdrawalInfo: {
       bonus_limit_list: [],
     },
+    minWithdrawLimit: 0,
   };
   async componentDidMount() {
+    WalletService.GetMinWithdrawLimit().then((e) => {
+      if (e.IsSuccess) {
+        this.setState({
+          ...this.state,
+          minWithdrawLimit: e.data,
+        });
+      }
+    });
     if (this.props.wallet.bankCardList.length === 0)
       this.props.getBankCardList();
     if (this.props.wallet.withdrawalList.length === 0)
@@ -369,6 +378,7 @@ class Withdrawal extends Component {
                             withdrawalMaxLimit={
                               this.props.wallet.withdrawalMaxLimit
                             }
+                            minWithdrawLimit={this.state.minWithdrawLimit}
                           ></Main>
                         );
                       case 2:
