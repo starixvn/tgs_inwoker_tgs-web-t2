@@ -7,7 +7,7 @@ const config = {
     window?.env?.client ||
     "I7nKiimrZQOqnJ6ryjUw74c0Hi64KC6Myunhob4cHh8VOUIuZh4p63czefxyyzbZ",
   currency: window?.env?.currency || "CNY",
-  brand: window?.env?.brand || "PGG",
+  brand: window?.env?.brand || "HKJP",
   bannerCount: window?.env?.bannerCount || 2,
   theme: window?.env?.theme || "blue",
   sourceUrl: window?.env?.sourceUrl || "https://images.srvptt.com/",
