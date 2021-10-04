@@ -22,6 +22,7 @@ import PhoneVerification from "./PhoneVerification";
 import QQ from "./QQ";
 import Wechat from "./Wechat";
 import i18n from "../../../../utils/i18n";
+import config from "../../../../config/config";
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box
@@ -150,7 +151,10 @@ function GetContentWrap(accountInfo, label, attr, func, label2) {
 
   if (requiredVerify) {
     if (attr === "member_name" || attr === "member_birthday") {
-      isVerify = accountInfo.check_pass_account;
+      isVerify =
+        config.brand !== "HKJP"
+          ? accountInfo.check_pass_account
+          : accountInfo.member_name !== "";
     }
     if (attr === "member_email") {
       isVerify = accountInfo.check_pass_email;
@@ -535,24 +539,36 @@ class Profile extends Component {
           {i18n.t("profile.title")}
         </Title>
         <InnerWrap>
-          {GetContentWrap(
-            this.props.account.info,
-            i18n.t("profile.nameVerify.icNum"),
-            "member_name",
-            this.handleButtonClick
-          )}
-          {/* {GetContentWrap(
-            this.props.account.info,
-            i18n.t("profile.phone.title"),
-            "member_phone",
-            this.handleButtonClick
-          )} */}
-          {GetContentWrap(
-            this.props.account.info,
-            "电子邮件",
-            "member_email",
-            this.handleButtonClick
-          )}
+          {(() => {
+            if (config.brand !== "HKJP") {
+              return GetContentWrap(
+                this.props.account.info,
+                i18n.t("profile.nameVerify.icNum"),
+                "member_name",
+                this.handleButtonClick
+              );
+            }
+          })()}
+          {(() => {
+            if (config.brand === "GPI" || config.brand === "HKJP") {
+              return GetContentWrap(
+                this.props.account.info,
+                i18n.t("common.phoneNumber"),
+                "member_phone",
+                this.handleButtonClick
+              );
+            }
+          })()}
+          {(() => {
+            if (config.brand !== "HKJP") {
+              return GetContentWrap(
+                this.props.account.info,
+                i18n.t("common.emailAddress"),
+                "member_email",
+                this.handleButtonClick
+              );
+            }
+          })()}
           {GetContentWrap(
             this.props.account.info,
             "QQ",

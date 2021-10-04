@@ -7,10 +7,10 @@ import Dialog from "@material-ui/core/Dialog";
 import Login from "./Login";
 import { AppHistory } from "../../history/History";
 import ForgotPasswordEmail from "./ForgotPasswordEmail";
-
+import Activation from "./Activation";
 import ResetPassword from "./ResetPassword";
 import ResetPasswordSuccess from "./ResetPasswordSuccess";
-
+import config from "../../config/config";
 import {
   accountAction,
   walletAction,
@@ -45,6 +45,8 @@ const BtnRegister = styled(BtnLoginRegister)`
   margin-right: 10px;
   background-color: #f0ca83;
   color: #6d5d41;
+  width: auto;
+  padding: 0px 10px;
   height: 30px;
   &:hover {
     color: #fdf8f0;
@@ -91,6 +93,11 @@ const StyledDialog = withStyles({
   },
 })(Dialog);
 
+const BtnLoginRegisterLabel = styled.span`
+  text-align: center;
+  margin-top: 3px;
+  display: block;
+`;
 class GuestContainer extends Component {
   state = {
     openDialog: false,
@@ -103,6 +110,8 @@ class GuestContainer extends Component {
     code: "",
     phone: "",
     securityKey: "",
+    username: "",
+    pass: "",
   };
   componentDidMount() {
     let urlParams = new URLSearchParams(this.props.location.search);
@@ -136,6 +145,17 @@ class GuestContainer extends Component {
       openDialogName: dialogName,
     });
     this.props.showLogin(true);
+  };
+
+  onhandleActivation = (username = "", pass = "") => {
+    this.setState({
+      ...this.state,
+      openDialog: true,
+      openDialogName: "activation",
+      username: username,
+      pass: pass,
+    });
+    this.props.showLogin(false);
   };
 
   onhandleCloseDialog = () => {
@@ -420,10 +440,26 @@ class GuestContainer extends Component {
     this.props.showLogin(false);
     this.props.onhandleContactUsClick();
   };
-  onhandleSubmitRegister = () => {};
+  handleRegisterSuccess = (username, pass) => {
+    this.onhandleActivation(username, pass);
+  };
   render() {
     return (
       <Container>
+        {(() => {
+          if (config.brand === "HKJP" || config.brand === "GPI") {
+            return (
+              <React.Fragment>
+                <BtnRegister onClick={() => this.onhandleActivation()}>
+                  <BtnLoginRegisterLabel>
+                    {i18n.t("web.register.activation")}
+                  </BtnLoginRegisterLabel>
+                </BtnRegister>
+                <BtnSpliter> | </BtnSpliter>
+              </React.Fragment>
+            );
+          }
+        })()}
         <BtnRegister onClick={() => this.onhandleRegister()}>
           <BtnRegisterLabel>{i18n.t("common.register")}</BtnRegisterLabel>
         </BtnRegister>
@@ -457,9 +493,18 @@ class GuestContainer extends Component {
                 return (
                   <Register
                     onhandleClose={this.onhandleCloseDialog}
-                    onhandleSubmitRegister={this.onhandleSubmitRegister}
+                    onRegisterSuccess={this.handleRegisterSuccess}
                     doLogin={this.handleLoginClick}
                   ></Register>
+                );
+              } else if (this.state.openDialogName === "activation") {
+                return (
+                  <Activation
+                    username={this.state.username}
+                    pass={this.state.pass}
+                    onhandleClose={this.onhandleCloseDialog}
+                    doLogin={this.handleLoginClick}
+                  ></Activation>
                 );
               } else if (this.state.openDialogName === "forgotpassword") {
                 return (

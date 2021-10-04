@@ -18,7 +18,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
 import { withSnackbar } from "notistack";
-
+import config from "../../config/config";
 import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
 const Container = styled.div`
@@ -261,22 +261,28 @@ function Register(props) {
               variant: "warning",
             });
           } else if (response.IsSuccess) {
-            let urlParams = new URLSearchParams(props.location.search);
-            if (urlParams.has("return_url")) {
-              const returnValue = urlParams.get("return_url");
-              if (returnValue) {
-                window.location.href =
-                  returnValue +
-                  "?token=" +
-                  BlowFishEncryption.Encrypt(response.data);
-              }
+            {
+              //    let urlParams = new URLSearchParams(props.location.search);
+              //    if (urlParams.has("return_url")) {
+              //      const returnValue = urlParams.get("return_url");
+              //      if (returnValue) {
+              //        window.location.href =
+              //          returnValue +
+              //          "?token=" +
+              //          BlowFishEncryption.Encrypt(response.data);
+              //      }
+              //    }
             }
-            props.doLogin(username, password);
-            // await props.getAccountInfo(response.data);
-            // await props.getAccountProfile(response.data);
-            props.history.push(
-              "/" + i18n.language + "/registersuccess/" + username
-            );
+            if (config.brand === "HKJP" || config.brand === "GPI") {
+              props.onRegisterSuccess(username, password);
+            } else {
+              props.doLogin(username, password);
+              // await props.getAccountInfo(response.data);
+              // await props.getAccountProfile(response.data);
+              props.history.push(
+                "/" + i18n.language + "/registersuccess/" + username
+              );
+            }
           } else {
             props.enqueueSnackbar(response.info, {
               variant: "warning",
