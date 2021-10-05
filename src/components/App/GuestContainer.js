@@ -29,6 +29,7 @@ import { withSnackbar } from "notistack";
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
 import { errorSwitcher } from "../../utils/ErrorSwitcher";
 import i18n from "../../utils/i18n";
+import ForgotPasswordPhone from "./ForgotPasswordPhone";
 const Container = styled.div`
   margin-top: 25px;
 `;
@@ -112,6 +113,7 @@ class GuestContainer extends Component {
     securityKey: "",
     username: "",
     pass: "",
+    areaCode: "+852",
   };
   componentDidMount() {
     let urlParams = new URLSearchParams(this.props.location.search);
@@ -180,6 +182,8 @@ class GuestContainer extends Component {
     this.setState({
       ...this.state,
       openDialog: true,
+      phone: "",
+      code: "",
       openDialogName: "forgotpassword",
     });
     this.props.showLogin(false);
@@ -507,7 +511,7 @@ class GuestContainer extends Component {
                   ></Activation>
                 );
               } else if (this.state.openDialogName === "forgotpassword") {
-                return (
+                return config.brand !== "HKJP" ? (
                   <ForgotPasswordEmail
                     onhandleClose={this.onhandleCloseDialog}
                     onhandleNextClick={this.onhandleForgotPasswordEmailClick}
@@ -516,6 +520,16 @@ class GuestContainer extends Component {
                     code={this.state.code}
                     email={this.state.email}
                   ></ForgotPasswordEmail>
+                ) : (
+                  <ForgotPasswordPhone
+                    onhandleClose={this.onhandleCloseDialog}
+                    onhandleNextClick={this.onhandleForgotPasswordPhoneClick}
+                    onhandleBackClick={this.onhandleForgotPasswordBackClick}
+                    onhandleOnlineSupport={this.onhandleOnlineSupport}
+                    code={this.state.code}
+                    phone={this.state.phone}
+                    areaCode={this.state.areaCode}
+                  ></ForgotPasswordPhone>
                 );
               } else if (this.state.openDialogName === "resetpassword") {
                 return (
