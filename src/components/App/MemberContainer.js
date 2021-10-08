@@ -166,7 +166,8 @@ class MemberContainer extends Component {
             <CustomLink to={"/" + i18n.language + "/account/profile"}>
               {i18n.t("web.header.welcomBack")}
               <MemberUserName>
-                {this.props.account.info.member_username}
+                {this.props.account.info.member_username} (VIP
+                {this.props.account.info.member_level_id})
               </MemberUserName>
             </CustomLink>
           </WelcomeContainer>
@@ -202,6 +203,7 @@ class MemberContainer extends Component {
   }
 }
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     // screenWidth: state.ui.screenWidth,
     // screenHeight: state.ui.screenHeight,
