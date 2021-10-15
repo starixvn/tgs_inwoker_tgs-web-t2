@@ -177,7 +177,6 @@ const PlayerName = styled.div`
   color: #8a7f73;
   height: 25px;
   text-align: center;
-  margin-bottom: 50px;
 `;
 const BtnLogout = styled.div`
   color: #8a7f73;
@@ -200,6 +199,14 @@ const BtnLogout = styled.div`
       rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
       rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   }
+`;
+const VIPLabel = styled.div`
+  color: ${({ theme }) => theme.primary};
+  font-weight: bold;
+  font-size: 12px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 50px;
 `;
 class Account extends Component {
   constructor(props) {
@@ -354,6 +361,11 @@ class Account extends Component {
                 }
               ></AvatarContainer>
               <PlayerName>{this.props.account.info.member_username}</PlayerName>
+
+              <VIPLabel>
+                VIP
+                {this.props.account.info.member_level_id}
+              </VIPLabel>
               <MenuTitle>{i18n.t("web.account.fund")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.deposit"), "deposit")}
               {this.genMenuButtonDiv(
@@ -365,12 +377,9 @@ class Account extends Component {
                 "transfer"
               )}
               {this.genMenuButtonDiv(i18n.t("web.account.report"), "report")}
-
               <MenuTitle>{i18n.t("web.account.personal")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.profile"), "profile")}
-
               {this.genMenuButtonDiv(i18n.t("web.account.inbox"), "inbox")}
-
               <BtnLogout onClick={this.onhandleLogout}>
                 {i18n.t("web.header.logout")}
               </BtnLogout>
