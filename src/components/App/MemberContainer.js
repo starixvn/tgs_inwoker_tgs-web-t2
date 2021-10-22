@@ -133,7 +133,7 @@ const WelcomeContainer = styled(BalanceContainer)`
   float: right;
   margin-right: 0px;
   padding: 10px 0 0 0;
-  max-width: 300px;
+  max-width: 335px;
 `;
 const CustomLink = styled(Link)`
   text-decoration: none;

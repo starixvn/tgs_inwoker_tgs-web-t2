@@ -127,7 +127,7 @@ const LinkListItem = styled.li`
 const RightContainer = styled.div`
   float: right;
   height: 80px;
-  width: 300px;
+  width: 335px;
 `;
 
 const BtnAppsAndCS = styled.div`

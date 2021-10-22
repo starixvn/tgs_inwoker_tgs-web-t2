@@ -201,12 +201,14 @@ const BtnLogout = styled.div`
   }
 `;
 const VIPLabel = styled.div`
-  color: ${({ theme }) => theme.primary};
   font-weight: bold;
-  font-size: 12px;
+  margin-top: 12px;
+
+  font-size: 18px;
+
+  color: #8a7f73;
   width: 100%;
   text-align: center;
-  margin-bottom: 50px;
 `;
 class Account extends Component {
   constructor(props) {
