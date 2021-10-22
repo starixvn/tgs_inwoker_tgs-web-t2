@@ -9,9 +9,6 @@ pipeline {
         ImageTagUrl = "https://gitlab.com/api/v4/projects/20478010/registry/repositories/2172986/tags"
         gitlab_user_pwd = credentials('gitlab-user-pwd')
         Image = "lobby-t2"
-        DevComponents = "lobby-t2"
-        StagingComponents = "lobby-gpi-t2"
-        ProdComponents = "lobby-gpi-t2"	
     }
     stages {		    	
         stage('Prepare Env') {
@@ -23,18 +20,15 @@ pipeline {
                     {
                         case ['master', 'origin/master']:
                             env.kube_ns = "prod";
-                            env.k8s_config = 'stag-k8s-config';
-                            componentArray = "${ProdComponents}".split(",") 	
+                            env.k8s_config = 'stag-k8s-config';	
                             break;
                         case ['release/current', 'origin/release/current']:
                             env.kube_ns = "staging";
                             env.k8s_config = 'stag-k8s-config';
-                            componentArray = "${StagingComponents}".split(",") 
                             break;
                         default:
                             env.kube_ns = "dev";
                             env.k8s_config = 'k8s-kube-config' 
-                            componentArray = "${DevComponents}".split(",")
                             break;
                     }
                     TAG = env.kube_ns + '-' + TAG
@@ -45,6 +39,17 @@ pipeline {
                     env.commit_url = "${env.GIT_URL}".replace(".git","/-/commit/") + "${env.GIT_COMMIT}"
                     message += "\n Commit: ${env.commit_url}"
                 }
+
+                configFileProvider([configFile(fileId: 'tgs.' + env.kube_ns, variable: 'tgsconfig')]) {
+                    script {
+                        def envItems = readProperties file: "$tgsconfig";
+                        envItems.each { key, value -> 
+                            env."tgs_${key}" = value;
+                        }
+                        componentArray = "${env.tgs_lobby_t2_components}".split(",")
+                    }
+                }
+
                 sh "echo 'env: $env.kube_ns'"
                 sh "echo 'tag: ${TAG}'"
             }
