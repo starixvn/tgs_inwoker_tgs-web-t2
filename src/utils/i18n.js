@@ -32,7 +32,7 @@ i18n.use(LanguageDetector).init({
     "id-ID": {
       translation: require("../assets/translations/en-US.json"),
     },
-    "vt-VN": {
+    "vi-VN": {
       translation: language.viVN,
     },
   },
