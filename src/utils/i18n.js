@@ -36,7 +36,7 @@ i18n.use(LanguageDetector).init({
       translation: language.viVN,
     },
   },
-  whitelist: ["en-US", "zh-CN", "zh-TW", "th-TH", "id-ID", "vt-VN"],
+  whitelist: ["en-US", "zh-CN", "zh-TW", "th-TH", "id-ID", "vi-VN"],
   fallbackLng: [Config.defaultLanguage],
   detection: {
     order: ["path"],
