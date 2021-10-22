@@ -817,7 +817,7 @@ class Slots extends Component {
           </ButtonMore> */}
         </InnerWrap>
         <Spacing></Spacing>
-        <Loading show={true}></Loading>
+        <Loading show={this.state.loading}></Loading>
       </Container>
     );
   }
