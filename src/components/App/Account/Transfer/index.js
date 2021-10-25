@@ -234,7 +234,7 @@ const GameWalletButton = styled.div`
 
   text-align: center;
   padding: 5px;
-  width: 95px;
+  width: 125px;
   margin: 10px auto 0 auto;
   color: #404040;
   min-width: 79px;

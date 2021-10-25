@@ -65,7 +65,7 @@ export default function Recommend(props) {
     font-weight: 600;
     position: absolute;
     left: 220px;
-    height: 45px;
+    min-height: 45px;
   `;
   const RecommendText = styled.div`
     color: #8a7f73;

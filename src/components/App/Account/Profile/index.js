@@ -326,7 +326,6 @@ class Profile extends Component {
     });
   };
   backPhoneVerify = () => {
-    console.log(11);
     this.handleButtonClick("member_safe_password");
   };
 

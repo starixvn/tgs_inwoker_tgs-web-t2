@@ -164,7 +164,6 @@ class MemberContainer extends Component {
           <Spliter></Spliter>
           <WelcomeContainer>
             <CustomLink to={"/" + i18n.language + "/account/profile"}>
-              {i18n.t("web.header.welcomBack")}
               <MemberUserName>
                 {this.props.account.info.member_username} (VIP
                 {this.props.account.info.member_level_id})

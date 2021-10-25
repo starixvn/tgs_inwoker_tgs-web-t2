@@ -127,7 +127,6 @@ const LinkListItem = styled.li`
 const RightContainer = styled.div`
   float: right;
   height: 80px;
-  width: 335px;
 `;
 
 const BtnAppsAndCS = styled.div`
@@ -203,6 +202,7 @@ const RightMenuTextSpan = styled.span`
   color: #8a7f73;
   padding-top: 6px;
   text-align: center;
+  max-width: 85px;
 `;
 const RightMenuTextIcon = styled.span`
   margin-left: 5px;
@@ -922,11 +922,13 @@ class Header extends Component {
                         }`}
                       >
                         {item.title}
-                        <RightMenuTextIcon>
-                          <ArrowDropDownCircleOutlinedIcon
-                            style={{ fontSize: 14 }}
-                          />
-                        </RightMenuTextIcon>
+                        {
+                          //     <RightMenuTextIcon>
+                          //     <ArrowDropDownCircleOutlinedIcon
+                          //       style={{ fontSize: 14 }}
+                          //     />
+                          //   </RightMenuTextIcon>
+                        }
                       </RightMenuTextSpan>
                     </RightMenuTextContainer>
                     <RightMenuBottomLine></RightMenuBottomLine>
