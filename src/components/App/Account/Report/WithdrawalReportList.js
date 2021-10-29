@@ -55,6 +55,7 @@ function DailyReportList(props) {
           <TableRow>
             <StyledTableCell>{i18n.t("report.RequestDate")}</StyledTableCell>
             <StyledTableCell>{i18n.t("report.OrderNumber")}</StyledTableCell>
+            <StyledTableCell>{i18n.t("report.NewOrderNumber")}</StyledTableCell>
             <StyledTableCell>
               {i18n.t("report.withdrawal.bankCard")}
             </StyledTableCell>
@@ -71,6 +72,7 @@ function DailyReportList(props) {
                 <StyledTableCell>
                   {moment(row.createdon).format("YYYY-MM-DD hh:mm a")}
                 </StyledTableCell>
+                <StyledTableCell>{row.orderno}</StyledTableCell>
                 <StyledTableCell>{row.id}</StyledTableCell>
 
                 <StyledTableCell>
