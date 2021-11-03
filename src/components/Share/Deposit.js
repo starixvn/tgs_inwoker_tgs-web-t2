@@ -20,8 +20,12 @@ class Deposit extends Component {
     var name = this.props.match.params.name;
     if (paymentcode === "MANUAL") {
       // handle manual deposit
-
-      this.props.doManualDeposit(name, amount, channelid, depositPromotion);
+      if (methodcode === "BankTransfer") {
+        this.props.doBankDeposit(name, amount, channelid, depositPromotion);
+      }
+      if (methodcode === "ThirdParty") {
+        this.props.doThirdPartyDeposit(amount, channelid, depositPromotion);
+      }
     } else {
       if (paymentcode === "LEEPAY") {
         this.props.doLeePayDeposit(amount, channelid, depositPromotion);
@@ -84,6 +88,27 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(
         walletAction.doManualDeposit(amount, account, paymentid, promotionid)
       ),
+    doBankDeposit: (account, amount, paymentid, promotionid, banktype) => {
+      dispatch(
+        walletAction.doBankDeposit(
+          account,
+          amount,
+          paymentid,
+          promotionid,
+          banktype
+        )
+      );
+    },
+    doThirdPartyDeposit: (amount, paymentid, promotionid, banktype) => {
+      dispatch(
+        walletAction.doThirdPartyDeposit(
+          amount,
+          paymentid,
+          promotionid,
+          banktype
+        )
+      );
+    },
     doLeePayDeposit: (amount, payment_id, promotionid) =>
       dispatch(walletAction.doLeePayDeposit(amount, payment_id, promotionid)),
     doPrimePayDeposit: (amount, payment_id, promotionid) =>

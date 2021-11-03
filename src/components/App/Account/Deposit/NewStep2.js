@@ -52,6 +52,12 @@ const CustomInput = styled.input`
   }
 `;
 
+const QRCodeContainer = styled.img`
+  height: 100px;
+  width: 100px;
+  margin: 15px 0px;
+`;
+
 class NewStepTwo extends Component {
   constructor(props) {
     super(props);
@@ -119,6 +125,14 @@ class NewStepTwo extends Component {
               <TitleTD>{i18n.t("deposit.depositMethod")}</TitleTD>
               <ValueTD>{i18n.t(this.props.methodcode)}</ValueTD>
             </tr>
+            {this.props.methodcode === "ThirdParty" && (
+              <tr>
+                <TitleTD>QR</TitleTD>
+                <ValueTD>
+                  <QRCodeContainer src={extended && extended.qrCode} />
+                </ValueTD>
+              </tr>
+            )}
             <tr>
               <TitleTD>{i18n.t("deposit.depositTunnel")}</TitleTD>
               <ValueTD>{this.props.channelname}</ValueTD>
