@@ -376,7 +376,7 @@ class Deposit extends Component {
     window.open(
       `/${i18n.language}/deposit/${payment.paymentcode}/${method.methodcode}/${
         channel.id
-      }/${this.state.amount.replace(/,/g, "")}/${
+      }/${this.state.amount}/${
         this.state.depositPromotion ? this.state.depositPromotion : " "
       }/${this.state.name}`,
       "_blank"
@@ -511,9 +511,15 @@ class Deposit extends Component {
   };
 
   handleAmountChange = (e) => {
+    var max =
+      this.props.wallet.depositTypeList[this.state.selectedPaymentIndex].method[
+        this.state.selectedMethodIndex
+      ].channel[this.state.selectedChannelIndex].transferlimit.to;
+
     this.setState({
       ...this.state,
-      amount: e.target.value,
+      amount:
+        parseInt(e.target.value.replace(/,/g, "")) > max ? max : e.target.value,
     });
   };
   handleNameChange = (e) => {
