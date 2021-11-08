@@ -5,7 +5,7 @@ const config = {
     window?.env?.client ||
     "I7nKiimrZQOqnJ6ryjUw74c0Hi64KC6Myunhob4cHh8VOUIuZh4p63czefxyyzbZ",
   currency: window?.env?.currency || "CNY",
-  brand: window?.env?.brand || "HKJP",
+  brand: window?.env?.brand || "GPI",
   theme: window?.env?.theme || "red",
   wapVersion: template,
   sourceUrl: window?.env?.sourceUrl || "https://images.srvptt.com/",

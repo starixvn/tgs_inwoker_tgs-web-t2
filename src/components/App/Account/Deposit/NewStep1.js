@@ -13,6 +13,7 @@ import CustomButton from "../../../Share/Button";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import LimitPopupPNG from "../../../../assets/images/limit-popup.png";
 import Common from "../../../../utils/Common";
+import QRCode from "qrcode.react";
 const CustomText = withStyles({
   root: {
     marginTop: "10px",
@@ -168,6 +169,42 @@ const LimitAmount = styled.span`
 `;
 const ExchangeRateContainer = styled.div``;
 
+const TransferContainer = styled.div`
+  color: #747474;
+  padding: 5px 0;
+`;
+const TransferLabel = styled.span`
+  float: left;
+  min-width: 100px;
+  color: #151a34;
+`;
+const TransferLabelValue = styled.span`
+  float: left;
+`;
+const QRImage = styled.img`
+  min-width: 120px;
+  min-height: 120px;
+`;
+const CustomInput = styled.input`
+  color: #000;
+  font-size: 14px;
+  text-align: right;
+  margin: 12px 0 12px 10px;
+  font-weight: 500;
+  border: 0;
+
+  padding: 0;
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    color: #c3c3c3;
+  }
+  &:disabled {
+    background: #fff;
+    -webkit-text-fill-color: #000;
+    opacity: 1;
+  }
+`;
+
 const Remark = styled.div`
   color: ${({ theme }) => theme.secondary};
   opacity: 0.75;
@@ -187,6 +224,8 @@ class NewStepOne extends Component {
       paymentType,
       onNextClick,
       exchangeRate,
+      onFileChange,
+      files,
     } = this.props;
     if (paymentType === null) return <></>;
 
@@ -270,9 +309,70 @@ class NewStepOne extends Component {
                     );
                   }
                 })()} */}
-
                 <SplitLine></SplitLine>
+                {(() => {
+                  if (paymentType.paymentcode.toUpperCase() === "MANUAL") {
+                    var channelExtend =
+                      methodList[selectedMethodIndex].channel[
+                        selectedChannelIndex
+                      ].extended;
+                    if (
+                      methodList[
+                        selectedMethodIndex
+                      ].methodcode.toUpperCase() === "THIRDPARTY"
+                    ) {
+                      return (
+                        <>
+                          <SubHeaderContainer>
+                            <NumberContainer>3</NumberContainer>
 
+                            <SubTitle>
+                              {i18n.t("deposit.transferAccount")}
+                            </SubTitle>
+                          </SubHeaderContainer>
+                          <SelectionContainer>
+                            <QRCode
+                              value={channelExtend.qrCode}
+                              bgColor={"#f6f8f7"}
+                            />
+                          </SelectionContainer>
+                          <SplitLine></SplitLine>
+                        </>
+                      );
+                    } else {
+                      return (
+                        <>
+                          <SubHeaderContainer>
+                            <NumberContainer>3</NumberContainer>
+
+                            <SubTitle>
+                              {i18n.t("deposit.transferAccount")}
+                            </SubTitle>
+                          </SubHeaderContainer>
+                          <SelectionContainer>
+                            <TransferContainer>
+                              <TransferLabel>
+                                {i18n.t("deposit.accName")}:
+                              </TransferLabel>
+                              <TransferLabelValue>
+                                {channelExtend.name}
+                              </TransferLabelValue>
+                            </TransferContainer>
+                            <TransferContainer>
+                              <TransferLabel>
+                                {i18n.t("deposit.cardNum")}:
+                              </TransferLabel>
+                              <TransferLabelValue>
+                                {channelExtend.bankAccount}
+                              </TransferLabelValue>
+                            </TransferContainer>
+                          </SelectionContainer>
+                          <SplitLine></SplitLine>
+                        </>
+                      );
+                    }
+                  }
+                })()}
                 {(() => {
                   if (
                     paymentType.paymentcode.toUpperCase() === "MANUAL" ||
@@ -281,7 +381,7 @@ class NewStepOne extends Component {
                     return (
                       <>
                         <SubHeaderContainer>
-                          <NumberContainer>3</NumberContainer>
+                          <NumberContainer>4</NumberContainer>
 
                           <SubTitle>
                             {i18n.t("deposit.msgPlsEnterAccount")}
@@ -309,11 +409,11 @@ class NewStepOne extends Component {
                     );
                   }
                 })()}
-
                 <SubHeaderContainer>
                   <NumberContainer>
-                    {paymentType.paymentcode.toUpperCase() === "MANUAL" ||
-                    paymentType.paymentcode.toUpperCase() === "APPLEPAY"
+                    {paymentType.paymentcode.toUpperCase() === "MANUAL"
+                      ? "5"
+                      : paymentType.paymentcode.toUpperCase() === "APPLEPAY"
                       ? "4"
                       : "3"}
                   </NumberContainer>
@@ -412,15 +512,15 @@ class NewStepOne extends Component {
                 <SplitLine></SplitLine>
                 <SubHeaderContainer>
                   <NumberContainer>
-                    {paymentType.paymentcode.toUpperCase() === "MANUAL" ||
-                    paymentType.paymentcode.toUpperCase() === "APPLEPAY"
+                    {paymentType.paymentcode.toUpperCase() === "MANUAL"
+                      ? "6"
+                      : paymentType.paymentcode.toUpperCase() === "APPLEPAY"
                       ? "5"
                       : "4"}
                   </NumberContainer>
 
                   <SubTitle>{i18n.t("deposit.promotion")}</SubTitle>
                 </SubHeaderContainer>
-
                 <SelectionContainer>
                   <CustomFormControl>
                     <CustomSelect
@@ -443,10 +543,32 @@ class NewStepOne extends Component {
                     </CustomSelect>
                   </CustomFormControl>
                 </SelectionContainer>
-                <SplitLine></SplitLine>
 
+                {(() => {
+                  if (paymentType.paymentcode.toUpperCase() === "MANUAL") {
+                    return (
+                      <React.Fragment>
+                        <SplitLine></SplitLine>
+                        <SubHeaderContainer>
+                          <NumberContainer>7</NumberContainer>
+
+                          <SubTitle>{i18n.t("deposit.uploadReceipt")}</SubTitle>
+                        </SubHeaderContainer>
+                        <SelectionContainer>
+                          <CustomInput
+                            type="file"
+                            accept="image/jpg, image/jpeg, image/png, image/tiff"
+                            onChange={this.props.onFileChange}
+                          ></CustomInput>
+                        </SelectionContainer>
+                      </React.Fragment>
+                    );
+                  }
+                })()}
+
+                <SplitLine></SplitLine>
                 <CustomButton
-                  name={i18n.t("common.nextStep")}
+                  name={i18n.t("common.submit")}
                   width={257}
                   marginTop={0}
                   float={"none"}
@@ -467,7 +589,9 @@ class NewStepOne extends Component {
                       ].transferlimit.to ||
                     ((paymentType.paymentcode.toUpperCase() === "MANUAL" ||
                       paymentType.paymentcode.toUpperCase() === "APPLEPAY") &&
-                      name.length <= 0)
+                      name.length <= 0) ||
+                    (paymentType.paymentcode.toUpperCase() === "MANUAL" &&
+                      files.length <= 0)
                   }
                 ></CustomButton>
               </>
@@ -475,100 +599,6 @@ class NewStepOne extends Component {
           }
         })()}
       </>
-    );
-
-    return (
-      <Grid container justify="center" direction="column" alignContent="center">
-        <CustomFormControl>
-          <CustomSelect
-            native
-            variant="outlined"
-            value={selectedMethodIndex}
-            displayEmpty
-            onChange={(e) => {
-              onMethodChange(e.target.value);
-            }}
-          >
-            <option value="-1" disabled>
-              请选择存款方式
-            </option>
-            {(() => {
-              return methodList.map((item, index) => {
-                return (
-                  <option value={index} key={index}>
-                    {item.methodcode}
-                  </option>
-                );
-              });
-            })()}
-          </CustomSelect>
-        </CustomFormControl>
-        <CustomFormControl>
-          <CustomSelect
-            native
-            variant="outlined"
-            value={selectedChannelIndex}
-            displayEmpty
-            onChange={(e) => {
-              onChannelChange(e.target.value);
-            }}
-          >
-            <option value="-1">请选择存款方式</option>
-            {(() => {
-              if (methodList.length > 0 && selectedMethodIndex !== -1) {
-                return methodList[selectedMethodIndex].channel.map(
-                  (item, index) => {
-                    return (
-                      <option value={index} key={index}>
-                        {item.channelname}
-                      </option>
-                    );
-                  }
-                );
-              }
-            })()}
-          </CustomSelect>
-        </CustomFormControl>
-        <CustomText
-          placeholder="请输入您的银行账号名称"
-          inputProps={{
-            maxLength: 50,
-          }}
-          style={{
-            width: "340px",
-            height: "46px",
-          }}
-          value={name}
-          name="account"
-          onChange={onNameChange}
-          variant="outlined"
-        ></CustomText>
-        <CustomText
-          placeholder="请输入您想存款的数量"
-          inputProps={{
-            maxLength: 50,
-          }}
-          style={{
-            width: "340px",
-            height: "46px",
-          }}
-          value={amount}
-          name="amount"
-          onChange={onAmountChange}
-          variant="outlined"
-        ></CustomText>
-
-        <CustomButton
-          disabled={
-            selectedMethodIndex < 0 ||
-            selectedChannelIndex < 0 ||
-            amount <= 0 ||
-            name.length <= 0
-          }
-          name={i18n.t("common.nextStep")}
-          onClick={onNextClick}
-        ></CustomButton>
-      </Grid>
     );
   }
 }
