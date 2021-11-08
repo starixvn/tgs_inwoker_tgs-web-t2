@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 import Loading from "../../Loading";
 import config from "../../../../config/config";
 import NameVerification from "../../Share/NameVerification";
+import EmailVerification from "../../Share/EmailVerification";
 // import PassSetting from "./PassSetting";
 import {
   WalletService,
@@ -347,6 +348,12 @@ class Withdrawal extends Component {
               if (this.props.account.info.member_name === "") {
                 return (
                   <NameVerification token={this.props.token}></NameVerification>
+                );
+              } else if (this.props.account.info.member_email === "") {
+                return (
+                  <EmailVerification
+                    token={this.props.token}
+                  ></EmailVerification>
                 );
               } else {
                 if (
