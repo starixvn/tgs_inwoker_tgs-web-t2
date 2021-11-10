@@ -32,7 +32,9 @@ const Icon = styled.div`
 `;
 
 const Text = styled.div`
-  font-size: 10px;
+  font-size: 8px;
+  text-align: center;
+  width: 50px;
   pointer-events: none;
   opacity: ${({ active }) => (active ? "1" : "0")};
   transition: opacity 200ms;
