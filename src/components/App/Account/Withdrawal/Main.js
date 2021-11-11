@@ -231,7 +231,7 @@ class Main extends Component {
             className="CurrencyTextField"
             style={{
               height: "40px",
-              width: "200px",
+              width: "250px",
               borderRadius: "12px",
               boxShadow: "0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
               backgroundColor: "#fff",
