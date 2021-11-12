@@ -4,7 +4,6 @@ import styled from "styled-components";
 import i18n from "../../../../utils/i18n";
 import CustomButton from "../../../Share/Button";
 import { withSnackbar } from "notistack";
-import QRCode from "qrcode.react";
 const Container = styled.div`
   font-size: 14px;
   color: #818181;
@@ -56,7 +55,7 @@ const CustomInput = styled.input`
 const QRCodeContainer = styled.div`
   margin: 15px 15px;
 `;
-
+const QRCodeImg = styled.img``;
 class NewStepTwo extends Component {
   constructor(props) {
     super(props);
@@ -126,13 +125,10 @@ class NewStepTwo extends Component {
             </tr>
             {this.props.methodcode === "ThirdParty" && (
               <tr>
-                <TitleTD>QR</TitleTD>
+                <TitleTD>{i18n.t("deposit.qrCode")}</TitleTD>
                 <ValueTD>
                   <QRCodeContainer>
-                    <QRCode
-                      value={extended && extended.qrCode}
-                      bgColor={"#f6f8f7"}
-                    />
+                    <QRCodeImg src={extended.qrCodeFileUrl} />
                   </QRCodeContainer>
                 </ValueTD>
               </tr>

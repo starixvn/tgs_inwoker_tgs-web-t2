@@ -13,7 +13,7 @@ import CustomButton from "../../../Share/Button";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import LimitPopupPNG from "../../../../assets/images/limit-popup.png";
 import Common from "../../../../utils/Common";
-import QRCode from "qrcode.react";
+
 const CustomText = withStyles({
   root: {
     marginTop: "10px",
@@ -130,6 +130,7 @@ const SubTitle = styled.div`
 const SelectionContainer = styled.div`
   margin: 15px 0 0 30px;
 `;
+const QRCodeImg = styled.img``;
 const TunnelButton = styled(TabButton)`
   min-width: 133px;
   height: 41px;
@@ -331,10 +332,7 @@ class NewStepOne extends Component {
                             </SubTitle>
                           </SubHeaderContainer>
                           <SelectionContainer>
-                            <QRCode
-                              value={channelExtend.qrCode}
-                              bgColor={"#f6f8f7"}
-                            />
+                          <QRCodeImg src={channelExtend.qrCodeFileUrl} />
                           </SelectionContainer>
                           <SplitLine></SplitLine>
                         </>
