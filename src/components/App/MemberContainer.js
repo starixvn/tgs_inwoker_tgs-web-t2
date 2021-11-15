@@ -202,7 +202,6 @@ class MemberContainer extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     // screenWidth: state.ui.screenWidth,
     // screenHeight: state.ui.screenHeight,
