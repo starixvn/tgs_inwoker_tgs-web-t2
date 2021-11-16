@@ -205,7 +205,10 @@ const CustomInput = styled.input`
     opacity: 1;
   }
 `;
-
+const CustomImage = styled.img`
+  height: 130px;
+  width: auto;
+`;
 const Remark = styled.div`
   color: ${({ theme }) => theme.secondary};
   opacity: 0.75;
@@ -332,7 +335,7 @@ class NewStepOne extends Component {
                             </SubTitle>
                           </SubHeaderContainer>
                           <SelectionContainer>
-                          <QRCodeImg src={channelExtend.qrCodeFileUrl} />
+                            <QRCodeImg src={channelExtend.qrCodeFileUrl} />
                           </SelectionContainer>
                           <SplitLine></SplitLine>
                         </>
@@ -348,6 +351,9 @@ class NewStepOne extends Component {
                             </SubTitle>
                           </SubHeaderContainer>
                           <SelectionContainer>
+                            {channelExtend.logo && (
+                              <CustomImage src={channelExtend.logo} />
+                            )}
                             <TransferContainer>
                               <TransferLabel>
                                 {i18n.t("deposit.accName")}:
