@@ -780,9 +780,15 @@ class Wap extends Component {
             </Switch>
           </Router>
           {(() => {
+            const matchingpath =
+              this.props.location.pathname === "/" + i18n.language ||
+              this.props.location.pathname === "/" + i18n.language + "/" ||
+              this.props.location.pathname ===
+                "/" + i18n.language + "/main/home";
             if (
               config.brand === "HK28" &&
-              this.props.ui.marqueeText.length > 0
+              this.props.ui.marqueeText.length > 0 &&
+              matchingpath
             ) {
               var row = this.props.ui.marqueeText[0];
 
