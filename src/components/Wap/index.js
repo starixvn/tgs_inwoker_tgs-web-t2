@@ -26,7 +26,7 @@ import styled from "styled-components";
 import i18n from "../../utils/i18n";
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
 import Common from "../../utils/Common";
-
+import PopupAnnouncement from "../Share/PopupAnnouncement";
 const baseRouteUrl = Common.baseRouteUrl;
 
 const StyledModal = withStyles((theme) => ({
@@ -382,6 +382,7 @@ class Wap extends Component {
     title: "",
     message: "",
     loading: true,
+    openAnnouncement: true,
   };
   GetSupportUrl = (userid, name, question, email) => {
     var newURL = this.props.general.livechat
@@ -778,6 +779,33 @@ class Wap extends Component {
               })}
             </Switch>
           </Router>
+          {(() => {
+            if (
+              config.brand === "HK28" &&
+              this.props.ui.marqueeText.length > 0
+            ) {
+              var row = this.props.ui.marqueeText[0];
+
+              return (
+                <PopupAnnouncement
+                  open={this.state.openAnnouncement}
+                  onClose={() => {
+                    this.setState({ ...this.state, openAnnouncement: false });
+                  }}
+                  text={
+                    row.localization !== null && row.localization.content
+                      ? row.localization.content
+                      : row.content
+                  }
+                  header={
+                    row.localization !== null && row.localization.subject
+                      ? row.localization.subject
+                      : row.subject
+                  }
+                ></PopupAnnouncement>
+              );
+            }
+          })()}
           <StyledModal onClose={this.handleClose} open={this.state.open}>
             <DialoTitle>{this.state.title}</DialoTitle>
             <DialoMessage>{this.state.message}</DialoMessage>
@@ -830,6 +858,7 @@ const mapStateToProps = (state) => {
     account: state.account,
     general: state.general,
     game: state.game,
+    ui: state.ui,
     screenWidth: state.ui.screenWidth,
     screenHeight: state.ui.screenHeight,
   };
