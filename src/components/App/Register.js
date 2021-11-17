@@ -273,7 +273,11 @@ function Register(props) {
               //      }
               //    }
             }
-            if (config.brand === "HKJP" || config.brand === "GPI") {
+            if (
+              config.brand === "HKJP" ||
+              config.brand === "GPI" ||
+              config.brand === "WLGHK"
+            ) {
               props.onRegisterSuccess(username, password);
             } else {
               props.doLogin(username, password);
