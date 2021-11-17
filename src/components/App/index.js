@@ -243,11 +243,8 @@ class App extends Component {
           } else {
             return (
               <>
-                <Header
-                  onhandleShowCSClick={this.handleShowCSClick}
-                  hide={this.maintenance}
-                ></Header>
-                <EmptyHeader hide={this.maintenance}></EmptyHeader>
+                <Header onhandleShowCSClick={this.handleShowCSClick}></Header>
+                <EmptyHeader></EmptyHeader>
                 <Main>
                   <Switch>
                     <Route
@@ -390,7 +387,7 @@ class App extends Component {
                     <Redirect to={"/" + i18n.language} />
                   </Switch>
                 </Main>
-                <Footer hide={this.maintenance} target={"_blank"}></Footer>
+                <Footer target={"_blank"}></Footer>
               </>
             );
           }

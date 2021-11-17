@@ -291,6 +291,9 @@ const RouteMapping = [
     path: "/maintenance",
     component: Wapp.Maintenance,
     navigate: true,
+    alert: true,
+    GetSupportUrl: true,
+    brandComm: true,
   },
   // {
   //   path: "/card/name",
@@ -772,7 +775,12 @@ class Wap extends Component {
                             ? props.location.state.from
                             : null;
                       }
-                      return <row.component {...propsObj}></row.component>;
+                      return (
+                        <row.component
+                          {...propsObj}
+                          {...this.props.general}
+                        ></row.component>
+                      );
                     }}
                   />
                 );
