@@ -449,7 +449,7 @@ class Transfer extends Component {
           <GameWalletAmount>
             {item.maintenance === 1
               ? i18n.t("transfer.maintenance")
-              : "￥ " + Common.formatNumberWithCommas(item.balance)}
+              : Common.formatNumberWithCommas(item.balance)}
           </GameWalletAmount>
           <GameWalletButton
             disabled={item.maintenance === 1}
@@ -654,7 +654,6 @@ class Transfer extends Component {
             ></RefreshButton>
             <div className="clear"></div>
             <WalletAmount>
-              ￥
               <DynamicFont
                 content={Common.formatNumberWithThousand(
                   this.props.wallet.mainBalance
@@ -670,7 +669,6 @@ class Transfer extends Component {
 
             <div className="clear"></div>
             <WalletAmount>
-              ￥
               <DynamicFont
                 content={Common.formatNumberWithThousand(
                   this.props.game.providerList.reduce(
@@ -691,7 +689,6 @@ class Transfer extends Component {
             <WalletTitle>{i18n.t("transfer.totalFund")}</WalletTitle>
             <div className="clear"></div>
             <WalletAmount>
-              ￥
               <DynamicFont
                 content={Common.formatNumberWithThousand(
                   this.props.game.providerList.reduce(
@@ -819,7 +816,7 @@ class Transfer extends Component {
                   <GameWalletAmount>
                     {item.maintenance === 1
                       ? i18n.t("transfer.maintenance")
-                      : "￥ " + Common.formatNumberWithCommas(item.balance)}
+                      : Common.formatNumberWithCommas(item.balance)}
                   </GameWalletAmount>
                   <GameWalletButton
                     disabled={item.maintenance === 1}
