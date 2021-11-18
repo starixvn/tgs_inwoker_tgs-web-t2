@@ -344,6 +344,7 @@ const mapStateToProps = (state) => {
   return {
     // screenWidth: state.ui.screenWidth,
     // screenHeight: state.ui.screenHeight,
+    general: state.general,
     token: state.account.token,
   };
 };

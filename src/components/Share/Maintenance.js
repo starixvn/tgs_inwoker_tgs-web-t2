@@ -133,7 +133,7 @@ const Maintenance = (props) => {
   const [imList, setIMList] = useState([]);
 
   useEffect(() => {
-    props.brandComm().then((e) => {
+    props.getBrandCommunicationList().then((e) => {
       if (e.IsSuccess) {
         setIMList(e.data);
       }
