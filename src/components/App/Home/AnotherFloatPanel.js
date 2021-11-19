@@ -60,7 +60,6 @@ const Container = styled.div`
   overflow: visible;
   color: white;
   border-radius: 8px;
-  z-index: 10;
 
   :hover {
   }
@@ -186,6 +185,13 @@ const QRCodeHolder = styled.div`
   padding: 20px;
 `;
 
+const QRCodeTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px;
+  align-items: center;
+`;
+
 const QRCodeText = styled.div`
   padding: 5px 0px;
   font-weight: bold;
@@ -193,9 +199,9 @@ const QRCodeText = styled.div`
 `;
 
 const CSButtonContainer = styled.div`
-  padding: 5px;
+  padding: 10px;
   text-align: center;
-  margin: 5px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -210,13 +216,6 @@ const CSButtonContainer = styled.div`
 const IconHolder = styled.img`
   height: auto;
   width: 75px;
-`;
-
-const QRCodeTextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0px 20px;
-  align-items: center;
 `;
 
 const QRCodeWrapper = styled.div`
@@ -256,7 +255,6 @@ const AnotherFloatPanel = (props) => {
     setCsModal(false);
   };
 
-  //TODO: Pending CS
   const buttons = [
     {
       icon: Help1PNG,
