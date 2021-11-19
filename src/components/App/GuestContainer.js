@@ -30,9 +30,7 @@ import BlowFishEncryption from "../../utils/BlowFishEncryption";
 import { errorSwitcher } from "../../utils/ErrorSwitcher";
 import i18n from "../../utils/i18n";
 import ForgotPasswordPhone from "./ForgotPasswordPhone";
-const Container = styled.div`
-  margin-top: 25px;
-`;
+const Container = styled.div``;
 const BtnLoginRegister = styled.div`
   float: right;
   font-size: 17px;

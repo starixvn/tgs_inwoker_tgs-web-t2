@@ -127,6 +127,8 @@ const LinkListItem = styled.li`
 const RightContainer = styled.div`
   float: right;
   height: 80px;
+  display: flex;
+  align-items: center;
 `;
 
 const BtnAppsAndCS = styled.div`
@@ -400,6 +402,10 @@ const GameFrame = styled.div`
     `
       : ``;
   }}
+`;
+
+const CustomCsButton = styled(CustomExternalLink)`
+  margin-left: 40px;
 `;
 
 const styles = {
@@ -787,6 +793,7 @@ class Header extends Component {
                         </>
                       );
                     })}
+
                     {/* <CustomExternalLink
                       selected={i18n.language === "zh-CN"}
                       onClick={() => {
@@ -813,6 +820,9 @@ class Header extends Component {
                     >
                       English
                     </CustomExternalLink> */}
+                    <CustomCsButton onClick={this.props.onhandleShowCSClick}>
+                      {i18n.t("common.cs")}
+                    </CustomCsButton>
                   </LinkListItem>
                 </LinkList>
               </LinkContainer>
