@@ -45,6 +45,8 @@ import Download from "./Download/index";
 import i18n from "../../utils/i18n";
 import Maintenance from "../Share/Maintenance";
 import Banned from "./Banned";
+import AnotherFloatPanel from "./Home/AnotherFloatPanel";
+import config from "../../config/config";
 const baseRouteUrl = Common.baseRouteUrl;
 const Main = styled.div`
   min-height: 600px;
@@ -387,6 +389,11 @@ class App extends Component {
                     <Redirect to={"/" + i18n.language} />
                   </Switch>
                 </Main>
+                {config.brand === "HK28" && (
+                  <AnotherFloatPanel
+                    onhandleShowCSClick={this.handleShowCSClick}
+                  ></AnotherFloatPanel>
+                )}
                 <Footer target={"_blank"}></Footer>
               </>
             );

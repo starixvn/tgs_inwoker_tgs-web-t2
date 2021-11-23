@@ -35,6 +35,7 @@ import ScrollAnimation from "react-animate-on-scroll";
 import KySlider from "./KySlider";
 import AGSlider from "./AgSlider";
 import AnotherFloatPanel from "./AnotherFloatPanel";
+import config from "../../../config/config";
 export const floatKeyframe = keyframes`
   0%, 100% {
     transform: translateY(0);
@@ -601,13 +602,15 @@ class Home extends Component {
         <SlotSection></SlotSection>
         <Recommend></Recommend>
 
-        <AnotherFloatPanel
-          onhandleDepositClick={this.props.onhandleDepositClick}
-          onhandleShowCSClick={this.props.onhandleShowCSClick}
-          onDownloadClick={() =>
-            this.handleNavigateClick("/" + i18n.language + "/download")
-          }
-        ></AnotherFloatPanel>
+        {config.brand !== "HK28" && (
+          <AnotherFloatPanel
+            onhandleDepositClick={this.props.onhandleDepositClick}
+            onhandleShowCSClick={this.props.onhandleShowCSClick}
+            onDownloadClick={() =>
+              this.handleNavigateClick("/" + i18n.language + "/download")
+            }
+          />
+        )}
       </HomeContainer>
     );
   }
