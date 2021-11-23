@@ -13,7 +13,7 @@ import CustomButton from "../../../Share/Button";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import LimitPopupPNG from "../../../../assets/images/limit-popup.png";
 import Common from "../../../../utils/Common";
-
+import config from "../../../../config/config";
 const CustomText = withStyles({
   root: {
     marginTop: "10px",
@@ -280,39 +280,6 @@ class NewStepOne extends Component {
                     }
                   )}
                 </SelectionContainer>
-                {/* {(() => {
-                  if (paymentType.paymentcode.toUpperCase() !== "LEEPAY") {
-                    return (
-                      <CustomTable cellPadding="0" cellSpacing="0">
-                        <tbody>
-                          <tr>
-                            <TitleTD>{i18n.t("deposit.receiverBank")}</TitleTD>
-                            <ValueTD>
-                              {
-                                methodList[selectedMethodIndex].channel[
-                                  selectedChannelIndex
-                                ].extended.name
-                              }
-                            </ValueTD>
-                          </tr>
-                          <tr>
-                            <TitleTD>
-                              {i18n.t("deposit.receiverAccount")}
-                            </TitleTD>
-                            <ValueTD>
-                              {
-                                methodList[selectedMethodIndex].channel[
-                                  selectedChannelIndex
-                                ].extended.bankAccount
-                              }
-                            </ValueTD>
-                          </tr>
-                          <tr></tr>
-                        </tbody>
-                      </CustomTable>
-                    );
-                  }
-                })()} */}
                 <SplitLine></SplitLine>
                 {(() => {
                   if (paymentType.paymentcode.toUpperCase() === "MANUAL") {
@@ -379,8 +346,9 @@ class NewStepOne extends Component {
                 })()}
                 {(() => {
                   if (
-                    paymentType.paymentcode.toUpperCase() === "MANUAL" ||
-                    paymentType.paymentcode.toUpperCase() === "APPLEPAY"
+                    (paymentType.paymentcode.toUpperCase() === "MANUAL" ||
+                      paymentType.paymentcode.toUpperCase() === "APPLEPAY") &&
+                    config.brand !== "HK28"
                   ) {
                     return (
                       <>
@@ -415,7 +383,9 @@ class NewStepOne extends Component {
                 })()}
                 <SubHeaderContainer>
                   <NumberContainer>
-                    {paymentType.paymentcode.toUpperCase() === "MANUAL"
+                    {config.brand === "HK28"
+                      ? "4"
+                      : paymentType.paymentcode.toUpperCase() === "MANUAL"
                       ? "5"
                       : paymentType.paymentcode.toUpperCase() === "APPLEPAY"
                       ? "4"
@@ -516,7 +486,9 @@ class NewStepOne extends Component {
                 <SplitLine></SplitLine>
                 <SubHeaderContainer>
                   <NumberContainer>
-                    {paymentType.paymentcode.toUpperCase() === "MANUAL"
+                    {config.brand === "HK28"
+                      ? "5"
+                      : paymentType.paymentcode.toUpperCase() === "MANUAL"
                       ? "6"
                       : paymentType.paymentcode.toUpperCase() === "APPLEPAY"
                       ? "5"
@@ -554,7 +526,9 @@ class NewStepOne extends Component {
                       <React.Fragment>
                         <SplitLine></SplitLine>
                         <SubHeaderContainer>
-                          <NumberContainer>7</NumberContainer>
+                          <NumberContainer>
+                            {config.brand === "HK28" ? "6" : "7"}
+                          </NumberContainer>
 
                           <SubTitle>{i18n.t("deposit.uploadReceipt")}</SubTitle>
                         </SubHeaderContainer>
