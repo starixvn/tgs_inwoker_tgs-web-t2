@@ -321,14 +321,18 @@ class AddCard extends Component {
                     return (
                       <>
                         <TextFieldLabel>
-                          {i18n.t("card.addCard.BankName")}
+                          {config.brand === "HK28"
+                            ? i18n.t("hk28.card.addCard.BankName")
+                            : i18n.t("card.addCard.BankName")}
                         </TextFieldLabel>
                         <TextFieldContainer>
                           <CustomTextField
                             marginTop={10}
-                            placeholder={i18n.t(
-                              "card.addCard.msgEnterBankName"
-                            )}
+                            placeholder={
+                              config.brand === "HK28"
+                                ? i18n.t("hk28.card.addCard.msgEnterBankName")
+                                : i18n.t("card.addCard.msgEnterBankName")
+                            }
                             width={395}
                             height={38}
                             float={"none"}
@@ -340,7 +344,11 @@ class AddCard extends Component {
                   }
                 })()}
                 {(() => {
-                  if (config.brand !== "HKJP") {
+                  if (
+                    config.brand !== "HKJP" &&
+                    config.brand !== "WLGHK" &&
+                    config.brand !== "HK28"
+                  ) {
                     return (
                       <React.Fragment>
                         <TextFieldLabel>
@@ -364,12 +372,18 @@ class AddCard extends Component {
                 })()}
 
                 <TextFieldLabel>
-                  {i18n.t("card.addCard.BankAccountName")}
+                  {config.brand === "HK28"
+                    ? i18n.t("hk28.card.addCard.BankAccountName")
+                    : i18n.t("card.addCard.BankAccountName")}
                 </TextFieldLabel>
                 <TextFieldContainer>
                   <CustomTextField
                     marginTop={10}
-                    placeholder={i18n.t("card.addCard.msgEnterBankAccountName")}
+                    placeholder={
+                      config.brand === "HK28"
+                        ? i18n.t("hk28.card.addCard.msgEnterBankAccountName")
+                        : i18n.t("card.addCard.msgEnterBankAccountName")
+                    }
                     width={395}
                     height={38}
                     float={"none"}
@@ -417,11 +431,19 @@ class AddCard extends Component {
           </div>
         ) : (
           <div>
-            <TextFieldLabel>{i18n.t("common.withdrawalNumber")}</TextFieldLabel>
+            <TextFieldLabel>
+              {config.brand === "HK28"
+                ? i18n.t("hk28.withdrawalNumber")
+                : i18n.t("common.withdrawalNumber")}
+            </TextFieldLabel>
             <TextFieldContainer>
               <CustomTextField
                 marginTop={10}
-                placeholder={i18n.t("common.msgEnterWithdrawalNumber")}
+                placeholder={
+                  config.brand === "HK28"
+                    ? i18n.t("hk28.msgEnterWithdrawalNumber")
+                    : i18n.t("common.msgEnterWithdrawalNumber")
+                }
                 width={395}
                 height={38}
                 maxLength={50}
