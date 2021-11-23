@@ -3,8 +3,6 @@ import React, { Component } from "react";
 import Loading from "../App/Loading";
 import { GameService, GameTypeEnum } from "@Inwoker/tgs-api";
 
-import config from "../../config/config";
-
 import Maintenance from "./Maintenance";
 
 class JoinGame extends Component {
@@ -17,13 +15,15 @@ class JoinGame extends Component {
 
     const gameCode = this.props.match.params.params;
     if (gameType === GameTypeEnum.FISH) {
-      GameService.JoinGame(gameType, gameCode).then((response) => {
-        if (response.IsSuccess) {
-          window.location.href = response.data.url;
-        } else {
-          this.handleJoinGameMaintenance(response);
+      GameService.JoinGame(this.props.match.params.params2, gameCode).then(
+        (response) => {
+          if (response.IsSuccess) {
+            window.location.href = response.data.url;
+          } else {
+            this.handleJoinGameMaintenance(response);
+          }
         }
-      });
+      );
     } else if (
       gameType === GameTypeEnum.ARCADE ||
       gameType === GameTypeEnum.SLOT ||
