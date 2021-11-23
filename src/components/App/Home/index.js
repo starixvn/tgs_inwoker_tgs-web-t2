@@ -601,16 +601,6 @@ class Home extends Component {
         </AGContainer>
         <SlotSection></SlotSection>
         <Recommend></Recommend>
-
-        {config.brand !== "HK28" && (
-          <AnotherFloatPanel
-            onhandleDepositClick={this.props.onhandleDepositClick}
-            onhandleShowCSClick={this.props.onhandleShowCSClick}
-            onDownloadClick={() =>
-              this.handleNavigateClick("/" + i18n.language + "/download")
-            }
-          />
-        )}
       </HomeContainer>
     );
   }
