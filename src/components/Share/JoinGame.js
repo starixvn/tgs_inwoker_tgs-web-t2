@@ -17,13 +17,15 @@ class JoinGame extends Component {
 
     const gameCode = this.props.match.params.params;
     if (gameType === GameTypeEnum.FISH) {
-      GameService.JoinGame(gameType, gameCode).then((response) => {
-        if (response.IsSuccess) {
-          window.location.href = response.data.url;
-        } else {
-          this.handleJoinGameMaintenance(response);
+      GameService.JoinGame(this.props.match.params.params2, gameCode).then(
+        (response) => {
+          if (response.IsSuccess) {
+            window.location.href = response.data.url;
+          } else {
+            this.handleJoinGameMaintenance(response);
+          }
         }
-      });
+      );
     } else if (
       gameType === GameTypeEnum.ARCADE ||
       gameType === GameTypeEnum.SLOT ||
@@ -113,7 +115,7 @@ class JoinGame extends Component {
   };
   render() {
     if (this.state.maintenance) {
-      return <Maintenance></Maintenance>;
+      return <Maintenance isGameMaintenance={true}></Maintenance>;
     } else {
       return <Loading show={this.state.loading} opacity={1}></Loading>;
     }

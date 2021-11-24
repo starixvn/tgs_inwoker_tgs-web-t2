@@ -15,7 +15,7 @@ const Container = styled.div`
   background: url(${MaintenancePNG}) no-repeat center;
   background-size: cover;
   position: relative;
-  height: calc(100vh - 105px);
+  height: calc(100vh);
 `;
 
 const MaintenanceTextContainer = styled.div`
@@ -101,6 +101,9 @@ const CloseButton = styled.div`
 
 const Icons = styled.img`
   margin-bottom: 10px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const QRCodeContainer = styled.div`
@@ -131,8 +134,13 @@ const QRCodeText = styled.div`
 const Maintenance = (props) => {
   const [open, setOpen] = useState(false);
   const [imList, setIMList] = useState([]);
-
+  const [liveChat, setLiveChat] = useState("");
   useEffect(() => {
+    props.getLiveChatURL().then((e) => {
+      if (e.IsSuccess) {
+        setLiveChat(e.data.setting.url);
+      }
+    });
     props.getBrandCommunicationList().then((e) => {
       if (e.IsSuccess) {
         setIMList(e.data);
@@ -140,15 +148,32 @@ const Maintenance = (props) => {
     });
   }, []);
 
-  function copyText(text) {
-    navigator.clipboard.writeText(text);
-  }
-
   useEffect(() => {
-    if (!props.general.isMaintenance) {
+    if (!props.general.isMaintenance && props.isGameMaintenance !== true) {
       AppHistory.push("/" + i18n.language);
     }
   });
+  const handleCSClick = (userid, name = "", question, email = "") => {
+    var newURL = liveChat
+      .replace("{name}", name)
+      .replace("{lang}", i18n.language)
+      .replace("{email}", email || "");
+
+    // var newURL = props.general.livechat
+    //   ? props.general.livechat.setting.url
+    //       .replace("{name}", name)
+    //       .replace("{lang}", i18n.language)
+    //       .replace("{email}", email || "")
+    //   : "";
+
+    if (newURL.length) {
+      Common.PopupCenter(newURL, "", 785, 750);
+    } else {
+    }
+  };
+  function copyText(text) {
+    navigator.clipboard.writeText(text);
+  }
   return (
     <Container>
       <MaintenanceTextContainer>
@@ -163,16 +188,22 @@ const Maintenance = (props) => {
           <Hyperlink>customer service</Hyperlink>.
         </Text>
         <ButtonContainer>
-          <AnotherButton onClick={props.onhandleCSClick}>
+          <AnotherButton onClick={handleCSClick}>
             {i18n.t("support.online")}
           </AnotherButton>
-          <Button
-            onClick={() => {
-              setOpen(true);
-            }}
-          >
-            {i18n.t("panel.im")}
-          </Button>
+          {(() => {
+            if (imList.length > 0) {
+              return (
+                <Button
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                >
+                  {i18n.t("panel.im")}
+                </Button>
+              );
+            }
+          })()}
         </ButtonContainer>
 
         <CustomModal open={open}>
@@ -192,7 +223,7 @@ const Maintenance = (props) => {
                 <QRCodeHolder
                   onClick={() => {
                     copyText(data.appid ? data.appid : data.phone);
-                    props.alert(i18n.t("affiliate.copied"), {
+                    props.enqueueSnackbar(i18n.t("affiliate.copied"), {
                       variant: "success",
                     });
                   }}
@@ -218,7 +249,17 @@ const Maintenance = (props) => {
                           }
                         }}
                       />
-                      <div>ID: {data.appid}</div>
+                      {(() => {
+                        if (data.type === "WhatsApp") {
+                          return (
+                            <div>
+                              {i18n.t("common.phoneNumber")}: {data.phone}
+                            </div>
+                          );
+                        } else {
+                          return <div>ID: {data.appid}</div>;
+                        }
+                      })()}
                       <QRCodeText>{data.type}</QRCodeText>
                     </QRCodeTextContainer>
                   )}
