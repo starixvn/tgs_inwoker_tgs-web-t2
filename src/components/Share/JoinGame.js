@@ -3,8 +3,6 @@ import React, { Component } from "react";
 import Loading from "../App/Loading";
 import { GameService, GameTypeEnum } from "@Inwoker/tgs-api";
 
-import config from "../../config/config";
-
 import Maintenance from "./Maintenance";
 
 class JoinGame extends Component {
