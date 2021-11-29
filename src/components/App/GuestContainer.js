@@ -37,6 +37,7 @@ const BtnLoginRegister = styled.div`
   text-align: center;
   color: #f6f6f6;
   width: 80px;
+  min-width: 80px;
   border-radius: 20px;
 `;
 const BtnRegister = styled(BtnLoginRegister)`
