@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Loading from "../App/Loading";
-import { walletAction } from "@Inwoker/tgs-api";
+import { walletAction, WalletService } from "@Inwoker/tgs-api";
 import Maintenance from "./Maintenance";
 class Deposit extends Component {
   state = {
     loading: true,
     maintenance: false,
+    isHtml: false,
+    html: "",
   };
   componentDidMount() {
     localStorage.removeItem("depositResult");
@@ -33,6 +35,10 @@ class Deposit extends Component {
         this.props.doPrimePayDeposit(amount, channelid, depositPromotion);
       } else if (paymentcode === "MATICPAY") {
         this.props.doMaticPayDeposit(amount, channelid, depositPromotion);
+      } else if (paymentcode === "HELP2PAY") {
+        this.props.doHelp2PayDeposit(amount, channelid, depositPromotion);
+      } else if (paymentcode === "SKYPAY") {
+        this.props.doSkyPayDeposit(amount, channelid, depositPromotion);
       } else if (paymentcode === "APPLEPAY") {
         this.props.doApplePayDeposit(amount, channelid, depositPromotion, name);
       } else if (paymentcode === "UMPAY") {
@@ -57,11 +63,25 @@ class Deposit extends Component {
         const response = this.props.wallet.depositResult;
         var paymentcode = this.props.match.params.paymentcode.toUpperCase();
         var paymenturl = "";
-        if (paymentcode !== "MANUAL") {
+
+        if (paymentcode !== "MANUAL" && paymentcode !== "HELP2PAY") {
           paymenturl = response.data.paymenturl;
           window.location.href = paymenturl;
         } else {
-          window.close();
+          if (paymentcode === "HELP2PAY") {
+            var arr = response.data.paymenturl.split("/");
+            WalletService.GetHelp2PayDeposit(arr[arr.length - 1]).then(
+              (result) => {
+                if (result.IsSuccess) {
+                  document.write(result.data);
+                } else {
+                  window.close();
+                }
+              }
+            );
+          } else {
+            window.close();
+          }
         }
       } else {
         window.close();
@@ -72,7 +92,16 @@ class Deposit extends Component {
     if (this.state.maintenance) {
       return <Maintenance></Maintenance>;
     } else {
-      return <Loading show={this.state.loading} opacity={1}></Loading>;
+      if (this.state.isHtml) {
+        return (
+          <div
+            className="content"
+            dangerouslySetInnerHTML={{ __html: this.state.html }}
+          ></div>
+        );
+      } else {
+        return <Loading show={this.state.loading} opacity={1}></Loading>;
+      }
     }
   }
 }
@@ -88,6 +117,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(
         walletAction.doManualDeposit(amount, account, paymentid, promotionid)
       ),
+
     doBankDeposit: (account, amount, paymentid, promotionid, banktype) => {
       dispatch(
         walletAction.doBankDeposit(
@@ -115,6 +145,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(walletAction.doPrimePayDeposit(amount, payment_id, promotionid)),
     doMaticPayDeposit: (amount, payment_id, promotionid) =>
       dispatch(walletAction.doMaticPayDeposit(amount, payment_id, promotionid)),
+    doHelp2PayDeposit: (amount, payment_id, promotionid) =>
+      dispatch(walletAction.doHelp2PayDeposit(amount, payment_id, promotionid)),
+    doSkyPayDeposit: (amount, payment_id, promotionid) =>
+      dispatch(walletAction.doSkyPayDeposit(amount, payment_id, promotionid)),
     doApplePayDeposit: (amount, payment_id, promotionid, transname) =>
       dispatch(
         walletAction.doApplePayDeposit(

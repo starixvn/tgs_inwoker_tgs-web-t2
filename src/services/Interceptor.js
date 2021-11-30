@@ -25,6 +25,10 @@ export default {
 
         config.headers["Accept-Language"] = localStorage.getItem("i18nextLng");
 
+        if (config.headers["AFFILIATE_ID"])
+          localStorage.setItem("promotionId", config.headers["AFFILIATE_ID"]);
+        else localStorage.setItem("promotionId", "");
+
         return config;
       },
       function (error) {
@@ -68,7 +72,11 @@ export default {
         ) {
           localStorage.removeItem("token" + (isMobileOnly ? "1" : "0"));
         }
-
+        if (
+          response.config.url.toUpperCase().indexOf("/BANK/HELP2PAY/PAY") >= 0
+        ) {
+          newResponse.IsSuccess = true;
+        }
         if (newResponse.code === 0) {
           newResponse.IsSuccess = true;
         } else if (
@@ -110,6 +118,7 @@ export default {
               }
             }
           }
+
           return {
             IsSuccess: false,
             info: ErrorSwitcher.getTranslation(error.response.data.errmsgid),
