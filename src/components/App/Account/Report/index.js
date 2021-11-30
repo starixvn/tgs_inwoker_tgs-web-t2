@@ -3,7 +3,7 @@ import styled from "styled-components";
 import IconReportRedPNG from "../../../../assets/images/icon-report-active.png";
 import TransferReport from "./TransferReport";
 
-import { ReportService, GameService } from "@Inwoker/tgs-api";
+import { ReportService, GameService, GeneralService } from "@Inwoker/tgs-api";
 
 import AccountDetails from "./AccountDetails";
 import WithdrawalReport from "./WithdrawalReport";
@@ -11,6 +11,7 @@ import DepositReport from "./DepositReport";
 import RebateReport from "./RebateReport";
 import TransactionDetails from "./TransactionDetails";
 import i18n from "../../../../utils/i18n";
+import JoinedPromoReport from "./JoinedPromoReport";
 const moment = require("moment");
 const Container = styled.div`
   padding: 20px 28px;
@@ -113,7 +114,12 @@ class Report extends Component {
       list: [],
       count: 0,
     },
+
     transferReport: {
+      list: [],
+      count: 0,
+    },
+    joinedReport: {
       list: [],
       count: 0,
     },
@@ -156,15 +162,15 @@ class Report extends Component {
     }
   }
 
-  // handleAccountGetReportTrigger = (dateFrom, dateTo, page, type) => {
-  //   ReportService.GetAccountDetails(dateFrom, dateTo, page, type).then(
-  //     (response) => {
-  //       if (response.IsSuccess) {
-  //         this.setState({ ...this.state, accountList: response.data });
-  //       }
-  //     }
-  //   );
-  // };
+  handleAccountGetReportTrigger = (dateFrom, dateTo, page, type) => {
+    ReportService.GetAccountDetails(dateFrom, dateTo, page, type).then(
+      (response) => {
+        if (response.IsSuccess) {
+          this.setState({ ...this.state, accountList: response.data });
+        }
+      }
+    );
+  };
   handleTransactionGetReportTrigger = (
     dateFrom,
     dateTo,
@@ -214,7 +220,6 @@ class Report extends Component {
       }
     });
   };
-
   handleDepositGetReportTrigger = (dateFrom, dateTo, page, status) => {
     ReportService.GetDepositDetails(
       status,
@@ -239,13 +244,27 @@ class Report extends Component {
     });
   };
 
-  // handleRebateGetReportTrigger = (dateFrom, dateTo, page) => {
-  //   ReportService.GetRebateDetails(dateFrom, dateTo, page).then((response) => {
-  //     if (response.IsSuccess) {
-  //       this.setState({ ...this.state, rebateList: response.data });
-  //     }
-  //   });
-  // };
+  handleGetJoinedPromo = () => {
+    GeneralService.GetJoinedPromoReport().then((response) => {
+      if (response.IsSuccess) {
+        this.setState({
+          ...this.state,
+          joinedReport: {
+            list: response.data.items,
+            count: response.data.totalCount,
+          },
+        });
+      }
+    });
+  };
+
+  handleRebateGetReportTrigger = (dateFrom, dateTo, page) => {
+    ReportService.GetRebateDetails(dateFrom, dateTo, page).then((response) => {
+      if (response.IsSuccess) {
+        this.setState({ ...this.state, rebateList: response.data });
+      }
+    });
+  };
 
   handleGetTransferReportTrigger = (dateFrom, dateTo, page, order) => {
     ReportService.GetTransferReport(
@@ -306,7 +325,7 @@ class Report extends Component {
           >
             {i18n.t("report.depositDetails")}
           </TabButton>
-          {/* <TabButton
+          {/*  <TabButton
             active={this.state.tab === 5}
             onClick={() => this.handleTabClick(5)}
           >
@@ -317,6 +336,12 @@ class Report extends Component {
             onClick={() => this.handleTabClick(6)}
           >
             {i18n.t("report.transfer.title")}
+          </TabButton>
+          <TabButton
+            active={this.state.tab === 7}
+            onClick={() => this.handleTabClick(7)}
+          >
+            {i18n.t("report.joinedPromo.title")}
           </TabButton>
           <SplitLine></SplitLine>
           {(() => {
@@ -343,7 +368,6 @@ class Report extends Component {
               case 3:
                 return (
                   <WithdrawalReport
-                    token={this.props.token}
                     onhandleGetReportTrigger={
                       this.handleWithdrawalGetReportTrigger
                     }
@@ -354,7 +378,6 @@ class Report extends Component {
               case 4:
                 return (
                   <DepositReport
-                    token={this.props.token}
                     onhandleGetReportTrigger={
                       this.handleDepositGetReportTrigger
                     }
@@ -371,6 +394,14 @@ class Report extends Component {
                       this.handleGetTransferReportTrigger
                     }
                     transferReportList={this.state.transferReport}
+                  />
+                );
+
+              case 7:
+                return (
+                  <JoinedPromoReport
+                    onhandleGetReportTrigger={this.handleGetJoinedPromo}
+                    joinedReport={this.state.joinedReport}
                   />
                 );
               default:
