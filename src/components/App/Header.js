@@ -97,7 +97,6 @@ const CustomLink = styled(Link)`
   }
 `;
 const CustomExternalLink = styled.a`
-  font-family: yahei;
   ${(props) =>
     props.selected === true
       ? `
