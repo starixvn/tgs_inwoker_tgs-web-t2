@@ -76,7 +76,9 @@ export const themeBrown = {
   loginRegisterBtnText: "#795548",
 };
 export const themeList = {
+  default: themeBrown,
   red: themeRed,
   blue: themeBlue,
   brown: themeBrown,
+  PGG: themeBrown,
 };

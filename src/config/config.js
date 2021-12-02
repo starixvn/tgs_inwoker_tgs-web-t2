@@ -9,7 +9,7 @@ const config = {
   brandName: window?.env?.brandName
     ? window?.env?.brandName
     : window?.env?.brand || "WLGHK",
-  theme: window?.env?.theme || "red",
+  theme: window?.env?.theme || "default",
   wapVersion: template,
   sourceUrl: window?.env?.sourceUrl || "https://images.srvptt.com/",
   defaultLanguage: window?.env?.defaultLanguage
