@@ -122,7 +122,7 @@ if (i18n.language === "zh-CN") {
 }
 document.getElementById("root").style.fontFamily = fontFamily;
 
-const muiThemeMode = themeList[Config.theme];
+const muiThemeMode = themeList[Config.brand] || themeList["default"];
 const muiTheme = createMuiTheme({
   palette: {
     primary: {

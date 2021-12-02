@@ -79,6 +79,4 @@ export const themeList = {
   default: themeBrown,
   red: themeRed,
   blue: themeBlue,
-  brown: themeBrown,
-  PGG: themeBrown,
 };
