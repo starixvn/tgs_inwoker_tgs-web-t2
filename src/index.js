@@ -38,7 +38,7 @@ import SuccessPNG from "../src/assets/images/success.png";
 import { makeStyles } from "@material-ui/core";
 import i18n from "./utils/i18n";
 import { ConfigService, rootReducer } from "@Inwoker/tgs-api";
-
+import JoinLotteryGame from "./components/App/Lottery/JoinLotteryGame";
 import Common from "./utils/Common";
 import { ThemeProvider } from "styled-components";
 import { themeList } from "./theme";
@@ -247,7 +247,11 @@ const AppWrapper = () => {
                     }
                     component={JoinGame}
                   />
-
+                  <Route
+                    exact
+                    path={Common.baseRouteUrl + "/joinlottery/:brand"}
+                    component={JoinLotteryGame}
+                  />
                   <Route
                     exact
                     path={Common.baseRouteUrl + "/joinlobbygame/:type/:params"}
