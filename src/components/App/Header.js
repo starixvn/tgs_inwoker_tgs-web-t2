@@ -253,10 +253,9 @@ const RightMenuImg = styled.div`
   `}
 `;
 const MouseOverInner = styled.div`
-  width: 1410px;
-  height: 140px;
+  width: 1280px;
+  height: 161px;
   margin: 0 auto;
-  display: flex;
 `;
 
 const GameImg = styled.img`
@@ -950,24 +949,35 @@ class Header extends Component {
 
                             return list.map((game, index) => {
                               return (
-                                <GameFrameWrapper>
-                                  <GameFrame
-                                    key={index}
-                                    style={{
-                                      width: `calc(1264px/${list.length})`,
-                                    }}
-                                    maintenance={game.status != 0}
-                                  >
+                                <GameFrame
+                                  key={index}
+                                  style={{
+                                    width: `calc(1264px / ${list.length})`,
+                                  }}
+                                  //TODO: To remove
+                                  maintenance={game.status != 0}
+                                >
+                                  <GameFrameWrapper>
                                     <Maintenance>
                                       {i18n.t("transfer.maintenance")}
                                     </Maintenance>
+
                                     <GameImg
                                       index={index}
                                       src={`${
                                         process.env.PUBLIC_URL
                                       }/assets/images/pcHeaderMenu/${
                                         item.path
-                                      }/${game.abbreviation.toLowerCase()}.png`}
+                                      }/${game.abbreviation.toLowerCase()}${
+                                        (config.brand === "HKJP" ||
+                                          config.brand === "WLGHK") &
+                                        (game.abbreviation.toLowerCase() ===
+                                          "wgvia" ||
+                                          game.abbreviation.toLowerCase() ===
+                                            "wgfm")
+                                          ? "-HKJP"
+                                          : ""
+                                      }.png`}
                                       alt=""
                                       onClick={() => {
                                         if (
@@ -993,8 +1003,8 @@ class Header extends Component {
                                         }
                                       }}
                                     ></GameImg>
-                                  </GameFrame>
-                                </GameFrameWrapper>
+                                  </GameFrameWrapper>
+                                </GameFrame>
                               );
                             });
                           })()}

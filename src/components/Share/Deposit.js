@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Loading from "../App/Loading";
 import { walletAction, WalletService } from "@Inwoker/tgs-api";
 import Maintenance from "./Maintenance";
+import config from "../../config/config";
 class Deposit extends Component {
   state = {
     loading: true,
@@ -12,7 +13,7 @@ class Deposit extends Component {
   };
   componentDidMount() {
     localStorage.removeItem("depositResult");
-    var paymentcode = this.props.match.params.paymentcode.toUpperCase();
+    var paymentcode = this.props.match.params.paymentcode;
 
     var methodcode = this.props.match.params.methodcode;
 
@@ -20,7 +21,7 @@ class Deposit extends Component {
     var depositPromotion = this.props.match.params.promotion.trim();
     var amount = this.props.match.params.amount.replace(/,/g, "");
     var name = this.props.match.params.name;
-    if (paymentcode === "MANUAL") {
+    if (paymentcode.toUpperCase() === "MANUAL") {
       // handle manual deposit
       if (methodcode === "BankTransfer") {
         this.props.doBankDeposit(name, amount, channelid, depositPromotion);
@@ -29,24 +30,20 @@ class Deposit extends Component {
         this.props.doThirdPartyDeposit(amount, channelid, depositPromotion);
       }
     } else {
-      if (paymentcode === "LEEPAY") {
-        this.props.doLeePayDeposit(amount, channelid, depositPromotion);
-      } else if (paymentcode === "PRIMEPAY") {
-        this.props.doPrimePayDeposit(amount, channelid, depositPromotion);
-      } else if (paymentcode === "MATICPAY") {
-        this.props.doMaticPayDeposit(amount, channelid, depositPromotion);
-      } else if (paymentcode === "HELP2PAY") {
-        this.props.doHelp2PayDeposit(amount, channelid, depositPromotion);
-      } else if (paymentcode === "SKYPAY") {
-        this.props.doSkyPayDeposit(amount, channelid, depositPromotion);
-      } else if (paymentcode === "APPLEPAY") {
-        this.props.doApplePayDeposit(amount, channelid, depositPromotion, name);
-      } else if (paymentcode === "UMPAY") {
-        if (methodcode === "Crypto") {
-          this.props.doUmPayCryptoDeposit(amount, channelid, depositPromotion);
-        } else {
-          this.props.doUmPayBankDeposit(amount, channelid, depositPromotion);
-        }
+      if (methodcode === "Crypto") {
+        this.props.doCryptoDeposit(
+          amount,
+          channelid,
+          depositPromotion,
+          paymentcode
+        );
+      } else {
+        this.props.doBankDeposit2(
+          amount,
+          channelid,
+          depositPromotion,
+          paymentcode
+        );
       }
     }
   }
@@ -69,22 +66,14 @@ class Deposit extends Component {
           window.location.href = paymenturl;
         } else {
           if (paymentcode === "HELP2PAY") {
-            var arr = response.data.paymenturl.split("/");
-            WalletService.GetHelp2PayDeposit(arr[arr.length - 1]).then(
-              (result) => {
-                if (result.IsSuccess) {
-                  document.write(result.data);
-                } else {
-                  window.close();
-                }
-              }
-            );
+            window.location.href =
+              config.baseUrl.replace("/api/", "") + response.data.paymenturl;
           } else {
-            window.close();
+            // window.close();
           }
         }
       } else {
-        window.close();
+        //window.close();
       }
     }
   }
@@ -113,11 +102,6 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    doManualDeposit: (amount, account, paymentid, promotionid) =>
-      dispatch(
-        walletAction.doManualDeposit(amount, account, paymentid, promotionid)
-      ),
-
     doBankDeposit: (account, amount, paymentid, promotionid, banktype) => {
       dispatch(
         walletAction.doBankDeposit(
@@ -139,32 +123,23 @@ const mapDispatchToProps = (dispatch) => {
         )
       );
     },
-    doLeePayDeposit: (amount, payment_id, promotionid) =>
-      dispatch(walletAction.doLeePayDeposit(amount, payment_id, promotionid)),
-    doPrimePayDeposit: (amount, payment_id, promotionid) =>
-      dispatch(walletAction.doPrimePayDeposit(amount, payment_id, promotionid)),
-    doMaticPayDeposit: (amount, payment_id, promotionid) =>
-      dispatch(walletAction.doMaticPayDeposit(amount, payment_id, promotionid)),
-    doHelp2PayDeposit: (amount, payment_id, promotionid) =>
-      dispatch(walletAction.doHelp2PayDeposit(amount, payment_id, promotionid)),
-    doSkyPayDeposit: (amount, payment_id, promotionid) =>
-      dispatch(walletAction.doSkyPayDeposit(amount, payment_id, promotionid)),
-    doApplePayDeposit: (amount, payment_id, promotionid, transname) =>
+    doBankDeposit2: (amount, payment_id, promotionid, paymentcode) =>
       dispatch(
-        walletAction.doApplePayDeposit(
+        walletAction.doBankDeposit2(
           amount,
           payment_id,
           promotionid,
-          transname
+          paymentcode
         )
       ),
-    doUmPayCryptoDeposit: (amount, payment_id, promotionid) =>
+    doCryptoDeposit: (amount, payment_id, promotionid, paymentcode) =>
       dispatch(
-        walletAction.doUmPayCryptoDeposit(amount, payment_id, promotionid)
-      ),
-    doUmPayBankDeposit: (amount, payment_id, promotionid) =>
-      dispatch(
-        walletAction.doUmPayBankDeposit(amount, payment_id, promotionid)
+        walletAction.doCryptoDeposit(
+          amount,
+          payment_id,
+          promotionid,
+          paymentcode
+        )
       ),
   };
 };

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { GameService, GameTypeEnum } from "@Inwoker/tgs-api";
+import { GameService } from "@Inwoker/tgs-api";
 
 import Maintenance from "../../Share/Maintenance";
 import SportsBGNewPNG from "../../../assets/images/sportsbook/sports-bg2.jpg";
+import config from "../../../config/config";
 const Container = styled.div`
   width: 100%;
   border: none;
@@ -47,22 +48,39 @@ class Play extends Component {
     window.removeEventListener("resize", this.updateWindowDimensions);
   }
   JoinGame = (gameCode) => {
-    GameService.JoinLobbyGame(this.props.match.params.type, gameCode).then(
-      (response) => {
-        if (response.IsSuccess) {
-          this.setState({ ...this.state, maintenance: false });
-          if (this.myRef.current)
-            this.myRef.current.src =
-              response.data.url.indexOf("http") < 0
-                ? "https://" + response.data.url
-                : response.data.url;
-        } else {
-          document.getElementsByTagName("body")[0].style.overflow = "";
-          window.removeEventListener("resize", this.updateWindowDimensions);
-          this.setState({ ...this.state, maintenance: true });
+    if (gameCode === "BC") {
+      GameService.JoinBetConstruct(this.props.match.params.type, gameCode).then(
+        (response) => {
+          var ifrm = this.myRef.current;
+          ifrm =
+            ifrm.contentWindow ||
+            ifrm.contentDocument.document ||
+            ifrm.contentDocument;
+
+          ifrm.document.open();
+          ifrm.document.write(response.data);
+          ifrm.document.close();
         }
-      }
-    );
+      );
+    } else
+      GameService.JoinLobbyGame(this.props.match.params.type, gameCode).then(
+        (response) => {
+          if (response.IsSuccess) {
+            this.setState({ ...this.state, maintenance: false });
+            if (this.myRef.current) {
+              var url =
+                (response.data.url.indexOf("http") <= -1 ? "https:" : "") +
+                response.data.url;
+
+              this.myRef.current.src = url;
+            }
+          } else {
+            document.getElementsByTagName("body")[0].style.overflow = "";
+            window.removeEventListener("resize", this.updateWindowDimensions);
+            this.setState({ ...this.state, maintenance: true });
+          }
+        }
+      );
   };
   updateWindowDimensions() {
     this.setState({ width: window.innerWidth, height: window.innerHeight });

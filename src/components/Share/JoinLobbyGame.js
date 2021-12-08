@@ -3,8 +3,6 @@ import React, { Component } from "react";
 import Loading from "../App/Loading";
 import { GameService } from "@Inwoker/tgs-api";
 
-import config from "../../config/config";
-
 import Maintenance from "./Maintenance";
 
 class JoinLobbyGame extends Component {
@@ -16,14 +14,26 @@ class JoinLobbyGame extends Component {
     const gameType = this.props.match.params.type;
 
     const gameCode = this.props.match.params.params.trim();
+    if (gameCode === "BC") {
+      GameService.JoinBetConstruct(gameType, gameCode).then((response) => {
+        if (response.IsSuccess) {
+          document.write(
+            "<style>body{margin:0;padding:0}</style>" + response.data
+          );
+        } else {
+          this.handleJoinGameMaintenance(response);
+        }
+      });
+    } else {
+      GameService.JoinLobbyGame(gameType, gameCode).then((response) => {
+        if (response.IsSuccess) {
+          window.location.href = response.data.url;
+        } else {
+          this.handleJoinGameMaintenance(response);
+        }
+      });
+    }
 
-    GameService.JoinLobbyGame(gameType, gameCode).then((response) => {
-      if (response.IsSuccess) {
-        window.location.href = response.data.url;
-      } else {
-        this.handleJoinGameMaintenance(response);
-      }
-    });
     // if (gameType === GameTypeEnum.LIVE) {
     //   let result = null;
     //   if (game === GameEnum.AG) {
@@ -91,7 +101,11 @@ class JoinLobbyGame extends Component {
     if (this.state.maintenance) {
       return <Maintenance></Maintenance>;
     } else {
-      return <Loading show={this.state.loading} opacity={1}></Loading>;
+      return (
+        <React.Fragment>
+          <Loading show={this.state.loading} opacity={1}></Loading>
+        </React.Fragment>
+      );
     }
   }
 }

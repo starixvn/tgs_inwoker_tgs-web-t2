@@ -73,7 +73,9 @@ export default {
           localStorage.removeItem("token" + (isMobileOnly ? "1" : "0"));
         }
         if (
-          response.config.url.toUpperCase().indexOf("/BANK/HELP2PAY/PAY") >= 0
+          response.config.url.toUpperCase().indexOf("/BANK/HELP2PAY/PAY") >=
+            0 ||
+          response.config.url.toUpperCase().indexOf("/GAME/BC") >= 0
         ) {
           newResponse.IsSuccess = true;
         }
