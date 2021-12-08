@@ -99,7 +99,7 @@ class JoinLobbyGame extends Component {
   };
   render() {
     if (this.state.maintenance) {
-      return <Maintenance></Maintenance>;
+      return <Maintenance isGameMaintenance={true}></Maintenance>;
     } else {
       return (
         <React.Fragment>

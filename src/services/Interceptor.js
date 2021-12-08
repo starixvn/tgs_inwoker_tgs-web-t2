@@ -73,12 +73,20 @@ export default {
           localStorage.removeItem("token" + (isMobileOnly ? "1" : "0"));
         }
         if (
-          response.config.url.toUpperCase().indexOf("/BANK/HELP2PAY/PAY") >=
-            0 ||
-          response.config.url.toUpperCase().indexOf("/GAME/BC") >= 0
+          response.config.url.toUpperCase().indexOf("/BANK/HELP2PAY/PAY") >= 0
         ) {
           newResponse.IsSuccess = true;
         }
+
+        if (
+          response.config.url.toUpperCase().indexOf("/GAME/BC") >= 0 &&
+          typeof response.data === "string"
+        ) {
+          newResponse.IsSuccess = true;
+        } else {
+          newResponse.IsSuccess = false;
+        }
+
         if (newResponse.code === 0) {
           newResponse.IsSuccess = true;
         } else if (

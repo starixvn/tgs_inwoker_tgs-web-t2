@@ -2,13 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
-import {GameService} from  '@Inwoker/tgs-api';
+import { GameService } from "@Inwoker/tgs-api";
 import Maintenance from "../../Share/Maintenance";
 import { withSnackbar } from "notistack";
 const Container = styled.iframe`
   width: 100%;
-
-
 `;
 
 class Play extends Component {
@@ -56,7 +54,7 @@ class Play extends Component {
   }
   render() {
     if (this.state.maintenance === true) {
-      return <Maintenance></Maintenance>;
+      return <Maintenance isGameMaintenance={true}></Maintenance>;
     } else {
       return (
         <Container

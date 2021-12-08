@@ -79,7 +79,7 @@ class Deposit extends Component {
   }
   render() {
     if (this.state.maintenance) {
-      return <Maintenance></Maintenance>;
+      return <Maintenance isGameMaintenance={true}></Maintenance>;
     } else {
       if (this.state.isHtml) {
         return (

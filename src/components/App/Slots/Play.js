@@ -285,7 +285,7 @@ class Play extends Component {
 
   render() {
     if (this.state.maintenance === true) {
-      return <Maintenance></Maintenance>;
+      return <Maintenance isGameMaintenance={true}></Maintenance>;
     } else
       return (
         <Container id={this.props.match.params.params}>

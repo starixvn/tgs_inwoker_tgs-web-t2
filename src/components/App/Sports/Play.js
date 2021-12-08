@@ -51,15 +51,22 @@ class Play extends Component {
     if (gameCode === "BC") {
       GameService.JoinBetConstruct(this.props.match.params.type, gameCode).then(
         (response) => {
-          var ifrm = this.myRef.current;
-          ifrm =
-            ifrm.contentWindow ||
-            ifrm.contentDocument.document ||
-            ifrm.contentDocument;
+          if (typeof response.data === "string") {
+            this.setState({ ...this.state, maintenance: false });
+            var ifrm = this.myRef.current;
+            ifrm =
+              ifrm.contentWindow ||
+              ifrm.contentDocument.document ||
+              ifrm.contentDocument;
 
-          ifrm.document.open();
-          ifrm.document.write(response.data);
-          ifrm.document.close();
+            ifrm.document.open();
+            ifrm.document.write(response.data);
+            ifrm.document.close();
+          } else {
+            document.getElementsByTagName("body")[0].style.overflow = "";
+            window.removeEventListener("resize", this.updateWindowDimensions);
+            this.setState({ ...this.state, maintenance: true });
+          }
         }
       );
     } else
@@ -87,7 +94,7 @@ class Play extends Component {
   }
   render() {
     if (this.state.maintenance === true) {
-      return <Maintenance></Maintenance>;
+      return <Maintenance isGameMaintenance={true}></Maintenance>;
     } else {
       return (
         <Container style={{ height: this.state.height - 154 + "px" }}>
