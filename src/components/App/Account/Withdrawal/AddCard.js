@@ -127,20 +127,53 @@ const CustomFormControl = withStyles((theme) => ({
   },
 }))(FormControl);
 class AddCard extends Component {
-  state = {
-    password: "",
-    number: "",
-    bankName: "",
-    bankAccountName: "",
-    bankBranch: "",
-    selectedChannelIndex: 0,
+  constructor(props) {
+    super(props);
 
-    selectedBankTypeIndex: 0,
+    this.state = {
+      password: "",
+      number: "",
+      bankName: "",
+      bankAccountName: "",
+      bankBranch: "",
+      selectedChannelIndex: 0,
+      selectedBankTypeIndex: 0,
+      channelList: [],
 
-    name: "",
-    phone: "",
+      name: "",
+      phone: "",
+    };
+  }
+
+  componentDidMount() {
+    this.formatChannelList();
+  }
+  componentDidUpdate(preProps, preState) {
+    if (preProps.withdrawalList.length !== this.props.withdrawalList.length) {
+      this.formatChannelList();
+    }
+    if (preState.selectedBankTypeIndex !== this.state.selectedBankTypeIndex) {
+      this.formatChannelList();
+    }
+  }
+  formatChannelList = () => {
+    var channel = [];
+    if (this.props.withdrawalList.length > 0) {
+      var channelList =
+        this.props.withdrawalList[this.state.selectedBankTypeIndex].channel;
+      var addedChannel = [];
+      if (this.props.withdrawalList.length > 0) {
+        for (var i = 0; i < channelList.length; i++) {
+          if (addedChannel.indexOf(channelList[i].channelid) < 0) {
+            addedChannel.push(channelList[i].channelid);
+            channel.push(channelList[i]);
+          }
+        }
+      }
+    }
+    this.setState({ ...this.state, channelList: channel });
+    return channel;
   };
-  componentDidMount() {}
   handleBankTypeChange = (e) => {
     this.setState({ ...this.state, selectedBankTypeIndex: e.target.value });
   };
@@ -173,10 +206,10 @@ class AddCard extends Component {
 
     if (selected.banktype === "Bank") {
       var bankName =
-        selected.channel[this.state.selectedChannelIndex].channelcode ===
+        this.state.channelList[this.state.selectedChannelIndex].channelcode ===
         "CustomBank"
           ? this.state.bankName.trim()
-          : selected.channel[this.state.selectedChannelIndex].channelcode;
+          : this.state.channelList[this.state.selectedChannelIndex].channelcode;
       var bankAccountName = this.state.bankAccountName.trim();
       var bankBranch = this.state.bankBranch.trim();
       var number = this.state.number.trim();
@@ -245,8 +278,9 @@ class AddCard extends Component {
         address: number,
       };
     }
+
     this.props.onhandleNextClick(
-      selected.channel[this.state.selectedChannelIndex].channelid,
+      this.state.channelList[this.state.selectedChannelIndex].channelid,
       selected.banktype,
       detail
     );
@@ -290,15 +324,13 @@ class AddCard extends Component {
               onChange={this.handleChannelChange}
             >
               {withdrawalList.length > 0 &&
-                withdrawalList[this.state.selectedBankTypeIndex].channel.map(
-                  (item, index) => {
-                    return (
-                      <option value={index} key={index}>
-                        {i18n.t(item.channelcode)}
-                      </option>
-                    );
-                  }
-                )}
+                this.state.channelList.map((item, index) => {
+                  return (
+                    <option value={index} key={index}>
+                      {i18n.t(item.channelcode)}
+                    </option>
+                  );
+                })}
             </CustomSelect>
           </CustomFormControl>
         </TextFieldContainer>
@@ -312,9 +344,8 @@ class AddCard extends Component {
               <>
                 {(() => {
                   if (
-                    this.props.withdrawalList[this.state.selectedBankTypeIndex]
-                      .channel[this.state.selectedChannelIndex].channelcode !==
-                    "CustomBank"
+                    this.state.channelList[this.state.selectedChannelIndex]
+                      .channelcode !== "CustomBank"
                   ) {
                     return null;
                   } else {

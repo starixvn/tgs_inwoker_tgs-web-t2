@@ -47,10 +47,7 @@ const TitleIcon = styled.div`
 
   float: left;
 `;
-const TabButtonContainer = styled.div`
-  padding: 6px;
-  margin-bottom: 40px;
-`;
+
 const TabIconContainer = styled.div`
   border-radius: 50px;
   background-color: #f5f6fa;
@@ -66,29 +63,43 @@ const TabIcon = styled.img`
   width: 29px;
   height: 19px;
 `;
+const TabButtonContainer = styled.div`
+  padding: 6px;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 10px;
+`;
 const TabButton = styled.div`
   font-size: 14px;
+
   color: #151a34;
+
   text-align: center;
-  float: left;
-  margin-right: 8px;
-  border: 1.5px solid #8a7f73;
+
   width: 104px;
-  height: 100px;
+
   border-radius: 5px;
   box-shadow: 0px 3px 5px 0 rgba(0, 0, 0, 0.3);
-  background-color: #ffffff;
+  background-color: #f2f2f2;
   background-position: center 14px;
   background-repeat: no-repeat;
 
-  ${(props) => (props.active ? `    border: 1.5px solid #f0ca83;` : `   `)};
+  ${(props) =>
+    props.active
+      ? `    border: solid 1px #ffffff;color: #fff;
+
+      background-color: ` +
+        props.theme.primary +
+        `;`
+      : `   `};
   &:hover {
     cursor: pointer;
   }
 `;
 
 const TabLabel = styled.div`
-  margin: 10px 0 0 0;
+  margin: 10px 0 6px 0;
 `;
 const Wrap = styled.div`
   width: 935px;

@@ -74,7 +74,7 @@ const BankCardButtonCardNoHL = styled(BankCardButtonCardNo)`
 const ManageCardButton = styled(TabButton)`
   width: 133px;
   background: url(${IconEditPNG}) no-repeat 15px center;
-  padding: 10px 0 0 18px;
+  padding: 12px 0 0 26px;
 `;
 const SplitLine = styled.div`
   width: 100%;
@@ -117,6 +117,7 @@ const WithdrawalLimitItemRight = styled.div`
 `;
 
 const Turnover = styled.div`
+  margin: 10px;
   a {
     color: ${({ theme }) => {
       return theme.primary;

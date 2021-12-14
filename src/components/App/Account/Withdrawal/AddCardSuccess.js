@@ -30,7 +30,6 @@ const ReminderTitle = styled.div`
   margin-top: 40px;
 `;
 const CSLink = styled.a`
-
   text-decoration: underline;
   &:hover {
     cursor: pointer;
@@ -48,14 +47,15 @@ function AddCardSuccess(props) {
       <SubTitle>{i18n.t("card.success.title")}</SubTitle>
       <SubTitleDesc>
         {i18n.t("card.success.successDesc")}
-        <br></br>{i18n.t("card.success.bindDesc")}
+        <br></br>
+        {i18n.t("card.success.bindDesc")}
       </SubTitleDesc>
 
-      <ReminderTitle>{i18n.t("card.success.reminder")}</ReminderTitle>
+      {/* <ReminderTitle>{i18n.t("card.success.reminder")}</ReminderTitle>
       <SubTitleDesc>
         {i18n.t("common.contact")} <CSLink onClick={props.onhandleCSClick}>{i18n.t("common.customerService")}</CSLink>
         {" "}{i18n.t("card.success.callHotline")}
-      </SubTitleDesc>
+      </SubTitleDesc> */}
       <ButtonContainer>
         <Button
           name={i18n.t("card.success.bindBankCard")}

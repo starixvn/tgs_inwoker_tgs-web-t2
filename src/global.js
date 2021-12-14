@@ -6,7 +6,7 @@ import "./assets/fonts/notosans/notosans-tc/css.css";
 const languageSwitcher = (language) => {
   switch (language) {
     case "en-US":
-      return `Arial`;
+      return `Tahoma, Helvetica, Arial, sans-serif`;
     case "zh-CN":
       return `'Noto Sans SC', Microsoft Yahei, '微软雅黑', STXihei, '华文细黑'`;
     case "zh-TW":
