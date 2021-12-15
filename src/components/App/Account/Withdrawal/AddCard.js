@@ -323,7 +323,7 @@ class AddCard extends Component {
               value={this.state.selectedChannelIndex}
               onChange={this.handleChannelChange}
             >
-              {withdrawalList.length > 0 &&
+              {this.state.channelList.length > 0 &&
                 this.state.channelList.map((item, index) => {
                   return (
                     <option value={index} key={index}>
@@ -344,6 +344,7 @@ class AddCard extends Component {
               <>
                 {(() => {
                   if (
+                    this.state.channelList.length > 0 &&
                     this.state.channelList[this.state.selectedChannelIndex]
                       .channelcode !== "CustomBank"
                   ) {
