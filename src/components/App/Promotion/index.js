@@ -85,7 +85,7 @@ const Content = styled.div`
   margin: 13px 0 13px 0px;
   float: left;
   position: relative;
-  background: url(${PromoItemPNG}) no-repeat center;
+  background: url(${({ image }) => image}) no-repeat;
   background-size: auto 100%;
   transition: all 0.2s linear 0.2s;
   filter: grayscale(30%);
@@ -268,7 +268,7 @@ class Promotion extends Component {
                 if (this.props.general.promotionList.items.length > 0)
                   return this.props.general.promotionList.items.map(
                     (data, index) => (
-                      <Content key={index}>
+                      <Content key={index} image={data.desktopBanner}>
                         <LeftContent>
                           <Viewall
                             onClick={() =>
