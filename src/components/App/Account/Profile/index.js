@@ -455,7 +455,7 @@ class Profile extends Component {
 
         break;
       case "member_name":
-        title = i18n.t("profile.nameVerify.icNum");
+        title = i18n.t("profile.nameVerify.title");
         component = (
           <IDVerification
             getIDCardNo={this.props.getIDCardNo}
@@ -542,7 +542,7 @@ class Profile extends Component {
             if (config.brand !== "HKJP" && config.brand !== "HK28") {
               return GetContentWrap(
                 this.props.account.info,
-                i18n.t("profile.nameVerify.icNum"),
+                i18n.t("profile.nameVerify.title"),
                 "member_name",
                 this.handleButtonClick
               );
