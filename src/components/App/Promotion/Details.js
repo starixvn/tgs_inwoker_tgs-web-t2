@@ -20,7 +20,6 @@ const Container = styled.div`
   width: 100%;
   padding-top: 20px;
 
-  position: relative;
   background: url(${BGJPG}) no-repeat top center #19262f;
   min-height: 800px;
 `;
@@ -64,7 +63,7 @@ const PromoDetailContainer = styled(Grid)`
   box-shadow: 0px 1px 8px rgba(32, 0, 0, 0.7);
   margin: 10px 0px;
   width: 100%;
-
+  position: relative;
   background: white;
   padding: 18px 15px;
   border-radius: 20px;
@@ -112,6 +111,18 @@ const PromoButtonContainer = styled(Grid)`
 const PromoButtonText = styled(Grid)`
   color: #fff;
   font-size: 20px;
+`;
+
+const CloseButton = styled.div`
+  position: absolute;
+  right: 22px;
+  top: 24px;
+  user-select: none;
+  cursor: pointer;
+  font-size: 24px;
+  background: #fff;
+  padding: 8px 12px;
+  color: #000;
 `;
 
 class PromotionDetails extends Component {
@@ -239,12 +250,17 @@ class PromotionDetails extends Component {
       }
     }
   };
+
+  goBack() {
+    AppHistory.replace("/" + i18n.language + "/promotion");
+  }
   render() {
     if (this.state.details === null) return <></>;
     return (
       <Container>
         <MContainer>
           <PromoDetailContainer container direction="column">
+            <CloseButton onClick={this.goBack}>✖</CloseButton>
             <PromoDetailImage
               img={(() => {
                 if (this.state.details.localization !== null) {
