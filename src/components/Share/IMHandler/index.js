@@ -14,6 +14,8 @@ const IMHandler = (social, id) => {
       return;
     case "WhatsApp": //
       return window.open(`https://wa.me/${id}`, "_blank");
+    case "Zalo":
+      return window.open(`https://zalo.me/${id}`, "_blank");
     default:
       return;
   }
