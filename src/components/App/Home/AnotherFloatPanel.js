@@ -20,6 +20,8 @@ import Help6PNG from "../../../assets/images/panel/icon-06.png";
 import i18n from "../../../utils/i18n";
 import { Dialog } from "@material-ui/core";
 
+import IMHandler from "../../Share/IMHandler";
+
 const Icon = styled.div`
   height: 70px;
   width: 50px;
@@ -233,9 +235,9 @@ const Overlay = styled.div`
   align-items: center;
   font-weight: bold;
 `;
-
 const Icons = styled.img`
   margin-bottom: 10px;
+  cursor: pointer;
 `;
 const AnotherFloatPanel = (props) => {
   const [supportModal, setSupportModal] = useState(false);
@@ -352,9 +354,7 @@ const AnotherFloatPanel = (props) => {
                         `/assets/images/icon/${data.type}.png`
                       }
                       onClick={() => {
-                        if (data.type === "WhatsApp") {
-                          window.open(`https://wa.me/${data.phone}`, "_blank");
-                        }
+                        IMHandler(data.type, data.phone);
                       }}
                     />
                     <div>ID: {data.appid}</div>

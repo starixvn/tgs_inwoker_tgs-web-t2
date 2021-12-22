@@ -10,6 +10,7 @@ import { generalAction } from "@Inwoker/tgs-api";
 import config from "../../config/config";
 import { withSnackbar } from "notistack";
 import { AppHistory } from "../../history/History";
+import IMHandler from "./IMHandler";
 const Container = styled.div`
   width: 100%;
   background: url(${MaintenancePNG}) no-repeat center;
@@ -241,12 +242,10 @@ const Maintenance = (props) => {
                           `/assets/images/icon/${data.type}.png`
                         }
                         onClick={() => {
-                          if (data.type === "WhatsApp") {
-                            window.open(
-                              `https://wa.me/${data.phone}`,
-                              "_blank"
-                            );
-                          }
+                          window.open(
+                            IMHandler(data.type, data.phone),
+                            "_blank"
+                          );
                         }}
                       />
                       {(() => {
