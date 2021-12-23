@@ -151,11 +151,9 @@ class Sports extends Component {
                       img={
                         process.env.PUBLIC_URL +
                         "/assets/images/pcGamePage/sports/" +
-                        (config.brand === "HKJP" || config.brand === "WLGHK"
-                          ? "hkjp/"
-                          : "") +
+                        (config.features.SportsHideLogo ? "hkjp/" : "") +
                         item.abbreviation.toLowerCase() +
-                        (config.brand === "HKJP" || config.brand === "WLGHK"
+                        (config.features.SportsHideLogo
                           ? "-" + i18n.language
                           : "") +
                         ".png"
@@ -185,11 +183,9 @@ class Sports extends Component {
                       img={
                         process.env.PUBLIC_URL +
                         "/assets/images/pcGamePage/sports/" +
-                        (config.brand === "HKJP" || config.brand === "WLGHK"
-                          ? "hkjp/"
-                          : "") +
+                        (config.features.SportsHideLogo ? "hkjp/" : "") +
                         item.abbreviation.toLowerCase() +
-                        (config.brand === "HKJP" || config.brand === "WLGHK"
+                        (config.features.SportsHideLogo
                           ? "-" + i18n.language
                           : "") +
                         ".png"

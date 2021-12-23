@@ -151,10 +151,9 @@ function GetContentWrap(accountInfo, label, attr, func, label2) {
 
   if (requiredVerify) {
     if (attr === "member_name" || attr === "member_birthday") {
-      isVerify =
-        config.brand !== "HKJP"
-          ? accountInfo.check_pass_account
-          : accountInfo.member_name !== "";
+      isVerify = !config.features.ICVerification
+        ? accountInfo.check_pass_account
+        : accountInfo.member_name !== "";
     }
     if (attr === "member_email") {
       isVerify = accountInfo.check_pass_email;
@@ -538,65 +537,43 @@ class Profile extends Component {
           {i18n.t("profile.title")}
         </Title>
         <InnerWrap>
-          {(() => {
-            if (config.brand !== "HKJP" && config.brand !== "HK28") {
-              return GetContentWrap(
-                this.props.account.info,
-                i18n.t("profile.nameVerify.title"),
-                "member_name",
-                this.handleButtonClick
-              );
-            }
-          })()}
-          {(() => {
-            if (
-              config.brand === "GPI" ||
-              config.brand === "HKJP" ||
-              config.brand === "WLGHK"
-            ) {
-              return GetContentWrap(
-                this.props.account.info,
-                i18n.t("common.phoneNumber"),
-                "member_phone",
-                this.handleButtonClick
-              );
-            }
-          })()}
-          {(() => {
-            if (
-              config.brand !== "HKJP" &&
-              config.brand !== "GPI" &&
-              config.brand !== "HK28" &&
-              config.brand !== "WLGHK"
-            ) {
-              return GetContentWrap(
-                this.props.account.info,
-                i18n.t("common.emailAddress"),
-                "member_email",
-                this.handleButtonClick
-              );
-            }
-          })()}
-          {(() => {
-            if (config.brand !== "HK28") {
-              return GetContentWrap(
-                this.props.account.info,
-                "QQ",
-                "member_qq",
-                this.handleButtonClick
-              );
-            }
-          })()}
-          {(() => {
-            if (config.brand !== "HK28") {
-              return GetContentWrap(
-                this.props.account.info,
-                i18n.t("common.wechatNumber"),
-                "member_wechat",
-                this.handleButtonClick
-              );
-            }
-          })()}
+          {config.features.ICVerification &&
+            GetContentWrap(
+              this.props.account.info,
+              i18n.t("profile.nameVerify.title"),
+              "member_name",
+              this.handleButtonClick
+            )}
+
+          {config.features.SMSVerification &&
+            GetContentWrap(
+              this.props.account.info,
+              i18n.t("common.phoneNumber"),
+              "member_phone",
+              this.handleButtonClick
+            )}
+
+          {config.features.EmailVerification &&
+            GetContentWrap(
+              this.props.account.info,
+              i18n.t("common.emailAddress"),
+              "member_email",
+              this.handleButtonClick
+            )}
+          {config.features.QQWeChat &&
+            GetContentWrap(
+              this.props.account.info,
+              "QQ",
+              "member_qq",
+              this.handleButtonClick
+            )}
+          {config.features.QQWeChat &&
+            GetContentWrap(
+              this.props.account.info,
+              i18n.t("common.wechatNumber"),
+              "member_wechat",
+              this.handleButtonClick
+            )}
           {/* {GetContentWrap(
             this.props.account.info,
             "电子邮件",

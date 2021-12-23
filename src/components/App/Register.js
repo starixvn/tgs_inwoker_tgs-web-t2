@@ -273,11 +273,7 @@ function Register(props) {
               //      }
               //    }
             }
-            if (
-              config.brand === "HKJP" ||
-              config.brand === "GPI" ||
-              config.brand === "WLGHK"
-            ) {
+            if (config.features.SMSVerification) {
               props.onRegisterSuccess(username, password);
             } else {
               props.doLogin(username, password);

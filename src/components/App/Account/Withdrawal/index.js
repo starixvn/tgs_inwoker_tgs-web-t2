@@ -267,7 +267,7 @@ class Withdrawal extends Component {
   };
   handleWithdrawalClick = (bankid, amount, password) => {
     const formatedamount = amount.toString().replace(/,/g, "");
-    if (config.brand === "HKJP") {
+    if (config.features.Withdrawal_HundredDigit) {
       if (!/^[1-9][0-9]{0,17}00$/.test(formatedamount)) {
         this.props.enqueueSnackbar(i18n.t("withdrawal.msgMustHundred"), {
           variant: "warning",
@@ -352,8 +352,7 @@ class Withdrawal extends Component {
               } else if (
                 (this.props.account.info.member_email === null ||
                   this.props.account.info.member_email === "") &&
-                config.brand !== "HK28" &&
-                config.brand !== "WLGHK"
+                config.features.EmailVerification
               ) {
                 return (
                   <Redirect

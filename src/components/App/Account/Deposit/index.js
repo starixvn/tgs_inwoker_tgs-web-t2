@@ -224,7 +224,7 @@ class Deposit extends Component {
     ) {
       if (this.props.wallet.depositResult.IsSuccess) {
         const response = this.props.wallet.depositResult;
-        if (config.brand === "HKJP") {
+        if (config.features.Deposit_DualPage) {
           this.setState({
             ...this.state,
             step: 2,
@@ -526,7 +526,7 @@ class Deposit extends Component {
   switchStep = (steps) => {
     switch (steps) {
       case 1:
-        if (config.brand === "HKJP") {
+        if (config.features.Deposit_DualPage) {
           return (
             <NewStepOneHKJP
               amount={this.state.amount}

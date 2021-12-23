@@ -348,7 +348,7 @@ class NewStepOne extends Component {
                   if (
                     (paymentType.paymentcode.toUpperCase() === "MANUAL" ||
                       paymentType.paymentcode.toUpperCase() === "APPLEPAY") &&
-                    config.brand !== "HK28"
+                    !config.features.Deposit_ManualApplePayHideBankAcc
                   ) {
                     return (
                       <>
@@ -383,7 +383,7 @@ class NewStepOne extends Component {
                 })()}
                 <SubHeaderContainer>
                   <NumberContainer>
-                    {config.brand === "HK28"
+                    {config.features.Deposit_ManualApplePayHideBankAcc
                       ? "4"
                       : paymentType.paymentcode.toUpperCase() === "MANUAL"
                       ? "5"
@@ -486,7 +486,7 @@ class NewStepOne extends Component {
                 <SplitLine></SplitLine>
                 <SubHeaderContainer>
                   <NumberContainer>
-                    {config.brand === "HK28"
+                    {config.features.Deposit_ManualApplePayHideBankAcc
                       ? "5"
                       : paymentType.paymentcode.toUpperCase() === "MANUAL"
                       ? "6"
@@ -527,7 +527,9 @@ class NewStepOne extends Component {
                         <SplitLine></SplitLine>
                         <SubHeaderContainer>
                           <NumberContainer>
-                            {config.brand === "HK28" ? "6" : "7"}
+                            {config.features.Deposit_ManualApplePayHideBankAcc
+                              ? "6"
+                              : "7"}
                           </NumberContainer>
 
                           <SubTitle>{i18n.t("deposit.uploadReceipt")}</SubTitle>

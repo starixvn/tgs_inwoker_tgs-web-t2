@@ -794,7 +794,7 @@ class Wap extends Component {
               this.props.location.pathname ===
                 "/" + i18n.language + "/main/home";
             if (
-              config.brand === "HK28" &&
+              config.features.PopupAnnouncement &&
               this.props.ui.marqueeText.length > 0 &&
               matchingpath
             ) {

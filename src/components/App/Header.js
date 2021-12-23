@@ -969,8 +969,7 @@ class Header extends Component {
                                       }/assets/images/pcHeaderMenu/${
                                         item.path
                                       }/${game.abbreviation.toLowerCase()}${
-                                        (config.brand === "HKJP" ||
-                                          config.brand === "WLGHK") &
+                                        config.features.SportsHideLogo &
                                         (game.abbreviation.toLowerCase() ===
                                           "wgvia" ||
                                           game.abbreviation.toLowerCase() ===

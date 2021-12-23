@@ -449,24 +449,17 @@ class GuestContainer extends Component {
   render() {
     return (
       <Container>
-        {(() => {
-          if (
-            config.brand === "HKJP" ||
-            config.brand === "GPI" ||
-            config.brand === "WLGHK"
-          ) {
-            return (
-              <React.Fragment>
-                <BtnRegister onClick={() => this.onhandleActivation()}>
-                  <BtnLoginRegisterLabel>
-                    {i18n.t("web.register.activation")}
-                  </BtnLoginRegisterLabel>
-                </BtnRegister>
-                <BtnSpliter> | </BtnSpliter>
-              </React.Fragment>
-            );
-          }
-        })()}
+        {config.features.SMSVerification && (
+          <React.Fragment>
+            <BtnRegister onClick={() => this.onhandleActivation()}>
+              <BtnLoginRegisterLabel>
+                {i18n.t("web.register.activation")}
+              </BtnLoginRegisterLabel>
+            </BtnRegister>
+            <BtnSpliter> | </BtnSpliter>
+          </React.Fragment>
+        )}
+
         <BtnRegister onClick={() => this.onhandleRegister()}>
           <BtnRegisterLabel>{i18n.t("common.register")}</BtnRegisterLabel>
         </BtnRegister>
@@ -514,7 +507,7 @@ class GuestContainer extends Component {
                   ></Activation>
                 );
               } else if (this.state.openDialogName === "forgotpassword") {
-                return config.brand !== "HKJP" && config.brand === "WLGHK" ? (
+                return config.features.EmailVerification ? (
                   <ForgotPasswordEmail
                     onhandleClose={this.onhandleCloseDialog}
                     onhandleNextClick={this.onhandleForgotPasswordEmailClick}

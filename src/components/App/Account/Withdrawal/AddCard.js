@@ -353,7 +353,7 @@ class AddCard extends Component {
                     return (
                       <>
                         <TextFieldLabel>
-                          {config.brand === "HK28"
+                          {config.features.AddCard_DisplayFPS
                             ? i18n.t("hk28.card.addCard.BankName")
                             : i18n.t("card.addCard.BankName")}
                         </TextFieldLabel>
@@ -361,7 +361,7 @@ class AddCard extends Component {
                           <CustomTextField
                             marginTop={10}
                             placeholder={
-                              config.brand === "HK28"
+                              config.features.AddCard_DisplayFPS
                                 ? i18n.t("hk28.card.addCard.msgEnterBankName")
                                 : i18n.t("card.addCard.msgEnterBankName")
                             }
@@ -376,11 +376,7 @@ class AddCard extends Component {
                   }
                 })()}
                 {(() => {
-                  if (
-                    config.brand !== "HKJP" &&
-                    config.brand !== "WLGHK" &&
-                    config.brand !== "HK28"
-                  ) {
+                  if (config.features.AddCard_BankBranch) {
                     return (
                       <React.Fragment>
                         <TextFieldLabel>
@@ -404,7 +400,7 @@ class AddCard extends Component {
                 })()}
 
                 <TextFieldLabel>
-                  {config.brand === "HK28"
+                  {config.features.AddCard_DisplayFPS
                     ? i18n.t("hk28.card.addCard.BankAccountName")
                     : i18n.t("card.addCard.BankAccountName")}
                 </TextFieldLabel>
@@ -412,7 +408,7 @@ class AddCard extends Component {
                   <CustomTextField
                     marginTop={10}
                     placeholder={
-                      config.brand === "HK28"
+                      config.features.AddCard_DisplayFPS
                         ? i18n.t("hk28.card.addCard.msgEnterBankAccountName")
                         : i18n.t("card.addCard.msgEnterBankAccountName")
                     }
@@ -464,7 +460,7 @@ class AddCard extends Component {
         ) : (
           <div>
             <TextFieldLabel>
-              {config.brand === "HK28"
+              {config.features.AddCard_DisplayFPS
                 ? i18n.t("hk28.withdrawalNumber")
                 : i18n.t("common.withdrawalNumber")}
             </TextFieldLabel>
@@ -472,7 +468,7 @@ class AddCard extends Component {
               <CustomTextField
                 marginTop={10}
                 placeholder={
-                  config.brand === "HK28"
+                  config.features.AddCard_DisplayFPS
                     ? i18n.t("hk28.msgEnterWithdrawalNumber")
                     : i18n.t("common.msgEnterWithdrawalNumber")
                 }
