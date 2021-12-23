@@ -49,6 +49,8 @@ const featureList = {
   "28BET": {
     SMSVerification: true,
     EmailVerification: false,
+    AddCard_BankBranch: false,
+    AddCard_DisplayFPS: true,
   },
   MESS8: {
     MenuItem_ShootFish: true,

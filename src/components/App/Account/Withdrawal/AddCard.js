@@ -444,11 +444,19 @@ class AddCard extends Component {
                 handleTextFieldChange={this.handleNameChange}
               ></CustomTextField>
             </TextFieldContainer>
-            <TextFieldLabel>{i18n.t("common.phoneNumber")}</TextFieldLabel>
+            <TextFieldLabel>
+              {config.features.AddCard_DisplayFPS
+                ? i18n.t("bet28.phoneNumber")
+                : i18n.t("common.phoneNumber")}
+            </TextFieldLabel>
             <TextFieldContainer>
               <CustomTextField
                 marginTop={10}
-                placeholder={i18n.t("common.msgEnterPhone")}
+                placeholder={
+                  config.features.AddCard_DisplayFPS
+                    ? i18n.t("bet28.msgEnterPhone")
+                    : i18n.t("common.msgEnterPhone")
+                }
                 width={395}
                 height={38}
                 maxLength={50}
