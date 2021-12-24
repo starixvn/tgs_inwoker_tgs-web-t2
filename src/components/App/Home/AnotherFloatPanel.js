@@ -9,6 +9,8 @@ import PanelUserPNG from "../../../assets/images/panel/01-2.png";
 import PanelCSPNG from "../../../assets/images/panel/02-2.png";
 import PanelUserPNG2 from "../../../assets/images/panel/01-3.png";
 import PanelCSPNG2 from "../../../assets/images/panel/02-3.png";
+import PanelDownloadPNG from "../../../assets/images/panel/001-3.png";
+import PanelDownloadPNG2 from "../../../assets/images/panel/001-1.png";
 
 import Help1PNG from "../../../assets/images/panel/icon-01.png";
 import Help2PNG from "../../../assets/images/panel/icon-02.png";
@@ -21,6 +23,8 @@ import i18n from "../../../utils/i18n";
 import { Dialog } from "@material-ui/core";
 
 import IMHandler from "../../Share/IMHandler";
+
+import { AppHistory } from "../../../history/History";
 
 const Icon = styled.div`
   height: 70px;
@@ -62,6 +66,7 @@ const Container = styled.div`
   overflow: visible;
   color: white;
   border-radius: 8px;
+  z-index: 5;
 
   :hover {
   }
@@ -328,6 +333,23 @@ const AnotherFloatPanel = (props) => {
               alt="user-cs"
             />
             <Text active={supportModal}>{i18n.t("panel.im")} </Text>
+          </RotateBack>
+        </SidePanel>
+        <SidePanel
+          active={supportModal}
+          onClick={() => {
+            AppHistory.replace("/" + i18n.language + "/download");
+          }}
+          src2={PanelDownloadPNG2}
+        >
+          <RotateBack active={supportModal}>
+            <Icon
+              src={PanelDownloadPNG}
+              src2={PanelDownloadPNG2}
+              active={supportModal}
+              alt="user-cs"
+            />
+            <Text active={supportModal}>{i18n.t("download.title")} </Text>
           </RotateBack>
         </SidePanel>
       </Container>

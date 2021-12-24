@@ -1,131 +1,278 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import QRCode from "react-qr-code";
-import BGAppDownloadJPG from "../../../assets/images/bg-app-download.jpg";
-
 import i18n from "../../../utils/i18n";
-import config from "../../../config/config";
+import { Dialog } from "@material-ui/core";
+
 const Container = styled.div`
   width: 100%;
-  height: 600px;
+  min-height: 2000px;
   position: relative;
-  background: url(${BGAppDownloadJPG}) no-repeat center bottom;
-`;
-const Inner = styled.div`
-  width: 1000px;
-  margin: 0 auto;
-  padding-top: 90px;
-`;
-const LeftContainer = styled.div`
-  width: 300px;
-  height: 600px;
-  float: left;
-`;
-const RightContainer = styled.div`
-  width: 490px;
-  height: 600px;
-  float: right;
-`;
-const TitleContainer = styled.div`
   background: url(${process.env.PUBLIC_URL +
-    `/assets/images/${i18n.language}/appdownload-phone-icon.png`})
-    no-repeat center;
+    `/assets/images/download/bg-${i18n.language}.jpg`})
+    no-repeat;
+  position: relative;
+  display: flex;
+  justify-content: center;
+`;
 
+const ContentPlacedHere = styled.div`
+  width: 1280px;
+  position: relative;
+`;
+
+const TheFirstSection = styled.div`
+  margin-top: 950px;
+  display: flex;
+  min-height: 150px;
+  justify-content: flex-end;
+  padding-bottom: 75px;
+`;
+
+const TheSecondSection = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const FirstSectionContent = styled.div`
+  display: flex;
+  align-items: center;
+  padding-right: 175px;
+  transform: scale(1.35);
+`;
+
+const SectionContentItem = styled.div`
+  padding-left: 15px;
+`;
+
+const InstallationGuideButton = styled.div`
+  color: #fff;
+  background: #000;
+  border-radius: 75px;
+  padding: 10px 20px;
+  cursor: pointer;
+  user-select: none;
+`;
+
+const Text = styled.div`
+  opacity: 0.55;
+`;
+
+const Icons = styled.div`
+  width: 30px;
+  height: 30px;
+
+  background: #000;
+  mask: url(${({ icon }) => {
+      return (
+        process.env.PUBLIC_URL + `/assets/images/download/icons/${icon}.png`
+      );
+    }})
+    no-repeat center / contain;
+  background-size: 100%;
+`;
+
+const DownloadTitleSection = styled.div`
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+`;
+
+const DownloadIcon = styled(Icons)`
+  height: 50px;
+  width: 50px;
+`;
+
+const TitleText = styled(Text)`
+  font-size: 34px;
+  margin-left: 10px;
   font-weight: bold;
-  color: #404040;
-
-  height: 99px;
-  width: 450px;
-`;
-const DescContainer = styled.div`
-  font-size: 15px;
-  padding: 20px;
-  text-align: center;
-  color: #404040;
-`;
-const QRContainer = styled.div`
-  margin: 50px 0 0 60px;
-  float: left;
-  width: 180px;
-`;
-const QRRedTitle = styled.div`
-  text-align: center;
-
-  font-size: 22px;
-
-  color: #404040;
-`;
-const QRMiniTitle = styled.div`
-  text-align: center;
-
-  margin: 8px;
-
-  font-size: 14px;
-
-  color: #404040;
-`;
-const QRContainerVisit = styled(QRContainer)`
-  padding-top: 15px;
-`;
-const QRImg = styled.div`
-  width: 100px;
-  height: 100px;
-  margin: 20px auto 0 auto;
-  display: block;
-  padding: 5px;
-  background-color: #ffffff;
 `;
 
-const QRImgDiv = styled.div`
-  width: 103px;
-  height: 103px;
-  margin: 0 auto;
-  display: block;
-  background: url(${(props) => props.src}) no-repeat;
-  background-size: contain;
-  text-align: center;
-  color: #000;
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 103px;
+const ThirdSection = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
-class Download extends Component {
-  render() {
-    return (
-      <Container>
-        <Inner>
-          <LeftContainer></LeftContainer>
-          <RightContainer>
-            <TitleContainer></TitleContainer>
-            <DescContainer>
-              {i18n
-                .t("web.download.titleDesc")
-                .replace(/{brand}/g, config.brand)}
-            </DescContainer>
-            <QRContainer>
-              <QRRedTitle>{i18n.t("web.download.supportPlatform")}</QRRedTitle>
-              <QRMiniTitle>{i18n.t("web.download.mobileDownload")}</QRMiniTitle>
-              <QRImgDiv
-                src={`${process.env.PUBLIC_URL}/assets/images/qrcode/appdownload-qr-soon.png`}
-              >
-                {i18n.t("common.comingSoon")}
-              </QRImgDiv>
-            </QRContainer>
-            <QRContainerVisit>
-              <QRRedTitle>{i18n.t("web.download.pcDownload")}</QRRedTitle>
 
-              <QRImg>
-                <QRCode
-                  value={`${window.location.protocol}//${window.location.hostname}`}
-                  size={90}
-                />
-              </QRImg>
-            </QRContainerVisit>
-          </RightContainer>
-        </Inner>
-      </Container>
-    );
+const ThirdSectionText = styled.div`
+  font-size: 28px;
+  padding: 10px 0px;
+  opacity: 0.5;
+`;
+
+const CustomModal = styled(Dialog)`
+  .MuiBackdrop-root {
   }
-}
+
+  .MuiDialog-paper {
+    min-width: 900px;
+
+    border-radius: 16px;
+    background: #f6f8f7;
+    min-height: 200px;
+  }
+`;
+
+const DialogTitle = styled.div`
+  background: #f6f8f7;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  justify-content: space-between;
+`;
+
+const DialogContent = styled.div`
+  padding: 40px;
+  font-size: 20px;
+`;
+
+const DialogTitle2 = styled(DialogTitle)`
+  background: ${({ theme }) => theme.primary};
+  color: white;
+`;
+
+const CloseButton = styled.div`
+  cursor: pointer;
+  position: absolute;
+  right: 30px;
+`;
+
+const DeviceGuide = styled.div`
+  padding-bottom: 20px;
+`;
+
+const DownloadSection = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const QRCodeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 80px 40px 20px 40px;
+  align-items: center;
+`;
+
+const DeviceText = styled.div`
+  opacity: 0.55;
+  padding: 20px 0px;
+  font-size: 28px;
+`;
+
+const QRCodeHolder = styled.div`
+  height: 200px;
+  width: 200px;
+
+  padding: 10px;
+
+  border-radius: 10px;
+  border: solid 1px rgba(0, 0, 0, 0.5);
+`;
+
+const ResponsiveQRCode = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+
+const DownloadButton = styled.div`
+  color: #fff;
+  background: #000;
+  border-radius: 75px;
+  padding: 5px 10px;
+  cursor: pointer;
+  user-select: none;
+  min-width: 100px;
+  text-align: center;
+`;
+
+const Download = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <Container>
+      <ContentPlacedHere>
+        <TheFirstSection>
+          <FirstSectionContent>
+            <SectionContentItem>
+              <Text>{i18n.t("download.supported")}:</Text>
+            </SectionContentItem>
+            <SectionContentItem>
+              <Icons icon="android" />
+            </SectionContentItem>
+            <SectionContentItem>
+              <Icons icon="ios" />
+            </SectionContentItem>
+            <SectionContentItem>
+              <InstallationGuideButton
+                onClick={() => {
+                  setOpen(true);
+                }}
+              >
+                {i18n.t("download.openGuide")}
+              </InstallationGuideButton>
+            </SectionContentItem>
+          </FirstSectionContent>
+        </TheFirstSection>
+        <TheSecondSection>
+          <DownloadTitleSection>
+            <DownloadIcon icon="download" />
+            <TitleText>{i18n.t("download.downloadMethod")}</TitleText>
+          </DownloadTitleSection>
+        </TheSecondSection>
+        <ThirdSection>
+          <ThirdSectionText>{i18n.t("download.scanDownload")}</ThirdSectionText>
+          <ThirdSectionText>{i18n.t("download.useQRScan")}</ThirdSectionText>
+        </ThirdSection>
+        <DownloadSection>
+          <QRCodeContainer>
+            <QRCodeHolder>
+              <ResponsiveQRCode src="https://miro.medium.com/max/1400/1*sHmqYIYMV_C3TUhucHrT4w.png" />
+            </QRCodeHolder>
+            <DeviceText>iOS</DeviceText>
+            <DownloadButton>{i18n.t("download.title")}</DownloadButton>
+          </QRCodeContainer>
+          <QRCodeContainer>
+            <QRCodeHolder>
+              <ResponsiveQRCode src="https://miro.medium.com/max/1400/1*sHmqYIYMV_C3TUhucHrT4w.png" />
+            </QRCodeHolder>
+            <DeviceText>Android</DeviceText>
+            <DownloadButton>{i18n.t("download.title")}</DownloadButton>
+          </QRCodeContainer>
+        </DownloadSection>
+      </ContentPlacedHere>
+      <CustomModal
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+      >
+        <DialogTitle2>
+          <div>{i18n.t("download.openGuide")}</div>
+          <CloseButton
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            ✖
+          </CloseButton>
+        </DialogTitle2>
+        <DialogContent>
+          <DeviceGuide>
+            {i18n.t("download.iphone.title")} <br />
+            {i18n.t("download.iphone.point1")} <br />
+            {i18n.t("download.iphone.point2")} <br />
+          </DeviceGuide>
+          <DeviceGuide>
+            {i18n.t("download.android.title")} <br />
+            {i18n.t("download.android.point1")} <br />
+            {i18n.t("download.android.point2")} <br />
+          </DeviceGuide>
+        </DialogContent>
+      </CustomModal>
+    </Container>
+  );
+};
 
 export default Download;
