@@ -20,6 +20,36 @@ export const GlobalStyles = createGlobalStyle`
   font-family: ${languageSwitcher(i18n.language)};
 }
 
+.headerSubmenu .slick-track,
+.headerSubmenu .slick-slider .slick-list {
+  height: auto;
+}
+
+.headerSubmenu .slick-slide > div {
+  display: flex;
+  align-items: center;
+}
+
+.headerSubmenu .slick-prev {
+  left: 0;
+  top: 90px;
+}
+
+.headerSubmenu .slick-next {
+  right: 0;
+  top: 90px;
+}
+.headerSubmenu.slick-slider .slick-track,
+.headerSubmenu.slick-slider .slick-list {
+  margin-left: 25px;
+  margin-right: 35px;
+}
+
+.headerSubmenu .slick-prev::before,
+.headerSubmenu .slick-next::before {
+  color: ${({ theme }) => theme.primary};
+}
+
  
  
 

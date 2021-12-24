@@ -51,6 +51,7 @@ import { withSnackbar } from "notistack";
 import Common from "../../utils/Common";
 
 import i18n from "../../utils/i18n";
+import Slider from "react-slick";
 
 const moment = require("moment");
 
@@ -747,6 +748,12 @@ class Header extends Component {
   };
   render() {
     const { classes } = this.props;
+    const settings = {
+      className: "headerSubmenu",
+      slidesToShow: 4,
+      slidesToScroll: 4,
+    };
+
     return (
       <CustomAppBar hide={this.props.hide}>
         <InnerWrap>
@@ -941,71 +948,133 @@ class Header extends Component {
                     >
                       <MouseOverBackground>
                         <MouseOverInner>
-                          {/* <ImagePromo src={`${process.env.PUBLIC_URL}/assets/images/pcHeaderMenu/${item.path}/rebate.png`} alt=""></ImagePromo> */}
                           {(() => {
                             var list = this.props.game.homePageGameList.filter(
                               (game) => item.gameType.indexOf(game.type) >= 0
                             );
+                            return list.length <= 5 ? (
+                              list.map((game, index) => {
+                                return (
+                                  <GameFrame
+                                    key={index}
+                                    style={{
+                                      width: `calc(1264px / ${list.length})`,
+                                    }}
+                                    //TODO: To remove
+                                    maintenance={game.status != 0}
+                                  >
+                                    <GameFrameWrapper>
+                                      <Maintenance>
+                                        {i18n.t("transfer.maintenance")}
+                                      </Maintenance>
 
-                            return list.map((game, index) => {
-                              return (
-                                <GameFrame
-                                  key={index}
-                                  style={{
-                                    width: `calc(1264px / ${list.length})`,
-                                  }}
-                                  //TODO: To remove
-                                  maintenance={game.status != 0}
-                                >
-                                  <GameFrameWrapper>
-                                    <Maintenance>
-                                      {i18n.t("transfer.maintenance")}
-                                    </Maintenance>
-
-                                    <GameImg
-                                      index={index}
-                                      src={`${
-                                        process.env.PUBLIC_URL
-                                      }/assets/images/pcHeaderMenu/${
-                                        item.path
-                                      }/${game.abbreviation.toLowerCase()}${
-                                        config.features.SportsHideLogo &
-                                        (game.abbreviation.toLowerCase() ===
-                                          "wgvia" ||
-                                          game.abbreviation.toLowerCase() ===
-                                            "wgfm")
-                                          ? "-HKJP"
-                                          : ""
-                                      }.png`}
-                                      alt=""
-                                      onClick={() => {
-                                        if (
-                                          game.type ===
-                                            GameTypeEnum.LOTTERYLOBBY ||
-                                          game.type === GameTypeEnum.LOBBY
-                                        ) {
-                                          this.handleJoinLotteryGame(
-                                            game.abbreviation
-                                          );
-                                        } else {
-                                          this.handleJoinGameClick(
-                                            game.type,
-                                            item.path,
-                                            game.abbreviation,
-                                            "/" +
-                                              i18n.language +
-                                              "/joingame/" +
-                                              game.type +
-                                              "/" +
+                                      <GameImg
+                                        index={index}
+                                        src={`${
+                                          process.env.PUBLIC_URL
+                                        }/assets/images/pcHeaderMenu/${
+                                          item.path
+                                        }/${game.abbreviation.toLowerCase()}${
+                                          config.features.SportsHideLogo &
+                                          (game.abbreviation.toLowerCase() ===
+                                            "wgvia" ||
+                                            game.abbreviation.toLowerCase() ===
+                                              "wgfm")
+                                            ? "-HKJP"
+                                            : ""
+                                        }.png`}
+                                        alt=""
+                                        onClick={() => {
+                                          if (
+                                            game.type ===
+                                              GameTypeEnum.LOTTERYLOBBY ||
+                                            game.type === GameTypeEnum.LOBBY
+                                          ) {
+                                            this.handleJoinLotteryGame(
                                               game.abbreviation
-                                          );
-                                        }
+                                            );
+                                          } else {
+                                            this.handleJoinGameClick(
+                                              game.type,
+                                              item.path,
+                                              game.abbreviation,
+                                              "/" +
+                                                i18n.language +
+                                                "/joingame/" +
+                                                game.type +
+                                                "/" +
+                                                game.abbreviation
+                                            );
+                                          }
+                                        }}
+                                      ></GameImg>
+                                    </GameFrameWrapper>
+                                  </GameFrame>
+                                );
+                              })
+                            ) : (
+                              <Slider {...settings}>
+                                {list.map((game, index) => {
+                                  return (
+                                    <GameFrame
+                                      key={index}
+                                      style={{
+                                        width: `calc(1264px / ${list.length})`,
                                       }}
-                                    ></GameImg>
-                                  </GameFrameWrapper>
-                                </GameFrame>
-                              );
-                            });
+                                      //TODO: To remove
+                                      maintenance={game.status != 0}
+                                    >
+                                      <GameFrameWrapper>
+                                        <Maintenance>
+                                          {i18n.t("transfer.maintenance")}
+                                        </Maintenance>
+
+                                        <GameImg
+                                          index={index}
+                                          src={`${
+                                            process.env.PUBLIC_URL
+                                          }/assets/images/pcHeaderMenu/${
+                                            item.path
+                                          }/${game.abbreviation.toLowerCase()}${
+                                            config.features.SportsHideLogo &
+                                            (game.abbreviation.toLowerCase() ===
+                                              "wgvia" ||
+                                              game.abbreviation.toLowerCase() ===
+                                                "wgfm")
+                                              ? "-HKJP"
+                                              : ""
+                                          }.png`}
+                                          alt=""
+                                          onClick={() => {
+                                            if (
+                                              game.type ===
+                                                GameTypeEnum.LOTTERYLOBBY ||
+                                              game.type === GameTypeEnum.LOBBY
+                                            ) {
+                                              this.handleJoinLotteryGame(
+                                                game.abbreviation
+                                              );
+                                            } else {
+                                              this.handleJoinGameClick(
+                                                game.type,
+                                                item.path,
+                                                game.abbreviation,
+                                                "/" +
+                                                  i18n.language +
+                                                  "/joingame/" +
+                                                  game.type +
+                                                  "/" +
+                                                  game.abbreviation
+                                              );
+                                            }
+                                          }}
+                                        ></GameImg>
+                                      </GameFrameWrapper>
+                                    </GameFrame>
+                                  );
+                                })}
+                              </Slider>
+                            );
                           })()}
                         </MouseOverInner>
                       </MouseOverBackground>
