@@ -631,6 +631,10 @@ class Transfer extends Component {
   };
 
   render() {
+    var checkTransferWallet =
+      Object.values(this.props.game.providerList).filter(
+        (item) => item.transferwallet === true
+      ).length > 1;
     return (
       <Container>
         <Title>
@@ -661,27 +665,29 @@ class Transfer extends Component {
               />
             </WalletAmount>
           </WalletFrame>
-          <WalletFrame>
-            <IconContainer>
-              <WalletIcon src={TransferTWalletPNG}></WalletIcon>
-            </IconContainer>
-            <WalletTitle>{i18n.t("transfer.transferWallet")}</WalletTitle>
+          {checkTransferWallet && (
+            <WalletFrame>
+              <IconContainer>
+                <WalletIcon src={TransferTWalletPNG}></WalletIcon>
+              </IconContainer>
+              <WalletTitle>{i18n.t("transfer.transferWallet")}</WalletTitle>
 
-            <div className="clear"></div>
-            <WalletAmount>
-              <DynamicFont
-                content={Common.formatNumberWithThousand(
-                  this.props.game.providerList.reduce(
-                    (total, item) =>
-                      item.transferwallet === true
-                        ? (total += item.balance)
-                        : (total += 0),
-                    0
-                  )
-                )}
-              />
-            </WalletAmount>
-          </WalletFrame>
+              <div className="clear"></div>
+              <WalletAmount>
+                <DynamicFont
+                  content={Common.formatNumberWithThousand(
+                    this.props.game.providerList.reduce(
+                      (total, item) =>
+                        item.transferwallet === true
+                          ? (total += item.balance)
+                          : (total += 0),
+                      0
+                    )
+                  )}
+                />
+              </WalletAmount>
+            </WalletFrame>
+          )}
           <WalletFrame>
             <IconContainer>
               <WalletIcon src={TransferTotalPNG}></WalletIcon>

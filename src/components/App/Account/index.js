@@ -350,6 +350,10 @@ class Account extends Component {
     });
   };
   render() {
+    var checkTransferWallet =
+      Object.values(this.props.game.providerList).filter(
+        (item) => item.transferwallet === true
+      ).length > 1;
     return (
       <Container>
         <InnerContainer>
@@ -374,10 +378,11 @@ class Account extends Component {
                 i18n.t("web.account.withdrawal"),
                 "withdrawal"
               )}
-              {this.genMenuButtonDiv(
-                i18n.t("web.account.transfer"),
-                "transfer"
-              )}
+              {checkTransferWallet &&
+                this.genMenuButtonDiv(
+                  i18n.t("web.account.transfer"),
+                  "transfer"
+                )}
               {this.genMenuButtonDiv(i18n.t("web.account.report"), "report")}
               <MenuTitle>{i18n.t("web.account.personal")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.profile"), "profile")}
@@ -446,19 +451,25 @@ class Account extends Component {
                     exact
                     path={baseRouteUrl + "/account/report"}
                     render={(props) => (
-                      <Report token={this.props.account.token} />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path={baseRouteUrl + "/account/transfer"}
-                    render={(props) => (
-                      <Transfer
+                      <Report
                         token={this.props.account.token}
-                        getAllGameBalance={this.getAllGameBalance}
+                        checkTransferWallet={checkTransferWallet}
                       />
                     )}
                   />
+                  {checkTransferWallet && (
+                    <Route
+                      exact
+                      path={baseRouteUrl + "/account/transfer"}
+                      render={(props) => (
+                        <Transfer
+                          token={this.props.account.token}
+                          getAllGameBalance={this.getAllGameBalance}
+                        />
+                      )}
+                    />
+                  )}
+
                   <Route
                     exact
                     path={baseRouteUrl + "/account/profile/:popup?"}

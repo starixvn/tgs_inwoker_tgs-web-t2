@@ -339,12 +339,15 @@ class Report extends Component {
           >
             {i18n.t("report.rebateDetails")}
           </TabButton> */}
-          <TabButton
-            active={this.state.tab === 6}
-            onClick={() => this.handleTabClick(6)}
-          >
-            {i18n.t("report.transfer.title")}
-          </TabButton>
+          {this.props.checkTransferWallet && (
+            <TabButton
+              active={this.state.tab === 6}
+              onClick={() => this.handleTabClick(6)}
+            >
+              {i18n.t("report.transfer.title")}
+            </TabButton>
+          )}
+
           <TabButton
             active={this.state.tab === 7}
             onClick={() => this.handleTabClick(7)}

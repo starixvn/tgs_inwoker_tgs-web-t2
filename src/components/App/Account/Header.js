@@ -97,6 +97,11 @@ function Header(props) {
     if (item.transferwallet === true) ingame += parseFloat(item.balance);
   });
 
+  var checkTransferWallet =
+    Object.values(props.game.providerList).filter(
+      (item) => item.transferwallet === true
+    ).length > 1;
+
   return (
     <Container>
       {/* <AvatarContainer src={props.info.avatar}></AvatarContainer>
@@ -125,22 +130,28 @@ function Header(props) {
         </RefreshButton>
       </MainWalletContainer>
       <SpliterLine></SpliterLine>
-      <MainWalletContainer>
-        <MainAccountLabel>
-          {i18n.t("web.account.header.allGameWallet")}:
-        </MainAccountLabel>
-        <AmountContainer>
-          <DynamicFont
-            content={
-              props.wallet.mainSymbol + Common.formatNumberWithThousand(ingame)
-            }
-          />
-        </AmountContainer>
-        <RefreshButton onClick={props.onhandleRefreshClick}>
-          <RefreshButtonIcon></RefreshButtonIcon>
-        </RefreshButton>
-      </MainWalletContainer>
-      <SpliterLine></SpliterLine>
+      {checkTransferWallet && (
+        <div>
+          <MainWalletContainer>
+            <MainAccountLabel>
+              {i18n.t("web.account.header.allGameWallet")}:
+            </MainAccountLabel>
+            <AmountContainer>
+              <DynamicFont
+                content={
+                  props.wallet.mainSymbol +
+                  Common.formatNumberWithThousand(ingame)
+                }
+              />
+            </AmountContainer>
+            <RefreshButton onClick={props.onhandleRefreshClick}>
+              <RefreshButtonIcon></RefreshButtonIcon>
+            </RefreshButton>
+          </MainWalletContainer>
+          <SpliterLine></SpliterLine>
+        </div>
+      )}
+
       <MainWalletContainer>
         <MainAccountLabel>
           {i18n.t("web.account.header.total")}:
