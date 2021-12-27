@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import i18n from "../../../utils/i18n";
 import { Dialog } from "@material-ui/core";
+import config from "../../../config/config";
+import QRCode from "react-qr-code";
 
 const Container = styled.div`
   width: 100%;
@@ -190,6 +192,29 @@ const DownloadButton = styled.div`
 
 const Download = () => {
   const [open, setOpen] = useState(false);
+  const [download, setDownload] = useState([]);
+
+  function getJsonData() {
+    return fetch(
+      "https://app12.s3.ap-east-1.amazonaws.com/version_" +
+        config.brand +
+        ".json"
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        setDownload(responseJson);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  useEffect(() => {
+    if (download.length === 0) {
+      getJsonData();
+    } else {
+    }
+  }, []);
   return (
     <Container>
       <ContentPlacedHere>
@@ -226,20 +251,23 @@ const Download = () => {
           <ThirdSectionText>{i18n.t("download.useQRScan")}</ThirdSectionText>
         </ThirdSection>
         <DownloadSection>
-          <QRCodeContainer>
-            <QRCodeHolder>
-              <ResponsiveQRCode src="https://miro.medium.com/max/1400/1*sHmqYIYMV_C3TUhucHrT4w.png" />
-            </QRCodeHolder>
-            <DeviceText>iOS</DeviceText>
-            <DownloadButton>{i18n.t("download.title")}</DownloadButton>
-          </QRCodeContainer>
-          <QRCodeContainer>
-            <QRCodeHolder>
-              <ResponsiveQRCode src="https://miro.medium.com/max/1400/1*sHmqYIYMV_C3TUhucHrT4w.png" />
-            </QRCodeHolder>
-            <DeviceText>Android</DeviceText>
-            <DownloadButton>{i18n.t("download.title")}</DownloadButton>
-          </QRCodeContainer>
+          {download.map((data, index) => {
+            return (
+              <QRCodeContainer>
+                <QRCodeHolder>
+                  <QRCode size={180} value={data.link}></QRCode>
+                </QRCodeHolder>
+                <DeviceText>{data.platform}</DeviceText>
+                <DownloadButton
+                  onClick={() => {
+                    window.open(data.link, "_blank");
+                  }}
+                >
+                  {i18n.t("download.title")}
+                </DownloadButton>
+              </QRCodeContainer>
+            );
+          })}
         </DownloadSection>
       </ContentPlacedHere>
       <CustomModal

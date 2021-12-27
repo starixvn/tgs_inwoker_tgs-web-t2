@@ -7,7 +7,7 @@ const config = {
     window?.env?.client ||
     "I7nKiimrZQOqnJ6ryjUw74c0Hi64KC6Myunhob4cHh8VOUIuZh4p63czefxyyzbZ",
   currency: window?.env?.currency || "CNY",
-  brand: window?.env?.brand || process.env.REACT_APP_BRAND || "28BET",
+  brand: window?.env?.brand || process.env.REACT_APP_BRAND || "MESS8",
   brandName: window?.env?.brandName
     ? window?.env?.brandName
     : window?.env?.brand || "28BET",

@@ -25,6 +25,7 @@ import { Dialog } from "@material-ui/core";
 import IMHandler from "../../Share/IMHandler";
 
 import { AppHistory } from "../../../history/History";
+import config from "../../../config/config";
 
 const Icon = styled.div`
   height: 70px;
@@ -335,23 +336,25 @@ const AnotherFloatPanel = (props) => {
             <Text active={supportModal}>{i18n.t("panel.im")} </Text>
           </RotateBack>
         </SidePanel>
-        <SidePanel
-          active={supportModal}
-          onClick={() => {
-            AppHistory.replace("/" + i18n.language + "/download");
-          }}
-          src2={PanelDownloadPNG2}
-        >
-          <RotateBack active={supportModal}>
-            <Icon
-              src={PanelDownloadPNG}
-              src2={PanelDownloadPNG2}
-              active={supportModal}
-              alt="user-cs"
-            />
-            <Text active={supportModal}>{i18n.t("download.title")} </Text>
-          </RotateBack>
-        </SidePanel>
+        {config.features.HaveDownloadFeature && (
+          <SidePanel
+            active={supportModal}
+            onClick={() => {
+              AppHistory.replace("/" + i18n.language + "/download");
+            }}
+            src2={PanelDownloadPNG2}
+          >
+            <RotateBack active={supportModal}>
+              <Icon
+                src={PanelDownloadPNG}
+                src2={PanelDownloadPNG2}
+                active={supportModal}
+                alt="user-cs"
+              />
+              <Text active={supportModal}>{i18n.t("download.title")} </Text>
+            </RotateBack>
+          </SidePanel>
+        )}
       </Container>
 
       <CustomModal open={supportModal} onClose={performCloseSupportModal}>

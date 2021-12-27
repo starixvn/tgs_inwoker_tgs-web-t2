@@ -18,6 +18,7 @@ const featureList = {
     //missing config
 
     Wap_SupportCustomBackground: false,
+    HaveDownloadFeature: false,
   },
   HKJP: {
     SMSVerification: true,
@@ -55,6 +56,7 @@ const featureList = {
   MESS8: {
     MenuItem_ShootFish: true,
     EmailVerification: false,
+    HaveDownloadFeature: true,
   },
 };
 export default featureList;
