@@ -314,7 +314,11 @@ const AnotherFloatPanel = (props) => {
                 alt="user-icon"
               />
 
-              <Text active={csModal}>{i18n.t("panel.cs")}</Text>
+              <Text active={csModal}>
+                {config.features.FloatPanel_CustomTranslation
+                  ? i18n.t("mess888.panel.cs")
+                  : i18n.t("panel.cs")}
+              </Text>
             </RotateBack>
           </SidePanel>
         )}
@@ -333,7 +337,11 @@ const AnotherFloatPanel = (props) => {
               active={supportModal}
               alt="user-cs"
             />
-            <Text active={supportModal}>{i18n.t("panel.im")} </Text>
+            <Text active={supportModal}>
+              {config.features.FloatPanel_CustomTranslation
+                ? i18n.t("mess888.panel.im")
+                : i18n.t("panel.im")}
+            </Text>
           </RotateBack>
         </SidePanel>
         {config.features.HaveDownloadFeature && (
@@ -351,7 +359,11 @@ const AnotherFloatPanel = (props) => {
                 active={supportModal}
                 alt="user-cs"
               />
-              <Text active={supportModal}>{i18n.t("download.title")} </Text>
+              <Text active={supportModal}>
+                {config.features.FloatPanel_CustomTranslation
+                  ? i18n.t("mess888.panel.download")
+                  : i18n.t("download.title")}
+              </Text>
             </RotateBack>
           </SidePanel>
         )}

@@ -19,6 +19,8 @@ const featureList = {
 
     Wap_SupportCustomBackground: false,
     HaveDownloadFeature: false,
+    FloatPanel_CustomTranslation: false,
+    DisplayPhone: false,
   },
   HKJP: {
     SMSVerification: true,
@@ -57,6 +59,8 @@ const featureList = {
     MenuItem_ShootFish: true,
     EmailVerification: false,
     HaveDownloadFeature: true,
+    FloatPanel_CustomTranslation: true,
+    DisplayPhone: true,
   },
 };
 export default featureList;

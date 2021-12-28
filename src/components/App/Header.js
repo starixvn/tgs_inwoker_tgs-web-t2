@@ -47,6 +47,8 @@ import TopMenuTigerHoverPNG from "../../assets/images/top-menu-tiger-hover.png";
 import TopMenuFishHoverPNG from "../../assets/images/top-menu-fish-hover.png";
 import TopMenuPromoHoverPNG from "../../assets/images/top-menu-promo-hover.png";
 
+import IconPhonePNG from "../../assets/images/icon-mobile.png";
+
 import { withSnackbar } from "notistack";
 import Common from "../../utils/Common";
 
@@ -405,6 +407,21 @@ const GameFrame = styled.div`
 
 const CustomCsButton = styled(CustomExternalLink)`
   margin-left: 40px;
+`;
+
+const IconPhone = styled.div`
+  background: url(${(props) => props.img}) no-repeat;
+  float: left;
+  width: 20px;
+  height: 20px;
+`;
+
+const CustomPhoneHolder = styled.div`
+  float: left;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  padding-top: 2px;
 `;
 
 const styles = {
@@ -766,6 +783,16 @@ class Header extends Component {
                   </LinkListItem>
                 </LinkList>
               </LinkContainer>
+              {config.features.DisplayPhone && (
+                <CustomPhoneHolder>
+                  <IconPhone img={IconPhonePNG}></IconPhone>
+                  <div>
+                    {this.props.general.brandsSupport &&
+                      this.props.general.brandsSupport.length >= 1 &&
+                      this.props.general.brandsSupport[0].phone}
+                  </div>
+                </CustomPhoneHolder>
+              )}
 
               <LinkContainer style={{ float: "right" }}>
                 <LinkList>
