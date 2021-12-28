@@ -196,7 +196,7 @@ const QRCodeHolder = styled.div`
 const QRCodeTextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0px 20px;
+
   align-items: center;
 `;
 
@@ -394,6 +394,9 @@ const AnotherFloatPanel = (props) => {
                         IMHandler(data.type, data.phone);
                       }}
                     />
+                    <div>
+                      {i18n.t("common.phoneNumber")}: {data.phone}
+                    </div>
                     <div>ID: {data.appid}</div>
                     <QRCodeText>{data.type}</QRCodeText>
                   </QRCodeTextContainer>
