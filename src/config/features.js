@@ -58,7 +58,7 @@ const featureList = {
   MESS8: {
     MenuItem_ShootFish: true,
     EmailVerification: false,
-    HaveDownloadFeature: true,
+    // HaveDownloadFeature: true,
     FloatPanel_CustomTranslation: true,
     DisplayPhone: true,
   },
