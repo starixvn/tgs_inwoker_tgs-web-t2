@@ -22,7 +22,7 @@ const Container = styled.div`
 const MaintenanceTextContainer = styled.div`
   position: absolute;
   left: 50%;
-  top: 25%;
+  top: 20%;
 `;
 
 const Text = styled.div`
@@ -183,6 +183,22 @@ const Maintenance = (props) => {
           如您有任何问题，请
           <Hyperlink>联系客服</Hyperlink>。
         </Text>
+        {(() => {
+          if (i18n.language === "vi-VN") {
+            return (
+              <React.Fragment>
+                <Text>
+                  Chúng tôi hiện đang được bảo trì, vui lòng thử lại sau.
+                </Text>
+                <Text>
+                  Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi{" "}
+                  <Hyperlink>dịch vụ khách hàng</Hyperlink>。
+                </Text>
+              </React.Fragment>
+            );
+          }
+        })()}
+
         <Text>We are currently under maintenance, please try again later.</Text>
         <Text>
           If you have any questions, please contact our{" "}
@@ -242,10 +258,7 @@ const Maintenance = (props) => {
                           `/assets/images/icon/${data.type}.png`
                         }
                         onClick={() => {
-                          window.open(
-                            IMHandler(data.type, data.phone),
-                            "_blank"
-                          );
+                          IMHandler(data.type, data.phone);
                         }}
                       />
                       {(() => {
