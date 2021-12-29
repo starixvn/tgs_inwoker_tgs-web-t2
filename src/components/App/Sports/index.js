@@ -141,7 +141,7 @@ class Sports extends Component {
             style={{ overflow: "visible" }}
           >
             {this.state.list
-              .slice(0, 3)
+              .slice(0, 4)
               .reverse()
               .map((item, index) => {
                 return (
@@ -175,7 +175,7 @@ class Sports extends Component {
             style={{ overflow: "visible" }}
           >
             {this.state.list.map((item, index) => {
-              if (index >= 3) {
+              if (index >= 4) {
                 return (
                   <ImageWrapper maintenance={item.status != 0}>
                     <Maintenance>{i18n.t("transfer.maintenance")}</Maintenance>
