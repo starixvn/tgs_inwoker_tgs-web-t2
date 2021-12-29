@@ -81,7 +81,7 @@ var brandFeature = featureList[Config.brand] || featureList["default"];
 for (var k in brandFeature) {
   defaultFeature[k] = brandFeature[k];
 }
-Config.features = featureList[Config.brand] || featureList["default"];
+Config.features = defaultFeature;
 
 //add config at tgs library
 ConfigService.setFrom(isMobileOnly ? "h5" : "h5");
