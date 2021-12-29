@@ -94,7 +94,7 @@ function IDVerification(props) {
         handleTextFieldChange={onhandleNameChange}
         defaultValue={props.account.info.member_name}
         readOnly={props.account.info.check_pass_account}
-        maxLength={10}
+        maxLength={256}
       ></CustomTextField>
       {props.account.info.member_name === "" ||
       props.account.info.member_name === null ? (
