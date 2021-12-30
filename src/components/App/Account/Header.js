@@ -130,7 +130,7 @@ function Header(props) {
         </RefreshButton>
       </MainWalletContainer>
       <SpliterLine></SpliterLine>
-      {checkTransferWallet && (
+      {props.game.containTransferWallet && (
         <div>
           <MainWalletContainer>
             <MainAccountLabel>

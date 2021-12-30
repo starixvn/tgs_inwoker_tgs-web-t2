@@ -665,7 +665,7 @@ class Transfer extends Component {
               />
             </WalletAmount>
           </WalletFrame>
-          {checkTransferWallet && (
+          {this.props.game.containTransferWallet && (
             <WalletFrame>
               <IconContainer>
                 <WalletIcon src={TransferTWalletPNG}></WalletIcon>

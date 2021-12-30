@@ -350,10 +350,6 @@ class Account extends Component {
     });
   };
   render() {
-    var checkTransferWallet =
-      Object.values(this.props.game.providerList).filter(
-        (item) => item.transferwallet === true
-      ).length > 1;
     return (
       <Container>
         <InnerContainer>
@@ -378,7 +374,7 @@ class Account extends Component {
                 i18n.t("web.account.withdrawal"),
                 "withdrawal"
               )}
-              {checkTransferWallet &&
+              {this.props.game.containTransferWallet &&
                 this.genMenuButtonDiv(
                   i18n.t("web.account.transfer"),
                   "transfer"
@@ -453,11 +449,13 @@ class Account extends Component {
                     render={(props) => (
                       <Report
                         token={this.props.account.token}
-                        checkTransferWallet={checkTransferWallet}
+                        checkTransferWallet={
+                          this.props.game.containTransferWallet
+                        }
                       />
                     )}
                   />
-                  {checkTransferWallet && (
+                  {this.props.game.containTransferWallet && (
                     <Route
                       exact
                       path={baseRouteUrl + "/account/transfer"}
