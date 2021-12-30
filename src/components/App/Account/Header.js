@@ -131,7 +131,7 @@ function Header(props) {
       </MainWalletContainer>
       <SpliterLine></SpliterLine>
       {props.game.containTransferWallet && (
-        <div>
+        <>
           <MainWalletContainer>
             <MainAccountLabel>
               {i18n.t("web.account.header.allGameWallet")}:
@@ -149,7 +149,7 @@ function Header(props) {
             </RefreshButton>
           </MainWalletContainer>
           <SpliterLine></SpliterLine>
-        </div>
+        </>
       )}
 
       <MainWalletContainer>
