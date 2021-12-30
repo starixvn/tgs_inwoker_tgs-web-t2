@@ -9,6 +9,8 @@ import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import i18n from "../../../../utils/i18n";
 import Moment from "react-moment";
+import copy from "copy-to-clipboard";
+import { withSnackbar } from "notistack";
 const moment = require("moment");
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -30,6 +32,7 @@ const StyledTableCell = withStyles((theme) => ({
 const StyledTableRow = withStyles((theme) => ({
   root: {
     backgroundColor: "#FFFFFF",
+    userSelect: "none",
     "&:hover": {
       backgroundColor: "#fdeced !important",
       cursor: "pointer",
@@ -44,6 +47,13 @@ const InnerWrap = styled.div`
   box-sizing: border-box;
   background-color: #f7f7f7;
 `;
+
+const CustomWinLose = styled(StyledTableCell)`
+  color: ${({ value }) => {
+    return value === 0 ? "" : value > 1 ? "rgb(0,255, 0)" : "rgb(255, 0, 0)";
+  }};
+`;
+
 function TransactionDetailsList(props) {
   // const classes = useStyles();
 
@@ -53,6 +63,15 @@ function TransactionDetailsList(props) {
     props.onhandleChangePage(newPage + 1);
   };
 
+  const handleDoubleClick = (e, id) => {
+    if (e.detail === 2) {
+      props.enqueueSnackbar(i18n.t("affiliate.copied"), {
+        variant: "success",
+      });
+      copy(id);
+    }
+  };
+
   // const emptyRows =
   //   rowsPerPage - Math.min(rowsPerPage, props.total - page * rowsPerPage);
   return (
@@ -60,32 +79,22 @@ function TransactionDetailsList(props) {
       <Table aria-label="customized table" style={{ tableLayout: "fixed" }}>
         <TableHead>
           <TableRow>
+            <StyledTableCell>{i18n.t("report.betDateTime")}</StyledTableCell>
             <StyledTableCell
               style={{
-                width: "8rem",
-              }}
-            >
-              {i18n.t("report.betDateTime")}
-            </StyledTableCell>
-            <StyledTableCell
-              style={{
-                width: "16rem",
+                width: "20rem",
               }}
             >
               {i18n.t("report.betid")}
             </StyledTableCell>
-            <StyledTableCell
-              style={{
-                width: "6rem",
-              }}
-            >
-              {i18n.t("report.platform")}
+            <StyledTableCell>
+              {i18n.t("report.platform")}/{i18n.t("report.gamename")}
             </StyledTableCell>
-            <StyledTableCell>{i18n.t("report.gamename")}</StyledTableCell>
+
             <StyledTableCell
               align="right"
               style={{
-                width: "6rem",
+                width: "4rem",
               }}
             >
               {i18n.t("report.totalBet")}
@@ -112,16 +121,28 @@ function TransactionDetailsList(props) {
           {props.rows.map((row, index) => {
             const date = moment(row.createdOn).format("YYYY-MM-DD hh:mm a");
             return (
-              <StyledTableRow hover role="checkbox" tabIndex={-1} key={index}>
+              <StyledTableRow
+                hover
+                role="checkbox"
+                tabIndex={-1}
+                key={index}
+                onClick={(e) => {
+                  handleDoubleClick(e, row.id);
+                }}
+              >
                 <StyledTableCell>{date}</StyledTableCell>
                 <StyledTableCell>{row.id}</StyledTableCell>
-                <StyledTableCell>{row.gameProviderName}</StyledTableCell>
-                <StyledTableCell>{row.gameName}</StyledTableCell>
+                <StyledTableCell>
+                  {row.gameProviderName}-{row.gameName}
+                </StyledTableCell>
+
                 <StyledTableCell align="right">{row.betAmount}</StyledTableCell>
                 <StyledTableCell align="right">
                   {row.validBetAmount}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.winLoss}</StyledTableCell>
+                <CustomWinLose value={row.winLoss} align="right">
+                  {row.winLoss}
+                </CustomWinLose>
               </StyledTableRow>
             );
           })}
@@ -145,4 +166,4 @@ function TransactionDetailsList(props) {
     </InnerWrap>
   );
 }
-export default TransactionDetailsList;
+export default withSnackbar(TransactionDetailsList);
