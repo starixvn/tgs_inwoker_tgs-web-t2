@@ -12,6 +12,23 @@ import { accountAction } from "@Inwoker/tgs-api";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import i18n from "../../../../utils/i18n";
+import ErrorSwitcher from "../../../../utils/ErrorSwitcher";
+import { Link } from "react-router-dom";
+import config from "../../../../config/config";
+const Content = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 90px;
+  padding: 0 30px;
+  color: ${({ theme }) => theme.secondary};
+`;
+
+const LabelLink = styled(Link)`
+  color: ${({ theme }) => theme.primary};
+  text-decoration: none;
+`;
 const CustomText = withStyles({
   root: {
     marginTop: "10px",
@@ -135,9 +152,12 @@ class Address extends Component {
           });
           this.setState({ ...this.state, countdown: 60 });
         } else {
-          this.props.enqueueSnackbar(response.info, {
-            variant: "error",
-          });
+          this.props.enqueueSnackbar(
+            ErrorSwitcher.getTranslation(response.info),
+            {
+              variant: "error",
+            }
+          );
           // if (response.code === 402) {
           //   this.props.enqueueSnackbar(i18n.t("common.msgInvalidEmail"), {
           //     variant: "error",
@@ -189,9 +209,12 @@ class Address extends Component {
             });
           }
         } else {
-          this.props.enqueueSnackbar(response.info, {
-            variant: "error",
-          });
+          this.props.enqueueSnackbar(
+            ErrorSwitcher.getTranslation(response.info),
+            {
+              variant: "error",
+            }
+          );
           // if (response.code === 405) {
           //   this.props.enqueueSnackbar(i18n.t("common.msgInvalidPhoneCode"), {
           //     variant: "error",
@@ -210,6 +233,7 @@ class Address extends Component {
     );
   };
   render() {
+    var ifNotEmpty = this.props.email !== "" && this.props.email !== null;
     return (
       <Container>
         <CustomText
@@ -228,38 +252,67 @@ class Address extends Component {
           autoComplete="off"
           disabled={this.state.isNew === false && this.state.step === 1}
         ></CustomText>
-        <CustomText
-          placeholder={i18n.t("common.msgEnterCode")}
-          adornment={IconInputVerifyCodePNG}
-          onChange={this.onhandleCodeChange}
-          value={this.state.code}
-          style={{
-            width: "210px",
-            height: "46px",
-          }}
-          variant="outlined"
-          autoComplete="off"
-          type={"text"}
-        ></CustomText>
-        <StyleButton
-          onClick={this.onhandleGetCodeClick}
-          disable={this.state.countdown > 0}
-        >
-          <ButtonLabel>
-            {this.state.countdown <= 0
-              ? i18n.t("common.msgSendToken")
-              : i18n.t("common.btnTokenResendLabel") +
-                "(" +
-                this.state.countdown +
-                "s)"}
-          </ButtonLabel>
-        </StyleButton>
-        <Message>{this.state.message}</Message>
-        <CustomButton
-          name={i18n.t("common.submit")}
-          handleClick={this.onhandleClick}
-          marginTop={15}
-        ></CustomButton>
+        {!(ifNotEmpty && config.features.ChangesNotAllowed) && (
+          <>
+            <CustomText
+              placeholder={i18n.t("common.msgEnterCode")}
+              adornment={IconInputVerifyCodePNG}
+              onChange={this.onhandleCodeChange}
+              value={this.state.code}
+              style={{
+                width: "210px",
+                height: "46px",
+              }}
+              variant="outlined"
+              autoComplete="off"
+              type={"text"}
+            ></CustomText>
+            <StyleButton
+              onClick={this.onhandleGetCodeClick}
+              disable={this.state.countdown > 0}
+            >
+              <ButtonLabel>
+                {this.state.countdown <= 0
+                  ? i18n.t("common.msgSendToken")
+                  : i18n.t("common.btnTokenResendLabel") +
+                    "(" +
+                    this.state.countdown +
+                    "s)"}
+              </ButtonLabel>
+            </StyleButton>
+            <Message>{this.state.message}</Message>
+          </>
+        )}
+
+        {ifNotEmpty && config.features.ChangesNotAllowed && (
+          <Content>
+            {i18n.t("profile.email.toEdit")}
+            {
+              <LabelLink
+                onClick={() =>
+                  this.props.handleCSClick(
+                    this.props.account.info.member_username,
+                    this.props.account.info.member_username
+                  )
+                }
+              >
+                {i18n.t("common.customerService")}
+              </LabelLink>
+            }
+          </Content>
+        )}
+
+        {!(ifNotEmpty && config.features.ChangesNotAllowed) && (
+          <CustomButton
+            name={
+              this.props.isForWithdrawalPassword
+                ? i18n.t("common.nextStep")
+                : i18n.t("common.submit")
+            }
+            handleClick={this.onhandleClick}
+            marginTop={15}
+          ></CustomButton>
+        )}
       </Container>
     );
   }

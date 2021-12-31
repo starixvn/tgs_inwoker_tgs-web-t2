@@ -21,6 +21,7 @@ const featureList = {
     HaveDownloadFeature: false,
     FloatPanel_CustomTranslation: false,
     DisplayPhone: false,
+    ChangesNotAllowed: false,
   },
   HKJP: {
     SMSVerification: true,
@@ -61,6 +62,7 @@ const featureList = {
     // HaveDownloadFeature: true,
     FloatPanel_CustomTranslation: true,
     DisplayPhone: true,
+    ChangesNotAllowed: true,
   },
 };
 export default featureList;

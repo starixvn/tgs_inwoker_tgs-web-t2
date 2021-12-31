@@ -1,6 +1,7 @@
 import React from "react";
 
 import styled from "styled-components";
+import config from "../../../../config/config";
 import i18n from "../../../../utils/i18n";
 import Button from "../../../Share/Button";
 
@@ -39,6 +40,8 @@ const ButtonContainer = styled.div`
   margin: 0 auto;
   display: table;
   width: 540px;
+  display: flex;
+  justify-content: space-around;
 `;
 
 function AddCardSuccess(props) {
@@ -51,22 +54,18 @@ function AddCardSuccess(props) {
         {i18n.t("card.success.bindDesc")}
       </SubTitleDesc>
 
-      {/* <ReminderTitle>{i18n.t("card.success.reminder")}</ReminderTitle>
-      <SubTitleDesc>
-        {i18n.t("common.contact")} <CSLink onClick={props.onhandleCSClick}>{i18n.t("common.customerService")}</CSLink>
-        {" "}{i18n.t("card.success.callHotline")}
-      </SubTitleDesc> */}
       <ButtonContainer>
-        <Button
-          name={i18n.t("card.success.bindBankCard")}
-          width={255}
-          handleClick={props.onhandleBindCardClick}
-        ></Button>
+        {!config.features.ChangesNotAllowed && (
+          <Button
+            name={i18n.t("card.success.bindBankCard")}
+            width={255}
+            handleClick={props.onhandleBindCardClick}
+          ></Button>
+        )}
         <Button
           name={i18n.t("card.success.goWithdrawal")}
           width={255}
           handleClick={props.onhandleGoWithdrawClick}
-          float={"right"}
         ></Button>
       </ButtonContainer>
     </Container>

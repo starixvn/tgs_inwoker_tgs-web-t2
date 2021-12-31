@@ -11,6 +11,22 @@ import Select from "@material-ui/core/Select";
 import i18n from "../../../../utils/i18n";
 import ErrorSwitcher from "../../../../utils/ErrorSwitcher";
 import { withSnackbar } from "notistack";
+import { Link } from "react-router-dom";
+import config from "../../../../config/config";
+const Content = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 90px;
+  padding: 0 30px;
+  color: ${({ theme }) => theme.secondary};
+`;
+
+const LabelLink = styled(Link)`
+  color: ${({ theme }) => theme.primary};
+  text-decoration: none;
+`;
 const Container = styled.div``;
 const StyleButton = styled.div`
   width: 140px;
@@ -24,7 +40,11 @@ const StyleButton = styled.div`
   ${(props) =>
     props.disable === true
       ? `  background-image: linear-gradient(90deg, rgba(89,89,89,1) 0%, rgba(126,126,126,1) 100%);`
-      : `  background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
+      : `  background-image: linear-gradient(to top, ` +
+        props.theme.primaryGradient +
+        `, ` +
+        props.theme.primary +
+        `);
 `}
 
   border-radius: 5px;
@@ -314,6 +334,8 @@ class PhoneVerification extends Component {
   };
 
   render() {
+    var ifNotEmpty = this.props.phone !== "" && this.props.phone !== null;
+
     return (
       <Container>
         <FormControl>
@@ -346,43 +368,67 @@ class PhoneVerification extends Component {
           autoComplete="off"
           disabled={this.state.isNew === false && this.state.step === 1}
         ></CustomText>
-        <CustomText
-          placeholder={i18n.t("common.msgEnterCode")}
-          adornment={IconInputVerifyCodePNG}
-          onChange={this.onhandleCodeChange}
-          variant="outlined"
-          autoComplete="off"
-          value={this.state.code}
-          type={"text"}
-          style={{
-            width: "208px",
-            height: "46px",
-          }}
-        ></CustomText>
-        <StyleButton
-          onClick={this.onhandleGetCodeClick}
-          disable={this.state.countdown > 0}
-        >
-          <ButtonLabel>
-            {this.state.countdown <= 0
-              ? i18n.t("common.msgSendToken")
-              : i18n.t("common.btnTokenResendLabel") +
-                "(" +
-                this.state.countdown +
-                "s)"}
-          </ButtonLabel>
-        </StyleButton>
+        {!(ifNotEmpty && config.features.ChangesNotAllowed) && (
+          <>
+            <CustomText
+              placeholder={i18n.t("common.msgEnterCode")}
+              adornment={IconInputVerifyCodePNG}
+              onChange={this.onhandleCodeChange}
+              variant="outlined"
+              autoComplete="off"
+              value={this.state.code}
+              type={"text"}
+              style={{
+                width: "208px",
+                height: "46px",
+              }}
+            ></CustomText>
+            <StyleButton
+              onClick={this.onhandleGetCodeClick}
+              disable={this.state.countdown > 0}
+            >
+              <ButtonLabel>
+                {this.state.countdown <= 0
+                  ? i18n.t("common.msgSendToken")
+                  : i18n.t("common.btnTokenResendLabel") +
+                    "(" +
+                    this.state.countdown +
+                    "s)"}
+              </ButtonLabel>
+            </StyleButton>
+            <Message>{this.state.message}</Message>
+          </>
+        )}
 
-        <Message>{this.state.message}</Message>
-        <CustomButton
-          name={
-            this.props.isForWithdrawalPassword
-              ? i18n.t("common.nextStep")
-              : i18n.t("common.submit")
-          }
-          handleClick={this.onhandleClick}
-          marginTop={10}
-        ></CustomButton>
+        {ifNotEmpty && config.features.ChangesNotAllowed && (
+          <Content>
+            {i18n.t("profile.phone.toEdit")}
+            {
+              <LabelLink
+                onClick={() =>
+                  this.props.handleCSClick(
+                    this.props.account.info.member_username,
+                    this.props.account.info.member_username
+                  )
+                }
+              >
+                {i18n.t("common.customerService")}
+              </LabelLink>
+            }
+          </Content>
+        )}
+
+        {!(ifNotEmpty && config.features.ChangesNotAllowed) && (
+          <CustomButton
+            name={
+              this.props.isForWithdrawalPassword
+                ? i18n.t("common.nextStep")
+                : i18n.t("common.submit")
+            }
+            handleClick={this.onhandleClick}
+            marginTop={10}
+          ></CustomButton>
+        )}
       </Container>
     );
   }

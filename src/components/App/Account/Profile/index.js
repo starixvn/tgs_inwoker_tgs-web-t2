@@ -373,6 +373,7 @@ class Profile extends Component {
         title = i18n.t("profile.wechat.weChatAccount");
         component = (
           <Wechat
+            handleCSClick={this.props.onhandleCSClick}
             handleCloseDialog={this.handleCloseDialog}
             account={this.props.account}
           ></Wechat>
@@ -382,6 +383,7 @@ class Profile extends Component {
         title = i18n.t("profile.qq.qqAccount");
         component = (
           <QQ
+            handleCSClick={this.props.onhandleCSClick}
             handleCloseDialog={this.handleCloseDialog}
             account={this.props.account}
           ></QQ>
@@ -468,10 +470,12 @@ class Profile extends Component {
         title = i18n.t("profile.phone.bindMobile");
         component = (
           <PhoneVerification
+            handleCSClick={this.props.onhandleCSClick}
             handleCloseDialog={this.handleCloseDialog}
             phone={this.props.account.info.member_phone}
             token={this.props.account.token}
             isForSecurityQuestion={false}
+            account={this.props.account}
           ></PhoneVerification>
         );
         break;
@@ -598,13 +602,18 @@ class Profile extends Component {
             "member_birthday",
             this.handleButtonClick
           )} */}
-          {/* {GetContentWrap(
-            this.props.account.info,
-            i18n.t("profile.withdrawalPassword.title"),
-            "member_safe_password",
-            this.handleButtonClick,
-            i18n.t("profile.edit")
-          )} */}
+          {/* {(() => {
+            if (config.brand !== "HKJP" && config.brand !== "GPI") {
+              return GetContentWrap(
+                this.props.account.info,
+                i18n.t("profile.withdrawalPassword.title"),
+                "member_safe_password",
+                this.handleButtonClick,
+                i18n.t("profile.edit")
+              );
+            }
+          })()} */}
+
           {GetContentWrap(
             this.props.account.info,
             i18n.t("profile.password.title"),

@@ -1,71 +1,106 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import CustomTextField from "../../../Share/TextField";
 import CustomButton from "../../../Share/Button";
 import i18n from "../../../../utils/i18n";
 import { AccountService, UPDATE_INFO } from "@Inwoker/tgs-api";
-
+import ErrorSwitcher from "../../../../utils/ErrorSwitcher";
 import { withSnackbar } from "notistack";
 import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.png";
+import config from "../../../../config/config";
+
+import { Link } from "react-router-dom";
+const Content = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 90px;
+  padding: 0 30px;
+  color: ${({ theme }) => theme.secondary};
+`;
+
+const LabelLink = styled(Link)`
+  color: ${({ theme }) => theme.primary};
+  text-decoration: none;
+`;
+
 const Container = styled.div``;
 
-class QQ extends Component {
-  constructor(props) {
-    super(props);
+const QQ = (props) => {
+  const [memberQQ, setMemberQQ] = useState(
+    props.account.info.member_qq ? props.account.info.member_qq : ""
+  );
 
-    this.state = {
-      member_qq: this.props.account.info.member_qq
-        ? this.props.account.info.member_qq
-        : "",
-    };
-  }
-
-  onhandleTextChange = (e) => {
-    this.setState({ member_qq: e.target.value });
+  const onhandleTextChange = (e) => {
+    setMemberQQ(e.target.value);
   };
 
-  onhandleClick = () => {
+  const onhandleClick = () => {
     const re = new RegExp("^[1-9]\\d{4,14}$");
-    if (!this.state.member_qq.match(re)) {
-      this.props.enqueueSnackbar(i18n.t("profile.qq.msgInvalidQQ"), {
+    if (!memberQQ.match(re)) {
+      props.enqueueSnackbar(i18n.t("profile.qq.msgInvalidQQ"), {
         variant: "error",
       });
       return;
     }
 
-    AccountService.UpdateQQ(this.state.member_qq).then((response) => {
+    AccountService.UpdateQQ(memberQQ).then((response) => {
       if (response.IsSuccess) {
-        this.props.dispatch({
+        props.dispatch({
           type: UPDATE_INFO,
           payload: {
-            member_qq: this.state.member_qq,
+            member_qq: memberQQ,
           },
         });
-        this.props.handleCloseDialog();
+        props.handleCloseDialog();
       } else {
-        this.props.enqueueSnackbar(response.info, {
+        props.enqueueSnackbar(ErrorSwitcher.getTranslation(response.info), {
           variant: "error",
         });
       }
     });
   };
-  render() {
-    return (
-      <Container>
-        <CustomTextField
-          placeholder={i18n.t("profile.qq.qqAccount")}
-          adornment={IconInputReceivePNG}
-          handleTextFieldChange={this.onhandleTextChange}
-          defaultValue={this.state.member_qq}
-        ></CustomTextField>
 
+  var ifNotEmpty =
+    props.account.info.member_qq !== "" &&
+    props.account.info.member_qq !== null;
+  return (
+    <Container>
+      <CustomTextField
+        placeholder={i18n.t("profile.qq.qqAccount")}
+        adornment={IconInputReceivePNG}
+        handleTextFieldChange={onhandleTextChange}
+        defaultValue={memberQQ}
+        readOnly={ifNotEmpty && config.features.ChangesNotAllowed}
+      ></CustomTextField>
+      {ifNotEmpty && config.features.ChangesNotAllowed && (
+        <Content>
+          {i18n.t("profile.qq.toEdit")}
+          {
+            <LabelLink
+              onClick={() =>
+                props.handleCSClick(
+                  props.account.info.member_username,
+                  props.account.info.member_username
+                )
+              }
+            >
+              {i18n.t("common.customerService")}
+            </LabelLink>
+          }
+        </Content>
+      )}
+
+      {!(ifNotEmpty && config.features.ChangesNotAllowed) && (
         <CustomButton
           name={i18n.t("common.submit")}
-          handleClick={this.onhandleClick}
+          handleClick={onhandleClick}
         ></CustomButton>
-      </Container>
-    );
-  }
-}
-export default connect(null, null)(withSnackbar(QQ));
+      )}
+    </Container>
+  );
+};
+
+export default withSnackbar(QQ);

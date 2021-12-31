@@ -5,43 +5,44 @@ import { Redirect } from "react-router";
 import IconWithdrawRedPNG from "../../../../assets/images/icon-withdraw.png";
 import { withRouter } from "react-router-dom";
 import Loading from "../../Loading";
-import config from "../../../../config/config";
 import NameVerification from "../../Share/NameVerification";
-import EmailVerification from "../../Share/EmailVerification";
 // import PassSetting from "./PassSetting";
-import {
-  WalletService,
-  AccountService,
-  UPDATE_INFO,
-  RESET_WALLETRESULT,
-  walletAction,
-} from "@Inwoker/tgs-api";
 
 import AddCard from "./AddCard";
 import AddCardSuccess from "./AddCardSuccess";
 import CardManage from "./CardManage";
 import Main from "./Main";
 import Success from "./Success";
-
+import config from "../../../../config/config";
+import ErrorSwitcher from "../../../../utils/ErrorSwitcher";
+import {
+  walletAction,
+  UPDATE_INFO,
+  RESET_WALLETRESULT,
+  AccountService,
+  WalletService,
+} from "@Inwoker/tgs-api";
 import { withSnackbar } from "notistack";
 import i18n from "../../../../utils/i18n";
+import EmailVerification from "../../Share/EmailVerification";
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box
+
   width: 100%;
-  background-color: #ffffff;
-  min-height: 796px;
+  min-height: 611px;
 
 `;
 const Title = styled.div`
-  color: #404040;
-  font-size: 20px;
+  color: ${({ theme }) => theme.secondary};
 `;
 const TitleIcon = styled.div`
   width: 34px;
   height: 24px;
+
   background: url(${IconWithdrawRedPNG}) no-repeat left center;
   background-size: 24px 24px;
+
   float: left;
 `;
 const InnerWrap = styled.div`
@@ -49,8 +50,10 @@ const InnerWrap = styled.div`
   min-height: 532px;
   margin-top: 18px;
   box-sizing: border-box;
-  padding: 25px 0px;
+  background-color: #f7f7f7;
+  padding: 25px;
   position: relative;
+  border-radius: 10px;
 `;
 
 class Withdrawal extends Component {
@@ -96,7 +99,9 @@ class Withdrawal extends Component {
         this.props.getBankCardList();
       } else {
         this.props.enqueueSnackbar(
-          this.props.wallet.deleteBankCardResult.info,
+          ErrorSwitcher.getTranslation(
+            this.props.wallet.deleteBankCardResult.info
+          ),
           {
             variant: "error",
           }
@@ -118,9 +123,14 @@ class Withdrawal extends Component {
           isAddCardSuccess: true,
         });
       } else {
-        this.props.enqueueSnackbar(this.props.wallet.addBankCardResult.info, {
-          variant: "error",
-        });
+        this.props.enqueueSnackbar(
+          ErrorSwitcher.getTranslation(
+            this.props.wallet.addBankCardResult.info
+          ),
+          {
+            variant: "error",
+          }
+        );
       }
     }
 
@@ -133,9 +143,12 @@ class Withdrawal extends Component {
         this.props.getBalanceList();
         this.setState({ ...this.state, displayView: 4 });
       } else {
-        this.props.enqueueSnackbar(this.props.wallet.withdrawalResult.info, {
-          variant: "error",
-        });
+        this.props.enqueueSnackbar(
+          ErrorSwitcher.getTranslation(this.props.wallet.withdrawalResult.info),
+          {
+            variant: "error",
+          }
+        );
         // if (this.props.wallet.withdrawalResult.code === 207) {
         //   this.props.enqueueSnackbar(i18n.t("common.msgRequiredTurnover"), {
         //     variant: "error",
@@ -155,6 +168,7 @@ class Withdrawal extends Component {
       }
     }
   }
+
   handleAddCardNextClick = (channelid, bankType, detail) => {
     this.props.addBankCard(channelid, bankType, detail);
     // this.setState({ ...this.state, loading: true });
@@ -228,7 +242,13 @@ class Withdrawal extends Component {
     this.setState({ ...this.state, displayView: 3 });
   };
   handleAddCardClick = () => {
-    this.setState({ ...this.state, displayView: 2 });
+    if (config.features.ChangesNotAllowed) {
+      this.props.enqueueSnackbar(i18n.t("card.toEdit"), {
+        variant: "error",
+      });
+    } else {
+      this.setState({ ...this.state, displayView: 2 });
+    }
   };
   handleCardManageBack = () => {
     this.setState({ ...this.state, displayView: 1 });
@@ -237,7 +257,14 @@ class Withdrawal extends Component {
     this.setState({ ...this.state, displayView: 3 });
   };
   handleDeleteCardClick = (id) => {
-    this.props.deleteBankCard(id);
+    if (config.features.ChangesNotAllowed) {
+      this.props.enqueueSnackbar(i18n.t("card.toEdit"), {
+        variant: "error",
+      });
+    } else {
+      this.props.deleteBankCard(id);
+    }
+
     // this.setState({ ...this.state, loading: true });
     // WalletService.DeleteBankCard(this.props.token, id).then((response) => {
     //   if (response.IsSuccess) {
@@ -281,7 +308,7 @@ class Withdrawal extends Component {
       });
       return;
     }
-    if (parseFloat(formatedamount) <= 0) {
+    if (parseFloat(formatedamount) < 0) {
       this.props.enqueueSnackbar(i18n.t("withdrawal.msgInvalidAmt"), {
         variant: "warning",
       });
@@ -433,14 +460,18 @@ class Withdrawal extends Component {
                   }
                 }
                 {
-                  /* if (this.props.account.info.member_safe_password !== "set") {
+                  /* if (
+                  this.props.account.info.member_safe_password !== "set" &&
+                  config.brand !== "HKJP" &&
+                  config.brand !== "GPI"
+                ) {
                   return (
                     <Redirect
                       to={`/${i18n.language}/account/profile/member_safe_password`}
                     ></Redirect>
                   );
                 } else {
-                  
+                 
                 } */
                 }
               }
