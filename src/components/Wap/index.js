@@ -371,6 +371,11 @@ const RouteMapping = [
     component: Wapp.Banned,
     screenHeight: true,
   },
+  {
+    path: "/affiliate",
+    component: Wapp.Affiliate,
+    navigate: true,
+  },
 ];
 class Wap extends Component {
   constructor(props) {

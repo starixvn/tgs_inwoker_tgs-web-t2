@@ -13,10 +13,10 @@ const QRCodeLabel = styled.div`
   font-size: 18px;
 `;
 const QRCodeContainer = styled.div`
-padding: 10px;
-    margin: 0 auto;
-    display: table;
-    background-color: #fff;
+  padding: 10px;
+  margin: 0 auto;
+  display: table;
+  background-color: #fff;
 `;
 const CustomText = styled.div`
   width: 400px;
@@ -68,7 +68,7 @@ const Button = styled.div`
 
   &:hover {
     cursor: pointer;
-    box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);
+    box-shadow: inset 1px 1px 9px 0 rgba(255, 255, 255, 0.75);
   }
 `;
 
@@ -90,26 +90,26 @@ class Affiliate extends Component {
       variant: "success",
     });
     copy(
-      `${window.location.hostname}/${i18n.language}/a/${this.props.account.info.promote_code}`
+      `${window.location.hostname}/${i18n.language}/a/${this.props.account.info.playercode}?do=register`
     );
   };
   handleClickAway = () => {
     this.setState({ ...this.state, copyTooltips: false });
   };
   render() {
+    var affiliateLink = `https://${window.location.hostname}/p/${this.props.account.info.playercode}?do=register`;
     return (
       <>
         <QRCodeLabel>{i18n.t("affiliate.qrCode")}</QRCodeLabel>
         <QRCodeContainer>
-          <QRCode size={128} value={`http://${window.location.hostname}/${i18n.language}/a/${this.props.account.info.promote_code}`}></QRCode>
-
+          <QRCode size={128} value={affiliateLink}></QRCode>
         </QRCodeContainer>
 
         <CustomText>
           <CustomLabel>{i18n.t("affiliate.promoId")}</CustomLabel>
           <CustomInput
             type={"text"}
-            value={this.props.account.info.promote_code}
+            value={this.props.account.info.playercode}
             readOnly={true}
           ></CustomInput>
         </CustomText>
@@ -117,7 +117,7 @@ class Affiliate extends Component {
           <CustomLabel>{i18n.t("affiliate.promoLink")}</CustomLabel>
           <CustomInput
             type={"text"}
-            value={`${window.location.hostname}/${i18n.language}/a/${this.props.account.info.promote_code}`}
+            value={affiliateLink}
             readOnly={true}
           ></CustomInput>
 
@@ -129,6 +129,7 @@ class Affiliate extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     account: state.account,
   };
@@ -138,4 +139,7 @@ const mapDispatchToProps = (dispatch) => {
     dispatch: dispatch,
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(Affiliate));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withSnackbar(Affiliate));

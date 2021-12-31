@@ -22,6 +22,7 @@ const featureList = {
     FloatPanel_CustomTranslation: false,
     DisplayPhone: false,
     ChangesNotAllowed: false,
+    HaveAffiliateFeature: false,
   },
   HKJP: {
     SMSVerification: true,
@@ -31,6 +32,7 @@ const featureList = {
     Withdrawal_HundredDigit: true,
     AddCard_BankBranch: false,
     Deposit_DualPage: true,
+    HaveAffiliateFeature: true,
   },
   HK28: {
     EmailVerification: false,
