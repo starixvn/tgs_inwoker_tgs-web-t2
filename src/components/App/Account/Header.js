@@ -100,7 +100,7 @@ function Header(props) {
   var checkTransferWallet =
     Object.values(props.game.providerList).filter(
       (item) => item.transferwallet === true
-    ).length > 1;
+    ).length > 0;
 
   return (
     <Container>
