@@ -15,13 +15,13 @@ const featureList = {
     MenuItem_ShootFish: false,
     HomePage_FirstSection6Widget: false,
     GamePage_SpecificBackground: false,
-    //missing config
-
     Wap_SupportCustomBackground: false,
     HaveDownloadFeature: false,
     FloatPanel_CustomTranslation: false,
     DisplayPhone: false,
+    HaveAffiliateFeature: false,
     ChangesNotAllowed: false,
+    HomePage_CustomSection: false,
   },
   HKJP: {
     SMSVerification: true,
@@ -31,6 +31,7 @@ const featureList = {
     Withdrawal_HundredDigit: true,
     AddCard_BankBranch: false,
     Deposit_DualPage: true,
+    HaveAffiliateFeature: true,
   },
   HK28: {
     EmailVerification: false,
@@ -63,6 +64,10 @@ const featureList = {
     FloatPanel_CustomTranslation: true,
     DisplayPhone: true,
     ChangesNotAllowed: true,
+  },
+  PISO: {
+    HomePage_CustomSection: true,
+    QQWeChat: false,
   },
 };
 export default featureList;
