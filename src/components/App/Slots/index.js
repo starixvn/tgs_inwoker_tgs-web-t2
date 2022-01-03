@@ -181,7 +181,7 @@ const CategoryContainer = styled.div`
 
   font-size: 16px;
   float: left;
-  margin-right: 40px;
+  margin-right: 20px;
   margin-top: 6px;
   &:hover {
     cursor: pointer;
