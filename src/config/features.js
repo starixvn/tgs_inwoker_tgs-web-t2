@@ -22,6 +22,7 @@ const featureList = {
     HaveAffiliateFeature: false,
     ChangesNotAllowed: false,
     HomePage_CustomSection: false,
+    Profile_CustomIdentityPageTranslation: false,
   },
   HKJP: {
     SMSVerification: true,
@@ -68,6 +69,7 @@ const featureList = {
   PISO: {
     HomePage_CustomSection: true,
     QQWeChat: false,
+    Profile_CustomIdentityPageTranslation: true,
   },
 };
 export default featureList;

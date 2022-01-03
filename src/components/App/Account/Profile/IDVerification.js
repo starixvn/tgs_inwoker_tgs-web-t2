@@ -9,6 +9,7 @@ import { withSnackbar } from "notistack";
 import { AccountService, UPDATE_INFO } from "@Inwoker/tgs-api";
 import { Link } from "react-router-dom";
 import i18n from "../../../../utils/i18n";
+import config from "../../../../config/config";
 const Container = styled.div``;
 const Content = styled.div`
   width: 100%;
@@ -89,7 +90,11 @@ function IDVerification(props) {
   return (
     <Container>
       <CustomTextField
-        placeholder={i18n.t("profile.nameVerify.msgPlsEnterName")}
+        placeholder={
+          config.features.Profile_CustomIdentityPageTranslation
+            ? i18n.t("piso.profile.enterFullName")
+            : i18n.t("profile.nameVerify.msgPlsEnterName")
+        }
         adornment={IconInputReceivePNG}
         handleTextFieldChange={onhandleNameChange}
         defaultValue={props.account.info.member_name}
@@ -99,7 +104,11 @@ function IDVerification(props) {
       {props.account.info.member_name === "" ||
       props.account.info.member_name === null ? (
         <CustomTextField
-          placeholder={i18n.t("profile.nameVerify.msgPlsEnterICNum")}
+          placeholder={
+            config.features.Profile_CustomIdentityPageTranslation
+              ? i18n.t("piso.profile.enterDocumentNumber")
+              : i18n.t("profile.nameVerify.msgPlsEnterICNum")
+          }
           adornment={IconInputIDPNG}
           handleTextFieldChange={onhandleIDChange}
           defaultValue={props.account.info.member_card_no}
