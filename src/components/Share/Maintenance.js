@@ -138,7 +138,11 @@ const Maintenance = (props) => {
   useEffect(() => {
     props.getLiveChatURL().then((e) => {
       if (e.IsSuccess) {
-        setLiveChat(e.data.setting.url);
+        if (e.info === undefined) {
+          setLiveChat("");
+        } else {
+          setLiveChat(e.data.setting.url);
+        }
       }
     });
     props.getBrandCommunicationList().then((e) => {

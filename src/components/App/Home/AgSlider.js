@@ -6,6 +6,7 @@ import { config } from "react-spring";
 import HomeSport1PNG from "../../../assets/images/home-sport-1.png";
 import HomeSport2PNG from "../../../assets/images/home-sport-2.png";
 import HomeSport3PNG from "../../../assets/images/home-sport-3.png";
+import HomeSport4PNG from "../../../assets/images/home-sport-4.png";
 
 const Container = styled.div`
   width: 700px;
@@ -61,6 +62,10 @@ class AgSlider extends Component {
     {
       key: 3,
       content: <ImageContainer img={HomeSport3PNG} alt="3" />,
+    },
+    {
+      key: 4,
+      content: <ImageContainer img={HomeSport4PNG} alt="4" />,
     },
   ].map((slide, index) => {
     return { ...slide };
