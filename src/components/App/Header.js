@@ -174,6 +174,7 @@ const LogoContainer = styled.div`
   background-repeat: no-repeat;
   background-size: contain;
   width: 160px;
+  margin-right: 20px;
   height: 80px;
   background-position: left center;
   float: left;
@@ -206,7 +207,6 @@ const RightMenuTextSpan = styled.span`
   color: #8a7f73;
   padding-top: 6px;
   text-align: center;
-  max-width: 85px;
 `;
 const RightMenuTextIcon = styled.span`
   margin-left: 5px;
