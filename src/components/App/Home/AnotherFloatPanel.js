@@ -394,11 +394,11 @@ const AnotherFloatPanel = (props) => {
                         IMHandler(data.type, data.phone);
                       }}
                     />
-                    <div>
+                    <QRCodeText>{data.type}</QRCodeText>
+                    <div style={{ textAlign: "center" }}>
                       {i18n.t("common.phoneNumber")}: {data.phone}
                     </div>
                     <div>ID: {data.appid}</div>
-                    <QRCodeText>{data.type}</QRCodeText>
                   </QRCodeTextContainer>
                 )}
               </QRCodeHolder>

@@ -7,7 +7,7 @@ import { Dialog } from "@material-ui/core";
 import { connect } from "react-redux";
 import Common from "../../utils/Common";
 import { generalAction } from "@Inwoker/tgs-api";
-import config from "../../config/config";
+
 import { withSnackbar } from "notistack";
 import { AppHistory } from "../../history/History";
 import IMHandler from "./IMHandler";
@@ -122,6 +122,7 @@ const QRCodeHolder = styled.div`
 const QRCodeTextContainer = styled.div`
   display: flex;
   flex-direction: column;
+
   align-items: center;
 `;
 
@@ -137,8 +138,13 @@ const Maintenance = (props) => {
   const [liveChat, setLiveChat] = useState("");
   useEffect(() => {
     props.getLiveChatURL().then((e) => {
+      console.log(e);
       if (e.IsSuccess) {
-        setLiveChat(e.data.setting.url);
+        if (e.info === undefined) {
+          setLiveChat("");
+        } else {
+          setLiveChat(e.data.setting.url);
+        }
       }
     });
     props.getBrandCommunicationList().then((e) => {
@@ -171,9 +177,6 @@ const Maintenance = (props) => {
     } else {
     }
   };
-  function copyText(text) {
-    navigator.clipboard.writeText(text);
-  }
   return (
     <Container>
       <MaintenanceTextContainer>
@@ -238,10 +241,10 @@ const Maintenance = (props) => {
               return (
                 <QRCodeHolder
                   onClick={() => {
-                    // copyText(data.appid ? data.appid : data.phone);
-                    // props.enqueueSnackbar(i18n.t("affiliate.copied"), {
-                    //   variant: "success",
-                    // });
+                    //  copyText(data.appid ? data.appid : data.phone);
+                    //  props.enqueueSnackbar(i18n.t("affiliate.copied"), {
+                    //    variant: "success",
+                    //  });
                   }}
                 >
                   {data.qrcodeurl ? (
@@ -260,11 +263,11 @@ const Maintenance = (props) => {
                           IMHandler(data.type, data.phone);
                         }}
                       />
-                      <div>
+                      <QRCodeText>{data.type}</QRCodeText>
+                      <div style={{ textAlign: "center" }}>
                         {i18n.t("common.phoneNumber")}: {data.phone}
                       </div>
                       <div>ID: {data.appid}</div>
-                      <QRCodeText>{data.type}</QRCodeText>
                     </QRCodeTextContainer>
                   )}
                 </QRCodeHolder>
