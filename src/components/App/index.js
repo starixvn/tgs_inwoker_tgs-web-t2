@@ -256,6 +256,7 @@ class App extends Component {
                         baseRouteUrl + "/a/:promotionid",
                         baseRouteUrl + "/t/:promotionid",
                         baseRouteUrl + "/f/:promotionid",
+                        baseRouteUrl + "/p/:playername",
                       ]}
                       render={(props) => (
                         <Home
