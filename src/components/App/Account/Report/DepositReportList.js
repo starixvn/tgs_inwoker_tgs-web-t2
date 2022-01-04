@@ -100,7 +100,6 @@ function DepositReportList(props) {
         <TableHead>
           <TableRow>
             <StyledTableCell>{i18n.t("report.submitDate")}</StyledTableCell>
-            <StyledTableCell>{i18n.t("report.OrderNumber")}</StyledTableCell>
             <StyledTableCell>{i18n.t("report.NewOrderNumber")}</StyledTableCell>
             <StyledTableCell>{i18n.t("report.depositChannel")}</StyledTableCell>
             <StyledTableCell>{i18n.t("report.status")}</StyledTableCell>
@@ -117,7 +116,6 @@ function DepositReportList(props) {
                 <StyledTableCell>
                   {moment(row.createdon).format("YYYY-MM-DD hh:mm a")}
                 </StyledTableCell>
-                <StyledTableCell>{row.id}</StyledTableCell>
                 <StyledTableCell>{row.orderno}</StyledTableCell>
                 <StyledTableCell>
                   {i18n.t(`report.deposit.status${row.status}`)}
