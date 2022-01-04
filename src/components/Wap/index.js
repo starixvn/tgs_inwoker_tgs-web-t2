@@ -122,6 +122,11 @@ const RouteMapping = [
     alert: true,
   },
   {
+    path: "/p/:playername",
+    component: Wapp.Login,
+    alert: true,
+  },
+  {
     path: "/main/:page",
     component: Wapp.Main,
     alert: true,
