@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
+
 import { withRouter } from "react-router-dom";
 import { accountAction } from "@Inwoker/tgs-api";
 import styled from "styled-components";
@@ -18,9 +19,11 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
 import { withSnackbar } from "notistack";
-import config from "../../config/config";
+
 import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
+import config from "../../config/config";
+import ErrorSwitcher from "../../utils/ErrorSwitcher";
 const Container = styled.div`
   width: 506px;
   background: url(${LoginBGPNG});
@@ -62,9 +65,9 @@ const CustomText = withStyles({
     height: "51px",
     borderRadius: "6px",
     border: "none",
-    boxShadow: "0px 3px 8px -2px rgba(0,0,0,0.75)",
+
     margin: 0,
-    marginTop: "13px",
+
     background: "white",
 
     "& .MuiOutlinedInput-input": {
@@ -204,6 +207,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const CustomInvitationContainer = styled.div`
+  position: relative;
+  box-shadow: 0px 3px 8px -2px rgb(0 0 0 / 75%);
+`;
+
+const CustomInvitationSelect = styled.select`
+  position: absolute;
+  right: 10px;
+  bottom: 15px;
+  border: none;
+  outline: none;
+`;
+
+const CustomTextWrapper = styled.div`
+  box-shadow: 0px 3px 8px -2px rgba(0, 0, 0, 0.75);
+  border-radius: 6px;
+  margin-top: 13px;
+`;
+
 function Register(props) {
   const [username, setUsername] = React.useState("");
 
@@ -216,6 +238,29 @@ function Register(props) {
   const [promotionId, setPromotionId] = React.useState(
     localStorage.getItem("promotionId")
   );
+
+  const { location } = props;
+
+  var URL = location.pathname.split("/");
+
+  const [upper, setUpper] = React.useState("");
+  const [promoteType, setPromoteType] = React.useState("a");
+  const [prefill, setPrefill] = React.useState(false);
+
+  useEffect(() => {
+    if (URL.length > 2) {
+      //make sure the path more than 2
+      if (URL[2] == "p") {
+        //check if it player invitation code
+        setUpper(URL[3]); //set username as upper.
+        setPromoteType("p");
+      }
+
+      if (URL[2] == "p" || URL[2] == "a") {
+        setPrefill(true);
+      }
+    }
+  }, []);
 
   const [tnc, setTnc] = React.useState(true);
   const handleRegisterClick = async () => {
@@ -248,31 +293,23 @@ function Register(props) {
       // recommend_code,
       // mobile_code_id
       props
-        .register(
-          username,
-          password,
-          password2,
-
-          promotionId
-        )
+        .register(username, password, password2, promotionId, upper)
         .then(async (response) => {
           if (response.IsSuccess && response.data.isnew === false) {
             props.enqueueSnackbar(i18n.t("common.msgAlreadyExist"), {
               variant: "warning",
             });
           } else if (response.IsSuccess) {
-            {
-              //    let urlParams = new URLSearchParams(props.location.search);
-              //    if (urlParams.has("return_url")) {
-              //      const returnValue = urlParams.get("return_url");
-              //      if (returnValue) {
-              //        window.location.href =
-              //          returnValue +
-              //          "?token=" +
-              //          BlowFishEncryption.Encrypt(response.data);
-              //      }
-              //    }
-            }
+            // let urlParams = new URLSearchParams(props.location.search);
+            // if (urlParams.has("return_url")) {
+            //   const returnValue = urlParams.get("return_url");
+            //   if (returnValue) {
+            //     window.location.href =
+            //       returnValue +
+            //       "?token=" +
+            //       BlowFishEncryption.Encrypt(response.data);
+            //   }
+            // }
             if (config.features.SMSVerification) {
               props.onRegisterSuccess(username, password);
             } else {
@@ -284,7 +321,7 @@ function Register(props) {
               );
             }
           } else {
-            props.enqueueSnackbar(response.info, {
+            props.enqueueSnackbar(ErrorSwitcher.getTranslation(response.info), {
               variant: "warning",
             });
             // if (response.code === 206) {
@@ -318,9 +355,18 @@ function Register(props) {
   const handlePromoChange = (e) => {
     setPromotionId(e.target.value);
   };
+  const handleUpperChange = (e) => {
+    setUpper(e.target.value);
+  };
   const handleTncClick = (e) => {
     setTnc(!tnc);
   };
+  const handleSwitchType = (e) => {
+    setPromoteType(e.target.value);
+    setUpper("");
+    setPromotionId("");
+  };
+
   const classes = useStyles();
   return (
     <Container>
@@ -334,81 +380,104 @@ function Register(props) {
         {i18n.t("web.register.registerTitleLine2")}
       </SubTitleContainer>
       <FormContainer>
-        <CustomText
-          onChange={handleUsernameChange}
-          id="username"
-          value={username}
-          placeholder={i18n.t("web.register.username")}
-          variant="outlined"
-          autoComplete="off"
-          inputProps={{
-            maxLength: 16,
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment
-                position="start"
-                style={{ height: "24px", width: "30px" }}
-              >
-                <img src={UserIconPNG} alt=""></img>
-              </InputAdornment>
-            ),
-          }}
-        />
+        <CustomTextWrapper>
+          <CustomText
+            onChange={handleUsernameChange}
+            id="username"
+            value={username}
+            placeholder={i18n.t("web.register.username")}
+            variant="outlined"
+            autoComplete="off"
+            inputProps={{
+              maxLength: 16,
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment
+                  position="start"
+                  style={{ height: "24px", width: "30px" }}
+                >
+                  <img src={UserIconPNG} alt=""></img>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </CustomTextWrapper>
 
-        <CustomText
-          onChange={handlePasswordChange}
-          id="password"
-          value={password}
-          placeholder={i18n.t("web.register.password")}
-          variant="outlined"
-          type="password"
-          autoComplete="off"
-          inputProps={{
-            maxLength: 20,
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment
-                position="start"
-                style={{ height: "26px", width: "30px" }}
-              >
-                <img src={Password1IconPNG} alt=""></img>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <CustomText
-          onChange={handlePassword2Change}
-          id="password2"
-          value={password2}
-          placeholder={i18n.t("web.register.confirmPassword")}
-          variant="outlined"
-          type="password"
-          autoComplete="off"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment
-                position="start"
-                style={{ height: "30px", width: "32px" }}
-              >
-                <img src={Password2IconPNG} alt=""></img>
-              </InputAdornment>
-            ),
-          }}
-        />
+        <CustomTextWrapper>
+          <CustomText
+            onChange={handlePasswordChange}
+            id="password"
+            value={password}
+            placeholder={i18n.t("web.register.password")}
+            variant="outlined"
+            type="password"
+            autoComplete="off"
+            inputProps={{
+              maxLength: 20,
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment
+                  position="start"
+                  style={{ height: "26px", width: "30px" }}
+                >
+                  <img src={Password1IconPNG} alt=""></img>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </CustomTextWrapper>
+        <CustomTextWrapper>
+          <CustomText
+            onChange={handlePassword2Change}
+            id="password2"
+            value={password2}
+            placeholder={i18n.t("web.register.confirmPassword")}
+            variant="outlined"
+            type="password"
+            autoComplete="off"
+            inputProps={{
+              maxLength: 20,
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment
+                  position="start"
+                  style={{ height: "30px", width: "32px" }}
+                >
+                  <img src={Password2IconPNG} alt=""></img>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </CustomTextWrapper>
 
         {!props.general.brand.hasInvitationCode && (
-          <CustomText
-            onChange={handlePromoChange}
-            value={promotionId}
-            id="code"
-            placeholder={i18n.t("web.register.promoteCode")}
-            variant="outlined"
-            inputProps={{ disabled: withPromo ? true : false }}
-          />
+          <CustomTextWrapper>
+            <CustomInvitationContainer>
+              <CustomText
+                onChange={
+                  promoteType === "a" ? handlePromoChange : handleUpperChange
+                }
+                value={promoteType === "a" ? promotionId : upper}
+                id="code"
+                placeholder={i18n.t("web.register.promoteCode")}
+                variant="outlined"
+                inputProps={{ disabled: prefill }}
+              />
+              <CustomInvitationSelect
+                disabled={prefill}
+                value={promoteType}
+                selected={promoteType}
+                onChange={handleSwitchType}
+              >
+                <option value="a">{i18n.t("usertype.agent")}</option>
+                <option value="p">{i18n.t("usertype.player")}</option>
+              </CustomInvitationSelect>
+            </CustomInvitationContainer>
+          </CustomTextWrapper>
         )}
-
         <DescriptionContainer>
           <Checkbox
             checked={tnc}
@@ -432,7 +501,9 @@ function Register(props) {
 
 const mapStateToProps = (state) => {
   return {
+    account: state.account,
     general: state.general,
+    game: state.game,
   };
 };
 
@@ -442,9 +513,15 @@ const mapDispatchToProps = (dispatch) => {
     getAccountInfo: (token) => dispatch(accountAction.getAccountInfo(token)),
     getAccountProfile: (token) =>
       dispatch(accountAction.getAccountProfile(token, true)),
-    register: (username, pwd, confirmpwd, invitationcode) =>
+    register: (username, pwd, confirmpwd, invitationcode, upper) =>
       dispatch(
-        accountAction.registerAccount(username, pwd, confirmpwd, invitationcode)
+        accountAction.registerAccount(
+          username,
+          pwd,
+          confirmpwd,
+          invitationcode,
+          upper
+        )
       ),
   };
 };

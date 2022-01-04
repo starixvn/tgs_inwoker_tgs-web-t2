@@ -23,6 +23,7 @@ const featureList = {
     ChangesNotAllowed: false,
     HomePage_CustomSection: false,
     Profile_CustomIdentityPageTranslation: false,
+    HaveAffiliateFeature: false,
   },
   HKJP: {
     SMSVerification: true,

@@ -40,6 +40,7 @@ import i18n from "../../../utils/i18n";
 
 import AvatarPNG from "../../../assets/images/avatar.png";
 import Common from "../../../utils/Common";
+import config from "../../../config/config";
 const baseRouteUrl = Common.baseRouteUrl;
 const Container = styled.div`
   width: 100%;
@@ -363,7 +364,6 @@ class Account extends Component {
                 }
               ></AvatarContainer>
               <PlayerName>{this.props.account.info.member_username}</PlayerName>
-
               <VIPLabel>
                 VIP
                 {this.props.account.info.member_level_id}
@@ -382,7 +382,12 @@ class Account extends Component {
               {this.genMenuButtonDiv(i18n.t("web.account.report"), "report")}
               <MenuTitle>{i18n.t("web.account.personal")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.profile"), "profile")}
-              {this.genMenuButtonDiv(i18n.t("web.account.inbox"), "inbox")}
+              {this.genMenuButtonDiv(i18n.t("web.account.inbox"), "inbox")}{" "}
+              {config.features.HaveAffiliateFeature &&
+                this.genMenuButtonDiv(
+                  i18n.t("web.account.affiliate"),
+                  "affiliate"
+                )}
               <BtnLogout onClick={this.onhandleLogout}>
                 {i18n.t("web.header.logout")}
               </BtnLogout>
@@ -479,17 +484,20 @@ class Account extends Component {
                       />
                     )}
                   />
-                  <Route
-                    exact
-                    path={baseRouteUrl + "/account/affiliate"}
-                    render={(props) => (
-                      <Affiliate
-                        account={this.props.account}
-                        onhandleCSClick={this.props.onhandleCSClick}
-                        popup={this.props.match.params.popup}
-                      />
-                    )}
-                  />
+                  {config.features.HaveAffiliateFeature && (
+                    <Route
+                      exact
+                      path={baseRouteUrl + "/account/affiliate"}
+                      render={(props) => (
+                        <Affiliate
+                          token={this.props.account.token}
+                          account={this.props.account}
+                          onhandleCSClick={this.props.onhandleCSClick}
+                          popup={this.props.match.params.popup}
+                        />
+                      )}
+                    />
+                  )}
                   <Redirect
                     to={"/" + i18n.language + "/account/profile"}
                   ></Redirect>
