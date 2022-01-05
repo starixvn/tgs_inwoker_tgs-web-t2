@@ -90,7 +90,7 @@ class Affiliate extends Component {
       variant: "success",
     });
     copy(
-      `${window.location.hostname}/${i18n.language}/a/${this.props.account.info.playercode}?do=register`
+      `${window.location.hostname}/${i18n.language}/p/${this.props.account.info.playercode}?do=register`
     );
   };
   handleClickAway = () => {
