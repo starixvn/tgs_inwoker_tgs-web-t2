@@ -36,8 +36,8 @@ const BtnLoginRegister = styled.div`
   font-size: 17px;
   text-align: center;
   color: #f6f6f6;
-  width: 80px;
-  min-width: 80px;
+  min-width: 100px;
+
   border-radius: 20px;
 `;
 const BtnRegister = styled(BtnLoginRegister)`
@@ -45,7 +45,6 @@ const BtnRegister = styled(BtnLoginRegister)`
   margin-right: 10px;
   background-color: #f0ca83;
   color: #6d5d41;
-  width: auto;
   padding: 0px 10px;
   height: 30px;
   &:hover {

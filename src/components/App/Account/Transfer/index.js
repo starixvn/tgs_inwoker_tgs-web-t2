@@ -634,7 +634,7 @@ class Transfer extends Component {
     var checkTransferWallet =
       Object.values(this.props.game.providerList).filter(
         (item) => item.transferwallet === true
-      ).length > 1;
+      ).length > 0;
     return (
       <Container>
         <Title>

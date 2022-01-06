@@ -14,6 +14,7 @@ import AGBGPNG from "../../../assets/images/ag-bg.png";
 import HomeSportSabaPNG from "../../../assets/images/home-sport-saba.png";
 import HomeSportSboPNG from "../../../assets/images/home-sport-sbo.png";
 import HomeSportImesPNG from "../../../assets/images/home-sport-imes.png";
+import HomeSportBCPNG from "../../../assets/images/home-sport-bc.png";
 
 import KYContentPNG from "../../../assets/images/ky-content.png";
 import KYContentModelPNG from "../../../assets/images/ky-content-model.png";
@@ -198,7 +199,7 @@ const NewIcon = styled.div`
   background: url(${process.env.PUBLIC_URL +
     `/assets/images/${Common.getLanguagePrefixFolder()}/marqueeicon.png`})
     no-repeat;
-  height: 16px;
+  height: 20px;
   width: 120px;
   position: absolute;
   top: 4px;
@@ -342,7 +343,7 @@ const KYHotgameImg = styled.img`
   }
 `;
 const GameIcon = styled.img`
-  width: 130px;
+  height: 30px;
   float: left;
   margin-right: 20px;
   cursor: pointer;
@@ -499,6 +500,23 @@ class Home extends Component {
                   <AGTitle></AGTitle>
                   <AGText>{i18n.t("sports.desc")}</AGText>
                   <AGGameIconBar>
+                    <div></div>
+                    <GameIcon
+                      src={HomeSportBCPNG}
+                      onClick={() =>
+                        this.handleJoinGameClick(
+                          GameTypeEnum.SPORTS,
+                          "",
+                          "BC",
+                          "/" +
+                            i18n.language +
+                            "/joingame/" +
+                            GameTypeEnum.SPORTS +
+                            "/" +
+                            "BC"
+                        )
+                      }
+                    ></GameIcon>
                     <GameIcon
                       src={HomeSportSboPNG}
                       onClick={() =>
@@ -531,6 +549,7 @@ class Home extends Component {
                         )
                       }
                     ></GameIcon>
+
                     <GameIcon
                       onClick={() =>
                         this.handleJoinGameClick(
@@ -546,7 +565,6 @@ class Home extends Component {
                         )
                       }
                       src={HomeSportImesPNG}
-                      style={{ marginTop: "10px" }}
                     ></GameIcon>
                   </AGGameIconBar>
                 </AGGameRightContent>
