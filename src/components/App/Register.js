@@ -254,6 +254,9 @@ function Register(props) {
         //check if it player invitation code
         setUpper(URL[3]); //set username as upper.
         setPromoteType("p");
+      } else if (URL[2] == "a") {
+        setPromotionId(URL[3]);
+        setPromoteType("a");
       }
 
       if (URL[2] == "p" || URL[2] == "a") {
