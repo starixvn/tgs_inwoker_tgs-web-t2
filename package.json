@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@Inwoker/tgs-api": "^0.8.256",
+    "@Inwoker/tgs-api": "^0.8.257",
     "@date-io/date-fns": "^1.3.13",
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.9.1",
@@ -55,6 +55,7 @@
     "react-spring-3d-carousel": "^1.2.1",
     "react-sticky-header": "^0.2.0",
     "react-swipe-to-delete-component": "^0.5.5",
+    "react-textfit": "^1.1.1",
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
@@ -63,8 +64,7 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^4.4.1",
     "superagent": "^5.3.1",
-    "superagent-promise": "^1.1.0",
-    "react-textfit": "^1.1.1"
+    "superagent-promise": "^1.1.0"
   },
   "scripts": {
     "wap:get": "git submodule update --init --recursive",

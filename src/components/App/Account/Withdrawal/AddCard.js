@@ -400,7 +400,9 @@ class AddCard extends Component {
                 })()}
 
                 <TextFieldLabel>
-                  {config.features.AddCard_DisplayFPS
+                  {config.features.AddCard_EnglishName
+                    ? i18n.t("bet28.BankAccountName")
+                    : config.features.AddCard_DisplayFPS
                     ? i18n.t("hk28.card.addCard.BankAccountName")
                     : i18n.t("card.addCard.BankAccountName")}
                 </TextFieldLabel>
@@ -408,7 +410,9 @@ class AddCard extends Component {
                   <CustomTextField
                     marginTop={10}
                     placeholder={
-                      config.features.AddCard_DisplayFPS
+                      config.features.AddCard_EnglishName
+                        ? i18n.t("bet28.msgEnterBankAccountName")
+                        : config.features.AddCard_DisplayFPS
                         ? i18n.t("hk28.card.addCard.msgEnterBankAccountName")
                         : i18n.t("card.addCard.msgEnterBankAccountName")
                     }
