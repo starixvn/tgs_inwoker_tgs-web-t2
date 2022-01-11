@@ -23,7 +23,7 @@ const featureList = {
     HomePage_CustomSection: false,
     Profile_CustomIdentityPageTranslation: false,
     HaveAffiliateFeature: false,
-    AddCard_EnglishName: false,
+    Deposit_EnglishName: false,
   },
   HKJP: {
     SMSVerification: true,
@@ -58,7 +58,7 @@ const featureList = {
     EmailVerification: false,
     AddCard_BankBranch: false,
     AddCard_DisplayFPS: true,
-    AddCard_EnglishName: true,
+    Deposit_EnglishName: true,
   },
   MESS8: {
     MenuItem_ShootFish: true,

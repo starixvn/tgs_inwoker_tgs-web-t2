@@ -356,7 +356,9 @@ class NewStepOne extends Component {
                           <NumberContainer>4</NumberContainer>
 
                           <SubTitle>
-                            {i18n.t("deposit.msgPlsEnterAccount")}
+                            {config.features.Deposit_EnglishName
+                              ? i18n.t("bet28.BankAccountName")
+                              : i18n.t("deposit.msgPlsEnterAccount")}
                           </SubTitle>
                         </SubHeaderContainer>
                         <SelectionContainer>
@@ -368,7 +370,11 @@ class NewStepOne extends Component {
                               marginRight: "5px",
                               padding: 0,
                             }}
-                            placeholder={i18n.t("deposit.msgPlsEnterAccount")}
+                            placeholder={
+                              config.features.Deposit_EnglishName
+                                ? i18n.t("bet28.msgEnterBankAccountName")
+                                : i18n.t("deposit.msgPlsEnterAccount")
+                            }
                             onChange={onNameChange}
                             outputFormat="string"
                             variant="outlined"
