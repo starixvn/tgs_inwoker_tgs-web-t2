@@ -117,13 +117,11 @@ color:#f6f6f6;
  }
 `}
 `;
-const LinkList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0;
+const LinkList = styled.div`
+  display: flex;
 `;
-const LinkListItem = styled.li`
-  display: inline;
+const LinkListItem = styled.div`
+  padding: 0px 7.5px;
 `;
 
 const RightContainer = styled.div`
@@ -406,7 +404,7 @@ const GameFrame = styled.div`
 `;
 
 const CustomCsButton = styled(CustomExternalLink)`
-  margin-left: 40px;
+  display: flex;
 `;
 
 const IconPhone = styled.div`
@@ -422,6 +420,25 @@ const CustomPhoneHolder = styled.div`
   align-items: center;
   padding-left: 20px;
   padding-top: 2px;
+`;
+
+const Icon = styled.div`
+  width: 12px;
+  height: 12x;
+  margin-right: 5px;
+
+  background-color: #f6f6f6;
+  mask: ${({ icon }) => {
+    return `url(${
+      process.env.PUBLIC_URL + "/assets/images/wapp/support.png"
+    }) no-repeat center /
+    contain;`;
+  }};
+
+  &:hover {
+    color: #fde73f;
+    text-decoration: underline;
+  }
 `;
 
 const styles = {
@@ -798,7 +815,9 @@ class Header extends Component {
                 <LinkList>
                   <LinkListItem>
                     {this.props.general.brandLanguage.map((lang, index) => {
-                      return (
+                      return this.props.general.brandLanguage.length <= 1 ? (
+                        ""
+                      ) : (
                         <>
                           <CustomExternalLink
                             selected={i18n.language === lang.culturecode}
@@ -841,9 +860,14 @@ class Header extends Component {
                     >
                       English
                     </CustomExternalLink> */}
-                    <CustomCsButton onClick={this.props.onhandleShowCSClick}>
-                      {i18n.t("common.cs")}
-                    </CustomCsButton>
+                  </LinkListItem>
+                  <LinkListItem>
+                    {this.props.general.livechat && (
+                      <CustomCsButton onClick={this.props.onhandleShowCSClick}>
+                        <Icon></Icon>
+                        <div>{i18n.t("common.cs")}</div>
+                      </CustomCsButton>
+                    )}
                   </LinkListItem>
                 </LinkList>
               </LinkContainer>
