@@ -459,6 +459,10 @@ class Home extends Component {
   };
 
   render() {
+    var containQipai = this.props.game.homePageGameList.filter((game) => {
+      return game.type === GameTypeEnum.QIPAI;
+    });
+
     return (
       <HomeContainer>
         <SliderContainer>
@@ -570,51 +574,53 @@ class Home extends Component {
                 </AGGameRightContent>
               </AGContent>
             </ScrollAnimation>
-            <KYContainer>
-              <KYContent>
-                <KYHotgameContainer>
-                  <ScrollAnimation
-                    animateIn="fadeInLeft"
-                    duration={1}
-                    animateOnce={true}
-                    style={{ overflow: "visible" }}
-                  >
-                    <KySlider
-                      handleJoinGameClick={this.handleJoinGameClick}
-                    ></KySlider>
-                  </ScrollAnimation>
-                </KYHotgameContainer>
-                <KYMainCharacter>
-                  <ScrollAnimation
-                    animateIn="fadeInRight"
-                    duration={1}
-                    animateOnce={true}
-                    style={{ overflow: "visible" }}
-                  >
-                    <KyModel src={KYContentModelPNG}></KyModel>
-                  </ScrollAnimation>
-                  <KyCard src={KYContentCardPNG}></KyCard>
-                  <KYButton
-                    onClick={() =>
-                      this.handleJoinGameClick(
-                        GameTypeEnum.QIPAILOBBY,
-                        "",
-                        GameEnum.KY,
-                        "/" +
-                          i18n.language +
-                          "/joingame/" +
-                          GameTypeEnum.QIPAILOBBY +
+            {containQipai.length > 0 && (
+              <KYContainer>
+                <KYContent>
+                  <KYHotgameContainer>
+                    <ScrollAnimation
+                      animateIn="fadeInLeft"
+                      duration={1}
+                      animateOnce={true}
+                      style={{ overflow: "visible" }}
+                    >
+                      <KySlider
+                        handleJoinGameClick={this.handleJoinGameClick}
+                      ></KySlider>
+                    </ScrollAnimation>
+                  </KYHotgameContainer>
+                  <KYMainCharacter>
+                    <ScrollAnimation
+                      animateIn="fadeInRight"
+                      duration={1}
+                      animateOnce={true}
+                      style={{ overflow: "visible" }}
+                    >
+                      <KyModel src={KYContentModelPNG}></KyModel>
+                    </ScrollAnimation>
+                    <KyCard src={KYContentCardPNG}></KyCard>
+                    <KYButton
+                      onClick={() =>
+                        this.handleJoinGameClick(
+                          GameTypeEnum.QIPAILOBBY,
+                          "",
+                          GameEnum.KY,
                           "/" +
-                          GameEnum.KY
-                      )
-                    }
-                  >
-                    <KYButtonTitle>GO</KYButtonTitle>
-                    <KYButtonText>{i18n.t("common.startGame")}</KYButtonText>
-                  </KYButton>
-                </KYMainCharacter>
-              </KYContent>
-            </KYContainer>
+                            i18n.language +
+                            "/joingame/" +
+                            GameTypeEnum.QIPAILOBBY +
+                            "/" +
+                            GameEnum.KY
+                        )
+                      }
+                    >
+                      <KYButtonTitle>GO</KYButtonTitle>
+                      <KYButtonText>{i18n.t("common.startGame")}</KYButtonText>
+                    </KYButton>
+                  </KYMainCharacter>
+                </KYContent>
+              </KYContainer>
+            )}
           </ItemContainer>
         </AGContainer>
         <SlotSection></SlotSection>
