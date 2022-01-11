@@ -295,6 +295,9 @@ const AnotherFloatPanel = (props) => {
       click: props.onhandleShowCSClick,
     },
   ];
+
+  var containIM = props.general.brandsSupport.length > 0;
+
   return (
     <div>
       <Container>
@@ -322,28 +325,30 @@ const AnotherFloatPanel = (props) => {
             </RotateBack>
           </SidePanel>
         )}
+        {containIM && (
+          <SidePanel
+            active={supportModal}
+            onClick={() => {
+              performOpenSupportModal();
+            }}
+            src2={PanelCSPNG2}
+          >
+            <RotateBack active={supportModal}>
+              <Icon
+                src={PanelCSPNG}
+                src2={PanelCSPNG2}
+                active={supportModal}
+                alt="user-cs"
+              />
+              <Text active={supportModal}>
+                {config.features.FloatPanel_CustomTranslation
+                  ? i18n.t("mess888.panel.im")
+                  : i18n.t("panel.im")}
+              </Text>
+            </RotateBack>
+          </SidePanel>
+        )}
 
-        <SidePanel
-          active={supportModal}
-          onClick={() => {
-            performOpenSupportModal();
-          }}
-          src2={PanelCSPNG2}
-        >
-          <RotateBack active={supportModal}>
-            <Icon
-              src={PanelCSPNG}
-              src2={PanelCSPNG2}
-              active={supportModal}
-              alt="user-cs"
-            />
-            <Text active={supportModal}>
-              {config.features.FloatPanel_CustomTranslation
-                ? i18n.t("mess888.panel.im")
-                : i18n.t("panel.im")}
-            </Text>
-          </RotateBack>
-        </SidePanel>
         {config.features.HaveDownloadFeature && (
           <SidePanel
             active={supportModal}
