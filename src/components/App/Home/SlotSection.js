@@ -8,6 +8,7 @@ import HomeSportImesPNG from "../../../assets/images/home-sport-imes.png";
 import ScrollAnimation from "react-animate-on-scroll";
 import Common from "../../../utils/Common";
 import i18n from "../../../utils/i18n";
+import { GameEnum } from "@Inwoker/tgs-api";
 export default function SlotSection(props) {
   const Container = styled.div`
     width: 100%;
@@ -67,6 +68,26 @@ export default function SlotSection(props) {
       cursor: pointer;
     }
   `;
+
+  const GameBrand = [
+    {
+      gameCode: GameEnum.SBO,
+      image: HomeSportSboPNG,
+    },
+    {
+      gameCode: GameEnum.Sabah,
+      image: HomeSportSabaPNG,
+    },
+    {
+      gameCode: GameEnum.IMES,
+      image: HomeSportImesPNG,
+    },
+  ];
+
+  var checkAgain = GameBrand.filter((a) =>
+    props.containESport.some((b) => a.gameCode === b.abbreviation)
+  );
+
   return (
     <Container>
       <ScrollAnimation
@@ -92,33 +113,19 @@ export default function SlotSection(props) {
           <SlotImageBg src={BGimage}></SlotImageBg>
           <SlotText>{i18n.t("esports.desc")}</SlotText>
           <SlotGameContainer>
-            <ScrollAnimation
-              animateIn="fadeInDown"
-              duration={6}
-              animateOnce={true}
-              style={{ overflow: "visible" }}
-            >
-              <GameIcon src={HomeSportSboPNG}></GameIcon>
-            </ScrollAnimation>
-            <ScrollAnimation
-              animateIn="fadeInDown"
-              duration={8}
-              animateOnce={true}
-              style={{ overflow: "visible" }}
-            >
-              <GameIcon src={HomeSportSabaPNG}></GameIcon>
-            </ScrollAnimation>
-            <ScrollAnimation
-              animateIn="fadeInDown"
-              duration={8}
-              animateOnce={true}
-              style={{ overflow: "visible" }}
-            >
-              <GameIcon
-                src={HomeSportImesPNG}
-                style={{ marginTop: "8px" }}
-              ></GameIcon>
-            </ScrollAnimation>
+            {checkAgain.map((data, index) => {
+              return (
+                <ScrollAnimation
+                  animateIn="fadeInDown"
+                  duration={6}
+                  animateOnce={true}
+                  style={{ overflow: "visible" }}
+                  key={index}
+                >
+                  <GameIcon src={data.image}></GameIcon>
+                </ScrollAnimation>
+              );
+            })}
           </SlotGameContainer>
         </TitleContainer>
       </ScrollAnimation>

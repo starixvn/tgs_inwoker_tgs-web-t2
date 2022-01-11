@@ -459,9 +459,65 @@ class Home extends Component {
   };
 
   render() {
-    var containQipai = this.props.game.homePageGameList.filter((game) => {
-      return game.type === GameTypeEnum.QIPAI;
-    });
+    const containGameType = (gametype) => {
+      return this.props.game.homePageGameList.filter((game) => {
+        return game.type === gametype;
+      });
+    };
+
+    var containQipai = containGameType(GameTypeEnum.QIPAI);
+    var containSport = containGameType(GameTypeEnum.SPORTS);
+    var containESport = containGameType(GameTypeEnum.ESPORTS);
+
+    const GameBrandArray = [
+      {
+        icon: HomeSportBCPNG,
+        gameType: GameTypeEnum.SPORTS,
+        path: "",
+        gameCode: "BC",
+        url:
+          "/" + i18n.language + "/joingame/" + GameTypeEnum.SPORTS + "/" + "BC",
+      },
+      {
+        icon: HomeSportSboPNG,
+        gameType: GameTypeEnum.SPORTS,
+        path: "",
+        gameCode: GameEnum.SBO,
+        url:
+          "/" +
+          i18n.language +
+          "/joingame/" +
+          GameTypeEnum.SPORTS +
+          "/" +
+          GameEnum.SBO,
+      },
+      {
+        icon: HomeSportSabaPNG,
+        gameType: GameTypeEnum.SPORTS,
+        path: "",
+        gameCode: GameEnum.Sabah,
+        url:
+          "/" +
+          i18n.language +
+          "/joingame/" +
+          GameTypeEnum.SPORTS +
+          "/" +
+          GameEnum.Sabah,
+      },
+      {
+        icon: HomeSportImesPNG,
+        gameType: GameTypeEnum.ESPORTS,
+        path: "",
+        gameCode: GameEnum.IMES,
+        url:
+          "/" +
+          i18n.language +
+          "/joingame/" +
+          GameTypeEnum.ESPORTS +
+          "/" +
+          GameEnum.IMES,
+      },
+    ];
 
     return (
       <HomeContainer>
@@ -488,92 +544,49 @@ class Home extends Component {
             </AGImageBGFlex>
           </AGImgBGContainer>
           <ItemContainer>
-            <ScrollAnimation
-              animateIn="bounce"
-              duration={1}
-              animateOnce={true}
-              style={{ overflow: "visible" }}
-            >
-              <AGContent>
-                <AGGameLeftContent>
-                  <AGSlider
-                    handleJoinGameClick={this.handleJoinGameClick}
-                  ></AGSlider>
-                </AGGameLeftContent>
-                <AGGameRightContent>
-                  <AGTitle></AGTitle>
-                  <AGText>{i18n.t("sports.desc")}</AGText>
-                  <AGGameIconBar>
-                    <div></div>
-                    <GameIcon
-                      src={HomeSportBCPNG}
-                      onClick={() =>
-                        this.handleJoinGameClick(
-                          GameTypeEnum.SPORTS,
-                          "",
-                          "BC",
-                          "/" +
-                            i18n.language +
-                            "/joingame/" +
-                            GameTypeEnum.SPORTS +
-                            "/" +
-                            "BC"
-                        )
-                      }
-                    ></GameIcon>
-                    <GameIcon
-                      src={HomeSportSboPNG}
-                      onClick={() =>
-                        this.handleJoinGameClick(
-                          GameTypeEnum.SPORTS,
-                          "",
-                          GameEnum.SBO,
-                          "/" +
-                            i18n.language +
-                            "/joingame/" +
-                            GameTypeEnum.SPORTS +
-                            "/" +
-                            GameEnum.SBO
-                        )
-                      }
-                    ></GameIcon>
-                    <GameIcon
-                      src={HomeSportSabaPNG}
-                      onClick={() =>
-                        this.handleJoinGameClick(
-                          GameTypeEnum.SPORTS,
-                          "",
-                          GameEnum.Sabah,
-                          "/" +
-                            i18n.language +
-                            "/joingame/" +
-                            GameTypeEnum.SPORTS +
-                            "/" +
-                            GameEnum.Sabah
-                        )
-                      }
-                    ></GameIcon>
+            {containSport.length > 0 && (
+              <ScrollAnimation
+                animateIn="bounce"
+                duration={1}
+                animateOnce={true}
+                style={{ overflow: "visible" }}
+              >
+                <AGContent>
+                  <AGGameLeftContent>
+                    <AGSlider
+                      handleJoinGameClick={this.handleJoinGameClick}
+                      containSport={containSport}
+                    ></AGSlider>
+                  </AGGameLeftContent>
+                  <AGGameRightContent>
+                    <AGTitle></AGTitle>
+                    <AGText>{i18n.t("sports.desc")}</AGText>
+                    <AGGameIconBar>
+                      <div></div>
 
-                    <GameIcon
-                      onClick={() =>
-                        this.handleJoinGameClick(
-                          GameTypeEnum.ESPORTS,
-                          "",
-                          GameEnum.IMES,
-                          "/" +
-                            i18n.language +
-                            "/joingame/" +
-                            GameTypeEnum.ESPORTS +
-                            "/" +
-                            GameEnum.IMES
-                        )
-                      }
-                      src={HomeSportImesPNG}
-                    ></GameIcon>
-                  </AGGameIconBar>
-                </AGGameRightContent>
-              </AGContent>
-            </ScrollAnimation>
+                      {GameBrandArray.filter((a) =>
+                        containSport.some((b) => a.gameCode === b.abbreviation)
+                      ).map((data, index) => {
+                        return (
+                          <GameIcon
+                            key={index}
+                            src={data.icon}
+                            onClick={() =>
+                              this.handleJoinGameClick(
+                                data.gameType,
+                                data.path,
+                                data.gameCode,
+                                data.url
+                              )
+                            }
+                          />
+                        );
+                      })}
+                    </AGGameIconBar>
+                  </AGGameRightContent>
+                </AGContent>
+              </ScrollAnimation>
+            )}
             {containQipai.length > 0 && (
               <KYContainer>
                 <KYContent>
@@ -623,7 +636,10 @@ class Home extends Component {
             )}
           </ItemContainer>
         </AGContainer>
-        <SlotSection></SlotSection>
+        {containESport.length > 0 && (
+          <SlotSection containESport={containESport}></SlotSection>
+        )}
+
         <Recommend></Recommend>
       </HomeContainer>
     );

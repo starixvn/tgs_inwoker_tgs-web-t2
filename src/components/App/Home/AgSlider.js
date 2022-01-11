@@ -7,6 +7,7 @@ import HomeSport1PNG from "../../../assets/images/home-sport-1.png";
 import HomeSport2PNG from "../../../assets/images/home-sport-2.png";
 import HomeSport3PNG from "../../../assets/images/home-sport-3.png";
 import HomeSport4PNG from "../../../assets/images/home-sport-4.png";
+import { GameEnum } from "@Inwoker/tgs-api";
 
 const Container = styled.div`
   width: 700px;
@@ -53,19 +54,23 @@ class AgSlider extends Component {
   slides = [
     {
       key: 1,
-      content: <ImageContainer img={HomeSport1PNG} alt="1" />,
+      gameCode: "BC",
+      content: <ImageContainer img={HomeSport4PNG} alt="1" />,
     },
     {
       key: 2,
-      content: <ImageContainer img={HomeSport2PNG} alt="2" />,
+      gameCode: GameEnum.SBO,
+      content: <ImageContainer img={HomeSport1PNG} alt="2" />,
     },
     {
       key: 3,
-      content: <ImageContainer img={HomeSport3PNG} alt="3" />,
+      gameCode: GameEnum.Sabah,
+      content: <ImageContainer img={HomeSport2PNG} alt="3" />,
     },
     {
       key: 4,
-      content: <ImageContainer img={HomeSport4PNG} alt="4" />,
+      gameCode: GameEnum.IMES,
+      content: <ImageContainer img={HomeSport3PNG} alt="4" />,
     },
   ].map((slide, index) => {
     return { ...slide };
@@ -76,10 +81,14 @@ class AgSlider extends Component {
     });
   };
   render() {
+    var checkAgain = this.slides.filter((a) =>
+      this.props.containSport.some((b) => a.gameCode === b.abbreviation)
+    );
+
     return (
       <Container>
         <Carousel
-          slides={this.slides}
+          slides={checkAgain}
           goToSlide={this.state.goToSlide}
           offsetRadius={this.state.offsetRadius}
           showNavigation={this.state.showNavigation}
