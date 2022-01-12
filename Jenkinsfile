@@ -23,21 +23,21 @@ pipeline {
                             env.k8s_config = 'stag-k8s-config';	
                             sh "git config --file=.gitmodules submodule.src/components/Wap.branch master";
                             sh "git submodule sync";
-                            sh "git submodule update --remote";
+                            sh "git submodule update --init --recursive";
                             break;
                         case ['release/current', 'origin/release/current']:
                             env.kube_ns = "staging";
                             env.k8s_config = 'stag-k8s-config';
                             sh "git config --file=.gitmodules submodule.src/components/Wap.branch release/current";
                             sh "git submodule sync";
-                            sh "git submodule update --remote";
+                            sh "git submodule update --init --recursive";
                             break;
                         default:
                             env.kube_ns = "dev";
                             env.k8s_config = 'k8s-kube-config' 
                             sh "git config --file=.gitmodules submodule.src/components/Wap.branch develop";
                             sh "git submodule sync";
-                            sh "git submodule update --remote";
+                            sh "git submodule update --init --recursive";
                             break;
                     }
                     TAG = env.kube_ns + '-' + TAG
