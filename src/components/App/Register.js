@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import { withRouter } from "react-router-dom";
-import { accountAction } from "@Inwoker/tgs-api";
+import {accountAction} from "../../api-services/actions/accountAction";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import LoginBGPNG from "../../assets/images/login-bg.png";

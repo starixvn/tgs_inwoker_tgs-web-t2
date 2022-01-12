@@ -8,15 +8,11 @@ import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 
-import {
-  accountAction,
-  walletAction,
-  SHOWING_DIALOG,
-  SHOW_LOGIN,
-  GameTypeEnum,
-  GameService,
-} from "@Inwoker/tgs-api";
-
+import {accountAction} from "../../api-services/actions/accountAction";
+import {walletAction} from "../../api-services/actions/walletAction";
+import {SHOWING_DIALOG} from "../../api-services/constant/actionType";
+import {SHOW_LOGIN} from "../../api-services/constant/actionType";
+import {GameTypeEnum} from "../../api-services/utils/Enum";
 import TimerPNG from "../../assets/images/timer.png";
 import BtnAppsPNG from "../../assets/images/btn-apps.png";
 import BtnCSPNG from "../../assets/images/btn-cs.png";

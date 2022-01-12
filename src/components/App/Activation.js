@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { AccountService, accountAction } from "@Inwoker/tgs-api";
+import {accountAction} from "../../api-services/actions/accountAction";
+import {AccountService} from "../../api-services/services/AccountService";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import LoginBGPNG from "../../assets/images/login-bg.png";
