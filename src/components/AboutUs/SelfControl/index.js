@@ -4,7 +4,7 @@ import styled from "styled-components";
 import LoginBGPNG from "../../../assets/images/login-bg.png";
 import IconCloseWhite from "../../../assets/images/icon-close-white.png";
 import { withSnackbar } from "notistack";
-import { AccountService } from "@Inwoker/tgs-api";
+import { AccountService } from "../../../api-services/services/AccountService";
 import TextField from "@material-ui/core/TextField";
 import IconInputVerifyCodePNG from "../../../assets/images/icon-input-verifycode.png";
 import Stepper from "@material-ui/core/Stepper";
