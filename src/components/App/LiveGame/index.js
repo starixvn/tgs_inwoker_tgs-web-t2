@@ -4,9 +4,9 @@ import styled, { css, keyframes } from "styled-components";
 
 import i18n from "../../../utils/i18n";
 
-import { SHOW_LOGIN, GameEnum, GameTypeEnum } from "@Inwoker/tgs-api";
 import ScrollAnimation from "react-animate-on-scroll";
-
+import {SHOW_LOGIN} from "../../../api-services/constant/actionType";
+import {GameTypeEnum} from "../../../api-services/utils/Enum";
 const Container = styled.div`
   width: 100%;
   height: auto;

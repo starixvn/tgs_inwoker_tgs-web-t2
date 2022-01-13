@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import Loading from "../App/Loading";
-import { GameService } from "@Inwoker/tgs-api";
+import {GameService} from "../../api-services/services/GameService";
 
 import Maintenance from "./Maintenance";
 

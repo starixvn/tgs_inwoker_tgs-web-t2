@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import Common from "../../utils/Common";
-import { UiService } from "@Inwoker/tgs-api";
+import {UiService} from "../../api-services/services/UiService";
 const AnnounceContainer = styled.div`
   width: 100%;
   height: 40px;

@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
 import { withRouter } from "react-router-dom";
 import config from "../../../config/config";
-import { SHOW_LOGIN, GameTypeEnum } from "@Inwoker/tgs-api";
+import {GameTypeEnum} from "../../../api-services/utils/Enum";
+import {SHOW_LOGIN} from "../../../api-services/constant/actionType";
 import i18n from "../../../utils/i18n";
 
 import ScrollAnimation from "react-animate-on-scroll";

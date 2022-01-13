@@ -37,7 +37,7 @@ import InfoPNG from "../src/assets/images/info.png";
 import SuccessPNG from "../src/assets/images/success.png";
 import { makeStyles } from "@material-ui/core";
 import i18n from "./utils/i18n";
-import { ConfigService, rootReducer } from "@Inwoker/tgs-api";
+import rootReducer from "./api-services/reducers/rootReducer";
 import JoinLotteryGame from "./components/App/Lottery/JoinLotteryGame";
 import Common from "./utils/Common";
 import { ThemeProvider } from "styled-components";
@@ -83,15 +83,7 @@ for (var k in brandFeature) {
 }
 Config.features = defaultFeature;
 
-//add config at tgs library
-ConfigService.setFrom(isMobileOnly ? "h5" : "h5");
-ConfigService.setPc(isMobileOnly ? 1 : 0);
-ConfigService.setLang(i18n.language);
-ConfigService.setBaseUrl(Config.baseUrl);
-ConfigService.setClient(Config.client);
-ConfigService.setCurrency(Config.currency);
 
-ConfigService.setLiveChatUrl(Config.liveChatUrl);
 
 document.getElementById("title").innerHTML = i18n
   .t("common.title")

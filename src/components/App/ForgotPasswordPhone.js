@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AccountService } from "@Inwoker/tgs-api";
+import {AccountService} from "../../api-services/services/AccountService";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import LoginBGPNG from "../../assets/images/login-bg.png";

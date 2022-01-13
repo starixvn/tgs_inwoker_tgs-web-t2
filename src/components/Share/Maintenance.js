@@ -6,7 +6,7 @@ import MaintenancePNG from "../../assets/images/maintenance-blank.png";
 import { Dialog } from "@material-ui/core";
 import { connect } from "react-redux";
 import Common from "../../utils/Common";
-import { generalAction } from "@Inwoker/tgs-api";
+import {generalAction} from "../../api-services/actions/generalAction";
 
 import { withSnackbar } from "notistack";
 import { AppHistory } from "../../history/History";

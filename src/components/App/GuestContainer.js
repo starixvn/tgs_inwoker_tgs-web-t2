@@ -11,16 +11,14 @@ import Activation from "./Activation";
 import ResetPassword from "./ResetPassword";
 import ResetPasswordSuccess from "./ResetPasswordSuccess";
 import config from "../../config/config";
-import {
-  accountAction,
-  walletAction,
-  gameAction,
-  inboxAction,
-  generalAction,
-  AccountService,
-  SHOWING_DIALOG,
-  SHOW_LOGIN,
-} from "@Inwoker/tgs-api";
+import {accountAction} from "../../api-services/actions/accountAction";
+import {walletAction} from "../../api-services/actions/walletAction";
+import {gameAction} from "../../api-services/actions/gameAction";
+import {inboxAction} from "../../api-services/actions/inboxAction";
+import {generalAction} from "../../api-services/actions/generalAction";
+import {AccountService} from "../../api-services/services/AccountService";
+import {SHOWING_DIALOG} from "../../api-services/constant/actionType";
+import {SHOW_LOGIN} from "../../api-services/constant/actionType";
 
 import Register from "./Register";
 

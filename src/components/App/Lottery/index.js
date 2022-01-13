@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import {
-  SHOW_LOGIN,
-  GameEnum,
-  GameTypeEnum,
-  GameService,
-} from "@Inwoker/tgs-api";
+import {SHOW_LOGIN} from "../../../api-services/constant/actionType";
+import {GameTypeEnum} from "../../../api-services/utils/Enum";
 import ScrollAnimation from "react-animate-on-scroll";
 import _633Lottery from "../../../assets/images/lottery/633-lotteryball.png";
 import _633Description from "../../../assets/images/lottery/633-lotterydescription.png";

@@ -8,7 +8,7 @@ import HomeSportImesPNG from "../../../assets/images/home-sport-imes.png";
 import ScrollAnimation from "react-animate-on-scroll";
 import Common from "../../../utils/Common";
 import i18n from "../../../utils/i18n";
-import { GameEnum } from "@Inwoker/tgs-api";
+import {GameEnum} from "../../../api-services/utils/Enum";
 export default function SlotSection(props) {
   const Container = styled.div`
     width: 100%;

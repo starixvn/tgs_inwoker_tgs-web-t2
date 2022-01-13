@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
-import { AccountService } from "@Inwoker/tgs-api";
+import {AccountService} from "../../../../api-services/services/AccountService";
 
 const Container = styled.div``;
 

@@ -3,7 +3,9 @@ import styled from "styled-components";
 import IconReportRedPNG from "../../../../assets/images/icon-report-active.png";
 import TransferReport from "./TransferReport";
 
-import { ReportService, GameService, GeneralService } from "@Inwoker/tgs-api";
+import {ReportService} from "../../../../api-services/services/ReportService";
+import {GameService} from "../../../../api-services/services/GameService";
+import {GeneralService} from "../../../../api-services/services/GeneralService";
 
 import AccountDetails from "./AccountDetails";
 import WithdrawalReport from "./WithdrawalReport";
