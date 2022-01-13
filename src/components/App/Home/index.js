@@ -23,12 +23,8 @@ import KYContentCardPNG from "../../../assets/images/ky-content-card.png";
 import Recommend from "./Recommend";
 import Marquee from "./Marquee";
 import FloatPanel from "./FloatPanel";
-import {
-  SHOW_MODAL,
-  SHOW_LOGIN,
-  GameTypeEnum,
-  GameEnum,
-} from "@Inwoker/tgs-api";
+import {SHOW_MODAL, SHOW_LOGIN} from "../../../api-services/constant/actionType";
+import {GameTypeEnum, GameEnum} from "../../../api-services/utils/Enum";
 
 import i18n from "../../../utils/i18n";
 import SlotSection from "./SlotSection";

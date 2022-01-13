@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Loading from "../App/Loading";
-import { walletAction, WalletService } from "@Inwoker/tgs-api";
+import {walletAction} from "../../api-services/actions/walletAction";
 import Maintenance from "./Maintenance";
 import config from "../../config/config";
 class Deposit extends Component {

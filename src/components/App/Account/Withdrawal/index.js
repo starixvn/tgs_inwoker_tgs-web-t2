@@ -15,13 +15,9 @@ import Main from "./Main";
 import Success from "./Success";
 import config from "../../../../config/config";
 import ErrorSwitcher from "../../../../utils/ErrorSwitcher";
-import {
-  walletAction,
-  UPDATE_INFO,
-  RESET_WALLETRESULT,
-  AccountService,
-  WalletService,
-} from "@Inwoker/tgs-api";
+import {walletAction} from "../../../../api-services/actions/walletAction";
+import {WalletService} from "../../../../api-services/services/WalletService";
+import {RESET_WALLETRESULT} from "../../../../api-services/constant/actionType";
 import { withSnackbar } from "notistack";
 import i18n from "../../../../utils/i18n";
 import EmailVerification from "../../Share/EmailVerification";

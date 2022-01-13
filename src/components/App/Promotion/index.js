@@ -12,7 +12,8 @@ import { withSnackbar } from "notistack";
 import Collapse from "@material-ui/core/Collapse";
 
 import i18n from "../../../utils/i18n";
-import { generalAction, SHOW_LOGIN } from "@Inwoker/tgs-api";
+import {generalAction} from "../../../api-services/actions/generalAction";
+import {SHOW_LOGIN} from "../../../api-services/constant/actionType";
 import CommonMarquee from "../CommonMarquee";
 import ScrollAnimation from "react-animate-on-scroll";
 import { AppHistory } from "../../../history/History";

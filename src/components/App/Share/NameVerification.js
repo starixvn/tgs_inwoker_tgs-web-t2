@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import TextField from "../../Share/TextField";
 import Button from "../../Share/Button";
-import { AccountService } from "@Inwoker/tgs-api";
-import { UPDATE_INFO } from "@Inwoker/tgs-api";
+import {AccountService} from "../../../api-services/services/AccountService";
+import {UPDATE_INFO} from "../../../api-services/constant/actionType";
 import { withSnackbar } from "notistack";
 const Container = styled.div`
   width: 100%;

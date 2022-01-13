@@ -3,7 +3,7 @@ import styled from "styled-components";
 import QRCode from "qrcode.react";
 import { connect } from "react-redux";
 
-import { generalAction } from "@Inwoker/tgs-api";
+import {generalAction} from "../../../api-services/actions/generalAction";
 
 import PanelUserPNG from "../../../assets/images/panel/01-2.png";
 import PanelCSPNG from "../../../assets/images/panel/02-2.png";

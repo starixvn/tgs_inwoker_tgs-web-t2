@@ -34,8 +34,8 @@ import Deposit from "./Deposit/index";
 import Affiliate from "./Affiliate";
 
 import Withdrawal from "./Withdrawal/index";
-import { accountAction, walletAction } from "@Inwoker/tgs-api";
-
+import {accountAction} from "../../../api-services/actions/accountAction";
+import {walletAction} from "../../../api-services/actions/walletAction";
 import i18n from "../../../utils/i18n";
 
 import AvatarPNG from "../../../assets/images/avatar.png";

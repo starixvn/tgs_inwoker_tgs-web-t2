@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
 import Loading from "../App/Loading";
-import { GameService, GameTypeEnum } from "@Inwoker/tgs-api";
+import {GameService} from "../../api-services/services/GameService";
+import {GameTypeEnum} from "../../api-services/utils/Enum";
 
 import Maintenance from "./Maintenance";
 

@@ -4,12 +4,10 @@ import styled from "styled-components";
 
 import IconDepositRedPNG from "../../../../assets/images/icon-deposit-active.png";
 
-import {
-  walletAction,
-  RESET_WALLETRESULT,
-  generalAction,
-  WalletService,
-} from "@Inwoker/tgs-api";
+import {walletAction} from "../../../../api-services/actions/walletAction";
+import {WalletService} from "../../../../api-services/services/WalletService";
+import {generalAction} from "../../../../api-services/actions/generalAction";
+import {RESET_WALLETRESULT} from "../../../../api-services/constant/actionType";
 import { withRouter } from "react-router-dom";
 
 import NameVerification from "../../Share/NameVerification";

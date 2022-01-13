@@ -6,7 +6,8 @@ import CustomButton from "../../../Share/Button";
 
 import Password2IconPNG from "../../../../assets/images/password2-icon.png";
 import IconInputNewpassPNG from "../../../../assets/images/icon-input-newpass.png";
-import { AccountService, UPDATE_INFO } from "@Inwoker/tgs-api";
+import {AccountService} from "../../../../api-services/services/AccountService";
+import {UPDATE_INFO} from "../../../../api-services/constant/actionType";
 
 import { withSnackbar } from "notistack";
 import i18n from "../../../../utils/i18n";

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { UNAUTHORIZE } from "@Inwoker/tgs-api";
+import {UNAUTHORIZE} from "../api-services/constant/actionType";
 import { AppHistory } from "../history/History";
 import i18n from "../utils/i18n";
 import Promise from "promise-polyfill";
