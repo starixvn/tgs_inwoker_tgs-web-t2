@@ -74,7 +74,7 @@ const MainContentRight = styled.div`
   height: 700px;
   background-color: #f0ededb3;
   border-radius: 20px;
-  position relative;
+  position: relative;
   overflow-y: scroll;
 `;
 const Inner = styled.div``;
@@ -103,7 +103,7 @@ const LeftContent = styled.div`
 const RightContent = styled.div`
   float: left;
   height: 184px;
-  width: 420px;
+  width: 290px;
   background-color: #291c04;
   position: absolute;
   right: 0;
@@ -113,14 +113,14 @@ const RightContent = styled.div`
 `;
 const PromoTitle = styled.div`
   height: 125px;
-  font-size: 30px;
+  font-size: 26px;
   color: #ffffff;
   margin-top: 20px;
   text-align: right;
   font-weight: 600;
 `;
 const PromoDate = styled.div`
-  font-size: 18px;
+  font-size: 12px;
   color: #ffffff;
   text-align: right;
 `;
