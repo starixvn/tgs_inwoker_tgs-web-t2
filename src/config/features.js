@@ -25,52 +25,5 @@ const featureList = {
     HaveAffiliateFeature: false,
     Deposit_EnglishName: false,
   },
-  HKJP: {
-    SMSVerification: true,
-    EmailVerification: false,
-    ICVerification: false,
-    SportsHideLogo: true,
-    Withdrawal_HundredDigit: true,
-    AddCard_BankBranch: false,
-    Deposit_DualPage: true,
-    HaveAffiliateFeature: true,
-  },
-  HK28: {
-    EmailVerification: false,
-    ICVerification: false,
-    QQWeChat: false,
-    PopupAnnouncement: true,
-    Deposit_ManualApplePayHideBankAcc: true,
-    AddCard_BankBranch: false,
-    AddCard_DisplayFPS: true,
-    MenuItem_Sorting_HK28: true,
-    HomePage_FirstSection6Widget: true,
-    GamePage_SpecificBackground: true,
-
-    Wap_SupportCustomBackground: true,
-  },
-  WLGHK: {
-    SportsHideLogo: true,
-    AddCard_BankBranch: false,
-  },
-  "28BET": {
-    SMSVerification: true,
-    EmailVerification: false,
-    AddCard_BankBranch: false,
-    AddCard_DisplayFPS: true,
-    Deposit_EnglishName: true,
-  },
-  MESS8: {
-    MenuItem_ShootFish: true,
-    // HaveDownloadFeature: true,
-    FloatPanel_CustomTranslation: true,
-    DisplayPhone: true,
-    ChangesNotAllowed: true,
-  },
-  PISO: {
-    HomePage_CustomSection: true,
-    QQWeChat: false,
-    Profile_CustomIdentityPageTranslation: true,
-  },
 };
 export default featureList;

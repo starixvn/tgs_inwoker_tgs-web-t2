@@ -44,7 +44,7 @@ import { ThemeProvider } from "styled-components";
 import { themeList } from "./theme";
 import { GlobalStyles } from "./global";
 import Deposit from "./components/Share/Deposit";
-import featureList from "./config/features";
+import FeatureGetter from "./components/Share/feature-getter";
 require("es6-promise").polyfill();
 const store = createStore(rootReducer, applyMiddleware(thunk));
 Interceptor.setupInterceptors(store);
@@ -75,15 +75,6 @@ const Icon = styled.img`
 
 Config.from = isMobileOnly ? "h5" : "h5";
 Config.isPC = isMobileOnly ? 1 : 0;
-
-var defaultFeature = featureList["default"];
-var brandFeature = featureList[Config.brand] || featureList["default"];
-for (var k in brandFeature) {
-  defaultFeature[k] = brandFeature[k];
-}
-Config.features = defaultFeature;
-
-
 
 document.getElementById("title").innerHTML = i18n
   .t("common.title")
@@ -202,6 +193,7 @@ const AppWrapper = () => {
 
   return (
     <Provider store={store}>
+      <FeatureGetter />
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={muiTheme}>
           <ThemeProvider theme={muiThemeMode}>
