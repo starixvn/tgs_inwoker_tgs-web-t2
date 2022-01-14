@@ -34,10 +34,6 @@ const FeatureGetter = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(config.features);
-  }, [feature]);
-
   return <div />;
 };
 
