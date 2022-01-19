@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import { withRouter } from "react-router-dom";
-import {accountAction} from "../../api-services/actions/accountAction";
+import { accountAction } from "../../api-services/actions/accountAction";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import LoginBGPNG from "../../assets/images/login-bg.png";
@@ -469,15 +469,17 @@ function Register(props) {
                 variant="outlined"
                 inputProps={{ disabled: prefill }}
               />
-              <CustomInvitationSelect
-                disabled={prefill}
-                value={promoteType}
-                selected={promoteType}
-                onChange={handleSwitchType}
-              >
-                <option value="a">{i18n.t("usertype.agent")}</option>
-                <option value="p">{i18n.t("usertype.player")}</option>
-              </CustomInvitationSelect>
+              {config.features.HaveAffiliateFeature && (
+                <CustomInvitationSelect
+                  disabled={prefill}
+                  value={promoteType}
+                  selected={promoteType}
+                  onChange={handleSwitchType}
+                >
+                  <option value="a">{i18n.t("usertype.agent")}</option>
+                  <option value="p">{i18n.t("usertype.player")}</option>
+                </CustomInvitationSelect>
+              )}
             </CustomInvitationContainer>
           </CustomTextWrapper>
         )}
