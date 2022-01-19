@@ -469,15 +469,17 @@ function Register(props) {
                 variant="outlined"
                 inputProps={{ disabled: prefill }}
               />
-              <CustomInvitationSelect
-                disabled={prefill}
-                value={promoteType}
-                selected={promoteType}
-                onChange={handleSwitchType}
-              >
-                <option value="a">{i18n.t("usertype.agent")}</option>
-                <option value="p">{i18n.t("usertype.player")}</option>
-              </CustomInvitationSelect>
+              {config.features.HaveAffiliateFeature && (
+                <CustomInvitationSelect
+                  disabled={prefill}
+                  value={promoteType}
+                  selected={promoteType}
+                  onChange={handleSwitchType}
+                >
+                  <option value="a">{i18n.t("usertype.agent")}</option>
+                  <option value="p">{i18n.t("usertype.player")}</option>
+                </CustomInvitationSelect>
+              )}
             </CustomInvitationContainer>
           </CustomTextWrapper>
         )}
