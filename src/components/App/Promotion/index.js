@@ -108,41 +108,40 @@ const RightContent = styled.div`
   position: absolute;
   right: 0;
   top: 0;
+`;
 
-  padding-right: 20px;
+const RightContentContainer = styled.div`
+  position: relative;
+  padding: 20px 15px;
+  height: 100%;
+  display: grid;
 `;
 const PromoTitle = styled.div`
-  height: 125px;
   font-size: 26px;
   color: #ffffff;
-  margin-top: 20px;
-  text-align: right;
+
   font-weight: 600;
 `;
 const PromoDate = styled.div`
   font-size: 12px;
   color: #ffffff;
-  text-align: right;
 `;
-const PromoDesc = styled.div`
-  font-size: 14px;
-  color: #fff;
-`;
-const PromoImg = styled.img`
-  width: 444px;
-  height: 184px;
+
+const CustomViewContainer = styled.div`
+  position: relative;
+  height: 40px;
 `;
 const Viewall = styled.div`
-  font-size: 15px;
+  font-size: 12px;
   color: #ffffff;
   position: absolute;
-  bottom: 10px;
-  width: 120px;
-  height: 35px;
-  line-height: 35px;
-  text-align: center;
-  left: 20px;
-  display: inline-block;
+  bottom: 0;
+  width: 75px;
+  height: 30px;
+  background: #735936;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   &:after {
     content: "";
     display: block;
@@ -155,20 +154,11 @@ const Viewall = styled.div`
   }
   &:hover {
     cursor: pointer;
-    box-shadow: inset 1px 1px 6px 0 rgba(255, 255, 255, 0.75);
+    box-shadow: inset 1px 1px 6px 0 rgba(115, 89, 54, 0.75);
   }
 `;
 const PromoEmptyContainer = styled.div``;
-const PromoEmptyBg = styled.div`
-  background: url(${PromoEmpty}) no-repeat;
-  position: absolute;
 
-  left: 50%;
-  bottom: -155px;
-  margin-left: -240px;
-  width: 1165px;
-  height: 877px;
-`;
 const PromoEmptyText = styled.div`
   margin-top: 200px;
 `;
@@ -179,6 +169,10 @@ const PromoEmptyTextLine = styled.div`
   background: -webkit-linear-gradient(#446597, #282828);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+`;
+
+const Tint = styled.div`
+  opacity: 0.75;
 `;
 
 class Promotion extends Component {
@@ -270,40 +264,42 @@ class Promotion extends Component {
                   return this.props.general.promotionList.items.map(
                     (data, index) => (
                       <Content key={index} image={data.desktopBanner}>
-                        <LeftContent>
-                          <Viewall
-                            onClick={() =>
-                              this.handlePromotionClick(
-                                data.id,
-                                data.promotionType
-                              )
-                            }
-                            style={
-                              index % 2 === 0
-                                ? { backgroundColor: "#8a7f73" }
-                                : { backgroundColor: "#a27d38" }
-                            }
-                          >
-                            {i18n.t("promotion.details")}
-                          </Viewall>
-                        </LeftContent>
+                        <LeftContent />
                         <RightContent>
-                          <PromoTitle>
-                            {data.localization
-                              ? data.localization.name
-                              : data.name}
-                          </PromoTitle>
+                          <RightContentContainer>
+                            <PromoTitle>{data.name}</PromoTitle>
+                            <PromoDate>
+                              <Tint> {i18n.t("promotion.promoTarget")}：</Tint>{" "}
+                              {data.vipLevels.map((a, index) => {
+                                return (
+                                  <span key={index}>
+                                    VIP{a}
+                                    {index < data.vipLevels.length - 1 && ", "}
+                                  </span>
+                                );
+                              })}
+                            </PromoDate>
+                            <PromoDate>
+                              <Tint> {i18n.t("promotion.promoDate")}：</Tint>{" "}
+                              {moment(data.from).format("YYYY/MM/DD HH:mm:ss")}
+                              {" - "}
+                              {moment(data.to).format("YYYY/MM/DD HH:mm:ss")}
+                            </PromoDate>
 
-                          <PromoDate>
-                            {moment(data.from).format("YYYY/MM/DD HH:mm:ss")}
-                            {" - "}
-                            {moment(data.to).format("YYYY/MM/DD HH:mm:ss")}
-                          </PromoDate>
-                          <Collapse
-                            in={data.checked}
-                            collapsedHeight="70px"
-                            style={{ textAlign: "right" }}
-                          ></Collapse>
+                            <PromoDate></PromoDate>
+                            <CustomViewContainer>
+                              <Viewall
+                                onClick={() =>
+                                  this.handlePromotionClick(
+                                    data.id,
+                                    data.promotionType
+                                  )
+                                }
+                              >
+                                {i18n.t("promotion.details")}
+                              </Viewall>
+                            </CustomViewContainer>
+                          </RightContentContainer>
                         </RightContent>
                       </Content>
                     )

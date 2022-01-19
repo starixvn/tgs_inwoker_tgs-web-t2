@@ -91,7 +91,7 @@ const CustomLink = styled(Link)`
   color: #f6f6f6;
 
   &:hover {
-    color: #fde73f;
+    color: #fff;
     text-decoration: underline;
   }
 `;
@@ -99,7 +99,7 @@ const CustomExternalLink = styled.a`
   ${(props) =>
     props.selected === true
       ? `
- color:#f0ca83; 
+ color:#c7a87c; 
 font-weight:bold;
 pointer-event:none;
 `
@@ -108,7 +108,7 @@ color:#f6f6f6;
 
 &:hover {
  cursor:pointer;
- color: #fde73f;
+ color: #fff;
  
  }
 `}
@@ -153,7 +153,7 @@ const BtnCS = styled(BtnAppsAndCS)`
   color: #f6f6f6;
   &:hover {
     background-image: url(${BtnCSHoverPNG});
-    color: #fde73f;
+    color: #fff;
   }
   padding-left: 34px;
   line-height: 30px;
@@ -289,7 +289,7 @@ const RightMenuLI = styled.li`
   color: #f6f6f6;
 
   &:hover {
-    color: #f0ca83;
+    color: #c7a87c;
 
     cursor: pointer;
   }
@@ -297,7 +297,7 @@ const RightMenuLI = styled.li`
     height: 190px;
   }
   &:hover ${RightMenuBottomLine} {
-    background-color: #f0ca83;
+    background-color: #c7a87c;
   }
   &:hover ${RightMenuImg} {
     ${(props) => `background-image:url(${props.hoverimg});`}
@@ -306,19 +306,19 @@ const RightMenuLI = styled.li`
     animation-name: ${breatheAnimation};
   }
   &:hover ${RightMenuTextSpan} {
-    color: #f0ca83;
+    color: #c7a87c;
   }
   background-repeat: no-repeat;
   background-position: 15% center;
   ${(props) =>
     props.active
       ? `
-      color: #f0ca83;
+      color: #c7a87c;
       ${RightMenuBottomLine} {
-        background-color: #f0ca83;
+        background-color: #c7a87c;
       }
       ${RightMenuTextSpan} {
-        color: #f0ca83;
+        color: #c7a87c;
       }
 
 
@@ -432,7 +432,7 @@ const Icon = styled.div`
   }};
 
   &:hover {
-    color: #fde73f;
+    color: #fff;
     text-decoration: underline;
   }
 `;
