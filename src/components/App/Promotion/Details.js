@@ -8,8 +8,8 @@ import { AppHistory } from "../../../history/History";
 import { withSnackbar } from "notistack";
 
 import i18n from "../../../utils/i18n";
-import {generalAction} from "../../../api-services/actions/generalAction";
-import {SHOW_LOGIN} from "../../../api-services/constant/actionType";
+import { generalAction } from "../../../api-services/actions/generalAction";
+import { SHOW_LOGIN } from "../../../api-services/constant/actionType";
 
 import { Grid, Container as MContainer } from "@material-ui/core";
 import PromoImage1 from "../../../assets/images/promotion/promo-1.jpg";
@@ -75,6 +75,7 @@ const PromoDetailImage = styled.div`
   height: 486px;
   margin-bottom: 20px;
   background: url(${(props) => props.img}) no-repeat;
+  background-size: contain;
 `;
 
 const EventTitle = styled.div`

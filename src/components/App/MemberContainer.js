@@ -30,7 +30,7 @@ const BtnStyle = styled.div`
 const BtnStyle1 = styled(BtnStyle)`
   line-height: 180%;
   margin-right: 5px;
-  background-color: #f0ca83;
+  background-color: #c7a87c;
   color: #6d5d41;
   height: 25px;
   &:hover {
@@ -41,10 +41,10 @@ const BtnStyle1 = styled(BtnStyle)`
 const BtnStyle2 = styled(BtnStyle)`
   line-height: 160%;
   background-color: transparent;
-  color: #f0ca83;
+  color: #c7a87c;
   border-width: 2px;
   border-style: solid;
-  border-color: #f0ca83;
+  border-color: #c7a87c;
   height: 25px;
   &:hover {
     color: #8a7f73;
@@ -58,7 +58,7 @@ const BtnLogout = styled.div`
   float: right;
   &:hover {
     cursor: pointer;
-    color: #f0ca83;
+    color: #c7a87c;
   }
 `;
 
@@ -87,21 +87,21 @@ const RefreshBalance = styled.div`
   }
 `;
 const RefreshBalanceIcon = styled.div`
-  background-image: url(${IconRefreshBalanceHoverPNG});
-  background-repeat: no-repeat;
-  background-position: center;
   width: 16px;
   height: 16px;
+
+  background-color: ${({ theme }) => theme.primary};
+  mask: url(${IconRefreshBalanceHoverPNG}) no-repeat center;
 
   &:hover {
     animation: ${rotateKeyFrame} 1s linear 0s infinite;
   }
 `;
 const BalanceAmountLabel = styled.span`
-  color: #f0ca83;
+  color: #c7a87c;
 `;
 const MemberUserName = styled.span`
-  color: #f0ca83;
+  color: #c7a87c;
 `;
 const Spliter = styled.div`
   width: 2px;
@@ -111,7 +111,7 @@ const Spliter = styled.div`
   background-color: #8a7f73;
 `;
 const InboxContainer = styled(BalanceContainer)`
-  color: #f0ca83;
+  color: #c7a87c;
   text-align: right;
   padding: 8px 0px 0 0;
   &:hover {
@@ -124,7 +124,7 @@ const MailIconContainer = styled.span`
 const InboxCountLabel = styled.span`
   margin-left: 6px;
   margin-top: 3px;
-  color: #f0ca83;
+  color: #c7a87c;
   display: inline-block;
   float: right;
 `;
