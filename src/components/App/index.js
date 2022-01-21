@@ -6,14 +6,17 @@ import { Router, Route, Switch, Redirect } from "react-router";
 import { AppHistory } from "../../history/History";
 import { withSnackbar } from "notistack";
 import ErrorSwitcher from "../../utils/ErrorSwitcher";
-import {SHOW_LOGIN,UPDATING_SCREEN_SIZE} from "../../api-services/constant/actionType";
-import {uiAction} from "../../api-services/actions/uiAction";
-import {gameAction} from "../../api-services/actions/gameAction";
-import {generalAction} from "../../api-services/actions/generalAction";
-import {walletAction} from "../../api-services/actions/walletAction";
-import {accountAction} from "../../api-services/actions/accountAction";
-import {inboxAction} from "../../api-services/actions/inboxAction";
-import {GeneralService} from "../../api-services/services/GeneralService";
+import {
+  SHOW_LOGIN,
+  UPDATING_SCREEN_SIZE,
+} from "../../api-services/constant/actionType";
+import { uiAction } from "../../api-services/actions/uiAction";
+import { gameAction } from "../../api-services/actions/gameAction";
+import { generalAction } from "../../api-services/actions/generalAction";
+import { walletAction } from "../../api-services/actions/walletAction";
+import { accountAction } from "../../api-services/actions/accountAction";
+import { inboxAction } from "../../api-services/actions/inboxAction";
+import { GeneralService } from "../../api-services/services/GeneralService";
 
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
 import LiveGame from "./LiveGame/index";
@@ -21,6 +24,7 @@ import Slots from "./Slots/index";
 import SlotPlay from "./Slots/Play";
 import Qipai from "./Qipai/index";
 import Sports from "./Sports/index";
+import ESports from "./eSports/index";
 import SportsPlay from "./Sports/Play";
 import Lottery from "./Lottery/index";
 import LotteryPlay from "./Lottery/Play";
@@ -276,6 +280,11 @@ class App extends Component {
                       exact
                       path={baseRouteUrl + "/sports"}
                       component={Sports}
+                    />{" "}
+                    <Route
+                      exact
+                      path={baseRouteUrl + "/esports"}
+                      component={ESports}
                     />
                     <Route
                       exact
