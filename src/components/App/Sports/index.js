@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
 import { withRouter } from "react-router-dom";
 import config from "../../../config/config";
-import {GameTypeEnum} from "../../../api-services/utils/Enum";
-import {SHOW_LOGIN} from "../../../api-services/constant/actionType";
+import { GameTypeEnum } from "../../../api-services/utils/Enum";
+import { SHOW_LOGIN } from "../../../api-services/constant/actionType";
 import i18n from "../../../utils/i18n";
 
 import ScrollAnimation from "react-animate-on-scroll";
@@ -82,9 +82,7 @@ class Sports extends Component {
     super(props);
 
     var sportsList = props.game.homePageGameList.filter((item) => {
-      return (
-        item.type === GameTypeEnum.SPORTS || item.type === GameTypeEnum.ESPORTS
-      );
+      return item.type === GameTypeEnum.SPORTS;
     });
 
     this.state = {
@@ -101,10 +99,7 @@ class Sports extends Component {
       this.props.game.homePageGameList.length
     ) {
       var sportsList = this.props.game.homePageGameList.filter((item) => {
-        return (
-          item.type === GameTypeEnum.SPORTS ||
-          item.type === GameTypeEnum.ESPORTS
-        );
+        return item.type === GameTypeEnum.SPORTS;
       });
 
       this.setState({
