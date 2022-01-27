@@ -15,7 +15,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 
 import thunk from "redux-thunk";
-import Interceptor from "./services/Interceptor";
+import InterceptorService from "./api-services/services/InterceptorService";
 import JoinGame from "./components/Share/JoinGame";
 
 import JoinLobbyGame from "./components/Share/JoinLobbyGame";
@@ -47,7 +47,7 @@ import Deposit from "./components/Share/Deposit";
 import FeatureGetter from "./components/Share/feature-getter";
 require("es6-promise").polyfill();
 const store = createStore(rootReducer, applyMiddleware(thunk));
-Interceptor.setupInterceptors(store);
+InterceptorService.setupInterceptors(store);
 const notistackRef = React.createRef();
 const onClickDismiss = (key) => () => {
   notistackRef.current.closeSnackbar(key);
