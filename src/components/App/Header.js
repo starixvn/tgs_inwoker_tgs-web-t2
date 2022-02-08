@@ -480,6 +480,20 @@ const styles = {
 
 const MenuItemList = [
   {
+    path: "esports",
+    title: i18n.t("common.esports"),
+    img: TopMenuSportsPNG,
+    hoverImg: TopMenuSportsHoverPNG,
+    gameType: [GameTypeEnum.ESPORTS],
+  },
+  {
+    path: "sports",
+    title: i18n.t("common.sport"),
+    img: TopMenuSportsPNG,
+    hoverImg: TopMenuSportsHoverPNG,
+    gameType: [GameTypeEnum.SPORTS],
+  },
+  {
     path: "live",
     title: i18n.t("common.live"),
     img: TopMenuLivePNG,
@@ -493,20 +507,7 @@ const MenuItemList = [
     hoverImg: TopMenuQipaiHoverPNG,
     gameType: [GameTypeEnum.QIPAILOBBY],
   },
-  {
-    path: "sports",
-    title: i18n.t("common.sport"),
-    img: TopMenuSportsPNG,
-    hoverImg: TopMenuSportsHoverPNG,
-    gameType: [GameTypeEnum.SPORTS],
-  },
-  {
-    path: "esports",
-    title: i18n.t("common.esports"),
-    img: TopMenuSportsPNG,
-    hoverImg: TopMenuSportsHoverPNG,
-    gameType: [GameTypeEnum.ESPORTS],
-  },
+
   {
     path: "lottery",
     title: i18n.t("common.lottery"),
