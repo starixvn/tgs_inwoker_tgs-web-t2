@@ -26,6 +26,7 @@ import IconInboxActivePNG from "../../../assets/images/icon-inbox-active.png";
 
 import Header from "./Header";
 import Profile from "./Profile/index";
+import VIP from "./Vip/index.js";
 
 import Inbox from "./Inbox/index";
 import Report from "./Report/index";
@@ -34,8 +35,8 @@ import Deposit from "./Deposit/index";
 import Affiliate from "./Affiliate";
 
 import Withdrawal from "./Withdrawal/index";
-import {accountAction} from "../../../api-services/actions/accountAction";
-import {walletAction} from "../../../api-services/actions/walletAction";
+import { accountAction } from "../../../api-services/actions/accountAction";
+import { walletAction } from "../../../api-services/actions/walletAction";
 import i18n from "../../../utils/i18n";
 
 import AvatarPNG from "../../../assets/images/avatar.png";
@@ -383,6 +384,7 @@ class Account extends Component {
               <MenuTitle>{i18n.t("web.account.personal")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.profile"), "profile")}
               {this.genMenuButtonDiv(i18n.t("web.account.inbox"), "inbox")}{" "}
+              {this.genMenuButtonDiv("VIP", "vip")}
               {config.features.HaveAffiliateFeature &&
                 this.genMenuButtonDiv(
                   i18n.t("web.account.affiliate"),
@@ -447,6 +449,11 @@ class Account extends Component {
                     render={(props) => (
                       <Inbox token={this.props.account.token} />
                     )}
+                  />
+                  <Route
+                    exact
+                    path={baseRouteUrl + "/account/vip"}
+                    render={(props) => <VIP token={this.props.account.token} />}
                   />
                   <Route
                     exact
