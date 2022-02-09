@@ -267,7 +267,7 @@ function Register(props) {
 
   const [tnc, setTnc] = React.useState(true);
   const handleRegisterClick = async () => {
-    var expr = /^[a-zA-Z0-9]{6,32}$/;
+    var expr = /^[a-zA-Z0-9]{6,16}$/;
     if (!expr.test(username)) {
       props.enqueueSnackbar(i18n.t("common.msgRegisterUserNameInvalid"), {
         variant: "warning",

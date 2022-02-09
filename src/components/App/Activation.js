@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import {accountAction} from "../../api-services/actions/accountAction";
-import {AccountService} from "../../api-services/services/AccountService";
+import { accountAction } from "../../api-services/actions/accountAction";
+import { AccountService } from "../../api-services/services/AccountService";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import LoginBGPNG from "../../assets/images/login-bg.png";
@@ -336,7 +336,7 @@ function Activation(props) {
   const [securityKey, setSecurityKey] = React.useState("");
   var timer = null;
   const handleActivationClick = async () => {
-    var expr = /^[a-zA-Z0-9]{6,32}$/;
+    var expr = /^[a-zA-Z0-9]{6,16}$/;
     if (!expr.test(username)) {
       props.enqueueSnackbar(i18n.t("common.msgRegisterUserNameInvalid"), {
         variant: "warning",
@@ -386,7 +386,7 @@ function Activation(props) {
   };
   const handleGetCodeClick = async () => {
     if (countdown <= 0) {
-      var expr = /^[a-zA-Z0-9]{6,32}$/;
+      var expr = /^[a-zA-Z0-9]{6,16}$/;
       if (!expr.test(username)) {
         props.enqueueSnackbar(i18n.t("common.msgRegisterUserNameInvalid"), {
           variant: "warning",
