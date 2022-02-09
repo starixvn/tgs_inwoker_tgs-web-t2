@@ -24,6 +24,7 @@ const featureList = {
     Profile_CustomIdentityPageTranslation: false,
     HaveAffiliateFeature: false,
     Deposit_EnglishName: false,
+    OnlineUser: false,
   },
 };
 export default featureList;

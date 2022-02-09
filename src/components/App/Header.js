@@ -50,6 +50,7 @@ import Common from "../../utils/Common";
 
 import i18n from "../../utils/i18n";
 import Slider from "react-slick";
+import OnlineUserDisplayer from "../Share/online-user-displayer";
 
 const moment = require("moment");
 
@@ -67,6 +68,9 @@ const TimerContainer = styled.div`
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   @media (max-width: 260px) {
     display: none;
   }
@@ -81,8 +85,6 @@ const TimerSpan = styled.span`
   word-spacing: 10px;
 `;
 const LinkContainer = styled.div`
-  padding-top: 2px;
-
   @media (max-width: 950px) {
     display: none;
   }
@@ -157,6 +159,11 @@ const BtnCS = styled(BtnAppsAndCS)`
   }
   padding-left: 34px;
   line-height: 30px;
+`;
+
+const AlignCenter = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const BottomContainer = styled.div`
@@ -797,24 +804,28 @@ class Header extends Component {
         <InnerWrap>
           <TopContainer>
             <TimerContainer>
-              <LinkContainer style={{ float: "left" }}>
-                <LinkList>
-                  <LinkListItem style={{ lineHeight: "1.7em" }}>
-                    GMT+8 {this.state.systemDateTime}
-                  </LinkListItem>
-                </LinkList>
-              </LinkContainer>
-              {config.features.DisplayPhone && (
-                <CustomPhoneHolder>
-                  <IconPhone img={IconPhonePNG}></IconPhone>
-                  <div>
-                    {this.props.general.brandsSupport &&
-                      this.props.general.brandsSupport.length >= 1 &&
-                      this.props.general.brandsSupport[0].phone}
-                  </div>
-                </CustomPhoneHolder>
-              )}
-
+              <AlignCenter>
+                <LinkContainer style={{ float: "left" }}>
+                  <LinkList>
+                    <LinkListItem style={{ lineHeight: "1.7em" }}>
+                      GMT+8 {this.state.systemDateTime}
+                    </LinkListItem>
+                  </LinkList>
+                </LinkContainer>
+                {config.features.OnlineUser && (
+                  <OnlineUserDisplayer color="#fff" size="12px" />
+                )}
+                {config.features.DisplayPhone && (
+                  <CustomPhoneHolder>
+                    <IconPhone img={IconPhonePNG}></IconPhone>
+                    <div>
+                      {this.props.general.brandsSupport &&
+                        this.props.general.brandsSupport.length >= 1 &&
+                        this.props.general.brandsSupport[0].phone}
+                    </div>
+                  </CustomPhoneHolder>
+                )}
+              </AlignCenter>
               <LinkContainer style={{ float: "right" }}>
                 <LinkList>
                   <LinkListItem>
