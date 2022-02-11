@@ -24,6 +24,7 @@ import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
 import config from "../../config/config";
 import ErrorSwitcher from "../../utils/ErrorSwitcher";
+import { generalAction } from "../../api-services/actions/generalAction";
 const Container = styled.div`
   width: 506px;
   background: url(${LoginBGPNG});
@@ -247,6 +248,8 @@ function Register(props) {
   const [promoteType, setPromoteType] = React.useState("a");
   const [prefill, setPrefill] = React.useState(false);
 
+  const [invitation, setInvitation] = React.useState({});
+
   useEffect(() => {
     if (URL.length > 2) {
       //make sure the path more than 2
@@ -264,6 +267,23 @@ function Register(props) {
       }
     }
   }, []);
+
+  useEffect(() => {
+    props.getInvitationCode().then((result) => {
+      if (result.IsSuccess) {
+        setInvitation(result.data);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (invitation.data !== undefined) {
+      setPromotionId(invitation.data.invitationCode);
+      setPrefill(true);
+    } else {
+      setPrefill(false);
+    }
+  }, [invitation]);
 
   const [tnc, setTnc] = React.useState(true);
   const handleRegisterClick = async () => {
@@ -456,33 +476,32 @@ function Register(props) {
           />
         </CustomTextWrapper>
 
-        {!props.general.brand.hasInvitationCode && (
-          <CustomTextWrapper>
-            <CustomInvitationContainer>
-              <CustomText
-                onChange={
-                  promoteType === "a" ? handlePromoChange : handleUpperChange
-                }
-                value={promoteType === "a" ? promotionId : upper}
-                id="code"
-                placeholder={i18n.t("web.register.promoteCode")}
-                variant="outlined"
-                inputProps={{ disabled: prefill }}
-              />
-              {config.features.HaveAffiliateFeature && (
-                <CustomInvitationSelect
-                  disabled={prefill}
-                  value={promoteType}
-                  selected={promoteType}
-                  onChange={handleSwitchType}
-                >
-                  <option value="a">{i18n.t("usertype.agent")}</option>
-                  <option value="p">{i18n.t("usertype.player")}</option>
-                </CustomInvitationSelect>
-              )}
-            </CustomInvitationContainer>
-          </CustomTextWrapper>
-        )}
+        <CustomTextWrapper>
+          <CustomInvitationContainer>
+            <CustomText
+              onChange={
+                promoteType === "a" ? handlePromoChange : handleUpperChange
+              }
+              value={promoteType === "a" ? promotionId : upper}
+              id="code"
+              placeholder={i18n.t("web.register.promoteCode")}
+              variant="outlined"
+              inputProps={{ disabled: prefill }}
+            />
+            {config.features.HaveAffiliateFeature && (
+              <CustomInvitationSelect
+                disabled={prefill}
+                value={promoteType}
+                selected={promoteType}
+                onChange={handleSwitchType}
+              >
+                <option value="a">{i18n.t("usertype.agent")}</option>
+                <option value="p">{i18n.t("usertype.player")}</option>
+              </CustomInvitationSelect>
+            )}
+          </CustomInvitationContainer>
+        </CustomTextWrapper>
+
         <DescriptionContainer>
           <Checkbox
             checked={tnc}
@@ -514,6 +533,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getInvitationCode: () => dispatch(generalAction.getInvitationCode()),
     dispatchFunction: (json) => dispatch(json),
     getAccountInfo: (token) => dispatch(accountAction.getAccountInfo(token)),
     getAccountProfile: (token) =>
