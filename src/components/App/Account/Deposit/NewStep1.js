@@ -351,45 +351,48 @@ class NewStepOne extends Component {
                     !config.features.Deposit_ManualApplePayHideBankAcc
                   ) {
                     return (
-                      <>
-                        <SubHeaderContainer>
-                          <NumberContainer>4</NumberContainer>
+                      !config.features.Deposit_RemoveName && (
+                        <>
+                          <SubHeaderContainer>
+                            <NumberContainer>4</NumberContainer>
 
-                          <SubTitle>
-                            {config.features.Deposit_EnglishName
-                              ? i18n.t("bet28.BankAccountName")
-                              : i18n.t("deposit.msgPlsEnterAccount")}
-                          </SubTitle>
-                        </SubHeaderContainer>
-                        <SelectionContainer>
-                          <TextField
-                            style={{
-                              height: "38px",
-                              width: "258px",
-                              float: "left",
-                              marginRight: "5px",
-                              padding: 0,
-                            }}
-                            placeholder={
-                              config.features.Deposit_EnglishName
-                                ? i18n.t("bet28.msgEnterBankAccountName")
-                                : i18n.t("deposit.msgPlsEnterAccount")
-                            }
-                            onChange={onNameChange}
-                            outputFormat="string"
-                            variant="outlined"
-                            autoComplete="off"
-                            value={name}
-                          ></TextField>
-                        </SelectionContainer>
-                        <SplitLine></SplitLine>
-                      </>
+                            <SubTitle>
+                              {config.features.Deposit_EnglishName
+                                ? i18n.t("bet28.BankAccountName")
+                                : i18n.t("deposit.msgPlsEnterAccount")}
+                            </SubTitle>
+                          </SubHeaderContainer>
+                          <SelectionContainer>
+                            <TextField
+                              style={{
+                                height: "38px",
+                                width: "258px",
+                                float: "left",
+                                marginRight: "5px",
+                                padding: 0,
+                              }}
+                              placeholder={
+                                config.features.Deposit_EnglishName
+                                  ? i18n.t("bet28.msgEnterBankAccountName")
+                                  : i18n.t("deposit.msgPlsEnterAccount")
+                              }
+                              onChange={onNameChange}
+                              outputFormat="string"
+                              variant="outlined"
+                              autoComplete="off"
+                              value={name}
+                            ></TextField>
+                          </SelectionContainer>
+                          <SplitLine></SplitLine>
+                        </>
+                      )
                     );
                   }
                 })()}
                 <SubHeaderContainer>
                   <NumberContainer>
-                    {config.features.Deposit_ManualApplePayHideBankAcc
+                    {config.features.Deposit_ManualApplePayHideBankAcc ||
+                    config.features.Deposit_RemoveName
                       ? "4"
                       : paymentType.paymentcode.toUpperCase() === "MANUAL"
                       ? "5"
