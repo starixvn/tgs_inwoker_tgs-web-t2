@@ -25,6 +25,9 @@ const featureList = {
     HaveAffiliateFeature: false,
     Deposit_EnglishName: false,
     OnlineUser: false,
+    CustomDepositInput: false,
+    AddCard_InputAddFPS: false,
+    Deposit_RemoveName: false,
   },
 };
 export default featureList;

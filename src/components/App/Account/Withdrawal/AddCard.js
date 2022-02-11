@@ -431,12 +431,18 @@ class AddCard extends Component {
             "FPS") ? (
           <div>
             <TextFieldLabel>
-              {i18n.t("profile.nameVerify.title")}
+              {config.features.AddCard_InputAddFPS
+                ? i18n.t("custom.addcard.name")
+                : i18n.t("profile.nameVerify.title")}
             </TextFieldLabel>
             <TextFieldContainer>
               <CustomTextField
                 marginTop={10}
-                placeholder={i18n.t("profile.nameVerify.msgPlsEnterName")}
+                placeholder={
+                  config.features.AddCard_InputAddFPS
+                    ? i18n.t("custom.addcard.msgPlsEnterName")
+                    : i18n.t("profile.nameVerify.msgPlsEnterName")
+                }
                 width={395}
                 height={38}
                 maxLength={50}
@@ -445,7 +451,9 @@ class AddCard extends Component {
               ></CustomTextField>
             </TextFieldContainer>
             <TextFieldLabel>
-              {config.features.AddCard_DisplayFPS
+              {config.features.AddCard_InputAddFPS
+                ? i18n.t("custom.addcard.phoneNumber")
+                : config.features.AddCard_DisplayFPS
                 ? i18n.t("bet28.phoneNumber")
                 : i18n.t("common.phoneNumber")}
             </TextFieldLabel>
@@ -453,7 +461,9 @@ class AddCard extends Component {
               <CustomTextField
                 marginTop={10}
                 placeholder={
-                  config.features.AddCard_DisplayFPS
+                  config.features.AddCard_InputAddFPS
+                    ? i18n.t("custom.addcard.msgEnterPhone")
+                    : config.features.AddCard_DisplayFPS
                     ? i18n.t("bet28.msgEnterPhone")
                     : i18n.t("common.msgEnterPhone")
                 }
