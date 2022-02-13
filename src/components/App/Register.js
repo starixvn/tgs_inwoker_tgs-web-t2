@@ -271,7 +271,7 @@ function Register(props) {
   useEffect(() => {
     props.getInvitationCode().then((result) => {
       if (result.IsSuccess) {
-        setInvitation(result.data);
+        setInvitation(result);
       }
     });
   }, []);
