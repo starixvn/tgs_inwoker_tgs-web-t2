@@ -28,6 +28,7 @@ const featureList = {
     CustomDepositInput: false,
     AddCard_InputAddFPS: false,
     Deposit_RemoveName: false,
+    DepositNotification: false,
   },
 };
 export default featureList;

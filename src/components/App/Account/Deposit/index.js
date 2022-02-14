@@ -4,10 +4,10 @@ import styled from "styled-components";
 
 import IconDepositRedPNG from "../../../../assets/images/icon-deposit-active.png";
 
-import {walletAction} from "../../../../api-services/actions/walletAction";
-import {WalletService} from "../../../../api-services/services/WalletService";
-import {generalAction} from "../../../../api-services/actions/generalAction";
-import {RESET_WALLETRESULT} from "../../../../api-services/constant/actionType";
+import { walletAction } from "../../../../api-services/actions/walletAction";
+import { WalletService } from "../../../../api-services/services/WalletService";
+import { generalAction } from "../../../../api-services/actions/generalAction";
+import { RESET_WALLETRESULT } from "../../../../api-services/constant/actionType";
 import { withRouter } from "react-router-dom";
 
 import NameVerification from "../../Share/NameVerification";
@@ -25,6 +25,7 @@ import NewStepOne from "./NewStep1";
 import NewStepOneHKJP from "./NewStep1HKJP";
 import NewStepTwoHKJP from "./NewStep2HKJP";
 import config from "../../../../config/config";
+import PopupAnnouncement from "../../Home/PopupAnnouncement";
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box;
@@ -155,6 +156,7 @@ class Deposit extends Component {
       methodcode: "",
       bankaccount: "",
       paymenturl: "",
+      openAnnouncement: config.features.DepositNotification,
     };
     this.state = this.initialState;
   }
@@ -668,6 +670,16 @@ class Deposit extends Component {
   render() {
     return (
       <Container>
+        {config.features.DepositNotification && (
+          <PopupAnnouncement
+            open={this.state.openAnnouncement}
+            onClose={() => {
+              this.setState({ ...this.state, openAnnouncement: false });
+            }}
+            text={i18n.t("depositNotification.content")}
+            header={i18n.t("depositNotification.title")}
+          ></PopupAnnouncement>
+        )}
         <Title>
           <TitleIcon></TitleIcon>
           {i18n.t("deposit.title")}
