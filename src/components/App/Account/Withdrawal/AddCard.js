@@ -327,7 +327,7 @@ class AddCard extends Component {
                 this.state.channelList.map((item, index) => {
                   return (
                     <option value={index} key={index}>
-                      {i18n.t(item.channelcode)}
+                      {i18n.t(item.channelname)}
                     </option>
                   );
                 })}
