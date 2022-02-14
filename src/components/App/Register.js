@@ -277,11 +277,11 @@ function Register(props) {
   }, []);
 
   useEffect(() => {
-    if (invitation.data !== undefined) {
-      setPromotionId(invitation.data.invitationCode);
-      setPrefill(true);
-    } else {
-      setPrefill(false);
+    if (invitation.data) {
+      if (invitation.data.invitationCode !== undefined) {
+        setPromotionId(invitation.data.invitationCode);
+        setPrefill(true);
+      }
     }
   }, [invitation]);
 
