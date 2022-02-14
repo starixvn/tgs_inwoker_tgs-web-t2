@@ -271,15 +271,15 @@ function Register(props) {
   useEffect(() => {
     props.getInvitationCode().then((result) => {
       if (result.IsSuccess) {
-        setInvitation(result);
+        setInvitation(result.data);
       }
     });
   }, []);
 
   useEffect(() => {
-    if (invitation.data) {
-      if (invitation.data.invitationCode !== undefined) {
-        setPromotionId(invitation.data.invitationCode);
+    if (invitation) {
+      if (invitation.invitationCode !== undefined) {
+        setPromotionId(invitation.invitationCode);
         setPrefill(true);
       }
     }
