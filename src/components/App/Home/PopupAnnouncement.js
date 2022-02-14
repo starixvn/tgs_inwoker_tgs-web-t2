@@ -41,6 +41,7 @@ const TitleContainer = styled.div`
 const FormContainer = styled.div`
   margin: 30px 60px 40px 60px;
   padding: 0 3px;
+  text-align: justify;
 `;
 class PopupAnnouncement extends Component {
   render() {
