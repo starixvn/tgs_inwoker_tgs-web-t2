@@ -3,21 +3,22 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { generalAction } from "../../../../api-services/actions/generalAction";
 import i18n from "../../../../utils/i18n";
-
+import IconVIPPNG from "../../../../assets/images/icon-vip.png";
 const Container = styled.div`
-padding: 20px 28px;
-box-sizing: border-box
-background-color: #ffffff;
-width: 100%;
-min-height: 796px;
+  padding: 20px 28px;
+  box-sizing: border-box
+  background-color: #eaeaea;
+  width: 100%;
+  min-height: 611px;
 `;
 const Title = styled.div`
   color: ${({ theme }) => theme.secondary};
 `;
 const TitleIcon = styled.div`
   width: 34px;
-  height: 24px;
+  height: 25px;
 
+  background: url(${IconVIPPNG}) no-repeat left center;
   background-size: 24px 24px;
 
   float: left;
@@ -39,7 +40,7 @@ const VipLevelContainer = styled.div`
 
 const VipLevelContainer2 = styled.div`
   display: grid;
-  grid-template-columns: 150px auto;
+  grid-template-columns: 125px auto;
 `;
 
 const VIPOverflow = styled.div`
@@ -75,6 +76,7 @@ const TitleContent = styled(VIPContent)`
   background: #d9d9d9;
   color: #404040;
   font-weight: bold;
+
   padding: 10px 20px;
 
   width: 200px;
@@ -133,6 +135,9 @@ const TitleRow = styled(DataRow)`
   background: #d9d9d9;
   color: #404040;
   font-weight: bold;
+  align-items: center;
+  text-transform: capitalize;
+  height: 55px;
 `;
 
 const StandardDataCol = styled.div`
@@ -236,7 +241,7 @@ const VIP = (props) => {
             <VipLevelContainer2>
               <div>
                 <TitleRow>
-                  <StandardDataCol>{i18n.t("vip.level")}</StandardDataCol>
+                  <StandardDataCol>{i18n.t("vip.vipBenefit")}</StandardDataCol>
                 </TitleRow>
                 {vipBenefit.items.map((data, index) => {
                   return (

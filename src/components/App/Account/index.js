@@ -24,6 +24,9 @@ import IconProfileActivePNG from "../../../assets/images/icon-profile-active.png
 import IconBonusActivePNG from "../../../assets/images/icon-bonus-active.png";
 import IconInboxActivePNG from "../../../assets/images/icon-inbox-active.png";
 
+import IconVIPPNG from "../../../assets/images/icon-vip.png";
+import IconVIPActivePNG from "../../../assets/images/icon-vip.png";
+
 import Header from "./Header";
 import Profile from "./Profile/index";
 import VIP from "./Vip/index.js";
@@ -166,6 +169,15 @@ const MenuInboxImg = styled(MenuImgFrame)`
     props.active
       ? `background: url(${IconInboxActivePNG}) no-repeat center center;`
       : `background: url(${IconInboxPNG}) no-repeat center center;`}
+
+  background-size:15px 15px;
+`;
+
+const MenuVIPImg = styled(MenuImgFrame)`
+  ${(props) =>
+    props.active
+      ? `background: url(${IconVIPActivePNG}) no-repeat center center;`
+      : `background: url(${IconVIPPNG}) no-repeat center center;`}
 
   background-size:15px 15px;
 `;
@@ -324,6 +336,10 @@ class Account extends Component {
       case "inbox":
         return (
           <MenuInboxImg active={this.state.activePage === link}></MenuInboxImg>
+        );
+      case "vip":
+        return (
+          <MenuVIPImg active={this.state.activePage === link}></MenuVIPImg>
         );
       default:
         return <></>;
