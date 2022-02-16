@@ -29,6 +29,8 @@ const featureList = {
     AddCard_InputAddFPS: false,
     Deposit_RemoveName: false,
     DepositNotification: false,
+    AddCard_HideChannel: false,
+    AddCard_BankDropdown: false,
   },
 };
 export default featureList;
