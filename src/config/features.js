@@ -31,6 +31,8 @@ const featureList = {
     DepositNotification: false,
     AddCard_HideChannel: false,
     AddCard_BankDropdown: false,
+    Deposit_AddTips: false,
+    Deposit_CustomBankNameTranslation: false,
   },
 };
 export default featureList;

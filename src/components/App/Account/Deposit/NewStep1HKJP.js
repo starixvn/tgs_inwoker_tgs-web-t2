@@ -254,7 +254,9 @@ class NewStepOne extends Component {
                           <SubHeaderContainer>
                             <NumberContainer>3</NumberContainer>
                             <SubTitle>
-                              {config.features.Deposit_EnglishName
+                              {config.features.Deposit_CustomBankNameTranslation
+                                ? i18n.t("mgm.msgPlsEnterAccount")
+                                : config.features.Deposit_EnglishName
                                 ? i18n.t("bet28.BankAccountName")
                                 : i18n.t("deposit.msgPlsEnterAccount")}
                             </SubTitle>
@@ -269,7 +271,10 @@ class NewStepOne extends Component {
                                 padding: 0,
                               }}
                               placeholder={
-                                config.features.Deposit_EnglishName
+                                config.features
+                                  .Deposit_CustomBankNameTranslation
+                                  ? i18n.t("mgm.msgPlsEnterAccount")
+                                  : config.features.Deposit_EnglishName
                                   ? i18n.t("bet28.msgEnterBankAccountName")
                                   : i18n.t("deposit.msgPlsEnterAccount")
                               }
@@ -280,6 +285,9 @@ class NewStepOne extends Component {
                               value={name}
                             ></TextField>
                           </SelectionContainer>
+                          {config.features.Deposit_AddTips && (
+                            <Remark> {i18n.t("mgm.depositTips")}</Remark>
+                          )}
                           <SplitLine></SplitLine>
                         </>
                       )
