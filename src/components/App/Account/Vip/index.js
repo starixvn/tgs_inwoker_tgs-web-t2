@@ -162,6 +162,12 @@ const VIP = (props) => {
     }
   }, []);
 
+  var vipBenefitList =
+    vipBenefit.items &&
+    vipBenefit.items.sort((a, b) => {
+      return a.level < b.level ? -1 : a.level > b.level ? 1 : 0;
+    });
+
   return (
     <Container>
       <Title>
@@ -202,7 +208,7 @@ const VIP = (props) => {
                 </TitleContent>
               </VIPOverflow>
               <VIPOverflowContainer>
-                {vipBenefit.items.map((data, index) => {
+                {vipBenefitList.map((data, index) => {
                   return (
                     <VIPOverflowData
                       key={index}
@@ -243,7 +249,7 @@ const VIP = (props) => {
                 <TitleRow>
                   <StandardDataCol>{i18n.t("vip.vipBenefit")}</StandardDataCol>
                 </TitleRow>
-                {vipBenefit.items.map((data, index) => {
+                {vipBenefitList.map((data, index) => {
                   return (
                     <StandardDataCol key={index}>{data.level}</StandardDataCol>
                   );
@@ -258,7 +264,7 @@ const VIP = (props) => {
                   <DataCol>{i18n.t("vip.sportsRebate")}</DataCol>
                   <DataCol>{i18n.t("vip.virtualSportsRebate")}</DataCol>
                 </TitleRow>
-                {vipBenefit.items.map((data, index) => {
+                {vipBenefitList.map((data, index) => {
                   return (
                     <DataRow key={index}>
                       <DataCol>{data.cardGameRebate}%</DataCol>
