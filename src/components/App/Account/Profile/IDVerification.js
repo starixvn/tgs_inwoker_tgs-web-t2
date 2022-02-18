@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import CustomTextField from "../../../Share/TextField";
@@ -6,9 +6,10 @@ import CustomButton from "../../../Share/Button";
 import IconInputIDPNG from "../../../../assets/images/icon-input-id.png";
 import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.png";
 import { withSnackbar } from "notistack";
-import {AccountService} from "../../../../api-services/services/AccountService";
-import {UPDATE_INFO} from "../../../../api-services/constant/actionType";
+import { AccountService } from "../../../../api-services/services/AccountService";
+import { UPDATE_INFO } from "../../../../api-services/constant/actionType";
 import { Link } from "react-router-dom";
+import ErrorSwitcher from "../../../../utils/ErrorSwitcher";
 import i18n from "../../../../utils/i18n";
 import config from "../../../../config/config";
 const Container = styled.div``;
@@ -26,6 +27,35 @@ const LabelLink = styled(Link)`
   text-decoration: none;
 `;
 
+const CustomInput = styled.input`
+  color: #000;
+  font-size: 14px;
+  text-align: right;
+
+  font-weight: 500;
+  border: 0;
+  padding: 10px 20px;
+  margin-right: 20px;
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    color: #c3c3c3;
+  }
+  &:disabled {
+    background: #fff;
+    -webkit-text-fill-color: #000;
+    opacity: 1;
+  }
+`;
+
+const InputWrapper = styled.div`
+  background: #fff;
+  border: solid 1px #b6b6b6;
+  margin-top: 10px;
+  padding-right: 100px;
+  border-radius: 12px;
+  width: 350px;
+  display: inline-block;
+`;
 let local_props = {
   member_name: "",
   member_card_no: "",
@@ -43,6 +73,9 @@ function IDVerification(props) {
     member_name: props.account.info.member_name,
     member_card_no: props.account.info.member_card_no,
   };
+
+  const [icUpload, setICUpload] = useState("");
+
   const onhandleClick = () => {
     if (local_props.member_name === "" || local_props.member_name === null) {
       props.enqueueSnackbar(i18n.t("profile.nameVerify.msgPlsEnterName"), {
@@ -64,6 +97,11 @@ function IDVerification(props) {
       local_props.member_card_no
     ).then((response) => {
       if (response.IsSuccess) {
+        //upload IC when membername and memberic is valid.
+        if (config.features.ICVerificationUpload) {
+          AccountService.UploadIC(icUpload[0]);
+        }
+
         props.dispatch({
           type: UPDATE_INFO,
           payload: {
@@ -73,7 +111,7 @@ function IDVerification(props) {
         });
         props.handleCloseDialog();
       } else {
-        props.enqueueSnackbar(response.info, {
+        props.enqueueSnackbar(ErrorSwitcher.getTranslation(response.info), {
           variant: "error",
         });
         // if (response.code === 401) {
@@ -88,6 +126,45 @@ function IDVerification(props) {
       }
     });
   };
+  var check_pass_account = false;
+  if (config.features.ICVerification) {
+    if (
+      props.account.info.member_name !== "" &&
+      props.account.info.member_name !== null
+    ) {
+      check_pass_account = true;
+    }
+  } else {
+    check_pass_account = props.account.info.check_pass_account;
+  }
+
+  function handleFileChange(e) {
+    var files = e.target.files;
+    var fileName = e.target.value.toLowerCase();
+    if (files.length > 0) {
+      if (
+        !fileName.endsWith(".jpg") &&
+        !fileName.endsWith(".jpeg") &&
+        !fileName.endsWith(".png") &&
+        !fileName.endsWith(".tiff")
+      ) {
+        this.props.enqueueSnackbar(i18n.t("deposit.msgInvalidFileType"), {
+          variant: "error",
+        });
+        e.target.value = null;
+        return false;
+      }
+      const fileSize = Math.round(files[0].size / 1024);
+      if (fileSize > 2048) {
+        this.props.enqueueSnackbar(i18n.t("deposit.msgInvalidFileSize"), {
+          variant: "error",
+        });
+        e.target.value = null;
+      } else {
+        setICUpload(files);
+      }
+    }
+  }
   return (
     <Container>
       <CustomTextField
@@ -99,42 +176,61 @@ function IDVerification(props) {
         adornment={IconInputReceivePNG}
         handleTextFieldChange={onhandleNameChange}
         defaultValue={props.account.info.member_name}
-        readOnly={props.account.info.check_pass_account}
+        readOnly={check_pass_account}
         maxLength={256}
       ></CustomTextField>
-      {props.account.info.member_name === "" ||
-      props.account.info.member_name === null ? (
-        <CustomTextField
-          placeholder={
-            config.features.Profile_CustomIdentityPageTranslation
-              ? i18n.t("piso.profile.enterDocumentNumber")
-              : i18n.t("profile.nameVerify.msgPlsEnterICNum")
-          }
-          adornment={IconInputIDPNG}
-          handleTextFieldChange={onhandleIDChange}
-          defaultValue={props.account.info.member_card_no}
-          readOnly={props.account.info.check_pass_account}
-          maxLength={256}
-        ></CustomTextField>
-      ) : (
-        <Content>
-          {i18n.t("profile.nameVerify.toEdit")}
-          {
-            <LabelLink
-              onClick={() =>
-                props.handleCSClick(
-                  props.account.info.member_username,
-                  props.account.info.member_username
-                )
-              }
-            >
-              {i18n.t("common.customerService")}
-            </LabelLink>
-          }
-        </Content>
-      )}
+
       {(() => {
-        if (props.account.info.check_pass_account === false) {
+        if (check_pass_account === false) {
+          if (config.features.ICVerification) {
+            return (
+              <>
+                <CustomTextField
+                  placeholder={
+                    config.features.Profile_CustomIdentityPageTranslation
+                      ? i18n.t("piso.profile.enterDocumentNumber")
+                      : i18n.t("profile.nameVerify.msgPlsEnterICNum")
+                  }
+                  adornment={IconInputIDPNG}
+                  handleTextFieldChange={onhandleIDChange}
+                  defaultValue={props.account.info.member_card_no}
+                  readOnly={props.account.info.check_pass_account}
+                  maxLength={256}
+                ></CustomTextField>
+                {config.features.ICVerificationUpload && (
+                  <InputWrapper style={{}}>
+                    <CustomInput
+                      type="file"
+                      accept="image/jpg, image/jpeg, image/png, image/tiff"
+                      onChange={handleFileChange}
+                    ></CustomInput>
+                  </InputWrapper>
+                )}
+              </>
+            );
+          }
+        } else {
+          return (
+            <Content>
+              {i18n.t("profile.nameVerify.toEdit")}
+              {
+                <LabelLink
+                  onClick={() =>
+                    props.handleCSClick(
+                      props.account.info.member_username,
+                      props.account.info.member_username
+                    )
+                  }
+                >
+                  {i18n.t("common.customerService")}
+                </LabelLink>
+              }
+            </Content>
+          );
+        }
+      })()}
+      {(() => {
+        if (check_pass_account === false) {
           return (
             <CustomButton
               name={i18n.t("common.submit")}

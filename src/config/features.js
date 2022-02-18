@@ -33,6 +33,7 @@ const featureList = {
     AddCard_BankDropdown: false,
     Deposit_AddTips: false,
     Deposit_CustomBankNameTranslation: false,
+    ICVerificationUpload: false,
   },
 };
 export default featureList;

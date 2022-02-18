@@ -4,8 +4,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { withStyles } from "@material-ui/core/styles";
 const CustomText = withStyles({
   root: {
-    backgroundColor: "#fff",
-
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
     },
@@ -20,6 +18,8 @@ const CustomText = withStyles({
       borderBottomColor: "#b6b6b6",
     },
     "& .MuiOutlinedInput-root": {
+      backgroundColor: "#fff",
+      borderRadius: "12px",
       "& fieldset": {
         borderColor: "#b6b6b6",
         borderRadius: "12px",
