@@ -259,8 +259,9 @@ class AddCard extends Component {
         );
         return;
       }
-      if (this.state.phone === "") {
-        this.props.enqueueSnackbar(i18n.t("common.msgEnterPhone"), {
+      var expr = /^[0-9]{8,10}$/;
+      if (!expr.test(this.state.phone)) {
+        this.props.enqueueSnackbar(i18n.t("common.noReachMin"), {
           variant: "error",
         });
         return;
@@ -508,7 +509,7 @@ class AddCard extends Component {
                 }
                 width={395}
                 height={38}
-                maxLength={50}
+                maxLength={10}
                 float={"none"}
                 handleTextFieldChange={this.handlePhoneChange}
               ></CustomTextField>
