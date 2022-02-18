@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {AccountService} from "../../api-services/services/AccountService";
+import { AccountService } from "../../api-services/services/AccountService";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import LoginBGPNG from "../../assets/images/login-bg.png";
@@ -253,7 +253,11 @@ class ForgotPasswordPhone extends Component {
   };
   onhandleGetCodeClick = () => {
     if (this.state.countdown <= 0) {
-      if (this.state.phone.length > 0) {
+      if (this.state.phone.length < 8 || this.state.phone.length > 10) {
+        this.props.enqueueSnackbar(i18n.t("common.noReachMin"), {
+          variant: "error",
+        });
+      } else {
         AccountService.VerifyForgotPassword(
           "",
           this.state.areaCode,
@@ -274,10 +278,6 @@ class ForgotPasswordPhone extends Component {
               }
             );
           }
-        });
-      } else {
-        this.props.enqueueSnackbar(i18n.t("common.msgEnterPhone"), {
-          variant: "error",
         });
       }
       // AccountService.GetPhoneVerificationCode(
@@ -357,7 +357,7 @@ class ForgotPasswordPhone extends Component {
             type="text"
             autoComplete="off"
             inputProps={{
-              maxLength: 20,
+              maxLength: 10,
             }}
             InputProps={{
               startAdornment: (

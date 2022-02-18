@@ -6,8 +6,8 @@ import CustomButton from "../../../Share/Button";
 import TextField from "@material-ui/core/TextField";
 import IconInputVerifyCodePNG from "../../../../assets/images/icon-input-verifycode.png";
 import { withStyles } from "@material-ui/core/styles";
-import {AccountService} from "../../../../api-services/services/AccountService";
-import {accountAction} from "../../../../api-services/actions/accountAction";
+import { AccountService } from "../../../../api-services/services/AccountService";
+import { accountAction } from "../../../../api-services/actions/accountAction";
 import Select from "@material-ui/core/Select";
 import i18n from "../../../../utils/i18n";
 import ErrorSwitcher from "../../../../utils/ErrorSwitcher";
@@ -136,7 +136,7 @@ class PhoneVerification extends Component {
       prefix: "86",
       countdown: 0,
       securityKey: "",
-      areacode: "+852",
+      areacode: config.features.PhonePrefix,
     };
   }
 
@@ -160,6 +160,14 @@ class PhoneVerification extends Component {
     this.setState({ ...this.state, code: e.target.value });
   };
   onhandleGetCodeClick = () => {
+    var expr = /^[0-9]{8,10}$/;
+    if (!expr.test(this.state.phone)) {
+      this.props.enqueueSnackbar(i18n.t("common.noReachMin"), {
+        variant: "warning",
+      });
+      return;
+    }
+
     if (this.state.countdown <= 0) {
       AccountService.VerifyPhone(this.state.phone, this.state.areacode).then(
         (response) => {
@@ -197,6 +205,13 @@ class PhoneVerification extends Component {
     if (this.state.code.length < 6) {
       this.props.enqueueSnackbar(i18n.t("common.msgEnterCode"), {
         variant: "error",
+      });
+      return;
+    }
+    var expr = /^[0-9]{8,10}$/;
+    if (!expr.test(this.state.phone)) {
+      this.props.enqueueSnackbar(i18n.t("common.noReachMin"), {
+        variant: "warning",
       });
       return;
     }
@@ -349,7 +364,9 @@ class PhoneVerification extends Component {
               this.setState({ ...this.state, areacode: e.target.value });
             }}
           >
-            <option value={"+852"}>+852</option>
+            <option value={config.features.PhonePrefix}>
+              {config.features.PhonePrefix}
+            </option>
           </CustomSelect>
         </FormControl>
 
@@ -358,7 +375,7 @@ class PhoneVerification extends Component {
           onChange={this.onhandlePhoneChange}
           value={this.state.phone}
           inputProps={{
-            maxLength: 20,
+            maxLength: 10,
           }}
           style={{
             width: "268px",

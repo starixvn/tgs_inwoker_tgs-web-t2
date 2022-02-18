@@ -350,9 +350,9 @@ function Activation(props) {
       });
       return;
     }
-    expr = /^.{8,9}$/;
+    expr = /^[0-9]{8,10}$/;
     if (!expr.test(phone)) {
-      props.enqueueSnackbar(i18n.t("forgotPassword.plsEnterPhoneNumber"), {
+      props.enqueueSnackbar(i18n.t("common.noReachMin"), {
         variant: "warning",
       });
       return;
@@ -400,9 +400,9 @@ function Activation(props) {
         });
         return;
       }
-      expr = /^.{8,9}$/;
+      expr = /^[0-9]{8,10}$/;
       if (!expr.test(phone)) {
-        props.enqueueSnackbar(i18n.t("forgotPassword.plsEnterPhoneNumber"), {
+        props.enqueueSnackbar(i18n.t("common.noReachMin"), {
           variant: "warning",
         });
         return;
@@ -518,7 +518,7 @@ function Activation(props) {
           type="text"
           autoComplete="off"
           inputProps={{
-            maxLength: 20,
+            maxLength: 10,
           }}
           InputProps={{
             startAdornment: (
