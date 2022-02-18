@@ -529,7 +529,7 @@ class AddCard extends Component {
                 marginTop={10}
                 placeholder={
                   config.features.AddCard_DisplayGCash
-                    ? i18n.t("piso.withdrawalNumber")
+                    ? i18n.t("piso.msgEnterWithdrawalNumber")
                     : config.features.AddCard_DisplayFPS
                     ? i18n.t("hk28.msgEnterWithdrawalNumber")
                     : i18n.t("common.msgEnterWithdrawalNumber")
