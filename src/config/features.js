@@ -34,6 +34,7 @@ const featureList = {
     Deposit_AddTips: false,
     Deposit_CustomBankNameTranslation: false,
     ICVerificationUpload: false,
+    AddCard_DisplayGCash: false,
   },
 };
 export default featureList;

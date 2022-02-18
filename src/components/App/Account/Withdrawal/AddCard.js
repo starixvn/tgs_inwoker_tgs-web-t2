@@ -517,7 +517,9 @@ class AddCard extends Component {
         ) : (
           <div>
             <TextFieldLabel>
-              {config.features.AddCard_DisplayFPS
+              {config.features.AddCard_DisplayGCash
+                ? i18n.t("piso.withdrawalNumber")
+                : config.features.AddCard_DisplayFPS
                 ? i18n.t("hk28.withdrawalNumber")
                 : i18n.t("common.withdrawalNumber")}
             </TextFieldLabel>
@@ -525,7 +527,9 @@ class AddCard extends Component {
               <CustomTextField
                 marginTop={10}
                 placeholder={
-                  config.features.AddCard_DisplayFPS
+                  config.features.AddCard_DisplayGCash
+                    ? i18n.t("piso.withdrawalNumber")
+                    : config.features.AddCard_DisplayFPS
                     ? i18n.t("hk28.msgEnterWithdrawalNumber")
                     : i18n.t("common.msgEnterWithdrawalNumber")
                 }
