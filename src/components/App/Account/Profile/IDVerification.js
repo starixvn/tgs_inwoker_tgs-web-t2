@@ -92,6 +92,13 @@ function IDVerification(props) {
       });
       return;
     }
+    if (config.features.ICVerificationUpload && icUpload === "") {
+      props.enqueueSnackbar(i18n.t("deposit.msgPlsSelectFile"), {
+        variant: "error",
+      });
+      return;
+    }
+
     AccountService.AddRealName(
       local_props.member_name,
       local_props.member_card_no
