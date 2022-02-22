@@ -56,42 +56,36 @@ const InputWrapper = styled.div`
   width: 350px;
   display: inline-block;
 `;
-let local_props = {
-  member_name: "",
-  member_card_no: "",
-};
-
-const onhandleNameChange = (e) => {
-  local_props.member_name = e.target.value;
-};
-const onhandleIDChange = (e) => {
-  local_props.member_card_no = e.target.value;
-};
 
 function IDVerification(props) {
-  local_props = {
-    member_name: props.account.info.member_name,
-    member_card_no: props.account.info.member_card_no,
-  };
+  const [memberName, setMemberName] = useState(props.account.info.member_name);
+  const [memberCard, setMemberCard] = useState(
+    props.account.info.member_card_no
+  );
 
   const [icUpload, setICUpload] = useState("");
 
+  const onhandleNameChange = (e) => {
+    setMemberName(e.target.value);
+  };
+  const onhandleIDChange = (e) => {
+    setMemberCard(e.target.value);
+  };
+
   const onhandleClick = () => {
-    if (local_props.member_name === "" || local_props.member_name === null) {
+    if (memberName === "" || memberName === null) {
       props.enqueueSnackbar(i18n.t("profile.nameVerify.msgPlsEnterName"), {
         variant: "error",
       });
       return;
     }
-    if (
-      local_props.member_card_no === "" ||
-      local_props.member_card_no === null
-    ) {
+    if (memberCard === "" || memberCard === null) {
       props.enqueueSnackbar(i18n.t("profile.nameVerify.msgPlsEnterICNum"), {
         variant: "error",
       });
       return;
     }
+
     if (config.features.ICVerificationUpload && icUpload === "") {
       props.enqueueSnackbar(i18n.t("deposit.msgPlsSelectFile"), {
         variant: "error",
@@ -99,10 +93,7 @@ function IDVerification(props) {
       return;
     }
 
-    AccountService.AddRealName(
-      local_props.member_name,
-      local_props.member_card_no
-    ).then((response) => {
+    AccountService.AddRealName(memberName, memberCard).then((response) => {
       if (response.IsSuccess) {
         //upload IC when membername and memberic is valid.
         if (config.features.ICVerificationUpload) {
@@ -112,7 +103,7 @@ function IDVerification(props) {
         props.dispatch({
           type: UPDATE_INFO,
           payload: {
-            member_name: local_props.member_name,
+            member_name: memberName,
             check_pass_account: true,
           },
         });
