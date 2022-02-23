@@ -104,7 +104,6 @@ function IDVerification(props) {
           type: UPDATE_INFO,
           payload: {
             member_name: memberName,
-            check_pass_account: true,
           },
         });
         props.handleCloseDialog();
