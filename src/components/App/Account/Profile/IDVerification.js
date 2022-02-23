@@ -173,7 +173,7 @@ function IDVerification(props) {
         }
         adornment={IconInputReceivePNG}
         handleTextFieldChange={onhandleNameChange}
-        defaultValue={props.account.info.member_name}
+        defaultValue={check_pass_account ? props.account.info.member_name : ""}
         readOnly={check_pass_account}
         maxLength={256}
       ></CustomTextField>
