@@ -6,8 +6,8 @@ import { connect } from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import LoginBGPNG from "../../../../assets/images/login-bg.png";
 import IconLoginClosePNG from "../../../../assets/images/icon-login-close.png";
-import {accountAction} from "../../../../api-services/actions/accountAction";
-import {SHOWING_DIALOG} from "../../../../api-services/constant/actionType";
+import { accountAction } from "../../../../api-services/actions/accountAction";
+import { SHOWING_DIALOG } from "../../../../api-services/constant/actionType";
 import { withStyles } from "@material-ui/core/styles";
 // import Address from "./Address";
 import ChangePassword from "./ChangePassword";
@@ -105,8 +105,16 @@ const ContentButtonLabel = styled.div`
   margin-top: 5px;
 `;
 
+const VerifiedSpan = styled.span`
+  color: ${({ theme }) => theme.primary};
+  user-select: none;
+`;
+
 function GetContentWrap(accountInfo, label, attr, func, label2) {
   let attrValue = accountInfo[attr];
+  let isMemberName = false;
+  let verified = accountInfo["check_pass_account"];
+  let containMemberName = accountInfo["member_name"];
   if (attr === "member_address") {
     if (attrValue !== "") {
       attrValue +=
@@ -137,6 +145,14 @@ function GetContentWrap(accountInfo, label, attr, func, label2) {
       attrValue = accountInfo["member_phone"]
         ? accountInfo["member_phone"].substring(0, 1) + "**"
         : "";
+    }
+  }
+
+  if (attr === "member_name") {
+    isMemberName = true;
+
+    if (attrValue !== "") {
+      attrValue = accountInfo["member_name"] ? accountInfo["member_name"] : "";
     }
   }
 
@@ -209,7 +225,16 @@ function GetContentWrap(accountInfo, label, attr, func, label2) {
     <ContentWrap>
       <ContentLabel>{label}:</ContentLabel>
       <ContentValue style={isDisable ? { color: "#acacac" } : {}}>
-        {attrValue}
+        {attrValue}{" "}
+        {
+          <VerifiedSpan>
+            {isMemberName &&
+              containMemberName &&
+              (verified
+                ? "(" + i18n.t("verified.yes") + ")"
+                : "(" + i18n.t("verified.no") + ")")}
+          </VerifiedSpan>
+        }
       </ContentValue>
       {(() => {
         if (buttonValue !== "") {

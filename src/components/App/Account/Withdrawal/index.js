@@ -15,9 +15,9 @@ import Main from "./Main";
 import Success from "./Success";
 import config from "../../../../config/config";
 import ErrorSwitcher from "../../../../utils/ErrorSwitcher";
-import {walletAction} from "../../../../api-services/actions/walletAction";
-import {WalletService} from "../../../../api-services/services/WalletService";
-import {RESET_WALLETRESULT} from "../../../../api-services/constant/actionType";
+import { walletAction } from "../../../../api-services/actions/walletAction";
+import { WalletService } from "../../../../api-services/services/WalletService";
+import { RESET_WALLETRESULT } from "../../../../api-services/constant/actionType";
 import { withSnackbar } from "notistack";
 import i18n from "../../../../utils/i18n";
 import EmailVerification from "../../Share/EmailVerification";
@@ -448,6 +448,9 @@ class Withdrawal extends Component {
                         return (
                           <Success
                             handleConfirmClick={this.handleSuccessConfirmClick}
+                            verified={
+                              this.props.account.info.check_pass_account
+                            }
                           ></Success>
                         );
                       default:
