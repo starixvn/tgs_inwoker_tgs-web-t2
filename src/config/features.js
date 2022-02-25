@@ -1,7 +1,7 @@
 const featureList = {
   default: {
-    SMSVerification: false,
-    EmailVerification: true,
+    SMSVerification: true,
+    EmailVerification: false,
     ICVerification: true,
     QQWeChat: true,
     SportsHideLogo: false,
@@ -35,6 +35,8 @@ const featureList = {
     Deposit_CustomBankNameTranslation: false,
     ICVerificationUpload: false,
     AddCard_DisplayGCash: false,
+    AddCard_NotAllowedEditDelete: true,
+    NavigateToAddCard: false,
   },
 };
 export default featureList;

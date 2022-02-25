@@ -11,21 +11,21 @@ import Activation from "./Activation";
 import ResetPassword from "./ResetPassword";
 import ResetPasswordSuccess from "./ResetPasswordSuccess";
 import config from "../../config/config";
-import {accountAction} from "../../api-services/actions/accountAction";
-import {walletAction} from "../../api-services/actions/walletAction";
-import {gameAction} from "../../api-services/actions/gameAction";
-import {inboxAction} from "../../api-services/actions/inboxAction";
-import {generalAction} from "../../api-services/actions/generalAction";
-import {AccountService} from "../../api-services/services/AccountService";
-import {SHOWING_DIALOG} from "../../api-services/constant/actionType";
-import {SHOW_LOGIN} from "../../api-services/constant/actionType";
+import { accountAction } from "../../api-services/actions/accountAction";
+import { walletAction } from "../../api-services/actions/walletAction";
+import { gameAction } from "../../api-services/actions/gameAction";
+import { inboxAction } from "../../api-services/actions/inboxAction";
+import { generalAction } from "../../api-services/actions/generalAction";
+import { AccountService } from "../../api-services/services/AccountService";
+import { SHOWING_DIALOG } from "../../api-services/constant/actionType";
+import { SHOW_LOGIN } from "../../api-services/constant/actionType";
 
 import Register from "./Register";
 
 import { withSnackbar } from "notistack";
 
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
-import { errorSwitcher } from "../../utils/ErrorSwitcher";
+import ErrorSwitcher, { errorSwitcher } from "../../utils/ErrorSwitcher";
 import i18n from "../../utils/i18n";
 import ForgotPasswordPhone from "./ForgotPasswordPhone";
 const Container = styled.div``;
@@ -106,10 +106,11 @@ class GuestContainer extends Component {
     openSelfControlDialog: false,
     code: "",
     phone: "",
+    email: "",
     securityKey: "",
     username: "",
     pass: "",
-    areaCode: "+852",
+    areaCode: config.features.PhonePrefix,
   };
   componentDidMount() {
     let urlParams = new URLSearchParams(this.props.location.search);
@@ -123,6 +124,8 @@ class GuestContainer extends Component {
         case "register":
         case "register_auth":
           this.onhandleRegister();
+          break;
+        default:
           break;
       }
     }
@@ -142,23 +145,14 @@ class GuestContainer extends Component {
       openDialog: true,
       openDialogName: dialogName,
     });
+    this.props.onDialogChange(dialogName);
     this.props.showLogin(true);
-  };
-
-  onhandleActivation = (username = "", pass = "") => {
-    this.setState({
-      ...this.state,
-      openDialog: true,
-      openDialogName: "activation",
-      username: username,
-      pass: pass,
-    });
-    this.props.showLogin(false);
   };
 
   onhandleCloseDialog = () => {
     this.setState({ ...this.state, openDialog: false });
     this.props.showLogin(false);
+    this.props.onDialogChange("");
   };
 
   // onhandleLoginSuccess = token => {
@@ -172,16 +166,27 @@ class GuestContainer extends Component {
       openDialog: true,
       openDialogName: "register",
     });
+    this.props.onDialogChange("register");
+    this.props.showLogin(false);
+  };
+  onhandleActivation = (username = "", pass = "") => {
+    this.setState({
+      ...this.state,
+      openDialog: true,
+      openDialogName: "activation",
+      username: username,
+      pass: pass,
+    });
+    this.props.onDialogChange("activation");
     this.props.showLogin(false);
   };
   onhandleForgotPassword = () => {
     this.setState({
       ...this.state,
       openDialog: true,
-      phone: "",
-      code: "",
       openDialogName: "forgotpassword",
     });
+
     this.props.showLogin(false);
   };
 
@@ -268,9 +273,12 @@ class GuestContainer extends Component {
             openDialogName: "resetpasswordsuccess",
           });
         } else {
-          this.props.enqueueSnackbar(response.info, {
-            variant: "error",
-          });
+          this.props.enqueueSnackbar(
+            ErrorSwitcher.getTranslation(response.info),
+            {
+              variant: "error",
+            }
+          );
         }
       }
     );
@@ -370,20 +378,17 @@ class GuestContainer extends Component {
     const result = await this.props.accountLogin(username, password);
     if (result.code === 101 && result.IsSuccess === false) {
       this.props.showLogin(true);
-    } else {
-    }
-    if (result.IsSuccess) {
-      this.handleLoginSuccess(result.data);
     } else if (result.code === 210) {
       this.onhandleCloseDialog();
       AppHistory.replace("/" + i18n.language + "/banned");
     } else {
-      this.props.enqueueSnackbar(result.info, {
+    }
+    if (result.IsSuccess) {
+      this.handleLoginSuccess(result.data);
+    } else {
+      this.props.enqueueSnackbar(ErrorSwitcher.getTranslation(result.info), {
         variant: "warning",
       });
-      // this.props.enqueueSnackbar(i18n.t("common.msgInvalidUsername"), {
-      //   variant: "warning",
-      // });
 
       // if (result.data.self_control === 1) {
       //   this.props.showLogin(false);
@@ -406,11 +411,11 @@ class GuestContainer extends Component {
   handleLoginSuccess = (token) => {
     let urlParams = new URLSearchParams(this.props.location.search);
     if (urlParams.has("return_url")) {
-      const returnValue = urlParams.get("return_url");
-      if (returnValue) {
-        window.location.href =
-          returnValue + "?token=" + BlowFishEncryption.Encrypt(token);
-      }
+      // const returnValue = urlParams.get("return_url");
+      // if (returnValue) {
+      //   window.location.href =
+      //     returnValue + "?token=" + BlowFishEncryption.Encrypt(token);
+      // }
     } else {
       // this.props.checkGame();
 

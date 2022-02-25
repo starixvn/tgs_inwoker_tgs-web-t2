@@ -571,6 +571,16 @@ class Header extends Component {
 
     this.FireTimerToUpdateBalance();
   }
+  componentDidUpdate(preProps, preState) {
+    if (
+      preProps.account.token !== this.props.account.token &&
+      this.props.account.token !== null
+    ) {
+      if (config.features.NavigateToAddCard) {
+        this.props.history.push("/" + i18n.language + "/account/withdrawal");
+      }
+    }
+  }
   FireTimerToUpdateBalance = () => {
     this.updateInterval = setInterval(() => {
       this.setState({
@@ -595,7 +605,9 @@ class Header extends Component {
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
   }
-
+  handleDialogChange = (dialog) => {
+    this.setState({ ...this.state, dialog: dialog });
+  };
   handleScroll(evt) {
     const lastScroll = window.scrollY;
     if (lastScroll > 160) {
@@ -944,6 +956,7 @@ class Header extends Component {
                     <GuestContainer
                       onhandleShowCSClick={this.props.onhandleShowCSClick}
                       onhandleContactUsClick={this.handleContactUsClick}
+                      onDialogChange={this.handleDialogChange}
                     ></GuestContainer>
                   );
                 } else {
