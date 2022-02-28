@@ -35,7 +35,7 @@ const featureList = {
     Deposit_CustomBankNameTranslation: false,
     ICVerificationUpload: false,
     AddCard_DisplayGCash: false,
-    AddCard_NotAllowedEditDelete: true,
+    AddCard_NotAllowedEditDelete: false,
     NavigateToAddCard: false,
   },
 };
