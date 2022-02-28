@@ -433,6 +433,14 @@ class GuestContainer extends Component {
       // this.props.getIDCardNo();
       // this.props.getInviteLink();
       // this.props.getDepositChannel();
+
+      if (this.state.openDialogName === "activation") {
+        if (config.features.NavigateToAddCard) {
+          this.props.history.push(
+            "/" + i18n.language + "/account/withdrawal?do=addCard"
+          );
+        }
+      }
     }
   };
   onhandleOnlineSupport = () => {

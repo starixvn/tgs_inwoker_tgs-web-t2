@@ -571,16 +571,7 @@ class Header extends Component {
 
     this.FireTimerToUpdateBalance();
   }
-  componentDidUpdate(preProps, preState) {
-    if (
-      preProps.account.token !== this.props.account.token &&
-      this.props.account.token !== null
-    ) {
-      if (config.features.NavigateToAddCard) {
-        this.props.history.push("/" + i18n.language + "/account/withdrawal");
-      }
-    }
-  }
+
   FireTimerToUpdateBalance = () => {
     this.updateInterval = setInterval(() => {
       this.setState({
