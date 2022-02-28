@@ -15,7 +15,6 @@ import Email from "./Email";
 import WithdrawalPassword from "./WithdrawalPassword";
 import ChangeWithdrawalPassword from "./ChangeWithdrawalPassword";
 
-import IDVerification from "./IDVerification";
 import PhoneVerification from "./PhoneVerification";
 // import SecurityQuestion from "./SecurityQuestion";
 // import ResetSecurityQuestion from "./ResetSecurityQuestion";
@@ -24,6 +23,7 @@ import QQ from "./QQ";
 import Wechat from "./Wechat";
 import i18n from "../../../../utils/i18n";
 import config from "../../../../config/config";
+import IDVerification from "./id-verification";
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box
