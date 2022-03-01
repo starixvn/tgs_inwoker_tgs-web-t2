@@ -221,6 +221,27 @@ function GetContentWrap(accountInfo, label, attr, func, label2) {
     }
   }
 
+  var currentFormStatus = accountInfo.identityformstatus;
+  var hasSubmitted = accountInfo.identityformid ? true : false;
+
+  var status = "";
+
+  if (currentFormStatus === 0 && hasSubmitted === false) {
+    //api沒給表單id ，表示可以上傳
+    status = "";
+  }
+  if (currentFormStatus === 1 && hasSubmitted === true) {
+    status = "yes";
+  }
+  if (currentFormStatus === 2 && hasSubmitted === true) {
+    //有給表單id但是狀態是拒絕，也可以上傳
+    status = "no";
+  }
+  if (currentFormStatus === 0 && hasSubmitted === true) {
+    //有給表單id但狀態沒驗證，不能上傳
+    status = "verifying";
+  }
+
   return (
     <ContentWrap>
       <ContentLabel>{label}:</ContentLabel>
@@ -230,9 +251,7 @@ function GetContentWrap(accountInfo, label, attr, func, label2) {
           <VerifiedSpan>
             {isMemberName &&
               containMemberName &&
-              (verified
-                ? "(" + i18n.t("verified.yes") + ")"
-                : "(" + i18n.t("verified.no") + ")")}
+              "(" + i18n.t("verified." + status) + ")"}
           </VerifiedSpan>
         }
       </ContentValue>
