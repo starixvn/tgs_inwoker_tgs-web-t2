@@ -235,7 +235,7 @@ function GetContentWrap(accountInfo, label, attr, func, label2) {
   }
   if (currentFormStatus === 2 && hasSubmitted === true) {
     //有給表單id但是狀態是拒絕，也可以上傳
-    status = "no";
+    status = "rejected";
   }
   if (currentFormStatus === 0 && hasSubmitted === true) {
     //有給表單id但狀態沒驗證，不能上傳
