@@ -23,8 +23,11 @@ import KYContentCardPNG from "../../../assets/images/ky-content-card.png";
 import Recommend from "./Recommend";
 import Marquee from "./Marquee";
 import FloatPanel from "./FloatPanel";
-import {SHOW_MODAL, SHOW_LOGIN} from "../../../api-services/constant/actionType";
-import {GameTypeEnum, GameEnum} from "../../../api-services/utils/Enum";
+import {
+  SHOW_MODAL,
+  SHOW_LOGIN,
+} from "../../../api-services/constant/actionType";
+import { GameTypeEnum, GameEnum } from "../../../api-services/utils/Enum";
 
 import i18n from "../../../utils/i18n";
 import SlotSection from "./SlotSection";
@@ -364,15 +367,14 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    let promotionId = "";
-    let promotionChannelId = "";
-
-    if (this.props.match.params) {
-      promotionId = this.props.match.params.promotionid || "";
-      promotionChannelId = this.props.match.params.promotionchannelid || "";
-    }
-    localStorage.setItem("promotionId", promotionId);
-    localStorage.setItem("promotionChannelId", promotionChannelId);
+    //  let promotionId = "";
+    //  let promotionChannelId = "";
+    //  if (this.props.match.params) {
+    //    promotionId = this.props.match.params.promotionid || "";
+    //    promotionChannelId = this.props.match.params.promotionchannelid || "";
+    //  }
+    //  localStorage.setItem("promotionId", promotionId);
+    //  localStorage.setItem("promotionChannelId", promotionChannelId);
   }
   componentDidUpdate(preProps) {
     if (

@@ -234,56 +234,40 @@ function Register(props) {
   const [password2, setPassword2] = React.useState("");
 
   const [withPromo, setWithPromo] = React.useState(
-    localStorage.getItem("promotionId") === "" ? false : true
+    config.affiliateId === "" && localStorage.getItem("promotionId") === ""
+      ? false
+      : true
   );
   const [promotionId, setPromotionId] = React.useState(
-    localStorage.getItem("promotionId")
+    config.affiliateId !== ""
+      ? config.affiliateId
+      : localStorage.getItem("promotionId")
   );
 
   const { location } = props;
 
-  var URL = location.pathname.split("/");
-
-  const [upper, setUpper] = React.useState("");
-  const [promoteType, setPromoteType] = React.useState("a");
-  const [prefill, setPrefill] = React.useState(false);
-
-  const [invitation, setInvitation] = React.useState({});
+  const [upper, setUpper] = React.useState(localStorage.getItem("upper"));
+  const [promoteType, setPromoteType] = React.useState(
+    localStorage.getItem("invitationtype")
+  );
+  const [prefill, setPrefill] = React.useState(
+    localStorage.getItem("promotionId") != "" ||
+      localStorage.getItem("upper") != ""
+      ? true
+      : false
+  );
 
   useEffect(() => {
-    if (URL.length > 2) {
-      //make sure the path more than 2
-      if (URL[2] == "p") {
-        //check if it player invitation code
-        setUpper(URL[3]); //set username as upper.
-        setPromoteType("p");
-      } else if (URL[2] == "a") {
-        setPromotionId(URL[3]);
-        setPromoteType("a");
-      }
-
-      if (URL[2] == "p" || URL[2] == "a") {
-        setPrefill(true);
-      }
+    if (props.general.brand.hasInvitationCode) {
+      props.getInvitationCode().then((result) => {
+        if (result.IsSuccess && result.data.invitationCode) {
+          setPromoteType("a");
+          setPromotionId(result.data.invitationCode);
+          setPrefill(true);
+        }
+      });
     }
   }, []);
-
-  useEffect(() => {
-    props.getInvitationCode().then((result) => {
-      if (result.IsSuccess) {
-        setInvitation(result.data);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (invitation) {
-      if (invitation.invitationCode !== undefined) {
-        setPromotionId(invitation.invitationCode);
-        setPrefill(true);
-      }
-    }
-  }, [invitation]);
 
   const [tnc, setTnc] = React.useState(true);
   const handleRegisterClick = async () => {
@@ -294,7 +278,7 @@ function Register(props) {
       });
       return;
     }
-    var expr = /^.{6,20}$/;
+    expr = /^.{6,20}$/;
     if (!expr.test(password)) {
       props.enqueueSnackbar(i18n.t("common.msgRegisterPassInvalid"), {
         variant: "warning",
@@ -533,11 +517,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getInvitationCode: () => dispatch(generalAction.getInvitationCode()),
     dispatchFunction: (json) => dispatch(json),
     getAccountInfo: (token) => dispatch(accountAction.getAccountInfo(token)),
     getAccountProfile: (token) =>
       dispatch(accountAction.getAccountProfile(token, true)),
+    getInvitationCode: () => dispatch(generalAction.getInvitationCode()),
     register: (username, pwd, confirmpwd, invitationcode, upper) =>
       dispatch(
         accountAction.registerAccount(

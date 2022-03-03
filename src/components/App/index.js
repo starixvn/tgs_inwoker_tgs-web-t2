@@ -66,23 +66,44 @@ class App extends Component {
     isIpRestrict: false,
   };
   async componentDidMount() {
-    if (this.props.general.token == "") {
+    if (this.props.general.token === "") {
       this.props.getSiteToken();
     } else {
       this.props.getBrandCommunicationList();
-      this.props.getMarquee(i18n.language);
-      this.props.getLiveChatURL();
       this.props.getBrandLanguage();
+      this.props.getMarquee(i18n.language);
       this.props.getBanner();
       this.props.getBrand();
-    }
+      this.props.getLiveChatURL();
 
+      // this.props.getVIP();
+    }
+    // if (response.IsSuccess) {
+    //   localStorage.setItem("client-token", response.data.token);
+    // }
     // this.props.getMobilePrefix();
-    // this.props.getMarquee();
+    //this.props.getMarquee();
     // this.props.getBanner();
     // this.props.getGamePlatformList();
-    // this.props.getHomePageGameList();
+    //this.props.getHomePageGameList();
+    const urlpath = this.props.location.pathname.split("/");
 
+    if (urlpath.length === 4) {
+      if (urlpath[2] === "a") {
+        localStorage.setItem("promotionId", urlpath[3] || "");
+        localStorage.setItem("upper", ""); //reset
+        localStorage.setItem("invitationtype", "a");
+      }
+      if (urlpath[2] === "p") {
+        localStorage.setItem("upper", urlpath[3] || "");
+        localStorage.setItem("promotionId", ""); //reset
+        localStorage.setItem("invitationtype", "p");
+      }
+    } else {
+      localStorage.setItem("invitationtype", "");
+      localStorage.setItem("upper", ""); //reset
+      localStorage.setItem("promotionId", ""); //reset
+    }
     let urlParams = new URLSearchParams(this.props.location.search);
     if (urlParams.has("goto")) {
       const gotoValue = urlParams.get("goto");
@@ -105,18 +126,21 @@ class App extends Component {
         case "register":
         case "login_auth":
         case "register_auth":
-          localStorage.removeItem("token");
+          localStorage.removeItem("token0");
           break;
         case "login_token":
-          const decryptedToken = BlowFishEncryption.Decrypt(
-            urlParams.get("token")
-          );
+          // const decryptedToken = BlowFishEncryption.Decrypt(
+          //   urlParams.get("token")
+          // );
 
-          localStorage.setItem("token0", decryptedToken);
-          AppHistory.replace("/");
+          // localStorage.setItem("token0", decryptedToken);
+          // AppHistory.replace("/");
+          break;
+        default:
           break;
       }
     } else {
+      //  this.props.getWalletBalance();
     }
   }
   async componentDidUpdate(preProps) {
