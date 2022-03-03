@@ -165,6 +165,7 @@ function GetContentWrap(accountInfo, label, attr, func, label2) {
     attr === "member_birthday";
 
   let isVerify = false;
+  let hide = false;
 
   if (requiredVerify) {
     if (attr === "member_name" || attr === "member_birthday") {
@@ -177,6 +178,9 @@ function GetContentWrap(accountInfo, label, attr, func, label2) {
     }
     if (attr === "member_phone") {
       isVerify = accountInfo.check_pass_phone;
+      if (config.features.Profile_NotAllowChangePhone && isVerify) {
+        hide = true;
+      }
     }
   }
 
@@ -256,7 +260,7 @@ function GetContentWrap(accountInfo, label, attr, func, label2) {
         }
       </ContentValue>
       {(() => {
-        if (buttonValue !== "") {
+        if (buttonValue !== "" && hide !== true) {
           return (
             <ContentButton onClick={() => func(attr)}>
               <ContentButtonLabel>{buttonValue}</ContentButtonLabel>
