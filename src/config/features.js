@@ -1,6 +1,6 @@
 const featureList = {
   default: {
-    SMSVerification: true,
+    SMSVerification: false,
     PhonePrefix: "+852",
     EmailVerification: true,
     ICVerification: true,
