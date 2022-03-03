@@ -6,6 +6,7 @@ import Button from "../../../Share/Button";
 import IconBankPNG from "../../../../assets/images/icon-bank.png";
 import IconAddCardPNG from "../../../../assets/images/icon-addcard.png";
 import i18n from "../../../../utils/i18n";
+import config from "../../../../config/config";
 const Container = styled.div`
   width: 100%;
 `;
@@ -144,26 +145,36 @@ function CardManage(props) {
                   })()}
                 </CardNumber>
               </RowContainer>
-              <RowContainer>
-                <LeftLabel>{i18n.t("card.removeCard")}</LeftLabel>
-                <Button
-                  name={i18n.t("card.remove")}
-                  width={89}
-                  height={32}
-                  grayMode={true}
-                  small={true}
-                  marginTop={1}
-                  handleClick={() => props.onhandleDeleteCardClick(item.id)}
-                  float={"right"}
-                ></Button>
-              </RowContainer>
+              {!(
+                config.features.AddCard_NotAllowedEditDelete ||
+                config.features.ChangesNotAllowed
+              ) && (
+                <RowContainer>
+                  <LeftLabel>{i18n.t("card.removeCard")}</LeftLabel>
+                  <Button
+                    name={i18n.t("card.remove")}
+                    width={89}
+                    height={32}
+                    grayMode={true}
+                    small={true}
+                    marginTop={1}
+                    handleClick={() => props.onhandleDeleteCardClick(item.id)}
+                    float={"right"}
+                  ></Button>
+                </RowContainer>
+              )}
             </CardFrame>
           );
         })}
 
-        <AddCardFrame onClick={props.onhandleAddCardClick}>
-          <AddCardFrameLabel>{i18n.t("card.msgAddCard")}</AddCardFrameLabel>
-        </AddCardFrame>
+        {!(
+          config.features.AddCard_NotAllowedEditDelete ||
+          config.features.ChangesNotAllowed
+        ) && (
+          <AddCardFrame onClick={props.onhandleAddCardClick}>
+            <AddCardFrameLabel>{i18n.t("card.msgAddCard")}</AddCardFrameLabel>
+          </AddCardFrame>
+        )}
       </CardContainer>
 
       <Button
