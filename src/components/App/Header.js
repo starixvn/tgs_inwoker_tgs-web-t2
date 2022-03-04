@@ -51,6 +51,7 @@ import Common from "../../utils/Common";
 import i18n from "../../utils/i18n";
 import Slider from "react-slick";
 import OnlineUserDisplayer from "../Share/online-user-displayer";
+import { AppHistory } from "../../history/History";
 
 const moment = require("moment");
 
@@ -840,7 +841,8 @@ class Header extends Component {
                           <CustomExternalLink
                             selected={i18n.language === lang.culturecode}
                             onClick={() => {
-                              window.location.href = `/${lang.culturecode}`;
+                              i18n.changeLanguage(lang.culturecode);
+                              AppHistory.replace(lang.culturecode);
                             }}
                           >
                             {i18n.t("lang." + lang.culturecode)}

@@ -321,22 +321,57 @@ class NewStepOne extends Component {
                             {channelExtend.logo && (
                               <CustomImage src={channelExtend.logo} />
                             )}
-                            <TransferContainer>
-                              <TransferLabel>
-                                {i18n.t("deposit.accName")}:
-                              </TransferLabel>
-                              <TransferLabelValue>
-                                {channelExtend.name}
-                              </TransferLabelValue>
-                            </TransferContainer>
-                            <TransferContainer>
-                              <TransferLabel>
-                                {i18n.t("deposit.cardNum")}:
-                              </TransferLabel>
-                              <TransferLabelValue>
-                                {channelExtend.bankAccount}
-                              </TransferLabelValue>
-                            </TransferContainer>
+                            {channelExtend.name && (
+                              <TransferContainer>
+                                <TransferLabel>
+                                  {i18n.t("deposit.accName")}:
+                                </TransferLabel>
+                                <TransferLabelValue>
+                                  {channelExtend.name}
+                                </TransferLabelValue>
+                              </TransferContainer>
+                            )}
+                            {channelExtend.bankAccount && (
+                              <TransferContainer>
+                                <TransferLabel>
+                                  {i18n.t("deposit.cardNum")}:
+                                </TransferLabel>
+                                <TransferLabelValue>
+                                  {channelExtend.bankAccount}
+                                </TransferLabelValue>
+                              </TransferContainer>
+                            )}
+                            {channelExtend.phone && (
+                              <TransferContainer>
+                                <TransferLabel>
+                                  {i18n.t("deposit.phone")}:
+                                </TransferLabel>
+                                <TransferLabelValue>
+                                  {channelExtend.phone}
+                                </TransferLabelValue>
+                              </TransferContainer>
+                            )}
+                            {channelExtend.email && (
+                              <TransferContainer>
+                                <TransferLabel>
+                                  {i18n.t("deposit.email")}:
+                                </TransferLabel>
+                                <TransferLabelValue>
+                                  {channelExtend.email}
+                                </TransferLabelValue>
+                              </TransferContainer>
+                            )}
+
+                            {channelExtend.fpsId && (
+                              <TransferContainer>
+                                <TransferLabel>
+                                  {i18n.t("deposit.fpsId")}:
+                                </TransferLabel>
+                                <TransferLabelValue>
+                                  {channelExtend.fpsId}
+                                </TransferLabelValue>
+                              </TransferContainer>
+                            )}
                           </SelectionContainer>
                           <SplitLine></SplitLine>
                         </>

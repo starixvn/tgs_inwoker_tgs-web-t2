@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Loading from "../App/Loading";
-import {walletAction} from "../../api-services/actions/walletAction";
+import { walletAction } from "../../api-services/actions/walletAction";
 import Maintenance from "./Maintenance";
 import config from "../../config/config";
 class Deposit extends Component {
@@ -25,6 +25,9 @@ class Deposit extends Component {
       // handle manual deposit
       if (methodcode === "BankTransfer") {
         this.props.doBankDeposit(name, amount, channelid, depositPromotion);
+      }
+      if (methodcode === "FPS") {
+        this.props.doFPSDeposit(name, amount, channelid, depositPromotion);
       }
       if (methodcode === "ThirdParty") {
         this.props.doThirdPartyDeposit(amount, channelid, depositPromotion);
@@ -105,6 +108,17 @@ const mapDispatchToProps = (dispatch) => {
     doBankDeposit: (account, amount, paymentid, promotionid, banktype) => {
       dispatch(
         walletAction.doBankDeposit(
+          account,
+          amount,
+          paymentid,
+          promotionid,
+          banktype
+        )
+      );
+    },
+    doFPSDeposit: (account, amount, paymentid, promotionid, banktype) => {
+      dispatch(
+        walletAction.doFPSDeposit(
           account,
           amount,
           paymentid,
