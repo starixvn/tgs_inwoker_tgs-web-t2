@@ -146,6 +146,7 @@ class Deposit extends Component {
       depositPromotion: this.props.match.params.promotionid,
       amount: 0,
       name: "",
+      account: "",
       step: 1,
       exchangeRate: { buyprice: 0, sellprice: 0 },
       files: [],
@@ -373,13 +374,14 @@ class Deposit extends Component {
       if (method.methodcode === "BankTransfer") {
         this.props.doBankDeposit(
           this.state.name,
+          this.state.account,
           this.state.amount.replace(/,/g, ""),
           channel.id,
           this.state.depositPromotion
         );
       } else if (method.methodcode === "FPS") {
         this.props.doFPSDeposit(
-          this.state.name,
+          this.state.account,
           this.state.amount.replace(/,/g, ""),
           channel.id,
           this.state.depositPromotion
@@ -498,6 +500,12 @@ class Deposit extends Component {
       name: e.target.value,
     });
   };
+  handleAccountChange = (e) => {
+    this.setState({
+      ...this.state,
+      account: e.target.value,
+    });
+  };
 
   handleFileChange = (e) => {
     var files = e.target.files;
@@ -536,6 +544,8 @@ class Deposit extends Component {
         if (config.features.Deposit_DualPage) {
           return (
             <NewStepOneHKJP
+              account={this.state.account}
+              onAccountChange={this.handleAccountChange}
               amount={this.state.amount}
               onAmountChange={this.handleAmountChange}
               name={this.state.name}
@@ -569,6 +579,8 @@ class Deposit extends Component {
         } else {
           return (
             <NewStepOne
+              account={this.state.account}
+              onAccountChange={this.handleAccountChange}
               amount={this.state.amount}
               onAmountChange={this.handleAmountChange}
               name={this.state.name}
@@ -832,9 +844,17 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(
         walletAction.doManualDeposit(amount, account, paymentid, promotionid)
       ),
-    doBankDeposit: (account, amount, paymentid, promotionid, banktype) => {
+    doBankDeposit: (
+      name,
+      account,
+      amount,
+      paymentid,
+      promotionid,
+      banktype
+    ) => {
       dispatch(
         walletAction.doBankDeposit(
+          name,
           account,
           amount,
           paymentid,

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Loading from "../App/Loading";
-import { walletAction } from "../../api-services/actions/walletAction";
 import Maintenance from "./Maintenance";
 import config from "../../config/config";
+import { walletAction } from "../../api-services/actions/walletAction";
 class Deposit extends Component {
   state = {
     loading: true,
@@ -21,13 +21,20 @@ class Deposit extends Component {
     var depositPromotion = this.props.match.params.promotion.trim();
     var amount = this.props.match.params.amount.replace(/,/g, "");
     var name = this.props.match.params.name;
+    var account = this.props.match.params.account;
     if (paymentcode.toUpperCase() === "MANUAL") {
       // handle manual deposit
       if (methodcode === "BankTransfer") {
-        this.props.doBankDeposit(name, amount, channelid, depositPromotion);
+        this.props.doBankDeposit(
+          name,
+          account,
+          amount,
+          channelid,
+          depositPromotion
+        );
       }
       if (methodcode === "FPS") {
-        this.props.doFPSDeposit(name, amount, channelid, depositPromotion);
+        this.props.doBankDeposit(name, amount, channelid, depositPromotion);
       }
       if (methodcode === "ThirdParty") {
         this.props.doThirdPartyDeposit(amount, channelid, depositPromotion);
@@ -52,7 +59,7 @@ class Deposit extends Component {
   }
   componentDidUpdate(preProps, preState) {
     if (
-      preProps.wallet.depositResult != this.props.wallet.depositResult &&
+      preProps.wallet.depositResult !== this.props.wallet.depositResult &&
       this.props.wallet.depositResult !== null
     ) {
       localStorage.setItem(
@@ -105,9 +112,17 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    doBankDeposit: (account, amount, paymentid, promotionid, banktype) => {
+    doBankDeposit: (
+      name,
+      account,
+      amount,
+      paymentid,
+      promotionid,
+      banktype
+    ) => {
       dispatch(
         walletAction.doBankDeposit(
+          name,
           account,
           amount,
           paymentid,

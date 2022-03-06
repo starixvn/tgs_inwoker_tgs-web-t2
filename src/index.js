@@ -228,7 +228,7 @@ const AppWrapper = () => {
                     exact
                     path={
                       Common.baseRouteUrl +
-                      "/deposit/:paymentcode/:methodcode/:channelid/:amount/:promotion/:name?"
+                      "/deposit/:paymentcode/:methodcode/:channelid/:amount/:promotion/:name:account?"
                     }
                     component={Deposit}
                   />

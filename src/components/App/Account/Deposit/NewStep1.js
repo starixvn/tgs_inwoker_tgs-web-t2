@@ -1,53 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 import { Component } from "react";
-import {
-  Grid,
-  TextField,
-  Select,
-  FormControl,
-  withStyles,
-} from "@material-ui/core";
+import { TextField, Select, FormControl, withStyles } from "@material-ui/core";
 import i18n from "../../../../utils/i18n";
 import CustomButton from "../../../Share/Button";
-import CurrencyTextField from "@unicef/material-ui-currency-textfield";
+
 import LimitPopupPNG from "../../../../assets/images/limit-popup.png";
 import Common from "../../../../utils/Common";
 import config from "../../../../config/config";
-const CustomText = withStyles({
-  root: {
-    marginTop: "10px",
-    float: "left",
-    backgroundColor: "#fff",
-    "& .MuiOutlinedInput-input": {
-      fontSize: "14px",
-    },
-    "& .MuiOutlinedInput-input[readonly]": {
-      color: "#b6b6b6",
-    },
-    "& label.Mui-focused": {
-      color: "#b6b6b6",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#b6b6b6",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#b6b6b6",
-      },
-      "&:hover fieldset": {
-        borderColor: "#b6b6b6",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#b6b6b6",
-      },
-    },
-  },
-})(TextField);
+
+const CustomImage = styled.img`
+  height: 130px;
+  width: auto;
+`;
 
 const CustomFormControl = withStyles((theme) => ({
   root: {
-    width: "340px",
+    width: "400px",
     height: "47.63px",
 
     marginRight: "5px",
@@ -96,11 +65,11 @@ const TabButton = styled.div`
 
   float: left;
   margin-right: 8px;
-
+  transition: all 0.3s;
   ${(props) =>
     props.active
-      ? ` border: solid 1px #f0ca83;
-      color: #f0ca83;`
+      ? ` border: solid 1px ${props.theme.primary};
+      color: ${props.theme.primary};`
       : ` border: solid 1px #e1dfdf;
       color: #747474;`};
   &:hover {
@@ -150,6 +119,7 @@ const CustomSelect = withStyles((theme) => ({
     color: "#818181",
   },
 }))(Select);
+
 const LimitPopupContainer = styled.div`
   background: url(${LimitPopupPNG}) no-repeat,
     linear-gradient(90deg, rgba(2, 0, 36, 0) 10px, rgb(242, 230, 125) 11px);
@@ -182,10 +152,7 @@ const TransferLabel = styled.span`
 const TransferLabelValue = styled.span`
   float: left;
 `;
-const QRImage = styled.img`
-  min-width: 120px;
-  min-height: 120px;
-`;
+
 const CustomInput = styled.input`
   color: #000;
   font-size: 14px;
@@ -205,14 +172,11 @@ const CustomInput = styled.input`
     opacity: 1;
   }
 `;
-const CustomImage = styled.img`
-  height: 130px;
-  width: auto;
-`;
 const Remark = styled.div`
-  color: ${({ theme }) => theme.secondary};
+  color: ${({ theme }) => theme.primary};
   opacity: 0.75;
 `;
+
 class NewStepOne extends Component {
   render() {
     const {
@@ -220,6 +184,8 @@ class NewStepOne extends Component {
       onAmountChange,
       name,
       onNameChange,
+      account,
+      onAccountChange,
       selectedMethodIndex,
       onMethodChange,
       selectedChannelIndex,
@@ -228,12 +194,19 @@ class NewStepOne extends Component {
       paymentType,
       onNextClick,
       exchangeRate,
+      isCrypto,
       onFileChange,
       files,
     } = this.props;
     if (paymentType === null) return <></>;
 
     const methodList = paymentType.method;
+
+    var isApplePay = paymentType.paymentcode.toUpperCase() === "APPLEPAY";
+    var isManual = paymentType.paymentcode.toUpperCase() === "MANUAL";
+    var isFPS =
+      methodList[selectedMethodIndex].methodcode.toUpperCase() === "FPS";
+
     return (
       <>
         <SubHeaderContainer>
@@ -254,8 +227,8 @@ class NewStepOne extends Component {
             );
           })}
         </SelectionContainer>
-        <SplitLine></SplitLine>
 
+        <SplitLine></SplitLine>
         {(() => {
           if (methodList.length > 0 && selectedMethodIndex !== -1) {
             return (
@@ -280,13 +253,15 @@ class NewStepOne extends Component {
                     }
                   )}
                 </SelectionContainer>
+
                 <SplitLine></SplitLine>
                 {(() => {
-                  if (paymentType.paymentcode.toUpperCase() === "MANUAL") {
+                  if (isManual) {
                     var channelExtend =
                       methodList[selectedMethodIndex].channel[
                         selectedChannelIndex
                       ].extended;
+
                     if (
                       methodList[
                         selectedMethodIndex
@@ -379,72 +354,152 @@ class NewStepOne extends Component {
                     }
                   }
                 })()}
+
                 {(() => {
                   if (
-                    (paymentType.paymentcode.toUpperCase() === "MANUAL" ||
-                      paymentType.paymentcode.toUpperCase() === "APPLEPAY") &&
+                    (isManual || isApplePay) &&
                     !config.features.Deposit_ManualApplePayHideBankAcc
                   ) {
                     return (
-                      !config.features.Deposit_RemoveName && (
-                        <>
-                          <SubHeaderContainer>
-                            <NumberContainer>4</NumberContainer>
+                      <>
+                        {!(config.features.Deposit_RemoveName || isFPS) && (
+                          <>
+                            <SubHeaderContainer>
+                              <NumberContainer>4</NumberContainer>
 
-                            <SubTitle>
-                              {config.features.Deposit_CustomBankNameTranslation
+                              <SubTitle>
+                                {i18n.t("profile.nameVerify.msgPlsEnterName")}
+                              </SubTitle>
+                            </SubHeaderContainer>
+                            <SelectionContainer>
+                              <TextField
+                                style={{
+                                  height: "38px",
+                                  width: "258px",
+                                  float: "left",
+                                  marginRight: "5px",
+                                  padding: 0,
+                                }}
+                                placeholder={i18n.t(
+                                  "profile.nameVerify.msgPlsEnterName"
+                                )}
+                                onChange={onNameChange}
+                                outputFormat="string"
+                                variant="outlined"
+                                autoComplete="off"
+                                value={name}
+                              ></TextField>
+                            </SelectionContainer>
+                            {config.features.Deposit_AddTips && (
+                              <div style={{ marginLeft: 30, marginTop: 8 }}>
+                                <Remark> {i18n.t("mgm.depositTips")}</Remark>
+                              </div>
+                            )}
+                            <SplitLine></SplitLine>
+                          </>
+                        )}
+
+                        <SubHeaderContainer>
+                          <NumberContainer>
+                            {(() => {
+                              if (isManual) {
+                                if (
+                                  config.features.Deposit_RemoveName ||
+                                  config.features
+                                    .Deposit_ManualApplePayHideBankAcc ||
+                                  isApplePay
+                                ) {
+                                  if (isFPS) {
+                                    return 4;
+                                  } else {
+                                    if (config.features.Deposit_RemoveName) {
+                                      return 4;
+                                    } else {
+                                      return 5;
+                                    }
+                                  }
+                                } else {
+                                  if (!isFPS) {
+                                    return 5;
+                                  } else {
+                                    return 4;
+                                  }
+                                }
+                              }
+                            })()}
+                          </NumberContainer>
+
+                          <SubTitle>
+                            {config.features.Deposit_CustomBankNameTranslation
+                              ? i18n.t("mgm.msgPlsEnterAccount")
+                              : config.features.Deposit_EnglishName
+                              ? i18n.t("bet28.BankAccountName")
+                              : i18n.t("deposit.msgPlsEnterAccount")}
+                          </SubTitle>
+                        </SubHeaderContainer>
+                        <SelectionContainer>
+                          <TextField
+                            style={{
+                              height: "38px",
+                              width: "258px",
+                              float: "left",
+                              marginRight: "5px",
+                              padding: 0,
+                            }}
+                            placeholder={
+                              config.features.Deposit_CustomBankNameTranslation
                                 ? i18n.t("mgm.msgPlsEnterAccount")
                                 : config.features.Deposit_EnglishName
-                                ? i18n.t("bet28.BankAccountName")
-                                : i18n.t("deposit.msgPlsEnterAccount")}
-                            </SubTitle>
-                          </SubHeaderContainer>
-                          <SelectionContainer>
-                            <TextField
-                              style={{
-                                height: "38px",
-                                width: "258px",
-                                float: "left",
-                                marginRight: "5px",
-                                padding: 0,
-                              }}
-                              placeholder={
-                                config.features
-                                  .Deposit_CustomBankNameTranslation
-                                  ? i18n.t("mgm.msgPlsEnterAccount")
-                                  : config.features.Deposit_EnglishName
-                                  ? i18n.t("bet28.msgEnterBankAccountName")
-                                  : i18n.t("deposit.msgPlsEnterAccount")
-                              }
-                              onChange={onNameChange}
-                              outputFormat="string"
-                              variant="outlined"
-                              autoComplete="off"
-                              value={name}
-                            ></TextField>
-                          </SelectionContainer>
-                          {config.features.Deposit_AddTips && (
-                            <Remark style={{ marginLeft: 30, marginTop: 4 }}>
-                              {" "}
-                              {i18n.t("mgm.depositTips")}
-                            </Remark>
-                          )}
-                          <SplitLine></SplitLine>
-                        </>
-                      )
+                                ? i18n.t("bet28.msgEnterBankAccountName")
+                                : i18n.t("deposit.msgPlsEnterAccount")
+                            }
+                            onChange={onAccountChange}
+                            outputFormat="string"
+                            variant="outlined"
+                            autoComplete="off"
+                            value={account}
+                          ></TextField>
+                        </SelectionContainer>
+                        {config.features.Deposit_AddTips && (
+                          <div style={{ marginLeft: 30, marginTop: 8 }}>
+                            <Remark> {i18n.t("mgm.depositTips")}</Remark>
+                          </div>
+                        )}
+                        <SplitLine></SplitLine>
+                      </>
                     );
                   }
                 })()}
+
                 <SubHeaderContainer>
                   <NumberContainer>
-                    {config.features.Deposit_ManualApplePayHideBankAcc ||
-                    config.features.Deposit_RemoveName
-                      ? "4"
-                      : paymentType.paymentcode.toUpperCase() === "MANUAL"
-                      ? "5"
-                      : paymentType.paymentcode.toUpperCase() === "APPLEPAY"
-                      ? "4"
-                      : "3"}
+                    {(() => {
+                      if (isManual) {
+                        if (
+                          config.features.Deposit_RemoveName ||
+                          config.features.Deposit_ManualApplePayHideBankAcc ||
+                          isApplePay
+                        ) {
+                          if (isFPS) {
+                            return 5;
+                          } else {
+                            if (config.features.Deposit_RemoveName) {
+                              return 5;
+                            } else {
+                              return 6;
+                            }
+                          }
+                        } else {
+                          if (!isFPS) {
+                            return 6;
+                          } else {
+                            return 5;
+                          }
+                        }
+                      } else {
+                        return 3;
+                      }
+                    })()}
                   </NumberContainer>
 
                   <SubTitle>{i18n.t("deposit.plsEnterDepositAmount")}</SubTitle>
@@ -467,6 +522,7 @@ class NewStepOne extends Component {
                     pattern="[0-9]*"
                     type={"number"}
                   ></TextField>
+
                   <LimitPopupContainer>
                     <LimitLabel>{i18n.t("deposit.limitDeposit")} </LimitLabel>
                     <LimitAmount>
@@ -489,7 +545,7 @@ class NewStepOne extends Component {
                     ) {
                       if (paymentType.paymentcode.toUpperCase() === "LEEPAY") {
                         return (
-                          <ExchangeRateContainer style={{ marginTop: "10px" }}>
+                          <ExchangeRateContainer style={{ marginTop: "4px" }}>
                             <LimitLabel>
                               {i18n.t("deposit.exchangeRate")}:{" "}
                             </LimitLabel>
@@ -510,7 +566,7 @@ class NewStepOne extends Component {
                             if (key2 === "HKD") {
                               return (
                                 <ExchangeRateContainer
-                                  style={{ marginTop: "10px" }}
+                                  style={{ marginTop: "4px" }}
                                 >
                                   <LimitLabel>
                                     {i18n.t("deposit.exchangeRate")}:{" "}
@@ -541,13 +597,33 @@ class NewStepOne extends Component {
                 <SplitLine></SplitLine>
                 <SubHeaderContainer>
                   <NumberContainer>
-                    {config.features.Deposit_ManualApplePayHideBankAcc
-                      ? "5"
-                      : paymentType.paymentcode.toUpperCase() === "MANUAL"
-                      ? "6"
-                      : paymentType.paymentcode.toUpperCase() === "APPLEPAY"
-                      ? "5"
-                      : "4"}
+                    {(() => {
+                      if (isManual) {
+                        if (
+                          config.features.Deposit_RemoveName ||
+                          config.features.Deposit_ManualApplePayHideBankAcc ||
+                          isApplePay
+                        ) {
+                          if (isFPS) {
+                            return 6;
+                          } else {
+                            if (config.features.Deposit_RemoveName) {
+                              return 6;
+                            } else {
+                              return 7;
+                            }
+                          }
+                        } else {
+                          if (!isFPS) {
+                            return 7;
+                          } else {
+                            return 6;
+                          }
+                        }
+                      } else {
+                        return 4;
+                      }
+                    })()}
                   </NumberContainer>
 
                   <SubTitle>{i18n.t("deposit.promotion")}</SubTitle>
@@ -576,15 +652,38 @@ class NewStepOne extends Component {
                 </SelectionContainer>
 
                 {(() => {
-                  if (paymentType.paymentcode.toUpperCase() === "MANUAL") {
+                  if (isManual) {
                     return (
                       <React.Fragment>
                         <SplitLine></SplitLine>
                         <SubHeaderContainer>
                           <NumberContainer>
-                            {config.features.Deposit_ManualApplePayHideBankAcc
-                              ? "6"
-                              : "7"}
+                            {(() => {
+                              if (isManual) {
+                                if (
+                                  config.features.Deposit_RemoveName ||
+                                  config.features
+                                    .Deposit_ManualApplePayHideBankAcc ||
+                                  isApplePay
+                                ) {
+                                  if (isFPS) {
+                                    return 7;
+                                  } else {
+                                    if (config.features.Deposit_RemoveName) {
+                                      return 7;
+                                    } else {
+                                      return 8;
+                                    }
+                                  }
+                                } else {
+                                  if (!isFPS) {
+                                    return 8;
+                                  } else {
+                                    return 7;
+                                  }
+                                }
+                              }
+                            })()}
                           </NumberContainer>
 
                           <SubTitle>{i18n.t("deposit.uploadReceipt")}</SubTitle>
@@ -622,11 +721,8 @@ class NewStepOne extends Component {
                       methodList[selectedMethodIndex].channel[
                         selectedChannelIndex
                       ].transferlimit.to ||
-                    ((paymentType.paymentcode.toUpperCase() === "MANUAL" ||
-                      paymentType.paymentcode.toUpperCase() === "APPLEPAY") &&
-                      amount.length <= 0) ||
-                    (paymentType.paymentcode.toUpperCase() === "MANUAL" &&
-                      files.length <= 0)
+                    ((isManual || isApplePay) && amount.length <= 0) ||
+                    (isManual && files.length <= 0)
                   }
                 ></CustomButton>
               </>
