@@ -368,7 +368,7 @@ class NewStepOne extends Component {
                               <NumberContainer>4</NumberContainer>
 
                               <SubTitle>
-                                {i18n.t("profile.nameVerify.msgPlsEnterName")}
+                                {i18n.t("common.pleaseEnterAccountName")}
                               </SubTitle>
                             </SubHeaderContainer>
                             <SelectionContainer>
@@ -381,7 +381,7 @@ class NewStepOne extends Component {
                                   padding: 0,
                                 }}
                                 placeholder={i18n.t(
-                                  "profile.nameVerify.msgPlsEnterName"
+                                  "common.pleaseEnterAccountName"
                                 )}
                                 onChange={onNameChange}
                                 outputFormat="string"
@@ -392,7 +392,7 @@ class NewStepOne extends Component {
                             </SelectionContainer>
                             {config.features.Deposit_AddTips && (
                               <div style={{ marginLeft: 30, marginTop: 8 }}>
-                                <Remark> {i18n.t("mgm.depositTips")}</Remark>
+                                <Remark> {i18n.t("mgm.depositTips2")}</Remark>
                               </div>
                             )}
                             <SplitLine></SplitLine>
