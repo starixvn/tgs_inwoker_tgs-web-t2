@@ -213,8 +213,7 @@ code {
   }
 
   body {
-
-    background-color: #ECECEC;
+    background-color: #ececec;
     background-repeat: no-repeat;
     -webkit-text-size-adjust: 100%;
     /* stop ios zooming text  on orientation change */
@@ -372,7 +371,6 @@ code {
 @media (min-width: 961px) {
   /* tablet, landscape iPad, lo-res laptops ands desktops */
 
-
   html {
     -moz-text-size-adjust: inherit;
     -ms-text-size-adjust: inherit;
@@ -461,7 +459,7 @@ body.cke_editable p {
   font-family: "CenturyGothic" !important;
 }
 .CurrencyTextField .MuiOutlinedInput-root {
-  border-radius: 12px!important;
+  border-radius: 12px !important;
 }
 /*
 
@@ -538,3 +536,17 @@ div[class*=" SnackbarItem-variantInfo-"]:before {
 
 
 */
+
+.numberGenerator {
+  width: 20px;
+  height: 20px;
+  border-radius: 3.2px;
+  background-color: #151a34;
+  font-family: Arial;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  padding-top: 2px;
+  float: left;
+}
