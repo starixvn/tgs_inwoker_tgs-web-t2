@@ -376,11 +376,43 @@ const NewStepOne = (props) => {
                 ) {
                   return (
                     <>
+                      <SubHeaderContainer>
+                        <SubTitle>
+                          {i18n.t("common.pleaseEnterAccountName")}
+                        </SubTitle>
+                      </SubHeaderContainer>
+                      <SelectionContainer>
+                        <TextField
+                          style={{
+                            height: "38px",
+                            width: "258px",
+                            float: "left",
+                            marginRight: "5px",
+                            padding: 0,
+                          }}
+                          placeholder={i18n.t("common.pleaseEnterAccountName")}
+                          onChange={onAccountChange}
+                          outputFormat="string"
+                          variant="outlined"
+                          autoComplete="off"
+                          value={account}
+                        ></TextField>
+                      </SelectionContainer>
+                      {config.features.Deposit_AddTips && (
+                        <div style={{ marginLeft: 30, marginTop: 8 }}>
+                          <Remark> {i18n.t("mgm.depositTips")}</Remark>
+                        </div>
+                      )}
+                      <SplitLine></SplitLine>
                       {!(config.features.Deposit_RemoveName || isFPS) && (
                         <>
                           <SubHeaderContainer>
                             <SubTitle>
-                              {i18n.t("common.pleaseEnterAccountName")}
+                              {config.features.Deposit_CustomBankNameTranslation
+                                ? i18n.t("mgm.msgPlsEnterAccount")
+                                : config.features.Deposit_EnglishName
+                                ? i18n.t("bet28.BankAccountName")
+                                : i18n.t("deposit.msgPlsEnterAccount")}
                             </SubTitle>
                           </SubHeaderContainer>
                           <SelectionContainer>
@@ -392,9 +424,14 @@ const NewStepOne = (props) => {
                                 marginRight: "5px",
                                 padding: 0,
                               }}
-                              placeholder={i18n.t(
-                                "common.pleaseEnterAccountName"
-                              )}
+                              placeholder={
+                                config.features
+                                  .Deposit_CustomBankNameTranslation
+                                  ? i18n.t("mgm.msgPlsEnterAccount")
+                                  : config.features.Deposit_EnglishName
+                                  ? i18n.t("bet28.msgEnterBankAccountName")
+                                  : i18n.t("deposit.msgPlsEnterAccount")
+                              }
                               onChange={onNameChange}
                               outputFormat="string"
                               variant="outlined"
@@ -410,45 +447,6 @@ const NewStepOne = (props) => {
                           <SplitLine></SplitLine>
                         </>
                       )}
-
-                      <SubHeaderContainer>
-                        <SubTitle>
-                          {config.features.Deposit_CustomBankNameTranslation
-                            ? i18n.t("mgm.msgPlsEnterAccount")
-                            : config.features.Deposit_EnglishName
-                            ? i18n.t("bet28.BankAccountName")
-                            : i18n.t("deposit.msgPlsEnterAccount")}
-                        </SubTitle>
-                      </SubHeaderContainer>
-                      <SelectionContainer>
-                        <TextField
-                          style={{
-                            height: "38px",
-                            width: "258px",
-                            float: "left",
-                            marginRight: "5px",
-                            padding: 0,
-                          }}
-                          placeholder={
-                            config.features.Deposit_CustomBankNameTranslation
-                              ? i18n.t("mgm.msgPlsEnterAccount")
-                              : config.features.Deposit_EnglishName
-                              ? i18n.t("bet28.msgEnterBankAccountName")
-                              : i18n.t("deposit.msgPlsEnterAccount")
-                          }
-                          onChange={onAccountChange}
-                          outputFormat="string"
-                          variant="outlined"
-                          autoComplete="off"
-                          value={account}
-                        ></TextField>
-                      </SelectionContainer>
-                      {config.features.Deposit_AddTips && (
-                        <div style={{ marginLeft: 30, marginTop: 8 }}>
-                          <Remark> {i18n.t("mgm.depositTips")}</Remark>
-                        </div>
-                      )}
-                      <SplitLine></SplitLine>
                     </>
                   );
                 }
