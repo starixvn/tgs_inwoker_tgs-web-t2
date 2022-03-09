@@ -376,34 +376,43 @@ const NewStepOne = (props) => {
                 ) {
                   return (
                     <>
-                      <SubHeaderContainer>
-                        <SubTitle>
-                          {i18n.t("common.pleaseEnterAccountName")}
-                        </SubTitle>
-                      </SubHeaderContainer>
-                      <SelectionContainer>
-                        <TextField
-                          style={{
-                            height: "38px",
-                            width: "258px",
-                            float: "left",
-                            marginRight: "5px",
-                            padding: 0,
-                          }}
-                          placeholder={i18n.t("common.pleaseEnterAccountName")}
-                          onChange={onAccountChange}
-                          outputFormat="string"
-                          variant="outlined"
-                          autoComplete="off"
-                          value={account}
-                        ></TextField>
-                      </SelectionContainer>
-                      {config.features.Deposit_AddTips && (
-                        <div style={{ marginLeft: 30, marginTop: 8 }}>
-                          <Remark> {i18n.t("mgm.accountDepositTips")}</Remark>
-                        </div>
+                      {!config.features.Deposit_RemoveAccount && (
+                        <>
+                          <SubHeaderContainer>
+                            <SubTitle>
+                              {i18n.t("common.pleaseEnterAccountName")}
+                            </SubTitle>
+                          </SubHeaderContainer>
+                          <SelectionContainer>
+                            <TextField
+                              style={{
+                                height: "38px",
+                                width: "258px",
+                                float: "left",
+                                marginRight: "5px",
+                                padding: 0,
+                              }}
+                              placeholder={i18n.t(
+                                "common.pleaseEnterAccountName"
+                              )}
+                              onChange={onAccountChange}
+                              outputFormat="string"
+                              variant="outlined"
+                              autoComplete="off"
+                              value={account}
+                            ></TextField>
+                          </SelectionContainer>
+                          {config.features.Deposit_AddTips && (
+                            <div style={{ marginLeft: 30, marginTop: 8 }}>
+                              <Remark>
+                                {" "}
+                                {i18n.t("mgm.accountDepositTips")}
+                              </Remark>
+                            </div>
+                          )}
+                          <SplitLine></SplitLine>
+                        </>
                       )}
-                      <SplitLine></SplitLine>
                       {!(config.features.Deposit_RemoveName || isFPS) && (
                         <>
                           <SubHeaderContainer>
@@ -441,10 +450,7 @@ const NewStepOne = (props) => {
                           </SelectionContainer>
                           {config.features.Deposit_AddTips && (
                             <div style={{ marginLeft: 30, marginTop: 8 }}>
-                              <Remark>
-                                {" "}
-                                {i18n.t("mgm.nameaccountDepositTips")}
-                              </Remark>
+                              <Remark> {i18n.t("mgm.nameDepositTips")}</Remark>
                             </div>
                           )}
                           <SplitLine></SplitLine>
