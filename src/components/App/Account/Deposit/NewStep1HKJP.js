@@ -286,7 +286,7 @@ class NewStepOne extends Component {
                             ></TextField>
                           </SelectionContainer>
                           {config.features.Deposit_AddTips && (
-                            <Remark> {i18n.t("mgm.depositTips")}</Remark>
+                            <Remark> {i18n.t("mgm.accountDepositTips")}</Remark>
                           )}
                           <SplitLine></SplitLine>
                         </>

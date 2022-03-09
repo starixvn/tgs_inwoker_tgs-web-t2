@@ -400,7 +400,7 @@ const NewStepOne = (props) => {
                       </SelectionContainer>
                       {config.features.Deposit_AddTips && (
                         <div style={{ marginLeft: 30, marginTop: 8 }}>
-                          <Remark> {i18n.t("mgm.depositTips")}</Remark>
+                          <Remark> {i18n.t("mgm.accountDepositTips")}</Remark>
                         </div>
                       )}
                       <SplitLine></SplitLine>
@@ -441,7 +441,10 @@ const NewStepOne = (props) => {
                           </SelectionContainer>
                           {config.features.Deposit_AddTips && (
                             <div style={{ marginLeft: 30, marginTop: 8 }}>
-                              <Remark> {i18n.t("mgm.depositTips2")}</Remark>
+                              <Remark>
+                                {" "}
+                                {i18n.t("mgm.nameaccountDepositTips")}
+                              </Remark>
                             </div>
                           )}
                           <SplitLine></SplitLine>
