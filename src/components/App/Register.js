@@ -248,7 +248,9 @@ function Register(props) {
 
   const [upper, setUpper] = React.useState(localStorage.getItem("upper"));
   const [promoteType, setPromoteType] = React.useState(
-    localStorage.getItem("invitationtype")
+    localStorage.getItem("invitationtype") === ""
+      ? "a"
+      : localStorage.getItem("invitationtype")
   );
   const [prefill, setPrefill] = React.useState(
     localStorage.getItem("promotionId") != "" ||
