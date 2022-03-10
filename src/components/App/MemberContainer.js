@@ -144,70 +144,58 @@ const CustomLink = styled(Link)`
 `;
 const TopContainer = styled.div``;
 const BottomContainer = styled.div``;
-class MemberContainer extends Component {
-  render() {
-    return (
-      <Container>
-        <TopContainer>
-          <InboxContainer onClick={this.props.onhandleInboxClick}>
-            <InboxCountLabel>
-              {this.props.account.info.message_num}
-            </InboxCountLabel>
-            <MailIconContainer>
-              <MailOutlineOutlinedIcon />
-            </MailIconContainer>
-          </InboxContainer>
-          <Spliter></Spliter>
-          <BtnLogout onClick={this.props.onhandleLogout}>
-            {i18n.t("web.header.logout")}
-          </BtnLogout>
-          <Spliter></Spliter>
-          <WelcomeContainer>
-            <CustomLink to={"/" + i18n.language + "/account/profile"}>
-              <MemberUserName>
-                {this.props.account.info.member_username} (VIP
-                {this.props.account.info.member_level_id})
-              </MemberUserName>
-            </CustomLink>
-          </WelcomeContainer>
-        </TopContainer>
-        <BottomContainer>
-          {/* <BtnTransfer onClick={this.props.onhandleTransfer}>
-            {i18n.t("web.header.transfer")}
-          </BtnTransfer>
-          <BtnDeposit onClick={this.props.onhandleDeposit}>
-            {i18n.t("web.header.deposit")}
-          </BtnDeposit> */}
-          <BalanceContainer>
-            <span>{i18n.t("web.header.mainAccount")}</span>
-            <BalanceAmountLabel onClick={this.props.onhandleTransfer}>
-              {Common.formatNumberWithThousand(
-                this.props.mainBalance +
-                  this.props.game.providerList
-                    .filter(
-                      (item) =>
-                        item.status === 0 && item.transferwallet === true
-                    )
-                    .reduce((a, v) => (a = a + v.balance), 0)
-              )}{" "}
-            </BalanceAmountLabel>
-            <span>{i18n.t("web.header.dollor")}</span>
-            <RefreshBalance onClick={this.props.onhandleRefreshBalanceClick}>
-              <RefreshBalanceIcon></RefreshBalanceIcon>
-            </RefreshBalance>
-          </BalanceContainer>
-        </BottomContainer>
-      </Container>
-    );
-  }
-}
-const mapStateToProps = (state) => {
-  return {
-    // screenWidth: state.ui.screenWidth,
-    // screenHeight: state.ui.screenHeight,
-    mainBalance: state.wallet.mainBalance,
-    account: state.account,
-    game: state.game,
-  };
+
+const MemberContainer = (props) => {
+  return (
+    <Container>
+      <TopContainer>
+        <InboxContainer onClick={props.onhandleInboxClick}>
+          <InboxCountLabel>{props.account.info.message_num}</InboxCountLabel>
+          <MailIconContainer>
+            <MailOutlineOutlinedIcon />
+          </MailIconContainer>
+        </InboxContainer>
+        <Spliter></Spliter>
+        <BtnLogout onClick={props.onhandleLogout}>
+          {i18n.t("web.header.logout")}
+        </BtnLogout>
+        <Spliter></Spliter>
+        <WelcomeContainer>
+          <CustomLink to={"/" + i18n.language + "/account/profile"}>
+            <MemberUserName>
+              {props.account.info.member_username} (VIP
+              {props.account.info.member_level_id})
+            </MemberUserName>
+          </CustomLink>
+        </WelcomeContainer>
+      </TopContainer>
+      <BottomContainer>
+        {/* <BtnTransfer onClick={props.onhandleTransfer}>
+          {i18n.t("web.header.transfer")}
+        </BtnTransfer>
+        <BtnDeposit onClick={props.onhandleDeposit}>
+          {i18n.t("web.header.deposit")}
+        </BtnDeposit> */}
+        <BalanceContainer>
+          <span>{i18n.t("web.header.mainAccount")}</span>
+          <BalanceAmountLabel onClick={props.onhandleTransfer}>
+            {Common.formatNumberWithThousand(
+              props.wallet.mainBalance +
+                props.game.providerList
+                  .filter(
+                    (item) => item.status === 0 && item.transferwallet === true
+                  )
+                  .reduce((a, v) => (a = a + v.balance), 0)
+            )}{" "}
+          </BalanceAmountLabel>
+          <span>{i18n.t("web.header.dollor")}</span>
+          <RefreshBalance onClick={props.onhandleRefreshBalanceClick}>
+            <RefreshBalanceIcon></RefreshBalanceIcon>
+          </RefreshBalance>
+        </BalanceContainer>
+      </BottomContainer>
+    </Container>
+  );
 };
-export default connect(mapStateToProps, null)(MemberContainer);
+
+export default MemberContainer;

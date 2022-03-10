@@ -962,6 +962,9 @@ class Header extends Component {
                       onhandleRefreshBalanceClick={
                         this.handleRefreshBalanceClick
                       }
+                      wallet={this.props.wallet}
+                      game={this.props.game}
+                      account={this.props.account}
                     ></MemberContainer>
                   );
                 }
@@ -1182,6 +1185,7 @@ const mapStateToProps = (state) => {
     account: state.account,
     game: state.game,
     general: state.general,
+    wallet: state.wallet,
   };
 };
 
