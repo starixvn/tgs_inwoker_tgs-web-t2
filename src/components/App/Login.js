@@ -213,7 +213,10 @@ class Login extends Component {
           <LinkRegister onClick={this.props.onhandleRegister}>
             {i18n.t("web.login.newRegister")}
           </LinkRegister>
-          {(() => {
+          <LinkForgotPassword onClick={this.props.onhandleForgotPassword}>
+            {i18n.t("web.login.forgetPass")}
+          </LinkForgotPassword>
+          {/* {(() => {
             var brand = ["HK28", "21GEN", "21gen", "MESS8", "PISO", "BUNNY"];
             if (brand.indexOf(config.brand) <= 0) {
               return (
@@ -222,7 +225,7 @@ class Login extends Component {
                 </LinkForgotPassword>
               );
             }
-          })()}
+          })()} */}
 
           <EmptyBlock></EmptyBlock>
         </FormContainer>
