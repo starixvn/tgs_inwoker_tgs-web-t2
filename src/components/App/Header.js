@@ -52,6 +52,10 @@ import i18n from "../../utils/i18n";
 import Slider from "react-slick";
 import OnlineUserDisplayer from "../Share/online-user-displayer";
 import { AppHistory } from "../../history/History";
+import { GeneralService } from "../../api-services/services/GeneralService";
+import { generalAction } from "../../api-services/actions/generalAction";
+import { uiAction } from "../../api-services/actions/uiAction";
+import ErrorSwitcher from "../../utils/ErrorSwitcher";
 
 const moment = require("moment");
 
@@ -843,6 +847,15 @@ class Header extends Component {
                             onClick={() => {
                               i18n.changeLanguage(lang.culturecode);
                               AppHistory.replace(lang.culturecode);
+                              this.props.getBanner();
+                              this.props.getMarquee(lang.culturecode);
+                              GeneralService.GetLocalization().then(
+                                (response) => {
+                                  if (response.IsSuccess) {
+                                    ErrorSwitcher.setTranslation(response.data);
+                                  }
+                                }
+                              );
                             }}
                           >
                             {i18n.t("lang." + lang.culturecode)}
@@ -1191,6 +1204,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getBanner: () => dispatch(generalAction.getBanner()),
+    getMarquee: (language) => dispatch(uiAction.getMarquee(language)),
     // updateScreenSize: (width, height) => {
     //   dispatch({ type: UPDATING_SCREEN_SIZE, width, height });
     // },
