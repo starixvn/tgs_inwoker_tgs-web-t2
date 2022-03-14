@@ -76,6 +76,9 @@ const Icon = styled.img`
 Config.from = isMobileOnly ? "h5" : "h5";
 Config.isPC = isMobileOnly ? 1 : 0;
 
+document.getElementById("favicon").href =
+  process.env.PUBLIC_URL + `/assets/images/logo/${Config.brand}.ico`;
+
 document.getElementById("title").innerHTML = i18n
   .t("common.title")
   .replace(/{brand}/g, Config.brand);
