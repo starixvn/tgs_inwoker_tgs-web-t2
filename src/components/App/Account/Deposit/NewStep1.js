@@ -7,7 +7,8 @@ import CustomButton from "../../../Share/Button";
 import LimitPopupPNG from "../../../../assets/images/limit-popup.png";
 import Common from "../../../../utils/Common";
 import config from "../../../../config/config";
-
+import copy from "copy-to-clipboard";
+import { withSnackbar } from "notistack";
 const CustomImage = styled.img`
   height: 130px;
   width: auto;
@@ -142,6 +143,8 @@ const ExchangeRateContainer = styled.div``;
 const TransferContainer = styled.div`
   color: #747474;
   padding: 5px 0;
+  display: flex;
+  align-items: center;
 `;
 const TransferLabel = styled.span`
   float: left;
@@ -180,6 +183,17 @@ const CustomNumberingContainer = styled.div`
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
+`;
+
+const CopyIcon = styled.div`
+  width: 15px;
+  height: 15px;
+
+  background-color: ${({ theme }) => theme.primary};
+  mask: url(${process.env.PUBLIC_URL + `/assets/images/wapp/copy.png`})
+    no-repeat center / contain;
+  cursor: pointer;
+  margin-left: 10px;
 `;
 
 const NewStepOne = (props) => {
@@ -230,6 +244,24 @@ const NewStepOne = (props) => {
       newChild.innerHTML = element;
       count[element - 1].appendChild(newChild);
     }
+  };
+
+  const performCopy = (content) => {
+    props.enqueueSnackbar(i18n.t("affiliate.copied"), {
+      variant: "success",
+    });
+
+    copy(content);
+  };
+
+  const CopyFeature = ({ copyContent }) => {
+    return (
+      <CopyIcon
+        onClick={() => {
+          performCopy(copyContent);
+        }}
+      />
+    );
   };
 
   return (
@@ -318,6 +350,7 @@ const NewStepOne = (props) => {
                               <TransferLabelValue>
                                 {channelExtend.name}
                               </TransferLabelValue>
+                              <CopyFeature copyContent={channelExtend.name} />
                             </TransferContainer>
                           )}
                           {channelExtend.bankAccount && (
@@ -328,6 +361,9 @@ const NewStepOne = (props) => {
                               <TransferLabelValue>
                                 {channelExtend.bankAccount}
                               </TransferLabelValue>
+                              <CopyFeature
+                                copyContent={channelExtend.bankAccount}
+                              />
                             </TransferContainer>
                           )}
                           {channelExtend.phone && (
@@ -338,6 +374,7 @@ const NewStepOne = (props) => {
                               <TransferLabelValue>
                                 {channelExtend.phone}
                               </TransferLabelValue>
+                              <CopyFeature copyContent={channelExtend.phone} />
                             </TransferContainer>
                           )}
                           {channelExtend.email && (
@@ -348,6 +385,7 @@ const NewStepOne = (props) => {
                               <TransferLabelValue>
                                 {channelExtend.email}
                               </TransferLabelValue>
+                              <CopyFeature copyContent={channelExtend.email} />
                             </TransferContainer>
                           )}
 
@@ -359,6 +397,7 @@ const NewStepOne = (props) => {
                               <TransferLabelValue>
                                 {channelExtend.fpsId}
                               </TransferLabelValue>
+                              <CopyFeature copyContent={channelExtend.fpsId} />
                             </TransferContainer>
                           )}
                         </SelectionContainer>
@@ -632,4 +671,4 @@ const NewStepOne = (props) => {
   );
 };
 
-export default NewStepOne;
+export default withSnackbar(NewStepOne);
