@@ -38,7 +38,7 @@ import SuccessPNG from "../src/assets/images/success.png";
 import { makeStyles } from "@material-ui/core";
 import i18n from "./utils/i18n";
 import rootReducer from "./api-services/reducers/rootReducer";
-import JoinLotteryGame from "./components/App/Lottery/JoinLotteryGame";
+import JoinLotteryGame from "./components/Share/JoinLotteryGame";
 import Common from "./utils/Common";
 import { ThemeProvider } from "styled-components";
 import { themeList } from "./theme";
