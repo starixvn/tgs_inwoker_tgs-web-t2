@@ -409,7 +409,9 @@ class Deposit extends Component {
           method.methodcode
         }/${channel.id}/${this.state.amount}/${
           this.state.depositPromotion ? this.state.depositPromotion : " "
-        }/${this.state.name}`,
+        }/${this.state.name ? this.state.name : " "}/${
+          this.state.account ? this.state.account : " "
+        }`,
         "_blank"
       );
 
