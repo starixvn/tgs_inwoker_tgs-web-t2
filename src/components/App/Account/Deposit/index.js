@@ -144,9 +144,7 @@ class Deposit extends Component {
       selectedMethodIndex: 0,
       loading: false,
       depositPromotion: this.props.match.params.promotionid,
-      amount: 0,
-      name: "",
-      account: "",
+      amount: "",
       step: 1,
       exchangeRate: { buyprice: 0, sellprice: 0 },
       files: [],
@@ -159,47 +157,18 @@ class Deposit extends Component {
       paymenturl: "",
       openAnnouncement: config.features.DepositNotification,
     };
-    this.state = this.initialState;
+    this.state = {
+      ...this.initialState,
+      name: "",
+      account: "",
+    };
   }
 
   componentDidMount() {
     localStorage.removeItem("depositResult");
     this.props.getDepositMethod();
     this.props.getPlayerPromotionList(i18n.language);
-    window.addEventListener("storage", (ev) => {
-      if (ev.key === "depositResult" && ev.newValue) {
-        var depositResult = JSON.parse(ev.newValue);
-
-        if (depositResult !== null && depositResult.IsSuccess) {
-          var payment =
-            this.props.wallet.depositTypeList[this.state.selectedPaymentIndex];
-          // var paymenturl = "";
-          // if (payment.paymentcode.toUpperCase() !== "MANUAL") {
-          //   paymenturl = response.data.paymenturl;
-          //   window.open(paymenturl, "_blank");
-          // }
-
-          this.setState({
-            ...this.state,
-            step: payment.paymentcode.toUpperCase() === "MANUAL" ? 2 : 3,
-            depositResult: depositResult,
-            loading: false,
-          });
-        } else {
-          this.props.enqueueSnackbar(
-            ErrorSwitcher.getTranslation(depositResult.info),
-            {
-              variant: "error",
-            }
-          );
-
-          this.setState({
-            ...this.state,
-            loading: false,
-          });
-        }
-      }
-    });
+    window.addEventListener("storage", this.handStorageMsg, true);
     if (this.state.paymentId) {
       WalletService.PerformGetManualDepositDetail(this.state.paymentId).then(
         (e) => {
@@ -211,7 +180,6 @@ class Deposit extends Component {
               depositResult: e.data,
               loading: false,
             });
-            this.props.setActivePage("deposit");
           }
         }
       );
@@ -229,6 +197,7 @@ class Deposit extends Component {
         }
       }
     }
+
     if (
       preProps.wallet.depositResult != this.props.wallet.depositResult &&
       this.props.wallet.depositResult !== null
@@ -338,17 +307,51 @@ class Deposit extends Component {
   }
 
   componentWillUnmount() {
-    window.onstorage = null;
+    window.removeEventListener("storage", this.handStorageMsg, true); // Succeeds
     localStorage.removeItem("depositResult");
   }
+  handStorageMsg = (ev) => {
+    if (ev.key === "depositResult" && ev.newValue) {
+      var depositResult = JSON.parse(ev.newValue);
 
+      if (depositResult !== null && depositResult.IsSuccess) {
+        var payment =
+          this.props.wallet.depositTypeList[this.state.selectedPaymentIndex];
+        // var paymenturl = "";
+        // if (payment.paymentcode.toUpperCase() !== "MANUAL") {
+        //   paymenturl = response.data.paymenturl;
+        //   window.open(paymenturl, "_blank");
+        // }
+
+        this.setState({
+          ...this.state,
+          step: payment.paymentcode.toUpperCase() === "MANUAL" ? 2 : 3,
+          depositResult: depositResult,
+          loading: false,
+        });
+      } else {
+        this.props.enqueueSnackbar(
+          ErrorSwitcher.getTranslation(depositResult.info),
+          {
+            variant: "error",
+          }
+        );
+
+        this.setState({
+          ...this.state,
+          loading: false,
+        });
+      }
+    }
+  };
   handleTabClick = (item, index) => {
     if (this.state.step === 1) {
       this.setState({
         ...this.state,
         selectedPaymentIndex: index,
-        amount: 0,
-        name: "",
+        amount: "",
+        // name: "",
+        //: "",
         depositPromotion: "",
         selectedChannelIndex: 0,
         selectedMethodIndex: 0,
@@ -356,16 +359,18 @@ class Deposit extends Component {
     }
   };
   handleChannelChange = (index) => {
+    //var channel = method.channel[this.state.selectedChannelIndex];
+
     this.setState({
       ...this.state,
-      amount: 0,
+      amount: "",
       selectedChannelIndex: index,
     });
   };
   handleMethodChange = (index) => {
     this.setState({
       ...this.state,
-      amount: 0,
+      amount: "",
       selectedMethodIndex: index,
       selectedChannelIndex: 0,
     });
@@ -414,8 +419,6 @@ class Deposit extends Component {
         }`,
         "_blank"
       );
-
-      return;
     }
   };
 
@@ -493,7 +496,6 @@ class Deposit extends Component {
       file
     );
   };
-
   handleAmountChange = (e) => {
     var max =
       this.props.wallet.depositTypeList[this.state.selectedPaymentIndex].method[
@@ -512,13 +514,13 @@ class Deposit extends Component {
       name: e.target.value,
     });
   };
+
   handleAccountChange = (e) => {
     this.setState({
       ...this.state,
       account: e.target.value,
     });
   };
-
   handleFileChange = (e) => {
     var files = e.target.files;
     var fileName = e.target.value.toLowerCase();
@@ -556,13 +558,13 @@ class Deposit extends Component {
         if (config.features.Deposit_DualPage) {
           return (
             <NewStepOneHKJP
-              account={this.state.account}
-              onAccountChange={this.handleAccountChange}
               amount={this.state.amount}
               onAmountChange={this.handleAmountChange}
               name={this.state.name}
-              exchangeRate={this.state.exchangeRate}
+              account={this.state.account}
               onNameChange={this.handleNameChange}
+              exchangeRate={this.state.exchangeRate}
+              onAccountChange={this.handleAccountChange}
               selectedChannelIndex={this.state.selectedChannelIndex}
               onChannelChange={this.handleChannelChange}
               selectedMethodIndex={this.state.selectedMethodIndex}
@@ -591,14 +593,14 @@ class Deposit extends Component {
         } else {
           return (
             <NewStepOne
-              account={this.state.account}
-              onAccountChange={this.handleAccountChange}
               amount={this.state.amount}
               onAmountChange={this.handleAmountChange}
               name={this.state.name}
+              onNameChange={this.handleNameChange}
+              account={this.state.account}
+              onAccountChange={this.handleAccountChange}
               files={this.state.files}
               exchangeRate={this.state.exchangeRate}
-              onNameChange={this.handleNameChange}
               selectedChannelIndex={this.state.selectedChannelIndex}
               onChannelChange={this.handleChannelChange}
               selectedMethodIndex={this.state.selectedMethodIndex}
@@ -626,6 +628,7 @@ class Deposit extends Component {
             />
           );
         }
+
       case 2:
         return (
           <NewStepTwoHKJP
@@ -711,6 +714,7 @@ class Deposit extends Component {
             header={i18n.t("depositNotification.title")}
           ></PopupAnnouncement>
         )}
+
         <Title>
           <TitleIcon></TitleIcon>
           {i18n.t("deposit.title")}
@@ -754,65 +758,62 @@ class Deposit extends Component {
                         if (this.props.wallet.depositTypeList.length <= 0)
                           return null;
                         return this.switchStep(this.state.step);
-                        {
-                          /* if (this.state.step === 1) {
-                          return (
-                            <Step1
-                              username={this.state.username}
-                              selectedType={this.state.selectedType}
-                              selectedChannel={this.state.selectedChannel}
-                              depositAmount={this.state.depositAmount}
-                              handleDepositClick={this.handleDepositClick}
-                              handleDepositAmountChange={
-                                this.handleDepositAmountChange
-                              }
-                              handleUsernameChange={this.handleUsernameChange}
-                              handleTunnelClick={this.handleTunnelClick}
-                            ></Step1>
-                          );
-                        } else if (this.state.step === 2) {
-                          return (
-                            <Step2Form
-                              depositResult={this.props.wallet.depositResult}
-                              handleDepositConfirmClick={
-                                this.handleDepositConfirmClick
-                              }
-                              handleDepositCancelClick={
-                                this.handleDepositCancelClick
-                              }
-                            ></Step2Form>
-                          );
-                        } else if (this.state.step === 3) {
-                          return (
-                            <Step2QR
-                              bankInfo={this.bankInfo}
-                              amount={this.state.depositAmount}
-                              selectedType={this.state.selectedType}
-                              selectedChannel={this.state.selectedChannel}
-                              depositResult={this.props.wallet.depositResult}
-                              handleUploadClick={this.handleUploadClick}
-                              handleDepositCancelClick={
-                                this.handleDepositCancelClick
-                              }
-                            ></Step2QR>
-                          );
-                        } else if (this.state.step === 4) {
-                          return (
-                            <Success
-                              handleConfirmClick={() => {
-                                this.setState({
-                                  ...this.initialState,
-                                  selectedType:
-                                    this.props.wallet.depositTypeList[0],
-                                  selectedChannel:
-                                    this.props.wallet.depositTypeList[0]
-                                      .channel[0],
-                                });
-                              }}
-                            ></Success>
-                          );
-                        } */
-                        }
+                        //   if (this.state.step === 1) {
+                        //     return (
+                        //       <Step1
+                        //         username={this.state.username}
+                        //         selectedType={this.state.selectedType}
+                        //         selectedChannel={this.state.selectedChannel}
+                        //         depositAmount={this.state.depositAmount}
+                        //         handleDepositClick={this.handleDepositClick}
+                        //         handleDepositAmountChange={
+                        //           this.handleDepositAmountChange
+                        //         }
+                        //         handleUsernameChange={this.handleUsernameChange}
+                        //         handleTunnelClick={this.handleTunnelClick}
+                        //       ></Step1>
+                        //     );
+                        //   } else if (this.state.step === 2) {
+                        //     return (
+                        //       <Step2Form
+                        //         depositResult={this.props.wallet.depositResult}
+                        //         handleDepositConfirmClick={
+                        //           this.handleDepositConfirmClick
+                        //         }
+                        //         handleDepositCancelClick={
+                        //           this.handleDepositCancelClick
+                        //         }
+                        //       ></Step2Form>
+                        //     );
+                        //   } else if (this.state.step === 3) {
+                        //     return (
+                        //       <Step2QR
+                        //         bankInfo={this.bankInfo}
+                        //         amount={this.state.depositAmount}
+                        //         selectedType={this.state.selectedType}
+                        //         selectedChannel={this.state.selectedChannel}
+                        //         depositResult={this.props.wallet.depositResult}
+                        //         handleUploadClick={this.handleUploadClick}
+                        //         handleDepositCancelClick={
+                        //           this.handleDepositCancelClick
+                        //         }
+                        //       ></Step2QR>
+                        //     );
+                        //   } else if (this.state.step === 4) {
+                        //     return (
+                        //       <Success
+                        //         handleConfirmClick={() => {
+                        //           this.setState({
+                        //             ...this.initialState,
+                        //             selectedType: this.props.wallet
+                        //               .depositTypeList[0],
+                        //             selectedChannel: this.props.wallet
+                        //               .depositTypeList[0].channel[0],
+                        //           });
+                        //         }}
+                        //       ></Success>
+                        //     );
+                        //   }
                       }
                     })()}
                   </InnerWrap>
@@ -852,10 +853,6 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    doManualDeposit: (amount, account, paymentid, promotionid) =>
-      dispatch(
-        walletAction.doManualDeposit(amount, account, paymentid, promotionid)
-      ),
     doBankDeposit: (
       name,
       account,
@@ -896,37 +893,12 @@ const mapDispatchToProps = (dispatch) => {
         )
       );
     },
-    doDepositUpload: (file, fileType, orderId) =>
-      dispatch(walletAction.doManualDepositUpload(file, fileType, orderId)),
-    doLeePayDeposit: (amount, payment_id, promotionid) =>
-      dispatch(walletAction.doLeePayDeposit(amount, payment_id, promotionid)),
-    doApplePayDeposit: (amount, payment_id, promotionid, transname) =>
-      dispatch(
-        walletAction.doApplePayDeposit(
-          amount,
-          payment_id,
-          promotionid,
-          transname
-        )
-      ),
-    doPrimePayDeposit: (amount, payment_id, promotionid) =>
-      dispatch(walletAction.doPrimePayDeposit(amount, payment_id, promotionid)),
-    doMaticPayDeposit: (amount, payment_id, promotionid) =>
-      dispatch(walletAction.doMaticPayDeposit(amount, payment_id, promotionid)),
-    doUmPayCryptoDeposit: (amount, payment_id, promotionid) =>
-      dispatch(
-        walletAction.doUmPayCryptoDeposit(amount, payment_id, promotionid)
-      ),
-    doUmPayBankDeposit: (amount, payment_id, promotionid) =>
-      dispatch(
-        walletAction.doUmPayBankDeposit(amount, payment_id, promotionid)
-      ),
-    cancelDeposit: (id, notice_id) =>
-      dispatch(walletAction.cancelDeposit(id, notice_id)),
     getBalanceList: () => dispatch(walletAction.getBalanceList()),
     getDepositMethod: () => dispatch(walletAction.getDepositMethod()),
-    getPlayerPromotionList: () =>
-      dispatch(generalAction.getPlayerPromotionList(1, 99, true, "", true)),
+    getPlayerPromotionList: (language) =>
+      dispatch(
+        generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
+      ),
     doUploadDepositProof: (id, file) =>
       dispatch(walletAction.doUploadDepositProof(id, file)),
     resetDeposit: () =>
