@@ -8,7 +8,7 @@ export const themeRed = {
   primaryHightlight: "#fde73f",
   secondary: "#404040",
   secondaryText: "rgba(255,255,255,1)",
-  tertiary: "rgba(255, 255, 255, 0.5)",
+  tertiary: "rgba(255, 255, 255, 1)",
   tertiaryText: "rgba(255, 255, 255, 0.5)",
   //new addition to compensate wap-t2
   appbar: "linear-gradient(to top, #91030c, #c40511)",
@@ -34,7 +34,7 @@ export const themeBlue = {
   primaryHightlight: "#fde73f",
   secondary: "#404040",
   secondaryText: "rgba(255,255,255,1)",
-  tertiary: "rgba(255, 255, 255, 0.5)",
+  tertiary: "rgba(255, 255, 255, 1)",
   tertiaryText: "rgba(255, 255, 255, 0.5)",
   //new addition to compensate wap-t2
   appbar: "linear-gradient(to top,#044BA3, #1b86c7)",
@@ -60,7 +60,7 @@ export const themeBrown = {
   primaryHightlight: "rgb(199, 168, 124)",
   secondary: "#404040",
   secondaryText: "rgba(255,255,255,1)",
-  tertiary: "rgba(255, 255, 255, 0.5)",
+  tertiary: "rgba(255, 255, 255, 1)",
   tertiaryText: "rgba(255, 255, 255, 0.5)",
   //new addition to compensate wap-t2
   appbar: "linear-gradient(to top,#044BA3, #1b86c7)",
