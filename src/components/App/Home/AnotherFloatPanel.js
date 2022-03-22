@@ -3,7 +3,7 @@ import styled from "styled-components";
 import QRCode from "qrcode.react";
 import { connect } from "react-redux";
 
-import {generalAction} from "../../../api-services/actions/generalAction";
+import { generalAction } from "../../../api-services/actions/generalAction";
 
 import PanelUserPNG from "../../../assets/images/panel/01-2.png";
 import PanelCSPNG from "../../../assets/images/panel/02-2.png";
@@ -245,6 +245,12 @@ const Icons = styled.img`
   margin-bottom: 10px;
   cursor: pointer;
 `;
+
+const QRCodeImage = styled.img`
+  height: 150px;
+  width: 150px;
+`;
+
 const AnotherFloatPanel = (props) => {
   const [supportModal, setSupportModal] = useState(false);
   const [csModal, setCsModal] = useState(false);
@@ -385,7 +391,7 @@ const AnotherFloatPanel = (props) => {
               <QRCodeHolder>
                 {data.qrcodeurl ? (
                   <QRCodeTextContainer>
-                    <QRCode value={data.qrcodeurl} bgColor={"#f6f8f7"} />
+                    <QRCodeImage src={data.qrcodeurl} />
                     <QRCodeText>{data.type}</QRCodeText>
                   </QRCodeTextContainer>
                 ) : (
