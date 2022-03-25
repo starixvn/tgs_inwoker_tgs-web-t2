@@ -232,14 +232,18 @@ class Withdrawal extends Component {
   };
   handleAddCardClick = () => {
     if (
-      config.features.ChangesNotAllowed ||
-      config.features.AddCard_NotAllowedEditDelete
+      !(
+        config.features.AddCard_NotAllowedEditDelete ||
+        config.features.ChangesNotAllowed ||
+        this.props.wallet.bankCardList.length >=
+          config.features.AddCard_MaximumCardAllowed
+      )
     ) {
+      this.setState({ ...this.state, displayView: 2 });
+    } else {
       this.props.enqueueSnackbar(i18n.t("card.toEdit"), {
         variant: "error",
       });
-    } else {
-      this.setState({ ...this.state, displayView: 2 });
     }
   };
   handleCardManageBack = () => {
@@ -413,6 +417,7 @@ class Withdrawal extends Component {
                           onhandleBindCardClick={this.handleBindCardClick}
                           onhandleGoWithdrawClick={this.handleGoWithdrawClick}
                           onhandleCSClick={this.handleCSClick}
+                          bankCardList={this.props.wallet.bankCardList}
                         ></AddCardSuccess>
                       );
                     } else {
