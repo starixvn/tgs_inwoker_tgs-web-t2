@@ -462,32 +462,33 @@ function Register(props) {
           />
         </CustomTextWrapper>
 
-        <CustomTextWrapper>
-          <CustomInvitationContainer>
-            <CustomText
-              onChange={
-                promoteType === "a" ? handlePromoChange : handleUpperChange
-              }
-              value={promoteType === "a" ? promotionId : upper}
-              id="code"
-              placeholder={i18n.t("web.register.promoteCode")}
-              variant="outlined"
-              inputProps={{ disabled: prefill }}
-            />
-            {config.features.HaveAffiliateFeature && (
-              <CustomInvitationSelect
-                disabled={prefill}
-                value={promoteType}
-                selected={promoteType}
-                onChange={handleSwitchType}
-              >
-                <option value="a">{i18n.t("usertype.agent")}</option>
-                <option value="p">{i18n.t("usertype.player")}</option>
-              </CustomInvitationSelect>
-            )}
-          </CustomInvitationContainer>
-        </CustomTextWrapper>
-
+        {!config.features.Register_HideInvitation && (
+          <CustomTextWrapper>
+            <CustomInvitationContainer>
+              <CustomText
+                onChange={
+                  promoteType === "a" ? handlePromoChange : handleUpperChange
+                }
+                value={promoteType === "a" ? promotionId : upper}
+                id="code"
+                placeholder={i18n.t("web.register.promoteCode")}
+                variant="outlined"
+                inputProps={{ disabled: prefill }}
+              />
+              {config.features.HaveAffiliateFeature && (
+                <CustomInvitationSelect
+                  disabled={prefill}
+                  value={promoteType}
+                  selected={promoteType}
+                  onChange={handleSwitchType}
+                >
+                  <option value="a">{i18n.t("usertype.agent")}</option>
+                  <option value="p">{i18n.t("usertype.player")}</option>
+                </CustomInvitationSelect>
+              )}
+            </CustomInvitationContainer>
+          </CustomTextWrapper>
+        )}
         <DescriptionContainer>
           <Checkbox
             checked={tnc}
