@@ -45,6 +45,7 @@ const featureList = {
     Deposit_RemoveAccount: false,
     Deposit_AutofillFirstCard: false,
     Register_HideInvitation: false,
+    PopupPromotion: false,
   },
 };
 export default featureList;
