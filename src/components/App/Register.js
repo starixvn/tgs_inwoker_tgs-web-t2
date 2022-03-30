@@ -233,18 +233,11 @@ function Register(props) {
   const [password, setPassword] = React.useState("");
   const [password2, setPassword2] = React.useState("");
 
-  const [withPromo, setWithPromo] = React.useState(
-    config.affiliateId === "" && localStorage.getItem("promotionId") === ""
-      ? false
-      : true
-  );
   const [promotionId, setPromotionId] = React.useState(
     config.affiliateId !== ""
       ? config.affiliateId
       : localStorage.getItem("promotionId")
   );
-
-  const { location } = props;
 
   const [upper, setUpper] = React.useState(localStorage.getItem("upper"));
   const [promoteType, setPromoteType] = React.useState(
@@ -253,11 +246,13 @@ function Register(props) {
       : localStorage.getItem("invitationtype")
   );
   const [prefill, setPrefill] = React.useState(
-    localStorage.getItem("promotionId") != "" ||
-      localStorage.getItem("upper") != ""
+    localStorage.getItem("promotionId") !== "" ||
+      localStorage.getItem("upper") !== ""
       ? true
       : false
   );
+
+  const [fromCustomDomain, setFromCustomDomain] = React.useState(false);
 
   useEffect(() => {
     if (props.general.brand.hasInvitationCode) {
@@ -266,6 +261,7 @@ function Register(props) {
           setPromoteType("a");
           setPromotionId(result.data.invitationCode);
           setPrefill(true);
+          setFromCustomDomain(true);
         }
       });
     }
@@ -462,7 +458,7 @@ function Register(props) {
           />
         </CustomTextWrapper>
 
-        {!config.features.Register_HideInvitation && (
+        {!(config.features.Register_HideInvitation && fromCustomDomain) && (
           <CustomTextWrapper>
             <CustomInvitationContainer>
               <CustomText
