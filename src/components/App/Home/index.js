@@ -36,6 +36,7 @@ import KySlider from "./KySlider";
 import AGSlider from "./AgSlider";
 import AnotherFloatPanel from "./AnotherFloatPanel";
 import config from "../../../config/config";
+import PopupAnnouncement from "./PopupAnnouncement";
 export const floatKeyframe = keyframes`
   0%, 100% {
     transform: translateY(0);
@@ -363,6 +364,10 @@ class Home extends Component {
       banner_list: [],
       wm: displayGame.wm,
       ky: displayGame.ky,
+      openAnnouncement: config.features.PopupAnnouncement,
+      showPromotion: config.features.PopupAnnouncement
+        ? false
+        : config.features.PopupPromotion,
     };
   }
 
@@ -639,6 +644,54 @@ class Home extends Component {
         )}
 
         <Recommend></Recommend>
+        {(() => {
+          if (
+            config.features.PopupAnnouncement &&
+            this.props.ui.marqueeText.length > 0
+          ) {
+            var row = this.props.ui.marqueeText[0];
+
+            return (
+              <PopupAnnouncement
+                open={this.state.openAnnouncement}
+                onClose={() => {
+                  if (document.getElementById("audio") != null)
+                    document.getElementById("audio").play();
+                  this.setState({
+                    ...this.state,
+                    openAnnouncement: false,
+                    showPromotion: true,
+                  });
+                }}
+                text={
+                  row.localization !== null && row.localization.content
+                    ? row.localization.content
+                    : row.content
+                }
+                header={
+                  row.localization !== null && row.localization.subject
+                    ? row.localization.subject
+                    : row.subject
+                }
+              ></PopupAnnouncement>
+            );
+          }
+        })()}
+
+        {config.features.PopupPromotion &&
+          this.props.general.promotionList.totalcount > 0 && (
+            <PopupAnnouncement
+              open={this.state.showPromotion}
+              type="promo"
+              onClose={() => {
+                if (document.getElementById("audio") != null)
+                  document.getElementById("audio").play();
+                this.setState({ ...this.state, showPromotion: false });
+              }}
+              content={this.props.general.promotionList.items}
+              header={i18n.t("promotion.title")}
+            ></PopupAnnouncement>
+          )}
       </HomeContainer>
     );
   }
@@ -659,6 +712,7 @@ const mapStateToProps = (state) => {
     token: state.account.token,
     ui: state.ui,
     game: state.game,
+    general: state.general,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Home));

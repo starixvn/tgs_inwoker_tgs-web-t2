@@ -75,6 +75,7 @@ class App extends Component {
       this.props.getBanner();
       this.props.getBrand();
       this.props.getLiveChatURL();
+      this.props.getPromotionList(i18n.language);
 
       // this.props.getVIP();
     }
@@ -165,6 +166,7 @@ class App extends Component {
             this.props.getMessageList(i18n.language, 0, 99);
             this.props.getBankCardList();
             this.props.getAutoTransferStatus();
+            this.props.getPlayerPromotionList(i18n.language);
 
             // if (inbox.IsSuccess) {
             //   this.setState({ inbox: inbox.data });
@@ -187,6 +189,7 @@ class App extends Component {
         this.props.getBrandLanguage();
         this.props.getBanner();
         this.props.getBrand();
+        this.props.getPromotionList(i18n.language);
       }
     }
     if (
@@ -474,6 +477,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     getLiveChatURL: () => dispatch(generalAction.getLiveChatURL()),
     getAutoTransferStatus: () => dispatch(walletAction.getAutoTransferStatus()),
+    getPromotionList: (language) =>
+      dispatch(generalAction.getPromotionList(language, 1, 99, true, "", true)),
+    getPlayerPromotionList: (language) =>
+      dispatch(
+        generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
+      ),
   };
 };
 
