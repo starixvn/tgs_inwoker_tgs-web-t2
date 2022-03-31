@@ -21,6 +21,7 @@ import { RESET_WALLETRESULT } from "../../../../api-services/constant/actionType
 import { withSnackbar } from "notistack";
 import i18n from "../../../../utils/i18n";
 import Disabled from "./Disabled";
+import PopupAnnouncement from "../../Home/PopupAnnouncement";
 
 const Container = styled.div`
   padding: 20px 28px;
@@ -71,6 +72,7 @@ class Withdrawal extends Component {
     },
     minWithdrawLimit: 0,
     enableAddCard: false,
+    openAnnouncement: false,
   };
 
   urlParams = new URLSearchParams(this.props.location.search);
@@ -228,7 +230,18 @@ class Withdrawal extends Component {
     );
   };
   handleManageCardClick = () => {
-    this.setState({ ...this.state, displayView: 3 });
+    if (
+      !(
+        config.features.AddCard_NotAllowedEditDelete ||
+        config.features.ChangesNotAllowed ||
+        this.props.wallet.bankCardList.length >=
+          config.features.AddCard_MaximumCardAllowed
+      )
+    ) {
+      this.setState({ ...this.state, displayView: 3 });
+    } else {
+      this.setState({ ...this.state, openAnnouncement: true });
+    }
   };
   handleAddCardClick = () => {
     if (
@@ -364,6 +377,13 @@ class Withdrawal extends Component {
   render() {
     return (
       <Container>
+        <PopupAnnouncement
+          open={this.state.openAnnouncement}
+          onClose={() => {
+            this.setState({ ...this.state, openAnnouncement: false });
+          }}
+          text={i18n.t("card.toEdit")}
+        ></PopupAnnouncement>
         <Title>
           <TitleIcon></TitleIcon>
           {i18n.t("withdrawal.title")}

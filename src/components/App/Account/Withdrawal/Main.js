@@ -116,9 +116,6 @@ const WithdrawalLimitItemRight = styled.div`
   padding: 13px 0 0 20px;
   float: left;
 `;
-const CSMessage = styled.div`
-  margin: 15px 0 0 0;
-`;
 const Turnover = styled.div`
   margin: 10px;
   a {
@@ -218,26 +215,10 @@ class Main extends Component {
               </BankCardButton>
             );
           })}
-                    {!(
-            config.features.ChangesNotAllowed ||
-            config.features.AddCard_NotAllowedEditDelete ||
-            this.props.cardList.length >=
-              config.features.AddCard_MaximumCardAllowed
-          ) && (
           <ManageCardButton onClick={this.props.onhandleManageCardClick}>
             {i18n.t("withdrawal.manageBank")}
-          </ManageCardButton>)}
+          </ManageCardButton>
         </SelectionContainer>
-        {(
-            config.features.ChangesNotAllowed ||
-            config.features.AddCard_NotAllowedEditDelete ||
-            this.props.cardList.length >=
-              config.features.AddCard_MaximumCardAllowed
-          ) && (
-          <CSMessage>
-            {i18n.t("withdrawal.msgContactCSCardChange")}
-          </CSMessage>)
-        }
         <SplitLine></SplitLine>
 
         <SubHeaderContainer>
