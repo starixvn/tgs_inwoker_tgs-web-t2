@@ -359,13 +359,15 @@ class Home extends Component {
     super(props);
 
     var displayGame = this.getHomePageDisplayGame();
+    var ifAnnouncementValid =
+      config.features.PopupAnnouncement && this.props.ui.marqueeText.length > 0;
     this.state = {
       marqueeText: [],
       banner_list: [],
       wm: displayGame.wm,
       ky: displayGame.ky,
-      openAnnouncement: config.features.PopupAnnouncement,
-      showPromotion: config.features.PopupAnnouncement
+      openAnnouncement: ifAnnouncementValid,
+      showPromotion: ifAnnouncementValid
         ? false
         : config.features.PopupPromotion,
     };
