@@ -147,7 +147,8 @@ function CardManage(props) {
               </RowContainer>
               {!(
                 config.features.AddCard_NotAllowedEditDelete ||
-                config.features.ChangesNotAllowed
+                config.features.ChangesNotAllowed ||
+                config.features.AddCard_DisableCreateUpdateDelete
               ) && (
                 <RowContainer>
                   <LeftLabel>{i18n.t("card.removeCard")}</LeftLabel>
@@ -169,7 +170,10 @@ function CardManage(props) {
 
         {!(
           config.features.AddCard_NotAllowedEditDelete ||
-          config.features.ChangesNotAllowed
+          config.features.ChangesNotAllowed ||
+          (props.bankCardList.length >=
+            config.features.AddCard_MaximumCardAllowed &&
+            config.features.AddCard_DisableCreateUpdateDelete)
         ) && (
           <AddCardFrame onClick={props.onhandleAddCardClick}>
             <AddCardFrameLabel>{i18n.t("card.msgAddCard")}</AddCardFrameLabel>
