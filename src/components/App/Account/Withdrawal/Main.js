@@ -12,6 +12,7 @@ import Messagebox from "../../Messagebox";
 import CustomTextField from "../../../Share/TextField";
 import i18n from "../../../../utils/i18n";
 import Common from "../../../../utils/Common";
+import config from "../../../../config/config";
 const TabButton = styled.div`
   height: 41px;
   font-size: 14px;
@@ -115,7 +116,9 @@ const WithdrawalLimitItemRight = styled.div`
   padding: 13px 0 0 20px;
   float: left;
 `;
-
+const CSMessage = styled.div`
+  margin: 15px 0 0 0;
+`;
 const Turnover = styled.div`
   margin: 10px;
   a {
@@ -215,10 +218,26 @@ class Main extends Component {
               </BankCardButton>
             );
           })}
+                    {!(
+            config.features.ChangesNotAllowed ||
+            config.features.AddCard_NotAllowedEditDelete ||
+            this.props.cardList.length >=
+              config.features.AddCard_MaximumCardAllowed
+          ) && (
           <ManageCardButton onClick={this.props.onhandleManageCardClick}>
             {i18n.t("withdrawal.manageBank")}
-          </ManageCardButton>
+          </ManageCardButton>)}
         </SelectionContainer>
+        {(
+            config.features.ChangesNotAllowed ||
+            config.features.AddCard_NotAllowedEditDelete ||
+            this.props.cardList.length >=
+              config.features.AddCard_MaximumCardAllowed
+          ) && (
+          <CSMessage>
+            {i18n.t("withdrawal.msgContactCSCardChange")}
+          </CSMessage>)
+        }
         <SplitLine></SplitLine>
 
         <SubHeaderContainer>
