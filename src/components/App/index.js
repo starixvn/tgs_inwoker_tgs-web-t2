@@ -40,7 +40,7 @@ import Footer from "./Footer";
 import Loading from "./Loading";
 // import RegisterSuccess from "./RegisterSuccess";
 import Download from "./Download/index";
-
+import LiveChat from "../Share/live-chat";
 // import VIP from "./VIP/index";
 
 import i18n from "../../utils/i18n";
@@ -427,6 +427,14 @@ class App extends Component {
                 <AnotherFloatPanel
                   onhandleShowCSClick={this.handleShowCSClick}
                 ></AnotherFloatPanel>
+
+                {config.features.LiveChatVendor.brand &&
+                  config.features.LiveChatVendor.license && (
+                    <LiveChat
+                      license={config.features.LiveChatVendor.license}
+                      vendor={config.features.LiveChatVendor.brand}
+                    />
+                  )}
 
                 <Footer target={"_blank"}></Footer>
               </>
