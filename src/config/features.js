@@ -50,6 +50,10 @@ const featureList = {
     AddCard_DisableCreateUpdateDelete: false,
     Register_HideInvitation: false,
     PopupPromotion: false,
+
+    LiveChatVendor: "",
+
+    Home_CustomFPPosition: false,
   },
 };
 export default featureList;

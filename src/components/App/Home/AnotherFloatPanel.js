@@ -307,7 +307,7 @@ const AnotherFloatPanel = (props) => {
   return (
     <div>
       <Container>
-        {props.general.livechat && (
+        {props.general.livechat && !config.features.LiveChatVendor && (
           <SidePanel
             active={csModal}
             onClick={() => {
