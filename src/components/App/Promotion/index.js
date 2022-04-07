@@ -264,7 +264,7 @@ class Promotion extends Component {
                 if (this.props.general.promotionList.items.length > 0)
                   return this.props.general.promotionList.items.map(
                     (data, index) => (
-                      <Content key={index} image={data.desktopBanner}>
+                      <Content key={index} image={data.localization.desktopBanner}>
                         <LeftContent />
                         <RightContent>
                           <RightContentContainer>
