@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import { withRouter } from "react-router-dom";
+import DynamicFont from "react-dynamic-font";
 
 import BGPromotionJPG from "../../../assets/images/bg-promotion.png";
 import PromoModelPNG from "../../../assets/images/promo-bg-model.png";
@@ -267,7 +268,7 @@ class Promotion extends Component {
                         <LeftContent />
                         <RightContent>
                           <RightContentContainer>
-                            <PromoTitle>{data.name}</PromoTitle>
+                            <PromoTitle><DynamicFont content={data.name} /></PromoTitle>
                             <PromoDate>
                               <Tint> {i18n.t("promotion.promoTarget")}：</Tint>{" "}
                               {data.vipLevels.map((a, index) => {
