@@ -722,7 +722,10 @@ class Deposit extends Component {
         </Title>
         <Wrap>
           {(() => {
-            if (this.props.account.info.member_name === "") {
+            if (
+              this.props.account.info.member_name === "" ||
+              this.props.account.info.member_name === null
+            ) {
               return (
                 <NameVerificationWrap>
                   <NameVerification token={this.props.token}></NameVerification>
@@ -749,7 +752,10 @@ class Deposit extends Component {
                       })}
                     </TabButtonContainer>
                     {(() => {
-                      if (this.props.account.info.member_name === "") {
+                      if (
+                        this.props.account.info.member_name === "" ||
+                        this.props.account.info.member_name === null
+                      ) {
                         return (
                           <NameVerification
                             token={this.props.token}
