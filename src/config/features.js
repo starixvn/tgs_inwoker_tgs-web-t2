@@ -54,6 +54,7 @@ const featureList = {
     LiveChatVendor: "",
 
     Home_CustomFPPosition: false,
+    CustomMessaging : [],
   },
 };
 export default featureList;
