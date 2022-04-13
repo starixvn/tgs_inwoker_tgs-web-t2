@@ -13,8 +13,8 @@ import { withSnackbar } from "notistack";
 import Collapse from "@material-ui/core/Collapse";
 
 import i18n from "../../../utils/i18n";
-import {generalAction} from "../../../api-services/actions/generalAction";
-import {SHOW_LOGIN} from "../../../api-services/constant/actionType";
+import { generalAction } from "../../../api-services/actions/generalAction";
+import { SHOW_LOGIN } from "../../../api-services/constant/actionType";
 import CommonMarquee from "../CommonMarquee";
 import ScrollAnimation from "react-animate-on-scroll";
 import { AppHistory } from "../../../history/History";
@@ -264,11 +264,16 @@ class Promotion extends Component {
                 if (this.props.general.promotionList.items.length > 0)
                   return this.props.general.promotionList.items.map(
                     (data, index) => (
-                      <Content key={index} image={data.localization.desktopBanner}>
+                      <Content
+                        key={index}
+                        image={data.localization.desktopBanner}
+                      >
                         <LeftContent />
                         <RightContent>
                           <RightContentContainer>
-                            <PromoTitle><DynamicFont content={data.name} /></PromoTitle>
+                            <PromoTitle>
+                              <DynamicFont content={data.name} />
+                            </PromoTitle>
                             <PromoDate>
                               <Tint> {i18n.t("promotion.promoTarget")}：</Tint>{" "}
                               {data.vipLevels.map((a, index) => {
@@ -348,7 +353,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(generalAction.joinPromotion(id));
     },
     getPromotionList: (language) =>
-      dispatch(generalAction.getPromotionList(language, 1, 99, true, "", true)),
+      //TODO: Revert the 4th param to true after testing.
+      dispatch(
+        generalAction.getPromotionList(language, 1, 99, false, "", true)
+      ),
     getPlayerPromotionList: (language) =>
       dispatch(
         generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
