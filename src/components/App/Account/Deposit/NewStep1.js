@@ -452,7 +452,7 @@ const NewStepOne = (props) => {
                           <SplitLine></SplitLine>
                         </>
                       )}
-                      {!(config.features.Deposit_RemoveName) && (
+                      {(!(config.features.Deposit_RemoveName || isFPS) || config.features.Deposit_FPSWithName) && (
                         <>
                           <SubHeaderContainer>
                             <SubTitle>
