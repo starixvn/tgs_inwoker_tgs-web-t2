@@ -55,6 +55,7 @@ const featureList = {
 
     Home_CustomFPPosition: false,
     CustomMessaging : [],
+    Deposit_FPSWithName: false,
   },
 };
 export default featureList;

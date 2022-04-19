@@ -104,4 +104,4 @@ const QQ = (props) => {
   );
 };
 
-export default withSnackbar(QQ);
+export default connect(null, null)(withSnackbar(QQ));

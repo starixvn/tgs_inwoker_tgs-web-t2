@@ -418,6 +418,19 @@ class Deposit extends Component {
 
     var channel = method.channel[this.state.selectedChannelIndex];
 
+    const depositMethodSwitcher = (method) => {
+      switch (method) {
+        case "banktransfer":
+          return "bank";
+        case "crypto":
+          return "crypto";
+        case "thirdparty":
+          return "thirdparty";
+        default:
+          return "bank";
+      }
+    };
+
     if (payment.paymentcode.toUpperCase() === "MANUAL") {
       // handle manual deposit
       if (method.methodcode === "BankTransfer") {
@@ -429,13 +442,25 @@ class Deposit extends Component {
           this.state.depositPromotion
         );
       } else if (method.methodcode === "FPS") {
-        this.props.doFPSDeposit(
-          this.state.name,
-          this.state.account,
-          this.state.amount.replace(/,/g, ""),
-          channel.id,
-          this.state.depositPromotion
-        );
+        if(config.features.Deposit_FPSWithName)
+        {
+          this.props.doFPSDepositWithName(
+            this.state.name,
+            this.state.account,
+            this.state.amount.replace(/,/g, ""),
+            channel.id,
+            this.state.depositPromotion
+          );        
+        }
+        else 
+        {
+          this.props.doFPSDeposit(
+            this.state.account,
+            this.state.amount.replace(/,/g, ""),
+            channel.id,
+            this.state.depositPromotion
+          );
+        }
       } else if (method.methodcode === "ThirdParty") {
         this.props.doThirdPartyDeposit(
           this.state.amount.replace(/,/g, ""),
@@ -444,21 +469,29 @@ class Deposit extends Component {
         );
       }
     } else {
-      if (method.methodcode === "Crypto") {
-        this.props.doCryptoDeposit(
-          this.state.amount.replace(/,/g, ""),
-          channel.id,
-          this.state.depositPromotion,
-          payment.paymentcode
-        );
-      } else {
-        this.props.doBankDeposit2(
-          this.state.amount.replace(/,/g, ""),
-          channel.id,
-          this.state.depositPromotion,
-          payment.paymentcode
-        );
-      }
+      this.props.performDeposit(
+        this.state.amount.replace(/,/g, ""),
+        channel.id,
+        this.state.depositPromotion,
+        payment.paymentcode,
+        depositMethodSwitcher(method.methodcode.toLowerCase())
+      );
+
+      // if (method.methodcode === "Crypto") {
+      //   this.props.doCryptoDeposit(
+      //     this.state.amount.replace(/,/g, ""),
+      //     channel.id,
+      //     this.state.depositPromotion,
+      //     payment.paymentcode
+      //   );
+      // } else {
+      //   this.props.doBankDeposit2(
+      //     this.state.amount.replace(/,/g, ""),
+      //     channel.id,
+      //     this.state.depositPromotion,
+      //     payment.paymentcode
+      //   );
+      // }
     }
   };
 
@@ -738,6 +771,8 @@ class Deposit extends Component {
             handleRestartClick={this.handleRestartClick}
           />
         );
+      default:
+        return "";
     }
   };
 
@@ -896,9 +931,20 @@ const mapDispatchToProps = (dispatch) => {
         )
       );
     },
-    doFPSDeposit: (name, account, amount, paymentid, promotionid, banktype) => {
+    doFPSDeposit: (account, amount, paymentid, promotionid, banktype) => {
       dispatch(
         walletAction.doFPSDeposit(
+          account,
+          amount,
+          paymentid,
+          promotionid,
+          banktype
+        )
+      );
+    },
+    doFPSDepositWithName: (name, account, amount, paymentid, promotionid, banktype) => {
+      dispatch(
+        walletAction.doFPSDepositWithName(
           name,
           account,
           amount,
@@ -935,6 +981,17 @@ const mapDispatchToProps = (dispatch) => {
           payment_id,
           promotionid,
           paymentcode
+        )
+      );
+    },
+    performDeposit: (amount, payment_id, promotionid, paymentcode, type) => {
+      dispatch(
+        walletAction.performDeposit(
+          amount,
+          payment_id,
+          promotionid,
+          paymentcode,
+          type
         )
       );
     },

@@ -145,15 +145,15 @@ function IDVerification(props) {
         !fileName.endsWith(".png") &&
         !fileName.endsWith(".tiff")
       ) {
-        this.props.enqueueSnackbar(i18n.t("deposit.msgInvalidFileType"), {
+        props.enqueueSnackbar(i18n.t("deposit.msgInvalidFileType"), {
           variant: "error",
         });
         e.target.value = null;
         return false;
       }
       const fileSize = Math.round(files[0].size / 1024);
-      if (fileSize > 2048) {
-        this.props.enqueueSnackbar(i18n.t("deposit.msgInvalidFileSize"), {
+      if (fileSize > 5120) {
+        props.enqueueSnackbar(i18n.t("deposit.msgInvalidFileSize"), {
           variant: "error",
         });
         e.target.value = null;
