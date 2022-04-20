@@ -452,7 +452,8 @@ const NewStepOne = (props) => {
                           <SplitLine></SplitLine>
                         </>
                       )}
-                      {(!(config.features.Deposit_RemoveName || isFPS) || config.features.Deposit_FPSWithName) && (
+                      {(!(config.features.Deposit_RemoveName || isFPS) ||
+                        config.features.Deposit_FPSWithName) && (
                         <>
                           <SubHeaderContainer>
                             <SubTitle>
@@ -627,11 +628,24 @@ const NewStepOne = (props) => {
                         <SubTitle>{i18n.t("deposit.uploadReceipt")}</SubTitle>
                       </SubHeaderContainer>
                       <SelectionContainer>
-                        <CustomInput
-                          type="file"
-                          accept="image/jpg, image/jpeg, image/png, image/tiff"
-                          onChange={props.onFileChange}
-                        ></CustomInput>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <button
+                            onClick={() => {
+                              document.getElementById("getFile").click();
+                            }}
+                            style={{ marginRight: 10, height: 30 }}
+                          >
+                            {i18n.t("common.upload")}
+                          </button>
+                          <input
+                            type="file"
+                            id="getFile"
+                            onChange={props.onFileChange}
+                            accept="image/jpg, image/jpeg, image/png, image/tiff"
+                            style={{ display: "none" }}
+                          />
+                          {files[0] ? files[0].name : ""}
+                        </div>
                       </SelectionContainer>
                     </React.Fragment>
                   );

@@ -155,6 +155,7 @@ function IDVerification(props) {
     account: props.account,
     check_pass_account: check_pass_account,
     handleCSClick: props.handleCSClick,
+    icUpload: icUpload,
   };
 
   const sceneSwitcher = (scene) => {

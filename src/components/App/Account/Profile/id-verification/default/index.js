@@ -76,12 +76,27 @@ function Default(props) {
                 maxLength={256}
               ></CustomTextField>
               {config.features.ICVerificationUpload && (
-                <InputWrapper style={{}}>
-                  <CustomInput
-                    type="file"
-                    accept="image/jpg, image/jpeg, image/png, image/tiff"
-                    onChange={props.handleFileChange}
-                  ></CustomInput>
+                <InputWrapper
+                  style={{ padding: "6.5px 10px", borderRadius: 12 }}
+                >
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <button
+                      onClick={() => {
+                        document.getElementById("getFile").click();
+                      }}
+                      style={{ marginRight: 10, height: 30 }}
+                    >
+                      {i18n.t("common.upload")}
+                    </button>
+                    <input
+                      type="file"
+                      id="getFile"
+                      onChange={props.handleFileChange}
+                      accept="image/jpg, image/jpeg, image/png, image/tiff"
+                      style={{ display: "none" }}
+                    />
+                    {props.icUpload[0] ? props.icUpload[0].name : ""}
+                  </div>
                 </InputWrapper>
               )}
             </>
