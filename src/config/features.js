@@ -54,8 +54,9 @@ const featureList = {
     LiveChatVendor: "",
 
     Home_CustomFPPosition: false,
-    CustomMessaging : [],
+    CustomMessaging: [],
     Deposit_FPSWithName: false,
+    Register_ShowPhone: true,
   },
 };
 export default featureList;

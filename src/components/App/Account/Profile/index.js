@@ -699,7 +699,8 @@ class Profile extends Component {
               this.handleButtonClick
             )}
 
-          {config.features.SMSVerification &&
+          {(config.features.SMSVerification ||
+            config.features.Register_ShowPhone) &&
             GetContentWrap(
               this.props.account.info,
               i18n.t("common.phoneNumber"),
@@ -729,16 +730,15 @@ class Profile extends Component {
               this.handleButtonClick
             )}
 
-            {config.features.CustomMessaging.length>0 && 
-              config.features.CustomMessaging.map((platform)=>{
-                return GetContentWrap(
-                  this.props.account.info,
-                  i18n.t("common."+platform),
-                  "member_"+platform,
-                  this.handleButtonClick
-                )
-              })
-            }
+          {config.features.CustomMessaging.length > 0 &&
+            config.features.CustomMessaging.map((platform) => {
+              return GetContentWrap(
+                this.props.account.info,
+                i18n.t("common." + platform),
+                "member_" + platform,
+                this.handleButtonClick
+              );
+            })}
           {/* {GetContentWrap(
             this.props.account.info,
             "电子邮件",
