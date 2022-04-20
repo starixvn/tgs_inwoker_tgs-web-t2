@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-
 import { withRouter } from "react-router-dom";
 import { accountAction } from "../../api-services/actions/accountAction";
+
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import LoginBGPNG from "../../assets/images/login-bg.png";
@@ -14,15 +14,17 @@ import UserIconPNG from "../../assets/images/user-icon.png";
 import Password1IconPNG from "../../assets/images/password1-icon.png";
 import Password2IconPNG from "../../assets/images/password2-icon.png";
 import IconInboxSelectedPNG from "../../assets/images/icon-inbox-selected.png";
+import IconMobilePNG from "../../assets/images/icon-mobile.png";
 
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
 import BlowFishEncryption from "../../utils/BlowFishEncryption";
 import { withSnackbar } from "notistack";
-
+import config from "../../config/config";
 import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
-import config from "../../config/config";
 import ErrorSwitcher from "../../utils/ErrorSwitcher";
 import { generalAction } from "../../api-services/actions/generalAction";
 const Container = styled.div`
@@ -93,6 +95,93 @@ const CustomText = withStyles({
     },
   },
 })(TextField);
+
+const CustomText2 = withStyles({
+  root: {
+    marginLeft: "8px",
+    width: "240px",
+    height: "51px",
+    borderRadius: "6px",
+    border: "none",
+    boxShadow: "0px 3px 8px -2px rgba(0,0,0,0.75)",
+    margin: 0,
+    marginTop: "13px",
+    background: "white",
+
+    "& .MuiOutlinedInput-input": {
+      fontSize: "14px",
+    },
+    "& label.Mui-focused": {
+      color: "#b6b6b6",
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "none",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        border: "none",
+      },
+      "&:hover fieldset": {
+        border: "none",
+      },
+      "&.Mui-focused fieldset": {
+        border: "none",
+      },
+    },
+  },
+})(CustomText);
+
+const CustomFormControl = withStyles((theme) => ({
+  root: {
+    width: "100px",
+    height: "51px",
+    border: "none",
+    boxShadow: "0px 3px 8px -2px rgba(0,0,0,0.75)",
+    marginTop: "13px",
+    marginBottom: "13px",
+    float: "left",
+    backgroundColor: "#fff",
+    padding: 0,
+    "&:before": {
+      borderRight: "1px solid #b6b6b6",
+      content: '"\\00a0"',
+      position: "absolute",
+      top: "1px",
+      right: "36px",
+      zIndex: " 1",
+      display: "block",
+      height: "100%",
+    },
+    "& label.Mui-focused": {
+      color: "#b6b6b6",
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#b6b6b6",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#b6b6b6",
+        marginTop: "1px",
+      },
+      "&:hover fieldset": {
+        borderColor: "#b6b6b6",
+        marginTop: "1px",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#b6b6b6",
+        marginTop: "1px",
+      },
+    },
+  },
+}))(FormControl);
+
+const CustomSelect = withStyles((theme) => ({
+  root: {
+    fontSize: "14px",
+
+    color: "#818181",
+  },
+}))(Select);
 
 const ButtonLogin = styled.div`
   margin-top: 24px;
@@ -232,6 +321,8 @@ function Register(props) {
 
   const [password, setPassword] = React.useState("");
   const [password2, setPassword2] = React.useState("");
+  const [areacode, setAreacode] = React.useState(config.features.PhonePrefix);
+  const [phone, setPhone] = React.useState("");
 
   const [promotionId, setPromotionId] = React.useState(
     config.affiliateId !== ""
@@ -289,6 +380,15 @@ function Register(props) {
       });
       return;
     }
+    expr = /^[0-9]{8,10}$/;
+    if (config.features.Register_ShowPhone) {
+      if (!expr.test(phone)) {
+        props.enqueueSnackbar(i18n.t("common.noReachMin"), {
+          variant: "warning",
+        });
+        return;
+      }
+    }
 
     if (tnc) {
       // user_account,
@@ -317,6 +417,11 @@ function Register(props) {
             // }
             if (config.features.SMSVerification) {
               props.onRegisterSuccess(username, password);
+            } else if (config.features.Register_ShowPhone) {
+              props.doLoginWithHp(username, password, phone);
+              props.history.push(
+                "/" + i18n.language + "/registersuccess/" + username
+              );
             } else {
               props.doLogin(username, password);
               // await props.getAccountInfo(response.data);
@@ -458,6 +563,50 @@ function Register(props) {
           />
         </CustomTextWrapper>
 
+        {config.features.Register_ShowPhone && (
+          <React.Fragment>
+            <CustomFormControl>
+              <CustomSelect
+                native
+                variant="outlined"
+                value={areacode}
+                displayEmpty
+                onChange={(e) => {
+                  setAreacode(e.target.value);
+                }}
+              >
+                <option value={config.features.PhonePrefix}>
+                  {config.features.PhonePrefix}
+                </option>
+              </CustomSelect>
+            </CustomFormControl>
+            <CustomText2
+              onChange={(e) => {
+                setPhone(e.target.value);
+              }}
+              id="phone"
+              value={phone}
+              placeholder={i18n.t("forgotPassword.plsEnterPhoneNumber")}
+              variant="outlined"
+              type="text"
+              autoComplete="off"
+              inputProps={{
+                maxLength: 10,
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment
+                    position="start"
+                    style={{ height: "26px", width: "30px" }}
+                  >
+                    <img src={IconMobilePNG} alt=""></img>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </React.Fragment>
+        )}
+
         {!(config.features.Register_HideInvitation && fromCustomDomain) && (
           <CustomTextWrapper>
             <CustomInvitationContainer>
@@ -516,11 +665,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getInvitationCode: () => dispatch(generalAction.getInvitationCode()),
     dispatchFunction: (json) => dispatch(json),
     getAccountInfo: (token) => dispatch(accountAction.getAccountInfo(token)),
     getAccountProfile: (token) =>
       dispatch(accountAction.getAccountProfile(token, true)),
-    getInvitationCode: () => dispatch(generalAction.getInvitationCode()),
     register: (username, pwd, confirmpwd, invitationcode, upper) =>
       dispatch(
         accountAction.registerAccount(
