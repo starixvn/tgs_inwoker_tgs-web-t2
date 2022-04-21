@@ -587,7 +587,7 @@ class Home extends Component {
                   </AGGameLeftContent>
                   <AGGameRightContent>
                     <AGTitle></AGTitle>
-                    <AGText>{i18n.t("sports.desc")}</AGText>
+                    <AGText>{i18n.t("sports.bunnydesc")}</AGText>
                     <AGGameIconBar>
                       <div></div>
 
