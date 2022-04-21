@@ -259,7 +259,7 @@ const AnotherFloatPanel = (props) => {
     setSupportModal(true);
   };
   const performOpenCsModal = () => {
-    setCsModal(true);
+    props.onhandleShowCSClick();
   };
 
   const performCloseSupportModal = () => {
