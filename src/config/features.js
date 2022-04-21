@@ -57,6 +57,10 @@ const featureList = {
     CustomMessaging: [],
     Deposit_FPSWithName: false,
     Register_ShowPhone: true,
+    MenuItem_Sorting_WLGHK: false,
+    MenuItem_Sorting_SKY: false,
+    MenuItem_Sorting_PB: false,
+    MenuItem_Sorting_GMO: false,
   },
 };
 export default featureList;
