@@ -270,9 +270,7 @@ const Main = (props) => {
 
         <CustomButton
           disabled={
-            parseFloat(amount) < props.withdrawalMinLimit ||
-            parseFloat(amount) > props.withdrawalMaxLimit ||
-            disabled
+            parseFloat(amount) < min || parseFloat(amount) > max || disabled
           }
           name={i18n.t("common.nextStep")}
           width={255}
