@@ -26,9 +26,9 @@ import PopupAnnouncement from "../../Home/PopupAnnouncement";
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box
-
+background:#fff;
   width: 100%;
-  min-height: 611px;
+  min-height: 80vh;
 
 `;
 const Title = styled.div`
@@ -87,8 +87,6 @@ class Withdrawal extends Component {
     });
     if (this.props.wallet.bankCardList.length === 0)
       this.props.getBankCardList();
-    if (this.props.wallet.withdrawalList.length === 0)
-      this.props.getWithdrawalChannel();
 
     if (this.urlParams.has("do")) {
       const value = this.urlParams.get("do");
@@ -457,12 +455,6 @@ class Withdrawal extends Component {
                                 this.handleWithdrawalClick
                               }
                               account={this.props.account}
-                              withdrawalMinLimit={
-                                this.props.wallet.withdrawalMinLimit
-                              }
-                              withdrawalMaxLimit={
-                                this.props.wallet.withdrawalMaxLimit
-                              }
                               minWithdrawLimit={this.state.minWithdrawLimit}
                             ></Main>
                           );
@@ -535,7 +527,6 @@ const mapDispatchToProps = (dispatch) => {
     deleteBankCard: (id) => dispatch(walletAction.deleteBankCard(id)),
     addBankCard: (channelid, bankType, detail) =>
       dispatch(walletAction.addBankCard(channelid, bankType, detail)),
-    getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
     resetResult: () =>
       dispatch({
         type: RESET_WALLETRESULT,
