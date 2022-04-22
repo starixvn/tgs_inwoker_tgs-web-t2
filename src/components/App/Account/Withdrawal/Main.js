@@ -126,10 +126,7 @@ const Main = (props) => {
   };
 
   const handleWithdrawalClick = (e) => {
-    props.onhandleWithdrawalClick(
-      this.props.cardList[this.state.selectedCardIndex].id,
-      amount
-    );
+    props.onhandleWithdrawalClick(props.cardList[selectedCardIndex].id, amount);
     setDisabled(true);
 
     setTimeout(() => {
