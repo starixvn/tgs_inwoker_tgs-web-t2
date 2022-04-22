@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
 
 import i18n from "../../../utils/i18n";
-
+import config from "../../../config/config";
 import ScrollAnimation from "react-animate-on-scroll";
 import {SHOW_LOGIN} from "../../../api-services/constant/actionType";
 import {GameTypeEnum} from "../../../api-services/utils/Enum";
@@ -83,6 +83,15 @@ class LiveGame extends Component {
 
     var liveList = props.game.homePageGameList.filter((item) => {
       return item.type === GameTypeEnum.LIVELOBBY;
+    })
+    .sort((a, b) => {
+      if (config.features.LiveGame_Sorting_SKY) {
+        var sortDGFirst = ["DG"];
+        return (
+          sortDGFirst.indexOf(b.abbreviation) -
+          sortDGFirst.indexOf(a.abbreviation)
+        );
+      } else return b - a;
     });
 
     this.state = {
@@ -107,6 +116,15 @@ class LiveGame extends Component {
     ) {
       var liveList = this.props.game.homePageGameList.filter((item) => {
         return item.type === GameTypeEnum.LIVE;
+      })              
+      .sort((a, b) => {
+        if (config.features.LiveGame_Sorting_SKY) {
+          var sortDGFirst = ["DG"];
+          return (
+            sortDGFirst.indexOf(b.abbreviation) -
+            sortDGFirst.indexOf(a.abbreviation)
+          );
+        } else return b - a;
       });
 
       this.setState({
@@ -160,6 +178,15 @@ class LiveGame extends Component {
             {this.state.list
               .slice(0, 3)
               .reverse()
+              .sort((a, b) => {
+                if (config.features.LiveGame_Sorting_SKY) {
+                  var sortDGFirst = ["DG"];
+                  return (
+                    sortDGFirst.indexOf(b.abbreviation) -
+                    sortDGFirst.indexOf(a.abbreviation)
+                  );
+                } else return b - a;
+              })
               .map((item, index) => {
                 return (
                   <ImageWrapper maintenance={item.status != 0}>

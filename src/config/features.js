@@ -64,6 +64,7 @@ const featureList = {
     VIP_CustomLevel_BUNNY: false,
     Withdrawal_Ignore_Verification: false,
     HomePage_DisplayVIP: false,
+    LiveGame_Sorting_SKY: false,
   },
 };
 export default featureList;
