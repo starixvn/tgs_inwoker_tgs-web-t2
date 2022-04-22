@@ -8,7 +8,7 @@ import HomeSportImesPNG from "../../../assets/images/home-sport-imes.png";
 import ScrollAnimation from "react-animate-on-scroll";
 import Common from "../../../utils/Common";
 import i18n from "../../../utils/i18n";
-import {GameEnum} from "../../../api-services/utils/Enum";
+import { GameEnum } from "../../../api-services/utils/Enum";
 export default function SlotSection(props) {
   const Container = styled.div`
     width: 100%;
@@ -111,7 +111,7 @@ export default function SlotSection(props) {
             ></Title>
           </ScrollAnimation>
           <SlotImageBg src={BGimage}></SlotImageBg>
-          <SlotText>{i18n.t("esports.desc")}</SlotText>
+          <SlotText>{i18n.t("esports.bunnydesc")}</SlotText>
           <SlotGameContainer>
             {checkAgain.map((data, index) => {
               return (
