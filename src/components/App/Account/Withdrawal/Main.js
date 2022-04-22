@@ -1,18 +1,16 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-
-import CurrencyTextField from "@unicef/material-ui-currency-textfield";
-import LimitPopupBigPNG from "../../../../assets/images/limit-popup-big.png";
+import { Grid } from "@material-ui/core";
 import LimitPopupPNG from "../../../../assets/images/limit-popup.png";
 import IconEditPNG from "../../../../assets/images/icon-edit.png";
 import IconBankDisablePNG from "../../../../assets/images/icon-bank-disable.png";
-
 import CustomButton from "../../../Share/Button";
-import Messagebox from "../../Messagebox";
 import CustomTextField from "../../../Share/TextField";
 import i18n from "../../../../utils/i18n";
 import Common from "../../../../utils/Common";
-import config from "../../../../config/config";
+import { walletAction } from "../../../../api-services/actions/walletAction";
+import { connect } from "react-redux";
+
 const TabButton = styled.div`
   height: 41px;
   font-size: 14px;
@@ -37,18 +35,21 @@ const TabButton = styled.div`
 const SubHeaderContainer = styled.div``;
 const NumberContainer = styled.div`
   width: 20px;
-  height: 25px;
+  height: 20px;
+  border-radius: 3.2px;
+  background-color: #151a34;
   font-family: Arial;
-  font-size: 25px;
+  font-size: 14px;
+  font-weight: bold;
   color: #ffffff;
   text-align: center;
+  padding-top: 2px;
   float: left;
-  -webkit-text-stroke: 1px black;
 `;
 const SubTitle = styled.div`
-  color: #404040;
-  font-size: 20px;
+  font-size: 16px;
   float: left;
+  color: #818181;
   margin: 0 0 0 10px;
 `;
 const SelectionContainer = styled.div`
@@ -92,30 +93,9 @@ const LimitPopupContainer = styled.div`
   border-radius: 4px;
   display: inline-block;
   min-width: 150px;
-  margin-top: 0px;
+  margin-top: 10px;
 `;
 
-const WithdrawalLimitListItem = styled.div`
-  width: 355px;
-  height: 55px;
-  color: #747474;
-  font-size: 18px;
-  border: solid 1px #dbdbdb;
-  background-color: #fff;
-`;
-const WithdrawalLimitItemLeft = styled.div`
-  width: 115px;
-  height: 55px;
-  background-color: #f7f7f7;
-  border-right: solid 1px #dbdbdb;
-  float: left;
-  padding-top: 12px;
-`;
-const WithdrawalLimitItemRight = styled.div`
-  height: 55px;
-  padding: 13px 0 0 20px;
-  float: left;
-`;
 const Turnover = styled.div`
   margin: 10px;
   a {
@@ -125,174 +105,199 @@ const Turnover = styled.div`
     font-weight: bold;
   }
 `;
-class Main extends Component {
-  state = {
-    selectedCardIndex: 0,
-    showDetails: false,
-    amount: 0,
-    password: "",
-    disabled: false,
-  };
-  componentDidMount() {
-    //  this.setState({ ...this.state, selectedCard: this.props.defaultCard });
-  }
 
-  handleSelectCardChange = (index) => {
-    this.setState({ ...this.state, selectedCardIndex: index });
+const Main = (props) => {
+  const [selectedCardIndex, setSelectedCardIndex] = useState("");
+  const [amount, setAmount] = useState("");
+
+  const [disabled, setDisabled] = useState("");
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(0);
+  const [paymentList, setPaymentList] = useState(props.wallet.depositTypeList);
+
+  var minValue = [];
+  var maxValue = [];
+
+  const handleSelectCardChange = (index) => {
+    setSelectedCardIndex(index);
   };
-  handleAmountChange = (e) => {
-    this.setState({ ...this.state, amount: e.target.value });
+  const handleAmountChange = (e) => {
+    setAmount(e.target.value);
   };
-  handlePasswordChange = (e) => {
-    this.setState({ ...this.state, password: e.target.value });
-  };
-  handleWithdrawalClick = (e) => {
-    this.props.onhandleWithdrawalClick(
+
+  const handleWithdrawalClick = (e) => {
+    props.onhandleWithdrawalClick(
       this.props.cardList[this.state.selectedCardIndex].id,
-      this.state.amount,
-      this.state.password
+      amount
     );
-    this.setState({ ...this.state, disabled: true });
+    setDisabled(true);
+
     setTimeout(() => {
-      this.setState({ ...this.state, disabled: false });
+      setDisabled(false);
     }, 1000);
   };
-  render() {
-    return (
-      <>
-        <SubHeaderContainer>
-          <NumberContainer>1</NumberContainer>
 
-          <SubTitle>{i18n.t("withdrawal.msgEnterBank")}</SubTitle>
-        </SubHeaderContainer>
-        <SelectionContainer>
-          {this.props.cardList.map((item, index) => {
-            return (
-              <BankCardButton
-                key={index}
-                active={index === this.state.selectedCardIndex}
-                onClick={() => this.handleSelectCardChange(index)}
-              >
-                <BankCardButtonLabel>
-                  {i18n.t("withdrawal.bankCard")}
-                </BankCardButtonLabel>
+  const getTransferLimit = (channelId) => {
+    //reset everything
+    minValue = [];
+    maxValue = [];
+    setMin(0);
+    setMax(0);
+    //update new data.
+    for (var i = 0; i < paymentList.length; i++) {
+      const methodList = paymentList[i].method;
+      if (methodList) {
+        for (var inner = 0; inner < methodList.length; inner++) {
+          const channelList = methodList[inner].channel;
+          for (var channel = 0; channel < channelList.length; channel++)
+            if (channelList[channel]) {
+              if (channelList[channel].channelid === channelId) {
+                minValue.push(channelList[channel].transferlimit.from);
+                maxValue.push(channelList[channel].transferlimit.to);
+                setMin(Math.min(...minValue));
+                setMax(Math.max(...maxValue));
+              }
+            }
+        }
+      }
+    }
+  };
 
-                <BankCardButtonCardNoHL>
-                  {(() => {
-                    if (
-                      item.banktype === "ThirdParty" ||
-                      item.banktype === "FPS"
-                    ) {
-                      if (item.detail.phone) {
-                        return item.detail.phone.substring(
-                          item.detail.phone.length - 4,
-                          item.detail.phone.length
-                        );
-                      } else if (item.detail.address) {
-                        return item.detail.address.substring(
-                          item.detail.address.length - 4,
-                          item.detail.address.length
-                        );
-                      }
-                    } else {
-                      if (item.detail.bankAccount) {
-                        return item.detail.bankAccount.substring(
-                          item.detail.bankAccount.length - 4,
-                          item.detail.bankAccount.length
-                        );
-                      } else if (item.detail.address) {
-                        return item.detail.address.substring(
-                          item.detail.address.length - 4,
-                          item.detail.address.length
-                        );
-                      }
+  return (
+    <>
+      <SubHeaderContainer>
+        <NumberContainer>1</NumberContainer>
+
+        <SubTitle>{i18n.t("withdrawal.msgEnterBank")}</SubTitle>
+      </SubHeaderContainer>
+      <SelectionContainer>
+        {props.cardList.map((item, index) => {
+          return (
+            <BankCardButton
+              key={index}
+              active={index === selectedCardIndex}
+              onClick={() => {
+                handleSelectCardChange(index);
+                getTransferLimit(item.paymentchannelid);
+              }}
+              container
+              direction="row"
+              justifyContent="flex-start"
+              alignItems="center"
+            >
+              <BankCardButtonLabel items>
+                {i18n.t("withdrawal.bankCard")}
+              </BankCardButtonLabel>
+              <BankCardButtonCardNoHL items>
+                {(() => {
+                  if (
+                    item.banktype === "ThirdParty" ||
+                    item.banktype === "FPS"
+                  ) {
+                    if (item.detail.phone) {
+                      return item.detail.phone.substring(
+                        item.detail.phone.length - 4,
+                        item.detail.phone.length
+                      );
+                    } else if (item.detail.address) {
+                      return item.detail.address.substring(
+                        item.detail.address.length - 4,
+                        item.detail.address.length
+                      );
                     }
-                  })()}
-                </BankCardButtonCardNoHL>
-                <BankCardButtonCardNo>
-                  {i18n.t("withdrawal.tail")}
-                </BankCardButtonCardNo>
-              </BankCardButton>
-            );
-          })}
-          <ManageCardButton onClick={this.props.onhandleManageCardClick}>
-            {i18n.t("withdrawal.manageBank")}
-          </ManageCardButton>
-        </SelectionContainer>
-        <SplitLine></SplitLine>
+                  } else {
+                    if (item.detail.bankAccount) {
+                      return item.detail.bankAccount.substring(
+                        item.detail.bankAccount.length - 4,
+                        item.detail.bankAccount.length
+                      );
+                    } else if (item.detail.address) {
+                      return item.detail.address.substring(
+                        item.detail.address.length - 4,
+                        item.detail.address.length
+                      );
+                    }
+                  }
+                })()}
+              </BankCardButtonCardNoHL>
+              <BankCardButtonCardNo items>
+                {i18n.t("withdrawal.tail")}
+              </BankCardButtonCardNo>
+            </BankCardButton>
+          );
+        })}
+        <ManageCardButton
+          onClick={props.onhandleManageCardClick}
+          container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
+        >
+          <Grid items> {i18n.t("withdrawal.manageBank")}</Grid>
+        </ManageCardButton>
+      </SelectionContainer>
 
+      <>
+        <SplitLine></SplitLine>
         <SubHeaderContainer>
           <NumberContainer>2</NumberContainer>
 
           <SubTitle>{i18n.t("withdrawal.enterAmount")}</SubTitle>
         </SubHeaderContainer>
-
-        <SelectionContainer>
-          <CurrencyTextField
-            className="CurrencyTextField"
-            style={{
-              height: "40px",
-              width: "250px",
-              borderRadius: "12px",
-              boxShadow: "0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
-              backgroundColor: "#fff",
-            }}
-            placeholder={i18n.t("withdrawal.enterAmount")}
-            onChange={this.handleAmountChange}
-            outputFormat="string"
-            variant="outlined"
-            autoComplete="off"
-            value={this.state.amount}
-            inputProps={{
-              maxLength: 15,
-            }}
-            currencySymbol=""
-            decimalPlaces={0}
-          ></CurrencyTextField>
-          <LimitPopupContainer>
-            {Common.formatNumberWithThousand(this.props.withdrawalMinLimit)} -{" "}
-            {Common.formatNumberWithThousand(this.props.withdrawalMaxLimit)}
-          </LimitPopupContainer>
-          <Turnover>
-            {i18n.t("withdrawal.turnover")}
-            <a>
-              {Common.formatNumberWithThousand(this.props.minWithdrawLimit)}
-            </a>
-          </Turnover>
-        </SelectionContainer>
-        {/* <SplitLine></SplitLine>
-        <SubHeaderContainer>
-          <NumberContainer>3</NumberContainer>
-
-          <SubTitle>{i18n.t("withdrawal.msgEnterWithdrawalPass")}</SubTitle>
-        </SubHeaderContainer>
         <SelectionContainer>
           <CustomTextField
-            marginTop={"0"}
-            type={"password"}
-            placeholder={i18n.t("withdrawal.msgEnterWithdrawalPass")}
-            width={200}
-            height={40}
-            float={"none"}
-            value={this.state.password}
-            handleTextFieldChange={this.handlePasswordChange}
+            width={250}
+            height={38}
+            placeholder={i18n.t("withdrawal.enterAmount")}
+            handleTextFieldChange={handleAmountChange}
+            variant="outlined"
+            autoComplete="off"
+            value={amount}
+            pattern="[0-9]*"
+            type={"number"}
+            maxLength={12}
           ></CustomTextField>
-        </SelectionContainer> */}
+
+          <LimitPopupContainer>
+            {Common.formatNumberWithThousand(min)} -{" "}
+            {Common.formatNumberWithThousand(max)}
+          </LimitPopupContainer>
+
+          <Turnover>
+            {i18n.t("withdrawal.turnover")}
+            <span>
+              {Common.formatNumberWithThousand(props.minWithdrawLimit)}
+            </span>
+          </Turnover>
+        </SelectionContainer>
 
         <CustomButton
-          name={i18n.t("common.nextStep")}
           disabled={
-            parseFloat(this.state.amount) < this.props.withdrawalMinLimit ||
-            parseFloat(this.state.amount) > this.props.withdrawalMaxLimit ||
-            this.state.disabled === true
+            parseFloat(amount) < props.withdrawalMinLimit ||
+            parseFloat(amount) > props.withdrawalMaxLimit ||
+            disabled
           }
-          width={160}
-          marginTop={"50"}
+          name={i18n.t("common.nextStep")}
+          width={255}
+          marginTop={0}
           float={"none"}
-          handleClick={this.handleWithdrawalClick}
+          marginLeft={290}
+          handleClick={handleWithdrawalClick}
         ></CustomButton>
       </>
-    );
-  }
-}
-export default Main;
+    </>
+  );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    wallet: state.wallet,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

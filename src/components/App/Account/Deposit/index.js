@@ -166,7 +166,7 @@ class Deposit extends Component {
 
   componentDidMount() {
     localStorage.removeItem("depositResult");
-    this.props.getDepositMethod();
+
     this.props.getPlayerPromotionList(i18n.language);
     window.addEventListener("storage", this.handStorageMsg, true);
     if (this.state.paymentId) {
@@ -442,18 +442,15 @@ class Deposit extends Component {
           this.state.depositPromotion
         );
       } else if (method.methodcode === "FPS") {
-        if(config.features.Deposit_FPSWithName)
-        {
+        if (config.features.Deposit_FPSWithName) {
           this.props.doFPSDepositWithName(
             this.state.name,
             this.state.account,
             this.state.amount.replace(/,/g, ""),
             channel.id,
             this.state.depositPromotion
-          );        
-        }
-        else 
-        {
+          );
+        } else {
           this.props.doFPSDeposit(
             this.state.account,
             this.state.amount.replace(/,/g, ""),
@@ -749,8 +746,8 @@ class Deposit extends Component {
                 this.state.selectedChannelIndex
               ]
             }
-            depositResult={this.state.depositResult}
             paymenturl={this.state.paymenturl}
+            depositResult={this.state.depositResult}
             amount={this.state.amount}
             handleRestartClick={this.handleRestartClick}
           ></Step2Form>
@@ -942,7 +939,14 @@ const mapDispatchToProps = (dispatch) => {
         )
       );
     },
-    doFPSDepositWithName: (name, account, amount, paymentid, promotionid, banktype) => {
+    doFPSDepositWithName: (
+      name,
+      account,
+      amount,
+      paymentid,
+      promotionid,
+      banktype
+    ) => {
       dispatch(
         walletAction.doFPSDepositWithName(
           name,
@@ -996,7 +1000,6 @@ const mapDispatchToProps = (dispatch) => {
       );
     },
     getBalanceList: () => dispatch(walletAction.getBalanceList()),
-    getDepositMethod: () => dispatch(walletAction.getDepositMethod()),
     getPlayerPromotionList: (language) =>
       dispatch(
         generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
