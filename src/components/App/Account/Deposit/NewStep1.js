@@ -242,6 +242,10 @@ const NewStepOne = (props) => {
   var isManual = paymentType.paymentcode.toUpperCase() === "MANUAL";
   var isFPS =
     methodList[selectedMethodIndex].methodcode.toUpperCase() === "FPS";
+
+  var isUsdt =
+    methodList[selectedMethodIndex].methodcode.toUpperCase() === "USDT";
+
   var numberingCount = 0;
   const SubHeaderContainer = (props) => {
     numberingCount++;
@@ -355,7 +359,7 @@ const NewStepOne = (props) => {
                           </SubTitle>
                         </SubHeaderContainer>
                         <SelectionContainer>
-                        {channelExtend.qrCodeFileUrl && (
+                          {channelExtend.qrCodeFileUrl && (
                             <CustomImage src={channelExtend.qrCodeFileUrl} />
                           )}
                           {channelExtend.logo && (
@@ -434,7 +438,7 @@ const NewStepOne = (props) => {
                 ) {
                   return (
                     <>
-                      {!config.features.Deposit_RemoveAccount && (
+                      {!(config.features.Deposit_RemoveAccount || isUsdt) && (
                         <>
                           <SubHeaderContainer>
                             <SubTitle>
