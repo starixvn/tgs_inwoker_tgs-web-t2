@@ -196,6 +196,20 @@ const CopyIcon = styled.div`
   margin-left: 10px;
 `;
 
+const Numbering = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 3.2px;
+  background-color: #151a34;
+  font-family: Arial;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  padding-top: 2px;
+  float: left;
+`;
+
 const NewStepOne = (props) => {
   const {
     amount,
@@ -217,7 +231,7 @@ const NewStepOne = (props) => {
   var count = document.getElementsByClassName("numbering");
 
   useEffect(() => {
-    setNumbers(count.length);
+    //setNumbers(count.length);
   });
 
   if (paymentType === null) return <></>;
@@ -228,11 +242,13 @@ const NewStepOne = (props) => {
   var isManual = paymentType.paymentcode.toUpperCase() === "MANUAL";
   var isFPS =
     methodList[selectedMethodIndex].methodcode.toUpperCase() === "FPS";
-
+  var numberingCount = 0;
   const SubHeaderContainer = (props) => {
+    numberingCount++;
     return (
       <CustomNumberingContainer className="numbering">
         {props.children}
+        <Numbering>{numberingCount}</Numbering>
       </CustomNumberingContainer>
     );
   };
