@@ -7,6 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import i18n from "../../../../utils/i18n";
 import AccountDetailsList from "./AccountDetailsList";
+import TableList from "./TableList";
 const moment = require("moment");
 const Container = styled.div`
   width: 100%;
@@ -24,7 +25,7 @@ const FilterContainer = styled.div`
   padding: 10px;
 `;
 const InnerWrap = styled.div`
-width: 888px;
+  width: 888px;
   float: left;
   margin-top: 8px;
   box-sizing: border-box;
@@ -42,7 +43,7 @@ const CustomFormControl = withStyles((theme) => ({
     marginRight: "5px",
     float: "left",
     borderRadius: "12px",
-    boxShadow:"0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
+    boxShadow: "0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
     broder: "solid 2px #000",
     backgroundColor: "#fff",
     "&:before": {
@@ -186,13 +187,13 @@ class AccountDetails extends Component {
           </CustomFormControl>
         </FilterContainer>
 
-        <AccountDetailsList
+        <TableList
+          type="account"
           page={this.state.page}
           rows={this.props.accountList.list}
           total={this.props.accountList.count}
           onhandleChangePage={this.handleChangePage}
-        ></AccountDetailsList>
-
+        />
       </Container>
     );
   }

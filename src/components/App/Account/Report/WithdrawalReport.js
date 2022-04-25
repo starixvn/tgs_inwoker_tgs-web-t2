@@ -8,6 +8,7 @@ import Select from "@material-ui/core/Select";
 import { withStyles } from "@material-ui/core/styles";
 import WithdrawalReportList from "./WithdrawalReportList";
 import i18n from "../../../../utils/i18n";
+import TableList from "./TableList";
 const moment = require("moment");
 const Container = styled.div`
   width: 100%;
@@ -173,13 +174,14 @@ class WithdrawalReport extends Component {
           </CustomFormControl>
         </FilterContainer>
         <InnerWrap>
-          <WithdrawalReportList
+          <TableList
+            type="withdrawal"
             page={this.state.page}
             rows={this.props.withdrawalList.list}
             total={this.props.withdrawalList.count}
             onhandleChangePage={this.handleChangePage}
             withdrawalStatusList={this.props.withdrawalStatusList}
-          ></WithdrawalReportList>
+          />
         </InnerWrap>
       </Container>
     );
