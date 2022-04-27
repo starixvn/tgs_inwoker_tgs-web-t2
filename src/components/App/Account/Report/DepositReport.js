@@ -8,6 +8,7 @@ import Select from "@material-ui/core/Select";
 import { withStyles } from "@material-ui/core/styles";
 import DepositReportList from "./DepositReportList";
 import i18n from "../../../../utils/i18n";
+import TableList from "./TableList";
 const moment = require("moment");
 const Container = styled.div`
   width: 100%;
@@ -173,13 +174,14 @@ class DepositReport extends Component {
           </CustomFormControl>
         </FilterContainer>
         <InnerWrap>
-          <DepositReportList
+          <TableList
+            type="depositReport"
             page={this.state.page}
             rows={this.props.depositList.list}
             total={this.props.depositList.count}
             onhandleChangePage={this.handleChangePage}
             depositStatusList={this.props.depositStatusList}
-          ></DepositReportList>
+          />
         </InnerWrap>
       </Container>
     );

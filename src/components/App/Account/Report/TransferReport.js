@@ -7,6 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import i18n from "../../../../utils/i18n";
 import TransferReportList from "./TransferReportList";
+import TableList from "./TableList";
 const moment = require("moment");
 const Container = styled.div`
   width: 100%;
@@ -193,12 +194,13 @@ class TransferReport extends Component {
           </CustomFormControl> */}
         </FilterContainer>
         <InnerWrap>
-          <TransferReportList
+          <TableList
+            type="transfer"
             page={this.state.page}
             rows={this.props.transferReportList.list}
             total={this.props.transferReportList.count}
             onhandleChangePage={this.handleChangePage}
-          ></TransferReportList>
+          />
         </InnerWrap>
       </Container>
     );

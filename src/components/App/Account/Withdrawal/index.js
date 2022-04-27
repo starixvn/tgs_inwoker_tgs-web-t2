@@ -403,7 +403,8 @@ class Withdrawal extends Component {
                       <Redirect
                         to={`/${i18n.language}/account/profile/member_email`}
                       ></Redirect>
-                    );                 
+                    );
+                  
               } else {
                 if (
                   config.features.AddCard_NotAllowedEditDelete &&

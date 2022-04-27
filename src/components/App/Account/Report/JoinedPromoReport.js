@@ -8,6 +8,7 @@ import Select from "@material-ui/core/Select";
 import i18n from "../../../../utils/i18n";
 import TransferReportList from "./TransferReportList";
 import JoinedReportList from "./JoinedReportList";
+import TableList from "./TableList";
 const moment = require("moment");
 const Container = styled.div`
   width: 100%;
@@ -139,12 +140,13 @@ class JoinedPromoReport extends Component {
           <div className="clear"></div>
         </FilterContainer>
         <InnerWrap>
-          <JoinedReportList
+          <TableList
+            type="joinedPromo"
             page={this.state.page}
             rows={this.props.joinedReport.list}
             total={this.props.joinedReport.count}
             onhandleChangePage={this.handleChangePage}
-          ></JoinedReportList>
+          />
         </InnerWrap>
       </Container>
     );
