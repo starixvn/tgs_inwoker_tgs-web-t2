@@ -464,6 +464,12 @@ class Deposit extends Component {
           channel.id,
           this.state.depositPromotion
         );
+      } else if (method.methodcode === "Usdt") {
+        this.props.doUsdtDeposit(
+          this.state.amount.replace(/,/g, ""),
+          channel.id,
+          this.state.depositPromotion
+        );
       }
     } else {
       this.props.performDeposit(
@@ -966,6 +972,11 @@ const mapDispatchToProps = (dispatch) => {
           promotionid,
           banktype
         )
+      );
+    },
+    doUsdtDeposit: (amount, paymentid, promotionid, banktype) => {
+      dispatch(
+        walletAction.doUsdtDeposit(amount, paymentid, promotionid, banktype)
       );
     },
     doBankDeposit2: (amount, payment_id, promotionid, paymentcode) => {

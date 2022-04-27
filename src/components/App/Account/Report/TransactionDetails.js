@@ -7,6 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import i18n from "../../../../utils/i18n";
 import TransactionDetailsList from "./TransactionDetailsList";
+import TableList from "./TableList";
 const moment = require("moment");
 const Container = styled.div`
   width: 100%;
@@ -168,12 +169,15 @@ class TransactionDetails extends Component {
           <div className="clear"></div>
         </FilterContainer>
         <InnerWrap>
-          <TransactionDetailsList
+          <TableList
+            type="transactionDetails"
+            tableLayout="fixed"
             page={this.state.page}
             rows={this.props.transactionList.list}
             total={this.props.transactionList.count}
+            roundTotal={this.props.transactionList.roundTotal}
             onhandleChangePage={this.handleChangePage}
-          ></TransactionDetailsList>
+          ></TableList>
         </InnerWrap>
       </Container>
     );

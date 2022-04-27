@@ -15,9 +15,9 @@ import Switch from "@material-ui/core/Switch";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import IconRefreshPNG from "../../../../assets/images/icon-refresh.png";
 
-import {walletAction} from "../../../../api-services/actions/walletAction";
-import {RESET_WALLETRESULT} from "../../../../api-services/constant/actionType";
-import {WalletType} from "../../../../api-services/utils/Enum";
+import { walletAction } from "../../../../api-services/actions/walletAction";
+import { RESET_WALLETRESULT } from "../../../../api-services/constant/actionType";
+import { WalletType } from "../../../../api-services/utils/Enum";
 import Loading from "../../Loading";
 import Common from "../../../../utils/Common";
 import Messagebox from "../../Messagebox";
@@ -809,6 +809,14 @@ class Transfer extends Component {
               checked={this.props.wallet.autotransfer === true}
               onChange={this.handleSwitchAutoTransfer}
             />
+            <GameWalletButton
+              style={{ marginTop: 0, marginLeft: 10 }}
+              onClick={() => {
+                this.props.performWithdrawFromEveryBrand();
+              }}
+            >
+              {i18n.t("transfer.oneKeyTransfer")}
+            </GameWalletButton>
           </CustomSwitchContainer>
           <TransferContainer>
             {this.props.game.providerList
@@ -876,6 +884,8 @@ const mapDispatchToProps = (dispatch) => {
     updateAutoTransferStatus: () =>
       dispatch(walletAction.updateAutoTransferStatus()),
     getAutoTransferStatus: () => dispatch(walletAction.getAutoTransferStatus()),
+    performWithdrawFromEveryBrand: () =>
+      dispatch(walletAction.performWithdrawFromEveryBrand()),
   };
 };
 export default connect(

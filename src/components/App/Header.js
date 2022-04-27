@@ -704,8 +704,15 @@ class Header extends Component {
     this.setState({ ...this.state, isHoverMenu: false });
   };
   handleClickMenu = (path) => {
-    this.setState({ ...this.state, selected: path });
-    this.props.history.push("/" + i18n.language + `/${path}`);
+    if(path==="vip" && !this.props.account.token)
+    {
+      this.props.showLogin(true);
+    }
+    else
+    {
+      this.setState({ ...this.state, selected: path });
+      this.props.history.push("/" + i18n.language + `/${path}`);
+    }
   };
 
   RightMenuItem = (to, label, subMenuImg) => {
@@ -1003,31 +1010,33 @@ class Header extends Component {
             <RightMenuContainer></RightMenuContainer>
             <RightContainer>
               {(() => {
-                if (
-                  this.props.account.token !== this.props.account.info.token
-                ) {
-                  return (
-                    <GuestContainer
-                      onhandleShowCSClick={this.props.onhandleShowCSClick}
-                      onhandleContactUsClick={this.handleContactUsClick}
-                      onDialogChange={this.handleDialogChange}
-                    ></GuestContainer>
-                  );
-                } else {
-                  return (
-                    <MemberContainer
-                      onhandleLogout={this.onhandleLogout}
-                      onhandleTransfer={this.onhandleTransfer}
-                      onhandleDeposit={this.onhandleDeposit}
-                      onhandleInboxClick={this.handleInboxClick}
-                      onhandleRefreshBalanceClick={
-                        this.handleRefreshBalanceClick
-                      }
-                      wallet={this.props.wallet}
-                      game={this.props.game}
-                      account={this.props.account}
-                    ></MemberContainer>
-                  );
+                if (!this.props.general.isMaintenance) {
+                  if (
+                    this.props.account.token !== this.props.account.info.token
+                  ) {
+                    return (
+                      <GuestContainer
+                        onhandleShowCSClick={this.props.onhandleShowCSClick}
+                        onhandleContactUsClick={this.handleContactUsClick}
+                        onDialogChange={this.handleDialogChange}
+                      ></GuestContainer>
+                    );
+                  } else {
+                    return (
+                      <MemberContainer
+                        onhandleLogout={this.onhandleLogout}
+                        onhandleTransfer={this.onhandleTransfer}
+                        onhandleDeposit={this.onhandleDeposit}
+                        onhandleInboxClick={this.handleInboxClick}
+                        onhandleRefreshBalanceClick={
+                          this.handleRefreshBalanceClick
+                        }
+                        wallet={this.props.wallet}
+                        game={this.props.game}
+                        account={this.props.account}
+                      ></MemberContainer>
+                    );
+                  }
                 }
               })()}
             </RightContainer>
@@ -1256,6 +1265,10 @@ class Header extends Component {
                 i18n.t("common.promotion"),
                 null
               )}
+
+              {config.features.HomePage_DisplayVIP &&
+                this.RightMenuItem("vip", "VIP", null)}
+                
             </RightMenuUL>
           </BottomContainer>
         </InnerWrap>

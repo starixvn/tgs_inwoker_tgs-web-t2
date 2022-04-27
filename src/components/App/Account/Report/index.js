@@ -3,9 +3,9 @@ import styled from "styled-components";
 import IconReportRedPNG from "../../../../assets/images/icon-report-active.png";
 import TransferReport from "./TransferReport";
 
-import {ReportService} from "../../../../api-services/services/ReportService";
-import {GameService} from "../../../../api-services/services/GameService";
-import {GeneralService} from "../../../../api-services/services/GeneralService";
+import { ReportService } from "../../../../api-services/services/ReportService";
+import { GameService } from "../../../../api-services/services/GameService";
+import { GeneralService } from "../../../../api-services/services/GeneralService";
 
 import AccountDetails from "./AccountDetails";
 import WithdrawalReport from "./WithdrawalReport";
@@ -14,6 +14,7 @@ import RebateReport from "./RebateReport";
 import TransactionDetails from "./TransactionDetails";
 import i18n from "../../../../utils/i18n";
 import JoinedPromoReport from "./JoinedPromoReport";
+import config from "../../../../config/config";
 const moment = require("moment");
 const Container = styled.div`
   padding: 20px 28px;
@@ -97,6 +98,7 @@ class Report extends Component {
       count: 0,
     },
     transactionList: {
+      roundTotal: {},
       list: [],
       count: 0,
     },
@@ -179,6 +181,8 @@ class Report extends Component {
     page,
     game_platform_id
   ) => {
+    config.features.Report_ShowRoundsTotal &&
+      this.handleGetRoundReportTrigger(dateFrom, dateTo);
     ReportService.GetTransactionDetails(
       moment(dateFrom).utc().format(),
       moment(dateTo).utc().add(1, "days").format(),
@@ -192,6 +196,7 @@ class Report extends Component {
         this.setState({
           ...this.state,
           transactionList: {
+            ...this.state.transactionList,
             list: response.data.items,
             count: response.data.totalcount,
           },
@@ -199,6 +204,24 @@ class Report extends Component {
       }
     });
   };
+
+  handleGetRoundReportTrigger = (dateFrom, dateTo) => {
+    ReportService.GetRoundsTotal(
+      moment(dateFrom).utc().format(),
+      moment(dateTo).utc().add(1, "days").format()
+    ).then((result) => {
+      if (result.IsSuccess) {
+        this.setState({
+          ...this.state,
+          transactionList: {
+            ...this.state.transactionList,
+            roundTotal: result.data,
+          },
+        });
+      }
+    });
+  };
+
   handleWithdrawalGetReportTrigger = (dateFrom, dateTo, page, status) => {
     ReportService.GetWithdrawalDetails(
       status,
