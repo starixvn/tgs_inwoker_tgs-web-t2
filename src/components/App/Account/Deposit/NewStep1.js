@@ -365,6 +365,22 @@ const NewStepOne = (props) => {
                           {channelExtend.logo && (
                             <CustomImage src={channelExtend.logo} />
                           )}
+                          {channelExtend.qrCode && (
+                            <QRCodeImg src={channelExtend.qrCode} />
+                          )}
+                          {channelExtend.address && (
+                            <TransferContainer>
+                              <TransferLabel>
+                                {i18n.t("deposit.address")}:
+                              </TransferLabel>
+                              <TransferLabelValue>
+                                {channelExtend.address}
+                              </TransferLabelValue>
+                              <CopyFeature
+                                copyContent={channelExtend.address}
+                              />
+                            </TransferContainer>
+                          )}
                           {channelExtend.name && (
                             <TransferContainer>
                               <TransferLabel>
