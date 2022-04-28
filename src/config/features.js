@@ -65,7 +65,7 @@ const featureList = {
     Withdrawal_Ignore_Verification: false,
     HomePage_DisplayVIP: false,
     LiveGame_Sorting_SKY: false,
-    Report_ShowRoundsTotal: false,
+    Report_ShowRoundsTotal: true,
   },
 };
 export default featureList;
