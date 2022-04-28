@@ -28,27 +28,41 @@ const onhandlePass2Change = (e) => {
 
 function ChangePassword(props) {
   const onhandleClick = () => {
+    var expr = /^.{6,20}$/;
+    if (!expr.test(local_props.password)) {
+      props.enqueueSnackbar(i18n.t("common.msgRegisterPassInvalid"), {
+        variant: "warning",
+      });
+      return;
+    }
     if (local_props.rpassword !== local_props.password) {
       props.enqueueSnackbar(i18n.t("common.msgInvalidConfirmPass"), {
         variant: "error",
       });
-    } else {
-      AccountService.UpdatePassword(
-        local_props.old_password,
-        local_props.password
-      ).then((response) => {
-        if (response.IsSuccess) {
-          props.enqueueSnackbar(i18n.t("common.msgSuccessUpdateProfile"), {
-            variant: "success",
-          });
-          props.handleCloseDialog();
-        } else {
-          props.enqueueSnackbar(i18n.t("common.msgInvalidOldPass"), {
-            variant: "error",
-          });
-        }
-      });
-    }
+      return;
+    } 
+
+    // if (local_props.rpassword !== local_props.password) {
+    //   props.enqueueSnackbar(i18n.t("common.msgInvalidConfirmPass"), {
+    //     variant: "error",
+    //   });
+    // } else {
+    AccountService.UpdatePassword(
+      local_props.old_password,
+      local_props.password
+    ).then((response) => {
+      if (response.IsSuccess) {
+        props.enqueueSnackbar(i18n.t("common.msgSuccessUpdateProfile"), {
+          variant: "success",
+        });
+        props.handleCloseDialog();
+      } else {
+        props.enqueueSnackbar(i18n.t("common.msgInvalidOldPass"), {
+          variant: "error",
+        });
+      }
+    });
+    // }
   };
   return (
     <Container>
