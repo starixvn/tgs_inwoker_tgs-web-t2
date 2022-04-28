@@ -904,6 +904,7 @@ class Header extends Component {
                               AppHistory.replace(lang.culturecode);
                               this.props.getBanner();
                               this.props.getMarquee(lang.culturecode);
+                              this.props.getAnnouncement(lang.culturecode);
                               GeneralService.GetLocalization().then(
                                 (response) => {
                                   if (response.IsSuccess) {
@@ -1293,6 +1294,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getBanner: () => dispatch(generalAction.getBanner()),
     getMarquee: (language) => dispatch(uiAction.getMarquee(language)),
+    getAnnouncement: (language) => dispatch(uiAction.getAnnouncement(language)),
     // updateScreenSize: (width, height) => {
     //   dispatch({ type: UPDATING_SCREEN_SIZE, width, height });
     // },
