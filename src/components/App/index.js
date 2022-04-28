@@ -72,6 +72,7 @@ class App extends Component {
       this.props.getBrandCommunicationList();
       this.props.getBrandLanguage();
       this.props.getMarquee(i18n.language);
+      this.props.getAnnouncement(i18n.language);
       this.props.getBanner();
       this.props.getBrand();
       this.props.getLiveChatURL();
@@ -186,6 +187,7 @@ class App extends Component {
         this.props.getHomePageGameList();
         this.props.getBrandCommunicationList();
         this.props.getMarquee(i18n.language);
+        this.props.getAnnouncement(i18n.language);
         this.props.getLiveChatURL();
         this.props.getBrandLanguage();
         this.props.getBanner();
@@ -477,6 +479,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(generalAction.getBrandCommunication()),
     getMarquee: (language) => {
       dispatch(uiAction.getMarquee(language));
+    },
+    getAnnouncement: (language) => {
+      dispatch(uiAction.getAnnouncement(language));
     },
     getBrandLanguage: () => dispatch(generalAction.getBrandLanguage()),
     getBrand: () => dispatch(generalAction.getBrand()),
