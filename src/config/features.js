@@ -56,7 +56,7 @@ const featureList = {
     Home_CustomFPPosition: false,
     CustomMessaging: [],
     Deposit_FPSWithName: false,
-    Register_ShowPhone: true,
+    Register_ShowPhone: false,
     MenuItem_Sorting_WLGHK: false,
     MenuItem_Sorting_SKY: false,
     MenuItem_Sorting_PB: false,
@@ -66,6 +66,7 @@ const featureList = {
     HomePage_DisplayVIP: false,
     LiveGame_Sorting_SKY: false,
     Report_ShowRoundsTotal: true,
+    Register_ShowSMSVerification: false,
   },
 };
 export default featureList;
