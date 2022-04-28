@@ -41,7 +41,7 @@ import Loading from "./Loading";
 // import RegisterSuccess from "./RegisterSuccess";
 import Download from "./Download/index";
 import LiveChat from "../Share/live-chat";
-// import VIP from "./VIP/index";
+import VIP from "./VIP/index";
 
 import i18n from "../../utils/i18n";
 import Maintenance from "../Share/Maintenance";
@@ -167,7 +167,6 @@ class App extends Component {
             this.props.getBankCardList();
             this.props.getAutoTransferStatus();
             this.props.getPlayerPromotionList(i18n.language);
-            this.props.getDepositMethod();
             this.props.getWithdrawalChannel();
 
             // if (inbox.IsSuccess) {
@@ -372,23 +371,21 @@ class App extends Component {
                       path={baseRouteUrl + "/promotion/:id"}
                       render={(props) => <PromotionDetails />}
                     />
-                    {/* <Route
+                    <Route
                       exact
                       path={baseRouteUrl + "/vip"}
-                      render={(props) => (
-                        <VIP vip={this.props.account.vip.curr_vip.title} />
-                      )}
+                      render={(props) => <VIP />}
                     />
-                    <Route
+                    {/* <Route
                       exact
                       path={baseRouteUrl + "/maintenance"}
                       render={(props) => <Maintenance />}
-                    /> 
+                    />
                     <Route
                       exact
                       path={baseRouteUrl + "/registersuccess/:username"}
                       component={RegisterSuccess}
-                    />*/}{" "}
+                    />{" "} */}
                     <Route
                       exact
                       path={baseRouteUrl + "/maintenance"}
@@ -497,7 +494,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(
         generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
       ),
-    getDepositMethod: () => dispatch(walletAction.getDepositMethod()),
     getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
   };
 };

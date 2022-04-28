@@ -166,7 +166,7 @@ class Deposit extends Component {
 
   componentDidMount() {
     localStorage.removeItem("depositResult");
-
+    this.props.getDepositMethod();
     this.props.getPlayerPromotionList(i18n.language);
     window.addEventListener("storage", this.handStorageMsg, true);
     if (this.state.paymentId) {
@@ -746,8 +746,8 @@ class Deposit extends Component {
                 this.state.selectedChannelIndex
               ]
             }
-            paymenturl={this.state.paymenturl}
             depositResult={this.state.depositResult}
+            paymenturl={this.state.paymenturl}
             amount={this.state.amount}
             handleRestartClick={this.handleRestartClick}
           ></Step2Form>
@@ -1000,6 +1000,7 @@ const mapDispatchToProps = (dispatch) => {
       );
     },
     getBalanceList: () => dispatch(walletAction.getBalanceList()),
+    getDepositMethod: () => dispatch(walletAction.getDepositMethod()),
     getPlayerPromotionList: (language) =>
       dispatch(
         generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
