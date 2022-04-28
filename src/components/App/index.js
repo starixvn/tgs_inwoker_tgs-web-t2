@@ -167,7 +167,6 @@ class App extends Component {
             this.props.getBankCardList();
             this.props.getAutoTransferStatus();
             this.props.getPlayerPromotionList(i18n.language);
-            this.props.getDepositMethod();
             this.props.getWithdrawalChannel();
 
             // if (inbox.IsSuccess) {
@@ -375,9 +374,7 @@ class App extends Component {
                     <Route
                       exact
                       path={baseRouteUrl + "/vip"}
-                      render={(props) => (
-                        <VIP />
-                      )}
+                      render={(props) => <VIP />}
                     />
                     {/* <Route
                       exact
@@ -497,7 +494,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(
         generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
       ),
-    getDepositMethod: () => dispatch(walletAction.getDepositMethod()),
     getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
   };
 };
