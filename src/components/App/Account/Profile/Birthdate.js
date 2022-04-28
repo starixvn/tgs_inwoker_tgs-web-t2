@@ -83,7 +83,6 @@ const Birthdate = (props) => {
         <Datepicker
           onhandleDateChange={handleDateChange}
           selectedDate={birthDate}
-          maxDate={birthDate}
         ></Datepicker>
       </DatepickerWrapper>
 
