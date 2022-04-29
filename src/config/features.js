@@ -67,6 +67,7 @@ const featureList = {
     LiveGame_Sorting_SKY: false,
     Report_ShowRoundsTotal: true,
     Register_ShowSMSVerification: false,
+    Profile_SetUpBirthdateOnce: true,
   },
 };
 export default featureList;
