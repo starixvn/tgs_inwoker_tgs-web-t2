@@ -1,5 +1,5 @@
 import React from "react";
-import addMonths from "date-fns/addMonths";
+
 import DateFnsUtils from "@date-io/date-fns"; // import
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -7,19 +7,26 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
+import zhLocale from "date-fns/locale/zh-CN";
+import enLocale from "date-fns/locale/en-US";
+import thLocale from "date-fns/locale/th";
+import i18n from "../../../../utils/i18n";
+
+const localeMap = {
+  zh: zhLocale,
+  en: enLocale,
+  th: thLocale,
+};
+
 function CustomDatePicker(props) {
-  const moment = require("moment");
   const CustomPicker = withStyles({
     root: {
-      width: "160px",
-      height: "35px",
+      width: "135px",
+      height: "40px",
       float: "left",
       backgroundColor: "#fff",
-      borderRadius: "12px",
-      boxShadow: "0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
       "& .MuiInputBase-root": {
         paddingRight: 5,
-        borderRadius: "12px",
       },
       "& input": {
         fontFamily: "SimHei",
@@ -44,17 +51,22 @@ function CustomDatePicker(props) {
     },
   })(KeyboardDatePicker);
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <MuiPickersUtilsProvider
+      utils={DateFnsUtils}
+      locale={localeMap[i18n.language.substring(0, 2)]}
+    >
       <CustomPicker
-        disableToolbar
         InputAdornmentProps={{ position: "end" }}
         variant="inline"
         maxDate={props.maxDate ? props.maxDate : new Date()}
+        maxDateMessage={false}
         inputVariant="outlined"
         format="yyyy/MM/dd"
         id="date-picker-inline"
         value={props.selectedDate ? props.selectedDate : new Date()}
-        onChange={props.onhandleDateChange}
+        onChange={(e) => {
+          props.onhandleDateChange(e);
+        }}
         minDate={props.minDate}
         InputProps={{
           readOnly: true,
