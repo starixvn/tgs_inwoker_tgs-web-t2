@@ -50,7 +50,11 @@ const Birthdate = (props) => {
   );
 
   const handleDateChange = (e) => {
-    setBirthDate(moment(e).format("YYYY/MM/DD"));
+    if (moment(e).isAfter(new Date())) {
+      setBirthDate(moment(new Date()).format("YYYY/MM/DD"));
+    } else {
+      setBirthDate(moment(e).format("YYYY/MM/DD"));
+    }
   };
 
   const onhandleClick = () => {
