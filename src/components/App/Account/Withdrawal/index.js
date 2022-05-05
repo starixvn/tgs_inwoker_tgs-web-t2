@@ -97,6 +97,9 @@ class Withdrawal extends Component {
         });
       }
     }
+    this.countDownInterval=setInterval(()=>{   
+      this.props.getWithdrawalChannel(); // call api every 30 min
+    },30*60*1000);
   }
 
   componentDidUpdate(preProps) {
@@ -179,6 +182,10 @@ class Withdrawal extends Component {
     }
   }
 
+  componentWillUnmount() {
+    clearInterval(this.countDownInterval);
+  }
+  
   handleAddCardNextClick = (channelid, bankType, detail) => {
     //clear url params
     window.history.pushState({}, null, "withdrawal");
