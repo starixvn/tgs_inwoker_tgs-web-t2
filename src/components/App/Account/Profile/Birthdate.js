@@ -108,13 +108,13 @@ const Birthdate = (props) => {
         </Content>
       )}
 
-      {!(ifNotEmpty && config.features.Profile_NotAllowChangePhone) && (
-        <CustomButton
-          style={{ marginTop: 10 }}
-          name={i18n.t("common.submit")}
-          handleClick={onhandleClick}
-        ></CustomButton>
-      )}
+      { ((!ifNotEmpty) || !config.features.Profile_SetUpBirthdateOnce)  && (
+          <CustomButton
+            style={{ marginTop: 10 }}
+            name={i18n.t("common.submit")}
+            handleClick={onhandleClick}
+          ></CustomButton>
+        )}
     </Container>
   );
 };
