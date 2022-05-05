@@ -184,6 +184,9 @@ class Deposit extends Component {
         }
       );
     }
+    this.countDownInterval=setInterval(()=>{   
+      this.props.getDepositMethod(); // call api every 30 mins
+    },30*60*1000);
   }
 
   componentDidUpdate(preProps, preState) {
@@ -341,6 +344,7 @@ class Deposit extends Component {
   }
 
   componentWillUnmount() {
+    clearInterval(this.countDownInterval);
     window.removeEventListener("storage", this.handStorageMsg, true); // Succeeds
     localStorage.removeItem("depositResult");
   }
