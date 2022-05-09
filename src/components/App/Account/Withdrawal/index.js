@@ -15,6 +15,7 @@ import Main from "./Main";
 import Success from "./Success";
 import config from "../../../../config/config";
 import ErrorSwitcher from "../../../../utils/ErrorSwitcher";
+
 import { walletAction } from "../../../../api-services/actions/walletAction";
 import { WalletService } from "../../../../api-services/services/WalletService";
 import { RESET_WALLETRESULT } from "../../../../api-services/constant/actionType";
@@ -77,6 +78,7 @@ class Withdrawal extends Component {
 
   urlParams = new URLSearchParams(this.props.location.search);
   async componentDidMount() {
+    this.props.getWithdrawalChannel();
     WalletService.GetMinWithdrawLimit().then((e) => {
       if (e.IsSuccess) {
         this.setState({
@@ -97,9 +99,9 @@ class Withdrawal extends Component {
         });
       }
     }
-    this.countDownInterval=setInterval(()=>{   
+    this.countDownInterval = setInterval(() => {
       this.props.getWithdrawalChannel(); // call api every 30 min
-    },30*60*1000);
+    }, 30 * 60 * 1000);
   }
 
   componentDidUpdate(preProps) {
@@ -185,7 +187,7 @@ class Withdrawal extends Component {
   componentWillUnmount() {
     clearInterval(this.countDownInterval);
   }
-  
+
   handleAddCardNextClick = (channelid, bankType, detail) => {
     //clear url params
     window.history.pushState({}, null, "withdrawal");
@@ -400,18 +402,17 @@ class Withdrawal extends Component {
                 return (
                   <NameVerification token={this.props.token}></NameVerification>
                 );
-              } else 
-                if (
-                  (((this.props.account.info.member_email === null ||
-                    this.props.account.info.member_email === "") &&
-                  config.features.EmailVerification)) && (!config.features.Withdrawal_Ignore_Verification)
-                ) {
-                    return (
-                      <Redirect
-                        to={`/${i18n.language}/account/profile/member_email`}
-                      ></Redirect>
-                    );
-                  
+              } else if (
+                (this.props.account.info.member_email === null ||
+                  this.props.account.info.member_email === "") &&
+                config.features.EmailVerification &&
+                !config.features.Withdrawal_Ignore_Verification
+              ) {
+                return (
+                  <Redirect
+                    to={`/${i18n.language}/account/profile/member_email`}
+                  ></Redirect>
+                );
               } else {
                 if (
                   config.features.AddCard_NotAllowedEditDelete &&
@@ -462,6 +463,12 @@ class Withdrawal extends Component {
                                 this.handleWithdrawalClick
                               }
                               account={this.props.account}
+                              withdrawalMinLimit={
+                                this.props.wallet.withdrawalMinLimit
+                              }
+                              withdrawalMaxLimit={
+                                this.props.wallet.withdrawalMaxLimit
+                              }
                               minWithdrawLimit={this.state.minWithdrawLimit}
                             ></Main>
                           );
@@ -534,6 +541,7 @@ const mapDispatchToProps = (dispatch) => {
     deleteBankCard: (id) => dispatch(walletAction.deleteBankCard(id)),
     addBankCard: (channelid, bankType, detail) =>
       dispatch(walletAction.addBankCard(channelid, bankType, detail)),
+    getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
     resetResult: () =>
       dispatch({
         type: RESET_WALLETRESULT,
