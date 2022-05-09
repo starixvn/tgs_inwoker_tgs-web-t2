@@ -210,6 +210,11 @@ const Numbering = styled.div`
   float: left;
 `;
 
+const TitleHint = styled.span`
+  opacity: 0.5;
+  margin-left: 10px;
+`;
+
 const NewStepOne = (props) => {
   const {
     amount,
@@ -287,7 +292,15 @@ const NewStepOne = (props) => {
   return (
     <>
       <SubHeaderContainer>
-        <SubTitle>{i18n.t("deposit.msgPlsSelectPayment")}</SubTitle>
+        <SubTitle>
+          {i18n.t("deposit.msgPlsSelectPayment")}
+
+          <TitleHint>
+            {methodList &&
+              paymentType.paymentcode === "ZeroNineNinePay" &&
+              "(" + i18n.t("hint._099") + ")"}
+          </TitleHint>
+        </SubTitle>
       </SubHeaderContainer>
       <SelectionContainer>
         {methodList.map((item, index) => {

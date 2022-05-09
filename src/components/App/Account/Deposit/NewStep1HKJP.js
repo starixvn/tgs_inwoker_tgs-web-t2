@@ -174,6 +174,10 @@ const Remark = styled.div`
   opacity: 0.75;
 `;
 
+const TitleHint = styled.span`
+  opacity: 0.5;
+  margin-left: 10px;
+`;
 class NewStepOne extends Component {
   render() {
     const {
@@ -199,7 +203,14 @@ class NewStepOne extends Component {
         <SubHeaderContainer>
           <NumberContainer>1</NumberContainer>
 
-          <SubTitle>{i18n.t("deposit.msgPlsSelectPayment")}</SubTitle>
+          <SubTitle>
+            {i18n.t("deposit.msgPlsSelectPayment")}{" "}
+            <TitleHint>
+              {methodList &&
+                paymentType.paymentcode === "ZeroNineNinePay" &&
+                "(" + i18n.t("hint._099") + ")"}
+            </TitleHint>
+          </SubTitle>
         </SubHeaderContainer>
         <SelectionContainer>
           {methodList.map((item, index) => {
