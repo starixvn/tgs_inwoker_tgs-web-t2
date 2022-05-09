@@ -471,7 +471,9 @@ const NewStepOne = (props) => {
                         <>
                           <SubHeaderContainer>
                             <SubTitle>
-                              {i18n.t("common.pleaseEnterAccountName")}
+                              {config.features.Deposit_OriginAccount
+                                ? i18n.t("idr1.pleaseEnterAccountName")
+                                : i18n.t("common.pleaseEnterAccountName")}
                             </SubTitle>
                           </SubHeaderContainer>
                           <SelectionContainer>
@@ -483,9 +485,11 @@ const NewStepOne = (props) => {
                                 marginRight: "5px",
                                 padding: 0,
                               }}
-                              placeholder={i18n.t(
-                                "common.pleaseEnterAccountName"
-                              )}
+                              placeholder={
+                                config.features.Deposit_OriginAccount
+                                  ? i18n.t("idr1.pleaseEnterAccountName")
+                                  : i18n.t("common.pleaseEnterAccountName")
+                              }
                               onChange={onAccountChange}
                               outputFormat="string"
                               variant="outlined"
