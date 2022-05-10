@@ -23,11 +23,10 @@ import { SHOW_LOGIN } from "../../api-services/constant/actionType";
 import Register from "./Register";
 
 import { withSnackbar } from "notistack";
-
-import BlowFishEncryption from "../../utils/BlowFishEncryption";
-import ErrorSwitcher, { errorSwitcher } from "../../utils/ErrorSwitcher";
-import i18n from "../../utils/i18n";
 import ForgotPasswordPhone from "./ForgotPasswordPhone";
+import BlowFishEncryption from "../../utils/BlowFishEncryption";
+import i18n from "../../utils/i18n";
+import ErrorSwitcher from "../../utils/ErrorSwitcher";
 const Container = styled.div``;
 const BtnLoginRegister = styled.div`
   float: right;
@@ -92,7 +91,7 @@ const StyledDialog = withStyles({
 
 const BtnLoginRegisterLabel = styled.span`
   text-align: center;
-  margin-top: 3px;
+
   display: block;
 `;
 class GuestContainer extends Component {
@@ -349,6 +348,7 @@ class GuestContainer extends Component {
       });
     }
   };
+
   onhandleForgotPasswordEmailClick = (code, email, securityKey) => {
     if (code !== "") {
       this.setState({
@@ -360,6 +360,17 @@ class GuestContainer extends Component {
         openDialogName: "resetpassword",
       });
     }
+  };
+
+  onhandleActivation = (username = "", pass = "") => {
+    this.setState({
+      ...this.state,
+      openDialog: true,
+      openDialogName: "activation",
+      username: username,
+      pass: pass,
+    });
+    this.props.showLogin(false);
   };
 
   handleLoginClick = async (username, password) => {
@@ -376,6 +387,8 @@ class GuestContainer extends Component {
       return;
     }
     const result = await this.props.accountLogin(username, password);
+
+    //TODO: Temporary fix modal close when found wrong password.
     if (result.code === 101 && result.IsSuccess === false) {
       this.props.showLogin(true);
     } else if (result.code === 210) {
@@ -404,6 +417,51 @@ class GuestContainer extends Component {
       //   });
       // }
     }
+  };
+  handleLoginClickWithHp = async (username, password, phone) => {
+    if (username === "") {
+      this.props.enqueueSnackbar(i18n.t("web.login.errorMsg.emptyUsername"), {
+        variant: "warning",
+      });
+      return;
+    }
+    if (password === "") {
+      this.props.enqueueSnackbar(i18n.t("web.login.errorMsg.emptyPassword"), {
+        variant: "warning",
+      });
+      return;
+    }
+    AccountService.Activation(
+      username,
+      password,
+      this.state.areaCode,
+      phone
+    ).then(async (response) => {
+      if (response.IsSuccess) {
+        this.state.securityKey = response.data;
+        // setSecurityKey(response.data);
+        // props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
+        //   variant: "info",
+        // });
+        AccountService.VerifyActivation(this.state.securityKey, "123456").then(
+          async (response) => {
+            // if (response.IsSuccess) {
+            // props.enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
+            //   variant: "success",
+            // });
+            this.handleLoginClick(username, password);
+            // } else {
+            // props.enqueueSnackbar(response.info, {
+            //   variant: "warning",
+            // });
+            // }
+            this.handleLoginClick(username, password);
+          }
+        );
+      } else {
+        this.handleLoginClick(username, password);
+      }
+    });
   };
   handleCloseSelfControlDialog = (token) => {
     this.setState({ ...this.state, openSelfControlDialog: false });
@@ -434,7 +492,10 @@ class GuestContainer extends Component {
       // this.props.getInviteLink();
       // this.props.getDepositChannel();
 
-      if (this.state.openDialogName === "activation") {
+      if (
+        this.state.openDialogName === "activation" ||
+        this.state.openDialogName === "register"
+      ) {
         if (config.features.NavigateToAddCard) {
           this.props.history.push(
             "/" + i18n.language + "/account/withdrawal?do=addCard"
@@ -453,6 +514,17 @@ class GuestContainer extends Component {
     this.props.showLogin(false);
     this.props.onhandleContactUsClick();
   };
+  onhandleActivation = (username = "", pass = "") => {
+    this.setState({
+      ...this.state,
+      openDialog: true,
+      openDialogName: "activation",
+      username: username,
+      pass: pass,
+    });
+    this.props.showLogin(false);
+  };
+
   handleRegisterSuccess = (username, pass) => {
     this.onhandleActivation(username, pass);
   };
@@ -505,6 +577,7 @@ class GuestContainer extends Component {
                     onhandleClose={this.onhandleCloseDialog}
                     onRegisterSuccess={this.handleRegisterSuccess}
                     doLogin={this.handleLoginClick}
+                    doLoginWithHp={this.handleLoginClickWithHp}
                   ></Register>
                 );
               } else if (this.state.openDialogName === "activation") {
@@ -581,7 +654,7 @@ const mapDispatchToProps = (dispatch) => {
     checkGame: () => dispatch(accountAction.checkGame()),
     getAccountProfile: (showVip) =>
       dispatch(accountAction.getAccountProfile(showVip)),
-
+    getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
     getBankCardList: () => dispatch(walletAction.getBankCardList()),
     getBalanceList: () => dispatch(walletAction.getBalanceList()),
     getGameBalance: (gpcode) => dispatch(walletAction.getGameBalance(gpcode)),
@@ -591,12 +664,12 @@ const mapDispatchToProps = (dispatch) => {
     getInviteLink: () => dispatch(accountAction.getInviteLink()),
     getMessageList: (language, pages, limit) =>
       dispatch(inboxAction.getMessages(language, pages, limit, true, true)),
+
     getPlayerPromotionList: (language) =>
       dispatch(
         generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
       ),
     getAutoTransferStatus: () => dispatch(walletAction.getAutoTransferStatus()),
-    getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
   };
 };
 const mapStateToProps = (state) => {

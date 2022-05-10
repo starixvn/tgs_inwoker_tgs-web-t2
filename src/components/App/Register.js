@@ -421,7 +421,10 @@ function Register(props) {
       return;
     }
     expr = /^[0-9]{8,10}$/;
-    if (config.features.Register_ShowPhone || config.features.Register_ShowSMSVerification) {
+    if (
+      config.features.Register_ShowPhone ||
+      config.features.Register_ShowSMSVerification
+    ) {
       if (!expr.test(phone)) {
         props.enqueueSnackbar(i18n.t("common.noReachMin"), {
           variant: "warning",
@@ -431,8 +434,7 @@ function Register(props) {
     }
 
     expr = /^[a-zA-Z0-9]{6}$/;
-    if(config.features.Register_ShowSMSVerification)
-    {
+    if (config.features.Register_ShowSMSVerification) {
       if (!expr.test(code)) {
         props.enqueueSnackbar(i18n.t("common.msgEnterCode"), {
           variant: "warning",
@@ -467,28 +469,17 @@ function Register(props) {
             //   }
             // }
             if (config.features.SMSVerification) {
-              if(!config.features.Register_ShowSMSVerification)
-              {
+              if (!config.features.Register_ShowSMSVerification) {
                 props.onRegisterSuccess(username, password);
-              }
-              else {
+              } else {
                 props.doLogin(username, password);
-                props.history.push(
-                  "/" + i18n.language + "/registersuccess/" + username
-                );
               }
             } else if (config.features.Register_ShowPhone) {
               props.doLoginWithHp(username, password, phone);
-              props.history.push(
-                "/" + i18n.language + "/registersuccess/" + username
-              );
             } else {
               props.doLogin(username, password);
               // await props.getAccountInfo(response.data);
               // await props.getAccountProfile(response.data);
-              props.history.push(
-                "/" + i18n.language + "/registersuccess/" + username
-              );
             }
           } else {
             props.enqueueSnackbar(ErrorSwitcher.getTranslation(response.info), {
@@ -710,7 +701,6 @@ function Register(props) {
             />
           </React.Fragment>
         )}
-
         <div class="clear"></div>
         {config.features.Register_ShowSMSVerification && (
           <React.Fragment>
