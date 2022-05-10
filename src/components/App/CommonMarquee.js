@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import Common from "../../utils/Common";
-import {UiService} from "../../api-services/services/UiService";
+import { UiService } from "../../api-services/services/UiService";
 const AnnounceContainer = styled.div`
   width: 100%;
   height: 40px;
@@ -71,21 +71,22 @@ function CommonMarquee(props) {
     <AnnounceContainer>
       <MarqueeContainer>
         <marquee>
-          {announcement.map((row, index) => {
-            return (
-              <div
-                key={index}
-                style={{
-                  display: "inline",
-                  whiteSpace: "nowrap",
-                  wordBreak: "keep-all",
-                  overflow: "visible",
-                }}
-              >
-                {row.content}
-              </div>
-            );
-          })}
+          {announcement.length &&
+            announcement.map((row, index) => {
+              return (
+                <div
+                  key={index}
+                  style={{
+                    display: "inline",
+                    whiteSpace: "nowrap",
+                    wordBreak: "keep-all",
+                    overflow: "visible",
+                  }}
+                >
+                  {row.content}
+                </div>
+              );
+            })}
         </marquee>
       </MarqueeContainer>
       <MarqueeIcon
