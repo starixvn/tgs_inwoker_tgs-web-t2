@@ -702,6 +702,7 @@ const NewStepOne = (props) => {
                           />
                           {files[0] ? files[0].name : ""}
                         </div>
+                        <Remark>{i18n.t("deposit.msgPlsUploadProof")}</Remark>
                       </SelectionContainer>
                     </React.Fragment>
                   );
