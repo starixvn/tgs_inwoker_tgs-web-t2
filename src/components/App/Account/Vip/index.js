@@ -5,13 +5,13 @@ import { generalAction } from "../../../../api-services/actions/generalAction";
 import i18n from "../../../../utils/i18n";
 import IconVIPPNG from "../../../../assets/images/icon-vip.png";
 import config from "../../../../config/config";
-
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box
-  background-color: #eaeaea;
+  background-color: #fff;
   width: 100%;
   min-height: 611px;
+ 
 `;
 const Title = styled.div`
   color: ${({ theme }) => theme.secondary};
@@ -30,14 +30,13 @@ const InnerWrap = styled.div`
   min-height: 610px;
   margin-top: 18px;
   box-sizing: border-box;
-  background-color: #f7f7f7;
-  padding: 25px;
+
   border-radius: 10px;
 `;
 
 const VipLevelContainer = styled.div`
   display: grid;
-  grid-template-columns: 200px auto;
+  grid-template-columns: 275px auto;
 `;
 
 const VipLevelContainer2 = styled.div`
@@ -75,9 +74,10 @@ const VIPOverflowContainer = styled.div`
 `;
 
 const VIPContent = styled.div`
-  min-width: 150px;
+  min-width: 125px;
   text-align: center;
   padding: 10px 20px;
+  width: 275px;
 `;
 
 const TitleContent = styled(VIPContent)`
@@ -86,8 +86,6 @@ const TitleContent = styled(VIPContent)`
   font-weight: bold;
 
   padding: 10px 20px;
-
-  width: 200px;
   display: block;
   text-decoration: none;
   text-overflow: ellipsis;
