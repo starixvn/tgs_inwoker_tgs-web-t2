@@ -106,6 +106,15 @@ const Turnover = styled.div`
   }
 `;
 
+const LimitLabel = styled.span`
+  color: #747474;
+`;
+
+const LimitAmount = styled.span`
+  color: #c0252d;
+`;
+const ExchangeRateContainer = styled.div``;
+
 const Main = (props) => {
   const [selectedCardIndex, setSelectedCardIndex] = useState("");
   const [amount, setAmount] = useState("");
@@ -114,7 +123,7 @@ const Main = (props) => {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(0);
   const [paymentList, setPaymentList] = useState(props.wallet.withdrawalList);
-
+  const [exchangeRate, setExchangeRate] = useState(0);
   var minValue = [];
   var maxValue = [];
 
@@ -157,6 +166,24 @@ const Main = (props) => {
     }
   };
 
+  const getUsdtExchangeRate = (channelId) => {
+    for (var i = 0; i < paymentList.length; i++) {
+      const methodList = paymentList[i].channel;
+      if (methodList && methodList.banktype === "Usdt") {
+        for (var inner = 0; inner < methodList.length; inner++) {
+          const channelList = methodList[inner];
+          if (channelList.channelid === channelId) {
+            if(channelList.extended.rate!==undefined)
+            {
+              setExchangeRate(channelList.extended.rate);
+            }
+          }
+        }
+      }
+    }
+    
+  };
+
   return (
     <>
       <SubHeaderContainer>
@@ -173,6 +200,7 @@ const Main = (props) => {
               onClick={() => {
                 handleSelectCardChange(index);
                 getTransferLimit(item.paymentchannelid);
+                getUsdtExchangeRate(item.paymentchannelid);
               }}
               container
               direction="row"
@@ -256,7 +284,34 @@ const Main = (props) => {
             {Common.formatNumberWithThousand(min)} -{" "}
             {Common.formatNumberWithThousand(max)}
           </LimitPopupContainer>
-
+          {(() => {
+            if (
+              props.cardList[selectedCardIndex] && 
+              props.cardList[selectedCardIndex].banktype === "Usdt"
+            ) {
+                return (
+                  <ExchangeRateContainer style={{ marginTop: "4px" }}>
+                    <LimitLabel>
+                      {i18n.t("deposit.exchangeRate")}
+                    </LimitLabel>
+                    <LimitAmount>{` ${exchangeRate}`}</LimitAmount>
+                    <LimitLabel>
+                    {" "} = 1 USDT
+                    </LimitLabel>
+                    <div class="clear"></div>
+                    <LimitLabel>
+                      {i18n.t("report.total")}
+                    </LimitLabel>{" "}
+                    <LimitAmount>{` ${
+                      isNaN(amount) === false
+                        ? (amount / exchangeRate).toFixed(2)
+                        : 0
+                    } USDT`}</LimitAmount>
+                  </ExchangeRateContainer>
+                );
+            }
+          })()}
+          <div class="clear"></div>
           <Turnover>
             {i18n.t("withdrawal.turnover")}
             <span>
