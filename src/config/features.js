@@ -70,6 +70,8 @@ const featureList = {
     Profile_SetUpBirthdateOnce: true,
     Deposit_OriginAccount: false,
     Profile_ExistingDetails_ViewOnly: false, // except change password
+
+    AddCard_HideCertainField: false, //impacted: Type、Bank name、Branch
   },
 };
 export default featureList;
