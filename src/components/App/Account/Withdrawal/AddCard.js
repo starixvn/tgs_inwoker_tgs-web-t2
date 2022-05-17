@@ -177,29 +177,42 @@ class AddCard extends Component {
     }
     var disableInput = false;
     var bankName = "";
-    if(channel.length>0)
-    {
-      if(channel[this.state.selectedChannelIndex].channelcode !== "CustomBank")
-      {
-        disableInput=true;
+    if (channel.length > 0) {
+      if (
+        channel[this.state.selectedChannelIndex].channelcode !== "CustomBank"
+      ) {
+        disableInput = true;
         bankName = channel[this.state.selectedChannelIndex].channelcode;
       }
     }
-    this.setState({ ...this.state, channelList: channel, bankName: bankName, disableBankNameInput: disableInput });
+    this.setState({
+      ...this.state,
+      channelList: channel,
+      bankName: bankName,
+      disableBankNameInput: disableInput,
+    });
     return channel;
   };
   handleBankTypeChange = (e) => {
-    this.setState({ ...this.state, selectedBankTypeIndex: e.target.value, selectedChannelIndex: 0 });
+    this.setState({
+      ...this.state,
+      selectedBankTypeIndex: e.target.value,
+      selectedChannelIndex: 0,
+    });
   };
   handleChannelChange = (e) => {
     var disableInput = false;
     var bankName = "";
-    if(this.state.channelList[e.target.value].channelcode !== "CustomBank")
-    {
-      disableInput=true;
+    if (this.state.channelList[e.target.value].channelcode !== "CustomBank") {
+      disableInput = true;
       bankName = this.state.channelList[e.target.value].channelcode;
     }
-    this.setState({...this.state, selectedChannelIndex: e.target.value, bankName: bankName, disableBankNameInput: disableInput })
+    this.setState({
+      ...this.state,
+      selectedChannelIndex: e.target.value,
+      bankName: bankName,
+      disableBankNameInput: disableInput,
+    });
   };
   handleNumberChange = (e) => {
     this.setState({ ...this.state, number: e.target.value });
@@ -331,26 +344,32 @@ class AddCard extends Component {
           <NumberContainer>1</NumberContainer>
           <SubTitle>{i18n.t("card.addCard.title")}</SubTitle>
         </SubHeaderContainer>
-        <TextFieldLabel>{i18n.t("common.withdrawalBankType")}</TextFieldLabel>
-        <TextFieldContainer>
-          <CustomFormControl>
-            <CustomSelect
-              native
-              variant="outlined"
-              displayEmpty
-              value={this.state.selectedBankTypeIndex}
-              onChange={this.handleBankTypeChange}
-            >
-              {withdrawalList.map((item, index) => {
-                return (
-                  <option value={index} key={index}>
-                    {item.banktype}
-                  </option>
-                );
-              })}
-            </CustomSelect>
-          </CustomFormControl>
-        </TextFieldContainer>
+        {!config.features.AddCard_HideCertainField && (
+          <>
+            <TextFieldLabel>
+              {i18n.t("common.withdrawalBankType")}
+            </TextFieldLabel>
+            <TextFieldContainer>
+              <CustomFormControl>
+                <CustomSelect
+                  native
+                  variant="outlined"
+                  displayEmpty
+                  value={this.state.selectedBankTypeIndex}
+                  onChange={this.handleBankTypeChange}
+                >
+                  {withdrawalList.map((item, index) => {
+                    return (
+                      <option value={index} key={index}>
+                        {item.banktype}
+                      </option>
+                    );
+                  })}
+                </CustomSelect>
+              </CustomFormControl>
+            </TextFieldContainer>
+          </>
+        )}
 
         {!config.features.AddCard_HideChannel && (
           <>
@@ -386,80 +405,84 @@ class AddCard extends Component {
           ) {
             return (
               <>
-                <>
-                  <TextFieldLabel>
-                    {config.features.AddCard_DisplayFPS
-                      ? i18n.t("hk28.card.addCard.BankName")
-                      : i18n.t("card.addCard.BankName")}
-                  </TextFieldLabel>
-                  <TextFieldContainer>
-                    {config.features.AddCard_BankDropdown ? (
-                      <CustomFormControl>
-                        <CustomSelect
-                          native
-                          variant="outlined"
-                          displayEmpty
-                          value={this.state.bankName}
-                          onChange={this.handleBankNameChange}
-                        >
-                          <option value="" selected disabled>
-                            {config.features.AddCard_DisplayFPS
+                {!config.features.AddCard_HideCertainField && (
+                  <>
+                    <TextFieldLabel>
+                      {config.features.AddCard_DisplayFPS
+                        ? i18n.t("hk28.card.addCard.BankName")
+                        : i18n.t("card.addCard.BankName")}
+                    </TextFieldLabel>
+                    <TextFieldContainer>
+                      {config.features.AddCard_BankDropdown ? (
+                        <CustomFormControl>
+                          <CustomSelect
+                            native
+                            variant="outlined"
+                            displayEmpty
+                            value={this.state.bankName}
+                            onChange={this.handleBankNameChange}
+                          >
+                            <option value="" selected disabled>
+                              {config.features.AddCard_DisplayFPS
+                                ? i18n.t("hk28.card.addCard.msgEnterBankName")
+                                : i18n.t("card.addCard.msgEnterBankName")}
+                            </option>
+                            {bankList.length > 0 &&
+                              bankList.map((item, index) => {
+                                return (
+                                  <option value={item} key={index}>
+                                    {item}
+                                  </option>
+                                );
+                              })}
+                          </CustomSelect>
+                        </CustomFormControl>
+                      ) : (
+                        <CustomTextField
+                          marginTop={10}
+                          placeholder={
+                            config.features.AddCard_DisplayFPS
                               ? i18n.t("hk28.card.addCard.msgEnterBankName")
-                              : i18n.t("card.addCard.msgEnterBankName")}
-                          </option>
-                          {bankList.length > 0 &&
-                            bankList.map((item, index) => {
-                              return (
-                                <option value={item} key={index}>
-                                  {item}
-                                </option>
-                              );
-                            })}
-                        </CustomSelect>
-                      </CustomFormControl>
-                    ) : (
-                      <CustomTextField
-                        marginTop={10}
-                        placeholder={
-                          config.features.AddCard_DisplayFPS
-                            ? i18n.t("hk28.card.addCard.msgEnterBankName")
-                            : i18n.t("card.addCard.msgEnterBankName")
-                        }
-                        width={395}
-                        height={38}
-                        float={"none"}
-                        maxLength={255}
-                        disabled={this.state.disableBankNameInput}
-                        value={this.state.bankName}
-                        handleTextFieldChange={this.handleBankNameChange}
-                      ></CustomTextField>
-                    )}
-                  </TextFieldContainer>
-                </>
-                {(() => {
-                  if (config.features.AddCard_BankBranch) {
-                    return (
-                      <React.Fragment>
-                        <TextFieldLabel>
-                          {i18n.t("card.addCard.branch")}
-                        </TextFieldLabel>
-                        <TextFieldContainer>
-                          <CustomTextField
-                            marginTop={10}
-                            placeholder={i18n.t(
-                              "card.addCard.branchPlaceHolder"
-                            )}
-                            width={395}
-                            height={38}
-                            float={"none"}
-                            maxLength={255}
-                            handleTextFieldChange={this.handleBankBranchChange}
-                          ></CustomTextField>
-                        </TextFieldContainer>
-                      </React.Fragment>
-                    );
-                  }
-                })()}
+                              : i18n.t("card.addCard.msgEnterBankName")
+                          }
+                          width={395}
+                          height={38}
+                          float={"none"}
+                          maxLength={255}
+                          disabled={this.state.disableBankNameInput}
+                          value={this.state.bankName}
+                          handleTextFieldChange={this.handleBankNameChange}
+                        ></CustomTextField>
+                      )}
+                    </TextFieldContainer>
+                    {(() => {
+                      if (config.features.AddCard_BankBranch) {
+                        return (
+                          <React.Fragment>
+                            <TextFieldLabel>
+                              {i18n.t("card.addCard.branch")}
+                            </TextFieldLabel>
+                            <TextFieldContainer>
+                              <CustomTextField
+                                marginTop={10}
+                                placeholder={i18n.t(
+                                  "card.addCard.branchPlaceHolder"
+                                )}
+                                width={395}
+                                height={38}
+                                float={"none"}
+                                maxLength={255}
+                                handleTextFieldChange={
+                                  this.handleBankBranchChange
+                                }
+                              ></CustomTextField>
+                            </TextFieldContainer>
+                          </React.Fragment>
+                        );
+                      }
+                    })()}
+                  </>
+                )}
 
                 <TextFieldLabel>
                   {config.features.AddCard_DisplayFPS
