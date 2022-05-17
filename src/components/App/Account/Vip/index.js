@@ -5,6 +5,7 @@ import { generalAction } from "../../../../api-services/actions/generalAction";
 import i18n from "../../../../utils/i18n";
 import IconVIPPNG from "../../../../assets/images/icon-vip.png";
 import config from "../../../../config/config";
+import Common from "../../../../utils/Common";
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box
@@ -30,7 +31,6 @@ const InnerWrap = styled.div`
   min-height: 610px;
   margin-top: 18px;
   box-sizing: border-box;
-
   border-radius: 10px;
 `;
 
@@ -224,6 +224,7 @@ const VIP = (props) => {
                   {i18n.t("vip.quarterlyBenefit")}
                 </TitleContent>
               </VIPOverflow>
+
               <VIPOverflowContainer>
                 {vipBenefitList.map((data, index) => {
                   return (
@@ -243,14 +244,26 @@ const VIP = (props) => {
                         {getVIPTitle(data.level)}
                       </VipEmblemContainer>
                       <VIPContent>
-                        {data.levelKeepAccumulateBetAmount}
+                        {Common.addComma(data.levelKeepAccumulateBetAmount)}
                       </VIPContent>
-                      <VIPContent>{data.levelKeepAccumulateDeposit}</VIPContent>
-                      <VIPContent>{data.levelUpAccumulateBetAmount}</VIPContent>
-                      <VIPContent>{data.levelUpAccumulateDeposit}</VIPContent>
-                      <VIPContent>{data.birthBenefit}</VIPContent>
-                      <VIPContent>{data.promotionBenefit}</VIPContent>
-                      <VIPContent>{data.quarterlyBenefit}</VIPContent>
+                      <VIPContent>
+                        {Common.addComma(data.levelKeepAccumulateDeposit)}
+                      </VIPContent>
+                      <VIPContent>
+                        {Common.addComma(data.levelUpAccumulateBetAmount)}
+                      </VIPContent>
+                      <VIPContent>
+                        {Common.addComma(data.levelUpAccumulateDeposit)}
+                      </VIPContent>
+                      <VIPContent>
+                        {Common.addComma(data.birthBenefit)}
+                      </VIPContent>
+                      <VIPContent>
+                        {Common.addComma(data.promotionBenefit)}
+                      </VIPContent>
+                      <VIPContent>
+                        {Common.addComma(data.quarterlyBenefit)}
+                      </VIPContent>
                     </VIPOverflowData>
                   );
                 })}
