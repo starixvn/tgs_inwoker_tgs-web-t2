@@ -184,9 +184,9 @@ class Deposit extends Component {
         }
       );
     }
-    this.countDownInterval=setInterval(()=>{   
+    this.countDownInterval = setInterval(() => {
       this.props.getDepositMethod(); // call api every 30 mins
-    },30*60*1000);
+    }, 30 * 60 * 1000);
   }
 
   componentDidUpdate(preProps, preState) {
@@ -196,7 +196,9 @@ class Deposit extends Component {
           account:
             preState.account === ""
               ? this.props.wallet.bankCardList.length > 0
-                ? this.props.wallet.bankCardList[0].detail.bankAccount
+                ? this.props.wallet.bankCardList[0].detail.bankAccount ||
+                  this.props.wallet.bankCardList[0].detail.address ||
+                  this.props.wallet.bankCardList[0].detail.phone
                 : ""
               : preState.account,
           name:
@@ -642,6 +644,7 @@ class Deposit extends Component {
               onAmountChange={this.handleAmountChange}
               name={this.state.name}
               account={this.state.account}
+              accountList={this.props.wallet.bankCardList}
               onNameChange={this.handleNameChange}
               exchangeRate={this.state.exchangeRate}
               onAccountChange={this.handleAccountChange}
@@ -676,6 +679,7 @@ class Deposit extends Component {
               amount={this.state.amount}
               onAmountChange={this.handleAmountChange}
               name={this.state.name}
+              accountList={this.props.wallet.bankCardList}
               onNameChange={this.handleNameChange}
               account={this.state.account}
               onAccountChange={this.handleAccountChange}
