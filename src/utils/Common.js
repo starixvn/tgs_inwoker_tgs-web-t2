@@ -1,4 +1,4 @@
-import {GameTypeEnum,SlotGameParentId} from "../api-services/utils/Enum";
+import { GameTypeEnum, SlotGameParentId } from "../api-services/utils/Enum";
 import ABCPNG from "../assets/images/wap/bank/abc.png";
 import BCMPNG from "../assets/images/wap/bank/bcm.png";
 import BOBPNG from "../assets/images/wap/bank/bob.png";
@@ -32,7 +32,7 @@ import PromoImage1 from "../assets/images/promotion/promo-1.jpg";
 import PromoImage2 from "../assets/images/promotion/promo-2.jpg";
 import PromoImage3 from "../assets/images/promotion/promo-3.jpg";
 import i18n from "./i18n";
-import config from "../config/config";
+
 function getCDNLanguagePrefix() {
   var prefix = "en-US";
   var arr = [
@@ -96,7 +96,7 @@ function GetBankImageByTitle(title) {
       break;
     }
   }
-  if (bank != null) {
+  if (bank !== null) {
     return bank.image;
   } else {
     return DefaultPNG;
@@ -148,7 +148,7 @@ function GetDisplayGameType() {
 const gameImageMapping = [
   { gcode: "AG", img: Provider1PNG },
   { gcode: "BG", img: Provider2PNG },
-  { gcode: "SE", img: Provider3PNG },
+  { gcode: "SG", img: Provider3PNG },
   { gcode: "VR", img: Provider4PNG },
   { gcode: "KY", img: Provider5PNG },
   { gcode: "JDB", img: Provider6PNG },
@@ -291,9 +291,9 @@ function PopupCenter(url, title, w, h) {
   }
 
   var dualScreenLeft =
-    window.screenLeft != undefined ? window.screenLeft : window.screenX;
+    window.screenLeft !== undefined ? window.screenLeft : window.screenX;
   var dualScreenTop =
-    window.screenTop != undefined ? window.screenTop : window.screenY;
+    window.screenTop !== undefined ? window.screenTop : window.screenY;
 
   var width = window.innerWidth
     ? window.innerWidth
@@ -388,7 +388,7 @@ function loadScript(url, cb) {
   if (scr.readyState) {
     // IE
     scr.onreadystatechange = function () {
-      if (scr.readyState == "loaded" || scr.readyState === "complete") {
+      if (scr.readyState === "loaded" || scr.readyState === "complete") {
         scr.onreadystatechange = null;
         cb();
       }
@@ -408,6 +408,10 @@ function GetPromoImg(index) {
 
 const baseRouteUrl = `/:locale(en-US|zh-CN|zh-TW|th-TH|id-ID|vi-VN)`;
 
+function addComma(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const Common = {
   baseRouteUrl,
   ConvertSlotGameParentIdToString,
@@ -426,5 +430,6 @@ const Common = {
   GetPromoImg,
   getLanguagePrefixFolder,
   getCDNLanguagePrefix,
+  addComma,
 };
 export default Common;
