@@ -72,6 +72,7 @@ const featureList = {
     Profile_ExistingDetails_ViewOnly: false, // except change password
 
     AddCard_HideCertainField: false, //impacted: Type、Bank name、Branch
+    Profile_DisableEditPhone: false,
   },
 };
 export default featureList;
