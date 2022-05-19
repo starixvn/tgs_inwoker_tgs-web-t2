@@ -6,6 +6,19 @@ import i18n from "../../../../utils/i18n";
 import IconVIPPNG from "../../../../assets/images/icon-vip.png";
 import config from "../../../../config/config";
 import Common from "../../../../utils/Common";
+
+const heightSwitcher = (language) => {
+  switch (language) {
+    case "th-TH":
+      return "50px";
+    case "id-ID":
+      return "90px";
+    case "vi-VN":
+      return "60px";
+    default:
+      return "";
+  }
+};
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box
@@ -31,6 +44,7 @@ const InnerWrap = styled.div`
   min-height: 610px;
   margin-top: 18px;
   box-sizing: border-box;
+
   border-radius: 10px;
 `;
 
@@ -77,20 +91,18 @@ const VIPContent = styled.div`
   min-width: 125px;
   text-align: center;
   padding: 10px 20px;
-  width: 275px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: ${({ height }) => height};
 `;
 
 const TitleContent = styled(VIPContent)`
   background: #d9d9d9;
   color: #404040;
   font-weight: bold;
-
+  width: 275px;
   padding: 10px 20px;
-  display: block;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 `;
 
 const TableWrapper = styled.div`
@@ -185,6 +197,22 @@ const VIP = (props) => {
     else return "VIP" + level;
   };
 
+  const VipContent = ({ content }) => {
+    return (
+      <VIPContent height={heightSwitcher(i18n.language)}>
+        {Common.addComma(content)}
+      </VIPContent>
+    );
+  };
+
+  const VipTitle = ({ title }) => {
+    return (
+      <TitleContent height={heightSwitcher(i18n.language)}>
+        {title}
+      </TitleContent>
+    );
+  };
+
   return (
     <Container>
       <Title>
@@ -196,33 +224,16 @@ const VIP = (props) => {
           <TableWrapper>
             <VipLevelContainer>
               <VIPOverflow>
-                <VipEmblemContainerTitle title={i18n.t("vip.level")}>
+                <VipEmblemContainerTitle>
                   {i18n.t("vip.level")}
                 </VipEmblemContainerTitle>
-                <TitleContent
-                  title={i18n.t("vip.levelKeepAccumulateBetAmount")}
-                >
-                  {i18n.t("vip.levelKeepAccumulateBetAmount")}
-                </TitleContent>
-                <TitleContent title={i18n.t("vip.levelKeepAccumulateDeposit")}>
-                  {i18n.t("vip.levelKeepAccumulateDeposit")}
-                </TitleContent>
-                <TitleContent title={i18n.t("vip.levelUpAccumulateBetAmount")}>
-                  {i18n.t("vip.levelUpAccumulateBetAmount")}
-                </TitleContent>
-                <TitleContent title={i18n.t("vip.levelUpAccumulateDeposit")}>
-                  {i18n.t("vip.levelUpAccumulateDeposit")}
-                </TitleContent>
-                <TitleContent title={i18n.t("vip.birthBenefit")}>
-                  {i18n.t("vip.birthBenefit")}
-                </TitleContent>
-
-                <TitleContent title={i18n.t("vip.promotionBenefit")}>
-                  {i18n.t("vip.promotionBenefit")}
-                </TitleContent>
-                <TitleContent title={i18n.t("vip.quarterlyBenefit")}>
-                  {i18n.t("vip.quarterlyBenefit")}
-                </TitleContent>
+                <VipTitle title={i18n.t("vip.levelKeepAccumulateBetAmount")} />
+                <VipTitle title={i18n.t("vip.levelKeepAccumulateDeposit")} />
+                <VipTitle title={i18n.t("vip.levelUpAccumulateBetAmount")} />
+                <VipTitle title={i18n.t("vip.levelUpAccumulateDeposit")} />
+                <VipTitle title={i18n.t("vip.birthBenefit")} />
+                <VipTitle title={i18n.t("vip.promotionBenefit")} />
+                <VipTitle title={i18n.t("vip.quarterlyBenefit")} />
               </VIPOverflow>
 
               <VIPOverflowContainer>
@@ -243,27 +254,13 @@ const VIP = (props) => {
                         </VIPLevelImage>
                         {getVIPTitle(data.level)}
                       </VipEmblemContainer>
-                      <VIPContent>
-                        {Common.addComma(data.levelKeepAccumulateBetAmount)}
-                      </VIPContent>
-                      <VIPContent>
-                        {Common.addComma(data.levelKeepAccumulateDeposit)}
-                      </VIPContent>
-                      <VIPContent>
-                        {Common.addComma(data.levelUpAccumulateBetAmount)}
-                      </VIPContent>
-                      <VIPContent>
-                        {Common.addComma(data.levelUpAccumulateDeposit)}
-                      </VIPContent>
-                      <VIPContent>
-                        {Common.addComma(data.birthBenefit)}
-                      </VIPContent>
-                      <VIPContent>
-                        {Common.addComma(data.promotionBenefit)}
-                      </VIPContent>
-                      <VIPContent>
-                        {Common.addComma(data.quarterlyBenefit)}
-                      </VIPContent>
+                      <VipContent content={data.levelKeepAccumulateBetAmount} />
+                      <VipContent content={data.levelKeepAccumulateDeposit} />
+                      <VipContent content={data.levelUpAccumulateBetAmount} />
+                      <VipContent content={data.levelUpAccumulateDeposit} />
+                      <VipContent content={data.birthBenefit} />
+                      <VipContent content={data.promotionBenefit} />
+                      <VipContent content={data.quarterlyBenefit} />
                     </VIPOverflowData>
                   );
                 })}

@@ -5,12 +5,27 @@ import { generalAction } from "../../../api-services/actions/generalAction";
 import i18n from "../../../utils/i18n";
 import IconVIPPNG from "../../../assets/images/icon-vip.png";
 import config from "../../../config/config";
+import Common from "../../../utils/Common";
+
+const heightSwitcher = (language) => {
+  switch (language) {
+    case "th-TH":
+      return "50px";
+    case "id-ID":
+      return "90px";
+    case "vi-VN":
+      return "60px";
+    default:
+      return "";
+  }
+};
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box
   background-color: #eaeaea;
   width: 100%;
   min-height: 611px;
+ 
  
 `;
 const Title = styled.div`
@@ -26,7 +41,8 @@ const TitleIcon = styled.div`
   float: left;
 `;
 const InnerWrap = styled.div`
-  //width: 935px;
+  width: 1280px;
+  margin: auto;
   min-height: 610px;
   margin-top: 18px;
   box-sizing: border-box;
@@ -35,9 +51,14 @@ const InnerWrap = styled.div`
   border-radius: 10px;
 `;
 
+const OuterWrap = styled.div`
+  width: 1280px;
+  margin: auto;
+`;
+
 const VipLevelContainer = styled.div`
   display: grid;
-  grid-template-columns: 200px auto;
+  grid-template-columns: 275px auto;
 `;
 
 const VipLevelContainer2 = styled.div`
@@ -78,21 +99,18 @@ const VIPContent = styled.div`
   min-width: 125px;
   text-align: center;
   padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: ${({ height }) => height};
 `;
 
 const TitleContent = styled(VIPContent)`
   background: #d9d9d9;
   color: #404040;
   font-weight: bold;
-
+  width: 275px;
   padding: 10px 20px;
-
-  width: 200px;
-  display: block;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 `;
 
 const TableWrapper = styled.div`
@@ -187,45 +205,47 @@ const VIP = (props) => {
     else return "VIP" + level;
   };
 
+  const VipContent = ({ content }) => {
+    return (
+      <VIPContent height={heightSwitcher(i18n.language)}>
+        {Common.addComma(content)}
+      </VIPContent>
+    );
+  };
+
+  const VipTitle = ({ title }) => {
+    return (
+      <TitleContent height={heightSwitcher(i18n.language)}>
+        {title}
+      </TitleContent>
+    );
+  };
+
   return (
     <Container>
-      <Title>
-        <TitleIcon></TitleIcon>
-        VIP
-      </Title>
+      <OuterWrap>
+        <Title>
+          <TitleIcon></TitleIcon>
+          VIP
+        </Title>
+      </OuterWrap>
       <InnerWrap>
         {vipBenefit.items && vipBenefit.items.length > 0 && (
           <TableWrapper>
             <VipLevelContainer>
               <VIPOverflow>
-                <VipEmblemContainerTitle title={i18n.t("vip.level")}>
+                <VipEmblemContainerTitle>
                   {i18n.t("vip.level")}
                 </VipEmblemContainerTitle>
-                <TitleContent
-                  title={i18n.t("vip.levelKeepAccumulateBetAmount")}
-                >
-                  {i18n.t("vip.levelKeepAccumulateBetAmount")}
-                </TitleContent>
-                <TitleContent title={i18n.t("vip.levelKeepAccumulateDeposit")}>
-                  {i18n.t("vip.levelKeepAccumulateDeposit")}
-                </TitleContent>
-                <TitleContent title={i18n.t("vip.levelUpAccumulateBetAmount")}>
-                  {i18n.t("vip.levelUpAccumulateBetAmount")}
-                </TitleContent>
-                <TitleContent title={i18n.t("vip.levelUpAccumulateDeposit")}>
-                  {i18n.t("vip.levelUpAccumulateDeposit")}
-                </TitleContent>
-                <TitleContent title={i18n.t("vip.birthBenefit")}>
-                  {i18n.t("vip.birthBenefit")}
-                </TitleContent>
-
-                <TitleContent title={i18n.t("vip.promotionBenefit")}>
-                  {i18n.t("vip.promotionBenefit")}
-                </TitleContent>
-                <TitleContent title={i18n.t("vip.quarterlyBenefit")}>
-                  {i18n.t("vip.quarterlyBenefit")}
-                </TitleContent>
+                <VipTitle title={i18n.t("vip.levelKeepAccumulateBetAmount")} />
+                <VipTitle title={i18n.t("vip.levelKeepAccumulateDeposit")} />
+                <VipTitle title={i18n.t("vip.levelUpAccumulateBetAmount")} />
+                <VipTitle title={i18n.t("vip.levelUpAccumulateDeposit")} />
+                <VipTitle title={i18n.t("vip.birthBenefit")} />
+                <VipTitle title={i18n.t("vip.promotionBenefit")} />
+                <VipTitle title={i18n.t("vip.quarterlyBenefit")} />
               </VIPOverflow>
+
               <VIPOverflowContainer>
                 {vipBenefitList.map((data, index) => {
                   return (
@@ -242,17 +262,15 @@ const VIP = (props) => {
                             }
                           />
                         </VIPLevelImage>
-                          {getVIPTitle(data.level)}
+                        {getVIPTitle(data.level)}
                       </VipEmblemContainer>
-                      <VIPContent>
-                        {data.levelKeepAccumulateBetAmount}
-                      </VIPContent>
-                      <VIPContent>{data.levelKeepAccumulateDeposit}</VIPContent>
-                      <VIPContent>{data.levelUpAccumulateBetAmount}</VIPContent>
-                      <VIPContent>{data.levelUpAccumulateDeposit}</VIPContent>
-                      <VIPContent>{data.birthBenefit}</VIPContent>
-                      <VIPContent>{data.promotionBenefit}</VIPContent>
-                      <VIPContent>{data.quarterlyBenefit}</VIPContent>
+                      <VipContent content={data.levelKeepAccumulateBetAmount} />
+                      <VipContent content={data.levelKeepAccumulateDeposit} />
+                      <VipContent content={data.levelUpAccumulateBetAmount} />
+                      <VipContent content={data.levelUpAccumulateDeposit} />
+                      <VipContent content={data.birthBenefit} />
+                      <VipContent content={data.promotionBenefit} />
+                      <VipContent content={data.quarterlyBenefit} />
                     </VIPOverflowData>
                   );
                 })}
