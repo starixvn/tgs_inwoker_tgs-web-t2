@@ -10,7 +10,7 @@ import i18n from "../../../../utils/i18n";
 import Common from "../../../../utils/Common";
 import { walletAction } from "../../../../api-services/actions/walletAction";
 import { connect } from "react-redux";
-
+import config from "../../../../config/config";
 const TabButton = styled.div`
   height: 41px;
   font-size: 14px;
@@ -106,6 +106,18 @@ const Turnover = styled.div`
   }
 `;
 
+const LimitLabel = styled.span`
+  color: #747474;
+`;
+
+const LimitAmount = styled.span`
+  color: #c0252d;
+`;
+const ExchangeRateContainer = styled.div`
+  font-size: 14px;
+`;
+
+
 const Main = (props) => {
   const [selectedCardIndex, setSelectedCardIndex] = useState("");
   const [amount, setAmount] = useState("");
@@ -114,10 +126,9 @@ const Main = (props) => {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(0);
   const [paymentList, setPaymentList] = useState(props.wallet.withdrawalList);
-
+  const [exchangeRate, setExchangeRate] = useState(config.features.Withdrawal_USDT_ExchangeRate);
   var minValue = [];
   var maxValue = [];
-
   const handleSelectCardChange = (index) => {
     setSelectedCardIndex(index);
   };
@@ -156,7 +167,7 @@ const Main = (props) => {
       }
     }
   };
-
+  
   return (
     <>
       <SubHeaderContainer>
@@ -237,6 +248,20 @@ const Main = (props) => {
           <NumberContainer>2</NumberContainer>
 
           <SubTitle>{i18n.t("withdrawal.enterAmount")}</SubTitle>
+          {(() => {
+            if (
+              props.cardList[selectedCardIndex] &&
+              props.cardList[selectedCardIndex].banktype === "Usdt"
+            ) {
+              return (
+                <ExchangeRateContainer style={{ paddingTop:"5px", paddingLeft: "20px" }}>
+                  <LimitLabel>{i18n.t("deposit.exchangeRate")}</LimitLabel>
+                  <LimitLabel> 1 USDT : </LimitLabel>
+                  <LimitAmount>{` ${exchangeRate}`}</LimitAmount>
+                </ExchangeRateContainer>
+              );
+            }
+          })()}
         </SubHeaderContainer>
         <SelectionContainer>
           <CustomTextField
@@ -256,7 +281,36 @@ const Main = (props) => {
             {Common.formatNumberWithThousand(min)} -{" "}
             {Common.formatNumberWithThousand(max)}
           </LimitPopupContainer>
-
+          {(() => {
+            if (
+              props.cardList[selectedCardIndex] &&
+              props.cardList[selectedCardIndex].banktype === "Usdt"
+            ) {
+              return (
+                <React.Fragment>
+                  <div class="clear"></div>
+                  <SubHeaderContainer>
+                    <SubTitle style={{ margin: "0px"}}>{i18n.t("withdrawal.usdtAmount")}</SubTitle>
+                  </SubHeaderContainer>
+                  <CustomTextField
+                    width={250}
+                    height={38}
+                    variant="outlined"
+                    autoComplete="off"
+                    value={
+                      isNaN(amount) === false
+                        ? (amount * exchangeRate).toFixed(2)
+                        : 0
+                    }
+                    pattern="[0-9]*"
+                    type={"number"}
+                    disabled={true}
+                  ></CustomTextField>
+                </React.Fragment>
+              );
+            }
+          })()}
+          <div class="clear"></div>
           <Turnover>
             {i18n.t("withdrawal.turnover")}
             <span>
