@@ -1,47 +1,32 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { Select, FormControl, withStyles } from "@material-ui/core";
 import CustomTextField from "../../../Share/TextField";
 import Button from "../../../Share/Button";
 import i18n from "../../../../utils/i18n";
-import { Select, FormControl, withStyles } from "@material-ui/core";
 import config from "../../../../config/config";
 import { withSnackbar } from "notistack";
 const Container = styled.div`
   width: 100%;
 `;
-const SubHeaderContainer = styled.div``;
-const NumberContainer = styled.div`
-  width: 20px;
-  height: 25px;
-  font-family: Arial;
-  font-size: 25px;
-  color: #ffffff;
-  text-align: center;
-  float: left;
-  -webkit-text-stroke: 1px black;
-`;
 const SubTitle = styled.div`
-  color: #404040;
-  font-size: 20px;
-  float: left;
-  margin: 0 0 0 10px;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  color: #16242a;
+  margin-top: 0px;
 `;
-const SubTitleDesc = styled.div`
-  text-align: left;
-  font-size: 14px;
-  margin-top: 10px;
-  margin-bottom: 40px;
-  color: #818181;
-`;
+
 const TextFieldLabel = styled.div`
   font-size: 16px;
-  text-align: left;
+  text-align: center;
+
   color: #818181;
-  margin-top: 20px;
+  margin: 10px 0 0 0;
 `;
 const TextFieldContainer = styled.div`
-  margin: 5px 0px;
+  margin: 0 auto;
   display: table;
 `;
 const TabButton = styled.div`
@@ -70,15 +55,7 @@ const TabButton = styled.div`
   padding-left: 40px;
   margin-bottom: 10px;
 `;
-const SelectionContainer = styled.div`
-  margin: 15px 0 0 0px;
-`;
-const TunnelButton = styled(TabButton)`
-  width: 150px;
-  height: 41px;
-  padding-top: 10px;
-  margin-top: 0px;
-`;
+
 const CustomSelect = withStyles((theme) => ({
   root: {
     fontSize: "14px",
@@ -240,10 +217,8 @@ class AddCard extends Component {
 
     if (selected.banktype === "Bank") {
       var bankName =
-        this.state.channelList[this.state.selectedChannelIndex].channelcode ===
-        "CustomBank"
-          ? this.state.bankName.trim()
-          : this.state.channelList[this.state.selectedChannelIndex].channelcode;
+        this.state.channelList[this.state.selectedChannelIndex].channelcode;
+
       var bankAccountName = this.state.bankAccountName.trim();
       var bankBranch = this.state.bankBranch.trim();
       var number = this.state.number.trim();
@@ -290,8 +265,14 @@ class AddCard extends Component {
         );
         return;
       }
-      var expr = /^[0-9]{8,10}$/;
-      if (!expr.test(this.state.phone)) {
+      if (this.state.phone === "") {
+        this.props.enqueueSnackbar(i18n.t("common.msgEnterPhone"), {
+          variant: "error",
+        });
+        return;
+      }
+
+      if (this.state.phone.length < 8) {
         this.props.enqueueSnackbar(i18n.t("common.noReachMin"), {
           variant: "error",
         });
@@ -302,7 +283,7 @@ class AddCard extends Component {
         phone: this.state.phone,
       };
     } else {
-      var number = this.state.number.trim();
+      number = this.state.number.trim();
       if (number === "") {
         this.props.enqueueSnackbar(i18n.t("common.msgEnterWithdrawalNumber"), {
           variant: "error",
@@ -340,10 +321,8 @@ class AddCard extends Component {
 
     return (
       <Container>
-        <SubHeaderContainer>
-          <NumberContainer>1</NumberContainer>
-          <SubTitle>{i18n.t("card.addCard.title")}</SubTitle>
-        </SubHeaderContainer>
+        <SubTitle>{i18n.t("card.addCard.title")}</SubTitle>
+
         {!config.features.AddCard_HideCertainField && (
           <>
             <TextFieldLabel>
@@ -385,7 +364,7 @@ class AddCard extends Component {
                   value={this.state.selectedChannelIndex}
                   onChange={this.handleChannelChange}
                 >
-                  {this.state.channelList.length > 0 &&
+                  {withdrawalList.length > 0 &&
                     this.state.channelList.map((item, index) => {
                       return (
                         <option value={index} key={index}>
@@ -589,6 +568,7 @@ class AddCard extends Component {
             </TextFieldContainer>
           </div>
         )}
+
         <TextFieldContainer>
           {(() => {
             if (this.props.showBack === true) {
@@ -608,7 +588,7 @@ class AddCard extends Component {
 
           <Button
             name={i18n.t("common.nextStep")}
-            width={160}
+            width={255}
             handleClick={this.handleNextClick}
           ></Button>
         </TextFieldContainer>
