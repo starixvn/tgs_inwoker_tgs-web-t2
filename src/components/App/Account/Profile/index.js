@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import IconProfileRedPNG from "../../../../assets/images/icon-profile-active.png";
+import IconProfileRedPNG from "../../../../assets/images/icon-profile.png";
 import { connect } from "react-redux";
 
 import Dialog from "@material-ui/core/Dialog";
@@ -15,6 +15,7 @@ import Email from "./Email";
 import WithdrawalPassword from "./WithdrawalPassword";
 import ChangeWithdrawalPassword from "./ChangeWithdrawalPassword";
 
+import IDVerification from "./id-verification";
 import PhoneVerification from "./PhoneVerification";
 // import SecurityQuestion from "./SecurityQuestion";
 // import ResetSecurityQuestion from "./ResetSecurityQuestion";
@@ -28,7 +29,7 @@ import Viber from "./Viber";
 import Whatsapp from "./Whatsapp";
 import i18n from "../../../../utils/i18n";
 import config from "../../../../config/config";
-import IDVerification from "./id-verification";
+import { AccountService } from "../../../../api-services/services/AccountService";
 import Birthdate from "./Birthdate";
 const Container = styled.div`
   padding: 20px 28px;
@@ -116,7 +117,13 @@ const VerifiedSpan = styled.span`
   user-select: none;
 `;
 
-function GetContentWrap(accountInfo, label, attr, func, disabled) {
+const ButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+function GetContentWrap(accountInfo, label, attr, func, edit, disable) {
   let attrValue = accountInfo[attr];
   let isMemberName = false;
   let verified = accountInfo["check_pass_account"];
@@ -317,18 +324,26 @@ function GetContentWrap(accountInfo, label, attr, func, disabled) {
           </VerifiedSpan>
         }
       </ContentValue>
-      {(() => {
-        if (buttonValue !== "" && hide !== true && !disabled) {
-          return (
-            <ContentButton onClick={() => func(attr)}>
-              <ContentButtonLabel>{buttonValue}</ContentButtonLabel>
-            </ContentButton>
-          );
-        }
-      })()}
+      <ButtonWrapper>
+        {(() => {
+          if (buttonValue !== "" && hide !== true && !disable) {
+            return (
+              <ContentButton onClick={() => func(attr)}>
+                <ContentButtonLabel>{buttonValue}</ContentButtonLabel>
+              </ContentButton>
+            );
+          }
+        })()}
+        {edit && (
+          <ContentButton onClick={() => func(attr, edit)}>
+            <ContentButtonLabel>{i18n.t("profile.edit")}</ContentButtonLabel>
+          </ContentButton>
+        )}
+      </ButtonWrapper>
     </ContentWrap>
   );
 }
+
 const StyledDialog = withStyles({
   root: {
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
@@ -365,7 +380,7 @@ const DialogHeadertitle = styled.div`
   float: left;
   font-size: 18px;
   font-weight: bold;
-  color: #404040;
+  color: ${({ theme }) => theme.secondary};
   width: 320px;
 `;
 class Profile extends Component {
@@ -471,7 +486,7 @@ class Profile extends Component {
       });
     }
   };
-  handleButtonClick = (type) => {
+  handleButtonClick = (type, edit) => {
     let title = "";
     let component = null;
 
@@ -630,6 +645,7 @@ class Profile extends Component {
             handleCSClick={this.props.onhandleCSClick}
             handleCloseDialog={this.handleCloseDialog}
             account={this.props.account}
+            edit={edit}
           ></IDVerification>
         );
         break;
@@ -700,6 +716,7 @@ class Profile extends Component {
   handleCloseDialog = () => {
     this.setState({ ...this.state, openDialog: false });
   };
+
   render() {
     return (
       <Container>
@@ -713,7 +730,8 @@ class Profile extends Component {
               this.props.account.info,
               i18n.t("profile.nameVerify.title"),
               "member_name",
-              this.handleButtonClick
+              this.handleButtonClick,
+              true
             )}
           {GetContentWrap(
             this.props.account.info,
@@ -721,6 +739,12 @@ class Profile extends Component {
             "member_birthdate",
             this.handleButtonClick
           )}
+          {/* {GetContentWrap(
+            this.props.account.info,
+            i18n.t("profile.phone.title"),
+            "member_phone",
+            this.handleButtonClick
+          )} */}
           {(config.features.SMSVerification ||
             config.features.Register_ShowPhone ||
             config.features.Register_ShowSMSVerification) &&
@@ -729,6 +753,7 @@ class Profile extends Component {
               i18n.t("common.phoneNumber"),
               "member_phone",
               this.handleButtonClick,
+              false,
               config.features.Profile_DisableEditPhone
             )}
 
@@ -746,6 +771,7 @@ class Profile extends Component {
               "member_qq",
               this.handleButtonClick
             )}
+
           {config.features.QQWeChat &&
             GetContentWrap(
               this.props.account.info,
