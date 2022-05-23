@@ -1,6 +1,6 @@
 const featureList = {
   default: {
-    SMSVerification: false,
+    SMSVerification: true,
     PhonePrefix: "+852",
     EmailVerification: true,
     ICVerification: true,
@@ -71,6 +71,9 @@ const featureList = {
     Deposit_OriginAccount: false,
     Profile_ExistingDetails_ViewOnly: false, // except change password
     Withdrawal_USDT_ExchangeRate: 0.151,
+    Profile_DisableEditPhone: true,
+
+    Deposit_UploadRequired: false,
   },
 };
 export default featureList;

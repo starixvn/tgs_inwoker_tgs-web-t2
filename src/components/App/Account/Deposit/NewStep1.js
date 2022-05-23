@@ -610,7 +610,11 @@ const NewStepOne = (props) => {
                     marginRight: "5px",
                     padding: 0,
                   }}
-                  placeholder={isUsdt?i18n.t("deposit.plsEnterUSDTAmount"):i18n.t("deposit.plsEnterDepositAmount")}
+                  placeholder={
+                    isUsdt
+                      ? i18n.t("deposit.plsEnterUSDTAmount")
+                      : i18n.t("deposit.plsEnterDepositAmount")
+                  }
                   onChange={onAmountChange}
                   outputFormat="string"
                   variant="outlined"
@@ -637,21 +641,28 @@ const NewStepOne = (props) => {
                   </LimitAmount>
                 </LimitPopupContainer>
                 {(() => {
-                  if (methodList[selectedMethodIndex].methodcode === "Usdt" && 
-                  methodList[selectedMethodIndex].channel[selectedChannelIndex].extended.rate !== undefined
+                  if (
+                    methodList[selectedMethodIndex].methodcode === "Usdt" &&
+                    methodList[selectedMethodIndex].channel[
+                      selectedChannelIndex
+                    ].extended.rate !== undefined
                   ) {
-                    var usdtRate = methodList[selectedMethodIndex].channel[selectedChannelIndex].extended.rate;
+                    var usdtRate =
+                      methodList[selectedMethodIndex].channel[
+                        selectedChannelIndex
+                      ].extended.rate;
                     if (paymentType.paymentcode.toUpperCase() === "MANUAL") {
                       return (
                         <ExchangeRateContainer style={{ marginTop: "4px" }}>
                           <LimitLabel>
-                            {i18n.t("deposit.exchangeRate")} 1 USDT : {" "} 
+                            {i18n.t("deposit.exchangeRate")} 1 USDT :{" "}
                           </LimitLabel>
                           <LimitAmount>{` ${usdtRate}`}</LimitAmount>
                           <div class="clear"></div>
                           <LimitLabel>
                             {i18n.t("deposit.totalAmount")}
-                          </LimitLabel>{" : "}
+                          </LimitLabel>
+                          {" : "}
                           <LimitAmount>{` ${
                             isNaN(amount) === false
                               ? (amount * usdtRate).toFixed(2)
@@ -769,7 +780,13 @@ const NewStepOne = (props) => {
                           />
                           {files[0] ? files[0].name : ""}
                         </div>
-                        <Remark>{i18n.t("deposit.msgPlsUploadProof")}</Remark>
+                        <Remark>
+                          {i18n.t(
+                            config.features.Deposit_UploadRequired
+                              ? "deposit.msgPlsUploadProof"
+                              : "deposit.msgNotMustUploadProof"
+                          )}
+                        </Remark>
                       </SelectionContainer>
                     </React.Fragment>
                   );
@@ -798,7 +815,7 @@ const NewStepOne = (props) => {
                       selectedChannelIndex
                     ].transferlimit.to ||
                   ((isManual || isApplePay) && amount.length <= 0) ||
-                  (isManual && files.length <= 0)
+                  (config.features.Deposit_UploadRequired && files.length <= 0)
                 }
               ></CustomButton>
             </>
