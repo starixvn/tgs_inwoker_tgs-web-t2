@@ -52,7 +52,7 @@ function Default(props) {
                 }
                 adornment={IconInputIDPNG}
                 handleTextFieldChange={props.onhandleIDChange}
-                defaultValue={props.account.info.member_card_no}
+                defaultValue=""
                 readOnly={allowEdit}
                 maxLength={256}
               ></CustomTextField>
