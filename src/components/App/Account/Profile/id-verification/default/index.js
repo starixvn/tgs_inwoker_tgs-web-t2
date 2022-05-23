@@ -33,9 +33,7 @@ function Default(props) {
         }
         adornment={IconInputReceivePNG}
         handleTextFieldChange={props.onhandleNameChange}
-        defaultValue={
-          props.check_pass_account ? props.account.info.member_name : ""
-        }
+        defaultValue=""
         readOnly={allowEdit}
         maxLength={256}
       ></CustomTextField>
@@ -52,14 +50,12 @@ function Default(props) {
                 }
                 adornment={IconInputIDPNG}
                 handleTextFieldChange={props.onhandleIDChange}
-                defaultValue=""
+                defaultValue={props.account.info.member_card_no}
                 readOnly={allowEdit}
                 maxLength={256}
               ></CustomTextField>
               {config.features.ICVerificationUpload && (
-                <InputWrapper
-                  style={{ padding: "6.5px 10px", borderRadius: 12 }}
-                >
+                <InputWrapper style={{ padding: 5 }}>
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <button
                       onClick={() => {
