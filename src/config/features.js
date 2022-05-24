@@ -73,7 +73,7 @@ const featureList = {
     Withdrawal_USDT_ExchangeRate: 0.151,
     Profile_DisableEditPhone: true,
 
-    Deposit_UploadRequired: false,
+    Deposit_UploadRequired: true,
   },
 };
 export default featureList;
