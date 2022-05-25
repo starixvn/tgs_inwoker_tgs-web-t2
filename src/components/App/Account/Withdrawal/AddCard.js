@@ -272,7 +272,7 @@ class AddCard extends Component {
         return;
       }
 
-      if (this.state.phone.length < 8) {
+      if (this.state.phone.length < (config.features.MAX_PHONE_LENGTH || 10)) {
         this.props.enqueueSnackbar(i18n.t("common.noReachMin"), {
           variant: "error",
         });
@@ -534,7 +534,7 @@ class AddCard extends Component {
                 }
                 width={395}
                 height={38}
-                maxLength={10}
+                maxLength={config.features.MAX_PHONE_LENGTH || 10}
                 float={"none"}
                 handleTextFieldChange={this.handlePhoneChange}
               ></CustomTextField>
