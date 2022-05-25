@@ -117,7 +117,7 @@ class ESports extends Component {
       if (params === "WGFM" || params === "WGVIA") {
         window.open(
           `/${i18n.language}/joinlobbygame/${type}/${params}`,
-          "_blank"
+          "gamewindow"
         );
       } else {
         this.props.history.push(
