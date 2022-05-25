@@ -15,6 +15,7 @@ import FormControl from "@material-ui/core/FormControl";
 import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
 import ErrorSwitcher from "../../utils/ErrorSwitcher";
+import config from "../../config/config";
 const Container = styled.div`
   width: 506px;
   background: url(${LoginBGPNG});
@@ -345,7 +346,9 @@ class ForgotPasswordPhone extends Component {
                 });
               }}
             >
-              <option value={"+852"}>+852</option>
+              <option value={config.features.PhonePrefix}>
+                {config.features.PhonePrefix}
+              </option>
             </CustomSelect>
           </CustomFormControl>
           <CustomText2

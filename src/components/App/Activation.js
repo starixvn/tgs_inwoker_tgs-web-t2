@@ -24,6 +24,7 @@ import FormControl from "@material-ui/core/FormControl";
 import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
 import ErrorSwitcher from "../../utils/ErrorSwitcher";
+import config from "../../config/config";
 const Container = styled.div`
   width: 506px;
   background: url(${LoginBGPNG});
@@ -329,7 +330,7 @@ function Activation(props) {
   const [username, setUsername] = React.useState(props.username);
 
   const [password, setPassword] = React.useState(props.pass);
-  const [areacode, setAreacode] = React.useState("+852");
+  const [areacode, setAreacode] = React.useState(config.features.PhonePrefix);
   const [phone, setPhone] = React.useState("");
   const [code, setCode] = React.useState("");
   const [countdown, setCountdown] = React.useState(0);
@@ -504,7 +505,9 @@ function Activation(props) {
               setAreacode(e.target.value);
             }}
           >
-            <option value={"+852"}>+852</option>
+            <option value={config.features.PhonePrefix}>
+              {config.features.PhonePrefix}
+            </option>
           </CustomSelect>
         </CustomFormControl>
         <CustomText2
