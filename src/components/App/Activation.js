@@ -330,7 +330,7 @@ function Activation(props) {
   const [username, setUsername] = React.useState(props.username);
 
   const [password, setPassword] = React.useState(props.pass);
-  const [areacode, setAreacode] = React.useState("+852");
+  const [areacode, setAreacode] = React.useState(config.features.PhonePrefix);
   const [phone, setPhone] = React.useState("");
   const [code, setCode] = React.useState("");
   const [countdown, setCountdown] = React.useState(0);
@@ -508,7 +508,9 @@ function Activation(props) {
               setAreacode(e.target.value);
             }}
           >
-            <option value={"+852"}>+852</option>
+            <option value={config.features.PhonePrefix}>
+              {config.features.PhonePrefix}
+            </option>
           </CustomSelect>
         </CustomFormControl>
         <CustomText2
