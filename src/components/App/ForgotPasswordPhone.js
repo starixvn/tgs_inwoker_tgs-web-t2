@@ -349,7 +349,9 @@ class ForgotPasswordPhone extends Component {
                 });
               }}
             >
-              <option value={"+852"}>+852</option>
+              <option value={config.features.PhonePrefix}>
+                {config.features.PhonePrefix}
+              </option>
             </CustomSelect>
           </CustomFormControl>
           <CustomText2
