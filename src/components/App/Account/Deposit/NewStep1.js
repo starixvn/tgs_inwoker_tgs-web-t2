@@ -321,24 +321,29 @@ const NewStepOne = (props) => {
         if (methodList.length > 0 && selectedMethodIndex !== -1) {
           return (
             <>
-              <SubHeaderContainer>
-                <SubTitle>{i18n.t("deposit.msgPlsSelectMethod")}</SubTitle>
-              </SubHeaderContainer>
-              <SelectionContainer>
-                {methodList[selectedMethodIndex].channel.map((item, index) => {
-                  return (
-                    <TunnelButton
-                      key={index}
-                      onClick={() => onChannelChange(index)}
-                      active={selectedChannelIndex === index}
-                    >
-                      {item.channelname}
-                    </TunnelButton>
-                  );
-                })}
-              </SelectionContainer>
-
-              <SplitLine></SplitLine>
+              {!config.features.Deposit_HideDepositChannel && (
+                <>
+                  <SubHeaderContainer>
+                    <SubTitle>{i18n.t("deposit.msgPlsSelectMethod")}</SubTitle>
+                  </SubHeaderContainer>
+                  <SelectionContainer>
+                    {methodList[selectedMethodIndex].channel.map(
+                      (item, index) => {
+                        return (
+                          <TunnelButton
+                            key={index}
+                            onClick={() => onChannelChange(index)}
+                            active={selectedChannelIndex === index}
+                          >
+                            {item.channelname}
+                          </TunnelButton>
+                        );
+                      }
+                    )}
+                  </SelectionContainer>
+                  <SplitLine></SplitLine>
+                </>
+              )}
               {(() => {
                 if (isManual) {
                   var channelExtend =

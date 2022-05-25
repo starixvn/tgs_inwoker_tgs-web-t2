@@ -74,6 +74,7 @@ const featureList = {
     Profile_DisableEditPhone: true,
 
     Deposit_UploadRequired: true,
+    Deposit_HideDepositChannel: false,
   },
 };
 export default featureList;
