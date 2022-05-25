@@ -321,24 +321,29 @@ const NewStepOne = (props) => {
         if (methodList.length > 0 && selectedMethodIndex !== -1) {
           return (
             <>
-              <SubHeaderContainer>
-                <SubTitle>{i18n.t("deposit.msgPlsSelectMethod")}</SubTitle>
-              </SubHeaderContainer>
-              <SelectionContainer>
-                {methodList[selectedMethodIndex].channel.map((item, index) => {
-                  return (
-                    <TunnelButton
-                      key={index}
-                      onClick={() => onChannelChange(index)}
-                      active={selectedChannelIndex === index}
-                    >
-                      {item.channelname}
-                    </TunnelButton>
-                  );
-                })}
-              </SelectionContainer>
-
-              <SplitLine></SplitLine>
+              {!config.features.Deposit_HideDepositChannel && (
+                <>
+                  <SubHeaderContainer>
+                    <SubTitle>{i18n.t("deposit.msgPlsSelectMethod")}</SubTitle>
+                  </SubHeaderContainer>
+                  <SelectionContainer>
+                    {methodList[selectedMethodIndex].channel.map(
+                      (item, index) => {
+                        return (
+                          <TunnelButton
+                            key={index}
+                            onClick={() => onChannelChange(index)}
+                            active={selectedChannelIndex === index}
+                          >
+                            {item.channelname}
+                          </TunnelButton>
+                        );
+                      }
+                    )}
+                  </SelectionContainer>
+                  <SplitLine></SplitLine>
+                </>
+              )}
               {(() => {
                 if (isManual) {
                   var channelExtend =
@@ -780,7 +785,13 @@ const NewStepOne = (props) => {
                           />
                           {files[0] ? files[0].name : ""}
                         </div>
-                        <Remark>{i18n.t("deposit.msgPlsUploadProof")}</Remark>
+                        <Remark>
+                          {i18n.t(
+                            config.features.Deposit_UploadRequired
+                              ? "deposit.msgPlsUploadProof"
+                              : "deposit.msgNotMustUploadProof"
+                          )}
+                        </Remark>
                       </SelectionContainer>
                     </React.Fragment>
                   );
@@ -809,7 +820,7 @@ const NewStepOne = (props) => {
                       selectedChannelIndex
                     ].transferlimit.to ||
                   ((isManual || isApplePay) && amount.length <= 0) ||
-                  (isManual && files.length <= 0)
+                  (config.features.Deposit_UploadRequired && files.length <= 0)
                 }
               ></CustomButton>
             </>

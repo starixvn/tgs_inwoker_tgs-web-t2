@@ -15,6 +15,7 @@ import FormControl from "@material-ui/core/FormControl";
 import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
 import ErrorSwitcher from "../../utils/ErrorSwitcher";
+import config from "../../config/config";
 const Container = styled.div`
   width: 506px;
   background: url(${LoginBGPNG});
@@ -253,7 +254,10 @@ class ForgotPasswordPhone extends Component {
   };
   onhandleGetCodeClick = () => {
     if (this.state.countdown <= 0) {
-      if (this.state.phone.length < 8 || this.state.phone.length > 10) {
+      if (
+        this.state.phone.length < 8 ||
+        this.state.phone.length > (config.features.MAX_PHONE_LENGTH || 10)
+      ) {
         this.props.enqueueSnackbar(i18n.t("common.noReachMin"), {
           variant: "error",
         });
@@ -357,7 +361,7 @@ class ForgotPasswordPhone extends Component {
             type="text"
             autoComplete="off"
             inputProps={{
-              maxLength: 10,
+              maxLength: config.features.MAX_PHONE_LENGTH || 10,
             }}
             InputProps={{
               startAdornment: (

@@ -829,20 +829,24 @@ class Deposit extends Component {
               <>
                 <InnerWrap>
                   <TabButtonContainer>
-                    {this.props.wallet.depositTypeList.map((item, index) => {
-                      return (
-                        <TabButton
-                          key={index}
-                          onClick={() => this.handleTabClick(item, index)}
-                          active={this.state.selectedPaymentIndex === index}
-                        >
-                          <TabIconContainer>
-                            <TabIcon src={IconDepositCard}></TabIcon>
-                          </TabIconContainer>
-                          <TabLabel>{i18n.t(item.paymentcode)}</TabLabel>
-                        </TabButton>
-                      );
-                    })}
+                    {this.props.wallet.depositTypeList
+                      .sort(function (a, b) {
+                        return a.displayorder - b.displayorder;
+                      })
+                      .map((item, index) => {
+                        return (
+                          <TabButton
+                            key={index}
+                            onClick={() => this.handleTabClick(item, index)}
+                            active={this.state.selectedPaymentIndex === index}
+                          >
+                            <TabIconContainer>
+                              <TabIcon src={IconDepositCard}></TabIcon>
+                            </TabIconContainer>
+                            <TabLabel>{i18n.t(item.paymentcode)}</TabLabel>
+                          </TabButton>
+                        );
+                      })}
                   </TabButtonContainer>
                   {(() => {
                     if (this.props.wallet.depositTypeList.length <= 0)
