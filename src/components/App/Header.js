@@ -704,12 +704,8 @@ class Header extends Component {
     this.setState({ ...this.state, isHoverMenu: false });
   };
   handleClickMenu = (path) => {
-    if (path === "vip" && !this.props.account.token) {
-      this.props.showLogin(true);
-    } else {
-      this.setState({ ...this.state, selected: path });
-      this.props.history.push("/" + i18n.language + `/${path}`);
-    }
+    this.setState({ ...this.state, selected: path });
+    this.props.history.push("/" + i18n.language + `/${path}`);
   };
 
   RightMenuItem = (to, label, subMenuImg) => {
@@ -772,7 +768,7 @@ class Header extends Component {
     if (this.props.account.token != null) {
       window.open(
         "/" + i18n.language + "/joinlottery/" + name,
-        "gamewindow",
+        "_blank",
         "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1280,height=720"
       );
     } else {
@@ -797,7 +793,7 @@ class Header extends Component {
           if (gameCode === "WGFM" || gameCode === "WGVIA") {
             window.open(
               `/${i18n.language}/joinlobbygame/${gameType}/${gameCode}`,
-              "gamewindow"
+              "_blank"
             );
           } else {
             this.props.history.push(
@@ -1260,8 +1256,7 @@ class Header extends Component {
                 null
               )}
 
-              {config.features.HomePage_DisplayVIP &&
-                this.RightMenuItem("vip", "VIP", null)}
+              {this.RightMenuItem("vip", "VIP", null)}
             </RightMenuUL>
           </BottomContainer>
         </InnerWrap>
