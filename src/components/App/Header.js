@@ -704,15 +704,8 @@ class Header extends Component {
     this.setState({ ...this.state, isHoverMenu: false });
   };
   handleClickMenu = (path) => {
-    if(path==="vip" && !this.props.account.token)
-    {
-      this.props.showLogin(true);
-    }
-    else
-    {
-      this.setState({ ...this.state, selected: path });
-      this.props.history.push("/" + i18n.language + `/${path}`);
-    }
+    this.setState({ ...this.state, selected: path });
+    this.props.history.push("/" + i18n.language + `/${path}`);
   };
 
   RightMenuItem = (to, label, subMenuImg) => {
@@ -1066,21 +1059,17 @@ class Header extends Component {
                   return a.sorting > b.sorting ? 1 : -1;
                 }
               }).map((item, index) => {
-                var list = this.props.game.homePageGameList.filter(
-                  (game) => item.gameType.indexOf(game.type) >= 0
-                )
-                .sort((a, b) => {
-                  if(config.features.LiveGame_Sorting_SKY)
-                  {
-                    var sortDGFirst = ["DG"];
-                    return (
-                      sortDGFirst.indexOf(b.abbreviation) -
-                      sortDGFirst.indexOf(a.abbreviation)
-                    );
-                  }
-                  else  
-                    return b-a;
-                });
+                var list = this.props.game.homePageGameList
+                  .filter((game) => item.gameType.indexOf(game.type) >= 0)
+                  .sort((a, b) => {
+                    if (config.features.LiveGame_Sorting_SKY) {
+                      var sortDGFirst = ["DG"];
+                      return (
+                        sortDGFirst.indexOf(b.abbreviation) -
+                        sortDGFirst.indexOf(a.abbreviation)
+                      );
+                    } else return b - a;
+                  });
                 if (list.length > 0) {
                   return (
                     <RightMenuLI
@@ -1267,9 +1256,7 @@ class Header extends Component {
                 null
               )}
 
-              {config.features.HomePage_DisplayVIP &&
-                this.RightMenuItem("vip", "VIP", null)}
-                
+              {this.RightMenuItem("vip", "VIP", null)}
             </RightMenuUL>
           </BottomContainer>
         </InnerWrap>
