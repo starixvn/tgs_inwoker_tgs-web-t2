@@ -457,8 +457,6 @@ class NewStepOne extends Component {
                     onNextClick();
                   }}
                   disabled={
-                    selectedMethodIndex < 0 ||
-                    selectedChannelIndex < 0 ||
                     amount <
                       methodList[selectedMethodIndex].channel[
                         selectedChannelIndex
