@@ -798,8 +798,6 @@ const NewStepOne = (props) => {
                   onNextClick();
                 }}
                 disabled={
-                  selectedMethodIndex < 0 ||
-                  selectedChannelIndex < 0 ||
                   amount <
                     methodList[selectedMethodIndex].channel[
                       selectedChannelIndex
@@ -808,7 +806,6 @@ const NewStepOne = (props) => {
                     methodList[selectedMethodIndex].channel[
                       selectedChannelIndex
                     ].transferlimit.to ||
-                  ((isManual || isApplePay) && amount.length <= 0) ||
                   (isManual && files.length <= 0)
                 }
               ></CustomButton>
