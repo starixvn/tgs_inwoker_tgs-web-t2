@@ -538,7 +538,7 @@ const NewStepOne = (props) => {
                                 value={account}
                                 disabled={
                                   config.features.Deposit_AutofillFirstCard &&
-                                  account !== ""
+                                  props.accountList.length > 1
                                 }
                               ></TextField>
                             )}
