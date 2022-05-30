@@ -221,7 +221,11 @@ function GetContentWrap(accountInfo, label, attr, func, edit, disable) {
   let hide = false;
 
   if (requiredVerify) {
-    if (attr === "member_name" || attr === "member_birthday") {
+    if (
+      attr === "member_name" ||
+      attr === "member_birthday" ||
+      attr === "member_phone"
+    ) {
       isVerify = !config.features.ICVerification
         ? accountInfo.check_pass_account
         : accountInfo.member_name !== "";
@@ -271,11 +275,15 @@ function GetContentWrap(accountInfo, label, attr, func, edit, disable) {
       buttonValue = i18n.t("common.reset");
       isDisable = false;
     }
-  } else if (attr === "member_name" || attr === "member_birthday") {
+  } else if (
+    attr === "member_name" ||
+    attr === "member_birthday" ||
+    attr === "member_phone"
+  ) {
     if (isVerify || attr === "member_birthday") {
       buttonValue = "";
     }
-    if (attr === "member_name") {
+    if (attr === "member_name" || attr === "member_phone") {
       if (isVerify === false) {
         buttonValue = i18n.t("profile.nowVerify");
       } else {
@@ -334,7 +342,8 @@ function GetContentWrap(accountInfo, label, attr, func, edit, disable) {
             );
           }
         })()}
-        {status === "verifying" && attr === "member_name" && (
+        {((status === "verifying" && attr === "member_name") ||
+          (attr === "member_phone" && edit)) && (
           <ContentButton onClick={() => func(attr, edit)}>
             <ContentButtonLabel>{i18n.t("profile.edit")}</ContentButtonLabel>
           </ContentButton>
@@ -659,6 +668,7 @@ class Profile extends Component {
             token={this.props.account.token}
             isForSecurityQuestion={false}
             account={this.props.account}
+            edit={edit}
           ></PhoneVerification>
         );
         break;
@@ -753,8 +763,7 @@ class Profile extends Component {
               i18n.t("common.phoneNumber"),
               "member_phone",
               this.handleButtonClick,
-              false,
-              config.features.Profile_DisableEditPhone
+              !config.features.Profile_DisableEditPhone
             )}
 
           {config.features.EmailVerification &&
