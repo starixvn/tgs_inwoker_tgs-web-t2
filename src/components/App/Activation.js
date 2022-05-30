@@ -353,9 +353,14 @@ function Activation(props) {
     }
     expr = new RegExp("/^[0-9]{8," + config.features.MAX_PHONE_LENGTH + "}$/");
     if (!expr.test(phone)) {
-      props.enqueueSnackbar(i18n.t("common.noReachMin"), {
-        variant: "warning",
-      });
+      props.enqueueSnackbar(
+        i18n
+          .t("common.noReachMin")
+          .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10),
+        {
+          variant: "warning",
+        }
+      );
       return;
     }
     expr = /^[a-zA-Z0-9]{6}$/;
@@ -406,9 +411,14 @@ function Activation(props) {
       );
 
       if (!expr.test(phone)) {
-        props.enqueueSnackbar(i18n.t("common.noReachMin"), {
-          variant: "warning",
-        });
+        props.enqueueSnackbar(
+          i18n
+            .t("common.noReachMin")
+            .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10),
+          {
+            variant: "warning",
+          }
+        );
         return;
       }
       AccountService.Activation(username, password, areacode, phone).then(
