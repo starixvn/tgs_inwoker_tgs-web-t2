@@ -165,9 +165,14 @@ class PhoneVerification extends Component {
     );
 
     if (!expr.test(this.state.phone)) {
-      this.props.enqueueSnackbar(i18n.t("common.noReachMin"), {
-        variant: "warning",
-      });
+      this.props.enqueueSnackbar(
+        i18n
+          .t("common.noReachMin")
+          .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10),
+        {
+          variant: "warning",
+        }
+      );
       return;
     }
 
@@ -216,9 +221,14 @@ class PhoneVerification extends Component {
     );
 
     if (!expr.test(this.state.phone)) {
-      this.props.enqueueSnackbar(i18n.t("common.noReachMin"), {
-        variant: "warning",
-      });
+      this.props.enqueueSnackbar(
+        i18n
+          .t("common.noReachMin")
+          .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10),
+        {
+          variant: "warning",
+        }
+      );
       return;
     }
     AccountService.UpdatePhone(this.state.securityKey, this.state.code).then(
