@@ -420,7 +420,7 @@ function Register(props) {
       });
       return;
     }
-    expr = new RegExp("/^[0-9]{8," + config.features.MAX_PHONE_LENGTH + "}$/");
+    expr = new RegExp(`^[0-9]{8,${config.features.MAX_PHONE_LENGTH || 10}}`);
 
     if (
       config.features.Register_ShowPhone ||
@@ -526,9 +526,7 @@ function Register(props) {
         });
         return;
       }
-      expr = new RegExp(
-        "/^[0-9]{8," + config.features.MAX_PHONE_LENGTH + "}$/"
-      );
+      expr = new RegExp(`^[0-9]{8,${config.features.MAX_PHONE_LENGTH || 10}}`);
 
       if (!expr.test(phone)) {
         props.enqueueSnackbar(

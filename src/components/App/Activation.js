@@ -351,7 +351,7 @@ function Activation(props) {
       });
       return;
     }
-    expr = new RegExp("/^[0-9]{8," + config.features.MAX_PHONE_LENGTH + "}$/");
+    expr = new RegExp(`^[0-9]{8,${config.features.MAX_PHONE_LENGTH || 10}}`);
     if (!expr.test(phone)) {
       props.enqueueSnackbar(
         i18n
@@ -406,9 +406,7 @@ function Activation(props) {
         });
         return;
       }
-      expr = new RegExp(
-        "/^[0-9]{8," + config.features.MAX_PHONE_LENGTH + "}$/"
-      );
+      expr = new RegExp(`^[0-9]{8,${config.features.MAX_PHONE_LENGTH || 10}}`);
 
       if (!expr.test(phone)) {
         props.enqueueSnackbar(
