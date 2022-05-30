@@ -427,9 +427,14 @@ function Register(props) {
       config.features.Register_ShowSMSVerification
     ) {
       if (!expr.test(phone)) {
-        props.enqueueSnackbar(i18n.t("common.noReachMin"), {
-          variant: "warning",
-        });
+        props.enqueueSnackbar(
+          i18n
+            .t("common.noReachMin")
+            .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10),
+          {
+            variant: "warning",
+          }
+        );
         return;
       }
     }
@@ -526,9 +531,14 @@ function Register(props) {
       );
 
       if (!expr.test(phone)) {
-        props.enqueueSnackbar(i18n.t("common.noReachMin"), {
-          variant: "warning",
-        });
+        props.enqueueSnackbar(
+          i18n
+            .t("common.noReachMin")
+            .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10),
+          {
+            variant: "warning",
+          }
+        );
         return;
       }
 
