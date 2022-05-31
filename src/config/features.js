@@ -75,7 +75,7 @@ const featureList = {
     Deposit_UploadRequired: true,
     Deposit_HideDepositChannel: false,
 
-    Wap_ShowVip: true,
+    HomePage_DisplayVIP: true,
   },
 };
 export default featureList;
