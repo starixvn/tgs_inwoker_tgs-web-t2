@@ -76,7 +76,7 @@ const featureList = {
     Deposit_HideDepositChannel: false,
     AddCard_EWalletCustoms: false,
 
-    Wap_ShowVip: true,
+    HomePage_DisplayVIP: true,
   },
 };
 export default featureList;
