@@ -265,7 +265,7 @@ class PhoneVerification extends Component {
 
   render() {
     var ifNotEmpty = this.props.phone !== "" && this.props.phone !== null;
-
+    console.log(this.props.edit);
     return this.props.edit ? (
       <Container>
         <FormControl>
@@ -303,8 +303,7 @@ class PhoneVerification extends Component {
         {!(
           ifNotEmpty &&
           (config.features.ChangesNotAllowed ||
-            config.features.Profile_ExistingDetails_ViewOnly ||
-            !this.props.edit)
+            config.features.Profile_ExistingDetails_ViewOnly)
         ) && (
           <>
             <CustomText
@@ -360,8 +359,7 @@ class PhoneVerification extends Component {
         {!(
           ifNotEmpty &&
           (config.features.ChangesNotAllowed ||
-            config.features.Profile_ExistingDetails_ViewOnly ||
-            !this.props.edit)
+            config.features.Profile_ExistingDetails_ViewOnly)
         ) && (
           <CustomButton
             name={
