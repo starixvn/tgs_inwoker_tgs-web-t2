@@ -336,7 +336,7 @@ function GetContentWrap(accountInfo, label, attr, func, edit, disable) {
         {(() => {
           if (buttonValue !== "" && hide !== true && !disable) {
             return (
-              <ContentButton onClick={() => func(attr, !isVerify && edit)}>
+              <ContentButton onClick={() => func(attr, !isVerify)}>
                 <ContentButtonLabel>{buttonValue}</ContentButtonLabel>
               </ContentButton>
             );

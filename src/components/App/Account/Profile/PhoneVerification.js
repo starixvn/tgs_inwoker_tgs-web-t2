@@ -265,7 +265,7 @@ class PhoneVerification extends Component {
 
   render() {
     var ifNotEmpty = this.props.phone !== "" && this.props.phone !== null;
-    console.log(this.props.edit);
+
     return this.props.edit ? (
       <Container>
         <FormControl>
