@@ -34,16 +34,19 @@ const BtnLoginRegister = styled.div`
   text-align: center;
   color: #f6f6f6;
   min-width: 100px;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 20px;
+  height: 29px;
+  margin-left: 5px;
+
+  padding: 0px 10px;
 `;
 const BtnRegister = styled(BtnLoginRegister)`
-  margin-left: 5px;
-  margin-right: 10px;
   background-color: #c7a87c;
   color: #6d5d41;
-  padding: 0px 10px;
-  height: 30px;
+
   &:hover {
     color: #fdf8f0;
     cursor: pointer;
@@ -51,7 +54,6 @@ const BtnRegister = styled(BtnLoginRegister)`
 `;
 
 const BtnLogin = styled(BtnLoginRegister)`
-  margin-right: 5px;
   background-color: transparent;
   color: #c7a87c;
   border-width: 2px;
@@ -71,12 +73,13 @@ const BtnSpliter = styled.div`
 const BtnLoginLabel = styled.span`
   text-align: center;
   display: block;
-  margin-top: 1px;
 `;
 const BtnRegisterLabel = styled.span`
   text-align: center;
   display: block;
-  margin-top: 4px;
+  display: flex;
+  justify-content: center;
+  align-item: center;
 `;
 const StyledDialog = withStyles({
   root: {
@@ -534,19 +537,16 @@ class GuestContainer extends Component {
         {config.features.SMSVerification && (
           <React.Fragment>
             <BtnRegister onClick={() => this.onhandleActivation()}>
-              <BtnLoginRegisterLabel>
-                {i18n.t("web.register.activation")}
-              </BtnLoginRegisterLabel>
+              {i18n.t("web.register.activation")}
             </BtnRegister>
-            <BtnSpliter> | </BtnSpliter>
           </React.Fragment>
         )}
 
         <BtnRegister onClick={() => this.onhandleRegister()}>
-          <BtnRegisterLabel>{i18n.t("common.register")}</BtnRegisterLabel>
+          {i18n.t("common.register")}
         </BtnRegister>
         <BtnLogin onClick={() => this.handleClickOpenDialog("login")}>
-          <BtnLoginLabel>{i18n.t("common.login")}</BtnLoginLabel>
+          {i18n.t("common.login")}
         </BtnLogin>
         <StyledDialog
           open={this.state.openDialog || this.props.ui.showLogin}
