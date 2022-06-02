@@ -220,7 +220,7 @@ class AddCard extends Component {
         this.state.channelList[this.state.selectedChannelIndex].channelcode;
       if (
         this.state.channelList[this.state.selectedChannelIndex].channelcode ===
-        "CustomBank"
+        "CustomBank" && !config.features.AddCard_HideCertainField
       ) {
         bankName = this.state.bankName.trim();
       }
