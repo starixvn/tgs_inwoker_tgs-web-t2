@@ -77,6 +77,7 @@ const featureList = {
     AddCard_EWalletCustoms: false,
 
     HomePage_DisplayVIP: true,
+    Profile_DisableVerifyPhone: false,
   },
 };
 export default featureList;
