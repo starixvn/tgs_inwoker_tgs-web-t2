@@ -76,6 +76,7 @@ const featureList = {
     Deposit_HideDepositChannel: false,
 
     HomePage_DisplayVIP: true,
+    Profile_DisableVerifyPhone: false,
   },
 };
 export default featureList;
