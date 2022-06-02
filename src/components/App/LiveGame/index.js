@@ -5,8 +5,8 @@ import styled, { css, keyframes } from "styled-components";
 import i18n from "../../../utils/i18n";
 import config from "../../../config/config";
 import ScrollAnimation from "react-animate-on-scroll";
-import {SHOW_LOGIN} from "../../../api-services/constant/actionType";
-import {GameTypeEnum} from "../../../api-services/utils/Enum";
+import { SHOW_LOGIN } from "../../../api-services/constant/actionType";
+import { GameTypeEnum } from "../../../api-services/utils/Enum";
 const Container = styled.div`
   width: 100%;
   height: auto;
@@ -81,18 +81,19 @@ class LiveGame extends Component {
   constructor(props) {
     super(props);
 
-    var liveList = props.game.homePageGameList.filter((item) => {
-      return item.type === GameTypeEnum.LIVELOBBY;
-    })
-    .sort((a, b) => {
-      if (config.features.LiveGame_Sorting_SKY) {
-        var sortDGFirst = ["DG"];
-        return (
-          sortDGFirst.indexOf(b.abbreviation) -
-          sortDGFirst.indexOf(a.abbreviation)
-        );
-      } else return b - a;
-    });
+    var liveList = props.game.homePageGameList
+      .filter((item) => {
+        return item.type === GameTypeEnum.LIVELOBBY;
+      })
+      .sort((a, b) => {
+        if (config.features.LiveGame_Sorting_SKY) {
+          var sortDGFirst = ["DG"];
+          return (
+            sortDGFirst.indexOf(b.abbreviation) -
+            sortDGFirst.indexOf(a.abbreviation)
+          );
+        } else return b - a;
+      });
 
     this.state = {
       selected: liveList[0],
@@ -114,18 +115,19 @@ class LiveGame extends Component {
       preProps.game.homePageGameList.length !==
       this.props.game.homePageGameList.length
     ) {
-      var liveList = this.props.game.homePageGameList.filter((item) => {
-        return item.type === GameTypeEnum.LIVE;
-      })              
-      .sort((a, b) => {
-        if (config.features.LiveGame_Sorting_SKY) {
-          var sortDGFirst = ["DG"];
-          return (
-            sortDGFirst.indexOf(b.abbreviation) -
-            sortDGFirst.indexOf(a.abbreviation)
-          );
-        } else return b - a;
-      });
+      var liveList = this.props.game.homePageGameList
+        .filter((item) => {
+          return item.type === GameTypeEnum.LIVE;
+        })
+        .sort((a, b) => {
+          if (config.features.LiveGame_Sorting_SKY) {
+            var sortDGFirst = ["DG"];
+            return (
+              sortDGFirst.indexOf(b.abbreviation) -
+              sortDGFirst.indexOf(a.abbreviation)
+            );
+          } else return b - a;
+        });
 
       this.setState({
         ...this.state,
@@ -151,7 +153,7 @@ class LiveGame extends Component {
           GameTypeEnum.LIVELOBBY +
           "/" +
           params.toUpperCase(),
-        "_blank",
+        "gamewindow",
         "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1280,height=720"
       );
     } else {

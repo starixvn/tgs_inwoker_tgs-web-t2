@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import ScrollAnimation from "react-animate-on-scroll";
-import {SHOW_LOGIN} from "../../../api-services/constant/actionType";
-import {GameTypeEnum} from "../../../api-services/utils/Enum";
+import { SHOW_LOGIN } from "../../../api-services/constant/actionType";
+import { GameTypeEnum } from "../../../api-services/utils/Enum";
 import _633SelectedPNG from "../../../assets/images/qipai/633-selectedv2.png";
 
 import i18n from "../../../utils/i18n";
@@ -106,7 +106,7 @@ class Qipai extends Component {
           GameTypeEnum.QIPAILOBBY +
           "/" +
           kind.toUpperCase(),
-        "_blank",
+        "gamewindow",
         "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1280,height=720"
       );
     } else {

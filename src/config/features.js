@@ -74,6 +74,7 @@ const featureList = {
 
     Deposit_UploadRequired: true,
     Deposit_HideDepositChannel: false,
+    AddCard_EWalletCustoms: false,
 
     HomePage_DisplayVIP: true,
     Profile_DisableVerifyPhone: false,
