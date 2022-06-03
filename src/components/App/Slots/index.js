@@ -29,10 +29,10 @@ import SlotBookmark2PNG from "../../../assets/images/slot-bookmark-2.png";
 import SlotMoreGamePNG from "../../../assets/images/slot-moregame.png";
 
 import Loading from "../../../components/App/Loading";
-import {GameService} from "../../../api-services/services/GameService";
-import {gameAction} from "../../../api-services/actions/gameAction";
-import {GameTypeEnum,SlotFilterType} from "../../../api-services/utils/Enum";
-import {SHOW_LOGIN} from "../../../api-services/constant/actionType";
+import { GameService } from "../../../api-services/services/GameService";
+import { gameAction } from "../../../api-services/actions/gameAction";
+import { GameTypeEnum, SlotFilterType } from "../../../api-services/utils/Enum";
+import { SHOW_LOGIN } from "../../../api-services/constant/actionType";
 
 import i18n from "../../../utils/i18n";
 import CommonMarquee from "../CommonMarquee";
@@ -588,6 +588,7 @@ class Slots extends Component {
         ? "slots"
         : "electron";
     if (this.props.token) {
+      Common.closePreviousPopup();
       this.props.history.push(
         `/${i18n.language}/${type}/play/${gpcode}/${gpid}`
       );

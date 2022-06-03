@@ -7,6 +7,7 @@ import { GameTypeEnum } from "../../../api-services/utils/Enum";
 import _633SelectedPNG from "../../../assets/images/qipai/633-selectedv2.png";
 
 import i18n from "../../../utils/i18n";
+import Common from "../../../utils/Common";
 
 const Container = styled.div`
   width: 100%;
@@ -99,15 +100,17 @@ class Qipai extends Component {
 
   handleJoinGameClick = (kind) => {
     if (this.props.account.token != null) {
-      window.open(
+      Common.closePreviousPopup();
+      Common.PopupCenter(
         "/" +
           i18n.language +
           "/joingame/" +
           GameTypeEnum.QIPAILOBBY +
           "/" +
           kind.toUpperCase(),
-        "gamewindow",
-        "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1280,height=720"
+        kind.toUpperCase(),
+        1280,
+        720
       );
     } else {
       this.props.showLogin(true);

@@ -458,6 +458,7 @@ class Home extends Component {
         GameTypeEnum.ESPORTS,
         GameTypeEnum.TABLEGAME,
       ];
+      Common.closePreviousPopup();
       if (slotPageGameType.indexOf(gameType) >= 0) {
         if (
           gameType == GameTypeEnum.SPORTS ||
@@ -474,7 +475,7 @@ class Home extends Component {
           this.props.history.push(`/${i18n.language}/${path}/${gameCode}`);
         }
       } else {
-        Common.PopupCenter(url, gameCode, 1280, 720);
+        // Common.PopupCenter(url, gameCode, 1280, 720);
       }
     } else {
       this.props.showLogin(true);

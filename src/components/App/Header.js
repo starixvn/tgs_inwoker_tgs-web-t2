@@ -765,11 +765,16 @@ class Header extends Component {
   };
 
   handleJoinLotteryGame = (name) => {
+    Common.closePreviousPopup();
     if (this.props.account.token != null) {
-      window.open(
+      if (this.props.history.location.pathname.indexOf("play") >= 0) {
+        AppHistory.goBack();
+      }
+      Common.PopupCenter(
         "/" + i18n.language + "/joinlottery/" + name,
-        "_blank",
-        "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1280,height=720"
+        name,
+        1280,
+        720
       );
     } else {
       this.props.showLogin(true);
@@ -785,15 +790,21 @@ class Header extends Component {
       GameTypeEnum.TABLEGAME,
       GameTypeEnum.FISH,
     ];
+    Common.closePreviousPopup();
     if (slotPageGameType.indexOf(gameType) >= 0) {
       if (gameType == GameTypeEnum.SPORTS || gameType == GameTypeEnum.ESPORTS) {
         if (!this.props.account.token) {
           this.props.showLogin(true);
         } else {
           if (gameCode === "WGFM" || gameCode === "WGVIA") {
-            window.open(
+            if (this.props.history.location.pathname.indexOf("play") >= 0) {
+              AppHistory.goBack();
+            }
+            Common.PopupCenter(
               `/${i18n.language}/joinlobbygame/${gameType}/${gameCode}`,
-              "_blank"
+              gameCode,
+              1280,
+              720
             );
           } else {
             this.props.history.push(
@@ -808,6 +819,9 @@ class Header extends Component {
       if (!this.props.account.token) {
         this.props.showLogin(true);
         return;
+      }
+      if (this.props.history.location.pathname.indexOf("play") >= 0) {
+        AppHistory.goBack();
       }
       Common.PopupCenter(url, gameCode, 1280, 720);
     }

@@ -8,6 +8,7 @@ import _633Lottery from "../../../assets/images/lottery/633-lotteryball.png";
 import _633Description from "../../../assets/images/lottery/633-lotterydescription.png";
 import i18n from "../../../utils/i18n";
 import config from "../../../config/config";
+import Common from "../../../utils/Common";
 
 const Container = styled.div`
   width: 100%;
@@ -118,10 +119,12 @@ class Lottery extends Component {
   }
   handleJoinGameClick = (name) => {
     if (this.props.account.token != null) {
-      window.open(
+      Common.closePreviousPopup();
+      Common.PopupCenter(
         "/" + i18n.language + "/joinlottery/" + name,
-        "gamewindow",
-        "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1280,height=720"
+        name,
+        1280,
+        720
       );
     } else {
       this.props.showLogin(true);

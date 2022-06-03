@@ -7,6 +7,7 @@ import config from "../../../config/config";
 import ScrollAnimation from "react-animate-on-scroll";
 import { SHOW_LOGIN } from "../../../api-services/constant/actionType";
 import { GameTypeEnum } from "../../../api-services/utils/Enum";
+import Common from "../../../utils/Common";
 const Container = styled.div`
   width: 100%;
   height: auto;
@@ -146,15 +147,17 @@ class LiveGame extends Component {
   };
   handleJoinGameClick = (params) => {
     if (this.props.account.token != null) {
-      window.open(
+      Common.closePreviousPopup();
+      Common.PopupCenter(
         "/" +
           i18n.language +
           "/joingame/" +
           GameTypeEnum.LIVELOBBY +
           "/" +
           params.toUpperCase(),
-        "gamewindow",
-        "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1280,height=720"
+        params.toUpperCase(),
+        1280,
+        720
       );
     } else {
       this.props.showLogin(true);
