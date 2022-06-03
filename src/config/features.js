@@ -78,6 +78,7 @@ const featureList = {
 
     HomePage_DisplayVIP: true,
     Profile_DisableVerifyPhone: false,
+    Deposit_Withdrawal_PlayerNote: false,
   },
 };
 export default featureList;
