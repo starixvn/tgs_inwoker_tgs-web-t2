@@ -194,6 +194,8 @@ class NewStepOne extends Component {
       onNextClick,
       exchangeRate,
       isCrypto,
+      playerNote,
+      onPlayerNoteChange,
     } = this.props;
     if (paymentType === null) return <></>;
 
@@ -445,6 +447,31 @@ class NewStepOne extends Component {
                     </CustomSelect>
                   </CustomFormControl>
                 </SelectionContainer>
+                {config.features.Deposit_Withdrawal_PlayerNote && (
+                  <React.Fragment>
+                    <SplitLine></SplitLine>
+                    <SubHeaderContainer>
+                      <SubTitle>{i18n.t("deposit.playerNote")}</SubTitle>
+                    </SubHeaderContainer>
+                    <SelectionContainer>
+                      <TextField
+                        style={{
+                          height: "38px",
+                          width: "220px",
+                          float: "left",
+                          marginRight: "5px",
+                          padding: 0,
+                        }}
+                        placeholder={i18n.t("deposit.plsEnterPlayerNote")}
+                        onChange={onPlayerNoteChange}
+                        outputFormat="string"
+                        variant="outlined"
+                        autoComplete="off"
+                        value={playerNote}
+                      ></TextField>
+                    </SelectionContainer>
+                  </React.Fragment>
+                )}
 
                 <SplitLine></SplitLine>
                 <CustomButton
