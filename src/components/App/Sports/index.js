@@ -8,6 +8,7 @@ import { SHOW_LOGIN } from "../../../api-services/constant/actionType";
 import i18n from "../../../utils/i18n";
 
 import ScrollAnimation from "react-animate-on-scroll";
+import Common from "../../../utils/Common";
 const Container = styled.div`
   width: 100%;
   height: auto;
@@ -114,10 +115,13 @@ class Sports extends Component {
     if (!this.props.account.token) {
       this.props.showLogin(true);
     } else {
+      Common.closePreviousPopup();
       if (params === "WGFM" || params === "WGVIA") {
-        window.open(
+        Common.PopupCenter(
           `/${i18n.language}/joinlobbygame/${type}/${params}`,
-          "gamewindow"
+          params,
+          1280,
+          720
         );
       } else {
         this.props.history.push(
