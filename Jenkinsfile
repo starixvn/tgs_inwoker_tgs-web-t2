@@ -1,4 +1,5 @@
 def componentArray = [];
+def componentArrayMerged = [];
 def message = "";
 pipeline {
     agent any
@@ -41,6 +42,7 @@ pipeline {
                             break;
                     }
                     TAG = env.kube_ns + '-' + TAG
+					MergedTag = env.kube_ns + '-merged-' + TAG
                     message += "\nBranch: ${env.GIT_BRANCH}" 
                     message += "\nImage: ${Image}"
                     message += "\nTag: ${TAG}"
@@ -56,6 +58,7 @@ pipeline {
                             env."tgs_${key}" = value;
                         }
                         componentArray = "${env.tgs_lobby_t2_components}".split(",")
+						componentArrayMerged = "${env.tgs_lobby_t2_components_merged}".split(",")
                     }
                 }
 
@@ -74,6 +77,16 @@ pipeline {
                 sh "docker push ${Registry}${Image}:${TAG}"
                 sh "docker push ${Registry}${Image}:$env.kube_ns"
             }
+        }
+		stage('Docker New Build') {   
+            steps {	  			    
+                sh "docker -f Dockerfile-NEW build -t ${Registry}${Image}:${MergedTag} ."
+            }
+        }			
+        stage('Docker New Push') {   
+            steps {	  
+                sh "docker push ${Registry}${Image}:${MergedTag}"
+            }
         }	
         stage('Deployment') {   
             steps {	  
@@ -83,6 +96,11 @@ pipeline {
                         for (i = 0;i < componentArray.length; i++) {
                             message += "\n    ${componentArray[i]}"
                             sh "kubectl set image deployment/${componentArray[i]} ${componentArray[i]}=${Registry}${Image}:${TAG} --record -n $env.kube_ns"
+                        }
+						
+						for (i = 0;i < componentArrayMerged.length; i++) {
+                            message += "\n    ${componentArrayMerged[i]}"
+							sh "kubectl set image deployment/frontend ${componentArrayMerged[i]}=${Registry}${Image}:${MergedTag} --record -n $env.kube_ns"
                         }
                     }
                 }
