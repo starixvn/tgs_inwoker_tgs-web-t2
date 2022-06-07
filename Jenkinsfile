@@ -98,10 +98,12 @@ pipeline {
                             sh "kubectl set image deployment/${componentArray[i]} ${componentArray[i]}=${Registry}${Image}:${TAG} --record -n $env.kube_ns"
                         }
 						
-						for (i = 0;i < componentArrayMerged.length; i++) {
-                            message += "\n    ${componentArrayMerged[i]}"
-							sh "kubectl set image deployment/frontend ${componentArrayMerged[i]}=${Registry}${Image}:${MergedTag} --record -n $env.kube_ns"
-                        }
+						if (componentArrayMerged!="") {
+							for (i = 0;i < componentArrayMerged.length; i++) {
+								message += "\n    ${componentArrayMerged[i]}"
+								sh "kubectl set image deployment/frontend ${componentArrayMerged[i]}=${Registry}${Image}:${MergedTag} --record -n $env.kube_ns"
+							}
+						}
                     }
                 }
             }
