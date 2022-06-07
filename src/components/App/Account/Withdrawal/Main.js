@@ -117,7 +117,6 @@ const ExchangeRateContainer = styled.div`
   font-size: 14px;
 `;
 
-
 const Main = (props) => {
   const [selectedCardIndex, setSelectedCardIndex] = useState("");
   const [amount, setAmount] = useState("");
@@ -126,7 +125,9 @@ const Main = (props) => {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(0);
   const [paymentList, setPaymentList] = useState(props.wallet.withdrawalList);
-  const [exchangeRate, setExchangeRate] = useState(config.features.Withdrawal_USDT_ExchangeRate);
+  const [exchangeRate, setExchangeRate] = useState(
+    config.features.Withdrawal_USDT_ExchangeRate
+  );
   const [playerNote, setPlayerNote] = useState("");
   var minValue = [];
   var maxValue = [];
@@ -141,7 +142,12 @@ const Main = (props) => {
   };
 
   const handleWithdrawalClick = (e) => {
-    props.onhandleWithdrawalClick(props.cardList[selectedCardIndex].id, amount, undefined, playerNote);
+    props.onhandleWithdrawalClick(
+      props.cardList[selectedCardIndex].id,
+      amount,
+      undefined,
+      playerNote
+    );
     setDisabled(true);
 
     setTimeout(() => {
@@ -171,7 +177,7 @@ const Main = (props) => {
       }
     }
   };
-  
+
   return (
     <>
       <SubHeaderContainer>
@@ -258,10 +264,16 @@ const Main = (props) => {
               props.cardList[selectedCardIndex].banktype === "Usdt"
             ) {
               return (
-                <ExchangeRateContainer style={{ paddingTop:"1px", paddingLeft: "20px", whiteSpace: "break-spaces" }}>
-                  <LimitLabel>{i18n.t("deposit.exchangeRate")} : {" "}</LimitLabel>
+                <ExchangeRateContainer
+                  style={{
+                    paddingTop: "1px",
+                    paddingLeft: "20px",
+                    whiteSpace: "break-spaces",
+                  }}
+                >
+                  <LimitLabel>{i18n.t("deposit.exchangeRate")} : </LimitLabel>
                   <LimitAmount>1</LimitAmount>
-                  <LimitLabel> {"\t"} USDT : {" "}</LimitLabel>
+                  <LimitLabel> {"\t"} USDT : </LimitLabel>
                   <LimitAmount>{` ${exchangeRate}`}</LimitAmount>
                 </ExchangeRateContainer>
               );
@@ -295,7 +307,9 @@ const Main = (props) => {
                 <React.Fragment>
                   <div class="clear"></div>
                   <SubHeaderContainer>
-                    <SubTitle style={{ margin: "0px"}}>{i18n.t("withdrawal.usdtAmount")}</SubTitle>
+                    <SubTitle style={{ margin: "0px" }}>
+                      {i18n.t("withdrawal.usdtAmount")}
+                    </SubTitle>
                   </SubHeaderContainer>
                   <CustomTextField
                     width={250}
@@ -323,26 +337,32 @@ const Main = (props) => {
             </span>
           </Turnover>
         </SelectionContainer>
-        {config.features.Deposit_Withdrawal_PlayerNote && (
-          <React.Fragment>
-            <SplitLine></SplitLine>
-            <SubHeaderContainer>
-              <NumberContainer>3</NumberContainer>
-              <SubTitle>{i18n.t("withdrawal.playerNote")}</SubTitle>
-            </SubHeaderContainer>
-            <SelectionContainer>
-              <CustomTextField
-                width={250}
-                height={38}
-                placeholder={i18n.t("withdrawal.plsEnterPlayerNote")}
-                handleTextFieldChange={handlePlayerNote}
-                variant="outlined"
-                autoComplete="off"
-                value={playerNote}
-              ></CustomTextField>
-            </SelectionContainer>
-          </React.Fragment>
-        )}
+        {config.features.Deposit_Withdrawal_PlayerNote &&
+          props.cardList[selectedCardIndex] &&
+          (props.cardList[selectedCardIndex].banktype.toUpperCase() ===
+            "EWALLET" ||
+            props.cardList[selectedCardIndex].banktype.toUpperCase() ===
+              "PULSA") && (
+            <React.Fragment>
+              <SplitLine></SplitLine>
+              <SubHeaderContainer>
+                <NumberContainer>3</NumberContainer>
+                <SubTitle>{i18n.t("withdrawal.playerNote")}</SubTitle>
+              </SubHeaderContainer>
+              <SelectionContainer>
+                <CustomTextField
+                  width={250}
+                  height={38}
+                  placeholder={i18n.t("withdrawal.plsEnterPlayerNote")}
+                  handleTextFieldChange={handlePlayerNote}
+                  variant="outlined"
+                  autoComplete="off"
+                  value={playerNote}
+                  maxLength={50}
+                ></CustomTextField>
+              </SelectionContainer>
+            </React.Fragment>
+          )}
 
         <CustomButton
           disabled={
