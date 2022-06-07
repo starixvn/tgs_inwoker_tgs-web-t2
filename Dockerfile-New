@@ -75,5 +75,5 @@ LABEL org.opencontainers.image.source="https://github.com/caddyserver/caddy-dock
 
 WORKDIR /srv
 
-COPY --from=build /src/caddy/Caddyfile /etc/caddy/Caddyfile
+COPY --from=build /src/caddy /etc/caddy
 COPY --from=build /src/build /usr/share/caddy
