@@ -42,7 +42,7 @@ pipeline {
                             break;
                     }
                     TAG = env.kube_ns + '-' + TAG
-					MergedTag = '-merged-' + TAG
+					MergedTag = 'merged-' + TAG
                     message += "\nBranch: ${env.GIT_BRANCH}" 
                     message += "\nImage: ${Image}"
                     message += "\nTag: ${TAG}"
@@ -80,7 +80,7 @@ pipeline {
         }
 		stage('Docker New Build') {   
             steps {	  			    
-                sh "docker build -f Dockerfile-NEW -t ${Registry}${Image}:${MergedTag} ."
+                sh "docker build -f Dockerfile-New -t ${Registry}${Image}:${MergedTag} ."
             }
         }			
         stage('Docker New Push') {   
