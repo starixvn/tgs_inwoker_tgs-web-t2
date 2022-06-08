@@ -586,6 +586,36 @@ class AddCard extends Component {
           }
         })()}
         {withdrawalList.length > 0 &&
+          withdrawalList[this.state.selectedBankTypeIndex].banktype ===
+            "EWallet" && (
+            <React.Fragment>
+              <TextFieldLabel>
+                {eWalletCustom
+                  ? i18n.t("card.addCard.eWalletAccount")
+                  : config.features.AddCard_DisplayFPS
+                  ? i18n.t("hk28.card.addCard.BankAccountName")
+                  : i18n.t("card.addCard.BankAccountName")}
+              </TextFieldLabel>
+              <TextFieldContainer>
+                <CustomTextField
+                  marginTop={10}
+                  placeholder={
+                    eWalletCustom
+                      ? i18n.t("card.addCard.msgEnterEwalletAccount")
+                      : config.features.AddCard_DisplayFPS
+                      ? i18n.t("hk28.card.addCard.msgEnterBankAccountName")
+                      : i18n.t("card.addCard.msgEnterBankAccountName")
+                  }
+                  width={395}
+                  height={38}
+                  float={"none"}
+                  maxLength={255}
+                  handleTextFieldChange={this.handleBankAccountNameChange}
+                ></CustomTextField>
+              </TextFieldContainer>
+            </React.Fragment>
+          )}
+        {withdrawalList.length > 0 &&
         (withdrawalList[this.state.selectedBankTypeIndex].banktype ===
           "ThirdParty" ||
           withdrawalList[this.state.selectedBankTypeIndex].banktype ===
