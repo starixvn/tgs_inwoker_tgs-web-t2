@@ -293,6 +293,66 @@ class AddCard extends Component {
         username: this.state.name,
         phone: this.state.phone,
       };
+    } else if (selected.banktype === "EWallet") {
+      bankAccountName = this.state.bankAccountName.trim();
+      if (bankAccountName === "") {
+        this.props.enqueueSnackbar(
+          i18n.t("card.addCard.msgEnterEwalletAccount"),
+          {
+            variant: "error",
+          }
+        );
+        return;
+      }
+      number = this.state.number.trim();
+      if (number.length < 8 || number.length > (config.features.MAX_PHONE_LENGTH || 10)) {
+        this.props.enqueueSnackbar(
+          i18n
+            .t("common.noReachMin")
+            .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10),
+          {
+            variant: "error",
+          }
+        );
+        return;
+      }
+      if(config.features.AddCard_CustomParam_IDR)
+      {
+        detail = {
+          //qrCode: "",
+          phone: number,
+          eMoneyName: bankAccountName,
+        }
+      }
+      else
+      {
+        detail = {
+          name: bankAccountName,
+          address: number,
+        };
+      }
+    } else if (selected.banktype === "Pulsa")
+    {
+      number = this.state.number.trim();
+      if (number === "") {
+        this.props.enqueueSnackbar(i18n.t("common.msgEnterWithdrawalNumber"), {
+          variant: "error",
+        });
+        return;
+      }
+      if(config.features.AddCard_CustomParam_IDR)
+      {
+        detail = {
+          phone: number,
+        }
+      }
+      else
+      {
+        detail = {
+          address: number,
+        };
+      }
+
     } else {
       number = this.state.number.trim();
       if (number === "") {
@@ -317,8 +377,13 @@ class AddCard extends Component {
 
     const isEwallet =
       this.state.channelList.length &&
+      (this.state.channelList[this.state.selectedChannelIndex].channelcode ===
+        "E-wallet" || this.state.channelList[this.state.selectedChannelIndex].channelcode ===
+        "EWallet"); 
+    const isPulsa =
+      this.state.channelList.length &&
       this.state.channelList[this.state.selectedChannelIndex].channelcode ===
-        "E-wallet";
+        "Pulsa"; 
 
     const eWalletCustom = isEwallet && config.features.AddCard_EWalletCustoms;
 
@@ -368,7 +433,7 @@ class AddCard extends Component {
           </>
         )}
 
-        {!(config.features.AddCard_HideChannel || eWalletCustom) && (
+        {!(config.features.AddCard_HideChannel || eWalletCustom || isPulsa) && (
           <>
             <TextFieldLabel>
               {i18n.t("common.withdrawalChannel")}
@@ -574,7 +639,7 @@ class AddCard extends Component {
         ) : (
           <div>
             <TextFieldLabel>
-              {eWalletCustom
+              {(eWalletCustom||isPulsa)
                 ? i18n.t("card.addCard.phone")
                 : config.features.AddCard_DisplayGCash
                 ? i18n.t("piso.withdrawalNumber")
@@ -586,7 +651,7 @@ class AddCard extends Component {
               <CustomTextField
                 marginTop={10}
                 placeholder={
-                  eWalletCustom
+                  (eWalletCustom||isPulsa)
                     ? i18n.t("card.addCard.msgEnterPhone")
                     : config.features.AddCard_DisplayGCash
                     ? i18n.t("piso.msgEnterWithdrawalNumber")

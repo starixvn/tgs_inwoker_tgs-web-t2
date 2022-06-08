@@ -129,6 +129,21 @@ function CardManage(props) {
                           item.detail.address.length
                         );
                       }
+                    } else if (
+                      item.banktype === "Pulsa" ||
+                      item.banktype === "EWallet"
+                    ) {
+                      if (item.detail.phone) {
+                        return item.detail.phone.substring(
+                          item.detail.phone.length - 4,
+                          item.detail.phone.length
+                        );
+                      } else if (item.detail.address) {
+                        return item.detail.address.substring(
+                          item.detail.address.length - 4,
+                          item.detail.address.length
+                        );
+                      }
                     } else {
                       if (item.detail.bankAccount) {
                         return item.detail.bankAccount.substring(

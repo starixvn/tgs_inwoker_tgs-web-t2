@@ -148,11 +148,12 @@ const TransferContainer = styled.div`
 `;
 const TransferLabel = styled.span`
   float: left;
-  min-width: 100px;
+  //min-width: 100px;
   color: #151a34;
 `;
 const TransferLabelValue = styled.span`
   float: left;
+  margin-left: 10px;
 `;
 
 const CustomInput = styled.input`
@@ -461,6 +462,19 @@ const NewStepOne = (props) => {
                                 {channelExtend.fpsId}
                               </TransferLabelValue>
                               <CopyFeature copyContent={channelExtend.fpsId} />
+                            </TransferContainer>
+                          )}
+                          {channelExtend.eMoneyName && (
+                            <TransferContainer>
+                              <TransferLabel>
+                                {i18n.t("deposit.eWalletAccount")}:
+                              </TransferLabel>
+                              <TransferLabelValue>
+                                {channelExtend.eMoneyName}
+                              </TransferLabelValue>
+                              <CopyFeature
+                                copyContent={channelExtend.eMoneyName}
+                              />
                             </TransferContainer>
                           )}
                         </SelectionContainer>
