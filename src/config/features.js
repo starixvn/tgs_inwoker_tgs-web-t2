@@ -80,6 +80,8 @@ const featureList = {
     Profile_DisableVerifyPhone: false,
     Deposit_Withdrawal_PlayerNote: false,
     AddCard_CustomParam_IDR: false,
+
+    Download_PointlessDialog: false,
   },
 };
 export default featureList;
