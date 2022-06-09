@@ -116,16 +116,9 @@ class ESports extends Component {
       this.props.showLogin(true);
     } else {
       Common.closePreviousPopup();
-      if (params === "WGFM" || params === "WGVIA") {
-        window.open(
-          `/${i18n.language}/joinlobbygame/${type}/${params}`,
-          "gamewindow"
-        );
-      } else {
-        this.props.history.push(
-          "/" + i18n.language + "/sports/play/" + params + "/" + type
-        );
-      }
+      this.props.history.push(
+        "/" + i18n.language + "/sports/play/" + params + "/" + type
+      );
     }
   };
   render() {
