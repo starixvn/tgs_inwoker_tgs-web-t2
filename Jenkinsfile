@@ -115,7 +115,7 @@ pipeline {
 						if (env.tgs_lobby_t2_components_merged!="") {
 							for (i = 0;i < componentArrayMerged.length; i++) {
 								message += "\n    ${componentArrayMerged[i]}"
-								sh "kubectl set image deployment/${env.tgs_lobby_t2_deployment_merged} ${componentArrayMerged[i]}=${Registry}${Image}:${TAG} --record -n $env.kube_ns"
+								sh "kubectl set image deployment/${env.tgs_lobby_t2_deployment_merged} ${componentArrayMerged[i]}=${Registry}${Image}:${MergedTag} --record -n $env.kube_ns"
 							}
 						}
                     }
