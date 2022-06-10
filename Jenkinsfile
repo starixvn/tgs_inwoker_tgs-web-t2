@@ -87,7 +87,22 @@ pipeline {
             steps {	  
                 sh "docker push ${Registry}${Image}:${MergedTag}"
             }
-        }	
+        }
+		stage('Deploy') {
+            when {
+                expression {
+                    return env.kube_ns == 'prod';
+                }
+            }
+
+            steps {
+                script {
+                    input message: 'Ready to go?', ok: 'yes';
+                }
+                
+                sh "echo start deploy"
+            }
+        }
         stage('Deployment') {   
             steps {	  
                 script {			
@@ -97,6 +112,12 @@ pipeline {
                             message += "\n    ${componentArray[i]}"
                             sh "kubectl set image deployment/${componentArray[i]} ${componentArray[i]}=${Registry}${Image}:${TAG} --record -n $env.kube_ns"
                         }
+						if (env.tgs_lobby_t2_components_merged!="") {
+							for (i = 0;i < componentArrayMerged.length; i++) {
+								message += "\n    ${componentArrayMerged[i]}"
+								sh "kubectl set image deployment/${lobby_t2_deployment_merged} ${componentArrayMerged[i]}=${Registry}${Image}:${TAG} --record -n $env.kube_ns"
+							}
+						}
                     }
                 }
             }
