@@ -9,27 +9,30 @@ import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import i18n from "../../../../utils/i18n";
 import copy from "copy-to-clipboard";
+import { useSnackbar } from "notistack";
 
 import { AppHistory } from "../../../../history/History";
 import config from "../../../../config/config";
 const moment = require("moment");
+
+const CustomTable = styled(Table)`
+  white-space: nowrap;
+  table-layout: fixed;
+  overflow: auto;
+  width: auto;
+`;
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: "#f7f7f7",
     color: "#747474",
     padding: "5px 20px 5px 20px",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
   },
   body: {
     fontSize: 14,
     padding: "5px 20px 5px 20px",
-
+    width: "auto",
     color: "#7b7b7b",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
   },
 }))(TableCell);
 
@@ -56,6 +59,7 @@ const InnerWrap = styled.div`
   box-sizing: border-box;
   background-color: #f7f7f7;
   overflow-x: auto;
+  user-select: none;
 `;
 
 const TheDepositButton = styled.div`
@@ -196,13 +200,13 @@ function TableList(props) {
     props.onhandleChangePage(newPage + 1);
   };
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleDoubleClick = (e, id) => {
-    if (e.detail === 2) {
-      props.enqueueSnackbar(i18n.t("affiliate.copied"), {
-        variant: "success",
-      });
-      copy(id);
-    }
+    enqueueSnackbar(i18n.t("affiliate.copied"), {
+      variant: "success",
+    });
+    copy(id);
   };
 
   const handleManualDeposit = (id) => {
@@ -249,7 +253,7 @@ function TableList(props) {
                     tabIndex={-1}
                     key={index}
                     onClick={(e) => {
-                      handleDoubleClick(e, row.id);
+                      handleDoubleClick(row.id);
                     }}
                   >
                     <StyledTableCell>{date}</StyledTableCell>
@@ -370,27 +374,29 @@ function TableList(props) {
     }
   };
   return (
-    <InnerWrap>
-      <Table
-        aria-label="customized table"
-        style={{ tableLayout: props.tableLayout }}
-      >
-        <TableHead>
-          <TableRow>
-            {headerLists[props.type].map((header, index) => {
-              return (
-                <StyledTableCell
-                  align={header.align}
-                  style={{ width: header.width }}
-                >
-                  {i18n.t(header.title)}
-                </StyledTableCell>
-              );
-            })}
-          </TableRow>
-        </TableHead>
-        <TableBody>{getTableList()}</TableBody>
-      </Table>
+    <div style={{ display: "grid" }}>
+      <InnerWrap>
+        <CustomTable
+          aria-label="customized table"
+          style={{ tableLayout: props.tableLayout }}
+        >
+          <TableHead>
+            <TableRow>
+              {headerLists[props.type].map((header, index) => {
+                return (
+                  <StyledTableCell
+                    align={header.align}
+                    style={{ width: header.width }}
+                  >
+                    {i18n.t(header.title)}
+                  </StyledTableCell>
+                );
+              })}
+            </TableRow>
+          </TableHead>
+          <TableBody>{getTableList()}</TableBody>
+        </CustomTable>
+      </InnerWrap>
       <TablePagination
         rowsPerPageOptions={[20]}
         component="div"
@@ -406,7 +412,7 @@ function TableList(props) {
         }}
         onPageChange={handleChangePage}
       />
-    </InnerWrap>
+    </div>
   );
 }
 export default TableList;
