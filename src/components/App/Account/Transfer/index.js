@@ -815,7 +815,7 @@ class Transfer extends Component {
                 this.props.performWithdrawFromEveryBrand();
               }}
             >
-              {i18n.t("transfer.oneKeyTransfer")}
+              {i18n.t("transfer.oneKeyTransferOut")}
             </GameWalletButton>
           </CustomSwitchContainer>
           <TransferContainer>
@@ -837,7 +837,7 @@ class Transfer extends Component {
                     disabled={item.maintenance === 1}
                     onClick={() => this.handleTranferIn(item.abbreviation)}
                   >
-                    {i18n.t("transfer.oneKeyTransfer")}
+                    {i18n.t("transfer.oneKeyTransferIn")}
                   </GameWalletButton>
                 </GameTranferWallet>
               ))}
