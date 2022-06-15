@@ -756,8 +756,7 @@ class Profile extends Component {
             this.handleButtonClick
           )} */}
           {(config.features.SMSVerification ||
-            config.features.Register_ShowPhone ||
-            config.features.Register_ShowSMSVerification) &&
+            config.features.Register_ShowPhone) &&
             GetContentWrap(
               this.props.account.info,
               i18n.t("common.phoneNumber"),
@@ -767,7 +766,8 @@ class Profile extends Component {
               config.features.Profile_DisableVerifyPhone
             )}
 
-          {config.features.EmailVerification &&
+          {(config.features.EmailVerification ||
+            config.features.Register_ShowEmail) &&
             GetContentWrap(
               this.props.account.info,
               i18n.t("common.emailAddress"),

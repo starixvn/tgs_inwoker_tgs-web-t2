@@ -335,6 +335,8 @@ function Activation(props) {
   const [code, setCode] = React.useState("");
   const [countdown, setCountdown] = React.useState(0);
   const [securityKey, setSecurityKey] = React.useState("");
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
   var timer = null;
   const handleActivationClick = async () => {
     var expr = /^[a-zA-Z0-9]{6,16}$/;
@@ -377,7 +379,7 @@ function Activation(props) {
           props.enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
             variant: "success",
           });
-          props.doLogin(username, password);
+          props.doLoginSuccess(response.data);
 
           props.history.push(
             "/" + i18n.language + "/registersuccess/" + username
@@ -407,7 +409,6 @@ function Activation(props) {
         return;
       }
       expr = new RegExp(`^[0-9]{8,${config.features.MAX_PHONE_LENGTH || 10}}`);
-
       if (!expr.test(phone)) {
         props.enqueueSnackbar(
           i18n
@@ -419,8 +420,14 @@ function Activation(props) {
         );
         return;
       }
-      AccountService.Activation(username, password, areacode, phone).then(
-        async (response) => {
+      var result = null; 
+      if(!isLoggedIn)
+      {
+        result = await AccountService.Login(username, password);
+      }
+      if ((result!==null && result.IsSuccess) || isLoggedIn) {
+        setIsLoggedIn(true);
+        AccountService.Activation(areacode, phone).then(async (response) => {
           if (response.IsSuccess) {
             setSecurityKey(response.data);
             props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
@@ -432,8 +439,8 @@ function Activation(props) {
               variant: "warning",
             });
           }
-        }
-      );
+        });
+      }
     }
   };
   useEffect(() => {
@@ -586,6 +593,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(
         accountAction.registerAccount(username, pwd, confirmpwd, invitationcode)
       ),
+    accountLogin: (username, password) =>
+      dispatch(accountAction.accountLogin(username, password)),
   };
 };
 export default withRouter(
