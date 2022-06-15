@@ -82,6 +82,8 @@ const featureList = {
 
     Download_PointlessDialog: false,
     Register_ShowEmail: false,
+
+    NewTransferUI: true,
   },
 };
 export default featureList;

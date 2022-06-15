@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Grid } from "@material-ui/core";
-import LimitPopupPNG from "../../../../assets/images/limit-popup.png";
+import LimitPopupBigPNG from "../../../../assets/images/limit-popup-big.png";
 import IconEditPNG from "../../../../assets/images/icon-edit.png";
 import IconBankDisablePNG from "../../../../assets/images/icon-bank-disable.png";
 import CustomButton from "../../../Share/Button";
@@ -11,33 +11,12 @@ import Common from "../../../../utils/Common";
 import { walletAction } from "../../../../api-services/actions/walletAction";
 import { connect } from "react-redux";
 import config from "../../../../config/config";
-const TabButton = styled.div`
-  height: 41px;
-  font-size: 14px;
-  background-color: #f7f7f7;
-  color: #747474;
-
-  text-align: center;
-
-  float: left;
-  margin-right: 8px;
-  margin-top: 5px;
-  ${(props) =>
-    props.active
-      ? ` border: solid 1px #151a34;
-      `
-      : ` border: solid 1px #e1dfdf;
-     `};
-  &:hover {
-    cursor: pointer;
-  }
-`;
 const SubHeaderContainer = styled.div``;
 const NumberContainer = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 3.2px;
-  background-color: #151a34;
+  background-color: #141933;
   font-family: Arial;
   font-size: 14px;
   font-weight: bold;
@@ -53,12 +32,36 @@ const SubTitle = styled.div`
   margin: 0 0 0 10px;
 `;
 const SelectionContainer = styled.div`
-  margin: 15px 0 0 0px;
+  margin: 15px 0 0 30px;
 `;
-const BankCardButton = styled(TabButton)`
-  width: 204px;
+
+const BankCardButton = styled(Grid)`
+  width: auto;
   text-align: left;
-  padding: 10px 0 0 38px;
+
+  height: 41px;
+  font-size: 14px;
+  background-color: #f7f7f7;
+  color: #747474;
+  padding-right: 10px;
+  text-align: center;
+
+  float: left;
+  margin-right: 8px;
+  margin-top: 5px;
+  ${(props) =>
+    props.active
+      ? ` border: solid 1px #151a34;
+      `
+      : ` border: solid 1px #e1dfdf;
+     `};
+  &:hover {
+    cursor: pointer;
+  }
+`;
+const BankCardButtonIcon = styled(Grid)`
+  width: 40px;
+  height: 40px;
   background: url(${IconBankDisablePNG}) no-repeat 15px center;
 `;
 const BankCardButtonLabel = styled.div`
@@ -71,34 +74,55 @@ const BankCardButtonCardNo = styled.div`
 `;
 const BankCardButtonCardNoHL = styled(BankCardButtonCardNo)`
   font-weight: bold;
-  margin-right: 10px;
 `;
-const ManageCardButton = styled(TabButton)`
-  width: 133px;
+const ManageCardButton = styled(Grid)`
+  height: 41px;
+  width: auto;
+  font-size: 14px;
+  background-color: #f7f7f7;
+  color: #747474;
+  padding-right: 10px;
+  text-align: center;
+
+  float: left;
+  margin-right: 8px;
+  margin-top: 5px;
+  ${(props) =>
+    props.active
+      ? ` border: solid 1px #151a34;
+      `
+      : ` border: solid 1px #e1dfdf;
+     `};
+  &:hover {
+    cursor: pointer;
+  }
+`;
+const ManageCardButtonIcon = styled(Grid)`
+  width: 40px;
+  height: 40px;
   background: url(${IconEditPNG}) no-repeat 15px center;
-  padding: 12px 0 0 26px;
 `;
 const SplitLine = styled.div`
   width: 100%;
   height: 1px;
+  background-color: #e1dfdf;
   margin: 20px 0;
 `;
 
 const LimitPopupContainer = styled.div`
-  background: url(${LimitPopupPNG}) no-repeat,
-    linear-gradient(90deg, rgba(2, 0, 36, 0) 10px, rgb(242, 230, 125) 11px);
+  background: url(${LimitPopupBigPNG}) no-repeat,
+    linear-gradient(90deg, rgba(2, 0, 36, 0) 9px, rgba(122, 145, 153, 1) 10px);
   font-size: 14px;
-  color: #000;
-  padding: 10px 10px 10px 22px;
+  color: #ffffff;
+  padding: 10px 10px 10px 25px;
   border-radius: 4px;
   display: inline-block;
-  min-width: 150px;
-  margin-top: 10px;
+  line-height: 25px;
+  margin: 10px 0 0 20px;
 `;
 
 const Turnover = styled.div`
-  margin: 10px;
-  a {
+  span {
     color: ${({ theme }) => {
       return theme.primary;
     }};
@@ -115,6 +139,38 @@ const LimitAmount = styled.span`
 `;
 const ExchangeRateContainer = styled.div`
   font-size: 14px;
+`;
+
+const ButtonWrapper = styled.div`
+  margin: 15px 0 0 30px;
+  display: flex;
+`;
+
+const GameWalletButton = styled.div`
+  font-size: 12px;
+  background: ${({ theme }) => {
+    return theme.primary;
+  }};
+
+  text-align: center;
+  padding: 5px;
+
+  margin: 8px 5px 0 0;
+  color: #fff;
+
+  min-width: 79px;
+  height: 28px;
+  border-radius: 5px;
+  border: solid 1px #ffffff;
+
+  &:hover {
+    cursor: pointer;
+    background-blend-mode: screen, normal;
+    ${(props) =>
+      props.disabled
+        ? "   background-image: linear-gradient(to top, #797979, #c3c3c3);"
+        : " box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);"}
+  }
 `;
 
 const Main = (props) => {
@@ -200,6 +256,7 @@ const Main = (props) => {
               justifyContent="flex-start"
               alignItems="center"
             >
+              <BankCardButtonIcon items></BankCardButtonIcon>
               <BankCardButtonLabel items>
                 {i18n.t("withdrawal.bankCard")}
               </BankCardButtonLabel>
@@ -263,14 +320,40 @@ const Main = (props) => {
           justifyContent="flex-start"
           alignItems="center"
         >
+          <ManageCardButtonIcon items></ManageCardButtonIcon>
           <Grid items> {i18n.t("withdrawal.manageBank")}</Grid>
         </ManageCardButton>
       </SelectionContainer>
+      {config.features.NewTransferUI && (
+        <>
+          <SplitLine></SplitLine>
+          <SubHeaderContainer>
+            <NumberContainer>2</NumberContainer>
+            <SubTitle>{i18n.t("transfer.msgTransferOutFromGP")}</SubTitle>
+          </SubHeaderContainer>
+          <ButtonWrapper>
+            <GameWalletButton
+              style={{ marginTop: 0, marginLeft: 10 }}
+              onClick={() => {
+                props.performWithdrawFromEveryBrand().then((e) => {
+                  if (e.IsSuccess) {
+                    props.onhandleRefreshClick();
+                  }
+                });
+              }}
+            >
+              {i18n.t("transfer.oneKeyTransferOut")}
+            </GameWalletButton>
+          </ButtonWrapper>
+        </>
+      )}
 
       <>
         <SplitLine></SplitLine>
         <SubHeaderContainer>
-          <NumberContainer>2</NumberContainer>
+          <NumberContainer>
+            {config.features.NewTransferUI ? 3 : 2}
+          </NumberContainer>
 
           <SubTitle>{i18n.t("withdrawal.enterAmount")}</SubTitle>
           {(() => {
@@ -403,7 +486,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
+    getBalanceList: () => dispatch(walletAction.getBalanceList()),
+    performWithdrawFromEveryBrand: () =>
+      dispatch(walletAction.performWithdrawFromEveryBrand()),
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
+
+//test
