@@ -48,6 +48,7 @@ import Maintenance from "../Share/Maintenance";
 import Banned from "./Banned";
 import AnotherFloatPanel from "./Home/AnotherFloatPanel";
 import config from "../../config/config";
+import CustomLibrary from "./Sports/CustomLibrary";
 const baseRouteUrl = Common.baseRouteUrl;
 const Main = styled.div`
   min-height: 600px;
@@ -320,6 +321,16 @@ class App extends Component {
                       exact
                       path={baseRouteUrl + "/sports/play/:params/:type"}
                       component={SportsPlay}
+                    />
+                    <Route
+                      exact
+                      path={baseRouteUrl + "/sports/:platform"}
+                      component={CustomLibrary}
+                    />
+                    <Route
+                      exact
+                      path={baseRouteUrl + "/sports/c/:type/:params"}
+                      component={SlotPlay}
                     />
                     <Route
                       exact

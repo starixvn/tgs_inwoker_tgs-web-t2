@@ -743,6 +743,23 @@ class Header extends Component {
     }
     return false;
   };
+
+  consolidateJoinGame = (game, item) => {
+    if (
+      game.type === GameTypeEnum.LOTTERYLOBBY ||
+      game.type === GameTypeEnum.LOBBY
+    ) {
+      this.handleJoinLotteryGame(game.abbreviation);
+    } else {
+      this.handleJoinGameClick(
+        game.type,
+        item.path,
+        game.abbreviation,
+        "/" + i18n.language + "/joingame/" + game.type + "/" + game.abbreviation
+      );
+    }
+  };
+
   render() {
     const { classes } = this.props;
     const settings = {
@@ -1034,27 +1051,10 @@ class Header extends Component {
                                           }.png`}
                                           alt=""
                                           onClick={() => {
-                                            if (
-                                              game.type ===
-                                                GameTypeEnum.LOTTERYLOBBY ||
-                                              game.type === GameTypeEnum.LOBBY
-                                            ) {
-                                              this.handleJoinLotteryGame(
-                                                game.abbreviation
-                                              );
-                                            } else {
-                                              this.handleJoinGameClick(
-                                                game.type,
-                                                item.path,
-                                                game.abbreviation,
-                                                "/" +
-                                                  i18n.language +
-                                                  "/joingame/" +
-                                                  game.type +
-                                                  "/" +
-                                                  game.abbreviation
-                                              );
-                                            }
+                                            this.consolidateJoinGame(
+                                              game,
+                                              item
+                                            );
                                           }}
                                         ></GameImg>
                                       </GameFrameWrapper>
@@ -1095,27 +1095,10 @@ class Header extends Component {
                                             }.png`}
                                             alt=""
                                             onClick={() => {
-                                              if (
-                                                game.type ===
-                                                  GameTypeEnum.LOTTERYLOBBY ||
-                                                game.type === GameTypeEnum.LOBBY
-                                              ) {
-                                                this.handleJoinLotteryGame(
-                                                  game.abbreviation
-                                                );
-                                              } else {
-                                                this.handleJoinGameClick(
-                                                  game.type,
-                                                  item.path,
-                                                  game.abbreviation,
-                                                  "/" +
-                                                    i18n.language +
-                                                    "/joingame/" +
-                                                    game.type +
-                                                    "/" +
-                                                    game.abbreviation
-                                                );
-                                              }
+                                              this.consolidateJoinGame(
+                                                game,
+                                                item
+                                              );
                                             }}
                                           ></GameImg>
                                         </GameFrameWrapper>
