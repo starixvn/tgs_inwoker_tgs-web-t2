@@ -1,6 +1,6 @@
-import { GameTypeEnum } from "@Inwoker/tgs-api";
 import config from "../config/config";
 import i18n from "./i18n";
+import { GameTypeEnum } from "../api-services/utils/Enum";
 
 const MenuItemList = [
   {
