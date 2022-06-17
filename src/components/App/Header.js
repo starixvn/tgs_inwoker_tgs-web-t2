@@ -534,7 +534,13 @@ class Header extends Component {
         this.tickCount++;
         if (this.tickCount >= 10) {
           this.tickCount = 0;
-          this.props.getBalanceList(false);
+          if (!config.features.Register_CustomFlow_IDR)
+            this.props.getBalanceList(false);
+          else if (
+            config.features.Register_CustomFlow_IDR &&
+            this.props.wallet.bankCardList.length > 0
+          )
+            this.props.getBalanceList(false);
         }
       }
     }, 1000);
@@ -690,9 +696,16 @@ class Header extends Component {
         if (!this.props.account.token) {
           this.props.showLogin(true);
         } else {
-          this.props.history.push(
-            "/" + i18n.language + "/sports/play/" + gameCode + "/" + gameType
-          );
+          if (gameCode === "WGFM" || gameCode === "WGVIA") {
+            window.open(
+              `/${i18n.language}/joinlobbygame/${gameType}/${gameCode}`,
+              "_blank"
+            );
+          } else {
+            this.props.history.push(
+              "/" + i18n.language + "/sports/play/" + gameCode + "/" + gameType
+            );
+          }
         }
       } else {
         this.props.history.push(`/${i18n.language}/${path}/${gameCode}`);
