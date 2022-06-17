@@ -74,6 +74,10 @@ export const themeBrown = {
   accentText: "#fff",
   loginRegisterBtn: "rgb(240, 202, 131)",
   loginRegisterBtnText: "#795548",
+
+  popoverBackground: "rgba(255,255,255,0.95)",
+  popoverGameTypeText: "rgb(199, 168, 124)",
+  popoverSubWalletText: "#000",
 };
 export const themeList = {
   default: themeBrown,
