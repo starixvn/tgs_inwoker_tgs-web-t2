@@ -690,9 +690,16 @@ class Header extends Component {
         if (!this.props.account.token) {
           this.props.showLogin(true);
         } else {
-          this.props.history.push(
-            "/" + i18n.language + "/sports/play/" + gameCode + "/" + gameType
-          );
+          if (gameCode === "WGFM" || gameCode === "WGVIA") {
+            window.open(
+              `/${i18n.language}/joinlobbygame/${gameType}/${gameCode}`,
+              "_blank"
+            );
+          } else {
+            this.props.history.push(
+              "/" + i18n.language + "/sports/play/" + gameCode + "/" + gameType
+            );
+          }
         }
       } else {
         this.props.history.push(`/${i18n.language}/${path}/${gameCode}`);
