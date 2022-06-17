@@ -116,9 +116,18 @@ class Sports extends Component {
       this.props.showLogin(true);
     } else {
       Common.closePreviousPopup();
-      this.props.history.push(
-        "/" + i18n.language + "/sports/play/" + params + "/" + type
-      );
+      if (params === "WGFM" || params === "WGVIA") {
+        Common.PopupCenter(
+          `/${i18n.language}/joinlobbygame/${type}/${params}`,
+          params,
+          1280,
+          720
+        );
+      } else {
+        this.props.history.push(
+          "/" + i18n.language + "/sports/play/" + params + "/" + type
+        );
+      }
     }
   };
   render() {
