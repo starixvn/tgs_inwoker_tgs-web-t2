@@ -65,7 +65,6 @@ const featureList = {
     Withdrawal_Ignore_Verification: false,
     LiveGame_Sorting_SKY: false,
     Report_ShowRoundsTotal: true,
-    Register_ShowSMSVerification: false,
     Profile_SetUpBirthdateOnce: true,
     Deposit_OriginAccount: false,
     Profile_ExistingDetails_ViewOnly: false, // except change password
@@ -82,6 +81,10 @@ const featureList = {
     AddCard_CustomParam_IDR: false,
 
     Download_PointlessDialog: false,
+    Register_ShowEmail: false,
+
+    NewTransferUI: false,
+    ForceRedirectAddCard: false,
   },
 };
 export default featureList;

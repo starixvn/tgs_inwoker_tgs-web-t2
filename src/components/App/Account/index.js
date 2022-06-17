@@ -392,6 +392,7 @@ class Account extends Component {
                 "withdrawal"
               )}
               {this.props.game.containTransferWallet &&
+                !config.features.NewTransferUI &&
                 this.genMenuButtonDiv(
                   i18n.t("web.account.transfer"),
                   "transfer"
@@ -456,6 +457,7 @@ class Account extends Component {
                         onhandleClickTab={this.handleClickTab}
                         onhandleCSClick={this.props.onhandleCSClick}
                         account={this.props.account}
+                        onhandleRefreshClick={this.handleRefreshClick}
                       />
                     )}
                   />
@@ -483,18 +485,19 @@ class Account extends Component {
                       />
                     )}
                   />
-                  {this.props.game.containTransferWallet && (
-                    <Route
-                      exact
-                      path={baseRouteUrl + "/account/transfer"}
-                      render={(props) => (
-                        <Transfer
-                          token={this.props.account.token}
-                          getAllGameBalance={this.getAllGameBalance}
-                        />
-                      )}
-                    />
-                  )}
+                  {this.props.game.containTransferWallet &&
+                    !config.features.NewTransferUI && (
+                      <Route
+                        exact
+                        path={baseRouteUrl + "/account/transfer"}
+                        render={(props) => (
+                          <Transfer
+                            token={this.props.account.token}
+                            getAllGameBalance={this.getAllGameBalance}
+                          />
+                        )}
+                      />
+                    )}
 
                   <Route
                     exact

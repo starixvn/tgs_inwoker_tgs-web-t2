@@ -56,6 +56,7 @@ import { GeneralService } from "../../api-services/services/GeneralService";
 import { generalAction } from "../../api-services/actions/generalAction";
 import { uiAction } from "../../api-services/actions/uiAction";
 import ErrorSwitcher from "../../utils/ErrorSwitcher";
+import { SortedMenuList } from "../../utils/HeaderSorting";
 
 const moment = require("moment");
 
@@ -490,113 +491,6 @@ const styles = {
   },
 };
 
-const MenuItemList = [
-  {
-    path: "esports",
-    title: i18n.t("common.esports"),
-    img: TopMenuSportsPNG,
-    hoverImg: TopMenuSportsHoverPNG,
-    gameType: [GameTypeEnum.ESPORTS],
-    sorting: 1,
-    sortingGMO: 7,
-    sortingHK28: 2,
-    sortingPB: 4,
-    sortingSKY: 7,
-    sortingWLGHK: 4,
-  },
-  {
-    path: "sports",
-    title: i18n.t("common.sport"),
-    img: TopMenuSportsPNG,
-    hoverImg: TopMenuSportsHoverPNG,
-    gameType: [GameTypeEnum.SPORTS],
-    sorting: 2,
-    sortingGMO: 5,
-    sortingHK28: 2,
-    sortingPB: 3,
-    sortingSKY: 3,
-    sortingWLGHK: 3,
-  },
-  {
-    path: "live",
-    title: i18n.t("common.live"),
-    img: TopMenuLivePNG,
-    hoverImg: TopMenuLiveHoverPNG,
-    gameType: [GameTypeEnum.LIVELOBBY],
-    sorting: 3,
-    sortingGMO: 1,
-    sortingHK28: 1,
-    sortingPB: 2,
-    sortingSKY: 1,
-    sortingWLGHK: 1,
-  },
-  {
-    path: "chess",
-    title: i18n.t("common.chess"),
-    img: TopMenuQipaiPNG,
-    hoverImg: TopMenuQipaiHoverPNG,
-    gameType: [GameTypeEnum.QIPAILOBBY],
-    sorting: 4,
-    sortingGMO: 2,
-    sortingHK28: 3,
-    sortingPB: 8,
-    sortingSKY: 2,
-    sortingWLGHK: 2,
-  },
-
-  {
-    path: "lottery",
-    title: i18n.t("common.lottery"),
-    img: TopMenuLotteryPNG,
-    hoverImg: TopMenuLotteryHoverPNG,
-    gameType: [GameTypeEnum.LOTTERYLOBBY],
-    sorting: 5,
-    sortingGMO: 6,
-    sortingHK28: 7,
-    sortingPB: 7,
-    sortingSKY: 8,
-    sortingWLGHK: 6,
-  },
-  {
-    path: `slots`,
-    title: i18n.t("common.slot"),
-    img: TopMenuTigerPNG,
-    hoverImg: TopMenuTigerHoverPNG,
-    gameType: [GameTypeEnum.SLOT],
-    sorting: 6,
-    sortingGMO: 8,
-    sortingHK28: 4,
-    sortingPB: 1,
-    sortingSKY: 5,
-    sortingWLGHK: 7,
-  },
-  {
-    path: `electron`,
-    title: i18n.t("common.electron"),
-    img: TopMenuSlotPNG,
-    hoverImg: TopMenuSlotHoverPNG,
-    gameType: [GameTypeEnum.TABLEGAME],
-    sorting: 7,
-    sortingGMO: 3,
-    sortingHK28: 6,
-    sortingPB: 5,
-    sortingSKY: 6,
-    sortingWLGHK: 8,
-  },
-  {
-    path: `fish`,
-    title: i18n.t("common.fish"),
-    img: TopMenuFishPNG,
-    hoverImg: TopMenuFishHoverPNG,
-    gameType: [GameTypeEnum.FISH],
-    sorting: 8,
-    sortingGMO: 4,
-    sortingHK28: 5,
-    sortingPB: 6,
-    sortingSKY: 4,
-    sortingWLGHK: 5,
-  },
-];
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -849,6 +743,23 @@ class Header extends Component {
     }
     return false;
   };
+
+  consolidateJoinGame = (game, item) => {
+    if (
+      game.type === GameTypeEnum.LOTTERYLOBBY ||
+      game.type === GameTypeEnum.LOBBY
+    ) {
+      this.handleJoinLotteryGame(game.abbreviation);
+    } else {
+      this.handleJoinGameClick(
+        game.type,
+        item.path,
+        game.abbreviation,
+        "/" + i18n.language + "/joingame/" + game.type + "/" + game.abbreviation
+      );
+    }
+  };
+
   render() {
     const { classes } = this.props;
     const settings = {
@@ -1046,21 +957,7 @@ class Header extends Component {
                   : classes.minMenu
               }`}
             >
-              {MenuItemList.sort((a, b) => {
-                if (config.features.MenuItem_Sorting_HK28) {
-                  return a.sortingHK28 > b.sortingHK28 ? 1 : -1;
-                } else if (config.features.MenuItem_Sorting_WLGHK) {
-                  return a.sortingWLGHK > b.sortingWLGHK ? 1 : -1;
-                } else if (config.features.MenuItem_Sorting_SKY) {
-                  return a.sortingSKY > b.sortingSKY ? 1 : -1;
-                } else if (config.features.MenuItem_Sorting_PB) {
-                  return a.sortingPB > b.sortingPB ? 1 : -1;
-                } else if (config.features.MenuItem_Sorting_GMO) {
-                  return a.sortingGMO > b.sortingGMO ? 1 : -1;
-                } else {
-                  return a.sorting > b.sorting ? 1 : -1;
-                }
-              }).map((item, index) => {
+              {SortedMenuList.map((item, index) => {
                 var list = this.props.game.homePageGameList
                   .filter((game) => item.gameType.indexOf(game.type) >= 0)
                   .sort((a, b) => {
@@ -1154,27 +1051,10 @@ class Header extends Component {
                                           }.png`}
                                           alt=""
                                           onClick={() => {
-                                            if (
-                                              game.type ===
-                                                GameTypeEnum.LOTTERYLOBBY ||
-                                              game.type === GameTypeEnum.LOBBY
-                                            ) {
-                                              this.handleJoinLotteryGame(
-                                                game.abbreviation
-                                              );
-                                            } else {
-                                              this.handleJoinGameClick(
-                                                game.type,
-                                                item.path,
-                                                game.abbreviation,
-                                                "/" +
-                                                  i18n.language +
-                                                  "/joingame/" +
-                                                  game.type +
-                                                  "/" +
-                                                  game.abbreviation
-                                              );
-                                            }
+                                            this.consolidateJoinGame(
+                                              game,
+                                              item
+                                            );
                                           }}
                                         ></GameImg>
                                       </GameFrameWrapper>
@@ -1215,27 +1095,10 @@ class Header extends Component {
                                             }.png`}
                                             alt=""
                                             onClick={() => {
-                                              if (
-                                                game.type ===
-                                                  GameTypeEnum.LOTTERYLOBBY ||
-                                                game.type === GameTypeEnum.LOBBY
-                                              ) {
-                                                this.handleJoinLotteryGame(
-                                                  game.abbreviation
-                                                );
-                                              } else {
-                                                this.handleJoinGameClick(
-                                                  game.type,
-                                                  item.path,
-                                                  game.abbreviation,
-                                                  "/" +
-                                                    i18n.language +
-                                                    "/joingame/" +
-                                                    game.type +
-                                                    "/" +
-                                                    game.abbreviation
-                                                );
-                                              }
+                                              this.consolidateJoinGame(
+                                                game,
+                                                item
+                                              );
                                             }}
                                           ></GameImg>
                                         </GameFrameWrapper>
