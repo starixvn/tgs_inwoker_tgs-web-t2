@@ -19,7 +19,7 @@ const CustomTable = styled(Table)`
   white-space: nowrap;
   table-layout: fixed;
   overflow: auto;
-  width: auto;
+  width: 100%;
 `;
 
 const StyledTableCell = withStyles((theme) => ({
