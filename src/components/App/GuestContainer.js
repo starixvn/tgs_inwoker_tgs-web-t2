@@ -435,7 +435,7 @@ class GuestContainer extends Component {
 
     const result = await this.props.accountLogin(username, password);
     if (result.IsSuccess) {
-      AccountService.Activation(this.state.areaCode, phone).then(
+      AccountService.Activation(username, password,this.state.areaCode, phone).then(
         async (response) => {
           if (response.IsSuccess) {
             this.state.securityKey = response.data;
@@ -467,7 +467,7 @@ class GuestContainer extends Component {
     }
     const result = await this.props.accountLogin(username, password);
     if (result.IsSuccess) {
-      AccountService.Activation(this.state.areaCode, phone).then(
+      AccountService.Activation(username, password,this.state.areaCode, phone).then(
         async (response) => {
           if (response.IsSuccess) {
             this.state.securityKey = response.data;
