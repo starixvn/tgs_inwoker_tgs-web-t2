@@ -19,7 +19,9 @@ const CustomTable = styled(Table)`
   white-space: nowrap;
   table-layout: fixed;
   overflow: auto;
-  width: 100%;
+  width: ${({ isTransactionReport }) => {
+    return isTransactionReport ? "auto" : "100%";
+  }};
 `;
 
 const StyledTableCell = withStyles((theme) => ({
@@ -60,6 +62,7 @@ const InnerWrap = styled.div`
   background-color: #f7f7f7;
   overflow-x: auto;
   user-select: none;
+  padding-bottom: 15px;
 `;
 
 const TheDepositButton = styled.div`
@@ -379,6 +382,7 @@ function TableList(props) {
         <CustomTable
           aria-label="customized table"
           style={{ tableLayout: props.tableLayout }}
+          isTransactionReport={props.type === "transactionDetails"}
         >
           <TableHead>
             <TableRow>
