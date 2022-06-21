@@ -720,36 +720,46 @@ class Slots extends Component {
           return s.isactive === true; // show only active game.
         })
 
-        .map((el, i) => (
-          <ItemContainer
-            key={i}
-            img={`${
-              config.sourceUrl
-            }${el.gpcode.toUpperCase()}/${Common.getCDNLanguagePrefix()}/${
-              el.code
-            }.jpg`}
-          >
-            <GameDesc>
-              <GameProvider>{el.gpcode}</GameProvider>
-              <Spliter></Spliter>
-              <Bookmark
-                bookmark={this.state.favGame.indexOf(el.id) > -1}
-                onClick={() =>
-                  this.handleToggleFavorite(
-                    this.state.favGame.indexOf(el.id) > -1,
-                    el.id
-                  )
-                }
-              ></Bookmark>
-            </GameDesc>
-            <GameHoverSelection
-              onClick={() => this.handleJoinGameClick(el.gpcode, el.id)}
+        .map((el, i) => {
+          var theName;
+          this.props.game.providerList.filter((a) => {
+            if (a.abbreviation === el.gpcode) {
+              return (theName = a.name);
+            }
+            return theName;
+          });
+
+          return (
+            <ItemContainer
+              key={i}
+              img={`${
+                config.sourceUrl
+              }${el.gpcode.toUpperCase()}/${Common.getCDNLanguagePrefix()}/${
+                el.code
+              }.jpg`}
             >
-              GO
-            </GameHoverSelection>
-            <Namecontainer>{el.name}</Namecontainer>
-          </ItemContainer>
-        ));
+              <GameDesc>
+                <GameProvider>{theName}</GameProvider>
+                <Spliter></Spliter>
+                <Bookmark
+                  bookmark={this.state.favGame.indexOf(el.id) > -1}
+                  onClick={() =>
+                    this.handleToggleFavorite(
+                      this.state.favGame.indexOf(el.id) > -1,
+                      el.id
+                    )
+                  }
+                ></Bookmark>
+              </GameDesc>
+              <GameHoverSelection
+                onClick={() => this.handleJoinGameClick(el.gpcode, el.id)}
+              >
+                GO
+              </GameHoverSelection>
+              <Namecontainer>{el.name}</Namecontainer>
+            </ItemContainer>
+          );
+        });
     }
 
     return (
