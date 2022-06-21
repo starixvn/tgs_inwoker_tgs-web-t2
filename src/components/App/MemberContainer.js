@@ -8,6 +8,7 @@ import MailOutlineOutlinedIcon from "@material-ui/icons/MailOutlineOutlined";
 import { SortedMenuList } from "../../utils/HeaderSorting";
 import config from "../../config/config";
 import CustomPopover from "../Share/custompopover";
+import { Textfit } from "react-textfit";
 export const rotateKeyFrame = keyframes`
   0% {
     transform:rotate(0deg)
@@ -239,7 +240,7 @@ const MemberContainer = (props) => {
           {i18n.t("web.header.deposit")}
         </BtnDeposit> */}
         <BalanceContainer style={{ display: "flex" }}>
-          <span>{i18n.t("web.header.mainAccount")}</span>
+          <span>{i18n.t("web.header.mainAccount")}:</span>
           <BalanceAmountLabel
             onClick={(e) => {
               handleTransfer(e);
@@ -254,8 +255,20 @@ const MemberContainer = (props) => {
           >
             <div>
               <BrandAndBalanceButBigger>
-                <div>{i18n.t("web.header.mainAccount")}:</div>
-                <div>{Common.formatNumberWithThousand(totalBalance)}</div>
+                <div style={{ paddingRight: 30 }}>
+                  {i18n.t("web.header.mainAccount")}:
+                </div>
+                <div
+                  style={{
+                    width: 150,
+                    display: "flex",
+                    alignSelf: "flex-end",
+                  }}
+                >
+                  <Textfit mode="single">
+                    {Common.formatNumberWithThousand(totalBalance)}
+                  </Textfit>
+                </div>
               </BrandAndBalanceButBigger>
             </div>
             {SortedMenuList.map((item, key) => {
