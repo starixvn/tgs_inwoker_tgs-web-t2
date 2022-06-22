@@ -11,7 +11,10 @@ import Common from "../../../../utils/Common";
 import { walletAction } from "../../../../api-services/actions/walletAction";
 import { connect } from "react-redux";
 import config from "../../../../config/config";
-const SubHeaderContainer = styled.div``;
+const SubHeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 const NumberContainer = styled.div`
   width: 20px;
   height: 20px;
@@ -142,7 +145,7 @@ const ExchangeRateContainer = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  margin: 15px 0 0 30px;
+  margin: 0 0 0 0;
   display: flex;
 `;
 
@@ -151,7 +154,7 @@ const GameWalletButton = styled.div`
   background: ${({ theme }) => {
     return theme.primary;
   }};
-
+  width: fit-content;
   text-align: center;
   padding: 5px;
 
@@ -330,21 +333,21 @@ const Main = (props) => {
           <SubHeaderContainer>
             <NumberContainer>2</NumberContainer>
             <SubTitle>{i18n.t("transfer.msgTransferOutFromGP")}</SubTitle>
+            <ButtonWrapper>
+              <GameWalletButton
+                style={{ marginTop: 0, marginLeft: 10 }}
+                onClick={() => {
+                  props.performWithdrawFromEveryBrand().then((e) => {
+                    if (e.IsSuccess) {
+                      props.onhandleRefreshClick();
+                    }
+                  });
+                }}
+              >
+                {i18n.t("transfer.oneKeyTransferAll")}
+              </GameWalletButton>
+            </ButtonWrapper>
           </SubHeaderContainer>
-          <ButtonWrapper>
-            <GameWalletButton
-              style={{ marginTop: 0, marginLeft: 10 }}
-              onClick={() => {
-                props.performWithdrawFromEveryBrand().then((e) => {
-                  if (e.IsSuccess) {
-                    props.onhandleRefreshClick();
-                  }
-                });
-              }}
-            >
-              {i18n.t("transfer.oneKeyTransferOut")}
-            </GameWalletButton>
-          </ButtonWrapper>
         </>
       )}
 
