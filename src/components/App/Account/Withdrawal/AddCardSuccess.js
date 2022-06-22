@@ -76,9 +76,9 @@ function AddCardSuccess(props) {
           ></Button>
         )}
         <Button
-          name={i18n.t("card.success.goWithdrawal")}
+          name={props.isDeposit?i18n.t("card.success.goDeposit"):i18n.t("card.success.goWithdrawal")}
           width={255}
-          handleClick={props.onhandleGoWithdrawClick}
+          handleClick={props.isDeposit?props.onhandleGoDepositClick:props.onhandleGoWithdrawClick}
         ></Button>
       </ButtonContainer>
     </Container>

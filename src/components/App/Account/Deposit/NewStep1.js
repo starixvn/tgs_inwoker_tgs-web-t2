@@ -9,6 +9,7 @@ import Common from "../../../../utils/Common";
 import config from "../../../../config/config";
 import copy from "copy-to-clipboard";
 import { withSnackbar } from "notistack";
+
 const CustomImage = styled.img`
   height: 130px;
   width: auto;
@@ -237,7 +238,6 @@ const NewStepOne = (props) => {
   } = props;
 
   var count = document.getElementsByClassName("numbering");
-
   useEffect(() => {
     //setNumbers(count.length);
   });
@@ -250,12 +250,11 @@ const NewStepOne = (props) => {
   var isManual = paymentType.paymentcode.toUpperCase() === "MANUAL";
   var isFPS =
     methodList[selectedMethodIndex].methodcode.toUpperCase() === "FPS";
-
   var isUsdt =
     methodList[selectedMethodIndex].methodcode.toUpperCase() === "USDT";
-  var isEwallet =
+  var isEwallet = 
     methodList[selectedMethodIndex].methodcode.toUpperCase() === "EWALLET";
-  var isPulsa =
+  var isPulsa =     
     methodList[selectedMethodIndex].methodcode.toUpperCase() === "PULSA";
 
   var numberingCount = 0;
@@ -267,15 +266,6 @@ const NewStepOne = (props) => {
         <Numbering>{numberingCount}</Numbering>
       </CustomNumberingContainer>
     );
-  };
-
-  const setNumbers = (numbers) => {
-    for (var element = 1; element <= numbers; element++) {
-      var newChild = document.createElement("div");
-      newChild.className = "numberGenerator";
-      newChild.innerHTML = element;
-      count[element - 1].appendChild(newChild);
-    }
   };
 
   const performCopy = (content) => {
@@ -298,37 +288,76 @@ const NewStepOne = (props) => {
 
   return (
     <>
-      <SubHeaderContainer>
-        <SubTitle>
-          {i18n.t("deposit.msgPlsSelectPayment")}
+      {
+        (!config.features.Deposit_AddCard)
+          ? (
+            <>
+              <SubHeaderContainer>
+                <SubTitle>
+                  {i18n.t("deposit.msgPlsSelectPayment")}
 
-          <TitleHint>
-            {methodList &&
-              paymentType.paymentcode === "ZeroNineNinePay" &&
-              "(" + i18n.t("hint._099") + ")"}
-          </TitleHint>
-        </SubTitle>
-      </SubHeaderContainer>
-      <SelectionContainer>
-        {methodList.map((item, index) => {
-          return (
-            <TunnelButton
-              key={index}
-              onClick={() => onMethodChange(index)}
-              active={selectedMethodIndex === index}
-            >
-              {i18n.t(item.methodcode)}
-            </TunnelButton>
-          );
-        })}
-      </SelectionContainer>
+                  <TitleHint>
+                    {methodList &&
+                      paymentType.paymentcode === "ZeroNineNinePay" &&
+                      "(" + i18n.t("hint._099") + ")"}
+                  </TitleHint>
+                </SubTitle>
+              </SubHeaderContainer>
+              <SelectionContainer>
+                {methodList.map((item, index) => {
+                  return (
+                    <TunnelButton
+                      key={index}
+                      onClick={() => onMethodChange(index)}
+                      active={selectedMethodIndex === index}
+                    >
+                      {i18n.t(item.methodcode)}
+                    </TunnelButton>
+                  );
+                })}
+              </SelectionContainer>
+            </>
+          ) :(<>
+              <SubHeaderContainer>
+                <SubTitle>
+                  {i18n.t("idr1.pleaseEnterAccountName")}
+                </SubTitle>
+              </SubHeaderContainer>
+              <SelectionContainer>
+                <CustomFormControl>
+                  <CustomSelect
+                    variant="outlined"
+                    value={props.selectedBankCard}
+                    displayEmpty
+                    onChange={props.handleBankCardChange}
+                    native
+                  >
+                    <option value="">
+                      {i18n.t("idr1.msgPlsSelectAccount")}
+                    </option>
+                    {props.bankCardList.map((data, key) => {
+                      return (
+                        <option value={data.id} key={key}>
+                          {data.detail.bankAccount||data.detail.address||data.detail.phone}
+                        </option>
+                      );
+                    })}
+                  </CustomSelect>
+                </CustomFormControl>
+              </SelectionContainer>
+          </>)
+         
+      }
 
       <SplitLine></SplitLine>
       {(() => {
         if (methodList.length > 0 && selectedMethodIndex !== -1) {
           return (
             <>
-              {!config.features.Deposit_HideDepositChannel && (
+              {!(
+                config.features.Deposit_HideDepositChannel ||
+                config.features.Deposit_AddCard
+              ) && (
                 <>
                   <SubHeaderContainer>
                     <SubTitle>{i18n.t("deposit.msgPlsSelectMethod")}</SubTitle>
@@ -348,11 +377,12 @@ const NewStepOne = (props) => {
                       }
                     )}
                   </SelectionContainer>
+
                   <SplitLine></SplitLine>
                 </>
               )}
               {(() => {
-                if (isManual) {
+                if (isManual && !config.features.Deposit_AddCard) {
                   var channelExtend =
                     methodList[selectedMethodIndex].channel[
                       selectedChannelIndex
@@ -492,7 +522,11 @@ const NewStepOne = (props) => {
                 ) {
                   return (
                     <>
-                      {!(config.features.Deposit_RemoveAccount || isUsdt) && (
+                      {!(
+                        config.features.Deposit_RemoveAccount ||
+                        isUsdt ||
+                        config.features.Deposit_AddCard
+                      ) && (
                         <>
                           <SubHeaderContainer>
                             <SubTitle>
@@ -555,11 +589,11 @@ const NewStepOne = (props) => {
                                 outputFormat="string"
                                 variant="outlined"
                                 autoComplete="off"
-                                value={account}
                                 disabled={
                                   config.features.Deposit_AutofillFirstCard &&
                                   props.accountList.length > 1
                                 }
+                                value={account}
                               ></TextField>
                             )}
                           </SelectionContainer>
@@ -867,7 +901,9 @@ const NewStepOne = (props) => {
                     ].transferlimit.to ||
                   (config.features.Deposit_UploadRequired &&
                     isManual &&
-                    files.length <= 0)
+                    files.length <= 0) ||
+                  (config.features.Deposit_AddCard &&
+                    props.selectedBankCard === "")
                 }
               ></CustomButton>
             </>
