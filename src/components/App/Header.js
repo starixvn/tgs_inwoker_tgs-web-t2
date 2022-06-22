@@ -525,7 +525,6 @@ class Header extends Component {
         ...this.state,
         systemDateTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
       });
-
       const localStorageToken = localStorage.getItem("token0");
       if (
         this.props.account.token === localStorageToken &&
@@ -571,22 +570,62 @@ class Header extends Component {
     this.props.history.push("/" + i18n.language + "/");
   };
   onhandleTransfer = () => {
+    if (
+      config.features.ForceRedirectAddCard &&
+      !this.props.account.info.bankInfoAuthentication
+    ) {
+      return;
+    }
     this.props.history.push("/" + i18n.language + "/account/transfer");
   };
   onhandleDeposit = () => {
+    if (
+      config.features.ForceRedirectAddCard &&
+      !this.props.account.info.bankInfoAuthentication
+    ) {
+      return;
+    }
     this.props.history.push("/" + i18n.language + "/account/deposit");
   };
   handleInboxClick = () => {
+    if (
+      config.features.ForceRedirectAddCard &&
+      !this.props.account.info.bankInfoAuthentication
+    ) {
+      return;
+    }
     this.props.history.push("/" + i18n.language + "/account/inbox");
   };
+  handleProfileClick = () => {
+    if (
+      config.features.ForceRedirectAddCard &&
+      !this.props.account.info.bankInfoAuthentication
+    ) {
+      return;
+    }
+    this.props.history.push("/" + i18n.language + "/account/profile");
+  };
+  handleWithdrawClick = () => {
+    if (
+      config.features.ForceRedirectAddCard &&
+      !this.props.account.info.bankInfoAuthentication
+    ) {
+      return;
+    }
+    this.props.history.push("/" + i18n.language + "/account/withdrawal");
+  };
   handleRefreshBalanceClick = () => {
+    if (
+      config.features.ForceRedirectAddCard &&
+      !this.props.account.info.bankInfoAuthentication
+    ) {
+      return;
+    }
     this.tickCount = 0;
     this.props.updateBalanceList();
     this.props.game.providerList
       .filter((item) => item.status === 0 && item.transferwallet === true)
-      .map((a) => {
-        this.props.getGameBalance(a.abbreviation);
-      });
+      .map((a) => this.props.getGameBalance(a.abbreviation));
   };
   handleDownloadAppsClick = () => {
     this.setState({ selected: "/download" });
@@ -604,13 +643,18 @@ class Header extends Component {
     this.setState({ ...this.state, isHoverMenu: false });
   };
   handleClickMenu = (path) => {
+    if (
+      config.features.ForceRedirectAddCard &&
+      !this.props.account.info.bankInfoAuthentication
+    ) {
+      return;
+    }
     this.setState({ ...this.state, selected: path });
     this.props.history.push("/" + i18n.language + `/${path}`);
   };
 
   RightMenuItem = (to, label, subMenuImg) => {
     const { classes } = this.props;
-
     return (
       <RightMenuLI
         active={this.state.selected === `${to}`}
@@ -665,6 +709,12 @@ class Header extends Component {
   };
 
   handleJoinLotteryGame = (name) => {
+    if (
+      config.features.ForceRedirectAddCard &&
+      !this.props.account.info.bankInfoAuthentication
+    ) {
+      return;
+    }
     Common.closePreviousPopup();
     if (this.props.account.token != null) {
       if (this.props.history.location.pathname.indexOf("play") >= 0) {
@@ -682,6 +732,12 @@ class Header extends Component {
   };
 
   handleJoinGameClick = (gameType, path, gameCode, url) => {
+    if (
+      config.features.ForceRedirectAddCard &&
+      !this.props.account.info.bankInfoAuthentication
+    ) {
+      return;
+    }
     var slotPageGameType = [
       GameTypeEnum.SLOT,
       GameTypeEnum.TIGERSLOT,

@@ -474,24 +474,29 @@ class GuestContainer extends Component {
             AccountService.VerifyActivation(
               this.state.securityKey,
               "123456"
-            ).then(async (response) => {
-              AccountService.ActivationEmail(email).then(async (response) => {
-                if (response.IsSuccess) {
-                  this.state.securityKey = response.data;
-                  AccountService.VerifyActivationEmail(
-                    this.state.securityKey,
-                    "123456"
-                  ).then(async (response) => {
-                    this.handleLoginSuccess(result.data);
-                  });
-                }
-              });
-            });
-          } else {
-            this.handleLoginSuccess(result.data);
-          }
+            )
+            // .then(async (response) => {
+              
+            // });
+          } 
+          // else {
+          //   this.handleLoginSuccess(result.data);
+          // }
         }
       );
+      AccountService.ActivationEmail(email).then(async (response) => {
+        if (response.IsSuccess) {
+          this.state.securityKey = response.data;
+          AccountService.VerifyActivationEmail(
+            this.state.securityKey,
+            "123456"
+          )
+          // .then(async (response) => {
+          //   this.handleLoginSuccess(result.data);
+          // });
+        }
+      });
+      this.handleLoginSuccess(result.data);
     }
   };
   handleCloseSelfControlDialog = (token) => {
@@ -514,7 +519,7 @@ class GuestContainer extends Component {
           bankInfoAuthentication = response.data.bankinfoauthentication;
         }
       });
-      if(!config.features.Register_CustomFlow_IDR)
+      if(!config.features.Register_CustomFlow_IDR || (config.features.Register_CustomFlow_IDR && bankInfoAuthentication))
       {    
         this.props.getBankCardList();
         this.props.getMessageList(i18n.language, 0, 99);
@@ -693,7 +698,7 @@ const mapDispatchToProps = (dispatch) => {
     checkGame: () => dispatch(accountAction.checkGame()),
     getAccountProfile: (showVip) =>
       dispatch(accountAction.getAccountProfile(showVip)),
-    getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
+
     getBankCardList: () => dispatch(walletAction.getBankCardList()),
     getBalanceList: () => dispatch(walletAction.getBalanceList()),
     getGameBalance: (gpcode) => dispatch(walletAction.getGameBalance(gpcode)),
@@ -709,6 +714,7 @@ const mapDispatchToProps = (dispatch) => {
         generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
       ),
     getAutoTransferStatus: () => dispatch(walletAction.getAutoTransferStatus()),
+    getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
   };
 };
 const mapStateToProps = (state) => {

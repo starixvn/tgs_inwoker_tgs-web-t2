@@ -26,6 +26,9 @@ import NewStepOneHKJP from "./NewStep1HKJP";
 import NewStepTwoHKJP from "./NewStep2HKJP";
 import config from "../../../../config/config";
 import PopupAnnouncement from "../../Home/PopupAnnouncement";
+import AddCard from "../Withdrawal/AddCard";
+import AddCardSuccess from "../Withdrawal/AddCardSuccess";
+
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box;
@@ -134,6 +137,24 @@ const NameVerificationWrap = styled.div`
   padding: 25px;
   position: relative;
 `;
+
+const ButtonAddCard = styled.div`
+  width: 40px;
+  height: 35px;
+  border: 1px solid #d9d9d9;
+  text-align: center;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+  &:before {
+    content: "+";
+    width: 25px;
+    height: 25px;
+    font-size: 25px;
+    line-height: 30px;
+  }
+`;
+
 class Deposit extends Component {
   constructor(props) {
     super(props);
@@ -157,6 +178,9 @@ class Deposit extends Component {
       paymenturl: "",
       openAnnouncement: config.features.DepositNotification,
       playerNote: "",
+      showTabContainer: true,
+      isAddCardSuccess: false,
+      selectedBankCard: "",
     };
     this.state = {
       ...this.initialState,
@@ -180,6 +204,7 @@ class Deposit extends Component {
               step: 2,
               depositResult: e.data,
               loading: false,
+              showTabContainer: false,
             });
           }
         }
@@ -226,6 +251,7 @@ class Deposit extends Component {
             step: 2,
             depositResult: response,
             loading: false,
+            showTabContainer: false,
           });
         } else {
           let url = "";
@@ -250,6 +276,7 @@ class Deposit extends Component {
                 step: 3,
                 loading: false,
                 depositResult: response,
+                showTabContainer: false,
               });
             }
           } else {
@@ -258,6 +285,7 @@ class Deposit extends Component {
               step: 3,
               loading: false,
               depositResult: response,
+              showTabContainer: false,
             });
             if (payment.paymentcode.toUpperCase() === "HELP2PAY") {
               url =
@@ -291,6 +319,7 @@ class Deposit extends Component {
           ...this.state,
           step: 4,
           loading: false,
+          showTabContainer: false,
         });
       } else {
         this.props.enqueueSnackbar(
@@ -360,6 +389,32 @@ class Deposit extends Component {
         });
       }
     }
+    if (
+      preProps.wallet.addBankCardResult !==
+        this.props.wallet.addBankCardResult &&
+      this.props.wallet.addBankCardResult !== null
+    ) {
+      if (this.props.wallet.addBankCardResult.IsSuccess) {
+        this.props.resetResult();
+        this.props.getBankCardList();
+        this.setState({
+          ...this.state,
+          loading: false,
+          step: 7,
+          isAddCardSuccess: true,
+          showTabContainer: false,
+        });
+      } else {
+        this.props.enqueueSnackbar(
+          ErrorSwitcher.getTranslation(
+            this.props.wallet.addBankCardResult.info
+          ),
+          {
+            variant: "error",
+          }
+        );
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -385,6 +440,7 @@ class Deposit extends Component {
           step: payment.paymentcode.toUpperCase() === "MANUAL" ? 2 : 3,
           depositResult: depositResult,
           loading: false,
+          showTabContainer: false,
         });
       } else {
         this.props.enqueueSnackbar(
@@ -415,6 +471,48 @@ class Deposit extends Component {
       });
     }
   };
+  handleAddCard = () => {
+    this.setState({
+      ...this.state,
+      step: 6,
+      showTabContainer: false,
+      loading: false,
+    });
+  };
+  handleAddCardNextClick = (channelid, bankType, detail) => {
+    //clear url params
+    window.history.pushState({}, null, "deposit");
+    this.props.addBankCard(channelid, bankType, detail);
+  };
+  handleAddCardBack = () => {
+    this.setState({
+      ...this.state,
+      step: 1,
+      showTabContainer: true,
+      loading: false,
+    });
+  };
+  handleBindCardClick = () => {
+    this.setState({ ...this.state, isAddCardSuccess: false, step: 7 });
+  };
+  handleGoDepositClick = () => {
+    this.setState({
+      ...this.state,
+      isAddCardSuccess: false,
+      step: 1,
+      showTabContainer: true,
+    });
+  };
+  handleGoWithdrawClick = () => {
+
+  }
+  handleCSClick = () => {
+    this.props.onhandleCSClick(
+      this.props.account.info.member_id,
+      this.props.account.info.member_name,
+      ""
+    );
+  };
   handleChannelChange = (index) => {
     //var channel = method.channel[this.state.selectedChannelIndex];
 
@@ -440,7 +538,12 @@ class Deposit extends Component {
     var method = payment.method[this.state.selectedMethodIndex];
 
     var channel = method.channel[this.state.selectedChannelIndex];
-
+    if(config.features.Deposit_AddCard)
+    {
+      var bankCardIndex = this.props.wallet.bankCardList.findIndex(
+        (item) => item.id === this.state.selectedBankCard
+      );
+    }
     const depositMethodSwitcher = (method) => {
       switch (method) {
         case "banktransfer":
@@ -457,13 +560,28 @@ class Deposit extends Component {
     if (payment.paymentcode.toUpperCase() === "MANUAL") {
       // handle manual deposit
       if (method.methodcode === "BankTransfer") {
-        this.props.doBankDeposit(
-          this.state.name,
-          this.state.account,
-          this.state.amount.replace(/,/g, ""),
-          channel.id,
-          this.state.depositPromotion
-        );
+        if (config.features.Deposit_AddCard) {
+          this.props.doBankDepositWithDetail(
+            this.state.name,
+            this.state.account,
+            this.state.amount.replace(/,/g, ""),
+            channel.id,
+            this.state.depositPromotion,
+            null,
+            config.features.Deposit_AddCard
+              ? this.props.wallet.bankCardList[bankCardIndex]
+                  .detail
+              : null
+          );
+        } else {
+          this.props.doBankDeposit(
+            this.state.name,
+            this.state.account,
+            this.state.amount.replace(/,/g, ""),
+            channel.id,
+            this.state.depositPromotion
+          );
+        }
       } else if (method.methodcode === "FPS") {
         if (config.features.Deposit_FPSWithName) {
           this.props.doFPSDepositWithName(
@@ -494,25 +612,57 @@ class Deposit extends Component {
           this.state.depositPromotion
         );
       } else if (method.methodcode === "Pulsa") {
-        this.props.doPulsaDeposit(
-          this.state.amount.replace(/,/g, ""),
-          channel.id,
-          this.state.depositPromotion,
-          null,
-          config.features.Deposit_Withdrawal_PlayerNote
-            ? this.state.playerNote
-            : null
-        );
+        if (config.features.Deposit_AddCard) {
+          this.props.doPulsaDepositWithDetail(
+            this.state.amount.replace(/,/g, ""),
+            channel.id,
+            this.state.depositPromotion,
+            null,
+            config.features.Deposit_Withdrawal_PlayerNote
+              ? this.state.playerNote
+              : null,
+            config.features.Deposit_AddCard
+              ? this.props.wallet.bankCardList[bankCardIndex]
+                  .detail
+              : null
+          );
+        } else {
+          this.props.doPulsaDeposit(
+            this.state.amount.replace(/,/g, ""),
+            channel.id,
+            this.state.depositPromotion,
+            null,
+            config.features.Deposit_Withdrawal_PlayerNote
+              ? this.state.playerNote
+              : null
+          );
+        }
       } else if (method.methodcode === "EWallet") {
-        this.props.doEWalletDeposit(
-          this.state.amount.replace(/,/g, ""),
-          channel.id,
-          this.state.depositPromotion,
-          null,
-          config.features.Deposit_Withdrawal_PlayerNote
-            ? this.state.playerNote
-            : null
-        );
+        if (config.features.Deposit_AddCard) {
+          this.props.doEWalletDepositWithDetail(
+            this.state.amount.replace(/,/g, ""),
+            channel.id,
+            this.state.depositPromotion,
+            null,
+            config.features.Deposit_Withdrawal_PlayerNote
+              ? this.state.playerNote
+              : null,
+            config.features.Deposit_AddCard
+              ? this.props.wallet.bankCardList[bankCardIndex]
+                  .detail
+              : null
+          );
+        } else {
+          this.props.doEWalletDeposit(
+            this.state.amount.replace(/,/g, ""),
+            channel.id,
+            this.state.depositPromotion,
+            null,
+            config.features.Deposit_Withdrawal_PlayerNote
+              ? this.state.playerNote
+              : null
+          );
+        }
       }
     } else {
       this.props.performDeposit(
@@ -577,6 +727,53 @@ class Deposit extends Component {
       depositPromotion: e.target.value,
     });
   };
+  handleBankCardChange = (e) => {
+    var paymentIndex = 0;
+    var methodIndex = 0;
+    var channelIndex = 0;
+
+    var bankCardIndex = this.props.wallet.bankCardList.findIndex(
+      (item) => item.id === e.target.value
+    );
+    if (config.features.Deposit_AddCard && e.target.value!=="") {
+      loop1: for (
+        var i = 0;
+        i < this.props.wallet.depositTypeList.length;
+        i++
+      ) {
+        for (
+          var j = 0;
+          j < this.props.wallet.depositTypeList[i].method.length;
+          j++
+        ) {
+          for (
+            var k = 0;
+            k < this.props.wallet.depositTypeList[i].method[j].channel.length;
+            k++
+          ) {
+            if (
+              this.props.wallet.depositTypeList[i].method[j].channel[k]
+                .channelid ===
+              this.props.wallet.bankCardList[bankCardIndex].paymentchannelid
+            ) {
+              paymentIndex = i;
+              methodIndex = j;
+              channelIndex =k;
+              break loop1;
+            }
+          }
+        }
+      }
+    }
+    this.setState({
+      ...this.state,
+      selectedBankCard: e.target.value,
+      selectedPaymentIndex: paymentIndex,
+      selectedMethodIndex: methodIndex,
+      selectedChannelIndex: channelIndex,
+      name: this.props.wallet.bankCardList[bankCardIndex].detail.name || ""
+    });
+  }
   performSendData = () => {
     // TGSWalletService.PerformManualDeposit(
     //   this.state.amount,
@@ -756,6 +953,9 @@ class Deposit extends Component {
               playerNote={this.state.playerNote}
               onPlayerNoteChange={this.handlePlayerNoteChange}
               onNextClick={this.handleNextClick}
+              selectedBankCard={this.state.selectedBankCard}
+              handleBankCardChange={this.handleBankCardChange}
+              bankCardList={this.props.wallet.bankCardList.filter((item)=> !item.default)}
             />
           );
         }
@@ -829,6 +1029,33 @@ class Deposit extends Component {
             handleRestartClick={this.handleRestartClick}
           />
         );
+      case 6:
+        return (
+          <AddCard
+            name={this.props.account.info.member_name}
+            onhandleNextClick={this.handleAddCardNextClick}
+            onhandleBackClick={this.handleAddCardBack}
+            withdrawalList={this.props.wallet.withdrawalList}
+            depositList={this.props.wallet.depositList}
+            showBack={true}
+            containCard={
+              this.props.wallet.bankCardList != null &&
+              this.props.wallet.bankCardList.length === 0
+            }
+            isDeposit={true}
+          ></AddCard>
+        );
+      case 7:
+        return (
+          <AddCardSuccess
+            onhandleBindCardClick={this.handleBindCardClick}
+            onhandleGoDepositClick={this.handleGoDepositClick}
+            onhandleGoWithdrawClick={this.handleGoWithdrawClick}
+            onhandleCSClick={this.handleCSClick}
+            bankCardList={this.props.wallet.bankCardList}
+            isDeposit={true}
+          ></AddCardSuccess>
+        );
       default:
         return "";
     }
@@ -875,26 +1102,31 @@ class Deposit extends Component {
             return (
               <>
                 <InnerWrap>
-                  <TabButtonContainer>
-                    {this.props.wallet.depositTypeList
-                      .sort(function (a, b) {
-                        return a.displayorder - b.displayorder;
-                      })
-                      .map((item, index) => {
-                        return (
-                          <TabButton
-                            key={index}
-                            onClick={() => this.handleTabClick(item, index)}
-                            active={this.state.selectedPaymentIndex === index}
-                          >
-                            <TabIconContainer>
-                              <TabIcon src={IconDepositCard}></TabIcon>
-                            </TabIconContainer>
-                            <TabLabel>{i18n.t(item.paymentcode)}</TabLabel>
-                          </TabButton>
-                        );
-                      })}
-                  </TabButtonContainer>
+                  {config.features.Deposit_AddCard ? (
+                    this.state.showTabContainer && (
+                      <TabButtonContainer>
+                        <ButtonAddCard onClick={this.handleAddCard}></ButtonAddCard>
+                      </TabButtonContainer>
+                    )
+                  ) : (
+                    <TabButtonContainer>
+                      {this.props.wallet.depositTypeList
+                        .sort(function (a, b) {
+                          return a.displayorder - b.displayorder;
+                        })
+                        .map((item, index) => {
+                          return (
+                            <TabButton
+                              key={index}
+                              onClick={() => this.handleTabClick(item, index)}
+                              active={this.state.selectedPaymentIndex === index}
+                            >
+                              <TabLabel> {i18n.t(item.paymentcode)}</TabLabel>
+                            </TabButton>
+                          );
+                        })}
+                    </TabButtonContainer>
+                  )}
                   {(() => {
                     if (this.props.wallet.depositTypeList.length <= 0)
                       return null;
@@ -1059,12 +1291,24 @@ const mapDispatchToProps = (dispatch) => {
     },
     doPulsaDeposit: (amount, paymentid, promotionid, banktype, note) => {
       dispatch(
-        walletAction.doPulsaDeposit(amount, paymentid, promotionid, banktype, note)
+        walletAction.doPulsaDeposit(
+          amount,
+          paymentid,
+          promotionid,
+          banktype,
+          note
+        )
       );
     },
     doEWalletDeposit: (amount, paymentid, promotionid, banktype, note) => {
       dispatch(
-        walletAction.doEWalletDeposit(amount, paymentid, promotionid, banktype, note)
+        walletAction.doEWalletDeposit(
+          amount,
+          paymentid,
+          promotionid,
+          banktype,
+          note
+        )
       );
     },
     doBankDeposit2: (amount, payment_id, promotionid, paymentcode) => {
@@ -1099,7 +1343,6 @@ const mapDispatchToProps = (dispatch) => {
       );
     },
     getBalanceList: () => dispatch(walletAction.getBalanceList()),
-    getDepositMethod: () => dispatch(walletAction.getDepositMethod()),
     getPlayerPromotionList: (language) =>
       dispatch(
         generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
@@ -1110,6 +1353,59 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: RESET_WALLETRESULT,
       }),
+    getDepositMethod: () => dispatch(walletAction.getDepositMethod()),
+    getBankCardList: () => dispatch(walletAction.getBankCardList()),
+    addBankCard: (channelid, bankType, detail) =>
+      dispatch(walletAction.addBankCard(channelid, bankType, detail)),
+    resetResult: () =>
+      dispatch({
+        type: RESET_WALLETRESULT,
+      }),
+    doBankDepositWithDetail: (
+      name,
+      account,
+      amount,
+      paymentid,
+      promotionid,
+      banktype,
+      detail
+    ) => {
+      dispatch(
+        walletAction.doBankDepositWithDetail(
+          name,
+          account,
+          amount,
+          paymentid,
+          promotionid,
+          banktype,
+          detail
+        )
+      );
+    },
+    doPulsaDepositWithDetail: (amount, paymentid, promotionid, banktype, note, detail) => {
+      dispatch(
+        walletAction.doPulsaDepositWithDetail(
+          amount,
+          paymentid,
+          promotionid,
+          banktype,
+          note,
+          detail
+        )
+      );
+    },
+    doEWalletDepositWithDetail: (amount, paymentid, promotionid, banktype, note, detail) => {
+      dispatch(
+        walletAction.doEWalletDepositWithDetail(
+          amount,
+          paymentid,
+          promotionid,
+          banktype,
+          note,
+          detail
+        )
+      );
+    },
   };
 };
 export default connect(

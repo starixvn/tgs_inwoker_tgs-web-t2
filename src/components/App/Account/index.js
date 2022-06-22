@@ -257,6 +257,10 @@ class Account extends Component {
       });
   };
   handleRefreshClick = () => {
+    if(config.features.ForceRedirectAddCard && !this.props.account.info.bankInfoAuthentication)
+    {
+      return;
+    }
     this.props.updateBalanceList();
     this.getAllGameBalance();
   };
@@ -277,6 +281,10 @@ class Account extends Component {
   }
 
   handleClickTab = (link) => {
+    if(config.features.ForceRedirectAddCard && !this.props.account.info.bankInfoAuthentication)
+    {
+      return;
+    }
     this.props.history.push("/" + i18n.language + "/account/" + link);
   };
   handleMoreBenefitClick = (viptitle) => {
