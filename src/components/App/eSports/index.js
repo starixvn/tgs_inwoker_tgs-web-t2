@@ -116,6 +116,7 @@ class ESports extends Component {
       this.props.showLogin(true);
     } else {
       Common.closePreviousPopup();
+      this.props.performBalanceRefresh();
       this.props.history.push(
         "/" + i18n.language + "/sports/play/" + params + "/" + type
       );
