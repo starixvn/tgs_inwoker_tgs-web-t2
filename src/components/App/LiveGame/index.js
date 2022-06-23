@@ -1,24 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import styled, { css, keyframes } from "styled-components";
+import styled from "styled-components";
 
 import i18n from "../../../utils/i18n";
-import config from "../../../config/config";
+
 import ScrollAnimation from "react-animate-on-scroll";
-import { SHOW_LOGIN } from "../../../api-services/constant/actionType";
+
+import config from "../../../config/config";
 import { GameTypeEnum } from "../../../api-services/utils/Enum";
+import { SHOW_LOGIN } from "../../../api-services/constant/actionType";
 import Common from "../../../utils/Common";
 const Container = styled.div`
   width: 100%;
   height: auto;
-  min-height: 870px;
+
   padding: 70px 0px;
   position: relative;
-  background: url(${process.env
-      .PUBLIC_URL}/assets/images/pcGamePage/live/background.jpg)
+  min-height: ${(props) =>
+    props.GamePage_SpecificBackground ? "900px" : "870px"};
+  background: url(${(props) =>
+      process.env.PUBLIC_URL +
+      "/assets/images/pcGamePage/live/background" +
+      (props.GamePage_SpecificBackground ? "-hk28" : "") +
+      ".jpg"})
     no-repeat center;
 `;
-
 const GirlImage = styled.div`
   background: url(${(props) => props.img}) no-repeat;
   width: 308px;
@@ -145,10 +151,14 @@ class LiveGame extends Component {
       this.triggerSetSelected(false);
     }, 800);
   };
+  popup = null;
   handleJoinGameClick = (params) => {
     if (this.props.account.token != null) {
+      if (document.getElementById("audio") != null)
+        document.getElementById("audio").volume = 0.0;
+      this.props.performBalanceRefresh();
       Common.closePreviousPopup();
-      Common.PopupCenter(
+      var win = Common.PopupCenter(
         "/" +
           i18n.language +
           "/joingame/" +
@@ -159,6 +169,24 @@ class LiveGame extends Component {
         1280,
         720
       );
+      // var win = window.open(
+      //   "/" +
+      //     i18n.language +
+      //     "/joingame/" +
+      //     GameTypeEnum.LIVELOBBY +
+      //     "/" +
+      //     params.toUpperCase(),
+      //   "gamewindow",
+      //   "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1280,height=720"
+      // );
+
+      var timer = setInterval(function () {
+        if (win.closed) {
+          clearInterval(timer);
+          if (document.getElementById("audio") != null)
+            document.getElementById("audio").volume = 1.0;
+        }
+      }, 1000);
     } else {
       this.props.showLogin(true);
     }
@@ -171,8 +199,14 @@ class LiveGame extends Component {
   };
 
   render() {
+    var switchBetween = this.state.list.length >= 11 ? 5 : 4;
+
     return (
-      <Container>
+      <Container
+        GamePage_SpecificBackground={
+          config.features.GamePage_SpecificBackground
+        }
+      >
         <ItemContainer style={{ marginTop: 370 }}>
           <LeftSlide
             animateIn="fadeInLeft"
@@ -181,7 +215,7 @@ class LiveGame extends Component {
             style={{ overflow: "visible" }}
           >
             {this.state.list
-              .slice(0, 3)
+              .slice(0, switchBetween)
               .reverse()
               .sort((a, b) => {
                 if (config.features.LiveGame_Sorting_SKY) {
@@ -195,12 +229,16 @@ class LiveGame extends Component {
               .map((item, index) => {
                 return (
                   <ImageWrapper maintenance={item.status != 0}>
-                    <Maintenance> {i18n.t("transfer.maintenance")}</Maintenance>
+                    <Maintenance>{i18n.t("transfer.maintenance")}</Maintenance>
                     <GirlImage
                       img={
                         process.env.PUBLIC_URL +
                         "/assets/images/pcGamePage/live/" +
                         item.abbreviation.toLowerCase() +
+                        (item.abbreviation.toLowerCase() === "wgfm" ||
+                        item.abbreviation.toLowerCase() === "wgvia"
+                          ? "-" + i18n.language
+                          : "") +
                         ".png"
                       }
                       onClick={() => {
@@ -220,15 +258,19 @@ class LiveGame extends Component {
             style={{ overflow: "visible" }}
           >
             {this.state.list.map((item, index) => {
-              if (index >= 3) {
+              if (index >= switchBetween) {
                 return (
-                  <ImageWrapper maintenance={item.status != 0}>
-                    <Maintenance> {i18n.t("transfer.maintenance")}</Maintenance>
+                  <ImageWrapper maintenance={item.status !== 0}>
+                    <Maintenance>{i18n.t("transfer.maintenance")}</Maintenance>
                     <GirlImage
                       img={
                         process.env.PUBLIC_URL +
                         "/assets/images/pcGamePage/live/" +
                         item.abbreviation.toLowerCase() +
+                        (item.abbreviation.toLowerCase() === "wgfm" ||
+                        item.abbreviation.toLowerCase() === "wgvia"
+                          ? "-" + i18n.language
+                          : "") +
                         ".png"
                       }
                       onClick={() => {

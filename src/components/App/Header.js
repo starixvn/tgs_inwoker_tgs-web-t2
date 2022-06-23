@@ -745,19 +745,44 @@ class Header extends Component {
       GameTypeEnum.ESPORTS,
       GameTypeEnum.TABLEGAME,
       GameTypeEnum.FISH,
+      GameTypeEnum.RNGSPORTS,
     ];
     Common.closePreviousPopup();
     if (slotPageGameType.indexOf(gameType) >= 0) {
-      if (gameType == GameTypeEnum.SPORTS || gameType == GameTypeEnum.ESPORTS) {
+      if (
+        gameType === GameTypeEnum.SPORTS ||
+        gameType === GameTypeEnum.ESPORTS ||
+        gameType === GameTypeEnum.RNGSPORTS
+      ) {
         if (!this.props.account.token) {
           this.props.showLogin(true);
         } else {
-          if (gameCode === "WGFM" || gameCode === "WGVIA") {
-            window.open(
-              `/${i18n.language}/joinlobbygame/${gameType}/${gameCode}`,
-              "_blank"
+          if (gameType === GameTypeEnum.RNGSPORTS) {
+            this.props.history.push(
+              "/" + i18n.language + "/sports/" + gameCode
             );
+          } else if (gameCode === "WGFM" || gameCode === "WGVIA") {
+            if (document.getElementById("audio") != null)
+              document.getElementById("audio").volume = 0;
+            if (this.props.history.location.pathname.indexOf("play") >= 0) {
+              AppHistory.goBack();
+            }
+            this.handleRefreshBalanceClick();
+            var win = Common.PopupCenter(
+              `/${i18n.language}/joinlobbygame/${gameType}/${gameCode}`,
+              gameCode,
+              1280,
+              720
+            );
+            var timer = setInterval(function () {
+              if (win.closed) {
+                clearInterval(timer);
+                if (document.getElementById("audio") != null)
+                  document.getElementById("audio").volume = 1.0;
+              }
+            }, 1000);
           } else {
+            this.handleRefreshBalanceClick();
             this.props.history.push(
               "/" + i18n.language + "/sports/play/" + gameCode + "/" + gameType
             );
@@ -771,10 +796,20 @@ class Header extends Component {
         this.props.showLogin(true);
         return;
       }
+      if (document.getElementById("audio") != null)
+        document.getElementById("audio").volume = 0;
       if (this.props.history.location.pathname.indexOf("play") >= 0) {
         AppHistory.goBack();
       }
-      Common.PopupCenter(url, gameCode, 1280, 720);
+      this.handleRefreshBalanceClick();
+      var win = Common.PopupCenter(url, gameCode, 1280, 720);
+      var timer = setInterval(function () {
+        if (win.closed) {
+          clearInterval(timer);
+          if (document.getElementById("audio") != null)
+            document.getElementById("audio").volume = 1.0;
+        }
+      }, 1000);
     }
   };
   handleBookmarkClick = () => {
