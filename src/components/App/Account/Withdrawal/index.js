@@ -170,6 +170,21 @@ class Withdrawal extends Component {
     }
 
     if (
+      !preProps.account.info.bankInfoAuthentication &&
+      this.props.account.info.bankInfoAuthentication &&
+      this.props.token &&
+      this.props.wallet.addBankCardResult === null
+    ) {
+      this.props.resetResult();
+      this.props.getBankCardList();
+      this.setState({
+        ...this.state,
+        loading: false,
+        isAddCardSuccess: true,
+      });
+    }
+
+    if (
       preProps.wallet.deleteBankCardResult !==
         this.props.wallet.deleteBankCardResult &&
       this.props.wallet.deleteBankCardResult !== null
