@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
-import {GameService} from "../../../api-services/services/GameService";
-import {gameAction} from "../../../api-services/actions/gameAction";
-import {GameTypeEnum} from "../../../api-services/utils/Enum";
+import { GameService } from "../../../api-services/services/GameService";
+import { gameAction } from "../../../api-services/actions/gameAction";
+import { GameTypeEnum } from "../../../api-services/utils/Enum";
 import LoadingGIF from "../../../assets/images/loading.gif";
 
 import BGJPG from "../../../assets/images/bg.jpg";
@@ -333,7 +333,7 @@ class Play extends Component {
             </GameFrameHeader>
             <GameFrame
               ref={this.myRef}
-              scrolling="no"
+              scrolling="yes"
               frameBorder="0"
             ></GameFrame>
           </InnerContainer>
