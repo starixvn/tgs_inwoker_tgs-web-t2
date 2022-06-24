@@ -120,7 +120,7 @@ class Lottery extends Component {
   handleJoinGameClick = (name) => {
     if (this.props.account.token != null) {
       Common.closePreviousPopup();
-      this.props.performBalanceRefresh();
+      // this.props.performBalanceRefresh();
       Common.PopupCenter(
         "/" + i18n.language + "/joinlottery/" + name,
         name,
