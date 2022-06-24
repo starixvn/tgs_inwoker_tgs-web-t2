@@ -101,7 +101,7 @@ class Qipai extends Component {
   handleJoinGameClick = (kind) => {
     if (this.props.account.token != null) {
       Common.closePreviousPopup();
-      this.props.performBalanceRefresh();
+      // this.props.performBalanceRefresh();
       Common.PopupCenter(
         "/" +
           i18n.language +

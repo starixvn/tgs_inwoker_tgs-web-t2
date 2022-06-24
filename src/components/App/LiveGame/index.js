@@ -156,7 +156,7 @@ class LiveGame extends Component {
     if (this.props.account.token != null) {
       if (document.getElementById("audio") != null)
         document.getElementById("audio").volume = 0.0;
-      this.props.performBalanceRefresh();
+      // this.props.performBalanceRefresh();
       Common.closePreviousPopup();
       var win = Common.PopupCenter(
         "/" +
