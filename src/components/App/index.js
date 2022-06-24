@@ -49,6 +49,7 @@ import Banned from "./Banned";
 import AnotherFloatPanel from "./Home/AnotherFloatPanel";
 import config from "../../config/config";
 import CustomLibrary from "./Sports/CustomLibrary";
+const bc = new BroadcastChannel('refreshBalance');
 const baseRouteUrl = Common.baseRouteUrl;
 const Main = styled.div`
   min-height: 600px;
@@ -67,6 +68,10 @@ class App extends Component {
     isIpRestrict: false,
   };
   async componentDidMount() {
+    bc.onmessage = (eventMessage) => {
+      this.performBalanceRefresh();
+    }
+
     if (this.props.general.token === "") {
       this.props.getSiteToken();
     } else {

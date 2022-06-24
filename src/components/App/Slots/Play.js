@@ -18,6 +18,8 @@ import i18n from "../../../utils/i18n";
 import ErrorSwitcher from "../../../utils/ErrorSwitcher";
 import config from "../../../config/config";
 import { AppHistory } from "../../../history/History";
+const channel = new BroadcastChannel('refreshBalance');
+
 const Container = styled.div`
   width: 100%;
   background: url(${BGJPG});
@@ -246,6 +248,7 @@ class Play extends Component {
     const type = this.props.match.params.type;
     GameService.JoinGame(params, type).then((response) => {
       if (response.IsSuccess) {
+        channel.postMessage({action: "refresh", target:"*"});
         if (response.data.url != null && this.myRef.current != null) {
           this.myRef.current.src = response.data.url;
           this.setState({ ...this.state, loading: false });
