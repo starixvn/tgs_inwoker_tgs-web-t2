@@ -12,6 +12,7 @@ import IconFavPNG from "../../../assets/images/icon-fav.png";
 import i18n from "../../../utils/i18n";
 import LoadingGIF from "../../../assets/images/loading.gif";
 import { AppHistory } from "../../../history/History";
+const channel = new BroadcastChannel('refreshBalance');
 
 const Container = styled.div`
   width: 100%;
@@ -177,6 +178,7 @@ class Play extends Component {
       GameService.JoinBetConstruct(this.props.match.params.type, gameCode).then(
         (response) => {
           if (typeof response.data === "string") {
+            channel.postMessage({action: "refresh", target:"*"});
             this.setState({ ...this.state, maintenance: false });
             var ifrm = this.myRef.current;
             ifrm =
@@ -202,6 +204,7 @@ class Play extends Component {
       GameService.JoinLobbyGame(this.props.match.params.type, gameCode).then(
         (response) => {
           if (response.IsSuccess) {
+            channel.postMessage({action: "refresh", target:"*"});
             this.setState({
               ...this.state,
               maintenance: false,
