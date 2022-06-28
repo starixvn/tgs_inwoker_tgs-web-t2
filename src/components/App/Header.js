@@ -745,14 +745,19 @@ class Header extends Component {
       GameTypeEnum.ESPORTS,
       GameTypeEnum.TABLEGAME,
       GameTypeEnum.FISH,
+      GameTypeEnum.RNGSPORTS,
     ];
     Common.closePreviousPopup();
     if (slotPageGameType.indexOf(gameType) >= 0) {
-      if (gameType == GameTypeEnum.SPORTS || gameType == GameTypeEnum.ESPORTS) {
+      if (gameType == GameTypeEnum.SPORTS || gameType == GameTypeEnum.ESPORTS ||  GameTypeEnum.RNGSPORTS) {
         if (!this.props.account.token) {
           this.props.showLogin(true);
         } else {
-          if (gameCode === "WGFM" || gameCode === "WGVIA") {
+          if (gameType === GameTypeEnum.RNGSPORTS) {
+            this.props.history.push(
+              "/" + i18n.language + "/sports/" + gameCode
+            );
+          }else if (gameCode === "WGFM" || gameCode === "WGVIA") {
             window.open(
               `/${i18n.language}/joinlobbygame/${gameType}/${gameCode}`,
               "_blank"
@@ -1028,7 +1033,7 @@ class Header extends Component {
             >
               {SortedMenuList.map((item, index) => {
                 var list = this.props.game.homePageGameList
-                  .filter((game) => item.gameType.indexOf(game.type) >= 0)
+                  .filter((game) => (game.type === GameTypeEnum.RNGSPORTS && game.abbreviation === "PPTF") || (item.gameType.indexOf(game.type) >= 0 && game.type !== GameTypeEnum.RNGSPORTS))
                   .sort((a, b) => {
                     if (config.features.LiveGame_Sorting_SKY) {
                       var sortDGFirst = ["DG"];
@@ -1085,7 +1090,7 @@ class Header extends Component {
                               var list =
                                 this.props.game.homePageGameList.filter(
                                   (game) =>
-                                    item.gameType.indexOf(game.type) >= 0
+                                  (game.type === GameTypeEnum.RNGSPORTS && game.abbreviation === "PPTF") || (item.gameType.indexOf(game.type) >= 0 && game.type !== GameTypeEnum.RNGSPORTS)
                                 );
                               return list.length <= 5 ? (
                                 list.map((game, index) => {
