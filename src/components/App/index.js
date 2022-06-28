@@ -47,6 +47,7 @@ import i18n from "../../utils/i18n";
 import Maintenance from "../Share/Maintenance";
 import Banned from "./Banned";
 import AnotherFloatPanel from "./Home/AnotherFloatPanel";
+import PromotionRoulette from "./Home/PromotionRoulette";
 import config from "../../config/config";
 import CustomLibrary from "./Sports/CustomLibrary";
 const bc = new BroadcastChannel('refreshBalance');
@@ -82,7 +83,7 @@ class App extends Component {
       this.props.getBanner();
       this.props.getBrand();
       this.props.getLiveChatURL();
-      this.props.getPromotionList(i18n.language);
+      this.props.getPromotion();
 
       // this.props.getVIP();
     }
@@ -153,7 +154,10 @@ class App extends Component {
   }
   async componentDidUpdate(preProps) {
     if (preProps.general.token !== this.props.general.token) {
-      if (this.props.general.token == null || this.props.general.token == "") {
+      if (
+        this.props.general.token === null ||
+        this.props.general.token === ""
+      ) {
         this.props.getSiteToken();
       } else {
         localStorage.setItem("client-token", this.props.general.token);
@@ -161,7 +165,7 @@ class App extends Component {
         const localStorageToken = localStorage.getItem("token0");
         if (
           localStorageToken != null &&
-          this.props.account.token == null &&
+          this.props.account.token === null &&
           this.props.account.info.token === ""
         ) {
           const responseToken = await this.props.checkTokenIsValid();
@@ -185,7 +189,7 @@ class App extends Component {
             this.props.getMessageList(i18n.language, 0, 99);
             this.props.getBankCardList();
             this.props.getAutoTransferStatus();
-            this.props.getPlayerPromotionList(i18n.language);
+            this.props.getPromotion();
             this.props.getWithdrawalChannel();
 
             // if (inbox.IsSuccess) {
@@ -210,7 +214,7 @@ class App extends Component {
         this.props.getBrandLanguage();
         this.props.getBanner();
         this.props.getBrand();
-        this.props.getPromotionList(i18n.language);
+        this.props.getPromotion();
 
         // this.props.getVIP();
       }
@@ -512,6 +516,15 @@ class App extends Component {
                     />
                   )}
 
+                {config.features.HomePage_PromoRoulette &&
+                  this.isRouletteAvailable() && (
+                    <PromotionRoulette
+                      promotionDetail={this.props.general.promotionList.items.filter(
+                        (item) =>
+                          item.promotionType.toUpperCase() === "ROULETTE"
+                      )[0]}
+                    ></PromotionRoulette>
+                  )}
                 <Footer target={"_blank"}></Footer>
               </>
             );
@@ -576,6 +589,7 @@ const mapDispatchToProps = (dispatch) => {
       ),
     getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
     updateBalanceList: (loading) => dispatch(walletAction.updateBalanceList()),
+    getPromotion: () => dispatch(generalAction.getPromotion()),
   };
 };
 
