@@ -749,11 +749,7 @@ class Header extends Component {
     ];
     Common.closePreviousPopup();
     if (slotPageGameType.indexOf(gameType) >= 0) {
-      if (
-        gameType === GameTypeEnum.SPORTS ||
-        gameType === GameTypeEnum.ESPORTS ||
-        gameType === GameTypeEnum.RNGSPORTS
-      ) {
+      if (gameType == GameTypeEnum.SPORTS || gameType == GameTypeEnum.ESPORTS ||  GameTypeEnum.RNGSPORTS) {
         if (!this.props.account.token) {
           this.props.showLogin(true);
         } else {
@@ -761,28 +757,12 @@ class Header extends Component {
             this.props.history.push(
               "/" + i18n.language + "/sports/" + gameCode
             );
-          } else if (gameCode === "WGFM" || gameCode === "WGVIA") {
-            if (document.getElementById("audio") != null)
-              document.getElementById("audio").volume = 0;
-            if (this.props.history.location.pathname.indexOf("play") >= 0) {
-              AppHistory.goBack();
-            }
-            // this.handleRefreshBalanceClick();
-            var win = Common.PopupCenter(
+          }else if (gameCode === "WGFM" || gameCode === "WGVIA") {
+            window.open(
               `/${i18n.language}/joinlobbygame/${gameType}/${gameCode}`,
-              gameCode,
-              1280,
-              720
+              "_blank"
             );
-            var timer = setInterval(function () {
-              if (win.closed) {
-                clearInterval(timer);
-                if (document.getElementById("audio") != null)
-                  document.getElementById("audio").volume = 1.0;
-              }
-            }, 1000);
           } else {
-            // this.handleRefreshBalanceClick();
             this.props.history.push(
               "/" + i18n.language + "/sports/play/" + gameCode + "/" + gameType
             );
@@ -796,20 +776,10 @@ class Header extends Component {
         this.props.showLogin(true);
         return;
       }
-      if (document.getElementById("audio") != null)
-        document.getElementById("audio").volume = 0;
       if (this.props.history.location.pathname.indexOf("play") >= 0) {
         AppHistory.goBack();
       }
-      // this.handleRefreshBalanceClick();
-      var win = Common.PopupCenter(url, gameCode, 1280, 720);
-      var timer = setInterval(function () {
-        if (win.closed) {
-          clearInterval(timer);
-          if (document.getElementById("audio") != null)
-            document.getElementById("audio").volume = 1.0;
-        }
-      }, 1000);
+      Common.PopupCenter(url, gameCode, 1280, 720);
     }
   };
   handleBookmarkClick = () => {
@@ -1063,7 +1033,7 @@ class Header extends Component {
             >
               {SortedMenuList.map((item, index) => {
                 var list = this.props.game.homePageGameList
-                  .filter((game) => item.gameType.indexOf(game.type) >= 0)
+                  .filter((game) => (game.type === GameTypeEnum.RNGSPORTS && game.abbreviation === "PPTF") || (item.gameType.indexOf(game.type) >= 0 && game.type !== GameTypeEnum.RNGSPORTS))
                   .sort((a, b) => {
                     if (config.features.LiveGame_Sorting_SKY) {
                       var sortDGFirst = ["DG"];
@@ -1120,7 +1090,7 @@ class Header extends Component {
                               var list =
                                 this.props.game.homePageGameList.filter(
                                   (game) =>
-                                    item.gameType.indexOf(game.type) >= 0
+                                  (game.type === GameTypeEnum.RNGSPORTS && game.abbreviation === "PPTF") || (item.gameType.indexOf(game.type) >= 0 && game.type !== GameTypeEnum.RNGSPORTS)
                                 );
                               return list.length <= 5 ? (
                                 list.map((game, index) => {
