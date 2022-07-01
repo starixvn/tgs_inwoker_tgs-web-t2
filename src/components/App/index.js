@@ -214,6 +214,12 @@ class App extends Component {
         // this.props.getVIP();
       }
     }
+    if (
+      preProps.account.token !== this.props.account.token &&
+      (this.props.account.token === null || this.props.account.token === "")
+    ) {
+      this.props.getPromotion();
+    }
     if (config.features.ForceRedirectAddCard) {
       if (
         this.props.general.token !== null &&
@@ -295,6 +301,20 @@ class App extends Component {
     } else {
       this.props.history.push("/" + i18n.language + "/account/deposit");
     }
+  };
+
+  isRouletteAvailable = () => {
+    return (
+      this.props.general.promotionList.items &&
+      this.props.general.promotionList.items.length > 0 &&
+      this.props.general.promotionList.items.findIndex(
+        (item) => item.promotionType.toUpperCase() === "ROULETTE"
+      ) >= 0
+    );
+  };
+
+  isInHomePage = () => {
+    return this.props.location.pathname === `/${i18n.language}/`;
   };
 
   path = window.location.pathname.split("/");
@@ -486,12 +506,15 @@ class App extends Component {
                   )}
 
                 {config.features.HomePage_PromoRoulette &&
+                  this.isInHomePage() &&
                   this.isRouletteAvailable() && (
                     <PromotionRoulette
-                      promotionDetail={this.props.general.promotionList.items.filter(
-                        (item) =>
-                          item.promotionType.toUpperCase() === "ROULETTE"
-                      )[0]}
+                      promotionDetail={
+                        this.props.general.promotionList.items.filter(
+                          (item) =>
+                            item.promotionType.toUpperCase() === "ROULETTE"
+                        )[0]
+                      }
                     ></PromotionRoulette>
                   )}
                 <Footer target={"_blank"}></Footer>
