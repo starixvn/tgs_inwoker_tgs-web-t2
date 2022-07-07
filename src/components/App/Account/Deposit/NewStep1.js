@@ -987,7 +987,7 @@ const NewStepOne = (props) => {
               })()}
 
               {config.features.Deposit_Withdrawal_PlayerNote &&
-                (isEwallet || isPulsa) && (
+                (isEwallet || isPulsa || isBankTransfer) && (
                   <React.Fragment>
                     <SplitLine></SplitLine>
                     <SubHeaderContainer>
