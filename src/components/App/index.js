@@ -47,6 +47,7 @@ import i18n from "../../utils/i18n";
 import Maintenance from "../Share/Maintenance";
 import Banned from "./Banned";
 import AnotherFloatPanel from "./Home/AnotherFloatPanel";
+import PromotionRoulette from "./Home/PromotionRoulette";
 import config from "../../config/config";
 import CustomLibrary from "./Sports/CustomLibrary";
 const baseRouteUrl = Common.baseRouteUrl;
@@ -77,7 +78,7 @@ class App extends Component {
       this.props.getBanner();
       this.props.getBrand();
       this.props.getLiveChatURL();
-      this.props.getPromotionList(i18n.language);
+      this.props.getPromotion();
 
       // this.props.getVIP();
     }
@@ -148,7 +149,10 @@ class App extends Component {
   }
   async componentDidUpdate(preProps) {
     if (preProps.general.token !== this.props.general.token) {
-      if (this.props.general.token == null || this.props.general.token == "") {
+      if (
+        this.props.general.token === null ||
+        this.props.general.token === ""
+      ) {
         this.props.getSiteToken();
       } else {
         localStorage.setItem("client-token", this.props.general.token);
@@ -156,17 +160,22 @@ class App extends Component {
         const localStorageToken = localStorage.getItem("token0");
         if (
           localStorageToken != null &&
-          this.props.account.token == null &&
+          this.props.account.token === null &&
           this.props.account.info.token === ""
         ) {
           const responseToken = await this.props.checkTokenIsValid();
           if (responseToken.IsSuccess) {
             var bankInfoAuthentication = null;
-            await this.props.getAccountInfo().then((response)=>{
-              bankInfoAuthentication = response.data.bankinfoauthentication; 
+            await this.props.getAccountInfo().then((response) => {
+              bankInfoAuthentication = response.data.bankinfoauthentication;
             });
-            if (config.features.ForceRedirectAddCard && !bankInfoAuthentication) {
-              AppHistory.push("/" + i18n.language + "/account/withdrawal?do=addCard");
+            if (
+              config.features.ForceRedirectAddCard &&
+              !bankInfoAuthentication
+            ) {
+              AppHistory.push(
+                "/" + i18n.language + "/account/withdrawal?do=addCard"
+              );
               return;
             }
             // this.props.checkGame();
@@ -175,7 +184,7 @@ class App extends Component {
             this.props.getMessageList(i18n.language, 0, 99);
             this.props.getBankCardList();
             this.props.getAutoTransferStatus();
-            this.props.getPlayerPromotionList(i18n.language);
+            this.props.getPromotion();
             this.props.getWithdrawalChannel();
 
             // if (inbox.IsSuccess) {
@@ -200,16 +209,22 @@ class App extends Component {
         this.props.getBrandLanguage();
         this.props.getBanner();
         this.props.getBrand();
-        this.props.getPromotionList(i18n.language);
+        this.props.getPromotion();
 
         // this.props.getVIP();
       }
+    }
+    if (
+      preProps.account.token !== this.props.account.token &&
+      (this.props.account.token === null || this.props.account.token === "")
+    ) {
+      this.props.getPromotion();
     }
     if (config.features.ForceRedirectAddCard) {
       if (
         this.props.general.token !== null &&
         this.props.account.token !== null &&
-        (this.props.account.info.bankInfoAuthentication !== undefined) &&
+        this.props.account.info.bankInfoAuthentication !== undefined &&
         !this.props.account.info.bankInfoAuthentication &&
         this.props.location.pathname !== `/${i18n.language}/account/withdrawal`
       ) {
@@ -286,6 +301,20 @@ class App extends Component {
     } else {
       this.props.history.push("/" + i18n.language + "/account/deposit");
     }
+  };
+
+  isRouletteAvailable = () => {
+    return (
+      this.props.general.promotionList.items &&
+      this.props.general.promotionList.items.length > 0 &&
+      this.props.general.promotionList.items.findIndex(
+        (item) => item.promotionType.toUpperCase() === "ROULETTE"
+      ) >= 0
+    );
+  };
+
+  isInHomePage = () => {
+    return this.props.location.pathname === `/${i18n.language}/`;
   };
 
   path = window.location.pathname.split("/");
@@ -476,6 +505,18 @@ class App extends Component {
                     />
                   )}
 
+                {config.features.HomePage_PromoRoulette &&
+                  this.isInHomePage() &&
+                  this.isRouletteAvailable() && (
+                    <PromotionRoulette
+                      promotionDetail={
+                        this.props.general.promotionList.items.filter(
+                          (item) =>
+                            item.promotionType.toUpperCase() === "ROULETTE"
+                        )[0]
+                      }
+                    ></PromotionRoulette>
+                  )}
                 <Footer target={"_blank"}></Footer>
               </>
             );
@@ -539,6 +580,7 @@ const mapDispatchToProps = (dispatch) => {
         generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
       ),
     getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
+    getPromotion: () => dispatch(generalAction.getPromotion()),
   };
 };
 
