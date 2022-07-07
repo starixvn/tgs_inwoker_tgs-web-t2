@@ -570,9 +570,11 @@ class Deposit extends Component {
             this.state.depositPromotion,
             null,
             config.features.Deposit_AddCard
-              ? this.props.wallet.bankCardList[bankCardIndex]
-                  .detail
-              : null
+              ? this.props.wallet.bankCardList[bankCardIndex].detail
+              : null,
+            config.features.Deposit_Withdrawal_PlayerNote
+              ? this.state.playerNote
+              : ""
           );
         } else {
           this.props.doBankDeposit(
@@ -580,7 +582,11 @@ class Deposit extends Component {
             this.state.account,
             this.state.amount.replace(/,/g, ""),
             channel.id,
-            this.state.depositPromotion
+            this.state.depositPromotion,
+            null,
+            config.features.Deposit_Withdrawal_PlayerNote
+              ? this.state.playerNote
+              : ""
           );
         }
       } else if (method.methodcode === "FPS") {
@@ -1232,7 +1238,8 @@ const mapDispatchToProps = (dispatch) => {
       amount,
       paymentid,
       promotionid,
-      banktype
+      banktype,
+      note
     ) => {
       dispatch(
         walletAction.doBankDeposit(
@@ -1241,7 +1248,8 @@ const mapDispatchToProps = (dispatch) => {
           amount,
           paymentid,
           promotionid,
-          banktype
+          banktype,
+          note
         )
       );
     },
@@ -1369,7 +1377,8 @@ const mapDispatchToProps = (dispatch) => {
       paymentid,
       promotionid,
       banktype,
-      detail
+      detail,
+      note
     ) => {
       dispatch(
         walletAction.doBankDepositWithDetail(
@@ -1379,7 +1388,8 @@ const mapDispatchToProps = (dispatch) => {
           paymentid,
           promotionid,
           banktype,
-          detail
+          detail,
+          note
         )
       );
     },
