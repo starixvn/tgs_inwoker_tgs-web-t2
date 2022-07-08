@@ -84,8 +84,7 @@ class Sports extends Component {
 
     var sportsList = props.game.homePageGameList.filter((item) => {
       return (
-        item.type === GameTypeEnum.SPORTS 
-        ||
+        item.type === GameTypeEnum.SPORTS ||
         (item.type === GameTypeEnum.RNGSPORTS && item.abbreviation === "PPTF")
       );
     });
@@ -105,8 +104,7 @@ class Sports extends Component {
     ) {
       var sportsList = this.props.game.homePageGameList.filter((item) => {
         return (
-          item.type === GameTypeEnum.SPORTS 
-          ||
+          item.type === GameTypeEnum.SPORTS ||
           (item.type === GameTypeEnum.RNGSPORTS && item.abbreviation === "PPTF")
         );
       });
@@ -127,7 +125,6 @@ class Sports extends Component {
       if (type === GameTypeEnum.RNGSPORTS) {
         this.props.history.push("/" + i18n.language + "/sports/" + params);
       } else if (params === "WGFM" || params === "WGVIA") {
-        // this.props.performBalanceRefresh();
         Common.PopupCenter(
           `/${i18n.language}/joinlobbygame/${type}/${params}`,
           params,
@@ -135,7 +132,6 @@ class Sports extends Component {
           720
         );
       } else {
-        // this.props.performBalanceRefresh();
         this.props.history.push(
           "/" + i18n.language + "/sports/play/" + params + "/" + type
         );
