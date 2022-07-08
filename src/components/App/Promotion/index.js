@@ -263,52 +263,62 @@ class Promotion extends Component {
               {(() => {
                 if (this.props.general.promotionList.items.length > 0)
                   return this.props.general.promotionList.items.map(
-                    (data, index) => (
-                      <Content
-                        key={index}
-                        image={data.localization.desktopBanner}
-                      >
-                        <LeftContent />
-                        <RightContent>
-                          <RightContentContainer>
-                            <PromoTitle>
-                              <DynamicFont content={data.name} />
-                            </PromoTitle>
-                            <PromoDate>
-                              <Tint> {i18n.t("promotion.promoTarget")}：</Tint>{" "}
-                              {data.vipLevels.map((a, index) => {
-                                return (
-                                  <span key={index}>
-                                    VIP{a}
-                                    {index < data.vipLevels.length - 1 && ", "}
-                                  </span>
-                                );
-                              })}
-                            </PromoDate>
-                            <PromoDate>
-                              <Tint> {i18n.t("promotion.promoDate")}：</Tint>{" "}
-                              {moment(data.from).format("YYYY/MM/DD HH:mm:ss")}
-                              {" - "}
-                              {moment(data.to).format("YYYY/MM/DD HH:mm:ss")}
-                            </PromoDate>
+                    (data, index) => {
+                      var checkLocale = data.localization[i18n.language];
 
-                            <PromoDate></PromoDate>
-                            <CustomViewContainer>
-                              <Viewall
-                                onClick={() =>
-                                  this.handlePromotionClick(
-                                    data.id,
-                                    data.promotionType
-                                  )
-                                }
-                              >
-                                {i18n.t("promotion.details")}
-                              </Viewall>
-                            </CustomViewContainer>
-                          </RightContentContainer>
-                        </RightContent>
-                      </Content>
-                    )
+                      return (
+                        <Content
+                          key={index}
+                          image={checkLocale && checkLocale.desktopBanner}
+                        >
+                          <LeftContent />
+                          <RightContent>
+                            <RightContentContainer>
+                              <PromoTitle>
+                                <DynamicFont content={data.name} />
+                              </PromoTitle>
+                              <PromoDate>
+                                <Tint>
+                                  {" "}
+                                  {i18n.t("promotion.promoTarget")}：
+                                </Tint>{" "}
+                                {data.vipLevels.map((a, index) => {
+                                  return (
+                                    <span key={index}>
+                                      VIP{a}
+                                      {index < data.vipLevels.length - 1 &&
+                                        ", "}
+                                    </span>
+                                  );
+                                })}
+                              </PromoDate>
+                              <PromoDate>
+                                <Tint> {i18n.t("promotion.promoDate")}：</Tint>{" "}
+                                {moment(data.from).format(
+                                  "YYYY/MM/DD HH:mm:ss"
+                                )}
+                                {" - "}
+                                {moment(data.to).format("YYYY/MM/DD HH:mm:ss")}
+                              </PromoDate>
+
+                              <PromoDate></PromoDate>
+                              <CustomViewContainer>
+                                <Viewall
+                                  onClick={() =>
+                                    this.handlePromotionClick(
+                                      data.id,
+                                      data.promotionType
+                                    )
+                                  }
+                                >
+                                  {i18n.t("promotion.details")}
+                                </Viewall>
+                              </CustomViewContainer>
+                            </RightContentContainer>
+                          </RightContent>
+                        </Content>
+                      );
+                    }
                   );
                 else
                   return (
