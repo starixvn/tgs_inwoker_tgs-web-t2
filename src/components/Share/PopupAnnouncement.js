@@ -97,9 +97,10 @@ class PopupAnnouncement extends Component {
           {this.props.type === "promo" ? (
             <ContentContainer>
               {this.props.content.map((data, index) => {
+                var checkLocale = data.localization[i18n.language];
                 return (
                   <ImageBanner
-                    img={data.mobileBanner}
+                    img={checkLocale && checkLocale.mobileBanner}
                     onClick={() => {
                       this.handlePromotionClick(data.id);
                     }}
