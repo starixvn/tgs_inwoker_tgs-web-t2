@@ -749,7 +749,11 @@ class Header extends Component {
     ];
     Common.closePreviousPopup();
     if (slotPageGameType.indexOf(gameType) >= 0) {
-      if (gameType == GameTypeEnum.SPORTS || gameType == GameTypeEnum.ESPORTS ||  GameTypeEnum.RNGSPORTS) {
+      if (
+        gameType == GameTypeEnum.SPORTS ||
+        gameType == GameTypeEnum.ESPORTS ||
+        GameTypeEnum.RNGSPORTS
+      ) {
         if (!this.props.account.token) {
           this.props.showLogin(true);
         } else {
@@ -757,7 +761,7 @@ class Header extends Component {
             this.props.history.push(
               "/" + i18n.language + "/sports/" + gameCode
             );
-          }else if (gameCode === "WGFM" || gameCode === "WGVIA") {
+          } else if (gameCode === "WGFM" || gameCode === "WGVIA") {
             window.open(
               `/${i18n.language}/joinlobbygame/${gameType}/${gameCode}`,
               "_blank"
@@ -1033,7 +1037,7 @@ class Header extends Component {
             >
               {SortedMenuList.map((item, index) => {
                 var list = this.props.game.homePageGameList
-                  .filter((game) => (game.type === GameTypeEnum.RNGSPORTS && game.abbreviation === "PPTF") || (item.gameType.indexOf(game.type) >= 0 && game.type !== GameTypeEnum.RNGSPORTS))
+                  .filter((game) => item.gameType.indexOf(game.type) >= 0)
                   .sort((a, b) => {
                     if (config.features.LiveGame_Sorting_SKY) {
                       var sortDGFirst = ["DG"];
@@ -1090,7 +1094,10 @@ class Header extends Component {
                               var list =
                                 this.props.game.homePageGameList.filter(
                                   (game) =>
-                                  (game.type === GameTypeEnum.RNGSPORTS && game.abbreviation === "PPTF") || (item.gameType.indexOf(game.type) >= 0 && game.type !== GameTypeEnum.RNGSPORTS)
+                                    (game.type === GameTypeEnum.RNGSPORTS &&
+                                      game.abbreviation === "PPTF") ||
+                                    (item.gameType.indexOf(game.type) >= 0 &&
+                                      game.type !== GameTypeEnum.RNGSPORTS)
                                 );
                               return list.length <= 5 ? (
                                 list.map((game, index) => {
