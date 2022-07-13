@@ -44,7 +44,6 @@ import LiveChat from "../Share/live-chat";
 import VIP from "./VIP/index";
 
 import i18n from "../../utils/i18n";
-import Maintenance from "../Share/Maintenance";
 import Banned from "./Banned";
 import AnotherFloatPanel from "./Home/AnotherFloatPanel";
 import PromotionRoulette from "./Home/PromotionRoulette";
@@ -487,17 +486,6 @@ class App extends Component {
                       path={baseRouteUrl + "/registersuccess/:username"}
                       component={RegisterSuccess}
                     />{" "} */}
-                    <Route
-                      exact
-                      path={baseRouteUrl + "/maintenance"}
-                      render={(props) => (
-                        <Maintenance
-                          onhandleCSClick={this.GetSupportUrl}
-                          brandComm={this.props.getBrandCommunicationList}
-                          alert={this.props.enqueueSnackbar}
-                        />
-                      )}
-                    />
                     <Route
                       exact
                       path={baseRouteUrl + "/banned"}
