@@ -435,21 +435,24 @@ class GuestContainer extends Component {
 
     const result = await this.props.accountLogin(username, password);
     if (result.IsSuccess) {
-      AccountService.Activation(username, password,this.state.areaCode, phone).then(
-        async (response) => {
-          if (response.IsSuccess) {
-            this.state.securityKey = response.data;
-            AccountService.VerifyActivation(
-              this.state.securityKey,
-              "123456"
-            ).then(async (response) => {
-              this.handleLoginSuccess(result.data);
-            });
-          } else {
+      AccountService.Activation(
+        username,
+        password,
+        this.state.areaCode,
+        phone
+      ).then(async (response) => {
+        if (response.IsSuccess) {
+          this.state.securityKey = response.data;
+          AccountService.VerifyActivation(
+            this.state.securityKey,
+            "123456"
+          ).then(async (response) => {
             this.handleLoginSuccess(result.data);
-          }
+          });
+        } else {
+          this.handleLoginSuccess(result.data);
         }
-      );
+      });
     }
   };
   handleLoginClickWithHpEmail = async (username, password, phone, email) => {
@@ -467,30 +470,30 @@ class GuestContainer extends Component {
     }
     const result = await this.props.accountLogin(username, password);
     if (result.IsSuccess) {
-      AccountService.Activation(username, password,this.state.areaCode, phone).then(
-        async (response) => {
-          if (response.IsSuccess) {
-            this.state.securityKey = response.data;
-            AccountService.VerifyActivation(
-              this.state.securityKey,
-              "123456"
-            )
-            // .then(async (response) => {
-              
-            // });
-          } 
-          // else {
-          //   this.handleLoginSuccess(result.data);
-          // }
+      AccountService.Activation(
+        username,
+        password,
+        this.state.areaCode,
+        phone
+      ).then(async (response) => {
+        if (response.IsSuccess) {
+          this.state.securityKey = response.data;
+          AccountService.VerifyActivation(this.state.securityKey, "123456");
+          // .then(async (response) => {
+
+          // });
         }
-      );
+        // else {
+        //   this.handleLoginSuccess(result.data);
+        // }
+      });
       AccountService.ActivationEmail(email).then(async (response) => {
         if (response.IsSuccess) {
           this.state.securityKey = response.data;
           AccountService.VerifyActivationEmail(
             this.state.securityKey,
             "123456"
-          )
+          );
           // .then(async (response) => {
           //   this.handleLoginSuccess(result.data);
           // });
@@ -502,7 +505,7 @@ class GuestContainer extends Component {
   handleCloseSelfControlDialog = (token) => {
     this.setState({ ...this.state, openSelfControlDialog: false });
   };
-  handleLoginSuccess =  async (token) => {
+  handleLoginSuccess = async (token) => {
     let urlParams = new URLSearchParams(this.props.location.search);
     if (urlParams.has("return_url")) {
       // const returnValue = urlParams.get("return_url");
@@ -518,14 +521,15 @@ class GuestContainer extends Component {
       }
       // this.props.checkGame();
       var bankInfoAuthentication = null;
-      await this.props.getAccountInfo().then((response)=>{
-        if(response.IsSuccess)
-        {
+      await this.props.getAccountInfo().then((response) => {
+        if (response.IsSuccess) {
           bankInfoAuthentication = response.data.bankinfoauthentication;
         }
       });
-      if(!config.features.Register_CustomFlow_IDR || (config.features.Register_CustomFlow_IDR && bankInfoAuthentication))
-      {    
+      if (
+        !config.features.Register_CustomFlow_IDR ||
+        (config.features.Register_CustomFlow_IDR && bankInfoAuthentication)
+      ) {
         this.props.getBankCardList();
         this.props.getMessageList(i18n.language, 0, 99);
         this.props.getBalanceList();
@@ -582,13 +586,15 @@ class GuestContainer extends Component {
   render() {
     return (
       <Container>
-        {config.features.SMSVerification && (
-          <React.Fragment>
-            <BtnRegister onClick={() => this.onhandleActivation()}>
-              {i18n.t("web.register.activation")}
-            </BtnRegister>
-          </React.Fragment>
-        )}
+        {
+          //  config.features.SMSVerification && (
+          //    <React.Fragment>
+          //      <BtnRegister onClick={() => this.onhandleActivation()}>
+          //        {i18n.t("web.register.activation")}
+          //      </BtnRegister>
+          //    </React.Fragment>
+          //  )
+        }
 
         <BtnRegister onClick={() => this.onhandleRegister()}>
           {i18n.t("common.register")}
@@ -730,6 +736,7 @@ const mapStateToProps = (state) => {
   return {
     ui: state.ui,
     game: state.game,
+    account: state.account,
   };
 };
 

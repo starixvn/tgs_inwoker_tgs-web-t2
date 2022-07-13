@@ -420,26 +420,27 @@ function Activation(props) {
         );
         return;
       }
-      var result = null; 
-      if(!isLoggedIn)
-      {
+      var result = null;
+      if (!isLoggedIn) {
         result = await AccountService.Login(username, password);
       }
-      if ((result!==null && result.IsSuccess) || isLoggedIn) {
+      if ((result !== null && result.IsSuccess) || isLoggedIn) {
         setIsLoggedIn(true);
-        AccountService.Activation("","",areacode, phone).then(async (response) => {
-          if (response.IsSuccess) {
-            setSecurityKey(response.data);
-            props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
-              variant: "info",
-            });
-            setCountdown(60);
-          } else {
-            props.enqueueSnackbar(response.info, {
-              variant: "warning",
-            });
+        AccountService.Activation("", "", areacode, phone).then(
+          async (response) => {
+            if (response.IsSuccess) {
+              setSecurityKey(response.data);
+              props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
+                variant: "info",
+              });
+              setCountdown(60);
+            } else {
+              props.enqueueSnackbar(response.info, {
+                variant: "warning",
+              });
+            }
           }
-        });
+        );
       }
     }
   };
@@ -469,50 +470,52 @@ function Activation(props) {
       <TitleContainer>{i18n.t("web.register.activation")}</TitleContainer>
 
       <FormContainer>
-        <CustomText
-          onChange={handleUsernameChange}
-          id="username"
-          value={username}
-          placeholder={i18n.t("web.register.username")}
-          variant="outlined"
-          autoComplete="off"
-          inputProps={{
-            maxLength: 32,
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment
-                position="start"
-                style={{ height: "24px", width: "30px" }}
-              >
-                <img src={UserIconPNG} alt=""></img>
-              </InputAdornment>
-            ),
-          }}
-        />
-
-        <CustomText
-          onChange={handlePasswordChange}
-          id="password"
-          value={password}
-          placeholder={i18n.t("web.register.password")}
-          variant="outlined"
-          type="password"
-          autoComplete="off"
-          inputProps={{
-            maxLength: 20,
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment
-                position="start"
-                style={{ height: "26px", width: "30px" }}
-              >
-                <img src={Password1IconPNG} alt=""></img>
-              </InputAdornment>
-            ),
-          }}
-        />
+        {
+          //      <CustomText
+          //      onChange={handleUsernameChange}
+          //      id="username"
+          //      value={username}
+          //      placeholder={i18n.t("web.register.username")}
+          //      variant="outlined"
+          //      autoComplete="off"
+          //      inputProps={{
+          //        maxLength: 32,
+          //      }}
+          //      InputProps={{
+          //        startAdornment: (
+          //          <InputAdornment
+          //            position="start"
+          //            style={{ height: "24px", width: "30px" }}
+          //          >
+          //            <img src={UserIconPNG} alt=""></img>
+          //          </InputAdornment>
+          //        ),
+          //      }}
+          //    />
+          //
+          //    <CustomText
+          //      onChange={handlePasswordChange}
+          //      id="password"
+          //      value={password}
+          //      placeholder={i18n.t("web.register.password")}
+          //      variant="outlined"
+          //      type="password"
+          //      autoComplete="off"
+          //      inputProps={{
+          //        maxLength: 20,
+          //      }}
+          //      InputProps={{
+          //        startAdornment: (
+          //          <InputAdornment
+          //            position="start"
+          //            style={{ height: "26px", width: "30px" }}
+          //          >
+          //            <img src={Password1IconPNG} alt=""></img>
+          //          </InputAdornment>
+          //        ),
+          //      }}
+          //    />
+        }
         <CustomFormControl>
           <CustomSelect
             native

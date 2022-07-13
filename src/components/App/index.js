@@ -49,7 +49,8 @@ import AnotherFloatPanel from "./Home/AnotherFloatPanel";
 import PromotionRoulette from "./Home/PromotionRoulette";
 import config from "../../config/config";
 import CustomLibrary from "./Sports/CustomLibrary";
-const bc = new BroadcastChannel('refreshBalance');
+import ForcedVerification from "./ForcedVerification";
+const bc = new BroadcastChannel("refreshBalance");
 const baseRouteUrl = Common.baseRouteUrl;
 const Main = styled.div`
   min-height: 600px;
@@ -70,7 +71,7 @@ class App extends Component {
   async componentDidMount() {
     bc.onmessage = (eventMessage) => {
       this.performBalanceRefresh();
-    }
+    };
 
     if (this.props.general.token === "") {
       this.props.getSiteToken();
@@ -521,6 +522,21 @@ class App extends Component {
                     <LiveChat
                       license={config.features.LiveChatVendor.license}
                       vendor={config.features.LiveChatVendor.brand}
+                    />
+                  )}
+
+                <ForcedVerification
+                  forcedverify={
+                    config.features.SMSVerification &&
+                    this.props.account.info.identityformstatus === 0 &&
+                    (this.props.account.info.identityformid === "" ||
+                      this.props.account.info.identityformid === null)
+                  }
+                />
+                {this.props.account.registercompleted === false &&
+                  config.features.Register_ShowPhone && (
+                    <Redirect
+                      to={"/" + i18n.language + "/account/profile/member_phone"}
                     />
                   )}
 
