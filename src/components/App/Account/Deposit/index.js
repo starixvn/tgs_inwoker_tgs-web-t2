@@ -895,9 +895,19 @@ class Deposit extends Component {
       playerNote: e.target.value,
     });
   };
-  handleRestartClick = (e) => {
+  handleRestartClick = async (e) => {
     this.setState(this.initialState);
-    this.props.resetDeposit();
+    await this.props.resetDeposit();
+    if (
+      config.features.Deposit_AddCard &&
+      this.props.wallet.bankCardList.length > 0 &&
+      this.props.wallet.bankCardList !== null
+    ) {
+      var defaultCard = this.props.wallet.bankCardList.filter(
+        (item) => item.default
+      )[0];
+      this.handleBankCardChange({ target: { value: defaultCard.id } });
+    }
   };
   switchStep = (steps) => {
     switch (steps) {
