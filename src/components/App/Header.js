@@ -752,7 +752,7 @@ class Header extends Component {
       if (
         gameType == GameTypeEnum.SPORTS ||
         gameType == GameTypeEnum.ESPORTS ||
-        GameTypeEnum.RNGSPORTS
+        gameType == GameTypeEnum.RNGSPORTS
       ) {
         if (!this.props.account.token) {
           this.props.showLogin(true);
