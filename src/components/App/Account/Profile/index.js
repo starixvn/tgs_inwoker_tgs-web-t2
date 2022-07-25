@@ -399,7 +399,10 @@ class Profile extends Component {
   };
   componentDidMount() {
     if (this.props.popup) {
-      if (this.props.popup === "member_phone" && config.features.PromoRoulette_SMSVerification) {
+      if (
+        this.props.popup === "member_phone" &&
+        config.features.PromoRoulette_SMSVerification
+      ) {
         this.handleButtonClick(this.props.popup, true);
       } else {
         this.handleButtonClick(this.props.popup);
@@ -408,7 +411,10 @@ class Profile extends Component {
   }
   componentDidUpdate(preProps) {
     if (preProps.popup !== this.props.popup) {
-      if (this.props.popup === "member_phone" && config.features.PromoRoulette_SMSVerification) {
+      if (
+        this.props.popup === "member_phone" &&
+        config.features.PromoRoulette_SMSVerification
+      ) {
         this.handleButtonClick(this.props.popup, true);
       } else {
         this.handleButtonClick(this.props.popup);
@@ -736,6 +742,11 @@ class Profile extends Component {
   };
 
   render() {
+    const forcedverify =
+      this.props.account.registercompleted === false &&
+      config.features.Register_ShowPhone &&
+      config.features.ForcedVerification &&
+      this.props.popup === "member_phone";
     return (
       <Container>
         <Title>
@@ -865,15 +876,17 @@ class Profile extends Component {
         </InnerWrap>
         <StyledDialog
           open={this.state.openDialog}
-          onClose={this.handleCloseDialog}
+          onClose={forcedverify ? "" : this.handleCloseDialog}
           onEntering={() => this.props.showDialog(true)}
           onExited={() => this.props.showDialog(false)}
         >
           <DialogHeader>
             <DialogHeadertitle>{this.state.dialogTitle}</DialogHeadertitle>
-            <DialogCloseIconContainer
-              onClick={this.handleCloseDialog}
-            ></DialogCloseIconContainer>
+            {!forcedverify && (
+              <DialogCloseIconContainer
+                onClick={this.handleCloseDialog}
+              ></DialogCloseIconContainer>
+            )}
           </DialogHeader>
           <DialogContainer>{this.state.dialogComponent}</DialogContainer>
         </StyledDialog>
