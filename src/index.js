@@ -45,6 +45,8 @@ import { themeList } from "./theme";
 import { GlobalStyles } from "./global";
 import Deposit from "./components/Share/Deposit";
 import FeatureGetter from "./components/Share/feature-getter";
+import Maintenance from "./components/Share/Maintenance";
+
 require("es6-promise").polyfill();
 const store = createStore(rootReducer, applyMiddleware(thunk));
 InterceptorService.setupInterceptors(store);
@@ -252,6 +254,17 @@ const AppWrapper = () => {
                     path={Common.baseRouteUrl + "/joinlobbygame/:type/:params"}
                     component={JoinLobbyGame}
                   />
+                  {(() => {
+                    if (!isMobileOnly) {
+                      return (
+                        <Route
+                          exact
+                          path={Common.baseRouteUrl + "/maintenance"}
+                          render={(props) => <Maintenance />}
+                        />
+                      );
+                    }
+                  })()}
                   <Route
                     path={Common.baseRouteUrl + "/"}
                     render={(props) => (isMobileOnly ? <Wap /> : <Web />)}

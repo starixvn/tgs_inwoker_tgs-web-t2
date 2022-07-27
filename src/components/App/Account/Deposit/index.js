@@ -189,11 +189,11 @@ class Deposit extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     localStorage.removeItem("depositResult");
-    this.props.getDepositMethod();
+    await this.props.getDepositMethod();
     this.props.getPromotion();
-    
+
     window.addEventListener("storage", this.handStorageMsg, true);
     if (this.state.paymentId) {
       WalletService.PerformGetManualDepositDetail(this.state.paymentId).then(
@@ -210,6 +210,16 @@ class Deposit extends Component {
           }
         }
       );
+    }
+    if (
+      config.features.Deposit_AddCard &&
+      this.props.wallet.bankCardList.length > 0 &&
+      this.props.wallet.bankCardList !== null
+    ) {
+      var defaultCard = this.props.wallet.bankCardList.filter(
+        (item) => item.default
+      )[0];
+      this.handleBankCardChange({ target: { value: defaultCard.id } });
     }
     this.countDownInterval = setInterval(() => {
       this.props.getDepositMethod(); // call api every 30 mins
@@ -268,9 +278,11 @@ class Deposit extends Component {
                 depositResult: response,
               });
             } else {
-              if(this.state.files.length>0)
-              {
-                this.props.doUploadDepositProof(response.data, this.state.files[0]);
+              if (this.state.files.length > 0) {
+                this.props.doUploadDepositProof(
+                  response.data,
+                  this.state.files[0]
+                );
               }
               this.setState({
                 ...this.state,
@@ -416,6 +428,17 @@ class Deposit extends Component {
         );
       }
     }
+    if (
+      config.features.Deposit_AddCard &&
+      preProps.wallet.bankCardList !== this.props.wallet.bankCardList &&
+      this.props.wallet.bankCardList.length > 0 &&
+      this.props.wallet.bankCardList !== null
+    ) {
+      var defaultCard = this.props.wallet.bankCardList.filter(
+        (item) => item.default
+      )[0];
+      this.handleBankCardChange({ target: { value: defaultCard.id } });
+    }
   }
 
   componentWillUnmount() {
@@ -504,9 +527,7 @@ class Deposit extends Component {
       showTabContainer: true,
     });
   };
-  handleGoWithdrawClick = () => {
-
-  }
+  handleGoWithdrawClick = () => {};
   handleCSClick = () => {
     this.props.onhandleCSClick(
       this.props.account.info.member_id,
@@ -539,8 +560,7 @@ class Deposit extends Component {
     var method = payment.method[this.state.selectedMethodIndex];
 
     var channel = method.channel[this.state.selectedChannelIndex];
-    if(config.features.Deposit_AddCard)
-    {
+    if (config.features.Deposit_AddCard) {
       var bankCardIndex = this.props.wallet.bankCardList.findIndex(
         (item) => item.id === this.state.selectedBankCard
       );
@@ -629,8 +649,7 @@ class Deposit extends Component {
               ? this.state.playerNote
               : null,
             config.features.Deposit_AddCard
-              ? this.props.wallet.bankCardList[bankCardIndex]
-                  .detail
+              ? this.props.wallet.bankCardList[bankCardIndex].detail
               : null
           );
         } else {
@@ -655,8 +674,7 @@ class Deposit extends Component {
               ? this.state.playerNote
               : null,
             config.features.Deposit_AddCard
-              ? this.props.wallet.bankCardList[bankCardIndex]
-                  .detail
+              ? this.props.wallet.bankCardList[bankCardIndex].detail
               : null
           );
         } else {
@@ -742,7 +760,7 @@ class Deposit extends Component {
     var bankCardIndex = this.props.wallet.bankCardList.findIndex(
       (item) => item.id === e.target.value
     );
-    if (config.features.Deposit_AddCard && e.target.value!=="") {
+    if (config.features.Deposit_AddCard && e.target.value !== "") {
       loop1: for (
         var i = 0;
         i < this.props.wallet.depositTypeList.length;
@@ -765,7 +783,7 @@ class Deposit extends Component {
             ) {
               paymentIndex = i;
               methodIndex = j;
-              channelIndex =k;
+              channelIndex = k;
               break loop1;
             }
           }
@@ -778,9 +796,9 @@ class Deposit extends Component {
       selectedPaymentIndex: paymentIndex,
       selectedMethodIndex: methodIndex,
       selectedChannelIndex: channelIndex,
-      name: this.props.wallet.bankCardList[bankCardIndex].detail.name || ""
+      name: this.props.wallet.bankCardList[bankCardIndex].detail.name || "",
     });
-  }
+  };
   performSendData = () => {
     // TGSWalletService.PerformManualDeposit(
     //   this.state.amount,
@@ -877,9 +895,19 @@ class Deposit extends Component {
       playerNote: e.target.value,
     });
   };
-  handleRestartClick = (e) => {
+  handleRestartClick = async (e) => {
     this.setState(this.initialState);
-    this.props.resetDeposit();
+    await this.props.resetDeposit();
+    if (
+      config.features.Deposit_AddCard &&
+      this.props.wallet.bankCardList.length > 0 &&
+      this.props.wallet.bankCardList !== null
+    ) {
+      var defaultCard = this.props.wallet.bankCardList.filter(
+        (item) => item.default
+      )[0];
+      this.handleBankCardChange({ target: { value: defaultCard.id } });
+    }
   };
   switchStep = (steps) => {
     switch (steps) {
@@ -962,7 +990,13 @@ class Deposit extends Component {
               onNextClick={this.handleNextClick}
               selectedBankCard={this.state.selectedBankCard}
               handleBankCardChange={this.handleBankCardChange}
-              bankCardList={this.props.wallet.bankCardList.filter((item)=> !item.default)}
+              bankCardList={
+                config.features.Deposit_AddCard
+                  ? this.props.wallet.bankCardList.sort(
+                      (a, b) => b.default - a.default
+                    )
+                  : this.props.wallet.bankCardList
+              }
             />
           );
         }
@@ -1112,7 +1146,9 @@ class Deposit extends Component {
                   {config.features.Deposit_AddCard ? (
                     this.state.showTabContainer && (
                       <TabButtonContainer>
-                        <ButtonAddCard onClick={this.handleAddCard}></ButtonAddCard>
+                        <ButtonAddCard
+                          onClick={this.handleAddCard}
+                        ></ButtonAddCard>
                       </TabButtonContainer>
                     )
                   ) : (
@@ -1393,7 +1429,14 @@ const mapDispatchToProps = (dispatch) => {
         )
       );
     },
-    doPulsaDepositWithDetail: (amount, paymentid, promotionid, banktype, note, detail) => {
+    doPulsaDepositWithDetail: (
+      amount,
+      paymentid,
+      promotionid,
+      banktype,
+      note,
+      detail
+    ) => {
       dispatch(
         walletAction.doPulsaDepositWithDetail(
           amount,
@@ -1405,7 +1448,14 @@ const mapDispatchToProps = (dispatch) => {
         )
       );
     },
-    doEWalletDepositWithDetail: (amount, paymentid, promotionid, banktype, note, detail) => {
+    doEWalletDepositWithDetail: (
+      amount,
+      paymentid,
+      promotionid,
+      banktype,
+      note,
+      detail
+    ) => {
       dispatch(
         walletAction.doEWalletDepositWithDetail(
           amount,

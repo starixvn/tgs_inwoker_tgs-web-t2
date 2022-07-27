@@ -326,7 +326,11 @@ class PhoneVerification extends Component {
     if (config.features.Profile_DisableVerifyPhone) {
       return <Disabled />;
     }
-    if (this.props.edit) {
+    if (
+      this.props.edit ||
+      this.props.phone === null ||
+      this.props.phone === ""
+    ) {
       return (
         <Container>
           <FormControl>

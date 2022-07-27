@@ -44,13 +44,12 @@ import LiveChat from "../Share/live-chat";
 import VIP from "./VIP/index";
 
 import i18n from "../../utils/i18n";
-import Maintenance from "../Share/Maintenance";
 import Banned from "./Banned";
 import AnotherFloatPanel from "./Home/AnotherFloatPanel";
 import PromotionRoulette from "./Home/PromotionRoulette";
 import config from "../../config/config";
 import CustomLibrary from "./Sports/CustomLibrary";
-// import ForcedVerification from "./ForcedVerification";
+import ForcedVerification from "./ForcedVerification";
 // const bc = new BroadcastChannel("refreshBalance");
 const baseRouteUrl = Common.baseRouteUrl;
 const Main = styled.div`
@@ -490,17 +489,6 @@ class App extends Component {
                     />{" "} */}
                     <Route
                       exact
-                      path={baseRouteUrl + "/maintenance"}
-                      render={(props) => (
-                        <Maintenance
-                          onhandleCSClick={this.GetSupportUrl}
-                          brandComm={this.props.getBrandCommunicationList}
-                          alert={this.props.enqueueSnackbar}
-                        />
-                      )}
-                    />
-                    <Route
-                      exact
                       path={baseRouteUrl + "/banned"}
                       render={(props) => (
                         <Banned onhandleCSClick={this.GetSupportUrl} />
@@ -534,6 +522,28 @@ class App extends Component {
                     <LiveChat
                       license={config.features.LiveChatVendor.license}
                       vendor={config.features.LiveChatVendor.brand}
+                    />
+                  )}
+
+                <ForcedVerification
+                  forcedverify={
+                    config.features.SMSVerification &&
+                    this.props.account.registercompleted === false &&
+                    config.features.ForcedVerification
+                    // this.props.account.info.identityformstatus === 0 &&
+                    // (this.props.account.info.identityformid === "" ||
+                    //   this.props.account.info.identityformid === null)
+                  }
+                />
+                {this.props.account.registercompleted === false &&
+                  config.features.Register_ShowPhone &&
+                  config.features.ForcedVerification && (
+                    <Redirect
+                      to={{
+                        pathname:
+                          "/" + i18n.language + "/account/profile/member_phone",
+                        state: { forced: true },
+                      }}
                     />
                   )}
 
