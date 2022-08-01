@@ -1067,7 +1067,7 @@ class Header extends Component {
                               : classes.minLabel
                           }`}
                         >
-                          {item.title}
+                          {i18n.t(item.title)}
                           {
                             //     <RightMenuTextIcon>
                             //     <ArrowDropDownCircleOutlinedIcon
