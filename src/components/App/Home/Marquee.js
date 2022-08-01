@@ -18,6 +18,7 @@ const MarqueeContainer = styled.div`
   font-size: 14px;
   color: #f0ca83;
   float: left;
+  height: 23px;
   padding-top: 4px;
   background-color: rgba(0, 0, 0, 0.5);
 `;

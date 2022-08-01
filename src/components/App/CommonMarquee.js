@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Common from "../../utils/Common";
 import { UiService } from "../../api-services/services/UiService";
+import i18n from "../../utils/i18n";
+import { connect } from "react-redux";
 const AnnounceContainer = styled.div`
   width: 100%;
   height: 40px;
@@ -27,6 +29,7 @@ const MarqueeContainer = styled.div`
   font-size: 14px;
   color: #f0ca83;
   padding-top: 4px;
+  height: 23px;
   background-color: rgba(0, 0, 0, 0.7);
   @media (max-width: 320px) {
     width: 100%;
@@ -48,31 +51,12 @@ const MarqueeContainer = styled.div`
 `;
 
 function CommonMarquee(props) {
-  const [loaded, setLoaded] = useState(false);
-
-  const [announcement, setAnnouncement] = useState([]);
-
-  useEffect(() => {
-    setLoaded(true);
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      UiService.GetMarquee().then((result) => {
-        if (result.IsSuccess) {
-          setAnnouncement(result.data);
-        }
-      });
-    }
-  }, [loaded]);
-
-  useEffect(() => {});
   return (
     <AnnounceContainer>
       <MarqueeContainer>
-        <marquee>
-          {announcement.length &&
-            announcement.map((row, index) => {
+        {props.ui.marquees && props.ui.marquees.length > 0 && (
+          <marquee>
+            {props.ui.marquees.map((row, index) => {
               return (
                 <div
                   key={index}
@@ -83,11 +67,15 @@ function CommonMarquee(props) {
                     overflow: "visible",
                   }}
                 >
-                  {row.content}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"* "}
+                  {row.localization !== null && row.localization.content
+                    ? row.localization.content
+                    : row.content}
                 </div>
               );
             })}
-        </marquee>
+          </marquee>
+        )}
       </MarqueeContainer>
       <MarqueeIcon
         src={
@@ -98,4 +86,12 @@ function CommonMarquee(props) {
     </AnnounceContainer>
   );
 }
-export default CommonMarquee;
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+const mapStateToProps = (state) => {
+  return {
+    ui: state.ui,
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(CommonMarquee);
