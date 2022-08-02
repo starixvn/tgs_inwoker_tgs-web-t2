@@ -268,7 +268,11 @@ class Promotion extends Component {
                           <RightContent>
                             <RightContentContainer>
                               <PromoTitle>
-                                <DynamicFont content={data.name} />
+                                <DynamicFont
+                                  content={
+                                    checkLocale ? checkLocale.name : data.name
+                                  }
+                                />
                               </PromoTitle>
                               <PromoDate>
                                 <Tint>
