@@ -144,10 +144,10 @@ class AddCard extends Component {
             this.state.selectedBankTypeIndex
           ].banktype.toUpperCase()
         ) {
-          case "BANK":
-            name = defaultCard.detail.name;
-            disableBankAccountNameInput = true;
-            break;
+          // case "BANK":
+          //   name = defaultCard.detail.name;
+          //   disableBankAccountNameInput = true;
+          //   break;
           case "EWALLET":
             name = defaultCard.detail.eMoneyName;
             disableBankAccountNameInput = true;
@@ -243,10 +243,10 @@ class AddCard extends Component {
         defaultCard.banktype.toUpperCase()
       ) {
         switch (this.props.depositList[e.target.value].banktype.toUpperCase()) {
-          case "BANK":
-            name = defaultCard.detail.name;
-            disableBankAccountNameInput = true;
-            break;
+          // case "BANK":
+          //   name = defaultCard.detail.name;
+          //   disableBankAccountNameInput = true;
+          //   break;
           case "EWALLET":
             name = defaultCard.detail.eMoneyName;
             disableBankAccountNameInput = true;
@@ -254,11 +254,7 @@ class AddCard extends Component {
           default:
             break;
         }
-      } else {
-        name = this.state.bankAccountName;
       }
-    } else {
-      name = this.state.bankAccountName;
     }
     this.setState({
       ...this.state,
@@ -266,6 +262,7 @@ class AddCard extends Component {
       selectedChannelIndex: 0,
       bankAccountName: name,
       disableBankAccountNameInput: disableBankAccountNameInput,
+      number: "",
     });
   };
   handleChannelChange = (e) => {
@@ -845,6 +842,7 @@ class AddCard extends Component {
                 maxLength={50}
                 float={"none"}
                 handleTextFieldChange={this.handleNumberChange}
+                value={this.state.number}
               ></CustomTextField>
             </TextFieldContainer>
           </div>
