@@ -258,17 +258,28 @@ class Promotion extends Component {
                   return this.props.general.promotionList.items.map(
                     (data, index) => {
                       var checkLocale = data.localization[i18n.language];
+                      console.log(data.name);
 
                       return (
                         <Content
                           key={index}
-                          image={checkLocale && checkLocale.desktopBanner}
+                          image={
+                            checkLocale && checkLocale.desktopBanner
+                              ? checkLocale.desktopBanner
+                              : data.desktopBanner
+                          }
                         >
                           <LeftContent />
                           <RightContent>
                             <RightContentContainer>
                               <PromoTitle>
-                                <DynamicFont content={data.name} />
+                                <DynamicFont
+                                  content={
+                                    checkLocale && checkLocale.name
+                                      ? checkLocale.name
+                                      : data.name
+                                  }
+                                />
                               </PromoTitle>
                               <PromoDate>
                                 <Tint>
