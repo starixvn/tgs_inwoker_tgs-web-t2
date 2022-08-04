@@ -94,6 +94,10 @@ class GuestContainer extends Component {
   };
   componentDidMount() {
     let urlParams = new URLSearchParams(this.props.location.search);
+    if(localStorage.getItem("subid")!=="")
+    {
+      this.onhandleRegister();
+    }
     if (urlParams.has("do")) {
       const doValue = urlParams.get("do");
       switch (doValue) {
