@@ -470,21 +470,43 @@ class AddCard extends Component {
   };
   render() {
     const { withdrawalList, depositList } = this.props;
+    var depositListEWallet = false;
+    var withdrawalListEwallet = false;
+    var depositListPulsa = false;
+    var withdrawalListPulsa = false;
 
-    var depositListEWallet =
-      Common.arrayValidator(depositList) &&
-      depositList[this.state.selectedBankTypeIndex].banktype === "EWallet";
+    if (this.props.isDeposit) {
+      depositListEWallet =
+        Common.arrayValidator(depositList) &&
+        depositList[this.state.selectedBankTypeIndex].banktype === "EWallet";
 
-    var withdrawalListEwallet =
-      Common.arrayValidator(withdrawalList) &&
-      withdrawalList[this.state.selectedBankTypeIndex].banktype === "EWallet";
+      // .filter(
+      //   (card) => card.banktype === "EWallet"
+      // ).length > 0;
+      // [this.state.selectedBankTypeIndex].banktype === "";
 
-    var depositListPulsa =
-      Common.arrayValidator(depositList) &&
-      depositList[this.state.selectedBankTypeIndex].banktype === "Pulsa";
-    var withdrawalListPulsa =
-      Common.arrayValidator(withdrawalList) &&
-      withdrawalList[this.state.selectedBankTypeIndex].banktype === "Pulsa";
+      depositListPulsa =
+        Common.arrayValidator(depositList) &&
+        depositList[this.state.selectedBankTypeIndex].banktype === "Pulsa";
+      // .filter(
+      //   (card) => card.banktype === "Pulsa"
+      // ).length > 0;
+    } else {
+      withdrawalListEwallet =
+        Common.arrayValidator(withdrawalList) &&
+        withdrawalList[this.state.selectedBankTypeIndex].banktype === "EWallet";
+
+      // .filter(
+      //   (card) => card.banktype === "EWallet"
+      // ).length > 0
+
+      withdrawalListPulsa =
+        Common.arrayValidator(withdrawalList) &&
+        withdrawalList[this.state.selectedBankTypeIndex].banktype === "Pulsa";
+      // .filter(
+      //   (card) => card.banktype === "Pulsa"
+      // ).length > 0;
+    }
 
     const isEwallet = this.props.isDeposit
       ? depositListEWallet
