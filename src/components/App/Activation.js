@@ -6,7 +6,6 @@ import { AccountService } from "../../api-services/services/AccountService";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import LoginBGPNG from "../../assets/images/login-bg.png";
-import clsx from "clsx";
 
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -17,7 +16,7 @@ import IconInboxSelectedPNG from "../../assets/images/icon-inbox-selected.png";
 import IconInputVerifyCodePNG from "../../assets/images/icon-input-verifycode.png";
 import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
-import BlowFishEncryption from "../../utils/BlowFishEncryption";
+
 import { withSnackbar } from "notistack";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
@@ -337,7 +336,27 @@ function Activation(props) {
   const [securityKey, setSecurityKey] = React.useState("");
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
-  var timer = null;
+  function smsVerification(securityKey, code) {
+    AccountService.VerifyActivation(securityKey, code).then(
+      async (response) => {
+        if (response.IsSuccess) {
+          props.enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
+            variant: "success",
+          });
+          props.doLogin(username, password);
+
+          props.history.push(
+            "/" + i18n.language + "/registersuccess/" + username
+          );
+        } else {
+          props.enqueueSnackbar(response.info, {
+            variant: "warning",
+          });
+        }
+      }
+    );
+  }
+
   const handleActivationClick = async () => {
     var expr = /^[a-zA-Z0-9]{6,16}$/;
     if (!expr.test(username)) {
@@ -358,39 +377,43 @@ function Activation(props) {
       props.enqueueSnackbar(
         i18n
           .t("common.noReachMin")
-          .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10),
+          .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH),
         {
           variant: "warning",
         }
       );
       return;
     }
-    expr = /^[a-zA-Z0-9]{6}$/;
-    if (!expr.test(code)) {
-      props.enqueueSnackbar(i18n.t("common.msgEnterCode"), {
-        variant: "warning",
-      });
-      return;
+
+    if (!config.features.SkipSMSVerification) {
+      expr = /^[a-zA-Z0-9]{6}$/;
+      if (!expr.test(code)) {
+        props.enqueueSnackbar(i18n.t("common.msgEnterCode"), {
+          variant: "warning",
+        });
+        return;
+      }
     }
 
-    AccountService.VerifyActivation(securityKey, code).then(
-      async (response) => {
-        if (response.IsSuccess) {
-          props.enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
-            variant: "success",
-          });
-          props.doLogin(username, password);
-
-          props.history.push(
-            "/" + i18n.language + "/registersuccess/" + username
-          );
-        } else {
-          props.enqueueSnackbar(response.info, {
-            variant: "warning",
-          });
-        }
+    if (config.features.SkipSMSVerification) {
+      var result = await AccountService.Login(username, password);
+      if (result.IsSuccess) {
+        props.getAccountInfo();
+        AccountService.Activation("", "", areacode, phone).then(
+          async (response) => {
+            if (response.IsSuccess) {
+              smsVerification(response.data, "123456");
+            } else {
+              props.enqueueSnackbar(response.info, {
+                variant: "warning",
+              });
+            }
+          }
+        );
       }
-    );
+    } else {
+      smsVerification(securityKey, code);
+    }
   };
   const handleGetCodeClick = async () => {
     if (countdown <= 0) {
@@ -451,15 +474,6 @@ function Activation(props) {
       }, 1000);
   }, [countdown]);
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const classes = useStyles();
   return (
     <Container>
       <CloseIconContainer
@@ -471,51 +485,52 @@ function Activation(props) {
 
       <FormContainer>
         {
-          //      <CustomText
-          //      onChange={handleUsernameChange}
-          //      id="username"
-          //      value={username}
-          //      placeholder={i18n.t("web.register.username")}
-          //      variant="outlined"
-          //      autoComplete="off"
-          //      inputProps={{
-          //        maxLength: 32,
-          //      }}
-          //      InputProps={{
-          //        startAdornment: (
-          //          <InputAdornment
-          //            position="start"
-          //            style={{ height: "24px", width: "30px" }}
-          //          >
-          //            <img src={UserIconPNG} alt=""></img>
-          //          </InputAdornment>
-          //        ),
-          //      }}
-          //    />
+          //       <CustomText
+          //       onChange={handleUsernameChange}
+          //       id="username"
+          //       value={username}
+          //       placeholder={i18n.t("web.register.username")}
+          //       variant="outlined"
+          //       autoComplete="off"
+          //       inputProps={{
+          //         maxLength: 32,
+          //       }}
+          //       InputProps={{
+          //         startAdornment: (
+          //           <InputAdornment
+          //             position="start"
+          //             style={{ height: "24px", width: "30px" }}
+          //           >
+          //             <img src={UserIconPNG} alt=""></img>
+          //           </InputAdornment>
+          //         ),
+          //       }}
+          //     />
           //
-          //    <CustomText
-          //      onChange={handlePasswordChange}
-          //      id="password"
-          //      value={password}
-          //      placeholder={i18n.t("web.register.password")}
-          //      variant="outlined"
-          //      type="password"
-          //      autoComplete="off"
-          //      inputProps={{
-          //        maxLength: 20,
-          //      }}
-          //      InputProps={{
-          //        startAdornment: (
-          //          <InputAdornment
-          //            position="start"
-          //            style={{ height: "26px", width: "30px" }}
-          //          >
-          //            <img src={Password1IconPNG} alt=""></img>
-          //          </InputAdornment>
-          //        ),
-          //      }}
-          //    />
+          //     <CustomText
+          //       onChange={handlePasswordChange}
+          //       id="password"
+          //       value={password}
+          //       placeholder={i18n.t("web.register.password")}
+          //       variant="outlined"
+          //       type="password"
+          //       autoComplete="off"
+          //       inputProps={{
+          //         maxLength: 20,
+          //       }}
+          //       InputProps={{
+          //         startAdornment: (
+          //           <InputAdornment
+          //             position="start"
+          //             style={{ height: "26px", width: "30px" }}
+          //           >
+          //             <img src={Password1IconPNG} alt=""></img>
+          //           </InputAdornment>
+          //         ),
+          //       }}
+          //     />
         }
+
         <CustomFormControl>
           <CustomSelect
             native
@@ -555,30 +570,37 @@ function Activation(props) {
             ),
           }}
         />
-        <div class="clear"></div>
-        <CustomText
-          placeholder={i18n.t("common.msgEnterCode")}
-          adornment={IconInputVerifyCodePNG}
-          onChange={(e) => {
-            setCode(e.target.value);
-          }}
-          variant="outlined"
-          autoComplete="off"
-          value={code}
-          type={"text"}
-          style={{
-            width: "200px",
-            height: "51px",
-            marginTop: "0",
-          }}
-        ></CustomText>
-        <StyleButton onClick={handleGetCodeClick} disable={countdown > 0}>
-          <ButtonLabel>
-            {countdown <= 0
-              ? i18n.t("common.msgSendToken")
-              : i18n.t("common.btnTokenResendLabel") + "(" + countdown + "s)"}
-          </ButtonLabel>
-        </StyleButton>
+        {!config.features.SkipSMSVerification && (
+          <>
+            <div class="clear"></div>
+            <CustomText
+              placeholder={i18n.t("common.msgEnterCode")}
+              adornment={IconInputVerifyCodePNG}
+              onChange={(e) => {
+                setCode(e.target.value);
+              }}
+              variant="outlined"
+              autoComplete="off"
+              value={code}
+              type={"text"}
+              style={{
+                width: "200px",
+                height: "51px",
+                marginTop: "0",
+              }}
+            ></CustomText>
+            <StyleButton onClick={handleGetCodeClick} disable={countdown > 0}>
+              <ButtonLabel>
+                {countdown <= 0
+                  ? i18n.t("common.msgSendToken")
+                  : i18n.t("common.btnTokenResendLabel") +
+                    "(" +
+                    countdown +
+                    "s)"}
+              </ButtonLabel>
+            </StyleButton>
+          </>
+        )}
         <ButtonLogin onClick={handleActivationClick}>
           <ButtonLoginLabel>{i18n.t("common.submit")}</ButtonLoginLabel>
         </ButtonLogin>
