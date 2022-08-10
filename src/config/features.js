@@ -99,7 +99,8 @@ const featureList = {
     Home_OnlineUsers: {
       min: 26500,
       max: 27500,
-    }
+    },
+    MergeEVORTNT: true,
   },
 };
 export default featureList;
