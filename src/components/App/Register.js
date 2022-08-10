@@ -328,6 +328,8 @@ function Register(props) {
       ? config.affiliateId
       : localStorage.getItem("promotionId")
   );
+  const [subid, setSubid] = React.useState(localStorage.getItem("subid"));
+
 
   const [upper, setUpper] = React.useState(localStorage.getItem("upper"));
   const [promoteType, setPromoteType] = React.useState(
@@ -541,6 +543,11 @@ function Register(props) {
               props.doLoginWithHp(username, password, phone);
             } else {
               props.doLogin(username, password);
+            }
+            if (subid !== "") {
+              let PAYOUT = "";
+              let affiliateUrl = `http://ad.propellerads.com/conversion.php?aid=3508428&pid=&tid=100917&visitor_id=${subid}&payout=${PAYOUT}`;
+              window.open(affiliateUrl, "_blank");
             }
           } else {
             props.enqueueSnackbar(ErrorSwitcher.getTranslation(response.info), {

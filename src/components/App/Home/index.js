@@ -371,6 +371,11 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    if(this.props.match.params)
+    {
+      let subid = this.props.match.params.subid || "";
+      localStorage.setItem("subid", subid);
+    }
     //  let promotionId = "";
     //  let promotionChannelId = "";
     //  if (this.props.match.params) {
@@ -379,6 +384,9 @@ class Home extends Component {
     //  }
     //  localStorage.setItem("promotionId", promotionId);
     //  localStorage.setItem("promotionChannelId", promotionChannelId);
+  }
+  componentWillUnmount() {
+    localStorage.removeItem("subid");
   }
   componentDidUpdate(preProps) {
     var isInHomePage =

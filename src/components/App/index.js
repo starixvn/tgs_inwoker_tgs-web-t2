@@ -386,6 +386,7 @@ class App extends Component {
                         baseRouteUrl + "/t/:promotionid",
                         baseRouteUrl + "/f/:promotionid",
                         baseRouteUrl + "/p/:playername",
+                        baseRouteUrl + "/register&visitor_id=:subid",
                       ]}
                       render={(props) => (
                         <Home
