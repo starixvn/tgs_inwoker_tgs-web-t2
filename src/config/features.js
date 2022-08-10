@@ -96,7 +96,7 @@ const featureList = {
     },
     ForcedVerification: false,
     Profile_DisplayEditNameButton: true,
-    MergeEVORTNT: false,
+    MergeEVORTNT: true,
   },
 };
 export default featureList;
