@@ -186,20 +186,13 @@ class Promotion extends Component {
     openJoin: false,
     selectedPromoSpecifications: [],
   };
+
   componentDidMount() {
-    if (this.props.account.token === null) {
-      this.props.getPromotionList(i18n.language);
-    } else {
-      this.props.getPlayerPromotionList(i18n.language);
-    }
+    this.props.getPromotion();
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.account.token !== this.props.account.token) {
-      if (this.props.account.token === null) {
-        this.props.getPromotionList(i18n.language);
-      } else {
-        this.props.getPlayerPromotionList(i18n.language);
-      }
+      this.props.getPromotion();
     }
 
     if (
@@ -265,17 +258,28 @@ class Promotion extends Component {
                   return this.props.general.promotionList.items.map(
                     (data, index) => {
                       var checkLocale = data.localization[i18n.language];
+                      console.log(data.name);
 
                       return (
                         <Content
                           key={index}
-                          image={checkLocale && checkLocale.desktopBanner}
+                          image={
+                            checkLocale && checkLocale.desktopBanner
+                              ? checkLocale.desktopBanner
+                              : data.desktopBanner
+                          }
                         >
                           <LeftContent />
                           <RightContent>
                             <RightContentContainer>
                               <PromoTitle>
-                                <DynamicFont content={data.name} />
+                                <DynamicFont
+                                  content={
+                                    checkLocale && checkLocale.name
+                                      ? checkLocale.name
+                                      : data.name
+                                  }
+                                />
                               </PromoTitle>
                               <PromoDate>
                                 <Tint>
@@ -363,14 +367,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(generalAction.joinPromotion(id));
     },
     getPromotionList: (language) =>
-      //TODO: Revert the 4th param to true after testing.
-      dispatch(
-        generalAction.getPromotionList(language, 1, 99, false, "", true)
-      ),
+      dispatch(generalAction.getPromotionList(language, 1, 99, true, "", true)),
     getPlayerPromotionList: (language) =>
       dispatch(
         generalAction.getPlayerPromotionList(language, 1, 99, true, "", true)
       ),
+    getPromotion: () => dispatch(generalAction.getPromotion()),
   };
 };
 export default withRouter(
