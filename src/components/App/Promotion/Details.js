@@ -336,7 +336,7 @@ class PromotionDetails extends Component {
                       ) {
                         return this.state.details.localization[i18n.language]
                           .terms ? this.state.details.localization[i18n.language]
-                          .content : this.state.details.terms;
+                          .terms : this.state.details.terms;
                       } else {
                         return this.state.details.terms;
                       }
