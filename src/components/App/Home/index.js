@@ -371,8 +371,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    if(this.props.match.params)
-    {
+    if (this.props.match.params) {
       let subid = this.props.match.params.subid || "";
       localStorage.setItem("subid", subid);
     }
@@ -390,10 +389,10 @@ class Home extends Component {
   }
   componentDidUpdate(preProps) {
     var isInHomePage =
-    this.props.ui.mains &&
-    this.props.ui.mains !== preProps.ui.mains &&
-    this.props.ui.mains.length > 0;
-    
+      this.props.ui.mains &&
+      this.props.ui.mains !== preProps.ui.mains &&
+      this.props.ui.mains.length > 0;
+
     if (config.features.PopupAnnouncement) {
       if (isInHomePage) {
         this.setState({
@@ -599,7 +598,11 @@ class Home extends Component {
                   </AGGameLeftContent>
                   <AGGameRightContent>
                     <AGTitle></AGTitle>
-                    <AGText>{i18n.t("sports.bunnydesc")}</AGText>
+                    <AGText>
+                      {i18n
+                        .t("sports.bunnydesc")
+                        .replace("{brand}", config.brandName || config.brand)}
+                    </AGText>
                     <AGGameIconBar>
                       <div></div>
 
