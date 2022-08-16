@@ -312,7 +312,8 @@ class PromotionDetails extends Component {
                             null)
                       ) {
                         return this.state.details.localization[i18n.language]
-                          .content;
+                          .content ? this.state.details.localization[i18n.language]
+                          .content : this.state.details.content;
                       } else {
                         return this.state.details.content;
                       }
@@ -324,14 +325,18 @@ class PromotionDetails extends Component {
               <PromoDesc
                 dangerouslySetInnerHTML={{
                   __html:
-                    "<div >" +
+                    "<div>" +
                     (() => {
                       if (
-                        this.state.details.localization !== null &&
-                        this.state.details.localization.terms &&
-                        this.state.details.localization.terms !== null
+                        !checkIfLocalizationIsEmpty &&
+                        (this.state.details.localization[i18n.language] !==
+                          "" ||
+                          this.state.details.localization[i18n.language] !==
+                            null)
                       ) {
-                        return this.state.details.localization.terms;
+                        return this.state.details.localization[i18n.language]
+                          .terms ? this.state.details.localization[i18n.language]
+                          .terms : this.state.details.terms;
                       } else {
                         return this.state.details.terms;
                       }
