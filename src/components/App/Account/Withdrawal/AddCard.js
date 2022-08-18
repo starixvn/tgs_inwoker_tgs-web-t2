@@ -572,7 +572,7 @@ class AddCard extends Component {
           </>
         )}
 
-        {!(config.features.AddCard_HideChannel || eWalletCustom || isPulsa) && (
+        {!(config.features.AddCard_HideChannel || isPulsa) && (
           <>
             <TextFieldLabel>
               {config.features.AddCard_Bank_Custom_IDR &&
