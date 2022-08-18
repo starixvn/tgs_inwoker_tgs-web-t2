@@ -13,8 +13,6 @@ import Common from "../../../utils/Common";
 const Container = styled.div`
   width: 100%;
   height: auto;
-
-  padding: 70px 0px;
   position: relative;
   min-height: ${(props) =>
     props.GamePage_SpecificBackground ? "900px" : "870px"};
@@ -24,27 +22,33 @@ const Container = styled.div`
       (props.GamePage_SpecificBackground ? "-hk28" : "") +
       ".jpg"})
     no-repeat center;
+  background-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const GirlImage = styled.div`
   background: url(${(props) => props.img}) no-repeat;
   width: 308px;
   height: 172px;
+  background-size: contain;
+  background-position: center;
   float: right;
-  &:hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;
 const LeftSlide = styled(ScrollAnimation)`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 308px);
+  grid-gap: 10px;
+  grid-auto-rows: 200px;
+  justify-content: center;
+  align-items: center;
 `;
-const RightSlide = styled(ScrollAnimation)`
-  display: flex;
-`;
+
 const ItemContainer = styled.div`
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Maintenance = styled.div`
@@ -65,6 +69,7 @@ const Maintenance = styled.div`
 
 const ImageWrapper = styled.div`
   position: relative;
+  justify-self: center;
 
   ${({ maintenance }) => {
     return maintenance
@@ -199,7 +204,43 @@ class LiveGame extends Component {
   };
 
   render() {
-    var switchBetween = this.state.list.length >= 11 ? 5 : 4;
+    const ImageDisplayer = ({ item }) => {
+      return (
+        <ImageWrapper maintenance={item.status != 0}>
+          <Maintenance>{i18n.t("transfer.maintenance")}</Maintenance>
+          <GirlImage
+            img={
+              process.env.PUBLIC_URL +
+              "/assets/images/pcGamePage/live/" +
+              item.abbreviation.toLowerCase() +
+              (item.abbreviation.toLowerCase() === "wgfm" ||
+              item.abbreviation.toLowerCase() === "wgvia"
+                ? "-" + i18n.language
+                : "") +
+              ".png"
+            }
+            onClick={() => {
+              this.handleJoinGameClick(item.abbreviation, item.type);
+            }}
+          />
+        </ImageWrapper>
+      );
+    };
+
+    var ifMoreThanTen = this.state.list.length >= 10;
+
+    const firstRow = ifMoreThanTen ? 2 : 5;
+    const secondRow = ifMoreThanTen ? 3 : 6;
+
+    const customSorting = this.state.list.sort((a, b) => {
+      if (config.features.LiveGame_Sorting_SKY) {
+        var sortDGFirst = ["DG"];
+        return (
+          sortDGFirst.indexOf(b.abbreviation) -
+          sortDGFirst.indexOf(a.abbreviation)
+        );
+      } else return b - a;
+    });
 
     return (
       <Container
@@ -207,81 +248,17 @@ class LiveGame extends Component {
           config.features.GamePage_SpecificBackground
         }
       >
-        <ItemContainer style={{ marginTop: 370 }}>
+        <ItemContainer>
           <LeftSlide
             animateIn="fadeInLeft"
             duration={1}
             animateOnce={true}
             style={{ overflow: "visible" }}
           >
-            {this.state.list
-              .slice(0, switchBetween)
-              .reverse()
-              .sort((a, b) => {
-                if (config.features.LiveGame_Sorting_SKY) {
-                  var sortDGFirst = ["DG"];
-                  return (
-                    sortDGFirst.indexOf(b.abbreviation) -
-                    sortDGFirst.indexOf(a.abbreviation)
-                  );
-                } else return b - a;
-              })
-              .map((item, index) => {
-                return (
-                  <ImageWrapper maintenance={item.status != 0}>
-                    <Maintenance>{i18n.t("transfer.maintenance")}</Maintenance>
-                    <GirlImage
-                      img={
-                        process.env.PUBLIC_URL +
-                        "/assets/images/pcGamePage/live/" +
-                        item.abbreviation.toLowerCase() +
-                        (item.abbreviation.toLowerCase() === "wgfm" ||
-                        item.abbreviation.toLowerCase() === "wgvia"
-                          ? "-" + i18n.language
-                          : "") +
-                        ".png"
-                      }
-                      onClick={() => {
-                        this.handleJoinGameClick(item.abbreviation, item.type);
-                      }}
-                    />
-                  </ImageWrapper>
-                );
-              })}
-          </LeftSlide>
-        </ItemContainer>
-        <ItemContainer style={{ marginTop: 560 }}>
-          <RightSlide
-            animateIn="fadeInRight"
-            duration={1}
-            animateOnce={true}
-            style={{ overflow: "visible" }}
-          >
-            {this.state.list.map((item, index) => {
-              if (index >= switchBetween) {
-                return (
-                  <ImageWrapper maintenance={item.status !== 0}>
-                    <Maintenance>{i18n.t("transfer.maintenance")}</Maintenance>
-                    <GirlImage
-                      img={
-                        process.env.PUBLIC_URL +
-                        "/assets/images/pcGamePage/live/" +
-                        item.abbreviation.toLowerCase() +
-                        (item.abbreviation.toLowerCase() === "wgfm" ||
-                        item.abbreviation.toLowerCase() === "wgvia"
-                          ? "-" + i18n.language
-                          : "") +
-                        ".png"
-                      }
-                      onClick={() => {
-                        this.handleJoinGameClick(item.abbreviation, item.type);
-                      }}
-                    />
-                  </ImageWrapper>
-                );
-              }
+            {customSorting.reverse().map((item, index) => {
+              return <ImageDisplayer item={item} />;
             })}
-          </RightSlide>
+          </LeftSlide>
         </ItemContainer>
       </Container>
     );
