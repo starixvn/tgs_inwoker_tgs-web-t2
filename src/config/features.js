@@ -101,6 +101,8 @@ const featureList = {
       max: 27500,
     },
     MergeEVORTNT: true,
+
+    WGHK_Setup: true,
   },
 };
 export default featureList;
