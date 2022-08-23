@@ -103,6 +103,7 @@ const featureList = {
     MergeEVORTNT: true,
 
     WGHK_Setup: false,
+    MenuItem_Sorting_PB3: true,
   },
 };
 export default featureList;
