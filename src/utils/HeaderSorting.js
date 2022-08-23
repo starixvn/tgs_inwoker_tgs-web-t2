@@ -13,6 +13,7 @@ const MenuItemList = [
     sortingPB: 4,
     sortingSKY: 7,
     sortingWLGHK: 4,
+    sortingPB3: 6,
   },
   {
     path: "sports",
@@ -24,6 +25,7 @@ const MenuItemList = [
     sortingPB: 3,
     sortingSKY: 3,
     sortingWLGHK: 3,
+    sortingPB3: 3,
   },
   {
     path: "live",
@@ -35,6 +37,7 @@ const MenuItemList = [
     sortingPB: 2,
     sortingSKY: 1,
     sortingWLGHK: 1,
+    sortingPB3: 2,
   },
   {
     path: "chess",
@@ -46,6 +49,7 @@ const MenuItemList = [
     sortingPB: 8,
     sortingSKY: 2,
     sortingWLGHK: 2,
+    sortingPB3: 7,
   },
 
   {
@@ -58,6 +62,7 @@ const MenuItemList = [
     sortingPB: 7,
     sortingSKY: 8,
     sortingWLGHK: 6,
+    sortingPB3: 8,
   },
   {
     path: `slots`,
@@ -69,6 +74,7 @@ const MenuItemList = [
     sortingPB: 1,
     sortingSKY: 5,
     sortingWLGHK: 7,
+    sortingPB3: 1,
   },
   {
     path: `electron`,
@@ -80,6 +86,7 @@ const MenuItemList = [
     sortingPB: 5,
     sortingSKY: 6,
     sortingWLGHK: 8,
+    sortingPB3: 4,
   },
   {
     path: `fish`,
@@ -91,11 +98,14 @@ const MenuItemList = [
     sortingPB: 6,
     sortingSKY: 4,
     sortingWLGHK: 5,
+    sortingPB3: 5,
   },
 ];
 
 export const SortedMenuList = MenuItemList.sort((a, b) => {
-  if (config.features.MenuItem_Sorting_HK28) {
+  if (config.features.MenuItem_Sorting_PB3) {
+    return a.sortingPB3 > b.sortingPB3 ? 1 : -1;
+  } else if (config.features.MenuItem_Sorting_HK28) {
     return a.sortingHK28 > b.sortingHK28 ? 1 : -1;
   } else if (config.features.MenuItem_Sorting_WLGHK) {
     return a.sortingWLGHK > b.sortingWLGHK ? 1 : -1;

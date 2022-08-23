@@ -101,6 +101,7 @@ const featureList = {
       max: 27500,
     },
     MergeEVORTNT: true,
+    MenuItem_Sorting_PB3: true,
   },
 };
 export default featureList;
