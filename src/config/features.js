@@ -102,7 +102,7 @@ const featureList = {
     },
     MergeEVORTNT: true,
 
-    WGHK_Setup: true,
+    WGHK_Setup: false,
   },
 };
 export default featureList;
