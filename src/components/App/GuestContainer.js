@@ -94,8 +94,10 @@ class GuestContainer extends Component {
   };
   componentDidMount() {
     let urlParams = new URLSearchParams(this.props.location.search);
-    if(localStorage.getItem("subid")!=="")
-    {
+    if (
+      localStorage.getItem("subid") !== "" &&
+      config.features.CustomBunnyAffiliate
+    ) {
       this.onhandleRegister();
     }
     if (urlParams.has("do")) {
@@ -551,24 +553,17 @@ class GuestContainer extends Component {
         (config.features.Register_CustomFlow_IDR && !bankInfoAuthentication)
       ) {
         if (config.features.NavigateToAddCard) {
-          if(isPhoneNull)
-          {
+          if (isPhoneNull) {
             this.props.history.push(
               "/" + i18n.language + "/account/profile/member_phone"
             );
-          }
-          else
-          {
-            if(isEmailNull)
-            {
+          } else {
+            if (isEmailNull) {
               this.props.history.push(
                 "/" + i18n.language + "/account/profile/member_email"
               );
-            }
-            else
-            {
-              if(!isRegisterCompleted)
-              {
+            } else {
+              if (!isRegisterCompleted) {
                 this.props.history.push(
                   "/" + i18n.language + "/account/withdrawal?do=addCard"
                 );

@@ -102,6 +102,8 @@ const featureList = {
     },
     MergeEVORTNT: true,
     MenuItem_Sorting_PB3: true,
+
+    CustomBunnyAffiliate: false,
   },
 };
 export default featureList;
