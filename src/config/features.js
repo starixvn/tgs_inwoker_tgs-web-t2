@@ -104,6 +104,7 @@ const featureList = {
 
     WGHK_Setup: false,
     MenuItem_Sorting_PB3: true,
+    Deposit_AccountNameManualInput: false,
   },
 };
 export default featureList;
