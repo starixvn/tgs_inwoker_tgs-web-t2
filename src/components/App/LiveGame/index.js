@@ -255,7 +255,7 @@ class LiveGame extends Component {
             animateOnce={true}
             style={{ overflow: "visible" }}
           >
-            {customSorting.reverse().map((item, index) => {
+            {customSorting.map((item, index) => {
               return <ImageDisplayer item={item} />;
             })}
           </LeftSlide>
