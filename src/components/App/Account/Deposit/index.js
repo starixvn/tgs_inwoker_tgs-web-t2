@@ -1034,10 +1034,6 @@ class Deposit extends Component {
               this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
                 .method[this.state.selectedMethodIndex].methodcode === "Crypto"
             }
-            isEWallet={
-              this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
-              .method[this.state.selectedMethodIndex].methodcode === "EWallet"
-            }
             depositType={
               this.props.wallet.depositTypeList[this.state.selectedPaymentIndex]
                 .paymentcode
@@ -1055,8 +1051,6 @@ class Deposit extends Component {
             depositResult={this.state.depositResult}
             paymenturl={this.state.paymenturl}
             amount={this.state.amount}
-            selectedBankCard={this.state.selectedBankCard}
-            bankCardList={this.props.wallet.bankCardList}
             handleRestartClick={this.handleRestartClick}
           ></Step2Form>
         );
