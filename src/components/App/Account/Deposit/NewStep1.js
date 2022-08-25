@@ -670,7 +670,8 @@ const NewStepOne = (props) => {
                             </SubTitle>
                           </SubHeaderContainer>
                           <SelectionContainer>
-                            {props.accountList.length > 1 ? (
+                            {props.accountList.length > 1 &&
+                            !config.features.Deposit_AccountNameManualInput ? (
                               <CustomFormControl>
                                 <CustomSelect
                                   variant="outlined"
@@ -724,6 +725,8 @@ const NewStepOne = (props) => {
                                 variant="outlined"
                                 autoComplete="off"
                                 disabled={
+                                  !config.features
+                                    .Deposit_AccountNameManualInput &&
                                   config.features.Deposit_AutofillFirstCard &&
                                   props.accountList.length > 1
                                 }

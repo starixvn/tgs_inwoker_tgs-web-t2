@@ -139,6 +139,7 @@ class Play extends Component {
       url: "",
       maintenance: false,
       loading: true,
+      fullscreen: false,
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     this.myRef = React.createRef();
@@ -164,7 +165,7 @@ class Play extends Component {
         ...this.state,
         loading: true,
       });
-      this.JoinGame(this.props.match.params.params);
+      this.JoinGame(this.props);
     }
   }
   componentWillUnmount() {
