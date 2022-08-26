@@ -1035,108 +1035,73 @@ class Header extends Component {
                   : classes.minMenu
               }`}
             >
-              {SortedMenuList.map((item, index) => {
-                var list = this.props.game.homePageGameList
-                  .filter((game) => item.gameType.indexOf(game.type) >= 0)
-                  .sort((a, b) => {
-                    if (config.features.LiveGame_Sorting_SKY) {
-                      var sortDGFirst = ["DG"];
-                      return (
-                        sortDGFirst.indexOf(b.abbreviation) -
-                        sortDGFirst.indexOf(a.abbreviation)
-                      );
-                    } else return b - a;
-                  });
-                if (list.length > 0) {
-                  return (
-                    <RightMenuLI
-                      key={index}
-                      active={this.state.selected === `${item.path}`}
-                      onClick={() => this.handleClickMenu(item.path)}
-                      onMouseOver={() => this.handleMenuMouseOver(item.path)}
-                      onMouseLeave={this.handleMenuMouseLeave}
-                      hoverimg={item.hoverImg}
-                    >
-                      <RightMenuTextContainer>
-                        <RightMenuTextSpan
-                          className={`${
-                            this.state.shouldShow === null
-                              ? classes.maxLabel
-                              : this.state.shouldShow
-                              ? classes.maxLabel
-                              : classes.minLabel
-                          }`}
-                        >
-                          {i18n.t(item.title)}
-                          {
-                            //     <RightMenuTextIcon>
-                            //     <ArrowDropDownCircleOutlinedIcon
-                            //       style={{ fontSize: 14 }}
-                            //     />
-                            //   </RightMenuTextIcon>
-                          }
-                        </RightMenuTextSpan>
-                      </RightMenuTextContainer>
-                      <RightMenuBottomLine></RightMenuBottomLine>
-                      <MouseOverContainer
-                        onClick={(e) => e.stopPropagation()}
-                        style={
-                          this.state.shouldShow === null
-                            ? { top: "105px" }
-                            : this.state.shouldShow
-                            ? { top: "105px" }
-                            : { top: "100px" }
-                        }
+              {!config.features.WGHK_Setup &&
+                SortedMenuList.map((item, index) => {
+                  var list = this.props.game.homePageGameList
+                    .filter((game) => item.gameType.indexOf(game.type) >= 0)
+                    .sort((a, b) => {
+                      if (config.features.LiveGame_Sorting_SKY) {
+                        var sortDGFirst = ["DG"];
+                        return (
+                          sortDGFirst.indexOf(b.abbreviation) -
+                          sortDGFirst.indexOf(a.abbreviation)
+                        );
+                      } else return b - a;
+                    });
+                  if (list.length > 0) {
+                    return (
+                      <RightMenuLI
+                        key={index}
+                        active={this.state.selected === `${item.path}`}
+                        onClick={() => this.handleClickMenu(item.path)}
+                        onMouseOver={() => this.handleMenuMouseOver(item.path)}
+                        onMouseLeave={this.handleMenuMouseLeave}
+                        hoverimg={item.hoverImg}
                       >
-                        <MouseOverBackground>
-                          <MouseOverInner>
-                            {(() => {
-                              return list.length <= 5 ? (
-                                list.map((game, index) => {
-                                  return (
-                                    <GameFrame
-                                      key={index}
-                                      style={{
-                                        width: `calc(1264px / ${list.length})`,
-                                      }}
-                                      //TODO: To remove
-                                      maintenance={game.status != 0}
-                                    >
-                                      <GameFrameWrapper>
-                                        <Maintenance>
-                                          {i18n.t("transfer.maintenance")}
-                                        </Maintenance>
-
-                                        <GameImg
-                                          index={index}
-                                          src={`${
-                                            process.env.PUBLIC_URL
-                                          }/assets/images/pcHeaderMenu/${
-                                            item.path
-                                          }/${game.abbreviation.toLowerCase()}${
-                                            config.features.SportsHideLogo &
-                                            (game.abbreviation.toLowerCase() ===
-                                              "wgvia" ||
-                                              game.abbreviation.toLowerCase() ===
-                                                "wgfm")
-                                              ? "-HKJP"
-                                              : ""
-                                          }.png`}
-                                          alt=""
-                                          onClick={() => {
-                                            this.consolidateJoinGame(
-                                              game,
-                                              item
-                                            );
-                                          }}
-                                        ></GameImg>
-                                      </GameFrameWrapper>
-                                    </GameFrame>
+                        <RightMenuTextContainer>
+                          <RightMenuTextSpan
+                            className={`${
+                              this.state.shouldShow === null
+                                ? classes.maxLabel
+                                : this.state.shouldShow
+                                ? classes.maxLabel
+                                : classes.minLabel
+                            }`}
+                          >
+                            {i18n.t(item.title)}
+                            {
+                              //     <RightMenuTextIcon>
+                              //     <ArrowDropDownCircleOutlinedIcon
+                              //       style={{ fontSize: 14 }}
+                              //     />
+                              //   </RightMenuTextIcon>
+                            }
+                          </RightMenuTextSpan>
+                        </RightMenuTextContainer>
+                        <RightMenuBottomLine></RightMenuBottomLine>
+                        <MouseOverContainer
+                          onClick={(e) => e.stopPropagation()}
+                          style={
+                            this.state.shouldShow === null
+                              ? { top: "105px" }
+                              : this.state.shouldShow
+                              ? { top: "105px" }
+                              : { top: "100px" }
+                          }
+                        >
+                          <MouseOverBackground>
+                            <MouseOverInner>
+                              {(() => {
+                                var list =
+                                  this.props.game.homePageGameList.filter(
+                                    (game) =>
+                                      (game.type === GameTypeEnum.RNGSPORTS &&
+                                        game.abbreviation === "PPTF") ||
+                                      (item.gameType.indexOf(game.type) >= 0 &&
+                                        game.type !== GameTypeEnum.RNGSPORTS)
                                   );
-                                })
-                              ) : (
-                                <Slider {...settings}>
-                                  {list.map((game, index) => {
+                                return list.length <= 5 ? (
+                                  list.map((game, index) => {
                                     return (
                                       <GameFrame
                                         key={index}
@@ -1177,24 +1142,71 @@ class Header extends Component {
                                         </GameFrameWrapper>
                                       </GameFrame>
                                     );
-                                  })}
-                                </Slider>
-                              );
-                            })()}
-                          </MouseOverInner>
-                        </MouseOverBackground>
-                      </MouseOverContainer>
-                    </RightMenuLI>
-                  );
-                }
-              })}
+                                  })
+                                ) : (
+                                  <Slider {...settings}>
+                                    {list.map((game, index) => {
+                                      return (
+                                        <GameFrame
+                                          key={index}
+                                          style={{
+                                            width: `calc(1264px / ${list.length})`,
+                                          }}
+                                          //TODO: To remove
+                                          maintenance={game.status != 0}
+                                        >
+                                          <GameFrameWrapper>
+                                            <Maintenance>
+                                              {i18n.t("transfer.maintenance")}
+                                            </Maintenance>
+
+                                            <GameImg
+                                              index={index}
+                                              src={`${
+                                                process.env.PUBLIC_URL
+                                              }/assets/images/pcHeaderMenu/${
+                                                item.path
+                                              }/${game.abbreviation.toLowerCase()}${
+                                                config.features.SportsHideLogo &
+                                                (game.abbreviation.toLowerCase() ===
+                                                  "wgvia" ||
+                                                  game.abbreviation.toLowerCase() ===
+                                                    "wgfm")
+                                                  ? "-HKJP"
+                                                  : ""
+                                              }.png`}
+                                              alt=""
+                                              onClick={() => {
+                                                this.consolidateJoinGame(
+                                                  game,
+                                                  item
+                                                );
+                                              }}
+                                            ></GameImg>
+                                          </GameFrameWrapper>
+                                        </GameFrame>
+                                      );
+                                    })}
+                                  </Slider>
+                                );
+                              })()}
+                            </MouseOverInner>
+                          </MouseOverBackground>
+                        </MouseOverContainer>
+                      </RightMenuLI>
+                    );
+                  }
+                })}
+              {config.features.WGHK_Setup &&
+                this.RightMenuItem("/", i18n.t("common.sportsonly"), null)}
               {this.RightMenuItem(
                 "promotion",
                 i18n.t("common.promotion"),
                 null
               )}
 
-              {this.RightMenuItem("vip", "VIP", null)}
+              {!config.features.WGHK_Setup &&
+                this.RightMenuItem("vip", "VIP", null)}
             </RightMenuUL>
           </BottomContainer>
         </InnerWrap>
