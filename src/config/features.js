@@ -104,6 +104,7 @@ const featureList = {
     MenuItem_Sorting_PB3: true,
 
     CustomBunnyAffiliate: false,
+    WGHK_Setup: false,
   },
 };
 export default featureList;

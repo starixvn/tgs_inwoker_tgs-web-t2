@@ -30,7 +30,7 @@ import Lottery from "./Lottery/index";
 import LotteryPlay from "./Lottery/Play";
 import Promotion from "./Promotion/index";
 import PromotionDetails from "./Promotion/Details";
-import Home from "./Home/index";
+
 // import Maintenance from "./Maintenance";
 import Account from "./Account/index";
 
@@ -50,6 +50,7 @@ import PromotionRoulette from "./Home/PromotionRoulette";
 import config from "../../config/config";
 import CustomLibrary from "./Sports/CustomLibrary";
 import ForcedVerification from "./ForcedVerification";
+import Home from "./Home";
 // const bc = new BroadcastChannel("refreshBalance");
 const baseRouteUrl = Common.baseRouteUrl;
 const Main = styled.div`
@@ -551,7 +552,11 @@ class App extends Component {
                     <LiveChat
                       license={config.features.LiveChatVendor.license}
                       vendor={config.features.LiveChatVendor.brand}
-                      group={config.features.LiveChatVendor.group ? config.features.LiveChatVendor.group : 0}
+                      group={
+                        config.features.LiveChatVendor.group
+                          ? config.features.LiveChatVendor.group
+                          : 0
+                      }
                     />
                   )}
 
