@@ -94,10 +94,7 @@ class GuestContainer extends Component {
   };
   componentDidMount() {
     let urlParams = new URLSearchParams(this.props.location.search);
-    if (
-      localStorage.getItem("subid") !== "" &&
-      config.features.CustomBunnyAffiliate
-    ) {
+    if (localStorage.getItem("subid") !== "") {
       this.onhandleRegister();
     }
     if (urlParams.has("do")) {
@@ -604,13 +601,15 @@ class GuestContainer extends Component {
   render() {
     return (
       <Container>
-        {config.features.SMSVerification && (
-          <React.Fragment>
-            <BtnRegister onClick={() => this.onhandleActivation()}>
-              {i18n.t("web.register.activation")}
-            </BtnRegister>
-          </React.Fragment>
-        )}
+        {
+          //   config.features.SMSVerification && (
+          //     <React.Fragment>
+          //       <BtnRegister onClick={() => this.onhandleActivation()}>
+          //         {i18n.t("web.register.activation")}
+          //       </BtnRegister>
+          //     </React.Fragment>
+          //   )
+        }
 
         <BtnRegister onClick={() => this.onhandleRegister()}>
           {i18n.t("common.register")}
