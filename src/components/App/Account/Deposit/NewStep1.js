@@ -675,9 +675,9 @@ const NewStepOne = (props) => {
                               <CustomFormControl>
                                 <CustomSelect
                                   variant="outlined"
-                                  value={account}
+                                  value={props.selectedBankCard}
                                   displayEmpty
-                                  onChange={onAccountChange}
+                                  onChange={props.handleSelectAccountChange}
                                   native
                                 >
                                   <option value="">
@@ -687,14 +687,9 @@ const NewStepOne = (props) => {
                                   </option>
                                   {props.accountList.map((data, key) => {
                                     var detail = data.detail;
-
                                     return (
                                       <option
-                                        value={
-                                          detail.bankAccount ||
-                                          detail.address ||
-                                          detail.phone
-                                        }
+                                        value={data.id}
                                         key={key}
                                       >
                                         {detail.bankAccount ||
