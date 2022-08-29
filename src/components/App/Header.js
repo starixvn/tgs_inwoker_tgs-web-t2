@@ -354,6 +354,7 @@ const CustomAppBar = styled(StyledAppBar)`
   display: ${({ hide }) => {
     return hide ? "none" : "block";
   }};
+  background: ${({ theme }) => theme.appbar};
 `;
 
 const GameFrameWrapper = styled.div`
@@ -1095,7 +1096,7 @@ class Header extends Component {
                                 var list =
                                   this.props.game.homePageGameList.filter(
                                     (game) =>
-                                    item.gameType.indexOf(game.type) >= 0
+                                      item.gameType.indexOf(game.type) >= 0
                                   );
                                 return list.length <= 5 ? (
                                   list.map((game, index) => {
