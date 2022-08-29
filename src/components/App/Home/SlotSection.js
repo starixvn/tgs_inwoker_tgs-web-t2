@@ -91,49 +91,36 @@ export default function SlotSection(props) {
 
   return (
     <Container>
-      <ScrollAnimation
-        animateIn="bounceInRight"
-        duration={1}
-        animateOnce={true}
-        style={{ overflow: "visible" }}
-      >
-        <TitleContainer>
-          <ScrollAnimation
-            animateIn="bounceInLeft"
-            duration={3}
-            animateOnce={true}
-            style={{ overflow: "visible", zIndex: "6" }}
-          >
-            <Title
-              src={
-                process.env.PUBLIC_URL +
-                `/assets/images/${Common.getLanguagePrefixFolder()}/e-sports.png`
-              }
-            ></Title>
-          </ScrollAnimation>
-          <SlotImageBg src={BGimage}></SlotImageBg>
-          <SlotText>
-            {i18n
-              .t("esports.bunnydesc")
-              .replace("{brand}", config.brandName || config.brand)}
-          </SlotText>
-          <SlotGameContainer>
-            {checkAgain.map((data, index) => {
-              return (
-                <ScrollAnimation
-                  animateIn="fadeInDown"
-                  duration={6}
-                  animateOnce={true}
-                  style={{ overflow: "visible" }}
-                  key={index}
-                >
-                  <GameIcon src={data.image}></GameIcon>
-                </ScrollAnimation>
-              );
-            })}
-          </SlotGameContainer>
-        </TitleContainer>
-      </ScrollAnimation>
+      <TitleContainer>
+        <Title
+          src={
+            process.env.PUBLIC_URL +
+            `/assets/images/${Common.getLanguagePrefixFolder()}/e-sports.png`
+          }
+        ></Title>
+
+        <SlotImageBg src={BGimage}></SlotImageBg>
+        <SlotText>
+          {i18n
+            .t("esports.bunnydesc")
+            .replace("{brand}", config.brandName || config.brand)}
+        </SlotText>
+        <SlotGameContainer>
+          {checkAgain.map((data, index) => {
+            return (
+              <ScrollAnimation
+                animateIn="fadeInDown"
+                duration={6}
+                animateOnce={true}
+                style={{ overflow: "visible" }}
+                key={index}
+              >
+                <GameIcon src={data.image}></GameIcon>
+              </ScrollAnimation>
+            );
+          })}
+        </SlotGameContainer>
+      </TitleContainer>
     </Container>
   );
 }

@@ -1095,10 +1095,7 @@ class Header extends Component {
                                 var list =
                                   this.props.game.homePageGameList.filter(
                                     (game) =>
-                                      (game.type === GameTypeEnum.RNGSPORTS &&
-                                        game.abbreviation === "PPTF") ||
-                                      (item.gameType.indexOf(game.type) >= 0 &&
-                                        game.type !== GameTypeEnum.RNGSPORTS)
+                                    item.gameType.indexOf(game.type) >= 0
                                   );
                                 return list.length <= 5 ? (
                                   list.map((game, index) => {
