@@ -11,7 +11,7 @@ const config = {
   brandName: window?.env?.brandName
     ? window?.env?.brandName
     : window?.env?.brand || "28BET",
-  theme: window?.env?.brand === "BUNNY" ||  window?.env?.brand === "stg_BUNNY" ? "default" : "themeSOWIN",//window?.env?.theme || "default",
+  theme: window?.env?.theme || "default",
   wapVersion: template,
   sourceUrl: window?.env?.sourceUrl || "https://images.srvptt.com/",
   defaultLanguage: window?.env?.defaultLanguage
