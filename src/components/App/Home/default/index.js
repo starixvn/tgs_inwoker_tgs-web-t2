@@ -491,6 +491,14 @@ class Default extends Component {
     }
   };
 
+  qipaiGameHandler = () => {
+    if (this.props.token !== "" && this.props.token !== null) {
+      this.handleNavigateClick(`/${i18n.language}/chess`);
+    } else {
+      this.props.showLogin(true);
+    }
+  };
+
   handleNavigateClick = (url) => {
     this.props.history.push(url);
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -640,7 +648,7 @@ class Default extends Component {
                       style={{ overflow: "visible" }}
                     >
                       <KySlider
-                        handleJoinGameClick={this.handleJoinGameClick}
+                        handleJoinGameClick={this.qipaiGameHandler}
                       ></KySlider>
                     </ScrollAnimation>
                   </KYHotgameContainer>
@@ -654,21 +662,7 @@ class Default extends Component {
                       <KyModel src={KYContentModelPNG}></KyModel>
                     </ScrollAnimation>
                     <KyCard src={KYContentCardPNG}></KyCard>
-                    <KYButton
-                      onClick={() =>
-                        this.handleJoinGameClick(
-                          GameTypeEnum.QIPAILOBBY,
-                          "",
-                          GameEnum.KY,
-                          "/" +
-                            i18n.language +
-                            "/joingame/" +
-                            GameTypeEnum.QIPAILOBBY +
-                            "/" +
-                            GameEnum.KY
-                        )
-                      }
-                    >
+                    <KYButton onClick={this.qipaiGameHandler}>
                       <KYButtonTitle>GO</KYButtonTitle>
                       <KYButtonText>{i18n.t("common.startGame")}</KYButtonText>
                     </KYButton>
