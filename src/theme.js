@@ -63,7 +63,7 @@ export const themeBrown = {
   tertiary: "rgba(255, 255, 255, 1)",
   tertiaryText: "rgba(255, 255, 255, 0.5)",
   //new addition to compensate wap-t2
-  appbar: "linear-gradient(to top,#044BA3, #1b86c7)",
+  appbar: "rgb(199, 168, 124)",
   buttonBackground: "#fff",
   buttonText: "#fff",
   buttonText2: "#000",
@@ -79,8 +79,40 @@ export const themeBrown = {
   popoverGameTypeText: "rgb(199, 168, 124)",
   popoverSubWalletText: "#000",
 };
+
+export const themeSOWIN = {
+  variant: "brown",
+  primary: "rgb(199, 168, 124)",
+  primaryRgb: "199, 168, 124",
+  primaryText: "#fff",
+  primaryGradient: "rgb(199, 168, 124)",
+  primaryGradientRgb: "199, 168, 124",
+  primaryHightlight: "rgb(199, 168, 124)",
+  secondary: "#404040",
+  secondaryText: "rgba(255,255,255,1)",
+  tertiary: "rgba(255, 255, 255, 1)",
+  tertiaryText: "rgba(255, 255, 255, 0.5)",
+  //new addition to compensate wap-t2
+  appbar: "#000",
+  buttonBackground: "#fff",
+  buttonText: "#fff",
+  buttonText2: "#000",
+  bottomnav: "#f5f5f5",
+  bottomNavAction: "#404040",
+  body: "#F0EFF5",
+  bodyBackground: "#F0EFF5",
+  accentText: "#fff",
+  loginRegisterBtn: "rgb(240, 202, 131)",
+  loginRegisterBtnText: "#795548",
+
+  popoverBackground: "rgba(255,255,255,0.95)",
+  popoverGameTypeText: "rgb(199, 168, 124)",
+  popoverSubWalletText: "#000",
+};
+
 export const themeList = {
   default: themeBrown,
   red: themeRed,
   blue: themeBlue,
+  themeSOWIN: themeSOWIN,
 };
