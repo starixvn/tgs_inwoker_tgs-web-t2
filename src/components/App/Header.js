@@ -354,7 +354,9 @@ const CustomAppBar = styled(StyledAppBar)`
   display: ${({ hide }) => {
     return hide ? "none" : "block";
   }};
-`;
+  background: ${({ isSowin, theme }) => {
+    return isSowin ? "#000" : theme.appbar;}}
+    `;
 
 const GameFrameWrapper = styled.div`
   width: 100%;
@@ -847,7 +849,7 @@ class Header extends Component {
     };
 
     return (
-      <CustomAppBar hide={this.props.hide}>
+      <CustomAppBar hide={this.props.hide} isSowin={config.brand === "SOWIN"}>
         <InnerWrap>
           <TopContainer>
             <TimerContainer>
@@ -1095,10 +1097,7 @@ class Header extends Component {
                                 var list =
                                   this.props.game.homePageGameList.filter(
                                     (game) =>
-                                      (game.type === GameTypeEnum.RNGSPORTS &&
-                                        game.abbreviation === "PPTF") ||
-                                      (item.gameType.indexOf(game.type) >= 0 &&
-                                        game.type !== GameTypeEnum.RNGSPORTS)
+                                      item.gameType.indexOf(game.type) >= 0
                                   );
                                 return list.length <= 5 ? (
                                   list.map((game, index) => {
