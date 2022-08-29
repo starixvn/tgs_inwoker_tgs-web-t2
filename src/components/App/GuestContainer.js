@@ -94,7 +94,10 @@ class GuestContainer extends Component {
   };
   componentDidMount() {
     let urlParams = new URLSearchParams(this.props.location.search);
-    if (localStorage.getItem("subid") !== "") {
+    if (
+      localStorage.getItem("subid") !== "" &&
+      config.features.CustomBunnyAffiliate
+    ) {
       this.onhandleRegister();
     }
     if (urlParams.has("do")) {
