@@ -99,8 +99,8 @@ const TabButton = styled.div`
 
   ${(props) =>
     props.active
-      ? ` border: solid 1px #c0252d;
-      color: #c0252d;`
+      ? ` border: solid 1px ${props.theme.primary};
+      color: ${props.theme.primary};;`
       : ` border: solid 1px #e1dfdf;
       color: #747474;`};
   &:hover {
@@ -204,6 +204,8 @@ class NewStepOne extends Component {
       methodList[selectedMethodIndex].methodcode.toUpperCase() === "EWALLET";
     var isPulsa =
       methodList[selectedMethodIndex].methodcode.toUpperCase() === "PULSA";
+
+    console.log(paymentType.paymentcode);
     return (
       <>
         <SubHeaderContainer>
@@ -496,9 +498,7 @@ class NewStepOne extends Component {
                     amount >
                       methodList[selectedMethodIndex].channel[
                         selectedChannelIndex
-                      ].transferlimit.to ||
-                    paymentType.paymentcode.toUpperCase() === "MANUAL" ||
-                    paymentType.paymentcode.toUpperCase() === "APPLEPAY"
+                      ].transferlimit.to
                   }
                 ></CustomButton>
               </>
@@ -506,100 +506,6 @@ class NewStepOne extends Component {
           }
         })()}
       </>
-    );
-
-    return (
-      <Grid container justify="center" direction="column" alignContent="center">
-        <CustomFormControl>
-          <CustomSelect
-            native
-            variant="outlined"
-            value={selectedMethodIndex}
-            displayEmpty
-            onChange={(e) => {
-              onMethodChange(e.target.value);
-            }}
-          >
-            <option value="-1" disabled>
-              请选择存款方式
-            </option>
-            {(() => {
-              return methodList.map((item, index) => {
-                return (
-                  <option value={index} key={index}>
-                    {item.methodcode}
-                  </option>
-                );
-              });
-            })()}
-          </CustomSelect>
-        </CustomFormControl>
-        <CustomFormControl>
-          <CustomSelect
-            native
-            variant="outlined"
-            value={selectedChannelIndex}
-            displayEmpty
-            onChange={(e) => {
-              onChannelChange(e.target.value);
-            }}
-          >
-            <option value="-1">请选择存款方式</option>
-            {(() => {
-              if (methodList.length > 0 && selectedMethodIndex !== -1) {
-                return methodList[selectedMethodIndex].channel.map(
-                  (item, index) => {
-                    return (
-                      <option value={index} key={index}>
-                        {item.channelname}
-                      </option>
-                    );
-                  }
-                );
-              }
-            })()}
-          </CustomSelect>
-        </CustomFormControl>
-        <CustomText
-          placeholder="请输入您的银行账号名称"
-          inputProps={{
-            maxLength: 50,
-          }}
-          style={{
-            width: "340px",
-            height: "46px",
-          }}
-          value={name}
-          name="account"
-          onChange={onNameChange}
-          variant="outlined"
-        ></CustomText>
-        <CustomText
-          placeholder="请输入您想存款的数量"
-          inputProps={{
-            maxLength: 50,
-          }}
-          style={{
-            width: "340px",
-            height: "46px",
-          }}
-          value={amount}
-          name="amount"
-          onChange={onAmountChange}
-          variant="outlined"
-        ></CustomText>
-
-        <CustomButton
-          disabled={
-            selectedMethodIndex < 0 ||
-            selectedChannelIndex < 0 ||
-            amount <= 0 ||
-            name.length <= 0
-          }
-          name={i18n.t("common.nextStep")}
-          onClick={onNextClick}
-        ></CustomButton>
-      </Grid>
     );
   }
 }
