@@ -765,7 +765,7 @@ class Slots extends Component {
 
     return (
       <Container type={this.state.type}>
-        {config.features.HideMarquee && <CommonMarquee />}
+        {config.features.ShowMarquee && <CommonMarquee />}
         <GameTabContainer type={this.state.type}>
           <GameTabAll
             active={this.state.platform == ""}

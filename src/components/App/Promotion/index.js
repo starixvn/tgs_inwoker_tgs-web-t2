@@ -237,7 +237,7 @@ class Promotion extends Component {
   render() {
     return (
       <Container>
-        {config.features.HideMarquee && <CommonMarquee />}
+        {config.features.ShowMarquee && <CommonMarquee />}
 
         <MainContent>
           <MainContentLeft>

@@ -106,7 +106,7 @@ const featureList = {
     CustomBunnyAffiliate: false,
     WGHK_Setup: false,
 
-    HideMarquee: true,
+    ShowMarquee: false,
   },
 };
 export default featureList;
