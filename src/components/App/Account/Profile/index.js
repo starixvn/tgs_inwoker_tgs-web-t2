@@ -324,13 +324,13 @@ function GetContentWrap(accountInfo, label, attr, func, edit, disable) {
       <ContentLabel>{label}:</ContentLabel>
       <ContentValue style={isDisable ? { color: "#acacac" } : {}}>
         {attrValue}{" "}
-        {
+        {config.features.ShowVerificationStatus && (
           <VerifiedSpan>
             {isMemberName &&
               containMemberName &&
               "(" + i18n.t("verified." + status) + ")"}
           </VerifiedSpan>
-        }
+        )}
       </ContentValue>
       <ButtonWrapper>
         {(() => {
@@ -342,7 +342,9 @@ function GetContentWrap(accountInfo, label, attr, func, edit, disable) {
             );
           }
         })()}
-        {((status === "verifying" && attr === "member_name" && config.features.Profile_DisplayEditNameButton) ||
+        {((status === "verifying" &&
+          attr === "member_name" &&
+          config.features.Profile_DisplayEditNameButton) ||
           (attr === "member_phone" && isVerify && edit && !disable)) && (
           <ContentButton onClick={() => func(attr, edit)}>
             <ContentButtonLabel>{i18n.t("profile.edit")}</ContentButtonLabel>
