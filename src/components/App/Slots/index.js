@@ -65,7 +65,7 @@ const InnerWrap = styled.div`
 `;
 const GameTabContainer = styled.div`
   width: 1007px;
-  margin: 40px auto 5px auto;
+  margin: 00px auto 5px auto;
   background-color: #76727252;
   border-radius: 30px;
 `;
