@@ -33,6 +33,16 @@ const MiddleInnerWrap = styled.div`
   display: block;
   margin: 0 auto;
   width: 1280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;
+
+const TheActualWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 1280px;
 `;
 
 const BottomContainer = styled.div`
@@ -77,6 +87,17 @@ const ThirdPartyLogoHolder = styled.div`
   justify-content: center;
   width: 175px;
 `;
+
+const WGHKFooterContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  color: #fff;
+`;
+
+const LogoHolder = styled.img`
+  height: 50px;
+`;
 const settings = {
   className: "footer",
   dots: false,
@@ -92,34 +113,73 @@ const settings = {
 };
 
 function Footer(props) {
+  const Default = () => {
+    return (
+      <Slider {...settings}>
+        {(() => {
+          return props.game.providerList
+            .filter((gp) => {
+              if (gp.abbreviation.includes("TCG")) {
+                return gp.abbreviation === "TCG_SEA";
+              } else {
+                return gp;
+              }
+            })
+            .map((item, index) => {
+              return (
+                <ThirdPartyLogoHolder>
+                  <BrandsImage
+                    img={
+                      process.env.PUBLIC_URL +
+                      `/assets/images/provider/${item.abbreviation.toLowerCase()}.png`
+                    }
+                  />
+                </ThirdPartyLogoHolder>
+              );
+            });
+        })()}
+      </Slider>
+    );
+  };
+
+  const ImageHolder = ({ image }) => {
+    return (
+      <LogoHolder
+        src={
+          process.env.PUBLIC_URL +
+          `/assets/images/pcHomePage/WGHK/footer/${image}.png`
+        }
+        alt={image}
+      />
+    );
+  };
+
+  const WGHKSetup = () => {
+    return (
+      <WGHKFooterContainer>
+        <ImageHolder image="footer1" />
+        <ImageHolder image="footer2" />
+        <ImageHolder image="footer3" />
+        <ImageHolder image="footer4" />
+        <ImageHolder image="footer5" />
+      </WGHKFooterContainer>
+    );
+  };
+
+  const footerSwitcher = (brand) => {
+    switch (brand) {
+      case "WGHK":
+        return <WGHKSetup />;
+      default:
+        return <Default />;
+    }
+  };
+
   return (
     <Container hide={props.hide}>
       <MiddleContainer>
         <MiddleInnerWrap>
-          <Slider {...settings}>
-            {(() => {
-              return props.game.providerList
-                .filter((gp) => {
-                  if (gp.abbreviation.includes("TCG")) {
-                    return gp.abbreviation === "TCG_SEA";
-                  } else {
-                    return gp;
-                  }
-                })
-                .map((item, index) => {
-                  return (
-                    <ThirdPartyLogoHolder>
-                      <BrandsImage
-                        img={
-                          process.env.PUBLIC_URL +
-                          `/assets/images/provider/${item.abbreviation.toLowerCase()}.png`
-                        }
-                      />
-                    </ThirdPartyLogoHolder>
-                  );
-                });
-            })()}
-          </Slider>
+          <TheActualWrapper> {footerSwitcher(config.brand)}</TheActualWrapper>
         </MiddleInnerWrap>
       </MiddleContainer>
       {/* <HelperContainer>

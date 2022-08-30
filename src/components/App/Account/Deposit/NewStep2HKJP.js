@@ -114,7 +114,7 @@ class NewStepTwo extends Component {
       performUploadImage,
       handleRestartClick,
     } = this.props;
-
+    console.log(this.state);
     return (
       <Container>
         <CustomTable cellPadding="0" cellSpacing="0">
@@ -195,7 +195,7 @@ class NewStepTwo extends Component {
                     accept="image/jpg, image/jpeg, image/png, image/tiff"
                     style={{ display: "none" }}
                   />
-                  {this.state.upload[0] ? this.state.upload[0].name : ""}
+                  {this.state.files[0] ? this.state.files[0].name : ""}
                 </div>
               </ValueTD>
             </tr>
