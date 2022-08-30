@@ -107,6 +107,8 @@ const featureList = {
     Deposit_AccountNameManualInput: false,
     CustomBunnyAffiliate: false,
     WGHK_Setup: false,
+
+    ShowMarquee: false,
   },
 };
 export default featureList;

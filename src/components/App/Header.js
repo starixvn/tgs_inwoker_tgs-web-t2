@@ -354,8 +354,9 @@ const CustomAppBar = styled(StyledAppBar)`
   display: ${({ hide }) => {
     return hide ? "none" : "block";
   }};
-  background: ${({ theme }) => theme.appbar};
-`;
+  background: ${({ isSowin, theme }) => {
+    return isSowin ? "#000" : theme.appbar;}}
+    `;
 
 const GameFrameWrapper = styled.div`
   width: 100%;
@@ -848,7 +849,7 @@ class Header extends Component {
     };
 
     return (
-      <CustomAppBar hide={this.props.hide}>
+      <CustomAppBar hide={this.props.hide} isSowin={config.brand === "SOWIN"}>
         <InnerWrap>
           <TopContainer>
             <TimerContainer>

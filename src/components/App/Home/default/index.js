@@ -84,10 +84,15 @@ const AGImgBG = styled.img`
 `;
 
 const AGTitle = styled.div`
-  background: url(${`${
-    process.env.PUBLIC_URL
-  }/assets/images/${Common.getLanguagePrefixFolder()}/sport-event.png`}) no-repeat 10px center;
-  width: 100%;
+
+background: url(${({ language }) => {
+  return (
+    process.env.PUBLIC_URL + "/assets/images/" + language + "/sport-event.png"
+  );
+}}) no-repeat 10px center;
+
+
+width: 100%;
   height: 100px;
   display: inline-block;
   margin: 0 auto;
@@ -196,15 +201,20 @@ const AGContent = styled.div`
   background-size: 100%;
 `;
 const NewIcon = styled.div`
-  background: url(${process.env.PUBLIC_URL +
-    `/assets/images/${Common.getLanguagePrefixFolder()}/marqueeicon.png`})
-    no-repeat;
   height: 20px;
   width: 120px;
   position: absolute;
   top: 4px;
   right: 50%;
   margin-right: 225px;
+  gap: 8px;
+  display: flex;
+  color: #cb2226;
+  font-size: 14px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 20px;
 `;
 const AGContentStartGame = styled.div`
   position: absolute;
@@ -256,8 +266,12 @@ const KYButtonText = styled.div`
 const KYButton = styled.div`
   width: 500px;
   height: 85px;
-  background: url(${process.env.PUBLIC_URL +
-    `/assets/images/${Common.getLanguagePrefixFolder()}/card-game.png`})
+
+  background: url(${({ language }) => {
+      return (
+        process.env.PUBLIC_URL + "/assets/images/" + language + "/card-game.png"
+      );
+    }})
     no-repeat center;
   position: absolute;
   bottom: 0px;
@@ -585,7 +599,13 @@ class Default extends Component {
         <AGContainer>
           <AGImgBGContainer>
             <AGImageBGFlex>
-              <NewIcon></NewIcon>
+              <NewIcon language={i18n.language}>
+                <img
+                  src={process.env.PUBLIC_URL + "/assets/images/wapp/hot.png"}
+                />
+
+                <div>{i18n.t("T2.marquee")}</div>
+              </NewIcon>
               <AGImgBG src={HomeAGBgJPG}></AGImgBG>
             </AGImageBGFlex>
           </AGImgBGContainer>
@@ -605,7 +625,7 @@ class Default extends Component {
                     ></AGSlider>
                   </AGGameLeftContent>
                   <AGGameRightContent>
-                    <AGTitle></AGTitle>
+                    <AGTitle language={i18n.language} />
                     <AGText>
                       {i18n
                         .t("sports.bunnydesc")
@@ -662,7 +682,10 @@ class Default extends Component {
                       <KyModel src={KYContentModelPNG}></KyModel>
                     </ScrollAnimation>
                     <KyCard src={KYContentCardPNG}></KyCard>
-                    <KYButton onClick={this.qipaiGameHandler}>
+                    <KYButton
+                      onClick={this.qipaiGameHandler}
+                      language={i18n.language}
+                    >
                       <KYButtonTitle>GO</KYButtonTitle>
                       <KYButtonText>{i18n.t("common.startGame")}</KYButtonText>
                     </KYButton>
