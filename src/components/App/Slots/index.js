@@ -48,9 +48,7 @@ const Container = styled.div`
       no-repeat center top,
     #e3e3e3;
   overflow: visible;
-  background-size: ${({ type }) => {
-    return type === GameTypeEnum.FISH ? "" : "auto 100%";
-  }};
+  background-size: 100%;
 `;
 
 const InnerWrap = styled.div`
