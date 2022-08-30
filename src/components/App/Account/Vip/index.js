@@ -285,9 +285,14 @@ const VIP = (props) => {
               <div>
                 <TitleRow>
                   <DataCol>{i18n.t("vip.cardGameRebate")}</DataCol>
-                  <DataCol>{i18n.t("vip.liveDealerRebate")}</DataCol>
-                  <DataCol>{i18n.t("vip.lotteryRebate")}</DataCol>
-                  <DataCol>{i18n.t("vip.slotRebate")}</DataCol>
+                  {/* {(config.brand !== "WGHK") && (
+                    <div> */}
+                    <DataCol>{i18n.t("vip.liveDealerRebate")}</DataCol>
+                    <DataCol>{i18n.t("vip.lotteryRebate")}</DataCol>
+                    <DataCol>{i18n.t("vip.slotRebate")}</DataCol>
+                    {/* </div>
+                  )} */}
+                  
                   <DataCol>{i18n.t("vip.sportsRebate")}</DataCol>
                   <DataCol>{i18n.t("vip.virtualSportsRebate")}</DataCol>
                 </TitleRow>
