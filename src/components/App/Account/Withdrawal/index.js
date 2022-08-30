@@ -287,7 +287,22 @@ class Withdrawal extends Component {
           detail: detail,
         })
         .then((response) => {
-          this.props.getAccountInfo();
+          if (response.IsSuccess) {
+            let setRealName = response.data.nextStepType === "SetRealName";
+            if (setRealName) {
+              this.props
+                .newRegister("SetRealName", {
+                  realname: detail.name || detail.eMoneyName || detail.username,
+                })
+                .then((response) => {
+                  this.props.getAccountInfo();
+                });
+            }
+            else
+            {
+              this.props.getAccountInfo();
+            }
+          }
         });
     } else {
       this.props.addBankCard(channelid, bankType, detail);
@@ -488,8 +503,10 @@ class Withdrawal extends Component {
   };
   handleFilterCardList = (cardList) => {
     if (config.features.Deposit_AddCard) {
-      return cardList.filter((item) => item.default).length <= 0
-        ? cardList.filter((item, index) => index === 0)
+      return cardList.filter((item) => item.default).length < 0
+        ? config.features.Register_CustomFlow_IDR
+          ? cardList[0]
+          : cardList.filter((item, index) => index === 0)
         : cardList.filter((item) => item.default);
     } else {
       return cardList;
