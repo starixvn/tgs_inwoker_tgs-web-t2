@@ -101,10 +101,12 @@ const featureList = {
       max: 27500,
     },
     MergeEVORTNT: true,
-
-    WGHK_Setup: false,
     MenuItem_Sorting_PB3: true,
     Deposit_AccountNameManualInput: false,
+    CustomBunnyAffiliate: false,
+    WGHK_Setup: false,
+
+    ShowMarquee: false,
   },
 };
 export default featureList;
