@@ -18,6 +18,7 @@ import { SHOW_LOGIN } from "../../../api-services/constant/actionType";
 import CommonMarquee from "../CommonMarquee";
 import ScrollAnimation from "react-animate-on-scroll";
 import { AppHistory } from "../../../history/History";
+import config from "../../../config/config";
 export const floatKeyframe = keyframes`
   0%, 100% {
     transform: translateY(0);
@@ -236,7 +237,8 @@ class Promotion extends Component {
   render() {
     return (
       <Container>
-        <CommonMarquee></CommonMarquee>
+        {config.features.ShowMarquee && <CommonMarquee />}
+
         <MainContent>
           <MainContentLeft>
             <ScrollAnimation
