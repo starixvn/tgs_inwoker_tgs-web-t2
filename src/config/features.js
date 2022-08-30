@@ -109,6 +109,7 @@ const featureList = {
     WGHK_Setup: false,
 
     ShowMarquee: false,
+    ShowVerificationStatus: true,
   },
 };
 export default featureList;
