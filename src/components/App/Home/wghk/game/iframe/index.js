@@ -31,6 +31,7 @@ const LoadingLogoImg = styled.img`
 `;
 
 const GameFrame = styled.iframe`
+  margin-top: 24px;
   width: 100vw;
   height: 100vh;
 `;
