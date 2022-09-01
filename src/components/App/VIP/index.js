@@ -313,7 +313,7 @@ const VIP = (props) => {
                       <DataCol>{data.sportsRebate}%</DataCol>
                     </DataRow>
                   ) : (
-                    (<>
+                    <div>
                       <DataRow key={index}>
                         <DataCol>{data.cardGameRebate}%</DataCol>
                         <DataCol>{data.liveDealerRebate}%</DataCol>
@@ -322,7 +322,7 @@ const VIP = (props) => {
                         <DataCol>{data.sportsRebate}%</DataCol>
                         <DataCol>{data.virtualSportsRebate}%</DataCol>
                       </DataRow>
-                    </>)()
+                    </div>
                   );
                 })}
               </div>
