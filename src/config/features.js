@@ -102,12 +102,12 @@ const featureList = {
     },
     MergeEVORTNT: true,
     MenuItem_Sorting_PB3: true,
-
     CustomBunnyAffiliate: false,
     WGHK_Setup: false,
 
     ShowMarquee: false,
     ShowVerificationStatus: true,
+    InitPhone_WithoutVerify: false,
   },
 };
 export default featureList;
