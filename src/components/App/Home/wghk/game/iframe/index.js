@@ -71,20 +71,19 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
 
           var originDomain = document.domain;
 
-              let arr = document.domain.split(".");
-              let host = arr[arr.length - 2] + "." + arr[arr.length - 1];
-              // return host;
-           var currentDomain = host;
-            
-      // <iframe src="http://**.**.com" width=1200 height=800></iframe>
+          let arr = document.domain.split(".");
+          let host = arr[arr.length - 2] + "." + arr[arr.length - 1];
+          // return host;
+          var currentDomain = host;
+
+          // <iframe src="http://**.**.com" width=1200 height=800></iframe>
           if (myRef.current) {
             var url =
               (response.data.url.indexOf("http") <= -1 ? "https:" : "") +
               response.data.url;
-            var urlsss = url.replace("www.jsc080.net", "wghk.srvptt.com")
-            var getExistingParam = url.split('/')[3];
-            console.log("cehciiisss:",currentDomain+"/"+getExistingParam)
-            myRef.current.src = currentDomain+"/"+getExistingParam;
+            var urlsss = url.replace("www.jsc080.net", "wghk.srvptt.com");
+            var getExistingParam = url.split("/")[3];
+            myRef.current.src = currentDomain + "/" + getExistingParam;
           }
         } else {
           document.getElementsByTagName("body")[0].style.overflow = "";
