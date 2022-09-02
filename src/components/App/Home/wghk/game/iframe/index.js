@@ -86,7 +86,7 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
             var getExistingParam = url.split("/")[3];
             // myRef.current.src = currentDomain + "/" + getExistingParam;
             // console.log("checkuuwwwwwwirl:", currentDomain + "/" + getExistingParam)
-            myRef.current.src = "WGHK."+ currentDomain + "/" + getExistingParam;
+            myRef.current.src = "https://WGHK."+ currentDomain + "/" + getExistingParam;
 
           }
         } else {
