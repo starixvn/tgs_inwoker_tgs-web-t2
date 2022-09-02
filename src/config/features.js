@@ -102,6 +102,7 @@ const featureList = {
     },
     MergeEVORTNT: true,
     MenuItem_Sorting_PB3: true,
+    InitPhone_WithoutVerify: false,
   },
 };
 export default featureList;
