@@ -73,7 +73,7 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
 
           let arr = document.domain.split(".");
           let host = arr[arr.length - 2] + "." + arr[arr.length - 1];
-          // console.log("checkuuwwwwwwirl11:", arr)
+                    // console.log("checkuuwwwwwwirl11:", arr)
           // return host;
           var currentDomain = host;
 
@@ -84,13 +84,15 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
               response.data.url;
             var urlsss = url.replace("www.jsc080.net", "wghk.srvptt.com");
             var getExistingParam = url.split("/")[3];
+            // myRef.current.src = currentDomain + "/" + getExistingParam;
             // console.log("checkuuwwwwwwirl:", currentDomain + "/" + getExistingParam)
             myRef.current.src = "WGHK."+ currentDomain + "/" + getExistingParam;
+
           }
         } else {
-          // document.getElementsByTagName("body")[0].style.overflow = "";
-          // window.removeEventListener("resize", this.updateWindowDimensions);
-          // setMaintenance(true);
+          document.getElementsByTagName("body")[0].style.overflow = "";
+          window.removeEventListener("resize", this.updateWindowDimensions);
+          setMaintenance(true);
         }
       });
   };
