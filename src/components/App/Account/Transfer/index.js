@@ -17,7 +17,7 @@ import IconRefreshPNG from "../../../../assets/images/icon-refresh.png";
 
 import { walletAction } from "../../../../api-services/actions/walletAction";
 import { RESET_WALLETRESULT } from "../../../../api-services/constant/actionType";
-import { WalletType } from "../../../../api-services/utils/Enum";
+import { WalletType,customGPname } from "../../../../api-services/utils/Enum";
 import Loading from "../../Loading";
 import Common from "../../../../utils/Common";
 import Messagebox from "../../Messagebox";
@@ -746,7 +746,7 @@ class Transfer extends Component {
                   })
                   .map((item, index) => (
                     <option value={item.abbreviation} key={index}>
-                      {item.name}
+                      {customGPname.WGFM === "" ? item.name : customGPname.WGFM + i18n.t("customGPname.sport")}
                     </option>
                   ))}
               </CustomSelect>
@@ -783,7 +783,7 @@ class Transfer extends Component {
                   })
                   .map((item, index) => (
                     <option value={item.abbreviation} key={index}>
-                      {item.name}
+                      {customGPname.WGFM === "" ? item.name : customGPname.WGFM + i18n.t("customGPname.sport")}
                     </option>
                   ))}
               </CustomSelect>
@@ -864,7 +864,7 @@ class Transfer extends Component {
               .map((item, key) => (
                 <GameTranferWallet key={item.id}>
                   <GameTranferLeftWrap>
-                    <GameName> {item.name}</GameName>
+                    <GameName> {customGPname.WGFM === "" ? item.name : customGPname.WGFM + i18n.t("customGPname.sport")}</GameName>
                   </GameTranferLeftWrap>
                   <GameWalletAmount>
                     {item.maintenance === 1

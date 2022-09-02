@@ -48,7 +48,9 @@ const Container = styled.div`
       no-repeat center top,
     #e3e3e3;
   overflow: visible;
-  background-size: 100%;
+  background-size: ${({ type }) => {
+    return type === GameTypeEnum.FISH ? "" : "auto 100%";
+  }};
 `;
 
 const InnerWrap = styled.div`
@@ -63,7 +65,7 @@ const InnerWrap = styled.div`
 `;
 const GameTabContainer = styled.div`
   width: 1007px;
-  margin: 00px auto 5px auto;
+  margin: 40px auto 5px auto;
   background-color: #76727252;
   border-radius: 30px;
 `;
@@ -763,7 +765,7 @@ class Slots extends Component {
 
     return (
       <Container type={this.state.type}>
-        {config.features.ShowMarquee && <CommonMarquee />}
+        {config.features.HideMarquee && <CommonMarquee />}
         <GameTabContainer type={this.state.type}>
           <GameTabAll
             active={this.state.platform == ""}

@@ -31,6 +31,7 @@ const LoadingLogoImg = styled.img`
 `;
 
 const GameFrame = styled.iframe`
+  margin-top: 24px;
   width: 100vw;
   height: 100vh;
 `;
@@ -61,17 +62,32 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
         }
       });
     } else
-      GameService.JoinLobbyGame(type, gameCode).then((response) => {
+    // var urls = "https://wghk.srvptt.com/index.php?m=Homeweb&c=Login&a=login&is_api=1&username=TA%234uhr2126wqsk&session_id=082ffdb896ccdfde44&lang=zh-tw&version=brown2"
+    // myRef.current.src = urls;
+    GameService.JoinLobbyGame(type, gameCode).then((response) => {
         if (response.IsSuccess) {
           setMaintenance(false);
           setLoading(false);
 
+          var originDomain = document.domain;
+
+          let arr = document.domain.split(".");
+          let host = arr[arr.length - 2] + "." + arr[arr.length - 1];
+                    // console.log("checkuuwwwwwwirl11:", arr)
+          // return host;
+          var currentDomain = host;
+
+          // <iframe src="http://**.**.com" width=1200 height=800></iframe>
           if (myRef.current) {
             var url =
               (response.data.url.indexOf("http") <= -1 ? "https:" : "") +
               response.data.url;
+            var urlsss = url.replace("www.jsc080.net", "wghk.srvptt.com");
+            var getExistingParam = url.split("/")[3];
+            // myRef.current.src = currentDomain + "/" + getExistingParam;
+            // console.log("checkuuwwwwwwirl:", currentDomain + "/" + getExistingParam)
+            myRef.current.src = "https://WGHK."+ currentDomain + "/" + getExistingParam;
 
-            myRef.current.src = url;
           }
         } else {
           document.getElementsByTagName("body")[0].style.overflow = "";
