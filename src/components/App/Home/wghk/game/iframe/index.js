@@ -99,8 +99,9 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
   };
 
   const handleResize = () => {
-    var calHeight = (window.innerHeight * 0.85) - 105 - 24
+    var calHeight = (window.innerHeight) - 155.5 - 105 - 24
     myRef.current.height = calHeight
+    console.log("wtf???", calHeight)
   }
 
   useEffect(() => {
@@ -120,7 +121,7 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
           </LoadingInner>
         </LoadingContainer>
       )}
-      <GameFrame ref={myRef} scrolling="yes" frameBorder="0" height={(window.innerHeight * 0.85) - 105 - 48}></GameFrame>
+      <GameFrame ref={myRef} scrolling="yes" frameBorder="0" height={(window.innerHeight) - 155.5 - 105 - 24}></GameFrame>
     </>
   );
 };
