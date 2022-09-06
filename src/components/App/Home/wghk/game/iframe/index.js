@@ -33,7 +33,8 @@ const LoadingLogoImg = styled.img`
 const GameFrame = styled.iframe`
   margin-top: 24px;
   width: 100vw;
-  height: 100vh;
+  // calc(100vh - 20vh - 105px - 24px);
+  height: ${({ height }) => height}px; 
 `;
 
 const GameIFrame = ({ brand, type, sharedprops, token }) => {
@@ -97,8 +98,15 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
       });
   };
 
+  const handleResize = () => {
+    var calHeight = (window.innerHeight * 0.85) - 105 - 24
+    myRef.current.height = calHeight
+  }
+
   useEffect(() => {
     token && joinGame(brand);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const myRef = useRef();
@@ -112,7 +120,7 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
           </LoadingInner>
         </LoadingContainer>
       )}
-      <GameFrame ref={myRef} scrolling="yes" frameBorder="0"></GameFrame>
+      <GameFrame ref={myRef} scrolling="yes" frameBorder="0" height={(window.innerHeight * 0.85) - 105 - 48}></GameFrame>
     </>
   );
 };
