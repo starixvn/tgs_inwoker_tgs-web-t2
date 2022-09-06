@@ -218,8 +218,10 @@ class Deposit extends Component {
     ) {
       var defaultCard = this.props.wallet.bankCardList.filter(
         (item) => item.default
-      )[0];
-      this.handleBankCardChange({ target: { value: defaultCard.id } });
+      );
+      if (defaultCard.length > 0) {
+        this.handleBankCardChange({ target: { value: defaultCard[0].id } });
+      }
     }
     this.countDownInterval = setInterval(() => {
       this.props.getDepositMethod(); // call api every 30 mins
@@ -436,8 +438,10 @@ class Deposit extends Component {
     ) {
       var defaultCard = this.props.wallet.bankCardList.filter(
         (item) => item.default
-      )[0];
-      this.handleBankCardChange({ target: { value: defaultCard.id } });
+      );
+      if (defaultCard.length > 0) {
+        this.handleBankCardChange({ target: { value: defaultCard[0].id } });
+      }
     }
   }
 
@@ -560,11 +564,9 @@ class Deposit extends Component {
     var method = payment.method[this.state.selectedMethodIndex];
 
     var channel = method.channel[this.state.selectedChannelIndex];
-    if (config.features.Deposit_AddCard) {
-      var bankCardIndex = this.props.wallet.bankCardList.findIndex(
-        (item) => item.id === this.state.selectedBankCard
-      );
-    }
+    var bankCardIndex = this.props.wallet.bankCardList.findIndex(
+      (item) => item.id === this.state.selectedBankCard
+    );
     const depositMethodSwitcher = (method) => {
       switch (method) {
         case "banktransfer":
@@ -664,6 +666,10 @@ class Deposit extends Component {
           );
         }
       } else if (method.methodcode === "EWallet") {
+        let emoneyname = this.props.wallet.bankCardList[bankCardIndex]
+          ? this.props.wallet.bankCardList[bankCardIndex].detail.name ||
+            this.props.wallet.bankCardList[bankCardIndex].detail.eMoneyName
+          : "";
         if (config.features.Deposit_AddCard) {
           this.props.doEWalletDepositWithDetail(
             this.state.amount.replace(/,/g, ""),
@@ -675,7 +681,8 @@ class Deposit extends Component {
               : null,
             config.features.Deposit_AddCard
               ? this.props.wallet.bankCardList[bankCardIndex].detail
-              : null
+              : null,
+            emoneyname
           );
         } else {
           this.props.doEWalletDeposit(
@@ -685,7 +692,8 @@ class Deposit extends Component {
             null,
             config.features.Deposit_Withdrawal_PlayerNote
               ? this.state.playerNote
-              : null
+              : null,
+            emoneyname
           );
         }
       }
@@ -750,6 +758,19 @@ class Deposit extends Component {
     this.setState({
       ...this.state,
       depositPromotion: e.target.value,
+    });
+  };
+  handleSelectAccountChange = (e) => {
+    var bankCardIndex = this.props.wallet.bankCardList.findIndex(
+      (item) => item.id === e.target.value
+    );
+    this.setState({
+      ...this.state,
+      selectedBankCard: e.target.value,
+      account:
+        this.props.wallet.bankCardList[bankCardIndex].detail.bankAccount ||
+        this.props.wallet.bankCardList[bankCardIndex].detail.address ||
+        this.props.wallet.bankCardList[bankCardIndex].detail.phone,
     });
   };
   handleBankCardChange = (e) => {
@@ -905,8 +926,10 @@ class Deposit extends Component {
     ) {
       var defaultCard = this.props.wallet.bankCardList.filter(
         (item) => item.default
-      )[0];
-      this.handleBankCardChange({ target: { value: defaultCard.id } });
+      );
+      if (defaultCard.length > 0) {
+        this.handleBankCardChange({ target: { value: defaultCard[0].id } });
+      }
     }
   };
   switchStep = (steps) => {
@@ -997,6 +1020,7 @@ class Deposit extends Component {
                     )
                   : this.props.wallet.bankCardList
               }
+              handleSelectAccountChange={this.handleSelectAccountChange}
             />
           );
         }
@@ -1352,14 +1376,15 @@ const mapDispatchToProps = (dispatch) => {
         )
       );
     },
-    doEWalletDeposit: (amount, paymentid, promotionid, banktype, note) => {
+    doEWalletDeposit: (amount, paymentid, promotionid, banktype, note, emoneyname) => {
       dispatch(
         walletAction.doEWalletDeposit(
           amount,
           paymentid,
           promotionid,
           banktype,
-          note
+          note,
+          emoneyname
         )
       );
     },
@@ -1461,7 +1486,8 @@ const mapDispatchToProps = (dispatch) => {
       promotionid,
       banktype,
       note,
-      detail
+      detail,
+      emoneyname
     ) => {
       dispatch(
         walletAction.doEWalletDepositWithDetail(
@@ -1470,7 +1496,8 @@ const mapDispatchToProps = (dispatch) => {
           promotionid,
           banktype,
           note,
-          detail
+          detail,
+          emoneyname
         )
       );
     },

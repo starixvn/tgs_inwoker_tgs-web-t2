@@ -1204,8 +1204,7 @@ class Header extends Component {
                 null
               )}
 
-              {!config.features.WGHK_Setup &&
-                this.RightMenuItem("vip", "VIP", null)}
+              {this.RightMenuItem("vip", "VIP", null)}
             </RightMenuUL>
           </BottomContainer>
         </InnerWrap>

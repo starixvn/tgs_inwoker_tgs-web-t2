@@ -532,23 +532,25 @@ function Register(props) {
               variant: "warning",
             });
           } else if (response.IsSuccess) {
+            let setPhoneDontCareDuplicate = response.data.nextStepType === "SetPhoneDontCareDuplicate";
+
             if (config.features.SMSVerification) {
               props.onRegisterSuccess(username, password);
             } else if (
               config.features.Register_ShowEmail &&
               config.features.Register_ShowPhone
             ) {
-              props.doLoginWithHpEmail(username, password, phone, email);
+              props.doLoginWithHpEmail(username, password, phone, email, setPhoneDontCareDuplicate);
             } else if (config.features.Register_ShowPhone) {
               props.doLoginWithHp(username, password, phone);
             } else {
               props.doLogin(username, password);
             }
-            if (subid !== "") {
-              let PAYOUT = "";
-              let affiliateUrl = `http://ad.propellerads.com/conversion.php?aid=3508428&pid=&tid=100917&visitor_id=${subid}&payout=${PAYOUT}`;
-              window.open(affiliateUrl, "_blank");
-            }
+            // if (subid !== "") {
+            //   let PAYOUT = "";
+            //   let affiliateUrl = `http://ad.propellerads.com/conversion.php?aid=3508428&pid=&tid=100917&visitor_id=${subid}&payout=${PAYOUT}`;
+            //   window.open(affiliateUrl, "_blank");
+            // }
           } else {
             props.enqueueSnackbar(ErrorSwitcher.getTranslation(response.info), {
               variant: "warning",

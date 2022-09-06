@@ -102,6 +102,7 @@ const featureList = {
     },
     MergeEVORTNT: true,
     MenuItem_Sorting_PB3: true,
+    Deposit_AccountNameManualInput: false,
     CustomBunnyAffiliate: false,
     WGHK_Setup: false,
 

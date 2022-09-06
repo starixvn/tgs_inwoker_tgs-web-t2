@@ -60,7 +60,7 @@ const EmptyHeader = styled.div`
   height: 105px;
   background: #000103;
   @media (max-width: 1100px) {
-    height: 187px;
+    height: ${config.brand === "WGHK" ? "105px" : "187px"} ;
   }
 `;
 let csWindowTab = null;
@@ -489,7 +489,6 @@ class App extends Component {
                       ]}
                       component={SlotPlay}
                     />
-
                     <Route
                       exact
                       path={baseRouteUrl + "/promotion"}

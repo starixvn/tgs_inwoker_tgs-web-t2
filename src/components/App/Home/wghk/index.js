@@ -23,10 +23,13 @@ const MarqueeContent = styled.div`
 `;
 
 const TheSpeaker = styled.div`
-  color: #fff;
-
-  transform: rotate(180deg);
-  z-index: 3;
+  background-color: #fff;
+width: 24px;
+height: 24px;
+mask:  url(${
+  process.env.PUBLIC_URL}/assets/images/homeIcon/announceIcon.svg) no-repeat center /
+  contain;
+z-index: 3;
 `;
 
 const TheMarqueeHolder = styled.div`
@@ -39,9 +42,30 @@ const WGHKHome = (props) => {
     <>
       <MarqueeContainer>
         <MarqueeContent>
-          <TheSpeaker>🕪</TheSpeaker>
+          <TheSpeaker></TheSpeaker>
           <TheMarqueeHolder>
-            <marquee>123123</marquee>
+            {props.ui.marquees && props.ui.marquees.length > 0 && (
+              <marquee>
+                {props.ui.marquees.map((row, index) => {
+                  return (
+                    <div
+                      key={index}
+                      style={{
+                        display: "inline",
+                        whiteSpace: "nowrap",
+                        wordBreak: "keep-all",
+                        overflow: "visible",
+                      }}
+                    >
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"* "}
+                      {row.localization !== null && row.localization.content
+                        ? row.localization.content
+                        : row.content}
+                    </div>
+                  );
+                })}
+              </marquee>
+            )}
           </TheMarqueeHolder>
         </MarqueeContent>
       </MarqueeContainer>

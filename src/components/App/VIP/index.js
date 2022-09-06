@@ -294,23 +294,35 @@ const VIP = (props) => {
               </div>
               <div>
                 <TitleRow>
-                  <DataCol>{i18n.t("vip.cardGameRebate")}</DataCol>
-                  <DataCol>{i18n.t("vip.liveDealerRebate")}</DataCol>
-                  <DataCol>{i18n.t("vip.lotteryRebate")}</DataCol>
-                  <DataCol>{i18n.t("vip.slotRebate")}</DataCol>
-                  <DataCol>{i18n.t("vip.sportsRebate")}</DataCol>
-                  <DataCol>{i18n.t("vip.virtualSportsRebate")}</DataCol>
+                  {config.features.WGHK_Setup ? (
+                    <DataCol>{i18n.t("vip.sportsRebate")}</DataCol>
+                  ) : (
+                    <>
+                      <DataCol>{i18n.t("vip.cardGameRebate")}</DataCol>
+                      <DataCol>{i18n.t("vip.liveDealerRebate")}</DataCol>
+                      <DataCol>{i18n.t("vip.lotteryRebate")}</DataCol>
+                      <DataCol>{i18n.t("vip.slotRebate")}</DataCol>
+                      <DataCol>{i18n.t("vip.sportsRebate")}</DataCol>
+                      <DataCol>{i18n.t("vip.virtualSportsRebate")}</DataCol>
+                    </>
+                  )}
                 </TitleRow>
                 {vipBenefitList.map((data, index) => {
-                  return (
+                  return config.features.WGHK_Setup ? (
                     <DataRow key={index}>
-                      <DataCol>{data.cardGameRebate}%</DataCol>
-                      <DataCol>{data.liveDealerRebate}%</DataCol>
-                      <DataCol>{data.lotteryRebate}%</DataCol>
-                      <DataCol>{data.slotRebate}%</DataCol>
                       <DataCol>{data.sportsRebate}%</DataCol>
-                      <DataCol>{data.virtualSportsRebate}%</DataCol>
                     </DataRow>
+                  ) : (
+                    <div>
+                      <DataRow key={index}>
+                        <DataCol>{data.cardGameRebate}%</DataCol>
+                        <DataCol>{data.liveDealerRebate}%</DataCol>
+                        <DataCol>{data.lotteryRebate}%</DataCol>
+                        <DataCol>{data.slotRebate}%</DataCol>
+                        <DataCol>{data.sportsRebate}%</DataCol>
+                        <DataCol>{data.virtualSportsRebate}%</DataCol>
+                      </DataRow>
+                    </div>
                   );
                 })}
               </div>
