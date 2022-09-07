@@ -110,6 +110,7 @@ const featureList = {
 
     ShowMarquee: false,
     ShowVerificationStatus: true,
+    RouletteNewFlow: false,
   },
 };
 export default featureList;
