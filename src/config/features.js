@@ -109,6 +109,7 @@ const featureList = {
     ShowMarquee: false,
     ShowVerificationStatus: true,
     InitPhone_WithoutVerify: false,
+    RouletteNewFlow: false,
   },
 };
 export default featureList;
