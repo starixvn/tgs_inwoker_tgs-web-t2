@@ -81,15 +81,25 @@ Config.isPC = isMobileOnly ? 1 : 0;
 document.getElementById("favicon").href =
   process.env.PUBLIC_URL + `/assets/images/logo/${Config.brand}.ico`;
 
-document.getElementById("title").innerHTML = i18n
-  .t("common.title")
-  .replace(/{brand}/g, Config.brand);
-document
-  .getElementById("description")
-  .setAttribute(
-    "content",
-    i18n.t("common.title").replace(/{brand}/g, Config.brand)
-  );
+  var title = i18n.exists(`brand.${Config.brand}.title`)
+  ? i18n.t(`brand.${Config.brand}.title`)
+  : i18n.t("common.title").replace(/{brand}/g, Config.brand);
+
+var description = i18n.exists(`brand.${Config.brand}.description`)
+  ? i18n.t(`brand.${Config.brand}.description`)
+  : title;
+document.getElementById("title").innerHTML = title;
+document.getElementById("description").setAttribute("content", description);
+
+// document.getElementById("title").innerHTML = i18n
+//   .t("common.title")
+//   .replace(/{brand}/g, Config.brand);
+// document
+//   .getElementById("description")
+//   .setAttribute(
+//     "content",
+//     i18n.t("common.title").replace(/{brand}/g, Config.brand)
+//   );
 // if (
 //   process.env.REACT_APP_CUSTOM_NODE_ENV !== "development" &&
 //   (process.env.REACT_APP_CUSTOM_NODE_ENV !== "qa" || Config.baseUrl === "") &&

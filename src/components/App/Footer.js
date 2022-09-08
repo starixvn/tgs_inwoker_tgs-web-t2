@@ -208,7 +208,7 @@ function Footer(props) {
         <CopyRightLine2>
           {i18n
             .t("web.footer.copyrightLine2")
-            .replace(/{brand}/g, config.brand)}
+            .replace(/{brand}/g,  (config.brand) === "SOWIN" ? "Game of King" : (config.brand))}
         </CopyRightLine2>
         <Version>Version {process.env.REACT_APP_VERSION}</Version>
       </BottomContainer>
