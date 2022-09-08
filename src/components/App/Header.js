@@ -355,7 +355,7 @@ const CustomAppBar = styled(StyledAppBar)`
     return hide ? "none" : "block";
   }};
   background: ${({ isSowin, theme }) => {
-    return isSowin ? "#000" : theme.appbar;}}
+    return isSowin ? "#000" : "#fff";}}
     `;
 
 const GameFrameWrapper = styled.div`

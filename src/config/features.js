@@ -101,8 +101,6 @@ const featureList = {
       max: 27500,
     },
     MergeEVORTNT: true,
-
-    WGHK_Setup: false,
     MenuItem_Sorting_PB3: true,
     Deposit_AccountNameManualInput: false,
     CustomBunnyAffiliate: false,
@@ -111,6 +109,7 @@ const featureList = {
     ShowMarquee: false,
     ShowVerificationStatus: true,
     RouletteNewFlow: false,
+    InitPhone_WithoutVerify: false,
   },
 };
 export default featureList;

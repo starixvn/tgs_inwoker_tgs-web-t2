@@ -262,7 +262,7 @@ function TableList(props) {
                     <StyledTableCell>{date}</StyledTableCell>
                     <StyledTableCell>{row.id}</StyledTableCell>
                     <StyledTableCell>
-                      {row.gameProviderName}-{row.gameName}
+                      {(config.features.WGHK_Setup ? row.subGameProviderName: row.gameProviderName)}-{row.gameName}
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       {row.betAmount}

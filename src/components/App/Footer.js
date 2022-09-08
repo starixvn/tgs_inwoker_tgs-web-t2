@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
@@ -14,7 +14,7 @@ import config from "../../config/config";
 import { AppHistory } from "../../history/History";
 const Container = styled.div`
   width: 100%;
-  height: 240px;
+  height: ${config.brand === "WGHK" ? `150px` : "240px"} ;
   background-color: #151515;
   display: ${({ hide }) => {
     return hide ? "none" : "block";
@@ -22,10 +22,10 @@ const Container = styled.div`
 `;
 
 const MiddleContainer = styled.div`
-  height: 120px;
+  height: ${config.brand === "WGHK" ? `80px` : "120px"} ;
   width: 100%;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: ${config.brand === "WGHK" ? "10px" : "20px"} ;
+  padding-bottom: ${config.brand === "WGHK" ? "10px" : "20px"} ;
   border-bottom: solid 1px #443f3b;
   border-top: solid 1px #443f3b;
 `;
@@ -48,7 +48,7 @@ const TheActualWrapper = styled.div`
 const BottomContainer = styled.div`
   height: 70px;
   width: 1280px;
-  padding-top: 16px;
+  padding-top: ${config.brand === "WGHK" ? "6px" : "16px"} ;
   margin: 0 auto;
   color: #f6f6f6;
 `;
@@ -142,6 +142,11 @@ function Footer(props) {
     );
   };
 
+  const handleResize = () => {
+    contRef.current.height = window.innerHeight * 0.16
+    bottomRef.current.height = (window.innerHeight * 0.16) - 80
+  }
+
   const ImageHolder = ({ image }) => {
     return (
       <LogoHolder
@@ -174,9 +179,10 @@ function Footer(props) {
         return <Default />;
     }
   };
-
+  const contRef = useRef();
+  const bottomRef = useRef();
   return (
-    <Container hide={props.hide}>
+    <Container ref={contRef} hide={props.hide}>
       <MiddleContainer>
         <MiddleInnerWrap>
           <TheActualWrapper> {footerSwitcher(config.brand)}</TheActualWrapper>
@@ -197,7 +203,7 @@ function Footer(props) {
         <HelpIcon>|</HelpIcon>
         <HelperText>App 下载 </HelperText>
       </HelperContainer> */}
-      <BottomContainer>
+      <BottomContainer ref={bottomRef}>
         <CopyRightLine1>{i18n.t("web.footer.copyright")}</CopyRightLine1>
         <CopyRightLine2>
           {i18n
@@ -208,7 +214,9 @@ function Footer(props) {
       </BottomContainer>
     </Container>
   );
+  
 }
+
 const mapStateToProps = (state) => {
   return {
     game: state.game,
