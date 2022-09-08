@@ -629,7 +629,7 @@ class Default extends Component {
                     <AGText>
                       {i18n
                         .t("sports.bunnydesc")
-                        .replace("{brand}", config.brandName || config.brand)}
+                        .replace("{brand}", (config.brandName || config.brand) === "SOWIN" ? "Game of King" : (config.brandName || config.brand))}
                     </AGText>
                     <AGGameIconBar>
                       <div></div>
