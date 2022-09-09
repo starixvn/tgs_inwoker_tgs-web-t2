@@ -389,10 +389,12 @@ class Account extends Component {
                 }
               ></AvatarContainer>
               <PlayerName>{this.props.account.info.member_username}</PlayerName>
-              <VIPLabel>
-                VIP
-                {this.props.account.info.member_level_id}
-              </VIPLabel>
+              {config.features.HaveVIPFeature && (
+                <VIPLabel>
+                  VIP
+                  {this.props.account.info.member_level_id}
+                </VIPLabel>
+              )}
               <MenuTitle>{i18n.t("web.account.fund")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.deposit"), "deposit")}
               {this.genMenuButtonDiv(
@@ -409,7 +411,7 @@ class Account extends Component {
               <MenuTitle>{i18n.t("web.account.personal")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.profile"), "profile")}
               {this.genMenuButtonDiv(i18n.t("web.account.inbox"), "inbox")}{" "}
-              {this.genMenuButtonDiv("VIP", "vip")}
+              {config.features.HaveVIPFeature && this.genMenuButtonDiv("VIP", "vip")}
               {config.features.HaveAffiliateFeature &&
                 this.genMenuButtonDiv(
                   i18n.t("web.account.affiliate"),
@@ -476,11 +478,11 @@ class Account extends Component {
                       <Inbox token={this.props.account.token} />
                     )}
                   />
-                  <Route
+                  {config.features.HaveVIPFeature && <Route
                     exact
                     path={baseRouteUrl + "/account/vip"}
                     render={(props) => <VIP token={this.props.account.token} />}
-                  />
+                  />}
                   <Route
                     exact
                     path={baseRouteUrl + "/account/report"}
