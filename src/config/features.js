@@ -109,6 +109,7 @@ const featureList = {
     ShowMarquee: false,
     ShowVerificationStatus: true,
     InitPhone_WithoutVerify: false,
+    HaveVIPFeature: true,
   },
 };
 export default featureList;
