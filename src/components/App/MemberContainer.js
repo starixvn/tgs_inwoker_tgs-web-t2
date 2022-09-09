@@ -226,8 +226,8 @@ const MemberContainer = (props) => {
         <WelcomeContainer>
           <CustomLink to={"/" + i18n.language + "/account/profile"}>
             <MemberUserName>
-              {props.account.info.member_username} (VIP
-              {props.account.info.member_level_id})
+              {props.account.info.member_username} {config.features.HaveVIPFeature && `(VIP
+              ${props.account.info.member_level_id})`}
             </MemberUserName>
           </CustomLink>
         </WelcomeContainer>
