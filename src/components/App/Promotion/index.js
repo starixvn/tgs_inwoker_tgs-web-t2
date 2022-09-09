@@ -282,25 +282,27 @@ class Promotion extends Component {
                                   }
                                 />
                               </PromoTitle>
-                              <PromoDate>
-                                <Tint>
-                                  {" "}
-                                  {i18n.t("promotion.promoTarget")}：
-                                </Tint>{" "}
-                                {data.vipLevels
-                                  .sort((a, b) => {
-                                    return a - b;
-                                  })
-                                  .map((a, index) => {
-                                    return (
-                                      <span key={index}>
-                                        VIP{a}
-                                        {index < data.vipLevels.length - 1 &&
-                                          ", "}
-                                      </span>
-                                    );
-                                  })}
-                              </PromoDate>
+                              {config.features.HaveVIPFeature && (
+                                <PromoDate>
+                                  <Tint>
+                                    {" "}
+                                    {i18n.t("promotion.promoTarget")}：
+                                  </Tint>{" "}
+                                  {data.vipLevels
+                                    .sort((a, b) => {
+                                      return a - b;
+                                    })
+                                    .map((a, index) => {
+                                      return (
+                                        <span key={index}>
+                                          VIP{a}
+                                          {index < data.vipLevels.length - 1 &&
+                                            ", "}
+                                        </span>
+                                      );
+                                    })}
+                                </PromoDate>
+                              )}
                               <PromoDate>
                                 <Tint> {i18n.t("promotion.promoDate")}：</Tint>{" "}
                                 {moment(data.from).format(

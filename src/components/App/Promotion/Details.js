@@ -15,6 +15,8 @@ import { Grid, Container as MContainer } from "@material-ui/core";
 import PromoImage1 from "../../../assets/images/promotion/promo-1.jpg";
 import PromoImage2 from "../../../assets/images/promotion/promo-2.jpg";
 import PromoImage3 from "../../../assets/images/promotion/promo-3.jpg";
+import config from "../../../../src/config/config";
+
 const promoImgMap = [PromoImage1, PromoImage2, PromoImage3];
 const moment = require("moment");
 const Container = styled.div`
@@ -281,21 +283,26 @@ class PromotionDetails extends Component {
                 }
               })()}
             ></PromoDetailImage>
-            <EventTitle>{i18n.t("promotion.promoTarget")}：</EventTitle>
-            <EventText>
-              {this.state.details.vipLevels
-                .sort((a, b) => {
-                  return a - b;
-                })
-                .map((a, index) => {
-                  return (
-                    <span key={index}>
-                      VIP{a}
-                      {index < this.state.details.vipLevels.length - 1 && ", "}
-                    </span>
-                  );
-                })}
-            </EventText>
+            {config.features.HaveVIPFeature && (
+              <React.Fragment>
+                <EventTitle>{i18n.t("promotion.promoTarget")}：</EventTitle>
+                <EventText>
+                  {this.state.details.vipLevels
+                    .sort((a, b) => {
+                      return a - b;
+                    })
+                    .map((a, index) => {
+                      return (
+                        <span key={index}>
+                          VIP{a}
+                          {index < this.state.details.vipLevels.length - 1 &&
+                            ", "}
+                        </span>
+                      );
+                    })}
+                </EventText>
+              </React.Fragment>
+            )}
             <EventTitle>{i18n.t("promotion.promoDate")}：</EventTitle>
             <EventText>
               {moment(this.state.details.from).format("YYYY/MM/DD HH:mm:ss")}
