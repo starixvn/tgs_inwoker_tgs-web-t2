@@ -1204,7 +1204,8 @@ class Header extends Component {
                 null
               )}
 
-              {this.RightMenuItem("vip", "VIP", null)}
+              {config.features.HomePage_DisplayVIP &&
+                this.RightMenuItem("vip", "VIP", null)}
             </RightMenuUL>
           </BottomContainer>
         </InnerWrap>
