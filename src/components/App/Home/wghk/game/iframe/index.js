@@ -34,7 +34,7 @@ const GameFrame = styled.iframe`
   margin-top: 24px;
   width: 100vw;
   // calc(100vh - 20vh - 105px - 24px);
-  height: ${({ height }) => height}px; 
+  height: ${({ height }) => height}px;
 `;
 
 const GameIFrame = ({ brand, type, sharedprops, token }) => {
@@ -62,10 +62,11 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
           setMaintenance(true);
         }
       });
-    } else
+    }
     // var urls = "https://wghk.srvptt.com/index.php?m=Homeweb&c=Login&a=login&is_api=1&username=TA%234uhr2126wqsk&session_id=082ffdb896ccdfde44&lang=zh-tw&version=brown2"
     // myRef.current.src = urls;
-    GameService.JoinLobbyGame(type, gameCode).then((response) => {
+    else
+      GameService.JoinLobbyGame(type, gameCode).then((response) => {
         if (response.IsSuccess) {
           setMaintenance(false);
           setLoading(false);
@@ -74,7 +75,7 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
 
           let arr = document.domain.split(".");
           let host = arr[arr.length - 2] + "." + arr[arr.length - 1];
-                    // console.log("checkuuwwwwwwirl11:", arr)
+          // console.log("checkuuwwwwwwirl11:", arr)
           // return host;
           var currentDomain = host;
 
@@ -87,8 +88,8 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
             var getExistingParam = url.split("/")[3];
             // myRef.current.src = currentDomain + "/" + getExistingParam;
             // console.log("checkuuwwwwwwirl:", currentDomain + "/" + getExistingParam)
-            myRef.current.src = "https://WGHK."+ currentDomain + "/" + getExistingParam;
-
+            myRef.current.src =
+              "https://w." + currentDomain + "/" + getExistingParam;
           }
         } else {
           document.getElementsByTagName("body")[0].style.overflow = "";
@@ -99,15 +100,15 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
   };
 
   const handleResize = () => {
-    var calHeight = (window.innerHeight) - 155.5 - 105 - 24
-    myRef.current.height = calHeight
-    console.log("wtf???", calHeight)
-  }
+    var calHeight = window.innerHeight - 155.5 - 105 - 24;
+    myRef.current.height = calHeight;
+    console.log("wtf???", calHeight);
+  };
 
   useEffect(() => {
     token && joinGame(brand);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const myRef = useRef();
@@ -121,7 +122,12 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
           </LoadingInner>
         </LoadingContainer>
       )}
-      <GameFrame ref={myRef} scrolling="yes" frameBorder="0" height={(window.innerHeight) - 155.5 - 105 - 24}></GameFrame>
+      <GameFrame
+        ref={myRef}
+        scrolling="yes"
+        frameBorder="0"
+        height={window.innerHeight - 155.5 - 105 - 24}
+      ></GameFrame>
     </>
   );
 };
