@@ -60,7 +60,7 @@ const EmptyHeader = styled.div`
   height: 105px;
   background: #000103;
   @media (max-width: 1100px) {
-    height: ${config.brand === "WGHK" ? "105px" : "187px"} ;
+    height: ${config.brand === "WGHK" ? "105px" : "187px"};
   }
 `;
 const RouletteFloatingPanel = styled.div`
@@ -348,8 +348,7 @@ class App extends Component {
       this.props.general.promotionList.items &&
       this.props.general.promotionList.items.length > 0 &&
       this.props.general.promotionList.items.findIndex(
-        (item) =>
-          item.promotionType.toUpperCase() === "ROULETTE"
+        (item) => item.promotionType.toUpperCase() === "ROULETTE"
       ) >= 0
     );
   };
@@ -596,54 +595,53 @@ class App extends Component {
                     />
                   )}
 
-                <RouletteFloatingPanel>
-                  {config.features.HomePage_PromoRoulette &&
-                    !config.features.RouletteNewFlow &&
-                    this.isInHomePage() &&
-                    this.isRouletteAvailable() && (
-                      <PromotionRoulette
-                        rouletteType="ROULETTE"
-                        promotionDetail={
-                          this.props.general.promotionList.items.filter(
-                            (item) =>
-                              item.promotionType.toUpperCase() === "ROULETTE"
-                          )[0]
-                        }
-                      ></PromotionRoulette>
-                    )}
-                  {config.features.HomePage_PromoRoulette &&
-                    this.isInHomePage() &&
-                    this.props.general.promotionList.items.length > 0 &&
-                    // this.props.general.rouletteCount.map((roulette) => {
-                    //   return roulette.roulettecount > 0 ? (
-                    //     <PromotionRoulette
-                    //       rouletteType={roulette.promotiontype.toUpperCase()}
-                    //       promotionDetail={
-                    //         this.props.general.promotionList.items.filter(
-                    //           (item) =>
-                    //             item.promotionType.toUpperCase() ===
-                    //               roulette.promotiontype.toUpperCase() &&
-                    //             item.id === roulette.promotionid
-                    //         )[0]
-                    //       }
-                    //     ></PromotionRoulette>
-                    //   ) : (
-                    //     <React.Fragment></React.Fragment>
-                    //   );
-                    // })
-                    this.props.general.promotionList.items.map((item) => {
-                      return (
-                        ((item.promotionType.toUpperCase() === "ROULETTE" && config.features.RouletteNewFlow) ||
-                          item.promotionType.toUpperCase() ===
-                            "DEPOSITACCUMULATEROULETTE") && (
-                          <PromotionRoulette
-                            rouletteType={item.promotionType.toUpperCase()}
-                            promotionDetail={item}
-                          ></PromotionRoulette>
-                        )
-                      );
-                    })}
-                </RouletteFloatingPanel>
+                {config.features.HomePage_PromoRoulette && this.isInHomePage() && (
+                  <RouletteFloatingPanel>
+                    {!config.features.RouletteNewFlow &&
+                      this.isRouletteAvailable() && (
+                        <PromotionRoulette
+                          rouletteType="ROULETTE"
+                          promotionDetail={
+                            this.props.general.promotionList.items.filter(
+                              (item) =>
+                                item.promotionType.toUpperCase() === "ROULETTE"
+                            )[0]
+                          }
+                        ></PromotionRoulette>
+                      )}
+                    {this.props.general.promotionList.items.length > 0 &&
+                      // this.props.general.rouletteCount.map((roulette) => {
+                      //   return roulette.roulettecount > 0 ? (
+                      //     <PromotionRoulette
+                      //       rouletteType={roulette.promotiontype.toUpperCase()}
+                      //       promotionDetail={
+                      //         this.props.general.promotionList.items.filter(
+                      //           (item) =>
+                      //             item.promotionType.toUpperCase() ===
+                      //               roulette.promotiontype.toUpperCase() &&
+                      //             item.id === roulette.promotionid
+                      //         )[0]
+                      //       }
+                      //     ></PromotionRoulette>
+                      //   ) : (
+                      //     <React.Fragment></React.Fragment>
+                      //   );
+                      // })
+                      this.props.general.promotionList.items.map((item) => {
+                        return (
+                          ((item.promotionType.toUpperCase() === "ROULETTE" &&
+                            config.features.RouletteNewFlow) ||
+                            item.promotionType.toUpperCase() ===
+                              "DEPOSITACCUMULATEROULETTE") && (
+                            <PromotionRoulette
+                              rouletteType={item.promotionType.toUpperCase()}
+                              promotionDetail={item}
+                            ></PromotionRoulette>
+                          )
+                        );
+                      })}
+                  </RouletteFloatingPanel>
+                )}
 
                 <Footer target={"_blank"}></Footer>
               </>
@@ -710,7 +708,8 @@ const mapDispatchToProps = (dispatch) => {
     getWithdrawalChannel: () => dispatch(walletAction.getWithdrawalChannel()),
     updateBalanceList: (loading) => dispatch(walletAction.updateBalanceList()),
     getPromotion: () => dispatch(generalAction.getPromotion()),
-    getPromotionRouletteCount: () => dispatch(generalAction.getPromotionRouletteCount()),
+    getPromotionRouletteCount: () =>
+      dispatch(generalAction.getPromotionRouletteCount()),
   };
 };
 
