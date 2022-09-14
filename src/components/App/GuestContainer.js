@@ -562,6 +562,7 @@ class GuestContainer extends Component {
             this.props.getGameBalance(a.abbreviation);
           });
         this.props.getPromotion();
+        this.props.getPromotionRouletteCount();
       }
       // this.props.getIDCardNo();
       // this.props.getInviteLink();
@@ -770,6 +771,7 @@ const mapDispatchToProps = (dispatch) => {
     getPromotion: () => dispatch(generalAction.getPromotion()),
     newRegister: (type, input) =>
       dispatch(accountAction.newRegister(type, input)),
+    getPromotionRouletteCount: () => dispatch(generalAction.getPromotionRouletteCount()),
   };
 };
 const mapStateToProps = (state) => {
