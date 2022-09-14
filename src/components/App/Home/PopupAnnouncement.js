@@ -93,20 +93,28 @@ class PopupAnnouncement extends Component {
           <TitleContainer>{this.props.header}</TitleContainer>
           {this.props.type === "promo" ? (
             <ContentContainer>
-              {this.props.content.map((data, index) => {
-                var checkLocale = data.localization[i18n.language];
-                return (
-                  <ImageBanner img={checkLocale && checkLocale.desktopBanner}>
-                    <TheButton
-                      onClick={() => {
-                        this.handlePromotionClick(data.id);
-                      }}
+              {this.props.content
+                .sort((a, b) => {
+                  return a.order - b.order;
+                })
+                .map((data, index) => {
+                  var checkLocale = data.localization[i18n.language];
+                  return (
+                    <ImageBanner
+                      img={checkLocale && checkLocale.desktopBanner}
+                      key={index}
+                      order={data.order}
                     >
-                      {i18n.t("promotion.details")}
-                    </TheButton>
-                  </ImageBanner>
-                );
-              })}
+                      <TheButton
+                        onClick={() => {
+                          this.handlePromotionClick(data.id);
+                        }}
+                      >
+                        {i18n.t("promotion.details")}
+                      </TheButton>
+                    </ImageBanner>
+                  );
+                })}
             </ContentContainer>
           ) : (
             <FormContainer
