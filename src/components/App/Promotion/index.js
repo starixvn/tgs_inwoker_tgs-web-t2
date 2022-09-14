@@ -256,14 +256,17 @@ class Promotion extends Component {
             <Inner>
               {(() => {
                 if (this.props.general.promotionList.items.length > 0)
-                  return this.props.general.promotionList.items.map(
-                    (data, index) => {
+                  return this.props.general.promotionList.items
+                    .sort((a, b) => {
+                      return a.order - b.order;
+                    })
+                    .map((data, index) => {
                       var checkLocale = data.localization[i18n.language];
-                      console.log(data.name);
 
                       return (
                         <Content
                           key={index}
+                          order={data.order}
                           image={
                             checkLocale && checkLocale.desktopBanner
                               ? checkLocale.desktopBanner
@@ -329,8 +332,7 @@ class Promotion extends Component {
                           </RightContent>
                         </Content>
                       );
-                    }
-                  );
+                    });
                 else
                   return (
                     <PromoEmptyContainer>
