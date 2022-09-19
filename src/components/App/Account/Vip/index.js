@@ -287,33 +287,37 @@ const VIP = (props) => {
                   {config.features.WGHK_Setup ? (
                     <DataCol>{i18n.t("vip.sportsRebate")}</DataCol>
                   ) : (
-                    <>
+                    <React.Fragment>
                       <DataCol>{i18n.t("vip.cardGameRebate")}</DataCol>
                       <DataCol>{i18n.t("vip.liveDealerRebate")}</DataCol>
                       <DataCol>{i18n.t("vip.lotteryRebate")}</DataCol>
                       <DataCol>{i18n.t("vip.slotRebate")}</DataCol>
                       <DataCol>{i18n.t("vip.sportsRebate")}</DataCol>
                       <DataCol>{i18n.t("vip.virtualSportsRebate")}</DataCol>
-                    </>
+                    </React.Fragment>
                   )}
                 </TitleRow>
                 {vipBenefitList.map((data, index) => {
-                  return config.features.WGHK_Setup ? (
-                    <DataRow key={index}>
-                      <DataCol>{data.sportsRebate}%</DataCol>
-                    </DataRow>
-                  ) : (
-                    (<>
+                  if (config.features.WGHK_Setup) {
+                    return (
                       <DataRow key={index}>
-                        <DataCol>{data.cardGameRebate}%</DataCol>
-                        <DataCol>{data.liveDealerRebate}%</DataCol>
-                        <DataCol>{data.lotteryRebate}%</DataCol>
-                        <DataCol>{data.slotRebate}%</DataCol>
                         <DataCol>{data.sportsRebate}%</DataCol>
-                        <DataCol>{data.virtualSportsRebate}%</DataCol>
                       </DataRow>
-                    </>)()
-                  );
+                    );
+                  } else {
+                    return (
+                      <React.Fragment>
+                        <DataRow key={index}>
+                          <DataCol>{data.cardGameRebate}%</DataCol>
+                          <DataCol>{data.liveDealerRebate}%</DataCol>
+                          <DataCol>{data.lotteryRebate}%</DataCol>
+                          <DataCol>{data.slotRebate}%</DataCol>
+                          <DataCol>{data.sportsRebate}%</DataCol>
+                          <DataCol>{data.virtualSportsRebate}%</DataCol>
+                        </DataRow>
+                      </React.Fragment>
+                    );
+                  }
                 })}
               </div>
             </VipLevelContainer2>
