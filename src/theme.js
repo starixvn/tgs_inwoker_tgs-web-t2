@@ -80,7 +80,7 @@ export const themeBrown = {
   popoverSubWalletText: "#000",
 };
 
-export const themeSOWIN = {
+export const themeKING8 = {
   variant: "brown",
   primary: "rgb(199, 168, 124)",
   primaryRgb: "199, 168, 124",
@@ -114,5 +114,5 @@ export const themeList = {
   default: themeBrown,
   red: themeRed,
   blue: themeBlue,
-  themeSOWIN: themeSOWIN,
+  themeKING8: themeKING8,
 };
