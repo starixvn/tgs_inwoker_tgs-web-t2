@@ -103,7 +103,12 @@ export default function SlotSection(props) {
         <SlotText>
           {i18n
             .t("esports.bunnydesc")
-            .replace("{brand}",  (config.brandName || config.brand) === "SOWIN" ? "Game of King" : (config.brandName || config.brand))}
+            .replace(
+              "{brand}",
+              (config.brandName || config.brand) === "KING8"
+                ? "Game of King"
+                : config.brandName || config.brand
+            )}
         </SlotText>
         <SlotGameContainer>
           {checkAgain.map((data, index) => {
