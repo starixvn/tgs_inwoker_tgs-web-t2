@@ -938,7 +938,7 @@ class Header extends Component {
                     </CustomExternalLink> */}
                   </LinkListItem>
                   <LinkListItem>
-                    {this.props.general.livechat && (
+                    {this.props.general.livechat.setting && (
                       <CustomCsButton onClick={this.props.onhandleShowCSClick}>
                         <Icon></Icon>
                         <div>{i18n.t("common.cs")}</div>
