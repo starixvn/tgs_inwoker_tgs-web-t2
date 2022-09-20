@@ -189,7 +189,7 @@ const AvatarContainer = styled.img`
 const PlayerName = styled.div`
   font-size: 20px;
   color: #8a7f73;
-  height: 25px;
+  height: 28px;
   text-align: center;
 `;
 const BtnLogout = styled.div`
