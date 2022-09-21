@@ -49,7 +49,12 @@ class JoinLobbyGame extends Component {
             var getExistingParam = url.split("/")[3];
 
             window.location.href =
-              "https://m." + currentDomain + "/" + getExistingParam;
+              "https://" +
+              (isMobileOnly ? "m" : "w") +
+              "." +
+              currentDomain +
+              "/" +
+              getExistingParam;
           }
         } else {
           this.handleJoinGameMaintenance(response);
