@@ -94,7 +94,7 @@ class App extends Component {
       this.props.getBrand();
       this.props.getLiveChatURL();
       this.props.getPromotion();
-      //this.props.getPromotionRouletteCount();
+      this.props.getPromotionRouletteCount();
 
       // this.props.getVIP();
     }
@@ -221,7 +221,7 @@ class App extends Component {
             this.props.getBankCardList();
             this.props.getAutoTransferStatus();
             this.props.getPromotion();
-            //this.props.getPromotionRouletteCount();
+            this.props.getPromotionRouletteCount();
             this.props.getWithdrawalChannel();
 
             // if (inbox.IsSuccess) {
@@ -248,7 +248,7 @@ class App extends Component {
         this.props.getBrand();
         this.props.getPromotion();
 
-        //this.props.getPromotionRouletteCount();
+        this.props.getPromotionRouletteCount();
         // this.props.getVIP();
       }
     }
