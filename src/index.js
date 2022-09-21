@@ -81,7 +81,7 @@ Config.isPC = isMobileOnly ? 1 : 0;
 document.getElementById("favicon").href =
   process.env.PUBLIC_URL + `/assets/images/logo/${Config.brand}.ico`;
 
-  var title = i18n.exists(`brand.${Config.brand}.title`)
+var title = i18n.exists(`brand.${Config.brand}.title`)
   ? i18n.t(`brand.${Config.brand}.title`)
   : i18n.t("common.title").replace(/{brand}/g, Config.brand);
 
@@ -261,7 +261,10 @@ const AppWrapper = () => {
                   />
                   <Route
                     exact
-                    path={Common.baseRouteUrl + "/joinlobbygame/:type/:params"}
+                    path={
+                      Common.baseRouteUrl +
+                      "/joinlobbygame/:type/:params/:replaceUrl?"
+                    }
                     component={JoinLobbyGame}
                   />
                   {(() => {

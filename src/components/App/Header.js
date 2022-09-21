@@ -355,8 +355,9 @@ const CustomAppBar = styled(StyledAppBar)`
     return hide ? "none" : "block";
   }};
   background: ${({ isSowin, theme }) => {
-    return isSowin ? "#000" : "#fff";}}
-    `;
+    return isSowin ? "#000" : "#fff";
+  }};
+`;
 
 const GameFrameWrapper = styled.div`
   width: 100%;
@@ -849,7 +850,7 @@ class Header extends Component {
     };
 
     return (
-      <CustomAppBar hide={this.props.hide} isSowin={config.brand === "SOWIN"}>
+      <CustomAppBar hide={this.props.hide} isSowin={config.brand === "KING8"}>
         <InnerWrap>
           <TopContainer>
             <TimerContainer>
@@ -937,7 +938,7 @@ class Header extends Component {
                     </CustomExternalLink> */}
                   </LinkListItem>
                   <LinkListItem>
-                    {this.props.general.livechat && (
+                    {this.props.general.livechat.setting && (
                       <CustomCsButton onClick={this.props.onhandleShowCSClick}>
                         <Icon></Icon>
                         <div>{i18n.t("common.cs")}</div>

@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import i18n from "../../../../../utils/i18n";
-
+import Common from "../../../../../utils/Common";
+import { GameTypeEnum } from "../../../../../api-services/utils/Enum";
 const WGHKBackgorund = styled.div`
   display: flex;
   background: url(${process.env.PUBLIC_URL +
   "/assets/images/pcHomePage/WGHK/background.png"});
+  background-position: center;
   height: 100vh;
   width: 100vw;
   position: relative;
@@ -32,16 +34,28 @@ const TheButton = styled.div`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
-const Landing = ({ showLogin }) => {
+const Landing = ({ showLogin, token }) => {
   return (
     <WGHKBackgorund>
       <TheButtonContainer>
         <TheButton
           onClick={() => {
-            showLogin(true);
+            if (token) {
+              Common.closePreviousPopup();
+              Common.PopupCenter(
+                "/" +
+                  i18n.language +
+                  "/joinlobbygame/" +
+                  GameTypeEnum.SPORTS +
+                  "/WGFM/true",
+                "gamewindow"
+              );
+            } else {
+              showLogin(true);
+            }
           }}
         >
-          {i18n.t("WGHK.loginRegister")}
+          {token ? i18n.t("common.startGame") : i18n.t("WGHK.loginRegister")}
         </TheButton>
       </TheButtonContainer>
     </WGHKBackgorund>

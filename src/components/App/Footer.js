@@ -14,7 +14,7 @@ import config from "../../config/config";
 import { AppHistory } from "../../history/History";
 const Container = styled.div`
   width: 100%;
-  height: ${config.brand === "WGHK" ? `150px` : "240px"} ;
+  height: ${config.brand === "WGHK" ? `150px` : "240px"};
   background-color: #151515;
   display: ${({ hide }) => {
     return hide ? "none" : "block";
@@ -22,10 +22,10 @@ const Container = styled.div`
 `;
 
 const MiddleContainer = styled.div`
-  height: ${config.brand === "WGHK" ? `80px` : "120px"} ;
+  height: ${config.brand === "WGHK" ? `80px` : "120px"};
   width: 100%;
-  padding-top: ${config.brand === "WGHK" ? "10px" : "20px"} ;
-  padding-bottom: ${config.brand === "WGHK" ? "10px" : "20px"} ;
+  padding-top: ${config.brand === "WGHK" ? "10px" : "20px"};
+  padding-bottom: ${config.brand === "WGHK" ? "10px" : "20px"};
   border-bottom: solid 1px #443f3b;
   border-top: solid 1px #443f3b;
 `;
@@ -48,7 +48,7 @@ const TheActualWrapper = styled.div`
 const BottomContainer = styled.div`
   height: 70px;
   width: 1280px;
-  padding-top: ${config.brand === "WGHK" ? "6px" : "16px"} ;
+  padding-top: ${config.brand === "WGHK" ? "6px" : "16px"};
   margin: 0 auto;
   color: #f6f6f6;
 `;
@@ -143,9 +143,9 @@ function Footer(props) {
   };
 
   const handleResize = () => {
-    contRef.current.height = window.innerHeight * 0.16
-    bottomRef.current.height = (window.innerHeight * 0.16) - 80
-  }
+    contRef.current.height = window.innerHeight * 0.16;
+    bottomRef.current.height = window.innerHeight * 0.16 - 80;
+  };
 
   const ImageHolder = ({ image }) => {
     return (
@@ -208,13 +208,15 @@ function Footer(props) {
         <CopyRightLine2>
           {i18n
             .t("web.footer.copyrightLine2")
-            .replace(/{brand}/g,  (config.brand) === "SOWIN" ? "Game of King" : (config.brand))}
+            .replace(
+              /{brand}/g,
+              config.brand === "KING8" ? "Game of King" : config.brand
+            )}
         </CopyRightLine2>
         <Version>Version {process.env.REACT_APP_VERSION}</Version>
       </BottomContainer>
     </Container>
   );
-  
 }
 
 const mapStateToProps = (state) => {
