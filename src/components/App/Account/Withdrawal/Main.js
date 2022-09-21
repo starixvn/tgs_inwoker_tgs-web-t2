@@ -176,6 +176,18 @@ const GameWalletButton = styled.div`
   }
 `;
 
+const GapLeaver = styled.div`
+  padding-left: 50px;
+`;
+
+const FeeSpot = styled.div`
+  color: ${({ theme }) => theme.primary};
+
+  span {
+    font-weight: bold;
+  }
+`;
+
 const Main = (props) => {
   const [selectedCardIndex, setSelectedCardIndex] = useState(props.defaultCard);
   const [amount, setAmount] = useState("");
@@ -183,6 +195,7 @@ const Main = (props) => {
   const [disabled, setDisabled] = useState("");
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(0);
+  const [fee, setFee] = useState(0);
   const [paymentList, setPaymentList] = useState(props.wallet.withdrawalList);
   const [exchangeRate, setExchangeRate] = useState(
     config.features.Withdrawal_USDT_ExchangeRate
@@ -226,6 +239,7 @@ const Main = (props) => {
     maxValue = [];
     setMin(0);
     setMax(0);
+    setFee(0);
     //update new data.
     for (var i = 0; i < paymentList.length; i++) {
       const methodList = paymentList[i].channel;
@@ -237,6 +251,7 @@ const Main = (props) => {
             maxValue.push(channelList.transferlimit.to);
             setMin(Math.min(...minValue));
             setMax(Math.max(...maxValue));
+            setFee(channelList.fees);
           }
         }
       }
@@ -365,6 +380,13 @@ const Main = (props) => {
           </NumberContainer>
 
           <SubTitle>{i18n.t("withdrawal.enterAmount")}</SubTitle>
+          {
+            //     <GapLeaver>
+            //     <FeeSpot>
+            //       {i18n.t("fees.withdraw")}: <span>{fee}%</span>
+            //     </FeeSpot>
+            //   </GapLeaver>
+          }
           {(() => {
             if (
               props.cardList[selectedCardIndex] &&

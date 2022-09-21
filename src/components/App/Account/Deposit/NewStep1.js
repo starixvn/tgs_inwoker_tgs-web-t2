@@ -183,8 +183,6 @@ const Remark = styled.div`
 
 const CustomNumberingContainer = styled.div`
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
 `;
 
 const CopyIcon = styled.div`
@@ -215,6 +213,18 @@ const Numbering = styled.div`
 const TitleHint = styled.span`
   opacity: 0.5;
   margin-left: 10px;
+`;
+
+const GapLeaver = styled.div`
+  padding-left: 50px;
+`;
+
+const FeeSpot = styled.div`
+  color: ${({ theme }) => theme.primary};
+
+  span {
+    font-weight: bold;
+  }
 `;
 
 const NewStepOne = (props) => {
@@ -260,12 +270,14 @@ const NewStepOne = (props) => {
     methodList[selectedMethodIndex].methodcode.toUpperCase() === "PULSA";
 
   var numberingCount = 0;
-  const SubHeaderContainer = (props) => {
+  const SubHeaderContainer = ({ children, custom }) => {
     numberingCount++;
     return (
       <CustomNumberingContainer className="numbering">
-        {props.children}
-        <Numbering>{numberingCount}</Numbering>
+        <div>
+          <Numbering>{numberingCount}</Numbering> {children}
+        </div>
+        {custom && <GapLeaver>{custom}</GapLeaver>}
       </CustomNumberingContainer>
     );
   };
@@ -303,8 +315,10 @@ const NewStepOne = (props) => {
       case "PULSA":
         detail = `${data.detail.phone || ""}`;
         break;
-      default: 
-        detail = `${data.detail.bankAccount||data.detail.address||data.detail.phone}`;
+      default:
+        detail = `${
+          data.detail.bankAccount || data.detail.address || data.detail.phone
+        }`;
         break;
     }
     return detail;
@@ -312,66 +326,62 @@ const NewStepOne = (props) => {
 
   return (
     <>
-      {
-        (!config.features.Deposit_AddCard)
-          ? (
-            <>
-              <SubHeaderContainer>
-                <SubTitle>
-                  {i18n.t("deposit.msgPlsSelectPayment")}
+      {!config.features.Deposit_AddCard ? (
+        <>
+          <SubHeaderContainer>
+            <SubTitle>
+              {i18n.t("deposit.msgPlsSelectPayment")}
 
-                  <TitleHint>
-                    {methodList &&
-                      paymentType.paymentcode === "ZeroNineNinePay" &&
-                      "(" + i18n.t("hint._099") + ")"}
-                  </TitleHint>
-                </SubTitle>
-              </SubHeaderContainer>
-              <SelectionContainer>
-                {methodList.map((item, index) => {
+              <TitleHint>
+                {methodList &&
+                  paymentType.paymentcode === "ZeroNineNinePay" &&
+                  "(" + i18n.t("hint._099") + ")"}
+              </TitleHint>
+            </SubTitle>
+          </SubHeaderContainer>
+          <SelectionContainer>
+            {methodList.map((item, index) => {
+              return (
+                <TunnelButton
+                  key={index}
+                  onClick={() => onMethodChange(index)}
+                  active={selectedMethodIndex === index}
+                >
+                  {i18n.t(item.methodcode)}
+                </TunnelButton>
+              );
+            })}
+          </SelectionContainer>
+        </>
+      ) : (
+        <>
+          <SubHeaderContainer>
+            <SubTitle>{i18n.t("idr1.pleaseEnterAccountName")}</SubTitle>
+          </SubHeaderContainer>
+          <SelectionContainer>
+            <CustomFormControl>
+              <CustomSelect
+                variant="outlined"
+                value={props.selectedBankCard}
+                displayEmpty
+                onChange={props.handleBankCardChange}
+                native
+              >
+                <option value="" disabled>
+                  {i18n.t("idr1.msgPlsSelectAccount")}
+                </option>
+                {props.bankCardList.map((data, key) => {
                   return (
-                    <TunnelButton
-                      key={index}
-                      onClick={() => onMethodChange(index)}
-                      active={selectedMethodIndex === index}
-                    >
-                      {i18n.t(item.methodcode)}
-                    </TunnelButton>
+                    <option value={data.id} key={key}>
+                      {formatBankCardDetail(data)}
+                    </option>
                   );
                 })}
-              </SelectionContainer>
-            </>
-          ) :(<>
-              <SubHeaderContainer>
-                <SubTitle>
-                  {i18n.t("idr1.pleaseEnterAccountName")}
-                </SubTitle>
-              </SubHeaderContainer>
-              <SelectionContainer>
-                <CustomFormControl>
-                  <CustomSelect
-                    variant="outlined"
-                    value={props.selectedBankCard}
-                    displayEmpty
-                    onChange={props.handleBankCardChange}
-                    native
-                  >
-                    <option value="" disabled>
-                      {i18n.t("idr1.msgPlsSelectAccount")}
-                    </option>
-                    {props.bankCardList.map((data, key) => {
-                      return (
-                        <option value={data.id} key={key}>
-                          {formatBankCardDetail(data)}
-                        </option>
-                      );
-                    })}
-                  </CustomSelect>
-                </CustomFormControl>
-              </SelectionContainer>
-          </>)
-         
-      }
+              </CustomSelect>
+            </CustomFormControl>
+          </SelectionContainer>
+        </>
+      )}
 
       <SplitLine></SplitLine>
       {(() => {
@@ -688,10 +698,7 @@ const NewStepOne = (props) => {
                                   {props.accountList.map((data, key) => {
                                     var detail = data.detail;
                                     return (
-                                      <option
-                                        value={data.id}
-                                        key={key}
-                                      >
+                                      <option value={data.id} key={key}>
                                         {detail.bankAccount ||
                                           detail.address ||
                                           detail.phone}{" "}
@@ -789,7 +796,23 @@ const NewStepOne = (props) => {
                 }
               })()}
 
-              <SubHeaderContainer>
+              <SubHeaderContainer
+                custom={
+                  <>
+                    <FeeSpot>
+                      {i18n.t("fees.deposit")}:{" "}
+                      <span>
+                        {
+                          methodList[selectedMethodIndex].channel[
+                            selectedChannelIndex
+                          ].fees
+                        }
+                        %
+                      </span>
+                    </FeeSpot>
+                  </>
+                }
+              >
                 <SubTitle>{i18n.t("deposit.plsEnterDepositAmount")}</SubTitle>
               </SubHeaderContainer>
               <SelectionContainer>
