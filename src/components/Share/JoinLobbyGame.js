@@ -21,6 +21,8 @@ class JoinLobbyGame extends Component {
     const gameType = this.props.match.params.type;
 
     const gameCode = this.props.match.params.params.trim();
+    const replaceUrl = this.props.match.params.replaceUrl.trim();
+
     if (gameCode === "BC") {
       GameService.JoinBetConstruct(gameType, gameCode).then((response) => {
         if (response.data !== undefined) {
@@ -36,7 +38,24 @@ class JoinLobbyGame extends Component {
       GameService.JoinLobbyGame(gameType, gameCode).then((response) => {
         if (response.IsSuccess) {
           // channel.postMessage({action: "refresh", target:"*"});
-          window.location.href = response.data.url;
+          if (replaceUrl === "true") {
+            let arr = document.domain.split(".");
+            let host = arr[arr.length - 2] + "." + arr[arr.length - 1];
+            var currentDomain = host;
+
+            var url =
+              (response.data.url.indexOf("http") <= -1 ? "https:" : "") +
+              response.data.url;
+            var getExistingParam = url.split("/")[3];
+
+            window.location.href =
+              "https://" +
+              (isMobileOnly ? "m" : "w") +
+              "." +
+              currentDomain +
+              "/" +
+              getExistingParam;
+          }
         } else {
           this.handleJoinGameMaintenance(response);
         }

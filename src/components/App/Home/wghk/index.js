@@ -1,8 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { SHOW_LOGIN } from "../../../../api-services/constant/actionType";
-import Marquee from "../Marquee";
-import ShowGame from "./game";
 import Landing from "./landing";
 import styled from "styled-components";
 
@@ -24,12 +22,11 @@ const MarqueeContent = styled.div`
 
 const TheSpeaker = styled.div`
   background-color: #fff;
-width: 24px;
-height: 24px;
-mask:  url(${
-  process.env.PUBLIC_URL}/assets/images/homeIcon/announceIcon.svg) no-repeat center /
-  contain;
-z-index: 3;
+  width: 24px;
+  height: 24px;
+  mask: url(${process.env.PUBLIC_URL}/assets/images/homeIcon/announceIcon.svg)
+    no-repeat center / contain;
+  z-index: 3;
 `;
 
 const TheMarqueeHolder = styled.div`
@@ -70,11 +67,7 @@ const WGHKHome = (props) => {
         </MarqueeContent>
       </MarqueeContainer>
 
-      {props.token ? (
-        <ShowGame token={props.token} />
-      ) : (
-        <Landing showLogin={props.showLogin} />
-      )}
+      <Landing showLogin={props.showLogin} token={props.token} />
     </>
   );
 };
