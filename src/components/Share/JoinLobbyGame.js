@@ -55,9 +55,9 @@ class JoinLobbyGame extends Component {
               currentDomain +
               "/" +
               getExistingParam;
-          } }else{
-            window.location.href = response.data.url;
-          }
+            }else{
+              window.location.href = response.data.url;
+            }
         } else {
           this.handleJoinGameMaintenance(response);
         }
