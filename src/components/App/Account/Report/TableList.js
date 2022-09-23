@@ -24,6 +24,7 @@ const CustomTable = styled(Table)`
   }};
 `;
 
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: "#f7f7f7",
