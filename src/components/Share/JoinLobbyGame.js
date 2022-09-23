@@ -21,7 +21,7 @@ class JoinLobbyGame extends Component {
     const gameType = this.props.match.params.type;
 
     const gameCode = this.props.match.params.params.trim();
-    const replaceUrl = this.props.match.params.replaceUrl.trim();
+    const replaceUrl = (this.props.match.params.replaceUrl ?? "false").trim();
 
     if (gameCode === "BC") {
       GameService.JoinBetConstruct(gameType, gameCode).then((response) => {
