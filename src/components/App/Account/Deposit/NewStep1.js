@@ -798,19 +798,22 @@ const NewStepOne = (props) => {
 
               <SubHeaderContainer
                 custom={
-                  <>
-                    <FeeSpot>
-                      {i18n.t("fees.deposit")}:{" "}
-                      <span>
-                        {
-                          methodList[selectedMethodIndex].channel[
-                            selectedChannelIndex
-                          ].fees
-                        }
-                        %
-                      </span>
-                    </FeeSpot>
-                  </>
+                  methodList[selectedMethodIndex].channel[selectedChannelIndex]
+                    .fees > 0 && (
+                    <>
+                      <FeeSpot>
+                        {i18n.t("fees.deposit")}:{" "}
+                        <span>
+                          {
+                            methodList[selectedMethodIndex].channel[
+                              selectedChannelIndex
+                            ].fees
+                          }
+                          %
+                        </span>
+                      </FeeSpot>
+                    </>
+                  )
                 }
               >
                 <SubTitle>{i18n.t("deposit.plsEnterDepositAmount")}</SubTitle>
