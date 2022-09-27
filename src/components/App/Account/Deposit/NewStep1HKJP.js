@@ -178,6 +178,18 @@ const TitleHint = styled.span`
   opacity: 0.5;
   margin-left: 10px;
 `;
+
+const GapLeaver = styled.div`
+  padding-left: 50px;
+`;
+
+const FeeSpot = styled.div`
+  color: ${({ theme }) => theme.primary};
+
+  span {
+    font-weight: bold;
+  }
+`;
 class NewStepOne extends Component {
   render() {
     const {
@@ -329,6 +341,22 @@ class NewStepOne extends Component {
                   </NumberContainer>
 
                   <SubTitle>{i18n.t("deposit.plsEnterDepositAmount")}</SubTitle>
+                  {methodList[selectedMethodIndex].channel[selectedChannelIndex]
+                    .fees > 0 && (
+                    <GapLeaver>
+                      <FeeSpot>
+                        {i18n.t("fees.deposit")}:{" "}
+                        <span>
+                          {
+                            methodList[selectedMethodIndex].channel[
+                              selectedChannelIndex
+                            ].fees
+                          }
+                          %
+                        </span>
+                      </FeeSpot>
+                    </GapLeaver>
+                  )}
                 </SubHeaderContainer>
                 <SelectionContainer>
                   <TextField

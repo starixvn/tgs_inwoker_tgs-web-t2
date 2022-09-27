@@ -1,60 +1,41 @@
+include:
+  - project: 'inwoker/tgs/tgs-gitlab-ci-jobs'
+    ref: main
+    file: '/templates/.lobby-deployment.yaml'
+
 variables:
   ImageName: pgtgs/lobby-t2
-  message: ""
-  
-stages:
-  - initial
-  - build
-  - deploy
-  
-initial:
-  stage: initial
-  only:
-    - master
-    - release/current
-    - develop
-  script:
-    - echo "branch:$CI_COMMIT_BRANCH"
-    - git config --file=.gitmodules submodule.src/components/Wap.branch $CI_COMMIT_BRANCH
-    - git config --file=.gitmodules submodule.src/components/App/Account.branch $CI_COMMIT_BRANCH
-    - git config --file=.gitmodules submodule.src/api-services.branch $CI_COMMIT_BRANCH
-    - git submodule sync
-    - git submodule update --remote
-    
+  components_dev: lobby-t2
+  components_staging: lobby-gpi-t2,lobby-demo-t2,lobby-pb3,lobby-wghk,lobby-king8,lobby-wghk
+  components_prod: lobby-gpi-t2,lobby-bunny,lobby-gpi2,lobby-pb3,lobby-king8,lobby-wghk
+  GIT_STRATEGY: clone
+  GIT_SUBMODULE_STRATEGY: normal
+  GIT_SUBMODULE_UPDATE_FLAGS: "--remote --checkout --no-single-branch"
+  API_BRANCH_VARIABLE: $CI_COMMIT_BRANCH
 build:
+  extends: .build
   stage: build
-  needs:
-    - initial
   only:
     - master
     - release/current
-    - develop
-  script:
-    - export TAG="$(date -d $CI_PIPELINE_CREATED_AT +%Y%m%d%H%M).$CI_PIPELINE_IID"
-    - docker build -t ${ImageName}:${TAG} .
-    - docker push ${ImageName}:${TAG}
-  artifacts:
-    untracked: true
-    expire_in: "1 days"
-
-deploy-dev:
-  stage: deploy
-  variables:
-    GIT_STRATEGY: none
-    components: lobby-t2
-    namespace: dev
-  needs:
-    - initial
-    - build
-  only:
     - develop
   before_script:
-    - export KUBECONFIG=$kubeconfig_dev
-  script:
-    - export TAG="$(date -d $CI_PIPELINE_CREATED_AT +%Y%m%d%H%M).$CI_PIPELINE_IID"
     - |
-      componentArray = $components.split(",")
-      for (i = 0;i < componentArray.length; i++) {
-        message += "\n    ${componentArray[i]}"
-        sh "kubectl set image deployment/${componentArray[i]} ${componentArray[i]}=${ImageName}:${TAG} --record -n $namespace"
-      }
+      if [ "$CI_COMMIT_BRANCH" == "release/current" ]; then
+        API_BRANCH_VARIABLE="develop"
+      else
+        API_BRANCH_VARIABLE=$CI_COMMIT_BRANCH
+      fi
+    - git submodule sync --recursive
+    - git config --file=.gitmodules submodule.src/api-services.branch $API_BRANCH_VARIABLE
+    - git config --file=.gitmodules submodule.src/components/Wap.branch $CI_COMMIT_BRANCH
+    - git submodule update --init --remote
+
+deploy-dev:
+  extends: .deploy-dev
+
+deploy-staging:
+  extends: .deploy-staging
+      
+deploy-prod:
+  extends: .deploy-prod
