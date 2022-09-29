@@ -195,11 +195,12 @@ class PromotionDetails extends Component {
     var term = "";
     if (details) {
       if (
-        details.localization !== null &&
-        details.localization.terms &&
-        details.localization.terms !== null
+        (details.localization[i18n.language] !== "" ||
+          details.localization[i18n.language] !== null)
       ) {
-        term = details.localization.terms || "";
+        term = details.localization[i18n.language].terms
+          ? details.localization[i18n.language].terms
+          : details.terms;
       } else {
         term = details.terms || "";
       }
