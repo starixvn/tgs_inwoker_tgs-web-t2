@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-
+import { withStyles } from "@material-ui/core/styles";
 import BGJPG from "../../../assets/images/bg.jpg";
 import { AppHistory } from "../../../history/History";
 import { withSnackbar } from "notistack";
+import Dialog from "@material-ui/core/Dialog";
+import IconLoginClosePNG from "../../../assets/images/icon-login-close.png";
 
 import i18n from "../../../utils/i18n";
 import { generalAction } from "../../../api-services/actions/generalAction";
@@ -112,11 +114,54 @@ const PromoButtonContainer = styled(Grid)`
   }}
 `;
 
+const TNCContainer = styled.span`
+  color: #123414;
+  text-decoration: underline;
+  font-weight: bold;
+`;
+
 const PromoButtonText = styled(Grid)`
   color: #fff;
   font-size: 20px;
 `;
 
+const StyledDialog = withStyles({
+  root: {
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+
+    "& .MuiPaper-root": {
+      backgroundColor: "transparent",
+      borderRadius: "15px",
+    },
+  },
+})(Dialog);
+const DialogContainer = styled.div`
+  width: 600px;
+
+  background-color: #fff;
+  display: table;
+`;
+const CloseIconContainer = styled.div`
+  background: url(${IconLoginClosePNG}) no-repeat;
+  width: 28px;
+  height: 28px;
+  float: right;
+  margin: 10px 10px 0 0;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+const TitleContainer = styled.div`
+  text-align: center;
+
+  font-size: 42px;
+
+  color: ${({ theme }) => theme.secondary};
+`;
+const DialogContent = styled.div`
+  margin: 0 auto;
+  padding: 10px 40px;
+`;
 const CloseButton = styled.div`
   position: absolute;
   right: 22px;
@@ -147,10 +192,24 @@ class PromotionDetails extends Component {
     if (index === -1) {
       AppHistory.replace("/" + i18n.language + "/promotion");
     }
+    var term = "";
+    if (details) {
+      if (
+        details.localization !== null &&
+        details.localization.terms &&
+        details.localization.terms !== null
+      ) {
+        term = details.localization.terms || "";
+      } else {
+        term = details.terms || "";
+      }
+    }
     this.state = {
       index: index,
       details: details,
+      term: term,
       joined: false,
+      openDialog: false,
     };
   }
 
@@ -201,6 +260,9 @@ class PromotionDetails extends Component {
   };
   handleCloseDialog = () => {
     this.ResetPopup();
+  };
+  handleShowDialog = () => {
+    this.setState({ ...this.state, openDialog: true });
   };
   ViewAllClick = (activity_id) => {
     let list = this.state.list;
@@ -322,20 +384,20 @@ class PromotionDetails extends Component {
                           this.state.details.localization[i18n.language] !==
                             null)
                       ) {
-                        return this.state.details.localization[i18n.language]
+                        return (this.state.details.localization[i18n.language]
                           .content
                           ? this.state.details.localization[i18n.language]
                               .content
-                          : this.state.details.content;
+                          : this.state.details.content) ?? "";
                       } else {
-                        return this.state.details.content;
+                        return this.state.details.content ?? "";
                       }
                     })() +
                     "</div>",
                 }}
               ></PromoDesc>
 
-              <PromoDesc
+              {/* <PromoDesc
                 dangerouslySetInnerHTML={{
                   __html:
                     "<div>" +
@@ -347,17 +409,22 @@ class PromotionDetails extends Component {
                           this.state.details.localization[i18n.language] !==
                             null)
                       ) {
-                        return this.state.details.localization[i18n.language]
+                        return (this.state.details.localization[i18n.language]
                           .terms
                           ? this.state.details.localization[i18n.language].terms
-                          : this.state.details.terms;
+                          : this.state.details.terms) ?? "";
                       } else {
-                        return this.state.details.terms;
+                        return this.state.details.terms ?? "" ;
                       }
                     })() +
                     "</div>",
                 }}
-              ></PromoDesc>
+              ></PromoDesc> */}
+              {this.state.term !== "" && (
+                <TNCContainer onClick={this.handleShowDialog}>
+                  {i18n.t("common.termsAndCondition")}
+                </TNCContainer>
+              )}
             </EventText>
             <Grid container justify="center">
               {!isDummy && (
@@ -383,6 +450,26 @@ class PromotionDetails extends Component {
             </Grid>
           </PromoDetailContainer>
         </MContainer>
+        <StyledDialog
+          open={this.state.openDialog}
+          onClose={this.handleCloseDialog}
+        >
+          <DialogContainer>
+            <CloseIconContainer
+              viewBox="4 4 16 16"
+              onClick={this.handleCloseDialog}
+            ></CloseIconContainer>
+            <div className="clear"></div>
+            <TitleContainer>
+              {i18n.t("common.termsAndCondition")}
+            </TitleContainer>
+            <DialogContent
+              dangerouslySetInnerHTML={{
+                __html: "<div >" + this.state.term + "</div>",
+              }}
+            ></DialogContent>
+          </DialogContainer>
+        </StyledDialog>
       </Container>
     );
     // if (this.state.details === null) {
