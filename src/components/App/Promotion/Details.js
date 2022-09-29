@@ -261,6 +261,9 @@ class PromotionDetails extends Component {
   handleCloseDialog = () => {
     this.ResetPopup();
   };
+  handleCloseDialog = () => {
+    this.setState({ ...this.state, openDialog: false });
+  };
   handleShowDialog = () => {
     this.setState({ ...this.state, openDialog: true });
   };
