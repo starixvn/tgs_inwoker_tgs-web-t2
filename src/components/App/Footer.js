@@ -210,7 +210,7 @@ function Footer(props) {
             .t("web.footer.copyrightLine2")
             .replace(
               /{brand}/g,
-              config.brand === "KING8" ? "Game of King" : config.brand
+              i18n.exists(`brand.${config.brand}.footer`) ? i18n.t(`brand.${config.brand}.footer`) : config.brand
             )}
         </CopyRightLine2>
         <Version>Version {process.env.REACT_APP_VERSION}</Version>
