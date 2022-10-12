@@ -89,7 +89,7 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
             // myRef.current.src = currentDomain + "/" + getExistingParam;
             // console.log("checkuuwwwwwwirl:", currentDomain + "/" + getExistingParam)
             myRef.current.src =
-              "https://w." + currentDomain + "/" + getExistingParam;
+              "https://" + currentDomain + "/" + getExistingParam;
           }
         } else {
           document.getElementsByTagName("body")[0].style.overflow = "";
