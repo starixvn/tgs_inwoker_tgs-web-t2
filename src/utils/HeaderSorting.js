@@ -14,6 +14,7 @@ const MenuItemList = [
     sortingSKY: 7,
     sortingWLGHK: 4,
     sortingPB3: 6,
+    sortingBUNNY: 4,
   },
   {
     path: "sports",
@@ -26,6 +27,7 @@ const MenuItemList = [
     sortingSKY: 3,
     sortingWLGHK: 3,
     sortingPB3: 3,
+    sortingBUNNY: 3,
   },
   {
     path: "live",
@@ -38,6 +40,7 @@ const MenuItemList = [
     sortingSKY: 1,
     sortingWLGHK: 1,
     sortingPB3: 2,
+    sortingBUNNY: 1,
   },
   {
     path: "chess",
@@ -50,6 +53,7 @@ const MenuItemList = [
     sortingSKY: 2,
     sortingWLGHK: 2,
     sortingPB3: 7,
+    sortingBUNNY: 2,
   },
 
   {
@@ -63,6 +67,7 @@ const MenuItemList = [
     sortingSKY: 8,
     sortingWLGHK: 6,
     sortingPB3: 8,
+    sortingBUNNY: 5,
   },
   {
     path: `slots`,
@@ -75,6 +80,7 @@ const MenuItemList = [
     sortingSKY: 5,
     sortingWLGHK: 7,
     sortingPB3: 1,
+    sortingBUNNY: 6,
   },
   {
     path: `electron`,
@@ -87,6 +93,7 @@ const MenuItemList = [
     sortingSKY: 6,
     sortingWLGHK: 8,
     sortingPB3: 4,
+    sortingBUNNY: 7,
   },
   {
     path: `fish`,
@@ -99,6 +106,7 @@ const MenuItemList = [
     sortingSKY: 4,
     sortingWLGHK: 5,
     sortingPB3: 5,
+    sortingBUNNY: 8,
   },
 ];
 
@@ -117,6 +125,8 @@ export const SortedMenuList = MenuItemList.sort((a, b) => {
     return a.sortingGMO > b.sortingGMO ? 1 : -1;
   } else if (config.features.MenuItem_Sorting_PISO) {
     return a.sortingPISO > b.sortingPISO ? 1 : -1;
+  } else if (config.features.MenuItem_Sorting_BUNNY) {
+    return a.sortingBUNNY > b.sortingBUNNY ? 1 : -1;
   } else {
     return a.sorting > b.sorting ? 1 : -1;
   }

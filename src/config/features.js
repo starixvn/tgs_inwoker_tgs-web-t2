@@ -61,6 +61,7 @@ const featureList = {
     MenuItem_Sorting_SKY: false,
     MenuItem_Sorting_PB: false,
     MenuItem_Sorting_GMO: false,
+    MenuItem_Sorting_BUNNY: false,
     VIP_CustomLevel_BUNNY: false,
     Withdrawal_Ignore_Verification: false,
     LiveGame_Sorting_SKY: false,
