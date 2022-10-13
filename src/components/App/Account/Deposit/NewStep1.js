@@ -673,7 +673,7 @@ const NewStepOne = (props) => {
                   return (
                     <>
                       {!(
-                        (isThirdParty && config.features.CustomKING8Deposit) ||
+                        (config.features.CustomKING8Deposit) ||
                         config.features.Deposit_RemoveAccount ||
                         isUsdt ||
                         config.features.Deposit_AddCard
