@@ -268,6 +268,8 @@ const NewStepOne = (props) => {
     methodList[selectedMethodIndex].methodcode.toUpperCase() === "EWALLET";
   var isPulsa =
     methodList[selectedMethodIndex].methodcode.toUpperCase() === "PULSA";
+  var isThirdParty =
+    methodList[selectedMethodIndex].methodcode.toUpperCase() === "THIRDPARTY";
 
   var numberingCount = 0;
   const SubHeaderContainer = ({ children, custom }) => {
@@ -671,7 +673,7 @@ const NewStepOne = (props) => {
                   return (
                     <>
                       {!(
-                        !(isFPS && config.features.CustomKING8Deposit) ||
+                        (isThirdParty && config.features.CustomKING8Deposit) ||
                         config.features.Deposit_RemoveAccount ||
                         isUsdt ||
                         config.features.Deposit_AddCard
