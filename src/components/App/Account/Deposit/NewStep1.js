@@ -347,7 +347,11 @@ const NewStepOne = (props) => {
                   onClick={() => onMethodChange(index)}
                   active={selectedMethodIndex === index}
                 >
-                  {i18n.t(item.methodcode)}
+                  {config.features.CustomKING8Deposit &&
+                  isManual &&
+                  i18n.exists(`king8.${item.methodcode}`)
+                    ? i18n.t(`king8.${item.methodcode}`)
+                    : i18n.t(item.methodcode)}
                 </TunnelButton>
               );
             })}
@@ -667,6 +671,7 @@ const NewStepOne = (props) => {
                   return (
                     <>
                       {!(
+                        !(isFPS && config.features.CustomKING8Deposit) ||
                         config.features.Deposit_RemoveAccount ||
                         isUsdt ||
                         config.features.Deposit_AddCard

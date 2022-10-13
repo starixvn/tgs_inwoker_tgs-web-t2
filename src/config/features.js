@@ -112,6 +112,7 @@ const featureList = {
     RouletteNewFlow: false,
     InitPhone_WithoutVerify: false,
     HaveVIPFeature: true,
+    CustomKING8Deposit: false,
   },
 };
 export default featureList;
