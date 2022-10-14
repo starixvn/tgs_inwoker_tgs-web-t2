@@ -295,13 +295,27 @@ class Withdrawal extends Component {
                   realname: detail.name || detail.eMoneyName || detail.username,
                 })
                 .then((response) => {
-                  this.props.getAccountInfo();
+                  if (response.IsSuccess) {
+                    this.props.getAccountInfo();
+                  } else {
+                    this.props.enqueueSnackbar(
+                      ErrorSwitcher.getTranslation(response.info),
+                      {
+                        variant: "error",
+                      }
+                    );
+                  }
                 });
-            }
-            else
-            {
+            } else {
               this.props.getAccountInfo();
             }
+          } else {
+            this.props.enqueueSnackbar(
+              ErrorSwitcher.getTranslation(response.info),
+              {
+                variant: "error",
+              }
+            );
           }
         });
     } else {
