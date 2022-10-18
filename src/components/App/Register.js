@@ -531,53 +531,26 @@ function Register(props) {
               variant: "warning",
             });
           } else if (response.IsSuccess) {
-            let joinPromotion = response.data.nextStepType === "JoinPromotion";
-            if (joinPromotion) {
-              props.newRegister("JoinPromotion", {}).then(async (response) => {
-                let setPhoneDontCareDuplicate =
-                  response.data.nextStepType === "SetPhoneDontCareDuplicate";
+            let setPhoneDontCareDuplicate =
+              response.data.nextStepType === "SetPhoneDontCareDuplicate";
 
-                if (config.features.SMSVerification) {
-                  props.onRegisterSuccess(username, password);
-                } else if (
-                  config.features.Register_ShowEmail &&
-                  config.features.Register_ShowPhone
-                ) {
-                  props.doLoginWithHpEmail(
-                    username,
-                    password,
-                    phone,
-                    email,
-                    setPhoneDontCareDuplicate
-                  );
-                } else if (config.features.Register_ShowPhone) {
-                  props.doLoginWithHp(username, password, phone);
-                } else {
-                  props.doLogin(username, password);
-                }
-              });
+            if (config.features.SMSVerification) {
+              props.onRegisterSuccess(username, password);
+            } else if (
+              config.features.Register_ShowEmail &&
+              config.features.Register_ShowPhone
+            ) {
+              props.doLoginWithHpEmail(
+                username,
+                password,
+                phone,
+                email,
+                setPhoneDontCareDuplicate
+              );
+            } else if (config.features.Register_ShowPhone) {
+              props.doLoginWithHp(username, password, phone);
             } else {
-              let setPhoneDontCareDuplicate =
-                response.data.nextStepType === "SetPhoneDontCareDuplicate";
-
-              if (config.features.SMSVerification) {
-                props.onRegisterSuccess(username, password);
-              } else if (
-                config.features.Register_ShowEmail &&
-                config.features.Register_ShowPhone
-              ) {
-                props.doLoginWithHpEmail(
-                  username,
-                  password,
-                  phone,
-                  email,
-                  setPhoneDontCareDuplicate
-                );
-              } else if (config.features.Register_ShowPhone) {
-                props.doLoginWithHp(username, password, phone);
-              } else {
-                props.doLogin(username, password);
-              }
+              props.doLogin(username, password);
             }
 
             // if (subid !== "") {
