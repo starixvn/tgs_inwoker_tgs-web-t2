@@ -879,9 +879,11 @@ const NewStepOne = (props) => {
                       return (
                         <ExchangeRateContainer style={{ marginTop: "4px" }}>
                           <LimitLabel>
-                            {i18n.t("deposit.exchangeRate")} 1 USDT :{" "}
+                            {i18n.t("deposit.exchangeRate")} 1{" "}
+                            {`${config.currency}`} :{" "}
                           </LimitLabel>
-                          <LimitAmount>{` ${usdtRate}`}</LimitAmount>
+                          <LimitAmount>{` ${usdtRate} `}</LimitAmount>
+                          <LimitLabel>USDT</LimitLabel>
                           <div class="clear"></div>
                           <LimitLabel>
                             {i18n.t("deposit.totalAmount")}
