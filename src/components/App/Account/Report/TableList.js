@@ -24,7 +24,6 @@ const CustomTable = styled(Table)`
   }};
 `;
 
-
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: "#f7f7f7",
@@ -263,7 +262,13 @@ function TableList(props) {
                     <StyledTableCell>{date}</StyledTableCell>
                     <StyledTableCell>{row.id}</StyledTableCell>
                     <StyledTableCell>
-                      {(config.features.WGHK_Setup ? row.subGameProviderName: row.gameProviderName)}-{row.gameName}
+                      {row.gameProviderName
+                        ? config.currency === "PHP" &&
+                          row.gameProviderName.includes("BTI")
+                          ? row.gameProviderName.replace("BTI", "PHSB")
+                          : row.gameProviderName
+                        : ""}
+                      -{row.gameName}
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       {row.betAmount}
@@ -322,8 +327,20 @@ function TableList(props) {
           return (
             <StyledTableRow hover role="checkbox" tabIndex={-1} key={index}>
               <StyledTableCell>{date}</StyledTableCell>
-              <StyledTableCell>{row.from}</StyledTableCell>
-              <StyledTableCell>{row.to}</StyledTableCell>
+              <StyledTableCell>
+                {row.from
+                  ? config.currency === "PHP" && row.from.includes("BTI")
+                    ? row.from.replace("BTI", "PHSB")
+                    : row.from
+                  : ""}
+              </StyledTableCell>
+              <StyledTableCell>
+                {row.to
+                  ? config.currency === "PHP" && row.to.includes("BTI")
+                    ? row.to.replace("BTI", "PHSB")
+                    : row.to
+                  : ""}
+              </StyledTableCell>
               <StyledTableCell>{row.amount}</StyledTableCell>
             </StyledTableRow>
           );

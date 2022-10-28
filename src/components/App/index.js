@@ -284,11 +284,9 @@ class App extends Component {
     ) {
       this.props.game.providerList
         .filter((item) => item.status === 0 && item.transferwallet === true)
-        .filter(
-          (item) => item.abbreviation !== "NTTF" && item.abbreviation !== "RTTF"
-        )
+        .filter((item) => item.gpcode !== "NTTF" && item.gpcode !== "RTTF")
         .map((a) => {
-          this.props.getGameBalance(a.abbreviation);
+          this.props.getGameBalance(a.gpcode);
         });
     }
     if (
@@ -384,10 +382,8 @@ class App extends Component {
     this.props.updateBalanceList();
     this.props.game.providerList
       .filter((item) => item.status === 0 && item.transferwallet === true)
-      .filter(
-        (item) => item.abbreviation !== "NTTF" && item.abbreviation !== "RTTF"
-      )
-      .map((a) => this.props.getGameBalance(a.abbreviation));
+      .filter((item) => item.gpcode !== "NTTF" && item.gpcode !== "RTTF")
+      .map((a) => this.props.getGameBalance(a.gpcode));
   };
 
   render() {

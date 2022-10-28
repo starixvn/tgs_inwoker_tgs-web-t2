@@ -169,7 +169,7 @@ class Sports extends Component {
                         ".png"
                       }
                       onClick={() => {
-                        this.handleJoinGameClick(item.abbreviation, item.type);
+                        this.handleJoinGameClick(item.gpcode, item.type);
                       }}
                     />
                   </ImageWrapper>
@@ -201,7 +201,7 @@ class Sports extends Component {
                         ".png"
                       }
                       onClick={() => {
-                        this.handleJoinGameClick(item.abbreviation, item.type);
+                        this.handleJoinGameClick(item.gpcode, item.type);
                       }}
                     />
                   </ImageWrapper>

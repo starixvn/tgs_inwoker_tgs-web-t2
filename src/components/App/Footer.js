@@ -131,7 +131,7 @@ function Footer(props) {
                   <BrandsImage
                     img={
                       process.env.PUBLIC_URL +
-                      `/assets/images/provider/${item.abbreviation.toLowerCase()}.png`
+                      `/assets/images/provider/${item.gpcode.toLowerCase()}.png`
                     }
                   />
                 </ThirdPartyLogoHolder>
@@ -210,7 +210,9 @@ function Footer(props) {
             .t("web.footer.copyrightLine2")
             .replace(
               /{brand}/g,
-              i18n.exists(`brand.${config.brand}.footer`) ? i18n.t(`brand.${config.brand}.footer`) : config.brand
+              i18n.exists(`brand.${config.brand}.footer`)
+                ? i18n.t(`brand.${config.brand}.footer`)
+                : config.brand
             )}
         </CopyRightLine2>
         <Version>Version {process.env.REACT_APP_VERSION}</Version>
