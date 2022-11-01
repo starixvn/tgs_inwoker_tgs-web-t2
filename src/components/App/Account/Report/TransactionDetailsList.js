@@ -11,6 +11,7 @@ import i18n from "../../../../utils/i18n";
 import Moment from "react-moment";
 import copy from "copy-to-clipboard";
 import { withSnackbar } from "notistack";
+import { config } from "react-spring";
 const moment = require("moment");
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -133,7 +134,13 @@ function TransactionDetailsList(props) {
                 <StyledTableCell>{date}</StyledTableCell>
                 <StyledTableCell>{row.id}</StyledTableCell>
                 <StyledTableCell>
-                  {row.gameProviderName}-{row.gameName}
+                  {row.gameProviderName
+                    ? config.currency === "PHP" &&
+                      row.gameProviderName.includes("BTI")
+                      ? row.gameProviderName.replace("BTI", "PHSB")
+                      : row.gameProviderName
+                    : ""}
+                  -{row.gameName}
                 </StyledTableCell>
 
                 <StyledTableCell align="right">{row.betAmount}</StyledTableCell>

@@ -434,7 +434,13 @@ class GuestContainer extends Component {
     }
   };
 
-  performLoginWithPhoneAndEmail = async (username, password, phone, email, setPhoneDontCareDuplicate) => {
+  performLoginWithPhoneAndEmail = async (
+    username,
+    password,
+    phone,
+    email,
+    setPhoneDontCareDuplicate
+  ) => {
     if (username === "") {
       this.props.enqueueSnackbar(i18n.t("web.login.errorMsg.emptyUsername"), {
         variant: "warning",
@@ -449,24 +455,21 @@ class GuestContainer extends Component {
     }
     const result = await this.props.accountLogin(username, password);
     if (result.IsSuccess) {
-      if(setPhoneDontCareDuplicate)
-      {
+      if (setPhoneDontCareDuplicate) {
         await this.props
           .newRegister("SetPhoneDontCareDuplicate", {
-              areacode: this.state.areaCode,
-              phone: phone,
+            areacode: this.state.areaCode,
+            phone: phone,
           })
           .then(async (response) => {
             if (response.IsSuccess) {
               if (response.data.nextStepType === "SetEmailDontCareDuplicate")
                 await this.props.newRegister("SetEmailDontCareDuplicate", {
-                    email: email,
+                  email: email,
                 });
             }
           });
-      }
-      else
-      {
+      } else {
         await this.props
           .newRegister("InitPhone", {
             input: "Init",
@@ -510,7 +513,6 @@ class GuestContainer extends Component {
             }
           });
       }
-      
 
       this.handleLoginSuccess(result.data);
     }
@@ -558,11 +560,9 @@ class GuestContainer extends Component {
         this.props.getWithdrawalChannel();
         this.props.game.providerList
           .filter((item) => item.status === 0 && item.transferwallet === true)
-          .filter(
-            (item) => item.abbreviation !== "NTTF" && item.abbreviation !== "RTTF"
-          )
+          .filter((item) => item.gpcode !== "NTTF" && item.gpcode !== "RTTF")
           .map((a) => {
-            this.props.getGameBalance(a.abbreviation);
+            this.props.getGameBalance(a.gpcode);
           });
         this.props.getPromotion();
         this.props.getPromotionRouletteCount();
@@ -774,7 +774,8 @@ const mapDispatchToProps = (dispatch) => {
     getPromotion: () => dispatch(generalAction.getPromotion()),
     newRegister: (type, input) =>
       dispatch(accountAction.newRegister(type, input)),
-    getPromotionRouletteCount: () => dispatch(generalAction.getPromotionRouletteCount()),
+    getPromotionRouletteCount: () =>
+      dispatch(generalAction.getPromotionRouletteCount()),
   };
 };
 const mapStateToProps = (state) => {

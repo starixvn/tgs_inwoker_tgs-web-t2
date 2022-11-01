@@ -17,7 +17,7 @@ import IconRefreshPNG from "../../../../assets/images/icon-refresh.png";
 
 import { walletAction } from "../../../../api-services/actions/walletAction";
 import { RESET_WALLETRESULT } from "../../../../api-services/constant/actionType";
-import { WalletType,customGPname } from "../../../../api-services/utils/Enum";
+import { WalletType, customGPname } from "../../../../api-services/utils/Enum";
 import Loading from "../../Loading";
 import Common from "../../../../utils/Common";
 import Messagebox from "../../Messagebox";
@@ -455,7 +455,7 @@ class Transfer extends Component {
           </GameWalletAmount>
           <GameWalletButton
             disabled={item.maintenance === 1}
-            onClick={() => this.handleTranferIn(item.abbreviation)}
+            onClick={() => this.handleTranferIn(item.gpcode)}
           >
             {i18n.t("transfer.oneKeyTransfer")}
           </GameWalletButton>
@@ -733,11 +733,7 @@ class Transfer extends Component {
                   )
                   .filter((e) => {
                     if (config.features.MergeEVORTNT) {
-                      if (
-                        !(
-                          e.abbreviation === "NTTF" || e.abbreviation === "RTTF"
-                        )
-                      ) {
+                      if (!(e.gpcode === "NTTF" || e.gpcode === "RTTF")) {
                         return e;
                       }
                     } else {
@@ -745,8 +741,10 @@ class Transfer extends Component {
                     }
                   })
                   .map((item, index) => (
-                    <option value={item.abbreviation} key={index}>
-                      {customGPname.WGFM === "" ? item.name : customGPname.WGFM + i18n.t("customGPname.sport")}
+                    <option value={item.gpcode} key={index}>
+                      {customGPname.WGFM === ""
+                        ? item.name
+                        : customGPname.WGFM + i18n.t("customGPname.sport")}
                     </option>
                   ))}
               </CustomSelect>
@@ -770,11 +768,7 @@ class Transfer extends Component {
                   )
                   .filter((e) => {
                     if (config.features.MergeEVORTNT) {
-                      if (
-                        !(
-                          e.abbreviation === "NTTF" || e.abbreviation === "RTTF"
-                        )
-                      ) {
+                      if (!(e.gpcode === "NTTF" || e.gpcode === "RTTF")) {
                         return e;
                       }
                     } else {
@@ -782,8 +776,10 @@ class Transfer extends Component {
                     }
                   })
                   .map((item, index) => (
-                    <option value={item.abbreviation} key={index}>
-                      {customGPname.WGFM === "" ? item.name : customGPname.WGFM + i18n.t("customGPname.sport")}
+                    <option value={item.gpcode} key={index}>
+                      {customGPname.WGFM === ""
+                        ? item.name
+                        : customGPname.WGFM + i18n.t("customGPname.sport")}
                     </option>
                   ))}
               </CustomSelect>
@@ -852,9 +848,7 @@ class Transfer extends Component {
               )
               .filter((e) => {
                 if (config.features.MergeEVORTNT) {
-                  if (
-                    !(e.abbreviation === "NTTF" || e.abbreviation === "RTTF")
-                  ) {
+                  if (!(e.gpcode === "NTTF" || e.gpcode === "RTTF")) {
                     return e;
                   }
                 } else {
@@ -864,7 +858,12 @@ class Transfer extends Component {
               .map((item, key) => (
                 <GameTranferWallet key={item.id}>
                   <GameTranferLeftWrap>
-                    <GameName> {customGPname.WGFM === "" ? item.name : customGPname.WGFM + i18n.t("customGPname.sport")}</GameName>
+                    <GameName>
+                      {" "}
+                      {customGPname.WGFM === ""
+                        ? item.name
+                        : customGPname.WGFM + i18n.t("customGPname.sport")}
+                    </GameName>
                   </GameTranferLeftWrap>
                   <GameWalletAmount>
                     {item.maintenance === 1
@@ -873,7 +872,7 @@ class Transfer extends Component {
                   </GameWalletAmount>
                   <GameWalletButton
                     disabled={item.maintenance === 1}
-                    onClick={() => this.handleTranferIn(item.abbreviation)}
+                    onClick={() => this.handleTranferIn(item.gpcode)}
                   >
                     {i18n.t("transfer.oneKeyTransferIn")}
                   </GameWalletButton>

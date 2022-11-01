@@ -628,10 +628,8 @@ class Header extends Component {
     this.props.updateBalanceList();
     this.props.game.providerList
       .filter((item) => item.status === 0 && item.transferwallet === true)
-      .filter(
-        (item) => item.abbreviation !== "NTTF" && item.abbreviation !== "RTTF"
-      )
-      .map((a) => this.props.getGameBalance(a.abbreviation));
+      .filter((item) => item.gpcode !== "NTTF" && item.gpcode !== "RTTF")
+      .map((a) => this.props.getGameBalance(a.gpcode));
   };
   handleDownloadAppsClick = () => {
     this.setState({ selected: "/download" });
@@ -833,13 +831,13 @@ class Header extends Component {
       game.type === GameTypeEnum.LOTTERYLOBBY ||
       game.type === GameTypeEnum.LOBBY
     ) {
-      this.handleJoinLotteryGame(game.abbreviation);
+      this.handleJoinLotteryGame(game.gpcode);
     } else {
       this.handleJoinGameClick(
         game.type,
         item.path,
-        game.abbreviation,
-        "/" + i18n.language + "/joingame/" + game.type + "/" + game.abbreviation
+        game.gpcode,
+        "/" + i18n.language + "/joingame/" + game.type + "/" + game.gpcode
       );
     }
   };
@@ -891,7 +889,7 @@ class Header extends Component {
                             selected={i18n.language === lang.culturecode}
                             onClick={() => {
                               i18n.changeLanguage(lang.culturecode);
-                              AppHistory.replace(lang.culturecode);
+                              AppHistory.replace("/" + lang.culturecode);
                               this.props.getBanner();
                               this.props.getMarquee(lang.culturecode);
                               this.props.getAnnouncement(lang.culturecode);
@@ -902,6 +900,7 @@ class Header extends Component {
                                   }
                                 }
                               );
+                              this.setState({ ...this.state, selected: "/" });
                             }}
                           >
                             {i18n.t("lang." + lang.culturecode)}

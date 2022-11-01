@@ -252,16 +252,16 @@ class Account extends Component {
   getAllGameBalance = () => {
     this.props.game.providerList
       .filter((item) => item.status === 0 && item.transferwallet === true)
-      .filter(
-        (item) => item.abbreviation !== "NTTF" && item.abbreviation !== "RTTF"
-      )
+      .filter((item) => item.gpcode !== "NTTF" && item.gpcode !== "RTTF")
       .map((a) => {
-        this.props.getGameBalance(a.abbreviation);
+        this.props.getGameBalance(a.gpcode);
       });
   };
   handleRefreshClick = () => {
-    if(config.features.ForceRedirectAddCard && !this.props.account.info.bankInfoAuthentication)
-    {
+    if (
+      config.features.ForceRedirectAddCard &&
+      !this.props.account.info.bankInfoAuthentication
+    ) {
       return;
     }
     this.props.updateBalanceList();
@@ -284,8 +284,10 @@ class Account extends Component {
   }
 
   handleClickTab = (link) => {
-    if(config.features.ForceRedirectAddCard && !this.props.account.info.bankInfoAuthentication)
-    {
+    if (
+      config.features.ForceRedirectAddCard &&
+      !this.props.account.info.bankInfoAuthentication
+    ) {
       return;
     }
     this.props.history.push("/" + i18n.language + "/account/" + link);
@@ -414,7 +416,8 @@ class Account extends Component {
               <MenuTitle>{i18n.t("web.account.personal")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.profile"), "profile")}
               {this.genMenuButtonDiv(i18n.t("web.account.inbox"), "inbox")}{" "}
-              {config.features.HaveVIPFeature && this.genMenuButtonDiv("VIP", "vip")}
+              {config.features.HaveVIPFeature &&
+                this.genMenuButtonDiv("VIP", "vip")}
               {config.features.HaveAffiliateFeature &&
                 this.genMenuButtonDiv(
                   i18n.t("web.account.affiliate"),
@@ -481,11 +484,15 @@ class Account extends Component {
                       <Inbox token={this.props.account.token} />
                     )}
                   />
-                  {config.features.HaveVIPFeature && <Route
-                    exact
-                    path={baseRouteUrl + "/account/vip"}
-                    render={(props) => <VIP token={this.props.account.token} />}
-                  />}
+                  {config.features.HaveVIPFeature && (
+                    <Route
+                      exact
+                      path={baseRouteUrl + "/account/vip"}
+                      render={(props) => (
+                        <VIP token={this.props.account.token} />
+                      )}
+                    />
+                  )}
                   <Route
                     exact
                     path={baseRouteUrl + "/account/report"}
