@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
-import {GameService} from "../../../api-services/services/GameService";
+import { GameService } from "../../../api-services/services/GameService";
 import Maintenance from "../../Share/Maintenance";
 import { withSnackbar } from "notistack";
 const Container = styled.iframe`
@@ -12,7 +12,6 @@ const Container = styled.iframe`
 
 class Play extends Component {
   constructor(props) {
-    super(props);
     this.state = { width: 0, height: 0, url: "", maintenance: false };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     this.myRef = React.createRef();
@@ -29,7 +28,7 @@ class Play extends Component {
   componentDidUpdate(preProps) {
     if (
       preProps.match.params.params !== this.props.match.params.params ||
-      preProps.token != this.props.token
+      preProps.token !== this.props.token
     ) {
       this.JoinGame(this.props.match.params.params);
     }

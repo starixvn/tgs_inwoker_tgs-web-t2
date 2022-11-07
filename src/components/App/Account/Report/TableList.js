@@ -8,11 +8,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import i18n from "../../../../utils/i18n";
-import copy from "copy-to-clipboard";
 import { useSnackbar } from "notistack";
 
 import { AppHistory } from "../../../../history/History";
 import config from "../../../../config/config";
+import { utility } from "../../../../utils/utility";
 const moment = require("moment");
 
 const CustomTable = styled(Table)`
@@ -209,7 +209,7 @@ function TableList(props) {
     enqueueSnackbar(i18n.t("affiliate.copied"), {
       variant: "success",
     });
-    copy(id);
+    utility.copy(id);
   };
 
   const handleManualDeposit = (id) => {

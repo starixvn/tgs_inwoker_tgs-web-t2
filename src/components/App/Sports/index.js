@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import styled, { css, keyframes } from "styled-components";
+import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import config from "../../../config/config";
 import { GameTypeEnum } from "../../../api-services/utils/Enum";
@@ -155,7 +155,7 @@ class Sports extends Component {
               .reverse()
               .map((item, index) => {
                 return (
-                  <ImageWrapper maintenance={item.status != 0}>
+                  <ImageWrapper maintenance={item.status !== 0}>
                     <Maintenance>{i18n.t("transfer.maintenance")}</Maintenance>
                     <GirlImage
                       img={
@@ -187,7 +187,7 @@ class Sports extends Component {
             {this.state.list.map((item, index) => {
               if (index >= 4) {
                 return (
-                  <ImageWrapper maintenance={item.status != 0}>
+                  <ImageWrapper maintenance={item.status !== 0}>
                     <Maintenance>{i18n.t("transfer.maintenance")}</Maintenance>
                     <GirlImage
                       img={

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import styled from "styled-components";
 import Common from "../../utils/Common";
-import { UiService } from "../../api-services/services/UiService";
-import i18n from "../../utils/i18n";
+
 import { connect } from "react-redux";
 const AnnounceContainer = styled.div`
   width: 100%;

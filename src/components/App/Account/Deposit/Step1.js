@@ -4,16 +4,27 @@ import { withStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
-import CurrencyTextField from "@unicef/material-ui-currency-textfield";
-import LimitPopupPNG from "../../../../assets/images/limit-popup.png";
-
 import CustomButton from "../../../Share/Button";
 
 import Common from "../../../../utils/Common";
 import i18n from "../../../../utils/i18n";
 
-import NewStepOne from "./NewStep1";
-import NewStepTwo from "./NewStep2";
+const CurrencyTextFieldReplacement = styled.input`
+  height: 35px;
+  width: 154px;
+  border-radius: 4px;
+  border: solid 1px #b6b6b6;
+  padding: 0px 10px;
+
+  ::placeholder {
+    color: #818181;
+  }
+
+  :focus {
+    outline: none;
+  }
+`;
+
 const TabButton = styled.div`
   width: 88px;
   height: 86px;
@@ -196,8 +207,7 @@ class Step1 extends Component {
               </>
             ) : (
               <>
-                <CurrencyTextField
-                  className="CurrencyTextField"
+                <CurrencyTextFieldReplacement
                   style={{
                     height: "40px",
                     width: "200px",
@@ -217,7 +227,7 @@ class Step1 extends Component {
                   }}
                   currencySymbol=""
                   decimalPlaces={0}
-                ></CurrencyTextField>
+                ></CurrencyTextFieldReplacement>
                 <LimitPopupContainer>
                   *{i18n.t("deposit.limitDeposit")}
                   {Common.formatNumberWithThousand(

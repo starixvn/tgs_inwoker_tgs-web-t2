@@ -6,7 +6,7 @@ import CustomButton from "../../../Share/Button";
 import TextField from "@material-ui/core/TextField";
 import IconInputVerifyCodePNG from "../../../../assets/images/icon-input-verifycode.png";
 import { withStyles } from "@material-ui/core/styles";
-import {AccountService} from "../../../../api-services/services/AccountService";
+import { AccountService } from "../../../../api-services/services/AccountService";
 import CustomTextField from "../../../Share/TextField";
 import Password1IconPNG from "../../../../assets/images/password1-icon.png";
 
@@ -44,15 +44,6 @@ const CustomText = withStyles({
     },
   },
 })(TextField);
-
-const Message = styled.div`
-  color: red;
-  float: left;
-  font-size: 13px;
-  margin: 10px 0 0 0;
-  width: 100%;
-  text-align: left;
-`;
 
 class ChangeWithdrawalPassword extends Component {
   constructor(props) {

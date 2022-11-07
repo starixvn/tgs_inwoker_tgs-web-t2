@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { TextField, Select, FormControl, withStyles } from "@material-ui/core";
 import i18n from "../../../../utils/i18n";
@@ -7,8 +7,8 @@ import CustomButton from "../../../Share/Button";
 import LimitPopupPNG from "../../../../assets/images/limit-popup.png";
 import Common from "../../../../utils/Common";
 import config from "../../../../config/config";
-import copy from "copy-to-clipboard";
 import { withSnackbar } from "notistack";
+import { utility } from "../../../../utils/utility";
 
 const CustomImage = styled.img`
   height: 130px;
@@ -78,19 +78,6 @@ const TabButton = styled.div`
   }
 `;
 
-const NumberContainer = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 3.2px;
-  background-color: #151a34;
-  font-family: Arial;
-  font-size: 14px;
-  font-weight: bold;
-  color: #ffffff;
-  text-align: center;
-  padding-top: 2px;
-  float: left;
-`;
 const SubTitle = styled.div`
   font-size: 16px;
   float: left;
@@ -157,25 +144,6 @@ const TransferLabelValue = styled.span`
   margin-left: 10px;
 `;
 
-const CustomInput = styled.input`
-  color: #000;
-  font-size: 14px;
-  text-align: right;
-  margin: 12px 0 12px 10px;
-  font-weight: 500;
-  border: 0;
-
-  padding: 0;
-  ::placeholder,
-  ::-webkit-input-placeholder {
-    color: #c3c3c3;
-  }
-  &:disabled {
-    background: #fff;
-    -webkit-text-fill-color: #000;
-    opacity: 1;
-  }
-`;
 const Remark = styled.div`
   color: ${({ theme }) => theme.primary};
   opacity: 0.75;
@@ -247,11 +215,6 @@ const NewStepOne = (props) => {
     onPlayerNoteChange,
   } = props;
 
-  var count = document.getElementsByClassName("numbering");
-  useEffect(() => {
-    //setNumbers(count.length);
-  });
-
   if (paymentType === null) return <></>;
 
   const methodList = paymentType.method;
@@ -268,8 +231,6 @@ const NewStepOne = (props) => {
     methodList[selectedMethodIndex].methodcode.toUpperCase() === "EWALLET";
   var isPulsa =
     methodList[selectedMethodIndex].methodcode.toUpperCase() === "PULSA";
-  var isThirdParty =
-    methodList[selectedMethodIndex].methodcode.toUpperCase() === "THIRDPARTY";
 
   var numberingCount = 0;
   const SubHeaderContainer = ({ children, custom }) => {
@@ -289,7 +250,7 @@ const NewStepOne = (props) => {
       variant: "success",
     });
 
-    copy(content);
+    utility.copy(content);
   };
 
   const CopyFeature = ({ copyContent }) => {
@@ -673,7 +634,7 @@ const NewStepOne = (props) => {
                   return (
                     <>
                       {!(
-                        (config.features.CustomKING8Deposit) ||
+                        config.features.CustomKING8Deposit ||
                         config.features.Deposit_RemoveAccount ||
                         isUsdt ||
                         config.features.Deposit_AddCard

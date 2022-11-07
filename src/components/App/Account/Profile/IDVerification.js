@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import CustomTextField from "../../../Share/TextField";
@@ -25,26 +25,6 @@ const Content = styled.div`
 const LabelLink = styled(Link)`
   color: #f0ca83;
   text-decoration: none;
-`;
-
-const CustomInput = styled.input`
-  color: #000;
-  font-size: 14px;
-  text-align: right;
-
-  font-weight: 500;
-  border: 0;
-  padding: 10px 20px;
-  margin-right: 20px;
-  ::placeholder,
-  ::-webkit-input-placeholder {
-    color: #c3c3c3;
-  }
-  &:disabled {
-    background: #fff;
-    -webkit-text-fill-color: #000;
-    opacity: 1;
-  }
 `;
 
 const InputWrapper = styled.div`
@@ -97,12 +77,14 @@ function IDVerification(props) {
       if (response.IsSuccess) {
         //upload IC when membername and memberic is valid.
         if (config.features.ICVerificationUpload) {
-          AccountService.UploadIC(icUpload[0]).then((response)=>{
-            if(!response.IsSuccess)
-            {
-              props.enqueueSnackbar(ErrorSwitcher.getTranslation(response.info), {
-                variant: "error",
-              });
+          AccountService.UploadIC(icUpload[0]).then((response) => {
+            if (!response.IsSuccess) {
+              props.enqueueSnackbar(
+                ErrorSwitcher.getTranslation(response.info),
+                {
+                  variant: "error",
+                }
+              );
             }
           });
         }

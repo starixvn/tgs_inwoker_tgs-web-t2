@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { Redirect } from "react-router";
 import IconWithdrawRedPNG from "../../../../assets/images/icon-withdraw.png";
 import { withRouter } from "react-router-dom";
 import Loading from "../../Loading";
 import NameVerification from "../../Share/NameVerification";
-// import PassSetting from "./PassSetting";
-
 import AddCard from "./AddCard";
 import AddCardSuccess from "./AddCardSuccess";
 import CardManage from "./CardManage";

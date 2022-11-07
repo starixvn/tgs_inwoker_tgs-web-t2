@@ -133,17 +133,6 @@ const Turnover = styled.div`
   }
 `;
 
-const LimitLabel = styled.span`
-  color: #747474;
-`;
-
-const LimitAmount = styled.span`
-  color: #c0252d;
-`;
-const ExchangeRateContainer = styled.div`
-  font-size: 14px;
-`;
-
 const ButtonWrapper = styled.div`
   margin: 0 0 0 0;
   display: flex;
@@ -173,18 +162,6 @@ const GameWalletButton = styled.div`
       props.disabled
         ? "   background-image: linear-gradient(to top, #797979, #c3c3c3);"
         : " box-shadow: inset 1px 1px 9px 0  rgba(255, 255, 255, 0.75);"}
-  }
-`;
-
-const GapLeaver = styled.div`
-  padding-left: 50px;
-`;
-
-const FeeSpot = styled.div`
-  color: ${({ theme }) => theme.primary};
-
-  span {
-    font-weight: bold;
   }
 `;
 

@@ -9,12 +9,11 @@ import LoginBGPNG from "../../assets/images/login-bg.png";
 
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import UserIconPNG from "../../assets/images/user-icon.png";
-import Password1IconPNG from "../../assets/images/password1-icon.png";
+
 import IconMobilePNG from "../../assets/images/icon-mobile.png";
 import IconInboxSelectedPNG from "../../assets/images/icon-inbox-selected.png";
 import IconInputVerifyCodePNG from "../../assets/images/icon-input-verifycode.png";
-import Checkbox from "@material-ui/core/Checkbox";
+
 import { makeStyles } from "@material-ui/core/styles";
 
 import { withSnackbar } from "notistack";
@@ -22,7 +21,7 @@ import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
-import ErrorSwitcher from "../../utils/ErrorSwitcher";
+
 import config from "../../config/config";
 const Container = styled.div`
   width: 506px;
@@ -48,13 +47,7 @@ const TitleContainer = styled.div`
 
   color: ${({ theme }) => theme.secondary};
 `;
-const SubTitleContainer = styled.div`
-  text-align: center;
 
-  font-size: 18px;
-
-  color: ${({ theme }) => theme.secondary};
-`;
 const FormContainer = styled.div`
   margin: 10px 78px 0 78px;
   padding: 0 3px;
@@ -150,95 +143,6 @@ const ButtonLoginLabel = styled.span`
   margin-top: 10px;
 `;
 
-const DescriptionContainer = styled.div`
-  padding: 12px 0 0 8px;
-`;
-const Description = styled.div`
-  float: left;
-  width: 310px;
-  margin-left: 5px;
-  font-size: 14px;
-
-  line-height: 1.43;
-
-  color: ${({ theme }) => theme.secondary};
-`;
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    paddingTop: "2px",
-    border: "solid #404040 1px",
-  },
-  formControl: {
-    width: "78px",
-    height: "46px",
-    marginTop: "14px",
-    marginRight: "10px",
-
-    broder: "solid 2px #000",
-
-    "& label.Mui-focused": {
-      color: "#b6b6b6",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#b6b6b6",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-      "&:hover fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-    },
-  },
-  input: {
-    fontSize: "14px",
-  },
-  checkboxRoot: {
-    padding: "0",
-    margin: "0",
-    float: "left",
-    "& .MuiIconButton-label": {
-      borderRadius: "6px",
-      border: "solid 1px #000",
-    },
-  },
-  icon: {
-    width: 20,
-    height: 20,
-
-    borderRadius: "5px",
-    backgroundColor: "#fff",
-    "$root.Mui-focusVisible &": {},
-    "input:hover ~ &": {},
-    "input:disabled ~ &": {},
-  },
-  checkedIcon: {
-    backgroundImage: "url(" + IconInboxSelectedPNG + ")",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-    backgroundColor: "#fff",
-    borderRadius: "5px",
-    "&:before": {
-      display: "block",
-      width: 20,
-      height: 20,
-      backgroundImage: "url(" + IconInboxSelectedPNG + ")",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      borderRadius: "5px",
-      content: '""',
-    },
-    "input:hover ~ &": {},
-  },
-}));
 const CustomFormControl = withStyles((theme) => ({
   root: {
     width: "100px",

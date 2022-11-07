@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import QRCode from "qrcode.react";
+
 import { connect } from "react-redux";
 
 import { generalAction } from "../../../api-services/actions/generalAction";
@@ -226,21 +226,6 @@ const IconHolder = styled.img`
   width: 75px;
 `;
 
-const QRCodeWrapper = styled.div`
-  position: relative;
-`;
-const Overlay = styled.div`
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  background: rgba(255, 255, 255, 0.9);
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-`;
 const Icons = styled.img`
   margin-bottom: 10px;
   cursor: pointer;

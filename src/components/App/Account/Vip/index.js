@@ -246,6 +246,7 @@ const VIP = (props) => {
                       <VipEmblemContainer>
                         <VIPLevelImage>
                           <img
+                            alt="vip"
                             src={
                               process.env.PUBLIC_URL +
                               `/assets/images/vip/${data.level}.png`

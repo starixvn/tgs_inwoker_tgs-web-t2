@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 import BGimage from "../../../assets/images/slot-bg.png";
 import HomeSportSabaPNG from "../../../assets/images/home-sport-saba.png";

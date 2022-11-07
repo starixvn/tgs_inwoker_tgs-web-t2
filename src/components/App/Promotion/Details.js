@@ -14,12 +14,9 @@ import { generalAction } from "../../../api-services/actions/generalAction";
 import { SHOW_LOGIN } from "../../../api-services/constant/actionType";
 
 import { Grid, Container as MContainer } from "@material-ui/core";
-import PromoImage1 from "../../../assets/images/promotion/promo-1.jpg";
-import PromoImage2 from "../../../assets/images/promotion/promo-2.jpg";
-import PromoImage3 from "../../../assets/images/promotion/promo-3.jpg";
+
 import config from "../../../../src/config/config";
 
-const promoImgMap = [PromoImage1, PromoImage2, PromoImage3];
 const moment = require("moment");
 const Container = styled.div`
   width: 100%;
@@ -28,37 +25,7 @@ const Container = styled.div`
   background: url(${BGJPG}) no-repeat top center #19262f;
   min-height: 800px;
 `;
-const MainContent = styled.div`
-  margin: 40px auto;
-  padding: 23px 0;
 
-  width: 1000px;
-  min-height: 600px;
-  border-radius: 20px;
-  border: solid 2px #9eafff;
-  background-image: linear-gradient(to top, #1b213f, #29356c);
-`;
-const Inner = styled.div``;
-const Content = styled.div`
-  width: 927px;
-
-  margin: 0 0 13px 32px;
-  float: left;
-  position: relative;
-`;
-const PromoTitle = styled.div`
-  width: 400px;
-  font-size: 60px;
-  color: #fff;
-  margin-top: 23px;
-  margin-bottom: 23px;
-  margin-left: 34px;
-`;
-const PromoDate = styled.div`
-  font-size: 15px;
-
-  color: #01f1fe;
-`;
 const PromoDesc = styled.div`
   font-size: 14px;
   color: #747474;
@@ -295,9 +262,13 @@ class PromotionDetails extends Component {
   performRedirect = (id, promotionType) => {
     this.props.joinPromotion(id);
     if (
-      ["FirstDeposit", "DailySecondDeposit", "DailyFirstDeposit", "DepositReward", "DepositAccumulateRoulette"].indexOf(
-        promotionType
-      ) >= 0
+      [
+        "FirstDeposit",
+        "DailySecondDeposit",
+        "DailyFirstDeposit",
+        "DepositReward",
+        "DepositAccumulateRoulette",
+      ].indexOf(promotionType) >= 0
     ) {
       AppHistory.push({
         pathname: "/" + i18n.language + "/account/deposit/" + id,
@@ -389,11 +360,13 @@ class PromotionDetails extends Component {
                           this.state.details.localization[i18n.language] !==
                             null)
                       ) {
-                        return (this.state.details.localization[i18n.language]
-                          .content
-                          ? this.state.details.localization[i18n.language]
-                              .content
-                          : this.state.details.content) ?? "";
+                        return (
+                          (this.state.details.localization[i18n.language]
+                            .content
+                            ? this.state.details.localization[i18n.language]
+                                .content
+                            : this.state.details.content) ?? ""
+                        );
                       } else {
                         return this.state.details.content ?? "";
                       }
@@ -402,29 +375,6 @@ class PromotionDetails extends Component {
                 }}
               ></PromoDesc>
 
-              {/* <PromoDesc
-                dangerouslySetInnerHTML={{
-                  __html:
-                    "<div>" +
-                    (() => {
-                      if (
-                        !checkIfLocalizationIsEmpty &&
-                        (this.state.details.localization[i18n.language] !==
-                          "" ||
-                          this.state.details.localization[i18n.language] !==
-                            null)
-                      ) {
-                        return (this.state.details.localization[i18n.language]
-                          .terms
-                          ? this.state.details.localization[i18n.language].terms
-                          : this.state.details.terms) ?? "";
-                      } else {
-                        return this.state.details.terms ?? "" ;
-                      }
-                    })() +
-                    "</div>",
-                }}
-              ></PromoDesc> */}
               {this.state.term !== "" && (
                 <TNCContainer onClick={this.handleShowDialog}>
                   {i18n.t("common.termsAndCondition")}
