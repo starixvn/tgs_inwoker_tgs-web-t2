@@ -572,7 +572,7 @@ class AddCard extends Component {
           </>
         )}
 
-        {!(config.features.AddCard_HideChannel) && (
+        {!config.features.AddCard_HideChannel && (
           <>
             <TextFieldLabel>
               {config.features.AddCard_Bank_Custom_IDR &&
@@ -881,7 +881,7 @@ class AddCard extends Component {
                 }
                 width={395}
                 height={38}
-                maxLength={50}
+                maxLength={config.features.MAX_PHONE_LENGTH || 10}
                 float={"none"}
                 handleTextFieldChange={this.handleNumberChange}
                 value={this.state.number}
