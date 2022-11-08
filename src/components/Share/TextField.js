@@ -80,7 +80,7 @@ function CustomTextField(props) {
           : {}
       }
       inputProps={{
-        maxLength: props.maxLength ? props.maxLength : 20,
+        maxLength: props.maxLength ? props.maxLength : 50,
         readOnly: props.readOnly ? props.readOnly : false,
       }}
     />
