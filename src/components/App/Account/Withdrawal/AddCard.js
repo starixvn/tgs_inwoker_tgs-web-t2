@@ -470,51 +470,23 @@ class AddCard extends Component {
   };
   render() {
     const { withdrawalList, depositList } = this.props;
-    var depositListEWallet = false;
-    var withdrawalListEwallet = false;
-    var depositListPulsa = false;
-    var withdrawalListPulsa = false;
 
-    if (this.props.isDeposit) {
-      depositListEWallet =
-        Common.arrayValidator(depositList) &&
-        depositList[this.state.selectedBankTypeIndex].banktype === "EWallet";
-
-      // .filter(
-      //   (card) => card.banktype === "EWallet"
-      // ).length > 0;
-      // [this.state.selectedBankTypeIndex].banktype === "";
-
-      depositListPulsa =
-        Common.arrayValidator(depositList) &&
-        depositList[this.state.selectedBankTypeIndex].banktype === "Pulsa";
-      // .filter(
-      //   (card) => card.banktype === "Pulsa"
-      // ).length > 0;
-    } else {
-      withdrawalListEwallet =
-        Common.arrayValidator(withdrawalList) &&
-        withdrawalList[this.state.selectedBankTypeIndex].banktype === "EWallet";
-
-      // .filter(
-      //   (card) => card.banktype === "EWallet"
-      // ).length > 0
-
-      withdrawalListPulsa =
-        Common.arrayValidator(withdrawalList) &&
-        withdrawalList[this.state.selectedBankTypeIndex].banktype === "Pulsa";
-      // .filter(
-      //   (card) => card.banktype === "Pulsa"
-      // ).length > 0;
-    }
+    const listDetector = (list, type) => {
+      return (
+        Common.arrayValidator(list) &&
+        list[this.state.selectedBankTypeIndex].banktype === type
+      );
+    };
 
     const isEwallet = this.props.isDeposit
-      ? depositListEWallet
-      : withdrawalListEwallet;
-
+      ? listDetector(depositList, "EWallet")
+      : listDetector(withdrawalList, "EWallet");
     const isPulsa = this.props.isDeposit
-      ? depositListPulsa
-      : withdrawalListPulsa;
+      ? listDetector(depositList, "Pulsa")
+      : listDetector(withdrawalList, "Pulsa");
+    const isCrypto = this.props.isDeposit
+      ? listDetector(depositList, "Crypto")
+      : listDetector(withdrawalList, "Crypto");
 
     const eWalletCustom = isEwallet && config.features.AddCard_EWalletCustoms;
 
@@ -881,7 +853,9 @@ class AddCard extends Component {
                 }
                 width={395}
                 height={38}
-                maxLength={config.features.MAX_PHONE_LENGTH || 10}
+                maxLength={
+                  !isCrypto && (config.features.MAX_PHONE_LENGTH || 10)
+                }
                 float={"none"}
                 handleTextFieldChange={this.handleNumberChange}
                 value={this.state.number}
