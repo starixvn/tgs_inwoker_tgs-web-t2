@@ -853,9 +853,7 @@ class AddCard extends Component {
                 }
                 width={395}
                 height={38}
-                maxLength={
-                  !isCrypto && (config.features.MAX_PHONE_LENGTH || 10)
-                }
+                maxLength={!isCrypto && config.features.MAX_PHONE_LENGTH}
                 float={"none"}
                 handleTextFieldChange={this.handleNumberChange}
                 value={this.state.number}
