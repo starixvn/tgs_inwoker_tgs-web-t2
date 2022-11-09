@@ -8,10 +8,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 
-import { makeStyles } from "@material-ui/core/styles";
-
-import IconInboxSelectedPNG from "../../../../assets/images/icon-inbox-selected.png";
-import IconInboxCheckPNG from "../../../../assets/images/icon-inbox-check.png";
 import i18n from "../../../../utils/i18n";
 import moment from "moment";
 const StyledTableCell = withStyles((theme) => ({
@@ -45,36 +41,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const useStyles = makeStyles({
-  root: {
-    "&:hover": {
-      backgroundColor: "transparent",
-    },
-  },
-  icon: {
-    width: 20,
-    height: 20,
-
-    backgroundImage: "url(" + IconInboxCheckPNG + ")",
-    backgroundRepeat: "no-repeat",
-    "$root.Mui-focusVisible &": {},
-    "input:hover ~ &": {},
-    "input:disabled ~ &": {},
-  },
-  checkedIcon: {
-    backgroundImage: "url(" + IconInboxSelectedPNG + ")",
-    backgroundRepeat: "no-repeat",
-    "&:before": {
-      display: "block",
-      width: 20,
-      height: 20,
-      backgroundImage: "url(" + IconInboxSelectedPNG + ")",
-      backgroundRepeat: "no-repeat",
-      content: '""',
-    },
-    "input:hover ~ &": {},
-  },
-});
 const InnerWrap = styled.div`
   width: 935px;
   float: left;

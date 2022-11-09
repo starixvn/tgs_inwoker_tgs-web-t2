@@ -4,7 +4,6 @@ import styled from "styled-components";
 import ScrollAnimation from "react-animate-on-scroll";
 import { SHOW_LOGIN } from "../../../api-services/constant/actionType";
 import { GameTypeEnum } from "../../../api-services/utils/Enum";
-import _633SelectedPNG from "../../../assets/images/qipai/633-selectedv2.png";
 
 import i18n from "../../../utils/i18n";
 import Common from "../../../utils/Common";
@@ -32,9 +31,7 @@ const GirlImage = styled.div`
 const LeftSlide = styled(ScrollAnimation)`
   display: flex;
 `;
-const RightSlide = styled(ScrollAnimation)`
-  display: flex;
-`;
+
 const ItemContainer = styled.div`
   position: absolute;
   left: 50%;
@@ -81,7 +78,7 @@ class Qipai extends Component {
     super(props);
 
     var qipaiList = props.game.homePageGameList.filter((item) => {
-      return item.type == GameTypeEnum.QIPAI;
+      return item.type === GameTypeEnum.QIPAI;
     });
 
     this.state = {
@@ -142,7 +139,7 @@ class Qipai extends Component {
 
               .map((item, index) => {
                 return (
-                  <ImageWrapper maintenance={item.status != 0}>
+                  <ImageWrapper maintenance={item.status !== 0}>
                     <Maintenance>{i18n.t("transfer.maintenance")}</Maintenance>
                     <GirlImage
                       img={

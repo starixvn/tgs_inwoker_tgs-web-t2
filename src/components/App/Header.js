@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled, { keyframes } from "styled-components";
-import "react-sticky-header/styles.css";
 import config from "../../config/config";
 import { withStyles } from "@material-ui/core/styles";
 
@@ -13,35 +12,10 @@ import { walletAction } from "../../api-services/actions/walletAction";
 import { SHOWING_DIALOG } from "../../api-services/constant/actionType";
 import { SHOW_LOGIN } from "../../api-services/constant/actionType";
 import { GameTypeEnum } from "../../api-services/utils/Enum";
-import TimerPNG from "../../assets/images/timer.png";
-import BtnAppsPNG from "../../assets/images/btn-apps.png";
-import BtnCSPNG from "../../assets/images/btn-cs.png";
-import BtnAppsHoverPNG from "../../assets/images/btn-apps-hover.png";
-import BtnCSHoverPNG from "../../assets/images/btn-cs-hover.png";
-
-import ArrowDropDownCircleOutlinedIcon from "@material-ui/icons/ArrowDropDownCircleOutlined";
 
 import { Link } from "react-router-dom";
 import GuestContainer from "./GuestContainer";
 import MemberContainer from "./MemberContainer";
-
-import TopMenuLivePNG from "../../assets/images/top-menu-live.png";
-import TopMenuQipaiPNG from "../../assets/images/top-menu-qipai.png";
-import TopMenuSportsPNG from "../../assets/images/top-menu-sports.png";
-import TopMenuLotteryPNG from "../../assets/images/top-menu-lottery.png";
-import TopMenuSlotPNG from "../../assets/images/top-menu-slot.png";
-import TopMenuTigerPNG from "../../assets/images/top-menu-tiger.png";
-import TopMenuFishPNG from "../../assets/images/top-menu-fish.png";
-import TopMenuPromoPNG from "../../assets/images/top-menu-promo.png";
-
-import TopMenuLiveHoverPNG from "../../assets/images/top-menu-live-hover.png";
-import TopMenuQipaiHoverPNG from "../../assets/images/top-menu-qipai-hover.png";
-import TopMenuSportsHoverPNG from "../../assets/images/top-menu-sports-hover.png";
-import TopMenuLotteryHoverPNG from "../../assets/images/top-menu-lottery-hover.png";
-import TopMenuSlotHoverPNG from "../../assets/images/top-menu-slot-hover.png";
-import TopMenuTigerHoverPNG from "../../assets/images/top-menu-tiger-hover.png";
-import TopMenuFishHoverPNG from "../../assets/images/top-menu-fish-hover.png";
-import TopMenuPromoHoverPNG from "../../assets/images/top-menu-promo-hover.png";
 
 import IconPhonePNG from "../../assets/images/icon-mobile.png";
 
@@ -82,14 +56,6 @@ const TimerContainer = styled.div`
   }
 `;
 
-const TimerSpan = styled.span`
-  font-size: 16px;
-  color: #f6f6f6;
-  float: left;
-  margin-left: 5px;
-  width: 230px;
-  word-spacing: 10px;
-`;
 const LinkContainer = styled.div`
   @media (max-width: 950px) {
     display: none;
@@ -133,38 +99,6 @@ const RightContainer = styled.div`
   height: 80px;
   display: flex;
   align-items: center;
-`;
-
-const BtnAppsAndCS = styled.div`
-  width: 77px;
-  height: 30px;
-  margin-top: 3px;
-  float: right;
-  &:hover {
-    cursor: pointer;
-  }
-  @media (max-width: 700px) {
-    display: none;
-  }
-`;
-
-const BtnApps = styled(BtnAppsAndCS)`
-  background-image: url(${BtnAppsPNG});
-  &:hover {
-    background-image: url(${BtnAppsHoverPNG});
-  }
-`;
-const BtnCS = styled(BtnAppsAndCS)`
-  margin-right: 8px;
-
-  background-image: url(${BtnCSPNG});
-  color: #f6f6f6;
-  &:hover {
-    background-image: url(${BtnCSHoverPNG});
-    color: #fff;
-  }
-  padding-left: 34px;
-  line-height: 30px;
 `;
 
 const AlignCenter = styled.div`
@@ -215,9 +149,7 @@ const RightMenuTextSpan = styled.span`
   padding-top: 6px;
   text-align: center;
 `;
-const RightMenuTextIcon = styled.span`
-  margin-left: 5px;
-`;
+
 const RightMenuTextContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -754,9 +686,9 @@ class Header extends Component {
     Common.closePreviousPopup();
     if (slotPageGameType.indexOf(gameType) >= 0) {
       if (
-        gameType == GameTypeEnum.SPORTS ||
-        gameType == GameTypeEnum.ESPORTS ||
-        gameType == GameTypeEnum.RNGSPORTS
+        gameType === GameTypeEnum.SPORTS ||
+        gameType === GameTypeEnum.ESPORTS ||
+        gameType === GameTypeEnum.RNGSPORTS
       ) {
         if (!this.props.account.token) {
           this.props.showLogin(true);
@@ -950,37 +882,6 @@ class Header extends Component {
                 </LinkList>
               </LinkContainer>
             </TimerContainer>
-
-            {/* <RightContainer>
-              <BtnApps onClick={this.handleDownloadAppsClick}></BtnApps>
-              <BtnCS onClick={this.props.onhandleShowCSClick}>
-                {i18n.t("common.cs")}
-              </BtnCS>
-              {(() => {
-                if (
-                  this.props.account.token !== this.props.account.info.token
-                ) {
-                  return (
-                    <GuestContainer
-                      onhandleShowCSClick={this.props.onhandleShowCSClick}
-                      onhandleContactUsClick={this.handleContactUsClick}
-                    ></GuestContainer>
-                  );
-                } else {
-                  return (
-                    <MemberContainer
-                      onhandleLogout={this.onhandleLogout}
-                      onhandleTransfer={this.onhandleTransfer}
-                      onhandleDeposit={this.onhandleDeposit}
-                      onhandleInboxClick={this.handleInboxClick}
-                      onhandleRefreshBalanceClick={
-                        this.handleRefreshBalanceClick
-                      }
-                    ></MemberContainer>
-                  );
-                }
-              })()}
-            </RightContainer> */}
           </TopContainer>
           <BottomContainer>
             <LogoContainer
@@ -1031,8 +932,7 @@ class Header extends Component {
               })()}
             </RightContainer>
             <RightMenuUL
-              className="top-menu"
-              className={`${
+              className={` top-menu ${
                 this.state.shouldShow === null
                   ? classes.maxMenu
                   : this.state.shouldShow
@@ -1074,13 +974,6 @@ class Header extends Component {
                             }`}
                           >
                             {i18n.t(item.title)}
-                            {
-                              //     <RightMenuTextIcon>
-                              //     <ArrowDropDownCircleOutlinedIcon
-                              //       style={{ fontSize: 14 }}
-                              //     />
-                              //   </RightMenuTextIcon>
-                            }
                           </RightMenuTextSpan>
                         </RightMenuTextContainer>
                         <RightMenuBottomLine></RightMenuBottomLine>
@@ -1111,7 +1004,7 @@ class Header extends Component {
                                           width: `calc(1264px / ${list.length})`,
                                         }}
                                         //TODO: To remove
-                                        maintenance={game.status != 0}
+                                        maintenance={game.status !== 0}
                                       >
                                         <GameFrameWrapper>
                                           <Maintenance>

@@ -8,7 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import i18n from "../../../../utils/i18n";
-import Moment from "react-moment";
+
 const moment = require("moment");
 const StyledTableCell = withStyles((theme) => ({
   head: {

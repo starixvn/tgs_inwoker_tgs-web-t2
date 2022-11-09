@@ -24,11 +24,6 @@ const LoadingInner = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
-const LoadingLogoImg = styled.img`
-  margin: 0 auto;
-  display: block;
-  width: 150px;
-`;
 
 const GameFrame = styled.iframe`
   margin-top: 24px;
@@ -71,8 +66,6 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
           setMaintenance(false);
           setLoading(false);
 
-          var originDomain = document.domain;
-
           let arr = document.domain.split(".");
           let host = arr[arr.length - 2] + "." + arr[arr.length - 1];
           // console.log("checkuuwwwwwwirl11:", arr)
@@ -84,7 +77,7 @@ const GameIFrame = ({ brand, type, sharedprops, token }) => {
             var url =
               (response.data.url.indexOf("http") <= -1 ? "https:" : "") +
               response.data.url;
-            var urlsss = url.replace("www.jsc080.net", "wghk.srvptt.com");
+
             var getExistingParam = url.split("/")[3];
             // myRef.current.src = currentDomain + "/" + getExistingParam;
             // console.log("checkuuwwwwwwirl:", currentDomain + "/" + getExistingParam)

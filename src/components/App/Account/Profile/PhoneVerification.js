@@ -212,10 +212,11 @@ class PhoneVerification extends Component {
     }
   };
   onhandleClick = () => {
-    if ((
-      config.features.Register_CustomFlow_IDR &&
-      !this.props.account.registercompleted
-    ) || config.features.InitPhone_WithoutVerify) {
+    if (
+      (config.features.Register_CustomFlow_IDR &&
+        !this.props.account.registercompleted) ||
+      config.features.InitPhone_WithoutVerify
+    ) {
       var expr = new RegExp(
         `^[0-9]{8,${config.features.MAX_PHONE_LENGTH || 10}}`
       );
@@ -258,7 +259,7 @@ class PhoneVerification extends Component {
                     AppHistory.push(
                       "/" + i18n.language + "/account/profile/member_email"
                     );
-                  }else{
+                  } else {
                     this.props.handleCloseDialog();
                   }
                 });
@@ -386,7 +387,10 @@ class PhoneVerification extends Component {
       );
     };
 
-    if (config.features.Profile_DisableVerifyPhone && !config.features.InitPhone_WithoutVerify) {
+    if (
+      config.features.Profile_DisableVerifyPhone &&
+      !config.features.InitPhone_WithoutVerify
+    ) {
       return <Disabled />;
     }
 
@@ -427,12 +431,17 @@ class PhoneVerification extends Component {
             }}
             variant="outlined"
             autoComplete="off"
-            disabled={config.features.InitPhone_WithoutVerify && this.state.isNew === false && this.state.step === 1}
+            disabled={
+              config.features.InitPhone_WithoutVerify &&
+              this.state.isNew === false &&
+              this.state.step === 1
+            }
           ></CustomText>
-          {(!(
+          {!(
             config.features.Register_CustomFlow_IDR &&
             !this.props.account.registercompleted
-          ) && !config.features.InitPhone_WithoutVerify) &&
+          ) &&
+            !config.features.InitPhone_WithoutVerify &&
             !(
               ifNotEmpty &&
               (config.features.ChangesNotAllowed ||

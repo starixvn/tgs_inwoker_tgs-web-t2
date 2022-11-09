@@ -35,45 +35,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-// function desc(a, b, orderBy) {
-//   if (b[orderBy] < a[orderBy]) {
-//     return -1;
-//   }
-//   if (b[orderBy] > a[orderBy]) {
-//     return 1;
-//   }
-//   return 0;
-// }
-// const useStyles = makeStyles({
-//   root: {
-//     "&:hover": {
-//       backgroundColor: "transparent"
-//     }
-//   },
-//   icon: {
-//     width: 20,
-//     height: 20,
-
-//     backgroundImage: "url(" + IconInboxCheckPNG + ")",
-//     backgroundRepeat: "no-repeat",
-//     "$root.Mui-focusVisible &": {},
-//     "input:hover ~ &": {},
-//     "input:disabled ~ &": {}
-//   },
-//   checkedIcon: {
-//     backgroundImage: "url(" + IconInboxSelectedPNG + ")",
-//     backgroundRepeat: "no-repeat",
-//     "&:before": {
-//       display: "block",
-//       width: 20,
-//       height: 20,
-//       backgroundImage: "url(" + IconInboxSelectedPNG + ")",
-//       backgroundRepeat: "no-repeat",
-//       content: '""'
-//     },
-//     "input:hover ~ &": {}
-//   }
-// });
 const InnerWrap = styled.div`
   width: 100%;
   float: left;

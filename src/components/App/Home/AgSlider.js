@@ -7,7 +7,7 @@ import HomeSport1PNG from "../../../assets/images/home-sport-1.png";
 import HomeSport2PNG from "../../../assets/images/home-sport-2.png";
 import HomeSport3PNG from "../../../assets/images/home-sport-3.png";
 import HomeSport4PNG from "../../../assets/images/home-sport-4.png";
-import {GameEnum} from "../../../api-services/utils/Enum";
+import { GameEnum } from "../../../api-services/utils/Enum";
 
 const Container = styled.div`
   width: 700px;

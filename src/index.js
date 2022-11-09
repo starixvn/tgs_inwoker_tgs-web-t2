@@ -1,7 +1,7 @@
 import "react-app-polyfill/ie11";
 import "react-app-polyfill/stable";
 
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { Router, Route, Switch, Redirect } from "react-router";
@@ -81,41 +81,6 @@ Config.isPC = isMobileOnly ? 1 : 0;
 document.getElementById("favicon").href =
   process.env.PUBLIC_URL + `/assets/images/logo/${Config.brand}.ico`;
 
-var title = i18n.exists(`brand.${Config.brand}.title`)
-  ? i18n.t(`brand.${Config.brand}.title`)
-  : i18n.t("common.title").replace(/{brand}/g, Config.brand);
-
-var description = i18n.exists(`brand.${Config.brand}.description`)
-  ? i18n.t(`brand.${Config.brand}.description`)
-  : title;
-document.getElementById("title").innerHTML = title;
-document.getElementById("description").setAttribute("content", description);
-
-// document.getElementById("title").innerHTML = i18n
-//   .t("common.title")
-//   .replace(/{brand}/g, Config.brand);
-// document
-//   .getElementById("description")
-//   .setAttribute(
-//     "content",
-//     i18n.t("common.title").replace(/{brand}/g, Config.brand)
-//   );
-// if (
-//   process.env.REACT_APP_CUSTOM_NODE_ENV !== "development" &&
-//   (process.env.REACT_APP_CUSTOM_NODE_ENV !== "qa" || Config.baseUrl === "") &&
-//   (process.env.REACT_APP_CUSTOM_NODE_ENV !== "staging" || Config.baseUrl === "")
-// ) {
-//   let url = window.location.hostname;
-//   let new_sub = "service";
-//   let baseUrl = "";
-//   if (url.split(/[\/\.]+/).length >= 3) {
-//     baseUrl = url.replace(url.split(/[\/\.]+/)[0], new_sub);
-//   } else {
-//     baseUrl = new_sub + "." + url;
-//   }
-//   baseUrl = window.location.protocol + "//" + baseUrl + "/";
-//   Config.baseUrl = baseUrl;
-// }
 var fontFamily = "Tahoma, Helvetica, Arial, sans-serif";
 if (i18n.language === "zh-CN") {
   fontFamily =
@@ -205,6 +170,20 @@ const muiTheme = createMuiTheme({
 });
 const AppWrapper = () => {
   const classes = useStyles();
+  const languageFromLocalStorage = localStorage.getItem("i18nextLng");
+  useEffect(() => {
+    i18n.on("languageChanged", (lng) => {
+      document.getElementById("title").innerHTML = i18n
+        .t("common.title")
+        .replace(/{brand}/g, Config.brandName);
+      document
+        .getElementById("description")
+        .setAttribute(
+          "content",
+          i18n.t("common.title").replace(/{brand}/g, Config.brandName)
+        );
+    });
+  }, []);
 
   return (
     <Provider store={store}>
@@ -282,7 +261,13 @@ const AppWrapper = () => {
                     path={Common.baseRouteUrl + "/"}
                     render={(props) => (isMobileOnly ? <Wap /> : <Web />)}
                   />
-                  <Redirect to={`/${i18n.language}`} />
+                  <Redirect
+                    to={`/${
+                      languageFromLocalStorage ||
+                      i18n.language ||
+                      Config.defaultLanguage
+                    }`}
+                  />
                 </Switch>
               </Router>
             </SnackbarProvider>

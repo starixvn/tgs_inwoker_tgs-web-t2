@@ -13,10 +13,10 @@ import Details from "./Details";
 
 import i18n from "../../../../utils/i18n";
 
-import {accountAction} from "../../../../api-services/actions/accountAction";
-import {inboxAction} from "../../../../api-services/actions/inboxAction";
-import {InboxService} from "../../../../api-services/services/InboxService";
-import {SHOWING_DIALOG} from "../../../../api-services/constant/actionType";
+import { accountAction } from "../../../../api-services/actions/accountAction";
+import { inboxAction } from "../../../../api-services/actions/inboxAction";
+import { InboxService } from "../../../../api-services/services/InboxService";
+import { SHOWING_DIALOG } from "../../../../api-services/constant/actionType";
 const Container = styled.div` 
 padding: 20px 28px;
 box-sizing: border-box

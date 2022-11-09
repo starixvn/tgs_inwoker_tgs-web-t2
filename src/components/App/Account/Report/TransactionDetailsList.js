@@ -8,10 +8,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import i18n from "../../../../utils/i18n";
-import Moment from "react-moment";
-import copy from "copy-to-clipboard";
 import { withSnackbar } from "notistack";
 import { config } from "react-spring";
+import { utility } from "../../../../utils/utility";
 const moment = require("moment");
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -69,7 +68,7 @@ function TransactionDetailsList(props) {
       props.enqueueSnackbar(i18n.t("affiliate.copied"), {
         variant: "success",
       });
-      copy(id);
+      utility.copy(id);
     }
   };
 

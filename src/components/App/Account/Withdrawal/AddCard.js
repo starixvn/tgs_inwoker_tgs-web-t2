@@ -30,32 +30,6 @@ const TextFieldContainer = styled.div`
   margin: 0 auto;
   display: table;
 `;
-const TabButton = styled.div`
-  font-size: 14px;
-
-  color: #747474;
-
-  text-align: center;
-
-  float: left;
-  margin-right: 8px;
-
-  ${(props) =>
-    props.active
-      ? ` border: solid 1px #151a34;
-      color: #151a34;`
-      : ` border: solid 1px #e1dfdf;
-      color: #747474;`};
-  &:hover {
-    cursor: pointer;
-  }
-  ${(props) => {
-    return `background:url(${props.img}) no-repeat 10px center,#f7f7f7;`;
-  }}
-  background-size: auto 30px;
-  padding-left: 40px;
-  margin-bottom: 10px;
-`;
 
 const CustomSelect = withStyles((theme) => ({
   root: {

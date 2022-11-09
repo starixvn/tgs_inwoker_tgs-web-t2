@@ -23,19 +23,7 @@ const SubTitleDesc = styled.div`
   color: #818181;
   text-align: center;
 `;
-const ReminderTitle = styled.div`
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  color: #16242a;
-  margin-top: 40px;
-`;
-const CSLink = styled.a`
-  text-decoration: underline;
-  &:hover {
-    cursor: pointer;
-  }
-`;
+
 const ButtonContainer = styled.div`
   margin: 0 auto;
   display: table;
@@ -76,9 +64,17 @@ function AddCardSuccess(props) {
           ></Button>
         )}
         <Button
-          name={props.isDeposit?i18n.t("card.success.goDeposit"):i18n.t("card.success.goWithdrawal")}
+          name={
+            props.isDeposit
+              ? i18n.t("card.success.goDeposit")
+              : i18n.t("card.success.goWithdrawal")
+          }
           width={255}
-          handleClick={props.isDeposit?props.onhandleGoDepositClick:props.onhandleGoWithdrawClick}
+          handleClick={
+            props.isDeposit
+              ? props.onhandleGoDepositClick
+              : props.onhandleGoWithdrawClick
+          }
         ></Button>
       </ButtonContainer>
     </Container>

@@ -22,29 +22,6 @@ const Container = styled.div`
   box-shadow: 0px 1px 12px -5px rgba(0, 0, 0, 0.75);
   padding-left: 10px;
 `;
-const AvatarContainer = styled.img`
-  width: 88px;
-  float: left;
-  margin: 30px 15px 0 30px;
-`;
-const PlayerInfoContainer = styled.div`
-  float: left;
-  margin: 36px 0;
-  width: 210px;
-`;
-const PlayerName = styled.div`
-  font-size: 18px;
-  color: #404040;
-  height: 21px;
-`;
-
-const MissionContainer = styled.div`
-  margin-top: 10px;
-
-  font-size: 12px;
-
-  color: #c40511;
-`;
 const SpliterLine = styled.div`
   background-color: #8a7f73;
   width: 1.2px;
@@ -96,11 +73,6 @@ function Header(props) {
   props.game.providerList.map((item) => {
     if (item.transferwallet === true) ingame += parseFloat(item.balance);
   });
-
-  var checkTransferWallet =
-    Object.values(props.game.providerList).filter(
-      (item) => item.transferwallet === true
-    ).length > 0;
 
   return (
     <Container>

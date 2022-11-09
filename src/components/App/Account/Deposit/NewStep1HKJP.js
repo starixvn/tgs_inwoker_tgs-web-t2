@@ -1,49 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { Component } from "react";
-import {
-  Grid,
-  TextField,
-  Select,
-  FormControl,
-  withStyles,
-} from "@material-ui/core";
+import { TextField, Select, FormControl, withStyles } from "@material-ui/core";
 import i18n from "../../../../utils/i18n";
 import CustomButton from "../../../Share/Button";
-import CurrencyTextField from "@unicef/material-ui-currency-textfield";
+
 import LimitPopupPNG from "../../../../assets/images/limit-popup.png";
 import Common from "../../../../utils/Common";
 import config from "../../../../config/config";
-const CustomText = withStyles({
-  root: {
-    marginTop: "10px",
-    float: "left",
-    backgroundColor: "#fff",
-    "& .MuiOutlinedInput-input": {
-      fontSize: "14px",
-    },
-    "& .MuiOutlinedInput-input[readonly]": {
-      color: "#b6b6b6",
-    },
-    "& label.Mui-focused": {
-      color: "#b6b6b6",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#b6b6b6",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#b6b6b6",
-      },
-      "&:hover fieldset": {
-        borderColor: "#b6b6b6",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#b6b6b6",
-      },
-    },
-  },
-})(TextField);
 
 const CustomFormControl = withStyles((theme) => ({
   root: {
@@ -201,11 +165,9 @@ class NewStepOne extends Component {
       onMethodChange,
       selectedChannelIndex,
       onChannelChange,
-      selectedPaymentIndex,
       paymentType,
       onNextClick,
       exchangeRate,
-      isCrypto,
       playerNote,
       onPlayerNoteChange,
     } = this.props;

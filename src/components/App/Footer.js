@@ -1,17 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
 import Slider from "react-slick";
 
-import HomeFooterIcon1PNG from "../../assets/images/home-footer-icon1.png";
-import HomeFooterIcon1ActivePNG from "../../assets/images/home-footer-icon1-active.png";
-import Common from "../../utils/Common";
 import i18n from "../../utils/i18n";
 import config from "../../config/config";
 
-import { AppHistory } from "../../history/History";
 const Container = styled.div`
   width: 100%;
   height: ${config.brand === "WGHK" ? `150px` : "240px"};
@@ -140,11 +136,6 @@ function Footer(props) {
         })()}
       </Slider>
     );
-  };
-
-  const handleResize = () => {
-    contRef.current.height = window.innerHeight * 0.16;
-    bottomRef.current.height = window.innerHeight * 0.16 - 80;
   };
 
   const ImageHolder = ({ image }) => {
