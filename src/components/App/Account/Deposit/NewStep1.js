@@ -511,7 +511,7 @@ const NewStepOne = (props) => {
                           </SubTitle>
                         </SubHeaderContainer>
                         <SelectionContainer>
-                          <QRCodeImg src={channelExtend.qrCodeFileUrl} />
+                          <QRCodeImg src={channelExtend.qrCode} />
                         </SelectionContainer>
                         <SplitLine></SplitLine>
                       </>
@@ -525,8 +525,8 @@ const NewStepOne = (props) => {
                           </SubTitle>
                         </SubHeaderContainer>
                         <SelectionContainer>
-                          {channelExtend.qrCodeFileUrl && (
-                            <CustomImage src={channelExtend.qrCodeFileUrl} />
+                          {channelExtend.qrCode && (
+                            <CustomImage src={channelExtend.qrCode} />
                           )}
                           {channelExtend.logo && (
                             <CustomImage src={channelExtend.logo} />
