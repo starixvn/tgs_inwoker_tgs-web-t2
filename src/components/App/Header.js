@@ -821,18 +821,7 @@ class Header extends Component {
                             selected={i18n.language === lang.culturecode}
                             onClick={() => {
                               i18n.changeLanguage(lang.culturecode);
-                              AppHistory.replace("/" + lang.culturecode);
-                              this.props.getBanner();
-                              this.props.getMarquee(lang.culturecode);
-                              this.props.getAnnouncement(lang.culturecode);
-                              GeneralService.GetLocalization().then(
-                                (response) => {
-                                  if (response.IsSuccess) {
-                                    ErrorSwitcher.setTranslation(response.data);
-                                  }
-                                }
-                              );
-                              this.setState({ ...this.state, selected: "/" });
+                              window.location.reload();
                             }}
                           >
                             {i18n.t("lang." + lang.culturecode)}
