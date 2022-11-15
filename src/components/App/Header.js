@@ -820,6 +820,7 @@ class Header extends Component {
                           <CustomExternalLink
                             selected={i18n.language === lang.culturecode}
                             onClick={() => {
+                              AppHistory.replace("/" + lang.culturecode);
                               i18n.changeLanguage(lang.culturecode);
                               window.location.reload();
                             }}
