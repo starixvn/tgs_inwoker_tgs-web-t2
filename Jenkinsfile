@@ -9,7 +9,7 @@ pipeline {
         Registry = "pgtgs/"
         GitUrl = "gitlab.com/yifan1997/tgstemplate1.git"
         ImageTagUrl = "https://gitlab.com/api/v4/projects/20478010/registry/repositories/2172986/tags"
-        dockerhub = credentials('dockerhub-user-pwd')
+        dockerhub = credentials('dockerhub')
         Image = "lobby-t2"
     }
     stages {		    	
