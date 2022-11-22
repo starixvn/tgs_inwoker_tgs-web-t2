@@ -15,7 +15,7 @@ pipeline {
     stages {		    	
         stage('Prepare Env') {
             steps {
-                sh "sudo docker login -u ${dockerhub_USR} -p ${dockerhub_PSW}"
+                sh "docker login -u ${dockerhub_USR} -p ${dockerhub_PSW}"
                 sh "echo 'Branch: ${env.GIT_BRANCH}'";
                 script {
                     switch(env.GIT_BRANCH)
