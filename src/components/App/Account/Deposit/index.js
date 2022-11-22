@@ -580,7 +580,16 @@ class Deposit extends Component {
       }
     };
 
-    if (payment.paymentcode.toUpperCase() === "MANUAL") {
+    if (
+      payment.paymentcode.toUpperCase() === "USDT" &&
+      config.features.Deposit_SplitUsdt
+    ) {
+      this.props.doUsdtDeposit(
+        this.state.amount.replace(/,/g, ""),
+        channel.id,
+        this.state.depositPromotion
+      );
+    } else if (payment.paymentcode.toUpperCase() === "MANUAL") {
       // handle manual deposit
       if (method.methodcode === "BankTransfer") {
         if (config.features.Deposit_AddCard) {
@@ -1388,7 +1397,14 @@ const mapDispatchToProps = (dispatch) => {
         )
       );
     },
-    doEWalletDeposit: (amount, paymentid, promotionid, banktype, note, emoneyname) => {
+    doEWalletDeposit: (
+      amount,
+      paymentid,
+      promotionid,
+      banktype,
+      note,
+      emoneyname
+    ) => {
       dispatch(
         walletAction.doEWalletDeposit(
           amount,
