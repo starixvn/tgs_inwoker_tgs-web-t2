@@ -564,6 +564,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAccountInfo: () => dispatch(accountAction.getAccountInfo()),
     dispatchFunction: (json) => dispatch(json),
+    getRegisterStatus: () => dispatch(accountAction.GetRegisterStatus()),
     newRegister: (type, input) =>
       dispatch(accountAction.newRegister(type, input)),
     dispatch: dispatch,
