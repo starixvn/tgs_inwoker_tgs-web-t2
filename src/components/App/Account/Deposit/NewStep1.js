@@ -256,20 +256,16 @@ const NewStepOne = (props) => {
 
   const methodList = paymentType.method;
 
-  var isApplePay = paymentType.paymentcode.toUpperCase() === "APPLEPAY";
-  var isManual = paymentType.paymentcode.toUpperCase() === "MANUAL";
-  var isFPS =
-    methodList[selectedMethodIndex].methodcode.toUpperCase() === "FPS";
-  var isUsdt =
-    methodList[selectedMethodIndex].methodcode.toUpperCase() === "USDT";
-  var isBankTransfer =
-    methodList[selectedMethodIndex].methodcode.toUpperCase() === "BANKTRANSFER";
-  var isEwallet =
-    methodList[selectedMethodIndex].methodcode.toUpperCase() === "EWALLET";
-  var isPulsa =
-    methodList[selectedMethodIndex].methodcode.toUpperCase() === "PULSA";
-  var isThirdParty =
-    methodList[selectedMethodIndex].methodcode.toUpperCase() === "THIRDPARTY";
+  const paymentCode = (payment) => {
+    return paymentType.paymentcode.toUpperCase() === payment.toUpperCase();
+  };
+
+  const methodCode = (method) => {
+    return (
+      methodList[selectedMethodIndex].methodcode.toUpperCase() ===
+      method.toUpperCase()
+    );
+  };
 
   var numberingCount = 0;
   const SubHeaderContainer = ({ children, custom }) => {
@@ -326,6 +322,48 @@ const NewStepOne = (props) => {
     return detail;
   };
 
+  var displaysequence = [
+    "name",
+    "address",
+    "bankAccount",
+    "eMoneyName",
+    "phone",
+  ];
+
+  const DepositDetails = ({ title, data }) => {
+    return (
+      <TransferContainer>
+        <TransferLabel>{i18n.t("extended." + title)}:</TransferLabel>
+        {data && (
+          <>
+            <TransferLabelValue>{data}</TransferLabelValue>
+            <CopyFeature copyContent={data} />
+          </>
+        )}
+      </TransferContainer>
+    );
+  };
+
+  const generateDisplayContent = (content) => {
+    return Object.keys(content)
+      .sort((a, b) => {
+        return displaysequence.indexOf(a) - displaysequence.indexOf(b);
+      })
+      .map((key, index) => {
+        if (content[key] !== "") {
+          if (typeof content[key] === "number") {
+            return <></>;
+          } else if (content[key].includes("http")) {
+            return <img src={content[key]} alt={content[key]} key={index} />;
+          } else {
+            return (
+              <DepositDetails title={key} data={content[key]} key={index} />
+            );
+          }
+        }
+      });
+  };
+
   return (
     <>
       {!config.features.Deposit_AddCard ? (
@@ -350,7 +388,7 @@ const NewStepOne = (props) => {
                   active={selectedMethodIndex === index}
                 >
                   {config.features.CustomKING8Deposit &&
-                  isManual &&
+                  paymentCode("MANUAL") &&
                   i18n.exists(`king8.${item.methodcode}`)
                     ? i18n.t(`king8.${item.methodcode}`)
                     : i18n.t(item.methodcode)}
@@ -435,14 +473,20 @@ const NewStepOne = (props) => {
                       selectedChannelIndex
                     ].extended;
 
-                  if (!isBankTransfer && !isEwallet && !isPulsa) return <></>;
+                  if (
+                    !methodCode("BANKTRANSFER") &&
+                    !methodCode("EWALLET") &&
+                    !methodCode("PULSA") &&
+                    !methodCode("usdt")
+                  )
+                    return <></>;
                   return (
                     <>
                       <SubHeaderContainer>
                         <SubTitle>{i18n.t("deposit.transferAccount")}</SubTitle>
                       </SubHeaderContainer>
                       <SelectionContainer>
-                        {isBankTransfer && (
+                        {methodCode("BANKTRANSFER") && (
                           <TransferContainer>
                             <TransferLabel>
                               {i18n.t("deposit.details.bank")}:
@@ -459,7 +503,7 @@ const NewStepOne = (props) => {
                             )}
                           </TransferContainer>
                         )}
-                        {isBankTransfer && (
+                        {methodCode("BANKTRANSFER") && (
                           <TransferContainer>
                             <TransferLabel>
                               {i18n.t("deposit.accName")}:
@@ -474,7 +518,7 @@ const NewStepOne = (props) => {
                             )}
                           </TransferContainer>
                         )}
-                        {isBankTransfer && (
+                        {methodCode("BANKTRANSFER") && (
                           <TransferContainer>
                             <TransferLabel>
                               {i18n.t("deposit.cardNum")}:
@@ -491,7 +535,7 @@ const NewStepOne = (props) => {
                             )}
                           </TransferContainer>
                         )}
-                        {(isEwallet || isPulsa) && (
+                        {(methodCode("EWALLET") || methodCode("PULSA")) && (
                           <TransferContainer>
                             <TransferLabel>
                               {i18n.t("deposit.phone")}:
@@ -508,7 +552,7 @@ const NewStepOne = (props) => {
                             )}
                           </TransferContainer>
                         )}
-                        {isEwallet && (
+                        {methodCode("EWALLET") && (
                           <TransferContainer>
                             <TransferLabel>
                               {i18n.t("deposit.eWalletAccount")}:
@@ -532,16 +576,16 @@ const NewStepOne = (props) => {
                 }
               })()}
               {(() => {
-                if (isManual && !config.features.Deposit_AddCard) {
+                if (
+                  (paymentCode("MANUAL") || paymentCode("usdt")) &&
+                  !config.features.Deposit_AddCard
+                ) {
                   var channelExtend =
                     methodList[selectedMethodIndex].channel[
                       selectedChannelIndex
                     ].extended;
 
-                  if (
-                    methodList[selectedMethodIndex].methodcode.toUpperCase() ===
-                    "THIRDPARTY"
-                  ) {
+                  if (methodCode("thirdparty")) {
                     return (
                       <>
                         <SubHeaderContainer>
@@ -564,99 +608,7 @@ const NewStepOne = (props) => {
                           </SubTitle>
                         </SubHeaderContainer>
                         <SelectionContainer>
-                          {channelExtend.qrCodeFileUrl && (
-                            <CustomImage src={channelExtend.qrCodeFileUrl} />
-                          )}
-                          {channelExtend.logo && (
-                            <CustomImage src={channelExtend.logo} />
-                          )}
-                          {channelExtend.qrCode && (
-                            <QRCodeImg src={channelExtend.qrCode} />
-                          )}
-                          {channelExtend.address && (
-                            <TransferContainer>
-                              <TransferLabel>
-                                {i18n.t("deposit.address")}:
-                              </TransferLabel>
-                              <TransferLabelValue>
-                                {channelExtend.address}
-                              </TransferLabelValue>
-                              <CopyFeature
-                                copyContent={channelExtend.address}
-                              />
-                            </TransferContainer>
-                          )}
-                          {channelExtend.name && (
-                            <TransferContainer>
-                              <TransferLabel>
-                                {i18n.t("deposit.accName")}:
-                              </TransferLabel>
-                              <TransferLabelValue>
-                                {channelExtend.name}
-                              </TransferLabelValue>
-                              <CopyFeature copyContent={channelExtend.name} />
-                            </TransferContainer>
-                          )}
-                          {channelExtend.bankAccount && (
-                            <TransferContainer>
-                              <TransferLabel>
-                                {i18n.t("deposit.cardNum")}:
-                              </TransferLabel>
-                              <TransferLabelValue>
-                                {channelExtend.bankAccount}
-                              </TransferLabelValue>
-                              <CopyFeature
-                                copyContent={channelExtend.bankAccount}
-                              />
-                            </TransferContainer>
-                          )}
-                          {channelExtend.phone && (
-                            <TransferContainer>
-                              <TransferLabel>
-                                {i18n.t("deposit.phone")}:
-                              </TransferLabel>
-                              <TransferLabelValue>
-                                {channelExtend.phone}
-                              </TransferLabelValue>
-                              <CopyFeature copyContent={channelExtend.phone} />
-                            </TransferContainer>
-                          )}
-                          {channelExtend.email && (
-                            <TransferContainer>
-                              <TransferLabel>
-                                {i18n.t("deposit.email")}:
-                              </TransferLabel>
-                              <TransferLabelValue>
-                                {channelExtend.email}
-                              </TransferLabelValue>
-                              <CopyFeature copyContent={channelExtend.email} />
-                            </TransferContainer>
-                          )}
-
-                          {channelExtend.fpsId && (
-                            <TransferContainer>
-                              <TransferLabel>
-                                {i18n.t("deposit.fpsId")}:
-                              </TransferLabel>
-                              <TransferLabelValue>
-                                {channelExtend.fpsId}
-                              </TransferLabelValue>
-                              <CopyFeature copyContent={channelExtend.fpsId} />
-                            </TransferContainer>
-                          )}
-                          {channelExtend.eMoneyName && (
-                            <TransferContainer>
-                              <TransferLabel>
-                                {i18n.t("deposit.eWalletAccount")}:
-                              </TransferLabel>
-                              <TransferLabelValue>
-                                {channelExtend.eMoneyName}
-                              </TransferLabelValue>
-                              <CopyFeature
-                                copyContent={channelExtend.eMoneyName}
-                              />
-                            </TransferContainer>
-                          )}
+                          {generateDisplayContent(channelExtend)}
                         </SelectionContainer>
                         <SplitLine></SplitLine>
                       </>
@@ -667,15 +619,15 @@ const NewStepOne = (props) => {
 
               {(() => {
                 if (
-                  (isManual || isApplePay) &&
+                  (paymentCode("MANUAL") || paymentCode("APPLEPAY")) &&
                   !config.features.Deposit_ManualApplePayHideBankAcc
                 ) {
                   return (
                     <>
                       {!(
-                        (config.features.CustomKING8Deposit) ||
+                        config.features.CustomKING8Deposit ||
                         config.features.Deposit_RemoveAccount ||
-                        isUsdt ||
+                        methodCode("USDT") ||
                         config.features.Deposit_AddCard
                       ) && (
                         <>
@@ -754,7 +706,9 @@ const NewStepOne = (props) => {
                           <SplitLine></SplitLine>
                         </>
                       )}
-                      {(!(config.features.Deposit_RemoveName || isFPS) ||
+                      {(!(
+                        config.features.Deposit_RemoveName || methodCode("FPS")
+                      ) ||
                         config.features.Deposit_FPSWithName) && (
                         <>
                           <SubHeaderContainer>
@@ -835,7 +789,7 @@ const NewStepOne = (props) => {
                     padding: 0,
                   }}
                   placeholder={
-                    isUsdt
+                    methodCode("USDT")
                       ? i18n.t("deposit.plsEnterUSDTAmount")
                       : i18n.t("deposit.plsEnterDepositAmount")
                   }
@@ -875,7 +829,7 @@ const NewStepOne = (props) => {
                       methodList[selectedMethodIndex].channel[
                         selectedChannelIndex
                       ].extended.rate;
-                    if (paymentType.paymentcode.toUpperCase() === "MANUAL") {
+                    if (paymentCode("manual") || paymentCode("usdt")) {
                       return (
                         <ExchangeRateContainer style={{ marginTop: "4px" }}>
                           <LimitLabel>
@@ -903,7 +857,7 @@ const NewStepOne = (props) => {
                 })()}
                 {(() => {
                   if (methodList[selectedMethodIndex].methodcode === "Crypto") {
-                    if (paymentType.paymentcode.toUpperCase() === "LEEPAY") {
+                    if (paymentCode("leepay")) {
                       return (
                         <ExchangeRateContainer style={{ marginTop: "4px" }}>
                           <LimitLabel>
@@ -950,7 +904,7 @@ const NewStepOne = (props) => {
                     }
                   }
                 })()}
-                {paymentType.paymentcode.toUpperCase() === "UMPAY" && (
+                {paymentCode("umpay") && (
                   <Remark>{i18n.t("deposit.ppRemark")}</Remark>
                 )}
               </SelectionContainer>
@@ -982,7 +936,7 @@ const NewStepOne = (props) => {
               </SelectionContainer>
 
               {(() => {
-                if (isManual) {
+                if (paymentCode("MANUAL")) {
                   return (
                     <React.Fragment>
                       <SplitLine></SplitLine>
@@ -1022,7 +976,9 @@ const NewStepOne = (props) => {
               })()}
 
               {config.features.Deposit_Withdrawal_PlayerNote &&
-                (isEwallet || isPulsa || isBankTransfer) && (
+                (methodCode("EWALLET") ||
+                  methodCode("PULSA") ||
+                  methodCode("BANKTRANSFER")) && (
                   <React.Fragment>
                     <SplitLine></SplitLine>
                     <SubHeaderContainer>
@@ -1069,7 +1025,7 @@ const NewStepOne = (props) => {
                       selectedChannelIndex
                     ].transferlimit.to ||
                   (config.features.Deposit_UploadRequired &&
-                    isManual &&
+                    paymentCode("MANUAL") &&
                     files.length <= 0) ||
                   (config.features.Deposit_AddCard &&
                     props.selectedBankCard === "")
