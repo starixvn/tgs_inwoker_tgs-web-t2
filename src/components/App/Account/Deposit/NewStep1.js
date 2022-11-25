@@ -260,6 +260,12 @@ const NewStepOne = (props) => {
     return paymentType.paymentcode.toUpperCase() === payment.toUpperCase();
   };
 
+  const alteredPaymentCode = (payment) => {
+    return paymentType.alteredpaymentcode
+      ? paymentType.alteredpaymentcode.toUpperCase() === payment.toUpperCase()
+      : false;
+  };
+
   const methodCode = (method) => {
     return (
       methodList[selectedMethodIndex].methodcode.toUpperCase() ===
@@ -577,7 +583,9 @@ const NewStepOne = (props) => {
               })()}
               {(() => {
                 if (
-                  (paymentCode("MANUAL") || paymentCode("usdt")) &&
+                  (paymentCode("MANUAL") ||
+                    paymentCode("usdt") ||
+                    alteredPaymentCode("usdt")) &&
                   !config.features.Deposit_AddCard
                 ) {
                   var channelExtend =
@@ -829,7 +837,11 @@ const NewStepOne = (props) => {
                       methodList[selectedMethodIndex].channel[
                         selectedChannelIndex
                       ].extended.rate;
-                    if (paymentCode("manual") || paymentCode("usdt")) {
+                    if (
+                      paymentCode("manual") ||
+                      paymentCode("usdt") ||
+                      alteredPaymentCode("usdt")
+                    ) {
                       return (
                         <ExchangeRateContainer style={{ marginTop: "4px" }}>
                           <LimitLabel>
@@ -936,7 +948,7 @@ const NewStepOne = (props) => {
               </SelectionContainer>
 
               {(() => {
-                if (paymentCode("MANUAL")) {
+                if (paymentCode("MANUAL") || alteredPaymentCode("usdt")) {
                   return (
                     <React.Fragment>
                       <SplitLine></SplitLine>
