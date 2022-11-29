@@ -596,7 +596,7 @@ class App extends Component {
                   )}
 
                 {config.features.HomePage_PromoRoulette && this.isInHomePage() && (
-                  <RouletteFloatingPanel>
+                  <>
                     {this.props.general.rouletteCount.length > 0 &&
                       this.props.general.rouletteCount
                         .filter(
@@ -627,7 +627,7 @@ class App extends Component {
                           }
                         ></PromotionRoulette>
                       )}
-                  </RouletteFloatingPanel>
+                  </>
                 )}
 
                 <Footer target={"_blank"}></Footer>
