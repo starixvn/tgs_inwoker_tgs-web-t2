@@ -31,22 +31,7 @@ const RouletteEnum = {
   DAR: "DEPOSITACCUMULATEROULETTE",
 };
 
-const Container = styled.div`
-  position: fixed;
-  z-index: 1300;
-
-  ${({ position }) => {
-    //for each item in position object, map accordingly
-    return position !== undefined
-      ? Object.keys(position).map((key) => {
-          return `${key}: ${position[key]}px;`;
-        })
-      : `  top: 0;
-      left: 0;
-      padding-top: 16%;
-      padding-left: 2%;`;
-  }}
-`;
+const Container = styled.div``;
 
 const BtnRoulette = styled.img`
   cursor: pointer;
@@ -934,13 +919,17 @@ const PromotionRoulette = (props) => {
   }, [props.general.rouletteHistory, rouletteHistory]);
 
   const isIdenticalArray = (arr1, arr2) => {
-    var sortedArr1 = arr1.sort(function (a, b) {
-      return new Date(a.createdon) - new Date(b.createdon);
-    });
-    var sortedArr2 = arr2.sort(function (a, b) {
-      return new Date(a.createdon) - new Date(b.createdon);
-    });
-    return JSON.stringify(sortedArr1) === JSON.stringify(sortedArr2);
+    if (arr1 && arr2) {
+      var sortedArr1 = arr1.sort(function (a, b) {
+        return new Date(a.createdon) - new Date(b.createdon);
+      });
+      var sortedArr2 = arr2.sort(function (a, b) {
+        return new Date(a.createdon) - new Date(b.createdon);
+      });
+      return JSON.stringify(sortedArr1) === JSON.stringify(sortedArr2);
+    } else {
+      return "";
+    }
   };
 
   const performOpenRouletteModal = () => {
