@@ -113,6 +113,8 @@ const featureList = {
     InitPhone_WithoutVerify: false,
     HaveVIPFeature: true,
     CustomKING8Deposit: false,
+    DepositCustomPaymentNames: [
+    ], 
   },
 };
 export default featureList;
