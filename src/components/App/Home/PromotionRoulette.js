@@ -1041,7 +1041,10 @@ const PromotionRoulette = (props) => {
         await updateRouletteCount();
       } else {
         setItems(mapRouletteItems(promotionDetail.campaignDetail));
-        props.getPromotionRouletteStatus(promotionDetail.id);
+        if(props.account.token!=null)
+        {
+          props.getPromotionRouletteStatus(promotionDetail.id);
+        }
       }
     } else if (props.rouletteType === RouletteEnum.DAR) {
       await updateRouletteCount();
