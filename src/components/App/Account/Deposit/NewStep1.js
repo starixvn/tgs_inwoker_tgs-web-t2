@@ -357,7 +357,7 @@ const NewStepOne = (props) => {
                   active={selectedMethodIndex === index}
                 >
                   {config.features.CustomKING8Deposit &&
-                  paymentCode("MANUAL") &&
+                  (paymentCode("MANUAL") || alteredPaymentCode("MANUAL")) &&
                   i18n.exists(`king8.${item.methodcode}`)
                     ? i18n.t(`king8.${item.methodcode}`)
                     : i18n.t(item.methodcode)}
@@ -548,7 +548,8 @@ const NewStepOne = (props) => {
                 if (
                   (paymentCode("MANUAL") ||
                     paymentCode("usdt") ||
-                    alteredPaymentCode("usdt")) &&
+                    alteredPaymentCode("usdt") ||
+                    alteredPaymentCode("MANUAL")) &&
                   !config.features.Deposit_AddCard
                 ) {
                   var channelExtend =
@@ -590,7 +591,9 @@ const NewStepOne = (props) => {
 
               {(() => {
                 if (
-                  (paymentCode("MANUAL") || paymentCode("APPLEPAY")) &&
+                  (paymentCode("MANUAL") ||
+                    paymentCode("APPLEPAY") ||
+                    alteredPaymentCode("MANUAL")) &&
                   !config.features.Deposit_ManualApplePayHideBankAcc
                 ) {
                   return (
@@ -803,7 +806,8 @@ const NewStepOne = (props) => {
                     if (
                       paymentCode("manual") ||
                       paymentCode("usdt") ||
-                      alteredPaymentCode("usdt")
+                      alteredPaymentCode("usdt") ||
+                      alteredPaymentCode("MANUAL")
                     ) {
                       return (
                         <ExchangeRateContainer style={{ marginTop: "4px" }}>
@@ -911,7 +915,11 @@ const NewStepOne = (props) => {
               </SelectionContainer>
 
               {(() => {
-                if (paymentCode("MANUAL") || alteredPaymentCode("usdt")) {
+                if (
+                  paymentCode("MANUAL") ||
+                  alteredPaymentCode("usdt") ||
+                  alteredPaymentCode("MANUAL")
+                ) {
                   return (
                     <React.Fragment>
                       <SplitLine></SplitLine>
@@ -1000,7 +1008,7 @@ const NewStepOne = (props) => {
                       selectedChannelIndex
                     ].transferlimit.to ||
                   (config.features.Deposit_UploadRequired &&
-                    paymentCode("MANUAL") &&
+                    (paymentCode("MANUAL") || alteredPaymentCode("MANUAL")) &&
                     files.length <= 0) ||
                   (config.features.Deposit_AddCard &&
                     props.selectedBankCard === "")
