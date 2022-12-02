@@ -295,6 +295,17 @@ class Deposit extends Component {
         );
 
         this.setState({ ...this.state, loading: false });
+        if (
+          this.props.wallet.depositTypeList[
+            this.state.selectedPaymentIndex
+          ].paymentcode.toUpperCase() === "WANDAPAY"
+        ) {
+          if (!this.props.account.info.member_name) {
+            this.props.history.push(
+              "/" + i18n.language + "/account/profile/member_name"
+            );
+          }
+        }
       }
     }
     if (
@@ -671,14 +682,6 @@ class Deposit extends Component {
         }
       }
     } else {
-      if(payment.paymentcode.toUpperCase() === "WANDAPAY")
-      {
-        if(!this.props.account.info.member_name)
-        {
-          this.props.history.push("/" + i18n.language + "/account/profile/member_name");
-          return;
-        }
-      }
       this.props.performDeposit(
         this.state.amount.replace(/,/g, ""),
         channel.id,
