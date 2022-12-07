@@ -72,7 +72,9 @@
     "start": "env-cmd -f .env react-scripts start",
     "build": "env-cmd -f .env react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && env-cmd -f .env react-scripts start",
+    "build:legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && env-cmd -f .env react-scripts build"
   },
   "husky": {
     "hooks": {

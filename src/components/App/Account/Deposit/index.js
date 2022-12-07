@@ -268,7 +268,12 @@ class Deposit extends Component {
           });
         } else {
           let url = "";
-          if (payment.paymentcode.toUpperCase() === "MANUAL") {
+          if (
+            (config.features.Deposit_SplitUsdt &&
+              payment.alteredpaymentcode &&
+              payment.alteredpaymentcode.toUpperCase() === "MANUAL") ||
+            payment.paymentcode.toUpperCase() === "MANUAL"
+          ) {
             if (config.features.Deposit_UploadRequired) {
               this.props.doUploadDepositProof(
                 response.data,
@@ -465,7 +470,13 @@ class Deposit extends Component {
 
         this.setState({
           ...this.state,
-          step: payment.paymentcode.toUpperCase() === "MANUAL" ? 2 : 3,
+          step:
+            ((config.features.Deposit_SplitUsdt &&
+              payment.alteredpaymentcode &&
+              payment.alteredpaymentcode.toUpperCase() === "MANUAL") ||
+              payment.paymentcode.toUpperCase()) === "MANUAL"
+              ? 2
+              : 3,
           depositResult: depositResult,
           loading: false,
           showTabContainer: false,
@@ -580,7 +591,12 @@ class Deposit extends Component {
       }
     };
 
-    if (payment.paymentcode.toUpperCase() === "MANUAL") {
+    if (
+      (config.features.Deposit_SplitUsdt &&
+        payment.alteredpaymentcode &&
+        payment.alteredpaymentcode.toUpperCase() === "MANUAL") ||
+      payment.paymentcode.toUpperCase() === "MANUAL"
+    ) {
       // handle manual deposit
       if (method.methodcode === "BankTransfer") {
         if (config.features.Deposit_AddCard) {
@@ -1388,7 +1404,14 @@ const mapDispatchToProps = (dispatch) => {
         )
       );
     },
-    doEWalletDeposit: (amount, paymentid, promotionid, banktype, note, emoneyname) => {
+    doEWalletDeposit: (
+      amount,
+      paymentid,
+      promotionid,
+      banktype,
+      note,
+      emoneyname
+    ) => {
       dispatch(
         walletAction.doEWalletDeposit(
           amount,
