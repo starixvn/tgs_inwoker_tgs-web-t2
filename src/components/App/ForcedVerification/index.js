@@ -292,12 +292,9 @@ const ForcedVerification = ({ forcedverify }) => {
                 });
                 setCountdown(60);
               } else {
-                enqueueSnackbar(
-                  ErrorSwitcher.getTranslation(response.info),
-                  {
-                    variant: "error",
-                  }
-                );
+                enqueueSnackbar(response.info, {
+                  variant: "warning",
+                });
               }
             });
 
@@ -310,9 +307,9 @@ const ForcedVerification = ({ forcedverify }) => {
       //       });
       //       setCountdown(60);
       //     } else {
-      //       enqueueSnackbar(response.info, {
-      //         variant: "warning",
-      //       });
+            // enqueueSnackbar(response.info, {
+            //   variant: "warning",
+            // });
       //     }
       //   }
       // );
