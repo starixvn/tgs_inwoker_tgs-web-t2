@@ -16,6 +16,7 @@ import IconMobilePNG from "../../../assets/images/icon-mobile.png";
 import IconInputVerifyCodePNG from "../../../assets/images/icon-input-verifycode.png";
 import { AccountService } from "../../../api-services/services/AccountService";
 import { useSnackbar } from "notistack";
+import { accountAction } from "../../../api-services/actions/accountAction";
 
 const StyledDialog = withStyles({
   root: {
@@ -261,27 +262,56 @@ const ForcedVerification = ({ forcedverify }) => {
         return;
       }
 
-      AccountService.Activation("", "", areacode, phone).then(
-        async (response) => {
-          if (response.IsSuccess) {
-            setSecurityKey(response.data);
-            enqueueSnackbar(i18n.t("common.msgTokenSent"), {
-              variant: "info",
+      AccountService
+      .NewRegister("InitPhone", {
+              input: "Init",
+              data: {
+                areacode: areacode,
+                phone: phone,
+              },
+            })
+            .then(async (response) => {
+              if (response.IsSuccess) {
+                setSecurityKey(response.data.stepResponse);
+                enqueueSnackbar(i18n.t("common.msgTokenSent"), {
+                  variant: "info",
+                });
+                setCountdown(60);
+              } else {
+                enqueueSnackbar(response.info, {
+                  variant: "warning",
+                });
+              }
             });
-            setCountdown(60);
-          } else {
-            enqueueSnackbar(response.info, {
-              variant: "warning",
-            });
-          }
-        }
-      );
+
+      // AccountService.Activation("", "", areacode, phone).then(
+      //   async (response) => {
+      //     if (response.IsSuccess) {
+      //       setSecurityKey(response.data);
+      //       enqueueSnackbar(i18n.t("common.msgTokenSent"), {
+      //         variant: "info",
+      //       });
+      //       setCountdown(60);
+      //     } else {
+            // enqueueSnackbar(response.info, {
+            //   variant: "warning",
+            // });
+      //     }
+      //   }
+      // );
     }
   };
 
   function smsVerification(securityKey, code) {
-    AccountService.VerifyActivation(securityKey, code).then(
-      async (response) => {
+    AccountService
+      .NewRegister("InitPhone", {
+        input: "Valid",
+        data: {
+          securitykey: securityKey,
+          validatecode: code,
+        },
+      })
+      .then(async (response) => {
         if (response.IsSuccess) {
           enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
             variant: "success",
@@ -292,8 +322,34 @@ const ForcedVerification = ({ forcedverify }) => {
             variant: "warning",
           });
         }
-      }
-    );
+        // this.props.getAccountInfo().then(async (response) => {
+          
+          // if (
+          //   response.data.email === null &&
+          //   !response.data.registercompleted
+          // ) {
+          //   AppHistory.push(
+          //     "/" + i18n.language + "/account/profile/member_email"
+          //   );
+          // } else {
+          //   this.props.handleCloseDialog();
+          // }
+        // });
+      });
+    // AccountService.VerifyActivation(securityKey, code).then(
+    //   async (response) => {
+    //     if (response.IsSuccess) {
+    //       enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
+    //         variant: "success",
+    //       });
+    //       setOpen(false);
+    //     } else {
+    //       enqueueSnackbar(response.info, {
+    //         variant: "warning",
+    //       });
+    //     }
+    //   }
+    // );
   }
 
   const handleActivationClick = async () => {
