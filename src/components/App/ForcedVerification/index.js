@@ -231,6 +231,20 @@ const TitleContainer = styled.div`
   color: ${({ theme }) => theme.secondary};
 `;
 
+const CloseIconContainer = styled.div`
+  background: url(${IconLoginClosePNG}) no-repeat;
+  width: 28px;
+  height: 28px;
+  float: right;
+  margin: 10px 10px 0 0;
+  &:hover {
+    cursor: pointer;
+  }
+  position: absolute;
+  right: 10px;
+  top: 20px;
+`;
+
 const ForcedVerification = ({ forcedverify }) => {
   const [areacode, setAreacode] = useState(config.features.PhonePrefix);
   const [phone, setPhone] = useState("");
@@ -262,27 +276,25 @@ const ForcedVerification = ({ forcedverify }) => {
         return;
       }
 
-      AccountService
-      .NewRegister("InitPhone", {
-              input: "Init",
-              data: {
-                areacode: areacode,
-                phone: phone,
-              },
-            })
-            .then(async (response) => {
-              if (response.IsSuccess) {
-                setSecurityKey(response.data.stepResponse);
-                enqueueSnackbar(i18n.t("common.msgTokenSent"), {
-                  variant: "info",
-                });
-                setCountdown(60);
-              } else {
-                enqueueSnackbar(response.info, {
-                  variant: "warning",
-                });
-              }
-            });
+      AccountService.NewRegister("InitPhone", {
+        input: "Init",
+        data: {
+          areacode: areacode,
+          phone: phone,
+        },
+      }).then(async (response) => {
+        if (response.IsSuccess) {
+          setSecurityKey(response.data.stepResponse);
+          enqueueSnackbar(i18n.t("common.msgTokenSent"), {
+            variant: "info",
+          });
+          setCountdown(60);
+        } else {
+          enqueueSnackbar(response.info, {
+            variant: "warning",
+          });
+        }
+      });
 
       // AccountService.Activation("", "", areacode, phone).then(
       //   async (response) => {
@@ -293,9 +305,9 @@ const ForcedVerification = ({ forcedverify }) => {
       //       });
       //       setCountdown(60);
       //     } else {
-            // enqueueSnackbar(response.info, {
-            //   variant: "warning",
-            // });
+      // enqueueSnackbar(response.info, {
+      //   variant: "warning",
+      // });
       //     }
       //   }
       // );
@@ -303,39 +315,37 @@ const ForcedVerification = ({ forcedverify }) => {
   };
 
   function smsVerification(securityKey, code) {
-    AccountService
-      .NewRegister("InitPhone", {
-        input: "Valid",
-        data: {
-          securitykey: securityKey,
-          validatecode: code,
-        },
-      })
-      .then(async (response) => {
-        if (response.IsSuccess) {
-          enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
-            variant: "success",
-          });
-          setOpen(false);
-        } else {
-          enqueueSnackbar(response.info, {
-            variant: "warning",
-          });
-        }
-        // this.props.getAccountInfo().then(async (response) => {
-          
-          // if (
-          //   response.data.email === null &&
-          //   !response.data.registercompleted
-          // ) {
-          //   AppHistory.push(
-          //     "/" + i18n.language + "/account/profile/member_email"
-          //   );
-          // } else {
-          //   this.props.handleCloseDialog();
-          // }
-        // });
-      });
+    AccountService.NewRegister("InitPhone", {
+      input: "Valid",
+      data: {
+        securitykey: securityKey,
+        validatecode: code,
+      },
+    }).then(async (response) => {
+      if (response.IsSuccess) {
+        enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
+          variant: "success",
+        });
+        setOpen(false);
+      } else {
+        enqueueSnackbar(response.info, {
+          variant: "warning",
+        });
+      }
+      // this.props.getAccountInfo().then(async (response) => {
+
+      // if (
+      //   response.data.email === null &&
+      //   !response.data.registercompleted
+      // ) {
+      //   AppHistory.push(
+      //     "/" + i18n.language + "/account/profile/member_email"
+      //   );
+      // } else {
+      //   this.props.handleCloseDialog();
+      // }
+      // });
+    });
     // AccountService.VerifyActivation(securityKey, code).then(
     //   async (response) => {
     //     if (response.IsSuccess) {
@@ -379,17 +389,21 @@ const ForcedVerification = ({ forcedverify }) => {
     }
 
     if (config.features.SkipSMSVerification) {
-      AccountService.Activation("", "", areacode, phone).then(
-        async (response) => {
-          if (response.IsSuccess) {
-            smsVerification(response.data, "123456");
-          } else {
-            enqueueSnackbar(response.info, {
-              variant: "warning",
-            });
-          }
+      AccountService.NewRegister("InitPhone", {
+        input: "Init",
+        data: {
+          areacode: areacode,
+          phone: phone,
+        },
+      }).then(async (response) => {
+        if (response.IsSuccess) {
+          smsVerification(response.data, "123456");
+        } else {
+          enqueueSnackbar(response.info, {
+            variant: "warning",
+          });
         }
-      );
+      });
     } else {
       smsVerification(securityKey, code);
     }
