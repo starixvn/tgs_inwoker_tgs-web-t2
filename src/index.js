@@ -4,7 +4,7 @@ import "react-app-polyfill/stable";
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import { Router, Route, Switch, Redirect } from "react-router";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 
 import Web from "./components/App/index";
 import Wap from "./components/Wap/index";
