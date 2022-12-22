@@ -46,7 +46,7 @@ const Telegram = (props) => {
     //   return;
     // }
 
-    AccountService.UpdateTelegram(telegram).then((response) => {
+    AccountService.UpdateIM(telegram, "telegram", "telegram").then((response) => {
       if (response.IsSuccess) {
         props.dispatch({
           type: UPDATE_INFO,
