@@ -842,6 +842,24 @@ class Header extends Component {
     }
   };
 
+  filterGameList = (item) => {
+    if (
+      item.include &&
+      item.include !== undefined
+    ) {
+      this.props.game.homePageGameList.map((game) => {
+        if (item.include.indexOf(game.game_platform_name) >= 0) {
+          game.type = item.gameType[0];
+        }
+        return item;
+      });
+    }
+
+    return this.props.game.homePageGameList.filter((game) => {
+      return item.gameType.indexOf(game.type) >= 0;
+    });
+  };
+
   render() {
     const { classes } = this.props;
     const settings = {
@@ -1042,9 +1060,7 @@ class Header extends Component {
             >
               {!config.features.WGHK_Setup &&
                 SortedMenuList.map((item, index) => {
-                  var list = this.props.game.homePageGameList
-                    .filter((game) => item.gameType.indexOf(game.type) >= 0)
-                    .sort((a, b) => {
+                  var list = this.filterGameList(item).sort((a, b) => {
                       if (config.features.LiveGame_Sorting_SKY) {
                         var sortDGFirst = ["DG"];
                         return (
