@@ -46,7 +46,7 @@ const FacebookMessenger = (props) => {
     //   return;
     // }
 
-    AccountService.UpdateIM(fb, "fb").then((response) => {
+    AccountService.UpdateIM(fb, "fb", "facebookmessenger").then((response) => {
       if (response.IsSuccess) {
         props.dispatch({
           type: UPDATE_INFO,
