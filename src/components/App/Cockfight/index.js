@@ -9,6 +9,7 @@ import i18n from "../../../utils/i18n";
 
 import ScrollAnimation from "react-animate-on-scroll";
 import Common from "../../../utils/Common";
+import { GameService } from "../../../api-services/services/GameService";
 const Container = styled.div`
   width: 100%;
   height: auto;
@@ -84,9 +85,7 @@ class Cockfight extends Component {
 
     var cockfightList = props.game.homePageGameList
       .filter((item) => {
-        return (
-          item.type === GameTypeEnum.COCKFIGHT
-        );
+        return item.type === GameTypeEnum.COCKFIGHT;
       })
       .sort((a, b) => {
         if (config.features.LiveGame_Sorting_SKY) {
@@ -111,9 +110,9 @@ class Cockfight extends Component {
       preProps.game.homePageGameList.length !==
       this.props.game.homePageGameList.length
     ) {
-        var cockfightList = this.props.game.homePageGameList
+      var cockfightList = this.props.game.homePageGameList
         .filter((item) => {
-            console.log(item)
+          console.log(item);
           return item.type === GameTypeEnum.COCKFIGHT;
         })
         .sort((a, b) => {
@@ -128,13 +127,21 @@ class Cockfight extends Component {
       });
     }
   }
-  handleJoinGameClick = (params, type) => {
-    if (!this.props.account.token) {
-      this.props.showLogin(true);
-    } else {
+  handleJoinGameClick = (params) => {
+    if (this.props.account.token != null) {
+      if (document.getElementById("audio") != null)
+        document.getElementById("audio").volume = 0.0;
+      this.props.performBalanceRefresh();
       Common.closePreviousPopup();
-      // pending API
 
+      this.popup = window.open("", "Cockfight");
+      GameService.GetCockfight().then((e) => {
+        this.popup.document.write(e.data);
+        this.popup.document.close();
+        this.popup.focus();
+      });
+    } else {
+      this.props.showLogin(true);
     }
   };
   render() {
@@ -217,4 +224,7 @@ const mapStateToProps = (state) => {
     game: state.game,
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Cockfight));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Cockfight));
