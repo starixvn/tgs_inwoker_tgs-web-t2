@@ -135,11 +135,15 @@ class Cockfight extends Component {
       Common.closePreviousPopup();
 
       this.popup = window.open("", "Cockfight");
-      GameService.GetCockfight().then((e) => {
-        this.popup.document.write(e.data);
-        this.popup.document.close();
-        this.popup.focus();
-      });
+      GameService.GetCockfight()
+        .then((e) => {
+          this.popup.document.write(e.data);
+          this.popup.document.close();
+          this.popup.focus();
+        })
+        .catch((e) => {
+          this.popup.close();
+        });
     } else {
       this.props.showLogin(true);
     }
