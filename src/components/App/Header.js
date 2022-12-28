@@ -763,11 +763,15 @@ class Header extends Component {
     if (game.type === GameTypeEnum.COCKFIGHT) {
       if (item.include.indexOf("SM01") >= 0) {
         this.popup = window.open("", "Cockfight");
-        GameService.GetCockfight().then((e) => {
-          this.popup.document.write(e.data);
-          this.popup.document.close();
-          this.popup.focus();
-        });
+        GameService.GetCockfight()
+          .then((e) => {
+            this.popup.document.write(e.data);
+            this.popup.document.close();
+            this.popup.focus();
+          })
+          .catch((e) => {
+            this.popup.close();
+          });
       }
     } else if (
       game.type === GameTypeEnum.LOTTERYLOBBY ||
