@@ -46,6 +46,7 @@ import { GlobalStyles } from "./global";
 import Deposit from "./components/Share/Deposit";
 import FeatureGetter from "./components/Share/feature-getter";
 import Maintenance from "./components/Share/Maintenance";
+import config from "./config/config";
 
 require("es6-promise").polyfill();
 const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -170,7 +171,12 @@ const muiTheme = createMuiTheme({
 });
 const AppWrapper = () => {
   const classes = useStyles();
-  const languageFromLocalStorage = localStorage.getItem("i18nextLng");
+
+  const languageDetector =
+    i18n.language ||
+    localStorage.getItem("i18nextLng") ||
+    config.defaultLanguage;
+
   const [isReady, setIsReady] = React.useState(false);
   useEffect(() => {
     i18n.on("languageChanged", (lng) => {
@@ -267,13 +273,7 @@ const AppWrapper = () => {
                       path={Common.baseRouteUrl + "/"}
                       render={(props) => (isMobileOnly ? <Wap /> : <Web />)}
                     />
-                    <Redirect
-                      to={`/${
-                        languageFromLocalStorage ||
-                        i18n.language ||
-                        Config.defaultLanguage
-                      }`}
-                    />
+                    <Redirect to={`/${languageDetector}`} />
                   </Switch>
                 </Router>
               </SnackbarProvider>
