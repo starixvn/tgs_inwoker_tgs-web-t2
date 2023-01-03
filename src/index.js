@@ -46,6 +46,7 @@ import { GlobalStyles } from "./global";
 import Deposit from "./components/Share/Deposit";
 import FeatureGetter from "./components/Share/feature-getter";
 import Maintenance from "./components/Share/Maintenance";
+import config from "./config/config";
 
 require("es6-promise").polyfill();
 const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -206,6 +207,11 @@ const muiTheme = createMuiTheme({
 const AppWrapper = () => {
   const classes = useStyles();
 
+  const languageDetector =
+    i18n.language ||
+    localStorage.getItem("i18nextLng") ||
+    config.defaultLanguage;
+
   return (
     <Provider store={store}>
       <FeatureGetter />
@@ -282,7 +288,7 @@ const AppWrapper = () => {
                     path={Common.baseRouteUrl + "/"}
                     render={(props) => (isMobileOnly ? <Wap /> : <Web />)}
                   />
-                  <Redirect to={`/${i18n.language}`} />
+                  <Redirect to={`/${languageDetector}`} />
                 </Switch>
               </Router>
             </SnackbarProvider>
