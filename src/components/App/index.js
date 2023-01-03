@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { Router, Route, Switch, Redirect } from "react-router";
 import { AppHistory } from "../../history/History";
 import { withSnackbar } from "notistack";
 import ErrorSwitcher from "../../utils/ErrorSwitcher";
@@ -386,6 +386,10 @@ class App extends Component {
   };
 
   render() {
+    const languageDetector =
+      i18n.language ||
+      localStorage.getItem("i18nextLng") ||
+      config.defaultLanguage;
     return (
       <Router history={AppHistory}>
         {(() => {
@@ -573,7 +577,7 @@ class App extends Component {
                         />
                       )}
                     />
-                    <Redirect to={"/" + i18n.language} />
+                    <Redirect to={"/" + languageDetector} />
                   </Switch>
                 </Main>
 
