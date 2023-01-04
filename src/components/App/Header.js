@@ -778,7 +778,7 @@ class Header extends Component {
   };
 
   consolidateJoinGame = (game, item) => {
-    if (game.type === GameTypeEnum.COCKFIGHT) {
+    if (game.type === GameTypeEnum.COCKFIGHT && game.name === "SM01") {
       this.handleCockfight(item);
     } else if (
       game.type === GameTypeEnum.LOTTERYLOBBY ||
