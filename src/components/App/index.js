@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { Router, Route, Switch, Redirect } from "react-router";
 import { AppHistory } from "../../history/History";
 import { withSnackbar } from "notistack";
 import ErrorSwitcher from "../../utils/ErrorSwitcher";
