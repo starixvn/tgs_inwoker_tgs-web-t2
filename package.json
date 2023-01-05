@@ -66,15 +66,14 @@
     "superagent-promise": "^1.1.0"
   },
   "scripts": {
-    "wap:get": "git submodule update --init --recursive",
-    "wap:update": "git submodule update --remote",
-    "updateVer": "node updateVer.js",
+    "get:submodule": "git submodule update --init --recursive",
+    "update:submodule": "git submodule update --remote",
     "start": "env-cmd -f .env react-scripts start",
     "build": "env-cmd -f .env react-scripts build",
+    "start:legacyprovider": "SET NODE_OPTIONS=--openssl-legacy-provider && env-cmd -f .env react-scripts start",
+    "build:legacyprovider": "SET NODE_OPTIONS=--openssl-legacy-provider && env-cmd -f .env react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "start:legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && env-cmd -f .env react-scripts start",
-    "build:legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && env-cmd -f .env react-scripts build"
+    "eject": "react-scripts eject"
   },
   "husky": {
     "hooks": {
