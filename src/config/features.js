@@ -115,6 +115,7 @@ const featureList = {
     CustomKING8Deposit: false,
     DepositCustomPaymentNames: [
     ], 
+    Withdrawal_WalletTransfer: false,
   },
 };
 export default featureList;
