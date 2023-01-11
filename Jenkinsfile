@@ -147,7 +147,7 @@ pipeline {
                     withKubeConfig([credentialsId: env.k8s_config]) {
                         message += "\nComponent:"
 
-                        if (env.tgs_lobby_t1_components!="") {
+                        if (env.tgs_lobby_t2_components!="") {
                             for (i = 0;i < componentArray.length; i++) {
                                 message += "\n    ${componentArray[i]}"
                                 sh "kubectl rollout undo deployment/${componentArray[i]} -n $env.kube_ns"
