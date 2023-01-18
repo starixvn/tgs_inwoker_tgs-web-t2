@@ -14,6 +14,7 @@ import RebateReport from "./RebateReport";
 import TransactionDetails from "./TransactionDetails";
 import i18n from "../../../../utils/i18n";
 import JoinedPromoReport from "./JoinedPromoReport";
+import BalanceChangesReport from "./BalanceChangesReport";
 import config from "../../../../config/config";
 const moment = require("moment");
 const Container = styled.div`
@@ -124,6 +125,10 @@ class Report extends Component {
       count: 0,
     },
     joinedReport: {
+      list: [],
+      count: 0,
+    },
+    balanceChangesReport: {
       list: [],
       count: 0,
     },
@@ -322,6 +327,25 @@ class Report extends Component {
     });
   };
 
+  handleGetBalanceChanges = (dateFrom, dateTo, page) => {
+    ReportService.GetBalanceChanges(
+      moment(dateFrom).utc().format(),
+      moment(dateTo).utc().add(1, "days").format(),
+      page,
+      this.state.limit,
+    ).then((response) => {
+      if (response.IsSuccess) {
+        this.setState({
+          ...this.state,
+          balanceChangesReport: {
+            list: response.data.items,
+            count: response.data.totalcount,
+          },
+        });
+      }
+    });
+  };
+
   handleTabClick = (tab) => {
     this.setState({ ...this.state, tab: tab });
   };
@@ -373,6 +397,12 @@ class Report extends Component {
             </TabButton>
           )}
 
+          <TabButton
+            active={this.state.tab === 8}
+            onClick={() => this.handleTabClick(8)}
+          >
+            {i18n.t("report.balanceChanges.title")}
+          </TabButton>
           <TabButton
             active={this.state.tab === 7}
             onClick={() => this.handleTabClick(7)}
@@ -438,6 +468,13 @@ class Report extends Component {
                   <JoinedPromoReport
                     onhandleGetReportTrigger={this.handleGetJoinedPromo}
                     joinedReport={this.state.joinedReport}
+                  />
+                );
+              case 8:
+                return (
+                  <BalanceChangesReport
+                    onhandleGetReportTrigger={this.handleGetBalanceChanges}
+                    balanceChangesReport={this.state.balanceChangesReport}
                   />
                 );
               default:
