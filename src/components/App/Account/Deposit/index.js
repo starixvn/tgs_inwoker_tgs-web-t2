@@ -10,12 +10,10 @@ import { generalAction } from "../../../../api-services/actions/generalAction";
 import { RESET_WALLETRESULT } from "../../../../api-services/constant/actionType";
 import { withRouter } from "react-router-dom";
 
-import NameVerification from "../../Share/NameVerification";
 import Loading from "../../../../components/App/Loading";
-import IconDepositCard from "../../../../assets/images/deposit-card.png";
 
 import UnderConstructionPNG from "../../../../assets/images/underconstruction.png";
-import IconManualDepositPNG from "../../../../assets/images/icon-manual-deposit.png";
+
 import { withSnackbar } from "notistack";
 import Step2Form from "./Step2Form";
 import Success from "./Success";
@@ -50,21 +48,6 @@ const TitleIcon = styled.div`
   float: left;
 `;
 
-const TabIconContainer = styled.div`
-  border-radius: 50px;
-  background-color: #f5f6fa;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 30px;
-  margin-top: 15px;
-`;
-const TabIcon = styled.img`
-  width: 29px;
-  height: 19px;
-`;
 const TabButtonContainer = styled.div`
   padding: 6px;
   margin-bottom: 20px;
@@ -126,16 +109,6 @@ const UnderConstructionWrap = styled.div`
 const DescLabel = styled.div`
   margin: 330px auto 0 auto;
   text-align: center;
-`;
-
-const NameVerificationWrap = styled.div`
-  width: 935px;
-  min-height: 532px;
-  margin-top: 4px;
-  box-sizing: border-box;
-  background-color: #f7f7f7;
-  padding: 25px;
-  position: relative;
 `;
 
 const ButtonAddCard = styled.div`
@@ -327,6 +300,17 @@ class Deposit extends Component {
         );
 
         this.setState({ ...this.state, loading: false });
+        if (
+          this.props.wallet.depositTypeList[
+            this.state.selectedPaymentIndex
+          ].paymentcode.toUpperCase() === "WANDAPAY"
+        ) {
+          if (!this.props.account.info.member_name) {
+            this.props.history.push(
+              "/" + i18n.language + "/account/profile/member_name"
+            );
+          }
+        }
       }
     }
     if (

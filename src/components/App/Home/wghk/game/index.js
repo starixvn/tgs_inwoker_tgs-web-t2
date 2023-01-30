@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Maintenance from "../../../../Share/Maintenance";
-import styled from "styled-components";
 
 import GameIFrame from "./iframe";
 import { GameTypeEnum } from "../../../../../api-services/utils/Enum";

@@ -6,7 +6,6 @@ import FloatingCSHoverPNG from "../../../assets/images/floating-cs-hover.png";
 import FloatingCSBorderlessBlackPNG from "../../../assets/images/floating-cs-borderless-black.png";
 import FloatingCSBorderlessPNG from "../../../assets/images/floating-cs-borderless.png";
 
-import FloatingCSPhoneBlackPNG from "../../../assets/images/floating-cs-phone-black.png";
 import FloatingDownloadPNG from "../../../assets/images/floating-download.png";
 import FloatingDownloadHoverPNG from "../../../assets/images/floating-download-hover.png";
 
@@ -14,10 +13,7 @@ import Floating4PNG from "../../../assets/images/floating-4.png";
 import Floating4HoverPNG from "../../../assets/images/floating-4-hover.png";
 import Floating5PNG from "../../../assets/images/floating-5.png";
 import Floating5HoverPNG from "../../../assets/images/floating-5-hover.png";
-import FloatingQRPNG from "../../../assets/images/floating-qr.png";
 
-import FloatingWalletPNG from "../../../assets/images/floating-wallet.png";
-import IconDollarBlackPNG from "../../../assets/images/icon-dollar-black.png";
 import IconDollarRedPNG from "../../../assets/images/icon-dollar-red.png";
 import i18n from "../../../utils/i18n";
 
@@ -163,15 +159,6 @@ export default function FloatPanel(props) {
     }
   `;
 
-  const CSPhoneIcon = styled.div`
-    background-size: contain;
-    width: 25px;
-    height: 25px;
-    margin: 2px 0 0 15px;
-    float: left;
-
-    background: url(${FloatingCSPhoneBlackPNG}) no-repeat;
-  `;
   const CSPhoneText = styled.div`
     font-family: Roboto;
     font-size: 16px;
@@ -286,18 +273,7 @@ export default function FloatPanel(props) {
       border-bottom: 2px solid #f0ca83;
     }
   `;
-  const QRImage = styled.div`
-    margin: 5px 0 0 0px;
-    height: 100px;
-    width: 152px;
-    line-height: 100px;
-    background: url(${(props) => props.src}) no-repeat center;
-    background-size: contain;
-    text-align: center;
-    color: #000;
-    font-size: 18px;
-    font-weight: bold;
-  `;
+
   return (
     <Container>
       <DiamondShapeContainer>

@@ -6,9 +6,6 @@ import Common from "../../../../utils/Common";
 import Slider from "../Slider";
 import { withRouter } from "react-router-dom";
 
-import StartGamePNG from "../../../../assets/images/start-game.png";
-import StartGameHoverPNG from "../../../../assets/images/start-game-hover.png";
-
 import HomeAGBgJPG from "../../../../assets/images/home-ag-bg.png";
 import AGBGPNG from "../../../../assets/images/ag-bg.png";
 import HomeSportSabaPNG from "../../../../assets/images/home-sport-saba.png";
@@ -22,7 +19,7 @@ import KYContentCardPNG from "../../../../assets/images/ky-content-card.png";
 
 import Recommend from "../Recommend";
 import Marquee from "../Marquee";
-import FloatPanel from "../FloatPanel";
+
 import {
   SHOW_MODAL,
   SHOW_LOGIN,
@@ -34,7 +31,7 @@ import SlotSection from "../SlotSection";
 import ScrollAnimation from "react-animate-on-scroll";
 import KySlider from "../KySlider";
 import AGSlider from "../AgSlider";
-import AnotherFloatPanel from "../AnotherFloatPanel";
+
 import config from "../../../../config/config";
 import PopupAnnouncement from "../PopupAnnouncement";
 export const floatKeyframe = keyframes`
@@ -111,59 +108,6 @@ const AGGameIconBar = styled.div`
   padding-left: 15px;
   overflow: visible;
 `;
-const AGGameRoomHover = styled.div`
-  width: 223px;
-  height: 248px;
-  margin-left: 10px;
-  margin-top: 3px;
-  border-radius: 26px 0 0 0;
-  pointer-event: none;
-  display: none;
-  background-image: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.8),
-    rgba(35, 35, 35, 0.5)
-  );
-  background-repeat: no-repeat;
-  background-position: center center;
-  position: absolute;
-  top: 0;
-`;
-const AGGameRoomHoverLine1 = styled.div`
-  color: #fff;
-  font-size: 54px;
-  text-align: center;
-  border-bottom: 1px solid #fff;
-  margin: 56px 74px 0 74px;
-  font-weight: 500;
-`;
-const AGGameRoomHoverLine2 = styled.div`
-  color: #fff;
-  font-size: 20px;
-  text-align: center;
-
-  margin: 6px 0px 0 0px;
-  font-weight: 500;
-`;
-const AGGameRoom = styled.div`
-  width: 243px;
-  height: 268px;
-  display: inline-block;
-  position: relative;
-  float: left;
-  &:hover {
-    cursor: pointer;
-  }
-  &:hover ${AGGameRoomHover} {
-    display: block;
-  }
-`;
-const AGGameRoomName = styled.div`
-  color: #fde73f;
-  font-size: 25px;
-  width: 120px;
-  margin: 88px 0 0 29px;
-`;
 
 const AGGameLeftContent = styled.div`
   float: left;
@@ -175,17 +119,6 @@ const AGGameRightContent = styled.div`
   margin-top: 28px;
   float: right;
   position: relative;
-`;
-const AGGameRightContentLogo = styled.div`
-  width: 158px;
-  height: 60px;
-
-  background: url(${(props) => props.src}) no-repeat;
-  background-size: contain;
-  background-position: center;
-  position: absolute;
-  top: 26px;
-  left: 24px;
 `;
 
 const ItemContainer = styled.div`
@@ -215,24 +148,6 @@ const NewIcon = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding-right: 20px;
-`;
-const AGContentStartGame = styled.div`
-  position: absolute;
-  left: 25px;
-  top: 274px;
-
-  width: 167px;
-  height: 41px;
-  background: url(${StartGamePNG}) no-repeat;
-  &:hover {
-    cursor: pointer;
-    background: url(${StartGameHoverPNG}) no-repeat;
-  }
-  color: #fff;
-  font-size: 17px;
-  padding: 0px 50px 0px 5px;
-  text-align: center;
-  line-height: 40px;
 `;
 
 const KYContainer = styled.div`
@@ -316,46 +231,13 @@ const KYMainCharacter = styled.div`
   }
 }
 `;
-const KYHotGameTitle = styled.div`
-  background: url(${`${process.env.PUBLIC_URL}/assets/images/${i18n.language}/home-ky-hotgame.png`})
-    no-repeat right center;
-  width: 406px;
-  height: 128px;
-  margin-left: 150px;
-
-  float: left;
-`;
-const KYButtonQG = styled(AGContentStartGame)`
-  position: initial;
-  margin: 415px 0 0 274px;
-`;
 
 const KYHotgameContainer = styled.div`
   float: left;
   width: 780px;
   height: 500px;
 `;
-const KYHotgameFrame = styled.div`
-  width: 180px;
-  height: 180px;
 
-  float: left;
-  margin-left: 5px;
-  margin-top: 5px;
-`;
-const KYHotgameImg = styled.img`
-  height: 133px;
-
-  margin: 0 auto;
-  margin-top: 20px;
-  display: block;
-  transition: transform 100ms ease-in;
-  &:hover {
-    transform: scale(1.2);
-    transform-origin: center;
-    cursor: pointer;
-  }
-`;
 const GameIcon = styled.img`
   height: 30px;
   float: left;
@@ -484,8 +366,8 @@ class Default extends Component {
       Common.closePreviousPopup();
       if (slotPageGameType.indexOf(gameType) >= 0) {
         if (
-          gameType == GameTypeEnum.SPORTS ||
-          gameType == GameTypeEnum.ESPORTS
+          gameType === GameTypeEnum.SPORTS ||
+          gameType === GameTypeEnum.ESPORTS
         ) {
           if (!this.props.token) {
             this.props.showLogin(true);
@@ -602,6 +484,7 @@ class Default extends Component {
               <NewIcon language={i18n.language}>
                 <img
                   src={process.env.PUBLIC_URL + "/assets/images/wapp/hot.png"}
+                  alt=""
                 />
 
                 <div>{i18n.t("T2.marquee")}</div>

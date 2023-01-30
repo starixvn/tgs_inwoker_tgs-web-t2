@@ -1,41 +1,14 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
-import { Carousel } from "react-responsive-carousel";
+import styled from "styled-components";
+
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import KyHotGame1PNG from "../../../assets/images/ky-hotgame1.png";
 import KyHotGame2PNG from "../../../assets/images/ky-hotgame2.png";
 import KyHotGame3PNG from "../../../assets/images/ky-hotgame3.png";
 import KyHotGame4PNG from "../../../assets/images/ky-hotgame4.png";
-import {GameEnum,GameTypeEnum} from "../../../api-services/utils/Enum";
+import { GameEnum, GameTypeEnum } from "../../../api-services/utils/Enum";
 import i18n from "../../../utils/i18n";
 export default function KySlider(props) {
-  const getConfigurableProps = () => ({
-    showArrows: true,
-    showStatus: false,
-    showIndicators: false,
-    infiniteLoop: false,
-    showThumbs: false,
-    autoPlay: false,
-    stopOnHover: true,
-    swipeable: false,
-    dynamicHeight: false,
-    emulateTouch: true,
-    autoFocus: false,
-    thumbWidth: true,
-    selectedItem: true,
-    transitionTime: 500,
-    centerMode: true,
-    swipeScrollTolerance: 5,
-    centerSlidePercentage: 100 / 4,
-  });
-
-  const CarouselContainer = styled(Carousel)`
-    background: none;
-    margin: 8px 0px;
-    height: 400px;
-    width: 100%;
-    overflow: visible;
-  `;
   const KYHotGameTitle = styled.div`
     width: 100%;
     height: 200px;

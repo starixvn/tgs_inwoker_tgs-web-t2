@@ -32,25 +32,6 @@ const ButtonContainer = styled.div`
   margin: 0 auto;
   width: 530px;
 `;
-const CustomInput = styled.input`
-  color: #000;
-  font-size: 14px;
-  text-align: right;
-  margin: 12px 0 12px 10px;
-  font-weight: 500;
-  border: 0;
-
-  padding: 0;
-  ::placeholder,
-  ::-webkit-input-placeholder {
-    color: #c3c3c3;
-  }
-  &:disabled {
-    background: #fff;
-    -webkit-text-fill-color: #000;
-    opacity: 1;
-  }
-`;
 
 const QRCodeContainer = styled.div`
   margin: 15px 15px;
@@ -107,13 +88,7 @@ class NewStepTwo extends Component {
     this.props.performUploadImage(this.state.files[0]);
   };
   render() {
-    const {
-      extended,
-      depositResult,
-      amount,
-      performUploadImage,
-      handleRestartClick,
-    } = this.props;
+    const { extended, depositResult, amount } = this.props;
     console.log(this.state);
     return (
       <Container>
@@ -128,7 +103,7 @@ class NewStepTwo extends Component {
                 <TitleTD>{i18n.t("deposit.qrCode")}</TitleTD>
                 <ValueTD>
                   <QRCodeContainer>
-                    <QRCodeImg src={extended.qrCodeFileUrl} />
+                    <QRCodeImg src={extended.qrCode} />
                   </QRCodeContainer>
                 </ValueTD>
               </tr>

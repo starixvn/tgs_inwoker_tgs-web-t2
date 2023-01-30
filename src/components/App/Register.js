@@ -520,6 +520,7 @@ function Register(props) {
         .newRegister("CreatePlayer", {
           username: username,
           pwd: password,
+          upper: upper,
           invitationcode: promotionId,
         })
         .then(async (response) => {
@@ -548,7 +549,7 @@ function Register(props) {
                 setPhoneDontCareDuplicate
               );
             } else if (config.features.Register_ShowPhone) {
-              props.doLoginWithHp(username, password, phone);
+              props.doLoginWithHp(username, password, phone, setPhoneDontCareDuplicate);
             } else {
               props.doLogin(username, password);
             }

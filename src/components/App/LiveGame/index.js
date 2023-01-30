@@ -206,7 +206,7 @@ class LiveGame extends Component {
   render() {
     const ImageDisplayer = ({ item }) => {
       return (
-        <ImageWrapper maintenance={item.status != 0}>
+        <ImageWrapper maintenance={item.status !== 0}>
           <Maintenance>{i18n.t("transfer.maintenance")}</Maintenance>
           <GirlImage
             img={
@@ -226,11 +226,6 @@ class LiveGame extends Component {
         </ImageWrapper>
       );
     };
-
-    var ifMoreThanTen = this.state.list.length >= 10;
-
-    const firstRow = ifMoreThanTen ? 2 : 5;
-    const secondRow = ifMoreThanTen ? 3 : 6;
 
     const customSorting = this.state.list.sort((a, b) => {
       if (config.features.LiveGame_Sorting_SKY) {

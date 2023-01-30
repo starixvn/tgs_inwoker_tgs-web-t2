@@ -240,10 +240,19 @@ class Account extends Component {
       this.getAllGameBalance();
     }
   }
-  componentDidUpdate(preProps) {
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.account.token !== this.props.account.token &&
+      this.props.account.token === null
+    ) {
+      AppHistory.replace(`/${i18n.language}/`);
+    }
+    if (prevProps.match.params.tab !== this.props.match.params.tab) {
+      this.setState({ ...this.state, activePage: this.props.match.params.tab });
+    }
     if (
       this.props.game.providerList.length !==
-        preProps.game.providerList.length &&
+        prevProps.game.providerList.length &&
       this.props.game.providerList.length > 0
     ) {
       this.getAllGameBalance();
@@ -271,17 +280,7 @@ class Account extends Component {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      prevProps.account.token !== this.props.account.token &&
-      this.props.account.token === null
-    ) {
-      AppHistory.replace(`/${i18n.language}/`);
-    }
-    if (prevProps.match.params.tab !== this.props.match.params.tab) {
-      this.setState({ ...this.state, activePage: this.props.match.params.tab });
-    }
-  }
+  componentDidUpdate(prevProps, prevState) {}
 
   handleClickTab = (link) => {
     if (

@@ -21,12 +21,9 @@ import SlotFishGamePNG from "../../../assets/images/slot-fishgame.png";
 import SlotFishGameActivePNG from "../../../assets/images/slot-fishgame-active.png";
 import SlotHistoryGamePNG from "../../../assets/images/slot-history.png";
 import SlotHistoryGameActivePNG from "../../../assets/images/slot-history-active.png";
-import SlotSearchPNG from "../../../assets/images/slot-search.png";
 
 import SlotBookmark1PNG from "../../../assets/images/slot-bookmark-1.png";
 import SlotBookmark2PNG from "../../../assets/images/slot-bookmark-2.png";
-
-import SlotMoreGamePNG from "../../../assets/images/slot-moregame.png";
 
 import Loading from "../../../components/App/Loading";
 import { GameService } from "../../../api-services/services/GameService";
@@ -252,38 +249,11 @@ const SearchFilterItemInput = styled.input`
   margin: 5px 0 0 5px;
   width: 100px;
 `;
-const SearchButton = styled.div`
-  background: url(${SlotSearchPNG}) no-repeat center;
-  width: 20px;
-  height: 20px;
-  float: right;
-  margin: 4px 8px 0 0;
-  &:hover {
-    cursor: pointer;
-  }
-`;
 
 const GameListContainer = styled.div`
   width: 908px;
   padding: 6px;
   background-color: #eaeaea;
-`;
-const ButtonMore = styled.div`
-  background: url(${SlotMoreGamePNG}) center no-repeat;
-  background-color: #3a4754;
-  border: solid 2px #34434f;
-  color: #fff;
-  border-radius: 33px;
-  font-weight: bold;
-  width: 179px;
-  height: 45px;
-  margin: 80px auto;
-  font-size: 20px;
-  padding-top: 16px;
-  text-align: center;
-  &:hover {
-    cursor: pointer;
-  }
 `;
 
 const GameHoverSelection = styled.div`
@@ -652,12 +622,6 @@ class Slots extends Component {
                   active={this.state.filterGame === category}
                 ></HistoryFilterItem>
               );
-            case SlotFilterType.Bookmark:
-              return (
-                <BookmarkFilterItem
-                  active={this.state.filterGame === category}
-                ></BookmarkFilterItem>
-              );
 
             default:
               return null;
@@ -768,7 +732,7 @@ class Slots extends Component {
         {config.features.HideMarquee && <CommonMarquee />}
         <GameTabContainer type={this.state.type}>
           <GameTabAll
-            active={this.state.platform == ""}
+            active={this.state.platform === ""}
             onClick={() => this.handleParentClick("")}
           ></GameTabAll>
           {this.props.game.homePageGameList
@@ -779,9 +743,9 @@ class Slots extends Component {
               return (
                 <GameTabButton
                   key={index}
-                  active={this.state.platform == row.abbreviation}
+                  active={this.state.platform === row.abbreviation}
                   onClick={() => this.handleParentClick(row.abbreviation)}
-                  maintenance={row.status != 0}
+                  maintenance={row.status !== 0}
                 >
                   <DisabledOverlay>
                     {i18n.t("transfer.maintenance")}

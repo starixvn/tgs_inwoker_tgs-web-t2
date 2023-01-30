@@ -4,8 +4,8 @@ import styled from "styled-components";
 import CustomTextField from "../../../Share/TextField";
 import CustomButton from "../../../Share/Button";
 import i18n from "../../../../utils/i18n";
-import {AccountService} from "../../../../api-services/services/AccountService";
-import {UPDATE_INFO} from "../../../../api-services/constant/actionType";
+import { AccountService } from "../../../../api-services/services/AccountService";
+import { UPDATE_INFO } from "../../../../api-services/constant/actionType";
 import ErrorSwitcher from "../../../../utils/ErrorSwitcher";
 import { withSnackbar } from "notistack";
 import IconInputReceivePNG from "../../../../assets/images/icon-input-receive.png";
@@ -46,7 +46,7 @@ const Telegram = (props) => {
     //   return;
     // }
 
-    AccountService.UpdateTelegram(telegram).then((response) => {
+    AccountService.UpdateIM(telegram, "telegram", "telegram").then((response) => {
       if (response.IsSuccess) {
         props.dispatch({
           type: UPDATE_INFO,
@@ -74,28 +74,38 @@ const Telegram = (props) => {
         handleTextFieldChange={onhandleTextChange}
         defaultValue={telegram}
         type={"text"}
-        readOnly={ifNotEmpty && (config.features.ChangesNotAllowed || config.features.Profile_ExistingDetails_ViewOnly)}
+        readOnly={
+          ifNotEmpty &&
+          (config.features.ChangesNotAllowed ||
+            config.features.Profile_ExistingDetails_ViewOnly)
+        }
         maxLength={15}
       ></CustomTextField>
-      {ifNotEmpty && (config.features.ChangesNotAllowed || config.features.Profile_ExistingDetails_ViewOnly) && (
-        <Content>
-          {i18n.t("profile.telegram.toEdit")}
-          {
-            <LabelLink
-              onClick={() =>
-                props.handleCSClick(
-                  props.account.info.member_username,
-                  props.account.info.member_username
-                )
-              }
-            >
-              {i18n.t("common.customerService")}
-            </LabelLink>
-          }
-        </Content>
-      )}
+      {ifNotEmpty &&
+        (config.features.ChangesNotAllowed ||
+          config.features.Profile_ExistingDetails_ViewOnly) && (
+          <Content>
+            {i18n.t("profile.telegram.toEdit")}
+            {
+              <LabelLink
+                onClick={() =>
+                  props.handleCSClick(
+                    props.account.info.member_username,
+                    props.account.info.member_username
+                  )
+                }
+              >
+                {i18n.t("common.customerService")}
+              </LabelLink>
+            }
+          </Content>
+        )}
 
-      {!(ifNotEmpty && (config.features.ChangesNotAllowed || config.features.Profile_ExistingDetails_ViewOnly)) && (
+      {!(
+        ifNotEmpty &&
+        (config.features.ChangesNotAllowed ||
+          config.features.Profile_ExistingDetails_ViewOnly)
+      ) && (
         <CustomButton
           name={i18n.t("common.submit")}
           handleClick={onhandleClick}

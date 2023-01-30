@@ -30,32 +30,6 @@ const TextFieldContainer = styled.div`
   margin: 0 auto;
   display: table;
 `;
-const TabButton = styled.div`
-  font-size: 14px;
-
-  color: #747474;
-
-  text-align: center;
-
-  float: left;
-  margin-right: 8px;
-
-  ${(props) =>
-    props.active
-      ? ` border: solid 1px #151a34;
-      color: #151a34;`
-      : ` border: solid 1px #e1dfdf;
-      color: #747474;`};
-  &:hover {
-    cursor: pointer;
-  }
-  ${(props) => {
-    return `background:url(${props.img}) no-repeat 10px center,#f7f7f7;`;
-  }}
-  background-size: auto 30px;
-  padding-left: 40px;
-  margin-bottom: 10px;
-`;
 
 const CustomSelect = withStyles((theme) => ({
   root: {
@@ -470,53 +444,22 @@ class AddCard extends Component {
   };
   render() {
     const { withdrawalList, depositList } = this.props;
-    var depositListEWallet = false;
-    var withdrawalListEwallet = false;
-    var depositListPulsa = false;
-    var withdrawalListPulsa = false;
 
-    if (this.props.isDeposit) {
-      depositListEWallet =
-        Common.arrayValidator(depositList) &&
-        depositList[this.state.selectedBankTypeIndex].banktype === "EWallet";
+    const listDetector = (list, type) => {
+      return (
+        Common.arrayValidator(list) &&
+        list[this.state.selectedBankTypeIndex].banktype === type
+      );
+    };
 
-      // .filter(
-      //   (card) => card.banktype === "EWallet"
-      // ).length > 0;
-      // [this.state.selectedBankTypeIndex].banktype === "";
+    const selectedBankType = (type) => {
+      return this.props.isDeposit
+        ? listDetector(depositList, type)
+        : listDetector(withdrawalList, type);
+    };
 
-      depositListPulsa =
-        Common.arrayValidator(depositList) &&
-        depositList[this.state.selectedBankTypeIndex].banktype === "Pulsa";
-      // .filter(
-      //   (card) => card.banktype === "Pulsa"
-      // ).length > 0;
-    } else {
-      withdrawalListEwallet =
-        Common.arrayValidator(withdrawalList) &&
-        withdrawalList[this.state.selectedBankTypeIndex].banktype === "EWallet";
-
-      // .filter(
-      //   (card) => card.banktype === "EWallet"
-      // ).length > 0
-
-      withdrawalListPulsa =
-        Common.arrayValidator(withdrawalList) &&
-        withdrawalList[this.state.selectedBankTypeIndex].banktype === "Pulsa";
-      // .filter(
-      //   (card) => card.banktype === "Pulsa"
-      // ).length > 0;
-    }
-
-    const isEwallet = this.props.isDeposit
-      ? depositListEWallet
-      : withdrawalListEwallet;
-
-    const isPulsa = this.props.isDeposit
-      ? depositListPulsa
-      : withdrawalListPulsa;
-
-    const eWalletCustom = isEwallet && config.features.AddCard_EWalletCustoms;
+    const eWalletCustom =
+      selectedBankType("Ewallet") && config.features.AddCard_EWalletCustoms;
 
     const bankList = [
       "กสิกรไทย (Kasikorn Bank- KKR)",
@@ -572,7 +515,7 @@ class AddCard extends Component {
           </>
         )}
 
-        {!(config.features.AddCard_HideChannel) && (
+        {!config.features.AddCard_HideChannel && (
           <>
             <TextFieldLabel>
               {config.features.AddCard_Bank_Custom_IDR &&
@@ -855,7 +798,7 @@ class AddCard extends Component {
         ) : (
           <div>
             <TextFieldLabel>
-              {eWalletCustom || isPulsa
+              {eWalletCustom || selectedBankType("Pulsa")
                 ? i18n.t("card.addCard.phone")
                 : config.features.AddCard_DisplayGCash
                 ? i18n.t("piso.withdrawalNumber")
@@ -869,7 +812,7 @@ class AddCard extends Component {
               <CustomTextField
                 marginTop={10}
                 placeholder={
-                  eWalletCustom || isPulsa
+                  eWalletCustom || selectedBankType("Pulsa")
                     ? i18n.t("card.addCard.msgEnterPhone")
                     : config.features.AddCard_DisplayGCash
                     ? i18n.t("piso.msgEnterWithdrawalNumber")
@@ -881,7 +824,12 @@ class AddCard extends Component {
                 }
                 width={395}
                 height={38}
-                maxLength={50}
+                maxLength={
+                  (selectedBankType("ThirdParty") ||
+                    selectedBankType("Pulsa") ||
+                    selectedBankType("FPS")) &&
+                  config.features.MAX_PHONE_LENGTH
+                }
                 float={"none"}
                 handleTextFieldChange={this.handleNumberChange}
                 value={this.state.number}

@@ -6,7 +6,7 @@ import DateSelection from "./DateSelection";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import i18n from "../../../../utils/i18n";
-import AccountDetailsList from "./AccountDetailsList";
+
 import TableList from "./TableList";
 const moment = require("moment");
 const Container = styled.div`
@@ -24,13 +24,7 @@ const FilterContainer = styled.div`
   float: left;
   padding: 10px;
 `;
-const InnerWrap = styled.div`
-  width: 888px;
-  float: left;
-  margin-top: 8px;
-  box-sizing: border-box;
-  background-color: #f7f7f7;
-`;
+
 const Label = styled.span`
   float: left;
   margin: 20px 20px 0 0;

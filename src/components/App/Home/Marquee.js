@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import styled from "styled-components";
-import i18n from "../../../utils/i18n";
+
 import { connect } from "react-redux";
 
 const AnnounceContainer = styled.div`

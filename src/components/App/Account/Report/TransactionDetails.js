@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { withStyles } from "@material-ui/core/styles";
 import addDays from "date-fns/addDays";
 import DateSelection from "./DateSelection";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import i18n from "../../../../utils/i18n";
-import TransactionDetailsList from "./TransactionDetailsList";
+
 import TableList from "./TableList";
 const moment = require("moment");
 const Container = styled.div`
@@ -31,53 +27,6 @@ const InnerWrap = styled.div`
   box-sizing: border-box;
   background-color: #f7f7f7;
 `;
-const Label = styled.span`
-  float: left;
-  margin: 20px 20px 0 0;
-`;
-const CustomFormControl = withStyles((theme) => ({
-  root: {
-    width: "135px",
-    height: "35px",
-    marginTop: "10px",
-    marginRight: "5px",
-    float: "left",
-    borderRadius: "12px",
-    boxShadow: "0px 2px 3px 0 rgba(0, 0, 0, 0.18)",
-    backgroundColor: "#fff",
-    "&:before": {
-      borderRight: "1px solid #b6b6b6",
-      content: '"\\00a0"',
-      position: "absolute",
-      top: "1px",
-      right: "36px",
-      zIndex: " 2",
-      display: "block",
-      height: "100%",
-    },
-    "& label.Mui-focused": {
-      color: "#b6b6b6",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#b6b6b6",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderRadius: "12px",
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-      "&:hover fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-    },
-  },
-}))(FormControl);
 
 class TransactionDetails extends Component {
   state = {

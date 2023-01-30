@@ -202,6 +202,21 @@ const MemberContainer = (props) => {
     setAnchorEl(null);
   };
 
+  const filterGameList = (item) => {
+    if (item.include && item.include !== undefined) {
+      props.game.homePageGameList.map((game) => {
+        if (item.include.indexOf(game.game_platform_name) >= 0) {
+          game.type = item.gameType[0];
+        }
+        return item;
+      });
+    }
+
+    return props.game.homePageGameList.filter((game) => {
+      return item.gameType.indexOf(game.type) >= 0;
+    });
+  };
+
   const open = Boolean(anchorEl);
   const totalBalance =
     props.wallet.mainBalance +
@@ -226,7 +241,9 @@ const MemberContainer = (props) => {
         <WelcomeContainer>
           <CustomLink to={"/" + i18n.language + "/account/profile"}>
             <MemberUserName>
-              {props.account.info.member_username} {config.features.HaveVIPFeature && `(VIP
+              {props.account.info.member_username}{" "}
+              {config.features.HaveVIPFeature &&
+                `(VIP
               ${props.account.info.member_level_id})`}
             </MemberUserName>
           </CustomLink>
@@ -272,38 +289,54 @@ const MemberContainer = (props) => {
               </BrandAndBalanceButBigger>
             </div>
             {SortedMenuList.map((item, key) => {
-              return (
-                <GameType>
-                  <GameTypeName>{i18n.t(item.title)}</GameTypeName>
-                  {props.game.homePageGameList
-                    .filter((game) => {
-                      return item.gameType.indexOf(game.type) >= 0;
-                    })
-                    .map((brand, index) => {
-                      return props.game.providerList
-                        .filter((item) => {
-                          return (
-                            item.abbreviation === brand.abbreviation &&
-                            item.transferwallet === true
-                          );
-                        })
-                        .map((data, index) => {
-                          return (
-                            <BrandAndBalance>
-                              <Brand>
-                                {i18n.t(`${data.abbreviation}.${item.path}`)}
-                              </Brand>
-                              <Balance>
-                                {data.maintenance === 1
-                                  ? i18n.t("transfer.maintenance")
-                                  : Common.formatNumberWithCommas(data.balance)}
-                              </Balance>
-                            </BrandAndBalance>
-                          );
-                        });
-                    })}
-                </GameType>
-              );
+              var list = filterGameList(item).sort((a, b) => {
+                if (config.features.LiveGame_Sorting_SKY) {
+                  var sortDGFirst = ["DG"];
+                  return (
+                    sortDGFirst.indexOf(b.abbreviation) -
+                    sortDGFirst.indexOf(a.abbreviation)
+                  );
+                } else return b - a;
+              });
+
+              if (list.length > 0) {
+                return (
+                  <GameType>
+                    <GameTypeName>{i18n.t(item.title)}</GameTypeName>
+                    {props.game.homePageGameList
+                      .filter((game) => {
+                        return item.gameType.indexOf(game.type) >= 0;
+                      })
+                      .map((brand, index) => {
+                        return props.game.providerList
+                          .filter((item) => {
+                            return (
+                              item.abbreviation === brand.abbreviation &&
+                              item.transferwallet === true
+                            );
+                          })
+                          .map((data, index) => {
+                            return (
+                              <BrandAndBalance>
+                                <Brand>
+                                  {i18n.t(`${data.abbreviation}.${item.path}`)}
+                                </Brand>
+                                <Balance>
+                                  {data.maintenance === 1
+                                    ? i18n.t("transfer.maintenance")
+                                    : Common.formatNumberWithCommas(
+                                        data.balance
+                                      )}
+                                </Balance>
+                              </BrandAndBalance>
+                            );
+                          });
+                      })}
+                  </GameType>
+                );
+              } else {
+                return null;
+              }
             })}
           </CustomPopover>
           <span>{i18n.t("web.header.dollor")}</span>
