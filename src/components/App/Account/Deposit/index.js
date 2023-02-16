@@ -656,7 +656,7 @@ class Deposit extends Component {
             config.features.Deposit_AddCard
               ? this.props.wallet.bankCardList[bankCardIndex].detail
               : null,
-            phone
+            config.features.Deposit_ManualDepositPassPhone ? phone : null
           );
         } else {
           this.props.doPulsaDeposit(
@@ -667,7 +667,7 @@ class Deposit extends Component {
             config.features.Deposit_Withdrawal_PlayerNote
               ? this.state.playerNote
               : null,
-            phone
+            config.features.Deposit_ManualDepositPassPhone ? phone : null
           );
         }
       } else if (method.methodcode === "EWallet") {
@@ -691,7 +691,7 @@ class Deposit extends Component {
               ? this.props.wallet.bankCardList[bankCardIndex].detail
               : null,
             emoneyname,
-            phone
+            config.features.Deposit_ManualDepositPassPhone ? phone : null
           );
         } else {
           this.props.doEWalletDeposit(
@@ -703,7 +703,7 @@ class Deposit extends Component {
               ? this.state.playerNote
               : null,
             emoneyname,
-            phone
+            config.features.Deposit_ManualDepositPassPhone ? phone : null
           );
         }
       }
