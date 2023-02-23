@@ -417,7 +417,7 @@ class Account extends Component {
               {this.genMenuButtonDiv(i18n.t("web.account.inbox"), "inbox")}{" "}
               {config.features.HaveVIPFeature &&
                 this.genMenuButtonDiv("VIP", "vip")}
-              {config.features.HaveAffiliateFeature &&
+              {this.props.general.haveAffiliate &&
                 this.genMenuButtonDiv(
                   i18n.t("web.account.affiliate"),
                   "affiliate"
@@ -529,7 +529,7 @@ class Account extends Component {
                       />
                     )}
                   />
-                  {config.features.HaveAffiliateFeature && (
+                  {this.props.general.haveAffiliate && (
                     <Route
                       exact
                       path={baseRouteUrl + "/account/affiliate"}
@@ -560,6 +560,7 @@ const mapStateToProps = (state) => {
     account: state.account,
     wallet: state.wallet,
     game: state.game,
+    general: state.general
   };
 };
 const mapDispatchToProps = (dispatch) => {
