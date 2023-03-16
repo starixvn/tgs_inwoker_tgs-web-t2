@@ -201,6 +201,7 @@ class Affiliate extends Component {
                   variant="outlined"
                   displayEmpty
                   native
+                  className="fix-text-cut"
                   value={this.state.rebateType}
                   onChange={(e) => {
                     this.setState({
