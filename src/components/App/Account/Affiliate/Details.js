@@ -73,6 +73,15 @@ const Button = styled.div`
   }
 `;
 
+const QRCodeActionContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 40px;
+  padding: 20px 0px 10px 0px;
+`;
+
 class Affiliate extends Component {
   constructor(props) {
     super(props);
@@ -94,6 +103,43 @@ class Affiliate extends Component {
       `${window.location.hostname}/${i18n.language}/p/${this.props.account.info.playercode}?do=register`
     );
   };
+  handleCopyReferralID = () => {
+    this.props.enqueueSnackbar(i18n.t("affiliate.copied"), {
+      variant: "success",
+    });
+    utility.copy(this.props.account.info.playercode);
+  };
+  handleQrAction = (option) => {
+    var svgElement = document.querySelector("#qrcode-container").firstElementChild;
+    let { width, height } = svgElement.getBBox();
+    let clonedSvgElement = svgElement.cloneNode(true);
+    let outerHTML = clonedSvgElement.outerHTML,
+      blob = new Blob([outerHTML], { type: "image/svg+xml;charset=utf-8" });
+    let URL = window.URL || window.webkitURL || window;
+    let blobURL = URL.createObjectURL(blob);
+    let image = new Image();
+    image.src = blobURL;
+    image.onload = () => {
+      let canvas = document.createElement("canvas");
+      canvas.width = 150;
+      canvas.height = 150;
+      let context = canvas.getContext("2d");
+      let offsetPositionX = (canvas.width - width) / 2;
+      let offsetPositionY = (canvas.height - height) / 2;
+      context.fillStyle = "white";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(image, offsetPositionX, offsetPositionY, width, height);
+      let png = canvas.toDataURL();
+      if (option === "copy") {
+        this.props.enqueueSnackbar(i18n.t("affiliate.copied"), {
+          variant: "success",
+        });
+        utility.copyImage(png);
+      } else if (option === "download") {
+        utility.downloadImage(png, "download.png");
+      }
+    };
+  };
   handleClickAway = () => {
     this.setState({ ...this.state, copyTooltips: false });
   };
@@ -102,10 +148,17 @@ class Affiliate extends Component {
     return (
       <>
         <QRCodeLabel>{i18n.t("affiliate.qrCode")}</QRCodeLabel>
-        <QRCodeContainer>
+        <QRCodeContainer id="qrcode-container">
           <QRCode size={128} value={affiliateLink}></QRCode>
         </QRCodeContainer>
-
+        <QRCodeActionContainer>
+          <Button onClick={() => this.handleQrAction("copy")}>
+            {i18n.t("common.copy")}
+          </Button>
+          <Button onClick={() => this.handleQrAction("download")}>
+            {i18n.t("common.download")}
+          </Button>
+        </QRCodeActionContainer>
         <CustomText>
           <CustomLabel>{i18n.t("affiliate.promoId")}</CustomLabel>
           <CustomInput
@@ -113,6 +166,9 @@ class Affiliate extends Component {
             value={this.props.account.info.playercode}
             readOnly={true}
           ></CustomInput>
+          <Button onClick={this.handleCopyReferralID}>
+            {i18n.t("common.copy")}
+          </Button>
         </CustomText>
         <CustomText>
           <CustomLabel>{i18n.t("affiliate.promoLink")}</CustomLabel>
