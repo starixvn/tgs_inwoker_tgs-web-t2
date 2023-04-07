@@ -230,7 +230,7 @@ const RightMenuBottomLine = styled.div`
 `;
 const RightMenuLI = styled.li`
   display: inline-block;
-  padding: 0 11px;
+  padding: 0 8px;
   height: 95%;
   color: #f6f6f6;
 
