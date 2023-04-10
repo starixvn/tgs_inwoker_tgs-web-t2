@@ -233,30 +233,23 @@ const AppWrapper = () => {
                     <Route
                       exact
                       path={
-                        Common.baseRouteUrl +
                         "/deposit/:paymentcode/:methodcode/:channelid/:amount/:promotion/:name:account?"
                       }
                       component={Deposit}
                     />
                     <Route
                       exact
-                      path={
-                        Common.baseRouteUrl +
-                        "/joingame/:type/:params/:params2?"
-                      }
+                      path={"/joingame/:type/:params/:params2?"}
                       component={JoinGame}
                     />
                     <Route
                       exact
-                      path={Common.baseRouteUrl + "/joinlottery/:brand"}
+                      path={"/joinlottery/:brand"}
                       component={JoinLotteryGame}
                     />
                     <Route
                       exact
-                      path={
-                        Common.baseRouteUrl +
-                        "/joinlobbygame/:type/:params/:replaceUrl?"
-                      }
+                      path={"/joinlobbygame/:type/:params/:replaceUrl?"}
                       component={JoinLobbyGame}
                     />
                     {(() => {
@@ -264,14 +257,14 @@ const AppWrapper = () => {
                         return (
                           <Route
                             exact
-                            path={Common.baseRouteUrl + "/maintenance"}
+                            path={"/maintenance"}
                             render={(props) => <Maintenance />}
                           />
                         );
                       }
                     })()}
                     <Route
-                      path={Common.baseRouteUrl + "/"}
+                      path={"/"}
                       render={(props) => (isMobileOnly ? <Wap /> : <Web />)}
                     />
                     <Redirect to={`/${languageDetector}`} />
