@@ -450,7 +450,7 @@ class Transfer extends Component {
           loading: false,
           open: false,
         });
-        // AppHistory.replace("/" + i18n.language + "/withdrawal");
+        // AppHistory.replace( "/withdrawal");
       } else {
         this.props.enqueueSnackbar(this.props.wallet.withdrawalAllResult.info, {
           variant: "error",
@@ -625,7 +625,14 @@ class Transfer extends Component {
                   )
                   .filter((e) => {
                     if (config.features.MergeEVORTNT) {
-                      if (!(e.gpcode === "NTTF" || e.gpcode === "RTTF" || e.gpcode === "BTG" || e.gpcode === "NLC")) {
+                      if (
+                        !(
+                          e.gpcode === "NTTF" ||
+                          e.gpcode === "RTTF" ||
+                          e.gpcode === "BTG" ||
+                          e.gpcode === "NLC"
+                        )
+                      ) {
                         return e;
                       }
                     } else {
@@ -660,7 +667,14 @@ class Transfer extends Component {
                   )
                   .filter((e) => {
                     if (config.features.MergeEVORTNT) {
-                      if (!(e.gpcode === "NTTF" || e.gpcode === "RTTF" || e.gpcode === "BTG" || e.gpcode === "NLC")) {
+                      if (
+                        !(
+                          e.gpcode === "NTTF" ||
+                          e.gpcode === "RTTF" ||
+                          e.gpcode === "BTG" ||
+                          e.gpcode === "NLC"
+                        )
+                      ) {
                         return e;
                       }
                     } else {
@@ -739,7 +753,14 @@ class Transfer extends Component {
               )
               .filter((e) => {
                 if (config.features.MergeEVORTNT) {
-                  if (!(e.gpcode === "NTTF" || e.gpcode === "RTTF" || e.gpcode === "BTG" || e.gpcode === "NLC")) {
+                  if (
+                    !(
+                      e.gpcode === "NTTF" ||
+                      e.gpcode === "RTTF" ||
+                      e.gpcode === "BTG" ||
+                      e.gpcode === "NLC"
+                    )
+                  ) {
                     return e;
                   }
                 } else {

@@ -199,15 +199,15 @@ const headerLists = {
   ],
   balanceChanges: [
     {
-      title: `report.dateTime`
+      title: `report.dateTime`,
     },
     {
-      title: `report.balanceChanges.type`
+      title: `report.balanceChanges.type`,
     },
     {
-      title: `report.balanceChanges.amount`
-    }
-  ]
+      title: `report.balanceChanges.amount`,
+    },
+  ],
 };
 
 function TableList(props) {
@@ -226,7 +226,7 @@ function TableList(props) {
 
   const handleManualDeposit = (id) => {
     AppHistory.push({
-      pathname: "/" + i18n.language + "/account/manual/" + id,
+      pathname: "/account/manual/" + id,
     });
   };
 
@@ -402,17 +402,19 @@ function TableList(props) {
             </StyledTableRow>
           );
         });
-        case "balanceChanges":
-          return props.rows.map((row, index) => {
-            const date = moment(row.recordedon).format("YYYY/MM/DD hh:mm:ss");
-            return (
-              <StyledTableRow hover role="checkbox" tabIndex={-1} key={index}>
-                <StyledTableCell>{date}</StyledTableCell>
-                <StyledTableCell>{ErrorSwitcher.getTranslation(row.type)}</StyledTableCell>
-                <StyledTableCell>{row.amount}</StyledTableCell>
-              </StyledTableRow>
-            );
-          });
+      case "balanceChanges":
+        return props.rows.map((row, index) => {
+          const date = moment(row.recordedon).format("YYYY/MM/DD hh:mm:ss");
+          return (
+            <StyledTableRow hover role="checkbox" tabIndex={-1} key={index}>
+              <StyledTableCell>{date}</StyledTableCell>
+              <StyledTableCell>
+                {ErrorSwitcher.getTranslation(row.type)}
+              </StyledTableCell>
+              <StyledTableCell>{row.amount}</StyledTableCell>
+            </StyledTableRow>
+          );
+        });
       default:
         break;
     }

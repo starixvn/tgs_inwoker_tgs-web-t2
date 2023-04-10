@@ -52,7 +52,7 @@ import CustomLibrary from "./Sports/CustomLibrary";
 import ForcedVerification from "./ForcedVerification";
 import Home from "./Home";
 // const bc = new BroadcastChannel("refreshBalance");
-const baseRouteUrl = Common.baseRouteUrl;
+
 const Main = styled.div`
   min-height: 600px;
 `;
@@ -416,12 +416,12 @@ class App extends Component {
                     <Route
                       exact
                       path={[
-                        baseRouteUrl + "/",
-                        baseRouteUrl + "/a/:promotionid",
-                        baseRouteUrl + "/t/:promotionid",
-                        baseRouteUrl + "/f/:promotionid",
-                        baseRouteUrl + "/p/:playername",
-                        baseRouteUrl + "/register&visitor_id=:subid",
+                        "/",
+                        "/a/:promotionid",
+                        "/t/:promotionid",
+                        "/f/:promotionid",
+                        "/p/:playername",
+                        "/register&visitor_id=:subid",
                       ]}
                       render={(props) => (
                         <Home
@@ -432,7 +432,7 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/live"}
+                      path={"/live"}
                       render={(props) => (
                         <LiveGame
                           performBalanceRefresh={this.performBalanceRefresh}
@@ -441,7 +441,7 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/chess"}
+                      path={"/chess"}
                       render={(props) => (
                         <Qipai
                           performBalanceRefresh={this.performBalanceRefresh}
@@ -450,7 +450,7 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/sports"}
+                      path={"/sports"}
                       render={(props) => (
                         <Sports
                           performBalanceRefresh={this.performBalanceRefresh}
@@ -459,7 +459,7 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/esports"}
+                      path={"/esports"}
                       render={(props) => (
                         <ESports
                           performBalanceRefresh={this.performBalanceRefresh}
@@ -468,12 +468,12 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/sports/play/:params/:type"}
+                      path={"/sports/play/:params/:type"}
                       component={SportsPlay}
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/sports/:platform"}
+                      path={"/sports/:platform"}
                       render={(props) => (
                         <CustomLibrary
                           {...props}
@@ -483,12 +483,12 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/sports/c/:type/:params"}
+                      path={"/sports/c/:type/:params"}
                       component={SlotPlay}
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/lottery"}
+                      path={"/lottery"}
                       render={(props) => (
                         <Lottery
                           performBalanceRefresh={this.performBalanceRefresh}
@@ -497,15 +497,15 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/lottery/play/:params?"}
+                      path={"/lottery/play/:params?"}
                       component={LotteryPlay}
                     />
                     <Route
                       exact
                       path={[
-                        baseRouteUrl + "/slots/:platform?",
-                        baseRouteUrl + "/electron/:platform?",
-                        baseRouteUrl + "/fish/:platform?",
+                        "/slots/:platform?",
+                        "/electron/:platform?",
+                        "/fish/:platform?",
                       ]}
                       render={(props) => (
                         <Slots
@@ -517,51 +517,47 @@ class App extends Component {
                     <Route
                       exact
                       path={[
-                        baseRouteUrl + "/slots/play/:type/:params",
-                        baseRouteUrl + "/electron/play/:type/:params",
-                        baseRouteUrl + "/fish/play/:type/:params",
+                        "/slots/play/:type/:params",
+                        "/electron/play/:type/:params",
+                        "/fish/play/:type/:params",
                       ]}
                       component={SlotPlay}
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/promotion"}
+                      path={"/promotion"}
                       render={(props) => (
                         <Promotion token={this.props.account.token} />
                       )}
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/promotion/:id"}
+                      path={"/promotion/:id"}
                       render={(props) => <PromotionDetails />}
                     />
                     {config.features.HaveVIPFeature && (
-                      <Route
-                        exact
-                        path={baseRouteUrl + "/vip"}
-                        render={(props) => <VIP />}
-                      />
+                      <Route exact path={"/vip"} render={(props) => <VIP />} />
                     )}
                     {/* <Route
                       exact
-                      path={baseRouteUrl + "/maintenance"}
+                      path={"/maintenance"}
                       render={(props) => <Maintenance />}
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/registersuccess/:username"}
+                      path={"/registersuccess/:username"}
                       component={RegisterSuccess}
                     />{" "} */}
                     <Route
                       exact
-                      path={baseRouteUrl + "/banned"}
+                      path={"/banned"}
                       render={(props) => (
                         <Banned onhandleCSClick={this.GetSupportUrl} />
                       )}
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/account/:tab/:popup?"}
+                      path={"/account/:tab/:popup?"}
                       render={(props) => (
                         <Account
                           token={this.props.account.token}
@@ -569,14 +565,10 @@ class App extends Component {
                         />
                       )}
                     />
+                    <Route exact path={"/download"} component={Download} />
                     <Route
                       exact
-                      path={baseRouteUrl + "/download"}
-                      component={Download}
-                    />
-                    <Route
-                      exact
-                      path={baseRouteUrl + "/cockfight"}
+                      path={"/cockfight"}
                       render={(props) => (
                         <Cockfight
                           performBalanceRefresh={this.performBalanceRefresh}
