@@ -226,9 +226,7 @@ class Address extends Component {
                       !response.data.bankinfoauthentication &&
                       !response.data.registercompleted
                     ) {
-                      AppHistory.push(
-                        "/" + i18n.language + "/account/withdrawal?do=addCard"
-                      );
+                      AppHistory.push("/account/withdrawal?do=addCard");
                     }
                   });
                 } else {

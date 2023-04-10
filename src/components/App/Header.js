@@ -497,11 +497,11 @@ class Header extends Component {
 
   onhandleLogout = () => {
     this.props.logout(this.props.account.token);
-    this.props.history.push("/" + i18n.language + "/");
+    this.props.history.push("/");
   };
   onhandleLogoClick = () => {
     this.setState({ selected: "/" });
-    this.props.history.push("/" + i18n.language + "/");
+    this.props.history.push("/");
   };
   onhandleTransfer = () => {
     if (
@@ -510,7 +510,7 @@ class Header extends Component {
     ) {
       return;
     }
-    this.props.history.push("/" + i18n.language + "/account/transfer");
+    this.props.history.push("/account/transfer");
   };
   onhandleDeposit = () => {
     if (
@@ -519,7 +519,7 @@ class Header extends Component {
     ) {
       return;
     }
-    this.props.history.push("/" + i18n.language + "/account/deposit");
+    this.props.history.push("/account/deposit");
   };
   handleInboxClick = () => {
     if (
@@ -528,7 +528,7 @@ class Header extends Component {
     ) {
       return;
     }
-    this.props.history.push("/" + i18n.language + "/account/inbox");
+    this.props.history.push("/account/inbox");
   };
   handleProfileClick = () => {
     if (
@@ -537,7 +537,7 @@ class Header extends Component {
     ) {
       return;
     }
-    this.props.history.push("/" + i18n.language + "/account/profile");
+    this.props.history.push("/account/profile");
   };
   handleWithdrawClick = () => {
     if (
@@ -546,7 +546,7 @@ class Header extends Component {
     ) {
       return;
     }
-    this.props.history.push("/" + i18n.language + "/account/withdrawal");
+    this.props.history.push("/account/withdrawal");
   };
   handleRefreshBalanceClick = () => {
     if (
@@ -564,11 +564,11 @@ class Header extends Component {
   };
   handleDownloadAppsClick = () => {
     this.setState({ selected: "/download" });
-    this.props.history.push("/" + i18n.language + "/download");
+    this.props.history.push("/download");
     //alert("敬请期待");
   };
   handleContactUsClick = () => {
-    this.props.history.push("/" + i18n.language + "/aboutus/contactus");
+    this.props.history.push("/aboutus/contactus");
   };
   HighlightLink = (link) => {};
   handleMenuMouseOver = (to) => {
@@ -585,7 +585,7 @@ class Header extends Component {
       return;
     }
     this.setState({ ...this.state, selected: path });
-    this.props.history.push("/" + i18n.language + `/${path}`);
+    this.props.history.push(`/${path}`);
   };
 
   RightMenuItem = (to, label, subMenuImg) => {
@@ -655,12 +655,7 @@ class Header extends Component {
       if (this.props.history.location.pathname.indexOf("play") >= 0) {
         AppHistory.goBack();
       }
-      Common.PopupCenter(
-        "/" + i18n.language + "/joinlottery/" + name,
-        name,
-        1280,
-        720
-      );
+      Common.PopupCenter("/joinlottery/" + name, name, 1280, 720);
     } else {
       this.props.showLogin(true);
     }
@@ -693,22 +688,17 @@ class Header extends Component {
           this.props.showLogin(true);
         } else {
           if (gameType === GameTypeEnum.RNGSPORTS) {
-            this.props.history.push(
-              "/" + i18n.language + "/sports/" + gameCode
-            );
+            this.props.history.push("/sports/" + gameCode);
           } else if (gameCode === "WGFM" || gameCode === "WGVIA") {
-            window.open(
-              `/${i18n.language}/joinlobbygame/${gameType}/${gameCode}`,
-              "_blank"
-            );
+            window.open(`/joinlobbygame/${gameType}/${gameCode}`, "_blank");
           } else {
             this.props.history.push(
-              "/" + i18n.language + "/sports/play/" + gameCode + "/" + gameType
+              "/sports/play/" + gameCode + "/" + gameType
             );
           }
         }
       } else {
-        this.props.history.push(`/${i18n.language}/${path}/${gameCode}`);
+        this.props.history.push(`/${path}/${gameCode}`);
       }
     } else {
       if (!this.props.account.token) {
@@ -779,14 +769,7 @@ class Header extends Component {
     if (!this.props.account.token) {
       this.props.showLogin(true);
     } else {
-      AppHistory.push(
-        "/" +
-          i18n.language +
-          "/sports/play/" +
-          game.name +
-          "/" +
-          GameTypeEnum.SPORTS
-      );
+      AppHistory.push("/sports/play/" + game.name + "/" + GameTypeEnum.SPORTS);
     }
   };
 
@@ -807,7 +790,7 @@ class Header extends Component {
         game.type,
         item.path,
         game.gpcode,
-        "/" + i18n.language + "/joingame/" + game.type + "/" + game.gpcode
+        "/joingame/" + game.type + "/" + game.gpcode
       );
     }
   };
@@ -873,7 +856,6 @@ class Header extends Component {
                           <CustomExternalLink
                             selected={i18n.language === lang.culturecode}
                             onClick={() => {
-                              AppHistory.replace("/" + lang.culturecode);
                               i18n.changeLanguage(lang.culturecode);
                               window.location.reload();
                             }}
