@@ -372,12 +372,10 @@ class Default extends Component {
           if (!this.props.token) {
             this.props.showLogin(true);
           } else {
-            this.props.history.push(
-              `/${i18n.language}/sports/play/${gameCode}/${gameType}`
-            );
+            this.props.history.push(`/sports/play/${gameCode}/${gameType}`);
           }
         } else {
-          this.props.history.push(`/${i18n.language}/${path}/${gameCode}`);
+          this.props.history.push(`/${path}/${gameCode}`);
         }
       } else {
         // Common.PopupCenter(url, gameCode, 1280, 720);
@@ -389,7 +387,7 @@ class Default extends Component {
 
   qipaiGameHandler = () => {
     if (this.props.token !== "" && this.props.token !== null) {
-      this.handleNavigateClick(`/${i18n.language}/chess`);
+      this.handleNavigateClick(`/chess`);
     } else {
       this.props.showLogin(true);
     }
@@ -417,47 +415,28 @@ class Default extends Component {
         gameType: GameTypeEnum.SPORTS,
         path: "",
         gameCode: "BC",
-        url:
-          "/" + i18n.language + "/joingame/" + GameTypeEnum.SPORTS + "/" + "BC",
+        url: "/joingame/" + GameTypeEnum.SPORTS + "/" + "BC",
       },
       {
         icon: HomeSportSboPNG,
         gameType: GameTypeEnum.SPORTS,
         path: "",
         gameCode: GameEnum.SBO,
-        url:
-          "/" +
-          i18n.language +
-          "/joingame/" +
-          GameTypeEnum.SPORTS +
-          "/" +
-          GameEnum.SBO,
+        url: "/joingame/" + GameTypeEnum.SPORTS + "/" + GameEnum.SBO,
       },
       {
         icon: HomeSportSabaPNG,
         gameType: GameTypeEnum.SPORTS,
         path: "",
         gameCode: GameEnum.Sabah,
-        url:
-          "/" +
-          i18n.language +
-          "/joingame/" +
-          GameTypeEnum.SPORTS +
-          "/" +
-          GameEnum.Sabah,
+        url: "/joingame/" + GameTypeEnum.SPORTS + "/" + GameEnum.Sabah,
       },
       {
         icon: HomeSportImesPNG,
         gameType: GameTypeEnum.ESPORTS,
         path: "",
         gameCode: GameEnum.IMES,
-        url:
-          "/" +
-          i18n.language +
-          "/joingame/" +
-          GameTypeEnum.ESPORTS +
-          "/" +
-          GameEnum.IMES,
+        url: "/joingame/" + GameTypeEnum.ESPORTS + "/" + GameEnum.IMES,
       },
     ];
 
@@ -473,7 +452,7 @@ class Default extends Component {
             //      onhandleDepositClick={this.props.onhandleDepositClick}
             //    onhandleShowCSClick={this.props.onhandleShowCSClick}
             //   onDownloadClick={() =>
-            //     this.handleNavigateClick("/" + i18n.language + "/download")
+            //     this.handleNavigateClick( "/download")
             //   }
             // ></AnotherFloatPanel>
           }

@@ -43,11 +43,7 @@ const Landing = ({ showLogin, token }) => {
             if (token) {
               Common.closePreviousPopup();
               Common.PopupCenter(
-                "/" +
-                  i18n.language +
-                  "/joinlobbygame/" +
-                  GameTypeEnum.SPORTS +
-                  "/WGFM/true",
+                "/joinlobbygame/" + GameTypeEnum.SPORTS + "/WGFM/true",
                 "gamewindow"
               );
             } else {

@@ -235,7 +235,7 @@ class Account extends Component {
     if (this.props.account.token === null) {
       await this.timeout(1000);
       if (this.props.account.token === null) {
-        AppHistory.replace(`/${i18n.language}/`);
+        AppHistory.replace(`/`);
       }
       this.getAllGameBalance();
     }
@@ -245,7 +245,7 @@ class Account extends Component {
       prevProps.account.token !== this.props.account.token &&
       this.props.account.token === null
     ) {
-      AppHistory.replace(`/${i18n.language}/`);
+      AppHistory.replace(`/`);
     }
     if (prevProps.match.params.tab !== this.props.match.params.tab) {
       this.setState({ ...this.state, activePage: this.props.match.params.tab });
@@ -289,25 +289,19 @@ class Account extends Component {
     ) {
       return;
     }
-    this.props.history.push("/" + i18n.language + "/account/" + link);
+    this.props.history.push("/account/" + link);
   };
   handleMoreBenefitClick = (viptitle) => {
-    this.props.history.push("/" + i18n.language + "/vip");
+    this.props.history.push("/vip");
   };
   handleIDVerifyClick = () => {
-    this.props.history.push(
-      "/" + i18n.language + "/account/profile/member_name"
-    );
+    this.props.history.push("/account/profile/member_name");
   };
   handlePhoneVerifyClick = () => {
-    this.props.history.push(
-      "/" + i18n.language + "/account/profile/member_phone"
-    );
+    this.props.history.push("/account/profile/member_phone");
   };
   handleEmailVerifyClick = () => {
-    this.props.history.push(
-      "/" + i18n.language + "/account/profile/member_email"
-    );
+    this.props.history.push("/account/profile/member_email");
   };
   genImgComponent = (link) => {
     switch (link) {
@@ -370,7 +364,7 @@ class Account extends Component {
   };
   onhandleLogout = () => {
     this.props.logout(this.props.account.token);
-    this.props.history.push("/" + i18n.language + "/");
+    this.props.history.push("/");
   };
 
   setActivePage = (page) => {
@@ -543,9 +537,7 @@ class Account extends Component {
                       )}
                     />
                   )}
-                  <Redirect
-                    to={"/" + i18n.language + "/account/profile"}
-                  ></Redirect>
+                  <Redirect to={"/account/profile"}></Redirect>
                 </Switch>
               </Router>
             </RightContent>
@@ -560,7 +552,7 @@ const mapStateToProps = (state) => {
     account: state.account,
     wallet: state.wallet,
     game: state.game,
-    general: state.general
+    general: state.general,
   };
 };
 const mapDispatchToProps = (dispatch) => {
