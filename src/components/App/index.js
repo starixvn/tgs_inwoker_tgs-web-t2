@@ -145,7 +145,7 @@ class App extends Component {
     if (urlParams.has("open")) {
       const openValue = urlParams.get("open");
       if (openValue) {
-        AppHistory.replace("/" + i18n.language + "/" + openValue);
+        AppHistory.replace("/" + openValue);
       }
     }
     if (urlParams.has("do")) {
@@ -207,19 +207,13 @@ class App extends Component {
               !bankInfoAuthentication
             ) {
               if (isPhoneNull) {
-                AppHistory.push(
-                  "/" + i18n.language + "/account/profile/member_phone"
-                );
+                AppHistory.push("/account/profile/member_phone");
               } else {
                 if (isEmailNull) {
-                  AppHistory.push(
-                    "/" + i18n.language + "/account/profile/member_email"
-                  );
+                  AppHistory.push("/account/profile/member_email");
                 } else {
                   if (!isRegisterCompleted) {
-                    AppHistory.push(
-                      "/" + i18n.language + "/account/withdrawal?do=addCard"
-                    );
+                    AppHistory.push("/account/withdrawal?do=addCard");
                   }
                 }
               }
@@ -275,15 +269,10 @@ class App extends Component {
         this.props.account.info.member_email !== null &&
         this.props.account.info.bankInfoAuthentication !== undefined &&
         !this.props.account.info.bankInfoAuthentication &&
-        this.props.location.pathname !== `/${i18n.language}/account/withdrawal`
+        this.props.location.pathname !== `/account/withdrawal`
       ) {
-        if (
-          this.props.location.pathname !==
-          `/${i18n.language}/account/withdrawal`
-        ) {
-          AppHistory.push(
-            "/" + i18n.language + "/account/withdrawal?do=addCard"
-          );
+        if (this.props.location.pathname !== `/account/withdrawal`) {
+          AppHistory.push("/account/withdrawal?do=addCard");
           return;
         }
       }
@@ -304,7 +293,7 @@ class App extends Component {
       preProps.general.isMaintenance !== this.props.general.isMaintenance &&
       this.props.general.isMaintenance === true
     ) {
-      this.props.history.push("/" + i18n.language + "/maintenance");
+      this.props.history.push("/maintenance");
     }
     if (
       preProps.general.brandLanguage !== this.props.general.brandLanguage &&
@@ -315,10 +304,28 @@ class App extends Component {
           (a) => a.culturecode === i18n.language
         ).length <= 0
       ) {
-        window.location.href = window.location.pathname.replace(
-          i18n.language,
-          this.props.general.brandLanguage[0].culturecode
-        );
+        if (
+          this.props.general.brandLanguage.filter((a) => {
+            return a.culturecode === i18n.language;
+          })
+        ) {
+          i18n.changeLanguage(this.props.general.brandLanguage[0].culturecode);
+
+          window.location.reload();
+        }
+      } else {
+        if (
+          this.props.general.brandLanguage.filter(
+            (a) => a.culturecode === i18n.language
+          )
+        ) {
+          if (
+            window.location.pathname.split("/")[1] !== i18n.language ||
+            window.location.pathname.split("/").length > 3
+          ) {
+            i18n.changeLanguage(i18n.language);
+          }
+        }
       }
     }
   }
@@ -349,7 +356,7 @@ class App extends Component {
     if (this.props.account.token == null) {
       this.props.showLogin(true);
     } else {
-      this.props.history.push("/" + i18n.language + "/account/deposit");
+      this.props.history.push("/account/deposit");
     }
   };
 
@@ -612,8 +619,7 @@ class App extends Component {
                   config.features.ForcedVerification && (
                     <Redirect
                       to={{
-                        pathname:
-                          "/" + i18n.language + "/account/profile/member_phone",
+                        pathname: "/account/profile/member_phone",
                         state: { forced: true },
                       }}
                     />
