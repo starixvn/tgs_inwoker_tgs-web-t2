@@ -45,7 +45,7 @@ import i18n from "../../../utils/i18n";
 import AvatarPNG from "../../../assets/images/avatar.png";
 import Common from "../../../utils/Common";
 import config from "../../../config/config";
-const baseRouteUrl = Common.baseRouteUrl;
+
 const Container = styled.div`
   width: 100%;
   background: #f5f6fa;
@@ -438,7 +438,7 @@ class Account extends Component {
                 <Switch>
                   <Route
                     exact
-                    path={baseRouteUrl + "/account/deposit/:promotionid?"}
+                    path={"/account/deposit/:promotionid?"}
                     render={(props) => (
                       <Deposit
                         token={this.props.account.token}
@@ -448,7 +448,7 @@ class Account extends Component {
                   />
                   <Route
                     exact
-                    path={baseRouteUrl + "/account/manual/:paymentId"}
+                    path={"/account/manual/:paymentId"}
                     render={(props) => (
                       <Deposit
                         setActivePage={this.setActivePage}
@@ -459,7 +459,7 @@ class Account extends Component {
                   />
                   <Route
                     exact
-                    path={baseRouteUrl + "/account/withdrawal"}
+                    path={"/account/withdrawal"}
                     render={(props) => (
                       <Withdrawal
                         token={this.props.account.token}
@@ -472,7 +472,7 @@ class Account extends Component {
                   />
                   <Route
                     exact
-                    path={baseRouteUrl + "/account/inbox"}
+                    path={"/account/inbox"}
                     render={(props) => (
                       <Inbox token={this.props.account.token} />
                     )}
@@ -480,7 +480,7 @@ class Account extends Component {
                   {config.features.HaveVIPFeature && (
                     <Route
                       exact
-                      path={baseRouteUrl + "/account/vip"}
+                      path={"/account/vip"}
                       render={(props) => (
                         <VIP token={this.props.account.token} />
                       )}
@@ -488,7 +488,7 @@ class Account extends Component {
                   )}
                   <Route
                     exact
-                    path={baseRouteUrl + "/account/report"}
+                    path={"/account/report"}
                     render={(props) => (
                       <Report
                         token={this.props.account.token}
@@ -502,7 +502,7 @@ class Account extends Component {
                     !config.features.NewTransferUI && (
                       <Route
                         exact
-                        path={baseRouteUrl + "/account/transfer"}
+                        path={"/account/transfer"}
                         render={(props) => (
                           <Transfer
                             token={this.props.account.token}
@@ -514,7 +514,7 @@ class Account extends Component {
 
                   <Route
                     exact
-                    path={baseRouteUrl + "/account/profile/:popup?"}
+                    path={"/account/profile/:popup?"}
                     render={(props) => (
                       <Profile
                         account={this.props.account}
@@ -526,7 +526,7 @@ class Account extends Component {
                   {this.props.general.haveAffiliate && (
                     <Route
                       exact
-                      path={baseRouteUrl + "/account/affiliate"}
+                      path={"/account/affiliate"}
                       render={(props) => (
                         <Affiliate
                           token={this.props.account.token}
