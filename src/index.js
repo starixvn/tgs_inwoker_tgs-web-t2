@@ -266,7 +266,7 @@ const AppWrapper = () => {
                       path={"/"}
                       render={(props) => (isMobileOnly ? <Wap /> : <Web />)}
                     />
-                    <Redirect to={`/${languageDetector}`} />
+                    <Redirect to={`/`} />
                   </Switch>
                 </Router>
               </SnackbarProvider>
