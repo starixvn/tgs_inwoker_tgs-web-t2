@@ -94,6 +94,7 @@ export const themeKING8 = {
   tertiaryText: "rgba(255, 255, 255, 0.5)",
   //new addition to compensate wap-t2
   appbar: "#000",
+  pcAppBar: "#000",
   buttonBackground: "#fff",
   buttonText: "#fff",
   buttonText2: "#000",
@@ -115,4 +116,5 @@ export const themeList = {
   red: themeRed,
   blue: themeBlue,
   themeKING8: themeKING8,
+  themeSOWIN: themeKING8,
 };

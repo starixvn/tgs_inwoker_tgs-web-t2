@@ -287,9 +287,7 @@ const CustomAppBar = styled(StyledAppBar)`
   display: ${({ hide }) => {
     return hide ? "none" : "block";
   }};
-  background: ${({ isSowin, theme }) => {
-    return isSowin ? "#000" : "#fff";
-  }};
+  background: ${({ theme }) => theme.pcAppBar ? theme.pcAppBar : "#fff"};
 `;
 
 const GameFrameWrapper = styled.div`
@@ -838,7 +836,7 @@ class Header extends Component {
     };
 
     return (
-      <CustomAppBar hide={this.props.hide} isSowin={config.brand === "KING8"}>
+      <CustomAppBar hide={this.props.hide}>
         <InnerWrap>
           <TopContainer>
             <TimerContainer>
