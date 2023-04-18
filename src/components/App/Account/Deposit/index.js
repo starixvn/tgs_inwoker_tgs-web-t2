@@ -306,9 +306,7 @@ class Deposit extends Component {
           ].paymentcode.toUpperCase() === "WANDAPAY"
         ) {
           if (!this.props.account.info.member_name) {
-            this.props.history.push(
-              "/" + i18n.language + "/account/profile/member_name"
-            );
+            this.props.history.push("/account/profile/member_name");
           }
         }
       }
@@ -642,8 +640,8 @@ class Deposit extends Component {
         );
       } else if (method.methodcode === "Pulsa") {
         let phone = this.props.wallet.bankCardList[bankCardIndex]
-        ? this.props.wallet.bankCardList[bankCardIndex].detail.phone
-        : "";
+          ? this.props.wallet.bankCardList[bankCardIndex].detail.phone
+          : "";
         if (config.features.Deposit_AddCard) {
           this.props.doPulsaDepositWithDetail(
             this.state.amount.replace(/,/g, ""),

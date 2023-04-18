@@ -102,8 +102,6 @@ class AgSlider extends Component {
               GameTypeEnum.SPORTS,
               "",
               GameEnum.SBO,
-              "/" +
-                i18n.language +
                 "/joingame/" +
                 GameTypeEnum.SPORTS +
                 "/" +
@@ -119,8 +117,7 @@ class AgSlider extends Component {
               GameTypeEnum.SPORTS,
               "",
               GameEnum.SABA,
-              "/" +
-                i18n.language +
+            
                 "/joingame/" +
                 GameTypeEnum.SPORTS +
                 "/" +
