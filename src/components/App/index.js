@@ -52,7 +52,7 @@ import CustomLibrary from "./Sports/CustomLibrary";
 import ForcedVerification from "./ForcedVerification";
 import Home from "./Home";
 // const bc = new BroadcastChannel("refreshBalance");
-const baseRouteUrl = Common.baseRouteUrl;
+
 const Main = styled.div`
   min-height: 600px;
 `;
@@ -119,14 +119,14 @@ class App extends Component {
     //this.props.getHomePageGameList();
     const urlpath = this.props.location.pathname.split("/");
 
-    if (urlpath.length === 4) {
-      if (urlpath[2] === "a") {
-        localStorage.setItem("promotionId", urlpath[3] || "");
+    if (urlpath.length === 3) {
+      if (urlpath[1] === "a") {
+        localStorage.setItem("promotionId", urlpath[2] || "");
         localStorage.setItem("upper", ""); //reset
         localStorage.setItem("invitationtype", "a");
       }
-      if (urlpath[2] === "p") {
-        localStorage.setItem("upper", urlpath[3] || "");
+      if (urlpath[1] === "p") {
+        localStorage.setItem("upper", urlpath[2] || "");
         localStorage.setItem("promotionId", ""); //reset
         localStorage.setItem("invitationtype", "p");
       }
@@ -135,6 +135,7 @@ class App extends Component {
       localStorage.setItem("upper", ""); //reset
       localStorage.setItem("promotionId", ""); //reset
     }
+
     let urlParams = new URLSearchParams(this.props.location.search);
     if (urlParams.has("goto")) {
       const gotoValue = urlParams.get("goto");
@@ -145,7 +146,7 @@ class App extends Component {
     if (urlParams.has("open")) {
       const openValue = urlParams.get("open");
       if (openValue) {
-        AppHistory.replace("/" + i18n.language + "/" + openValue);
+        AppHistory.replace("/" + openValue);
       }
     }
     if (urlParams.has("do")) {
@@ -207,19 +208,13 @@ class App extends Component {
               !bankInfoAuthentication
             ) {
               if (isPhoneNull) {
-                AppHistory.push(
-                  "/" + i18n.language + "/account/profile/member_phone"
-                );
+                AppHistory.push("/account/profile/member_phone");
               } else {
                 if (isEmailNull) {
-                  AppHistory.push(
-                    "/" + i18n.language + "/account/profile/member_email"
-                  );
+                  AppHistory.push("/account/profile/member_email");
                 } else {
                   if (!isRegisterCompleted) {
-                    AppHistory.push(
-                      "/" + i18n.language + "/account/withdrawal?do=addCard"
-                    );
+                    AppHistory.push("/account/withdrawal?do=addCard");
                   }
                 }
               }
@@ -275,15 +270,10 @@ class App extends Component {
         this.props.account.info.member_email !== null &&
         this.props.account.info.bankInfoAuthentication !== undefined &&
         !this.props.account.info.bankInfoAuthentication &&
-        this.props.location.pathname !== `/${i18n.language}/account/withdrawal`
+        this.props.location.pathname !== `/account/withdrawal`
       ) {
-        if (
-          this.props.location.pathname !==
-          `/${i18n.language}/account/withdrawal`
-        ) {
-          AppHistory.push(
-            "/" + i18n.language + "/account/withdrawal?do=addCard"
-          );
+        if (this.props.location.pathname !== `/account/withdrawal`) {
+          AppHistory.push("/account/withdrawal?do=addCard");
           return;
         }
       }
@@ -304,7 +294,7 @@ class App extends Component {
       preProps.general.isMaintenance !== this.props.general.isMaintenance &&
       this.props.general.isMaintenance === true
     ) {
-      this.props.history.push("/" + i18n.language + "/maintenance");
+      this.props.history.push("/maintenance");
     }
     if (
       preProps.general.brandLanguage !== this.props.general.brandLanguage &&
@@ -315,10 +305,28 @@ class App extends Component {
           (a) => a.culturecode === i18n.language
         ).length <= 0
       ) {
-        window.location.href = window.location.pathname.replace(
-          i18n.language,
-          this.props.general.brandLanguage[0].culturecode
-        );
+        if (
+          this.props.general.brandLanguage.filter((a) => {
+            return a.culturecode === i18n.language;
+          })
+        ) {
+          i18n.changeLanguage(this.props.general.brandLanguage[0].culturecode);
+
+          window.location.reload();
+        }
+      } else {
+        if (
+          this.props.general.brandLanguage.filter(
+            (a) => a.culturecode === i18n.language
+          )
+        ) {
+          if (
+            window.location.pathname.split("/")[1] !== i18n.language ||
+            window.location.pathname.split("/").length > 3
+          ) {
+            i18n.changeLanguage(i18n.language);
+          }
+        }
       }
     }
   }
@@ -349,7 +357,7 @@ class App extends Component {
     if (this.props.account.token == null) {
       this.props.showLogin(true);
     } else {
-      this.props.history.push("/" + i18n.language + "/account/deposit");
+      this.props.history.push("/account/deposit");
     }
   };
 
@@ -409,12 +417,12 @@ class App extends Component {
                     <Route
                       exact
                       path={[
-                        baseRouteUrl + "/",
-                        baseRouteUrl + "/a/:promotionid",
-                        baseRouteUrl + "/t/:promotionid",
-                        baseRouteUrl + "/f/:promotionid",
-                        baseRouteUrl + "/p/:playername",
-                        baseRouteUrl + "/register&visitor_id=:subid",
+                        "/",
+                        "/a/:promotionid",
+                        "/t/:promotionid",
+                        "/f/:promotionid",
+                        "/p/:playername",
+                        "/register&visitor_id=:subid",
                       ]}
                       render={(props) => (
                         <Home
@@ -425,7 +433,7 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/live"}
+                      path={"/live"}
                       render={(props) => (
                         <LiveGame
                           performBalanceRefresh={this.performBalanceRefresh}
@@ -434,7 +442,7 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/chess"}
+                      path={"/chess"}
                       render={(props) => (
                         <Qipai
                           performBalanceRefresh={this.performBalanceRefresh}
@@ -443,7 +451,7 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/sports"}
+                      path={"/sports"}
                       render={(props) => (
                         <Sports
                           performBalanceRefresh={this.performBalanceRefresh}
@@ -452,7 +460,7 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/esports"}
+                      path={"/esports"}
                       render={(props) => (
                         <ESports
                           performBalanceRefresh={this.performBalanceRefresh}
@@ -461,12 +469,12 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/sports/play/:params/:type"}
+                      path={"/sports/play/:params/:type"}
                       component={SportsPlay}
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/sports/:platform"}
+                      path={"/sports/:platform"}
                       render={(props) => (
                         <CustomLibrary
                           {...props}
@@ -476,12 +484,12 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/sports/c/:type/:params"}
+                      path={"/sports/c/:type/:params"}
                       component={SlotPlay}
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/lottery"}
+                      path={"/lottery"}
                       render={(props) => (
                         <Lottery
                           performBalanceRefresh={this.performBalanceRefresh}
@@ -490,15 +498,15 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/lottery/play/:params?"}
+                      path={"/lottery/play/:params?"}
                       component={LotteryPlay}
                     />
                     <Route
                       exact
                       path={[
-                        baseRouteUrl + "/slots/:platform?",
-                        baseRouteUrl + "/electron/:platform?",
-                        baseRouteUrl + "/fish/:platform?",
+                        "/slots/:platform?",
+                        "/electron/:platform?",
+                        "/fish/:platform?",
                       ]}
                       render={(props) => (
                         <Slots
@@ -510,51 +518,47 @@ class App extends Component {
                     <Route
                       exact
                       path={[
-                        baseRouteUrl + "/slots/play/:type/:params",
-                        baseRouteUrl + "/electron/play/:type/:params",
-                        baseRouteUrl + "/fish/play/:type/:params",
+                        "/slots/play/:type/:params",
+                        "/electron/play/:type/:params",
+                        "/fish/play/:type/:params",
                       ]}
                       component={SlotPlay}
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/promotion"}
+                      path={"/promotion"}
                       render={(props) => (
                         <Promotion token={this.props.account.token} />
                       )}
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/promotion/:id"}
+                      path={"/promotion/:id"}
                       render={(props) => <PromotionDetails />}
                     />
                     {config.features.HaveVIPFeature && (
-                      <Route
-                        exact
-                        path={baseRouteUrl + "/vip"}
-                        render={(props) => <VIP />}
-                      />
+                      <Route exact path={"/vip"} render={(props) => <VIP />} />
                     )}
                     {/* <Route
                       exact
-                      path={baseRouteUrl + "/maintenance"}
+                      path={"/maintenance"}
                       render={(props) => <Maintenance />}
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/registersuccess/:username"}
+                      path={"/registersuccess/:username"}
                       component={RegisterSuccess}
                     />{" "} */}
                     <Route
                       exact
-                      path={baseRouteUrl + "/banned"}
+                      path={"/banned"}
                       render={(props) => (
                         <Banned onhandleCSClick={this.GetSupportUrl} />
                       )}
                     />
                     <Route
                       exact
-                      path={baseRouteUrl + "/account/:tab/:popup?"}
+                      path={"/account/:tab/:popup?"}
                       render={(props) => (
                         <Account
                           token={this.props.account.token}
@@ -562,21 +566,23 @@ class App extends Component {
                         />
                       )}
                     />
+                    {config.features.HaveDownloadFeature && (
+                      <Route
+                        exact
+                        path={"/download"}
+                        component={Download}
+                      />
+                    )}
                     <Route
                       exact
-                      path={baseRouteUrl + "/download"}
-                      component={Download}
-                    />
-                    <Route
-                      exact
-                      path={baseRouteUrl + "/cockfight"}
+                      path={"/cockfight"}
                       render={(props) => (
                         <Cockfight
                           performBalanceRefresh={this.performBalanceRefresh}
                         />
                       )}
                     />
-                    <Redirect to={"/" + languageDetector} />
+                    <Redirect to={"/"} />
                   </Switch>
                 </Main>
 
@@ -612,8 +618,7 @@ class App extends Component {
                   config.features.ForcedVerification && (
                     <Redirect
                       to={{
-                        pathname:
-                          "/" + i18n.language + "/account/profile/member_phone",
+                        pathname: "/account/profile/member_phone",
                         state: { forced: true },
                       }}
                     />
