@@ -1,4 +1,5 @@
 FROM node:16.6.1-stretch-slim AS build
+
 WORKDIR /src
 COPY . .
 
