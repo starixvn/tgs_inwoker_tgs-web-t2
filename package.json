@@ -11,6 +11,7 @@
     "@unicef/material-ui-currency-textfield": "^0.8.6",
     "animate.css": "^4.1.1",
     "axios": "^0.21.1",
+    "copy-image-clipboard": "^2.1.2",
     "copy-to-clipboard": "^3.3.1",
     "cross-env": "^6.0.3",
     "cryptr": "^6.0.2",
