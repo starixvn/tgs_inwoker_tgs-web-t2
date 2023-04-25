@@ -1,6 +1,5 @@
 import "react-app-polyfill/ie11";
 import "react-app-polyfill/stable";
-import "./web.config";
 
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
