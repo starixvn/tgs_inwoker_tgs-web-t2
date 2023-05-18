@@ -140,7 +140,7 @@ class ESports extends Component {
                     <GirlImage
                       img={
                         process.env.PUBLIC_URL +
-                        "/assets/images/pcGamePage/sports/" +
+                        "/assets/images/pcGamePage/esports/" +
                         (config.features.SportsHideLogo ? "hkjp/" : "") +
                         item.abbreviation.toLowerCase() +
                         (config.features.SportsHideLogo
@@ -172,7 +172,7 @@ class ESports extends Component {
                     <GirlImage
                       img={
                         process.env.PUBLIC_URL +
-                        "/assets/images/pcGamePage/sports/" +
+                        "/assets/images/pcGamePage/esports/" +
                         (config.features.SportsHideLogo ? "hkjp/" : "") +
                         item.abbreviation.toLowerCase() +
                         (config.features.SportsHideLogo
