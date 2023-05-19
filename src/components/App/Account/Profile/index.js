@@ -742,6 +742,16 @@ class Profile extends Component {
   handleCloseDialog = () => {
     this.setState({ ...this.state, openDialog: false });
   };
+  getCustomMessagingTranslation = (platform) => {
+    switch (platform) {
+      case "qq":
+        return i18n.t("common.qqNumber");
+      case "wechat":
+        return i18n.t("common.wechatNumber");
+      default:
+        return i18n.t("common." + platform);
+    }
+  };
 
   render() {
     const forcedverify =
@@ -821,7 +831,7 @@ class Profile extends Component {
             config.features.CustomMessaging.map((platform) => {
               return GetContentWrap(
                 this.props.account.info,
-                i18n.t("common." + platform),
+                this.getCustomMessagingTranslation(platform),
                 "member_" + platform,
                 this.handleButtonClick
               );
