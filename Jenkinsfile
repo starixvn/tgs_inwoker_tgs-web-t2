@@ -113,14 +113,14 @@ pipeline {
             }
         }	
         
-        stage('Purge Cache'){
-            steps {
-                script {   
-                    sh "sleep 120"
-                    sh "bash /var/lib/jenkins/tgs-jenkins-jobs/shellscripts/purge_cache_multiple_domain.sh gameok"
-                }
-            }
-        }
+        // stage('Purge Cache'){
+        //     steps {
+        //         script {   
+        //             sh "sleep 120"
+        //             sh "bash /var/lib/jenkins/tgs-jenkins-jobs/shellscripts/purge_cache_multiple_domain.sh gameok"
+        //         }
+        //     }
+        // }
 
         // stage('Add Tag on Prod') {
         //     when {
