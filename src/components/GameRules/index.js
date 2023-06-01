@@ -313,7 +313,7 @@
 //     }
 //   };
 //   handleTreeItemChange = path => {
-//     this.props.history.push("/" + i18n.language + "/game-rules/" + path);
+//     this.props.history.push( "/game-rules/" + path);
 //     fetch("/assets/rule/" + i18n.language + "/" + path + ".html")
 //       .then(res => {
 //         return res.text();

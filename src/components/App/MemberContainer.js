@@ -239,7 +239,7 @@ const MemberContainer = (props) => {
         </BtnLogout>
         <Spliter></Spliter>
         <WelcomeContainer>
-          <CustomLink to={"/" + i18n.language + "/account/profile"}>
+          <CustomLink to={"/account/profile"}>
             <MemberUserName>
               {props.account.info.member_username}{" "}
               {config.features.HaveVIPFeature &&

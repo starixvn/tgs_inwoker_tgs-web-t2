@@ -48,12 +48,7 @@ export default function KySlider(props) {
             GameTypeEnum.QIPAILOBBY,
             "",
             GameEnum.KY,
-            "/" +
-              i18n.language +
-              "/joingame/" +
-              GameTypeEnum.QIPAILOBBY +
-              "/" +
-              GameEnum.KY
+            "/joingame/" + GameTypeEnum.QIPAILOBBY + "/" + GameEnum.KY
           )
         }
         img={KyHotGame1PNG}
@@ -68,12 +63,7 @@ export default function KySlider(props) {
             GameTypeEnum.QIPAILOBBY,
             "",
             GameEnum.KY,
-            "/" +
-              i18n.language +
-              "/joingame/" +
-              GameTypeEnum.QIPAILOBBY +
-              "/" +
-              GameEnum.KY
+            "/joingame/" + GameTypeEnum.QIPAILOBBY + "/" + GameEnum.KY
           )
         }
         img={KyHotGame3PNG}
@@ -86,12 +76,7 @@ export default function KySlider(props) {
             GameTypeEnum.QIPAILOBBY,
             "",
             GameEnum.KY,
-            "/" +
-              i18n.language +
-              "/joingame/" +
-              GameTypeEnum.QIPAILOBBY +
-              "/" +
-              GameEnum.KY
+            "/joingame/" + GameTypeEnum.QIPAILOBBY + "/" + GameEnum.KY
           )
         }
         img={KyHotGame2PNG}
@@ -105,12 +90,7 @@ export default function KySlider(props) {
             GameTypeEnum.QIPAILOBBY,
             "",
             GameEnum.KY,
-            "/" +
-              i18n.language +
-              "/joingame/" +
-              GameTypeEnum.QIPAILOBBY +
-              "/" +
-              GameEnum.KY
+            "/joingame/" + GameTypeEnum.QIPAILOBBY + "/" + GameEnum.KY
           )
         }
         img={KyHotGame4PNG}

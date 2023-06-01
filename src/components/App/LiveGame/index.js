@@ -164,19 +164,12 @@ class LiveGame extends Component {
       // this.props.performBalanceRefresh();
       Common.closePreviousPopup();
       var win = Common.PopupCenter(
-        "/" +
-          i18n.language +
-          "/joingame/" +
-          GameTypeEnum.LIVELOBBY +
-          "/" +
-          params.toUpperCase(),
+        "/joingame/" + GameTypeEnum.LIVELOBBY + "/" + params.toUpperCase(),
         params.toUpperCase(),
         1280,
         720
       );
       // var win = window.open(
-      //   "/" +
-      //     i18n.language +
       //     "/joingame/" +
       //     GameTypeEnum.LIVELOBBY +
       //     "/" +
