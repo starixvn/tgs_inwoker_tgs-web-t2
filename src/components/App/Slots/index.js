@@ -139,7 +139,7 @@ const GameTab = styled.div`
   background: url(${(props) =>
       `${
         process.env.PUBLIC_URL
-      }/assets/images/pcGamePage/slots/${props.abbreviation.toLowerCase()}.png`})
+      }/assets/images/provider/${props.abbreviation.toLowerCase()}.png`})
     no-repeat center;
   background-size: contain;
   height: 100%;
