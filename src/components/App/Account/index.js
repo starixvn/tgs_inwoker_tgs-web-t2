@@ -45,6 +45,7 @@ import i18n from "../../../utils/i18n";
 import AvatarPNG from "../../../assets/images/avatar.png";
 import Common from "../../../utils/Common";
 import config from "../../../config/config";
+import Memo from "./Memo";
 
 const Container = styled.div`
   width: 100%;
@@ -340,6 +341,7 @@ class Account extends Component {
           <MenuBonusImg active={this.state.activePage === link}></MenuBonusImg>
         );
       case "inbox":
+      case "memo":
         return (
           <MenuInboxImg active={this.state.activePage === link}></MenuInboxImg>
         );
@@ -409,6 +411,7 @@ class Account extends Component {
               <MenuTitle>{i18n.t("web.account.personal")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.profile"), "profile")}
               {this.genMenuButtonDiv(i18n.t("web.account.inbox"), "inbox")}{" "}
+              {this.genMenuButtonDiv(i18n.t("memo"), "memo")}
               {config.features.HaveVIPFeature &&
                 this.genMenuButtonDiv("VIP", "vip")}
               {this.props.general.haveAffiliate &&
@@ -537,6 +540,19 @@ class Account extends Component {
                       )}
                     />
                   )}
+
+                  <Route
+                    exact
+                    path={"/account/memo"}
+                    render={(props) => (
+                      <Memo
+                        token={this.props.account.token}
+                        account={this.props.account}
+                        onhandleCSClick={this.props.onhandleCSClick}
+                        popup={this.props.match.params.popup}
+                      />
+                    )}
+                  />
                   <Redirect to={"/account/profile"}></Redirect>
                 </Switch>
               </Router>
