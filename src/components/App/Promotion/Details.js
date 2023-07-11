@@ -297,6 +297,7 @@ class PromotionDetails extends Component {
   render() {
     if (this.state.details === null) return <></>;
     var isDummy = this.state.details.promotionType.toUpperCase() === "DUMMY";
+    var isPromoteDepositChannel = this.state.details.promotionType.toUpperCase() === "PROMOTEDEPOSITCHANNEL";
     var checkIfLocalizationIsEmpty =
       JSON.stringify(this.state.details.localization) === "{}";
     return (
@@ -380,7 +381,7 @@ class PromotionDetails extends Component {
               )}
             </EventText>
             <Grid container justify="center">
-              {!isDummy && (
+              {!(isDummy || isPromoteDepositChannel) && (
                 <PromoButtonContainer
                   container
                   alignItems="center"
