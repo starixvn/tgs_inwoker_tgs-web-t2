@@ -77,7 +77,7 @@ const StyleButton = styled.div`
 `}
 
   border-radius: 5px;
-  font-size: 16px;
+  font-size: ${(props)=> i18n.language === "ta-IN" ? "12px" : "16px"};
   color: #fff;
 
   &:hover {
@@ -95,7 +95,7 @@ const StyleButton = styled.div`
 const ButtonLabel = styled.span`
   text-align: center;
   display: block;
-  margin-top: 10px;
+  margin-top: ${(props)=> i18n.language === "ta-IN" ? "5px" : "10px"};
 `;
 const Message = styled.div`
   color: red;
