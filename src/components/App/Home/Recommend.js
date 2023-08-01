@@ -61,7 +61,7 @@ export default function Recommend(props) {
   `;
   const RecommendTitle = styled.div`
     color: #8a7f73;
-    font-size: 30px;
+    font-size: ${(props)=> i18n.language === "ta-IN" ? "22px" : "30px"};
     font-weight: 600;
     position: absolute;
     left: 220px;
@@ -69,7 +69,7 @@ export default function Recommend(props) {
   `;
   const RecommendText = styled.div`
     color: #8a7f73;
-    font-size: 16px;
+    font-size: ${(props)=> i18n.language === "ta-IN" ? "12px" : "16px"};
     position: absolute;
     left: 220px;
     top: 60px;
