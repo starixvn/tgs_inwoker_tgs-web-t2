@@ -96,7 +96,7 @@ const MenuButtonDiv = styled.div`
   margin: 20px 0px 20px 0px;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
-  font-size: 14px;
+  font-size: ${(props)=> i18n.language === "ta-IN" ? "12px" : "14px"};
   &:hover {
     cursor: pointer;
   }
@@ -289,6 +289,7 @@ class Account extends Component {
     ) {
       return;
     }
+    this.setActivePage(link);
     this.props.history.push("/account/" + link);
   };
   handleMoreBenefitClick = (viptitle) => {

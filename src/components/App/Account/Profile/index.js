@@ -63,7 +63,7 @@ const InnerWrap = styled.div`
 const ContentWrap = styled.div`
   margin-top: 12px;
   height: 44px;
-  font-size: 14px;
+  font-size: ${(props)=> i18n.language === "ta-IN" ? "11px" : "14px"};
   width: 100%;
   border-bottom: 1px solid #e9e9e9;
 `;
