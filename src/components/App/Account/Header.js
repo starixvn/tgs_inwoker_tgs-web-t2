@@ -34,11 +34,18 @@ const MainWalletContainer = styled.div`
   margin: 10px 15px;
 `;
 const MainAccountLabel = styled.div`
-  font-size: 16px;
+  font-size: ${(props)=> i18n.language === "ta-IN" ? "12px" : "16px"};
   color: #8a7f73;
   height: 21px;
   float: left;
   margin-top: 25px;
+  ${(props) => i18n.language ? ` 
+  margin-top: 10px;   
+  width: 95px;
+  height: 100%;
+  word-break: break-all;
+  white-space: normal;` : `` 
+  }
 `;
 const AmountContainer = styled.div`
   width: 170px;
