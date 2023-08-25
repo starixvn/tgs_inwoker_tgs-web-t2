@@ -6,9 +6,7 @@ const FeatureGetter = () => {
   const [feature, setFeatures] = useState("");
 
   function getJsonData() {
-    return fetch(
-      "https://" + config.configUrl + "/features_" + config.brand + ".json"
-    )
+    return fetch(config.configUrl + "features_" + config.brand + ".json")
       .then((response) => response.json())
       .then((responseJson) => {
         setFeatures(responseJson);
