@@ -14,8 +14,8 @@ i18n
   .use(initReactI18next)
   .init({
     backend: {
-      loadPath: `https://${config.configUrl}/translation/{{lng}}.json`,
-      addPath: `https://${config.configUrl}/translation/{{lng}}`,
+      loadPath: `${config.configUrl}translation/{{lng}}.json`,
+      addPath: `${config.configUrl}translation/{{lng}}`,
     },
 
     whitelist: [
