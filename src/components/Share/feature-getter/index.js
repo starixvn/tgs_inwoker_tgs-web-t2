@@ -7,9 +7,7 @@ const FeatureGetter = () => {
 
   function getJsonData() {
     return fetch(
-      "https://app12.s3.ap-east-1.amazonaws.com/features_" +
-        config.brand +
-        ".json"
+      "https://" + config.configUrl + "/features_" + config.brand + ".json"
     )
       .then((response) => response.json())
       .then((responseJson) => {
