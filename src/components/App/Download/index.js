@@ -221,9 +221,7 @@ const Download = () => {
 
   function getJsonData() {
     return fetch(
-      "https://app12.s3.ap-east-1.amazonaws.com/version_" +
-        config.brand +
-        ".json"
+      "https://" + config.configUrl + "/version_" + config.brand + ".json"
     )
       .then((response) => response.json())
       .then((responseJson) => {
