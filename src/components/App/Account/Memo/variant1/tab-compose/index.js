@@ -24,6 +24,10 @@ const CustomButton = styled.button`
   padding: 10px 20px;
   border-radius: 6px;
   cursor: pointer;
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
 `;
 
 const CustomTextfield = styled.input`
@@ -76,8 +80,9 @@ const Compose = ({ composeMemo }) => {
               onClick={() => {
                 composeMemo(memoSubject, memoContent);
               }}
+              disabled={memoContent === "" || memoSubject === ""}
             >
-              Submit
+              {i18n.t("common.submit")}
             </CustomButton>
           </div>
         </InputRow>
