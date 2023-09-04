@@ -157,10 +157,7 @@ const Inbox = ({ memo, getmemo, performReplyMemo, readMemo }) => {
 
   return (
     <>
-      <TabContentTitle>
-        <span style={{ color: "red" }}>*</span>
-        {i18n.t("memo")}
-      </TabContentTitle>
+      <TabContentTitle>{i18n.t("memo")}</TabContentTitle>
       <TabsContent>
         <CustomTable>
           <thead>

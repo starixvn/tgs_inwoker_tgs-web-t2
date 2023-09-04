@@ -46,7 +46,6 @@ const Compose = ({ composeMemo }) => {
 
   return (
     <>
-      <TabContentTitle>{i18n.t("compose") + i18n.t("memo")}</TabContentTitle>
       <TabsContent>
         <InputRow>
           <div>
