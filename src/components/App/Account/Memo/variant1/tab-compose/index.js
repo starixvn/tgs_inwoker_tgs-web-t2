@@ -49,7 +49,10 @@ const Compose = ({ composeMemo }) => {
       <TabContentTitle>{i18n.t("compose") + i18n.t("memo")}</TabContentTitle>
       <TabsContent>
         <InputRow>
-          <div>{i18n.t("subject")}</div>
+          <div>
+            <span style={{ color: "red" }}>*</span>
+            {i18n.t("subject")}
+          </div>
           <div>
             <CustomTextfield
               value={memoSubject}
@@ -60,7 +63,10 @@ const Compose = ({ composeMemo }) => {
           </div>
         </InputRow>
         <InputRow>
-          <div>{i18n.t("memo")}</div>
+          <div>
+            <span style={{ color: "red" }}>*</span>
+            {i18n.t("memo")}
+          </div>
           <div>
             <CustomTextArea
               rows="7"

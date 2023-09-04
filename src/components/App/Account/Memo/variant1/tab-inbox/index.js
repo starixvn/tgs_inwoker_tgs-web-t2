@@ -81,7 +81,7 @@ const UpperSection = styled.div`
 
 const InputRow = styled.div`
   display: grid;
-  grid-template-columns: 15% 1fr;
+  grid-template-columns: 20% 1fr;
   padding-bottom: 10px;
 `;
 
@@ -89,6 +89,7 @@ const CustomTextArea = styled.textarea`
   outline: none;
   padding: 5px 10px;
   border: solid 1px #b7c7cc;
+  width: -webkit-fill-available;
 `;
 
 const CustomButton = styled.button`
@@ -99,6 +100,10 @@ const CustomButton = styled.button`
   padding: 10px 20px;
   border-radius: 6px;
   cursor: pointer;
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
 `;
 
 const CustomTextfield = styled.input`
@@ -152,7 +157,10 @@ const Inbox = ({ memo, getmemo, performReplyMemo, readMemo }) => {
 
   return (
     <>
-      <TabContentTitle>{i18n.t("memo")}</TabContentTitle>
+      <TabContentTitle>
+        <span style={{ color: "red" }}>*</span>
+        {i18n.t("memo")}
+      </TabContentTitle>
       <TabsContent>
         <CustomTable>
           <thead>
@@ -220,7 +228,10 @@ const Inbox = ({ memo, getmemo, performReplyMemo, readMemo }) => {
             </div>
           </InputRow>
           <InputRow>
-            <div>{i18n.t("memo")}</div>
+            <div>
+              <span style={{ color: "red" }}>*</span>
+              {i18n.t("memo")}
+            </div>
             <div>
               <CustomTextArea
                 rows="7"
@@ -237,6 +248,7 @@ const Inbox = ({ memo, getmemo, performReplyMemo, readMemo }) => {
             <div></div>
             <div>
               <CustomButton
+                disabled={memoContent === ""}
                 onClick={() => {
                   performReplyMemo(replyId, memoContent);
                   performCloseModal();
