@@ -68,12 +68,15 @@ const TitleIcon = styled.div`
 
 const MemoVariant1 = ({
   sent,
+  setMemo,
   memo,
+  readMemo,
   getMemoV2,
   deliveryBox,
-  readMemo,
   performComposeMemo,
   performReplyMemo,
+  account,
+  setSent,
 }) => {
   const [selected, setSelected] = useState("compose");
 
@@ -86,12 +89,20 @@ const MemoVariant1 = ({
           <Inbox
             readMemo={readMemo}
             memo={memo}
+            setMemo={setMemo}
             getmemo={getMemoV2}
             performReplyMemo={performReplyMemo}
           />
         );
       case "sent":
-        return <Sent sent={sent} action={deliveryBox} />;
+        return (
+          <Sent
+            sent={sent}
+            action={deliveryBox}
+            setSent={setSent}
+            username={account?.info?.member_username}
+          />
+        );
       default:
         return <Compose />;
     }
@@ -115,7 +126,7 @@ const MemoVariant1 = ({
     <Container>
       <Title>
         <TitleIcon></TitleIcon>
-        {i18n.t("inbox.title")}
+        {i18n.t("memoinbox")}
       </Title>
       <InnerWrap>
         <div style={{ width: "inherit" }}>

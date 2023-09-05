@@ -8,8 +8,8 @@ const StyleButton = styled.div`
   border: solid 1px #ffffff;
   ${(props) =>
     props.styledtype === "2"
-      ? "background-color: #404040;"
-      : "background-image: linear-gradient(to top, " +
+      ? "background: " + props.theme.secondary + ";"
+      : "background: linear-gradient(to top, " +
         props.theme.primaryGradient +
         ", " +
         props.theme.primary +
@@ -22,6 +22,8 @@ const StyleButton = styled.div`
 
   padding-top: 20px;
   text-align: center;
+
+  ${(props) => (props.disabled ? "background: #ababab; color: #fff; " : "")}
 `;
 
 class ButtonWap extends Component {
