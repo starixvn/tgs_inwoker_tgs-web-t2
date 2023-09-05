@@ -122,7 +122,7 @@ const MemoVariant1 = ({
     <Container>
       <Title>
         <TitleIcon></TitleIcon>
-        {i18n.t("inbox.title")}
+        {i18n.t("memoinbox")}
       </Title>
       <InnerWrap>
         <div style={{ width: "inherit" }}>

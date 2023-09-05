@@ -411,7 +411,7 @@ class Account extends Component {
               <MenuTitle>{i18n.t("web.account.personal")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.profile"), "profile")}
               {this.genMenuButtonDiv(i18n.t("web.account.inbox"), "inbox")}{" "}
-              {this.genMenuButtonDiv(i18n.t("memo"), "memo")}
+              {this.genMenuButtonDiv(i18n.t("memoinbox"), "memo")}
               {config.features.HaveVIPFeature &&
                 this.genMenuButtonDiv("VIP", "vip")}
               {this.props.general.haveAffiliate &&
