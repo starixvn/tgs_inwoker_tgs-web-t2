@@ -68,10 +68,11 @@ const TitleIcon = styled.div`
 
 const MemoVariant1 = ({
   sent,
+  setMemo,
   memo,
+  readMemo,
   getMemoV2,
   deliveryBox,
-  readMemo,
   performComposeMemo,
   performReplyMemo,
   account,
@@ -87,6 +88,7 @@ const MemoVariant1 = ({
           <Inbox
             readMemo={readMemo}
             memo={memo}
+            setMemo={setMemo}
             getmemo={getMemoV2}
             performReplyMemo={performReplyMemo}
           />
