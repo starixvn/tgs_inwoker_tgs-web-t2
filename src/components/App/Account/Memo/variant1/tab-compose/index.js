@@ -3,6 +3,7 @@ import { TabContentTitle, TabsContent } from "..";
 import styled from "styled-components";
 import { useState } from "react";
 import i18n from "../../../../../../utils/i18n";
+import Modal from "../modal";
 
 const InputRow = styled.div`
   display: grid;
@@ -27,6 +28,7 @@ const CustomButton = styled.button`
   padding: 10px 20px;
   border-radius: 6px;
   cursor: pointer;
+
   &:disabled {
     background: #ccc;
     cursor: not-allowed;
@@ -45,9 +47,44 @@ const CustomTextfield = styled.input`
   }
 `;
 
+const ModalButton = styled.button`
+  background: ${({ theme }) => theme.primary};
+  color: #fff;
+  border: none;
+  outline: none;
+  padding: 10px 35px;
+  border-radius: 6px;
+  cursor: pointer;
+`;
+
+const Content = styled.div`
+  padding: 20px;
+
+  h3 {
+    margin: 30px 0;
+  }
+`;
+
+const ContentWrapper = styled.div`
+  text-align: center;
+`;
+
 const Compose = ({ composeMemo }) => {
   const [memoContent, setMemoContent] = useState("");
   const [memoSubject, setMemoSubject] = useState("");
+
+  const [open, setOpen] = useState(false);
+
+  const performCloseModal = () => {
+    setOpen(false);
+  };
+
+  const confirmSubmission = () => {
+    composeMemo(memoSubject, memoContent);
+    setOpen(false);
+    setMemoContent("");
+    setMemoSubject("");
+  };
 
   return (
     <>
@@ -93,16 +130,24 @@ const Compose = ({ composeMemo }) => {
           <div></div>
           <div>
             <CustomButton
-              onClick={() => {
-                composeMemo(memoSubject, memoContent);
-              }}
               disabled={memoContent === "" || memoSubject === ""}
+              onClick={() => setOpen(true)}
             >
               {i18n.t("common.submit")}
             </CustomButton>
           </div>
         </InputRow>
       </TabsContent>
+      <Modal open={open} handleClose={performCloseModal}>
+        <ContentWrapper>
+          <Content>
+            <h3>{i18n.t("confirmSubmit")}?</h3>
+          </Content>
+          <ModalButton onClick={() => confirmSubmission()}>
+            {i18n.t("common.submit")}
+          </ModalButton>
+        </ContentWrapper>
+      </Modal>
     </>
   );
 };
