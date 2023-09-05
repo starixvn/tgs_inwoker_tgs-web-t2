@@ -76,6 +76,7 @@ const MemoVariant1 = ({
   performComposeMemo,
   performReplyMemo,
   account,
+  setSent,
 }) => {
   const [selected, setSelected] = useState("compose");
 
@@ -98,6 +99,7 @@ const MemoVariant1 = ({
           <Sent
             sent={sent}
             action={deliveryBox}
+            setSent={setSent}
             username={account?.info?.member_username}
           />
         );
