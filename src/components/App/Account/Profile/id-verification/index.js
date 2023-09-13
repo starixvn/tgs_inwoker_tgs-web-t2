@@ -72,28 +72,16 @@ function IDVerification(props) {
       return;
     }
 
-    if (config.features.ICVerificationUpload && icUpload === "") {
-      props.enqueueSnackbar(i18n.t("deposit.msgPlsSelectFile"), {
-        variant: "error",
-      });
-      return;
-    }
+    const checkRequireUploadOrNot = config.features.ICVerificationUpload
+      ? AccountService.UpdateMemberNameAndIC(
+          memberName,
+          memberCard,
+          icUpload[0]
+        )
+      : AccountService.AddPlayerIdentity(memberName, memberCard);
 
-    AccountService.AddRealName(memberName, memberCard).then((response) => {
+    checkRequireUploadOrNot.then((response) => {
       if (response.IsSuccess) {
-        //upload IC when membername and memberic is valid.
-        if (config.features.ICVerificationUpload) {
-          AccountService.UploadIC(icUpload[0]).then((response) => {
-            if (!response.IsSuccess) {
-              props.enqueueSnackbar(
-                ErrorSwitcher.getTranslation(response.info),
-                {
-                  variant: "error",
-                }
-              );
-            }
-          });
-        }
         props.dispatch({
           type: UPDATE_INFO,
           payload: {
@@ -107,15 +95,6 @@ function IDVerification(props) {
         props.enqueueSnackbar(ErrorSwitcher.getTranslation(response.info), {
           variant: "error",
         });
-        // if (response.code === 401) {
-        //   props.enqueueSnackbar(i18n.t("profile.nameVerify.msgInvalidICNum"), {
-        //     variant: "error",
-        //   });
-        // } else {
-        //   props.enqueueSnackbar(response.info, {
-        //     variant: "error",
-        //   });
-        // }
       }
     });
   };
