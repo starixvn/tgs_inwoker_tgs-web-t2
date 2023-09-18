@@ -299,7 +299,7 @@ const CustomAppBar = styled(StyledAppBar)`
   display: ${({ hide }) => {
     return hide ? "none" : "block";
   }};
-  background: ${({ theme }) => theme.pcAppBar ? theme.pcAppBar : "#fff"};
+  background: ${({ theme }) => (theme.pcAppBar ? theme.pcAppBar : "#fff")};
 `;
 
 const GameFrameWrapper = styled.div`
@@ -540,7 +540,7 @@ class Header extends Component {
     ) {
       return;
     }
-    this.props.history.push("/account/inbox");
+    this.props.history.push("/account/memo");
   };
   handleProfileClick = () => {
     if (
