@@ -79,21 +79,12 @@ function IDVerification(props) {
       return;
     }
 
-    AccountService.AddRealName(memberName, memberCard).then((response) => {
+    AccountService.UpdateMemberNameAndIC(
+      memberName,
+      memberCard,
+      config.features.ICVerificationUpload ? icUpload[0] : null
+    ).then((response) => {
       if (response.IsSuccess) {
-        //upload IC when membername and memberic is valid.
-        if (config.features.ICVerificationUpload) {
-          AccountService.UploadIC(icUpload[0]).then((response) => {
-            if (!response.IsSuccess) {
-              props.enqueueSnackbar(
-                ErrorSwitcher.getTranslation(response.info),
-                {
-                  variant: "error",
-                }
-              );
-            }
-          });
-        }
         props.dispatch({
           type: UPDATE_INFO,
           payload: {
@@ -107,15 +98,6 @@ function IDVerification(props) {
         props.enqueueSnackbar(ErrorSwitcher.getTranslation(response.info), {
           variant: "error",
         });
-        // if (response.code === 401) {
-        //   props.enqueueSnackbar(i18n.t("profile.nameVerify.msgInvalidICNum"), {
-        //     variant: "error",
-        //   });
-        // } else {
-        //   props.enqueueSnackbar(response.info, {
-        //     variant: "error",
-        //   });
-        // }
       }
     });
   };
