@@ -265,6 +265,7 @@ const Main = (props) => {
                 {(() => {
                   if (
                     item.banktype === "ThirdParty" ||
+                    item.banktype === "Coinsph" ||
                     item.banktype === "FPS"
                   ) {
                     if (item.detail.phone) {
