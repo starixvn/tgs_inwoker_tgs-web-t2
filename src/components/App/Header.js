@@ -287,7 +287,7 @@ const CustomAppBar = styled(StyledAppBar)`
   display: ${({ hide }) => {
     return hide ? "none" : "block";
   }};
-  background: ${({ theme }) => theme.pcAppBar ? theme.pcAppBar : "#fff"};
+  background: ${({ theme }) => (theme.pcAppBar ? theme.pcAppBar : "#fff")};
 `;
 
 const GameFrameWrapper = styled.div`
@@ -689,7 +689,11 @@ class Header extends Component {
         } else {
           if (gameType === GameTypeEnum.RNGSPORTS) {
             this.props.history.push("/sports/" + gameCode);
-          } else if (gameCode === "WGFM" || gameCode === "WGVIA") {
+          } else if (
+            gameCode === "WGFM" ||
+            gameCode === "WGVIA" ||
+            gameCode === "9WCRICKET"
+          ) {
             window.open(`/joinlobbygame/${gameType}/${gameCode}`, "_blank");
           } else {
             this.props.history.push(
