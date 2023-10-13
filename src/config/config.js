@@ -4,7 +4,11 @@ var template = 2; //2 for T2, 3 for T3 (based on .xd file)
 const config = {
   baseUrl:
     window?.env?.apiUrl ||
-    (window?.env ? "/api/" : "https://stg-t1.rpgp.cc/api/"),
+    (window?.env
+      ? "/api/"
+      : window.location.hostname === "localhost"
+      ? "https://stg-t1.rpgp.cc/api/"
+      : "https://" + window.location.hostname + "/api/"),
   client:
     window?.env?.client ||
     "EsCoOyFA2SCynkW8Zbg7fYjY0YPfIIlp8SgQKTRng908gAeJF5OdC6i",
@@ -23,7 +27,6 @@ const config = {
     : "zh-CN",
   affiliateId: window?.env?.affiliateId || "",
   features: featureList["default"],
-  configUrl: window?.env?.configUrl || "https://app12.srvptt.com/",
 };
 
 export default config;
