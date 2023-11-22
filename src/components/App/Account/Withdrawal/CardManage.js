@@ -187,9 +187,8 @@ function CardManage(props) {
         {!(
           config.features.AddCard_NotAllowedEditDelete ||
           config.features.ChangesNotAllowed ||
-          (props.bankCardList.length >=
-            config.features.AddCard_MaximumCardAllowed &&
-            config.features.AddCard_DisableCreateUpdateDelete)
+          props.bankCardList.length >=
+            config.features.AddCard_MaximumCardAllowed
         ) && (
           <AddCardFrame onClick={props.onhandleAddCardClick}>
             <AddCardFrameLabel>{i18n.t("card.msgAddCard")}</AddCardFrameLabel>
