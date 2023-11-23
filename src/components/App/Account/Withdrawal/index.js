@@ -373,8 +373,9 @@ class Withdrawal extends Component {
       !(
         config.features.AddCard_NotAllowedEditDelete ||
         config.features.ChangesNotAllowed ||
-        this.props.wallet.bankCardList.length >=
-          config.features.AddCard_MaximumCardAllowed
+        (this.props.wallet.bankCardList.length >=
+          config.features.AddCard_MaximumCardAllowed &&
+          !config.features.AddCard_MaxCardAllowRemove)
       )
     ) {
       this.setState({ ...this.state, displayView: 3 });
