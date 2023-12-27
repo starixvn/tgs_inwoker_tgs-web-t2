@@ -539,7 +539,7 @@ class Deposit extends Component {
       ...this.state,
       amount: "",
       selectedChannelIndex: index,
-      depositPromotion: ""
+      depositPromotion: "",
     });
   };
   handleMethodChange = (index) => {
@@ -705,11 +705,10 @@ class Deposit extends Component {
             config.features.Deposit_ManualDepositPassPhone ? phone : null
           );
         }
-      }
-      else if (method.methodcode === "Coinsph") {
+      } else if (method.methodcode === "Coinsph") {
         let name = this.props.wallet.bankCardList[bankCardIndex]
-        ? this.props.wallet.bankCardList[bankCardIndex].detail.name || ""
-        : "";
+          ? this.props.wallet.bankCardList[bankCardIndex].detail.name || ""
+          : "";
         let phone = this.props.wallet.bankCardList[bankCardIndex]
           ? this.props.wallet.bankCardList[bankCardIndex].detail.phone || ""
           : "";
@@ -729,7 +728,7 @@ class Deposit extends Component {
             config.features.Deposit_AddCard
               ? this.props.wallet.bankCardList[bankCardIndex].detail
               : null,
-              name,
+            name,
             config.features.Deposit_ManualDepositPassPhone ? phone : null,
             address
           );
@@ -983,7 +982,7 @@ class Deposit extends Component {
       }
     }
   };
-  
+
   hasDepositPromotion = (item) => {
     return (
       [
@@ -992,6 +991,7 @@ class Deposit extends Component {
         "DailyFirstDeposit",
         "DepositReward",
         "DepositAccumulateRoulette",
+        "AccountFirstDeposit",
       ].indexOf(item.promotionType) >= 0
     );
   };
@@ -1001,7 +1001,6 @@ class Deposit extends Component {
       ? this.state.amount >= item.campaignDetail.depositMinimumLimit
       : true;
   };
-
 
   switchStep = (steps) => {
     switch (steps) {
