@@ -20,7 +20,7 @@ const VersionNumber = () => {
     }
   }, []);
 
-  return window?.env?.version || version || process.env.REACT_APP_VERSION;
+  return config.version || version || process.env.REACT_APP_VERSION;
 };
 
 export default VersionNumber;
