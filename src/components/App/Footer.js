@@ -7,6 +7,7 @@ import Slider from "react-slick";
 
 import i18n from "../../utils/i18n";
 import config from "../../config/config";
+import VersionNumber from "../../utils/versionnumber";
 
 const Container = styled.div`
   width: 100%;
@@ -206,7 +207,9 @@ function Footer(props) {
                 : config.brand
             )}
         </CopyRightLine2>
-        <Version>Version {process.env.REACT_APP_VERSION}</Version>
+        <Version>
+          Version <VersionNumber />
+        </Version>
       </BottomContainer>
     </Container>
   );
