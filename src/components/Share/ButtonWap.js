@@ -2,23 +2,25 @@ import React, { Component } from "react";
 import styled from "styled-components";
 const StyleButton = styled.div`
   width: 637px;
-  height: 94px;
+  height: 81px;
   border-radius: 8px;
 
   border: solid 1px #ffffff;
-  ${(props) =>
+  background: ${(props) =>
     props.styledtype === "2"
-      ? "background-color: #404040;"
-      : "background-image: linear-gradient(to top, " +
-        props.theme.primaryGradient +
-        ", " +
-        props.theme.primary +
-        ");"}
+      ? " #404040"
+      : props.theme.new_gradientBackground ??
+        `linear-gradient(to top, ${props.theme.primaryGradient}, ${props.theme.primary});`};
 
-  margin:0 auto;
-  font-size: 34px;
+  text-transform: ${({ theme }) =>
+    theme.new_gradientBackground ? "uppercase" : "capitalize"};
+  font-weight: ${({ theme }) =>
+    theme.new_gradientBackground ? "bold" : "normal"};
 
-  color: #ffffff;
+  margin: 0 auto;
+  font-size: 25px;
+
+  color: ${({ theme }) => (theme.new_gradientBackground ? "#000" : "#fff")};
 
   padding-top: 20px;
   text-align: center;

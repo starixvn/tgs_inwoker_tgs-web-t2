@@ -111,10 +111,57 @@ export const themeKING8 = {
   popoverSubWalletText: "#000",
 };
 
+export const BlackGold = {
+  variant: "black gold",
+  primary: "rgb(0, 0, 0)",
+  primaryRgb: "0, 0, 0",
+  primaryText: "#fff",
+  accentText: "rgb(248, 225, 114)",
+  primaryGradient: "rgb(0, 0, 0)",
+  primaryGradientRgb: "0, 0, 0",
+  primaryHightlight: "rgb(0, 0, 0)",
+  secondary: "#404040",
+  secondaryText: "rgba(255,255,255,1)",
+  tertiary: "rgba(255, 255, 255, 1)",
+  tertiaryText: "rgba(255, 255, 255, 0.5)",
+  //new addition to compensate wap-t2
+  appbar: "rgb(0,0,0)",
+  buttonBackground: "#fff",
+  buttonText: "#fff",
+  buttonText2: "#000",
+  bottomnav: "#000",
+  bottomNavAction: "#404040",
+  body: "#000",
+  bodyBackground: "#F0EFF5",
+
+  loginRegisterBtn: "rgb(240, 202, 131)",
+  loginRegisterBtnText: "#795548",
+
+  popoverBackground: "rgba(255,255,255,0.95)",
+  popoverGameTypeText: "rgb(199, 168, 124)",
+  popoverSubWalletText: "#000",
+
+  new_bodyColor: "#000",
+  new_StandardizedBodyColor: true,
+  new_altButtonColor: "rgb(85, 85, 85)",
+  new_bannerButtonColor: "orange",
+  new_gradientBackground: "linear-gradient(to bottom, #FFFC7B, #F0C167)",
+  new_iconSet: 1,
+  new_primary: "rgb(248, 225, 114)",
+  new_loginBg: "rgb(26, 26, 26)",
+  new_inactiveText: "rgba(255,255,255,0.2)",
+  new_textfieldBackground: "rgb(85, 85, 85)",
+  new_textfieldPlaceholder: "rgba(255,255,255,0.5)",
+  new_languageUseDropdown: true,
+  new_textColor: "#fff",
+  new_wapBackground: "rgb(38 38 38)",
+};
+
 export const themeList = {
   default: themeBrown,
   red: themeRed,
   blue: themeBlue,
   themeKING8: themeKING8,
   themeSOWIN: themeKING8,
+  blackgold: BlackGold,
 };

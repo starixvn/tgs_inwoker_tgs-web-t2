@@ -52,6 +52,14 @@ export const GlobalStyles = createGlobalStyle`
 
  
  
+.MuiBottomNavigation-root{
+  background:  ${({ theme }) => theme.appbar};
+  
+}
+
+body{
+  background: ${({ theme }) => theme.new_wapBackground ?? "#cecece"};
+}
 
 
 `;

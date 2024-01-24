@@ -13,7 +13,7 @@ const config = {
   brandName: window?.env?.brandName
     ? window?.env?.brandName
     : window?.env?.brand || "KING8",
-  theme: window?.env?.theme || "red",
+  theme: window?.env?.theme || "blackgold",
   wapVersion: template,
   sourceUrl: window?.env?.sourceUrl || "https://images.srvptt.com/",
   defaultLanguage: window?.env?.defaultLanguage
