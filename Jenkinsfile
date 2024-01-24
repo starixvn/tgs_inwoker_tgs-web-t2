@@ -1,6 +1,5 @@
 @Library('global-shared-library') _
 def componentArray = [];
-def componentArrayMerged = [];
 def message = "";
 pipeline {
     agent any
@@ -20,6 +19,14 @@ pipeline {
                 script {
                     switch(env.GIT_BRANCH)
                     {
+                        case ['v226']:
+                            env.kube_ns = "prod";
+                            env.k8s_config = 'prod-k8s-config';	
+                            sh "git config --file=.gitmodules submodule.src/components/Wap.branch v226";
+                            sh "git config --file=.gitmodules submodule.src/api-services.branch master";
+                            sh "git submodule sync";
+                            sh "git submodule update --remote";
+                            break;
                         case ['master', 'origin/master']:
                             env.kube_ns = "prod";
                             env.k8s_config = 'prod-k8s-config';	
@@ -61,8 +68,7 @@ pipeline {
                         envItems.each { key, value -> 
                             env."tgs_${key}" = value;
                         }
-                        componentArray = "${env.tgs_lobby_t2_components}".split(",")
-						componentArrayMerged = "${env.tgs_lobby_t2_components_merged}".split(",")
+                        componentArray = "${env.tgs_lobby_t2_v226_components}".split(",")
                     }
                 }
 
@@ -102,12 +108,10 @@ pipeline {
                 script {			
                     withKubeConfig([credentialsId: env.k8s_config]) {
                         message += "\nComponent:"
-						if (env.tgs_lobby_t2_components!="") {
-							for (i = 0;i < componentArray.length; i++) {
-								message += "\n    ${componentArray[i]}"
-								sh "kubectl set image deployment/${componentArray[i]} ${componentArray[i]}=${Registry}${Image}:${TAG} --record -n $env.kube_ns"
-							}
-						}
+                        for (i = 0;i < componentArray.length; i++) {
+                            message += "\n    ${componentArray[i]}"
+                            sh "kubectl set image deployment/${componentArray[i]} ${componentArray[i]}=${Registry}${Image}:${TAG} --record -n $env.kube_ns"
+                        }
                     }
                 }
             }
