@@ -155,6 +155,7 @@ export const BlackGold = {
   new_languageUseDropdown: true,
   new_textColor: "#fff",
   new_wapBackground: "rgb(38 38 38)",
+  new_accent: "rgb(0, 173, 239)",
 };
 
 export const themeList = {
