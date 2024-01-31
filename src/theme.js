@@ -116,7 +116,7 @@ export const BlackGold = {
   primary: "rgb(0, 0, 0)",
   primaryRgb: "0, 0, 0",
   primaryText: "#fff",
-  accentText: "rgb(248, 225, 114)",
+  accentText: "#D4B391",
   primaryGradient: "rgb(0, 0, 0)",
   primaryGradientRgb: "0, 0, 0",
   primaryHightlight: "rgb(0, 0, 0)",
