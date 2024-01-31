@@ -27,6 +27,22 @@ pipeline {
                             sh "git submodule sync";
                             sh "git submodule update --remote";
                             break;
+                        case ['stg/v226']:
+                            env.kube_ns = "staging";
+                            env.k8s_config = 'stag-k8s-config';	
+                            sh "git config --file=.gitmodules submodule.src/components/Wap.branch v226";
+                            sh "git config --file=.gitmodules submodule.src/api-services.branch develop";
+                            sh "git submodule sync";
+                            sh "git submodule update --remote";
+                            break;
+                        case ['dev/v226']:
+                            env.kube_ns = "dev";
+                            env.k8s_config = 'k8s-kube-config';	
+                            sh "git config --file=.gitmodules submodule.src/components/Wap.branch v226";
+                            sh "git config --file=.gitmodules submodule.src/api-services.branch develop";
+                            sh "git submodule sync";
+                            sh "git submodule update --remote";
+                            break;
                         case ['master', 'origin/master']:
                             env.kube_ns = "prod";
                             env.k8s_config = 'prod-k8s-config';	
