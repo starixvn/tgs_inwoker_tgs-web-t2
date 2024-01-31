@@ -146,6 +146,8 @@ export const BlackGold = {
   new_altButtonColor: "rgb(85, 85, 85)",
   new_bannerButtonColor: "orange",
   new_gradientBackground: "linear-gradient(to bottom, #FFFC7B, #F0C167)",
+  new_gradientBackground1: "linear-gradient(180deg, #3c3c3c 0%, #101010 100%) ",
+  new_gradientBackground2: "linear-gradient(to bottom, #D4B391, #AD8B67)",
   new_iconSet: 1,
   new_primary: "rgb(248, 225, 114)",
   new_loginBg: "rgb(26, 26, 26)",
