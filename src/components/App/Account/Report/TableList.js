@@ -115,9 +115,7 @@ const headerLists = {
     {
       title: `report.status`,
     },
-    {
-      title: `remark`,
-    },
+
     {
       align: "right",
       title: `common.amount`,
@@ -157,6 +155,9 @@ const headerLists = {
     {
       align: "",
       title: `report.status`,
+    },
+    {
+      title: `remark`,
     },
     {
       align: "right",
@@ -310,7 +311,6 @@ function TableList(props) {
               <StyledTableCell>
                 {i18n.t(`report.deposit.status${row.status}`)}
               </StyledTableCell>
-              <StyledTableCell>{row.remark}</StyledTableCell>
               <StyledTableCell align="right">{row.amount}</StyledTableCell>
               <StyledTableCell>
                 {row.status === 1 && row.canuploadcerts === true && (
@@ -370,7 +370,8 @@ function TableList(props) {
               <StyledTableCell>{row.orderno}</StyledTableCell>
               <StyledTableCell>
                 {i18n.t(`report.withdrawal.status${row.status}`)}
-              </StyledTableCell>
+              </StyledTableCell>{" "}
+              <StyledTableCell>{row.remark}</StyledTableCell>
               <StyledTableCell align="right">{row.amount}</StyledTableCell>
             </StyledTableRow>
           );
