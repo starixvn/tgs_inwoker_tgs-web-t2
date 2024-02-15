@@ -104,7 +104,7 @@ pipeline {
                 sh "docker push ${Registry}${Image}:$env.kube_ns"
             }
         }
-		stage('Deploy') {
+        stage('Deploy') {
             when {
                 expression {
                     return env.kube_ns == 'prod';
