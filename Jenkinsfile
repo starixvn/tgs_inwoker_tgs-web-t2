@@ -104,21 +104,21 @@ pipeline {
                 sh "docker push ${Registry}${Image}:$env.kube_ns"
             }
         }
-        // stage('Deploy') {
-        //     when {
-        //         expression {
-        //             return env.kube_ns == 'prod';
-        //         }
-        //     }
+        stage('Deploy') {
+            when {
+                expression {
+                    return env.kube_ns == 'prod';
+                }
+            }
 
-        //     steps {
-        //         script {
-        //             input message: 'Ready to go?', ok: 'yes';
-        //         }
+            steps {
+                script {
+                    input message: 'Ready to go?', ok: 'yes';
+                }
                 
-        //         sh "echo start deploy"
-        //     }
-        // }
+                sh "echo start deploy"
+            }
+        }
         stage('Deployment') {   
             steps {	  
                 script {			
