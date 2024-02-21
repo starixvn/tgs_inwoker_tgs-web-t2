@@ -154,6 +154,7 @@ const FeeSpot = styled.div`
     font-weight: bold;
   }
 `;
+
 class NewStepOne extends Component {
   render() {
     const {
@@ -170,6 +171,7 @@ class NewStepOne extends Component {
       exchangeRate,
       playerNote,
       onPlayerNoteChange,
+      rate,
     } = this.props;
     if (paymentType === null) return <></>;
 
@@ -338,7 +340,6 @@ class NewStepOne extends Component {
                     pattern="[0-9]*"
                     type={"number"}
                   ></TextField>
-
                   <LimitPopupContainer>
                     <LimitLabel>{i18n.t("deposit.limitDeposit")} </LimitLabel>
                     <LimitAmount>
@@ -355,6 +356,7 @@ class NewStepOne extends Component {
                       )}
                     </LimitAmount>
                   </LimitPopupContainer>
+
                   {(() => {
                     if (
                       methodList[selectedMethodIndex].methodcode === "Crypto"
@@ -406,6 +408,7 @@ class NewStepOne extends Component {
                       }
                     }
                   })()}
+
                   {paymentType.paymentcode.toUpperCase() === "UMPAY" && (
                     <Remark>{i18n.t("deposit.ppRemark")}</Remark>
                   )}
