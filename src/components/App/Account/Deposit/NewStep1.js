@@ -195,6 +195,18 @@ const FeeSpot = styled.div`
   }
 `;
 
+const ExchangeRateCalculation = styled.div`
+  color: #747474;
+  .remark {
+    margin-top: 10px;
+  }
+
+  span {
+    color: ${({ theme }) => theme.primary};
+    font-weight: bold;
+  }
+`;
+
 const NewStepOne = (props) => {
   const {
     amount,
@@ -213,6 +225,7 @@ const NewStepOne = (props) => {
     files,
     playerNote,
     onPlayerNoteChange,
+    rate,
   } = props;
 
   if (paymentType === null) return <></>;
@@ -834,6 +847,23 @@ const NewStepOne = (props) => {
                     }
                   }
                 })()}
+
+                {methodList[selectedMethodIndex].methodcode === "Crypto" &&
+                  paymentType.paymentcode.toLowerCase() === "ubpay" &&
+                  config.currency === "VND" &&
+                  rate > 0 && (
+                    <ExchangeRateCalculation>
+                      <div className="remark">
+                        {" "}
+                        1 VND: <span>{rate}</span> (USDT)
+                      </div>
+                      <div>
+                        {i18n.t("deposit.totalAmount")}:{" "}
+                        <span>${amount > 0 ? rate * amount : 0}</span>
+                      </div>
+                    </ExchangeRateCalculation>
+                  )}
+
                 {(() => {
                   if (methodList[selectedMethodIndex].methodcode === "Crypto") {
                     if (paymentCode("leepay")) {
