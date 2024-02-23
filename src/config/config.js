@@ -9,7 +9,7 @@ const config = {
     window?.env?.client ||
     "EsCoOyFA2SCynkW8Zbg7fYjY0YPfIIlp8SgQKTRng908gAeJF5OdC6i",
   currency: window?.env?.currency || "HKD",
-  brand: window?.env?.brand || process.env.REACT_APP_BRAND || "KING8",
+  brand: window?.env?.brand || process.env.REACT_APP_BRAND || "V226",
   brandName: window?.env?.brandName
     ? window?.env?.brandName
     : window?.env?.brand || "KING8",
@@ -24,6 +24,7 @@ const config = {
   affiliateId: window?.env?.affiliateId || "",
   features: featureList["default"],
   version: window?.env?.version,
+  configUrl: window?.env?.configUrl || "https://app12.srvptt.com/",
 };
 
 export default config;
