@@ -28,7 +28,7 @@ pipeline {
                         case ['stg/v226']:
                             env.kube_ns = "staging";
                             env.k8s_config = 'stag-k8s-config';	
-                            sh "git config --file=.gitmodules submodule.src/components/Wap.branch v226";
+                            sh "git config --file=.gitmodules submodule.src/components/Wap.branch stg/v226";
                             sh "git config --file=.gitmodules submodule.src/api-services.branch develop"
                             break;
                         case ['dev/v226']:
