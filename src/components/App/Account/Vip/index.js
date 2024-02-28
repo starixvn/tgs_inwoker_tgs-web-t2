@@ -6,6 +6,7 @@ import i18n from "../../../../utils/i18n";
 import IconVIPPNG from "../../../../assets/images/icon-vip.png";
 import config from "../../../../config/config";
 import Common from "../../../../utils/Common";
+import VipWidget from "../widget/vip";
 
 const heightSwitcher = (language) => {
   switch (language) {
@@ -212,13 +213,10 @@ const VIP = (props) => {
     );
   };
 
-  return (
-    <Container>
-      <Title>
-        <TitleIcon></TitleIcon>
-        VIP
-      </Title>
-      <InnerWrap>
+  const OriginalCode = () => {
+    return (
+      <>
+        {" "}
         {vipBenefit.items && vipBenefit.items.length > 0 && (
           <TableWrapper>
             <VipLevelContainer>
@@ -268,7 +266,6 @@ const VIP = (props) => {
             </VipLevelContainer>
           </TableWrapper>
         )}
-
         {vipBenefit.items && vipBenefit.items.length > 0 && (
           <TableWrapper>
             <VipLevelContainer2>
@@ -323,6 +320,18 @@ const VIP = (props) => {
             </VipLevelContainer2>
           </TableWrapper>
         )}
+      </>
+    );
+  };
+
+  return (
+    <Container>
+      <Title>
+        <TitleIcon></TitleIcon>
+        VIP
+      </Title>
+      <InnerWrap>
+        <VipWidget vip={vipBenefitList} />
       </InnerWrap>
     </Container>
   );
