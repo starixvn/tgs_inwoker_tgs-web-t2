@@ -1,5 +1,5 @@
 import i18next from "i18next";
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import config from "../../../config/config";
 
@@ -20,19 +20,19 @@ const randomNumberGenerator = (min, max) => {
 };
 
 const OnlineUserDisplayer = ({ color, size, textAlign, padding }) => {
-  const totalPlayerRef = useRef(null);
-
-  const generateRandomNumber = useCallback(() => {
-    const userRange = randomNumberGenerator(
-      config.features.Home_OnlineUsers.min,
-      config.features.Home_OnlineUsers.max
-    );
-    totalPlayerRef.current = userRange;
-    sessionStorage.setItem("userOnlineCount", userRange);
-  }, []);
+  const [totalPlayer, setTotalPlayer] = useState(null);
 
   useEffect(() => {
-    if (totalPlayerRef.current === null) {
+    const generateRandomNumber = () => {
+      const userRange = randomNumberGenerator(
+        config.features.Home_OnlineUsers.min,
+        config.features.Home_OnlineUsers.max
+      );
+      setTotalPlayer(userRange);
+      sessionStorage.setItem("userOnlineCount", userRange);
+    };
+
+    if (totalPlayer === null) {
       setTimeout(generateRandomNumber, 1000);
     }
 
@@ -41,7 +41,7 @@ const OnlineUserDisplayer = ({ color, size, textAlign, padding }) => {
     return () => {
       clearInterval(interval);
     };
-  }, [generateRandomNumber]);
+  }, []);
 
   return (
     <OnlineDisplayerText
@@ -51,7 +51,7 @@ const OnlineUserDisplayer = ({ color, size, textAlign, padding }) => {
       padding={padding}
     >
       {i18next.t("common.playeronline")}:{" "}
-      <OnlineUserText>{totalPlayerRef.current}</OnlineUserText>
+      <OnlineUserText>{totalPlayer}</OnlineUserText>
     </OnlineDisplayerText>
   );
 };
