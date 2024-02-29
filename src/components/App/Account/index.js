@@ -65,6 +65,7 @@ const Main = styled.div`
   width: 1206px;
   position: relative;
   border-radius: 10px;
+  min-height: 1000px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 `;
 const LeftMenu = styled.div`
@@ -75,6 +76,7 @@ const LeftMenu = styled.div`
   box-shadow: 6px 0 8px -6px rgb(50 50 93 / 45%);
   position: absolute;
   height: 100%;
+
   left: 0;
   top: 0;
 `;
@@ -97,7 +99,7 @@ const MenuButtonDiv = styled.div`
   margin: 20px 0px 20px 0px;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
-  font-size: ${(props)=> i18n.language === "ta-IN" ? "12px" : "14px"};
+  font-size: ${(props) => (i18n.language === "ta-IN" ? "12px" : "14px")};
   &:hover {
     cursor: pointer;
   }
