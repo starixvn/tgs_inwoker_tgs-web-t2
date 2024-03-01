@@ -180,9 +180,7 @@ const AppWrapper = () => {
   const [isReady, setIsReady] = React.useState(false);
   useEffect(() => {
     i18n.on("languageChanged", (lng) => {
-      document.getElementById("title").innerHTML = i18n
-        .t("common.title")
-        .replace(/{brand}/g, Config.brandName);
+      document.getElementById("title").innerHTML = Config.brandName;
       document
         .getElementById("description")
         .setAttribute(
