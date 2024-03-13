@@ -115,6 +115,7 @@ const headerLists = {
     {
       title: `report.status`,
     },
+
     {
       align: "right",
       title: `common.amount`,
@@ -154,6 +155,9 @@ const headerLists = {
     {
       align: "",
       title: `report.status`,
+    },
+    {
+      title: `remark`,
     },
     {
       align: "right",
@@ -303,7 +307,6 @@ function TableList(props) {
               <StyledTableCell>
                 {moment(row.createdon).format("YYYY-MM-DD hh:mm a")}
               </StyledTableCell>
-
               <StyledTableCell>{row.orderno}</StyledTableCell>
               <StyledTableCell>
                 {i18n.t(`report.deposit.status${row.status}`)}
@@ -367,7 +370,8 @@ function TableList(props) {
               <StyledTableCell>{row.orderno}</StyledTableCell>
               <StyledTableCell>
                 {i18n.t(`report.withdrawal.status${row.status}`)}
-              </StyledTableCell>
+              </StyledTableCell>{" "}
+              <StyledTableCell>{row.remark}</StyledTableCell>
               <StyledTableCell align="right">{row.amount}</StyledTableCell>
             </StyledTableRow>
           );
