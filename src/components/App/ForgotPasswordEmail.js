@@ -2,21 +2,22 @@ import React, { Component } from "react";
 
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
-import LoginBGPNG from "../../assets/images/login-bg.png";
 
 import TextField from "@material-ui/core/TextField";
 import { withSnackbar } from "notistack";
 import { AccountService } from "../../api-services/services/AccountService";
-import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
 const Container = styled.div`
   width: 506px;
   height: 360px;
-  background: url(${LoginBGPNG});
+  background: #101213;
   display: table;
 `;
 const CloseIconContainer = styled.div`
-  background: url(${IconLoginClosePNG}) no-repeat;
+  background: url(${process.env.PUBLIC_URL +
+    "/assets/images/iconpack/close.png"})
+    no-repeat;
+  background-size: 100%;
   width: 28px;
   height: 28px;
   float: right;
@@ -30,7 +31,7 @@ const TitleContainer = styled.div`
 
   font-size: 28px;
 
-  color: #000;
+  color: #fff;
 `;
 
 const FormContainer = styled.div`
@@ -39,30 +40,22 @@ const FormContainer = styled.div`
 const CustomText = withStyles({
   root: {
     width: "350px",
-    height: "46px",
+    height: "51px",
+    borderRadius: "6px",
+    border: "none",
+    boxShadow: "0px 3px 8px -2px rgba(0,0,0,0.75)",
     margin: 0,
     marginTop: "13px",
-    float: "left",
-    background: "white",
+    background: "#555555",
+
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
     },
     "& label.Mui-focused": {
-      color: "#b6b6b6",
+      color: "#828282",
     },
     "& .MuiInput-underline:after": {
-      borderBottomColor: "#b6b6b6",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#b6b6b6",
-      },
-      "&:hover fieldset": {
-        borderColor: "#b6b6b6",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#b6b6b6",
-      },
+      borderBottomColor: "#828282",
     },
   },
 })(TextField);
@@ -84,7 +77,7 @@ const Description = styled.p`
 
   font-size: 14px;
 
-  color: #000;
+  color: #fff;
 `;
 
 const ContactUsLink = styled(LinkStyle)`
@@ -93,10 +86,9 @@ const ContactUsLink = styled(LinkStyle)`
 const StyleButton = styled.div`
   width: 135px;
   height: 46px;
-  color: #fff;
+  color: #000;
   font-size: 20px;
   border-radius: 6px;
-  border: solid 1px #ffffff;
   background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
   text-align: center;
   padding-top: 8px;

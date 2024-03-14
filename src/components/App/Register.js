@@ -4,37 +4,32 @@ import { withRouter } from "react-router-dom";
 import { accountAction } from "../../api-services/actions/accountAction";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
-import LoginBGPNG from "../../assets/images/login-bg.png";
 import clsx from "clsx";
 
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import UserIconPNG from "../../assets/images/user-icon.png";
-import Password1IconPNG from "../../assets/images/password1-icon.png";
-import Password2IconPNG from "../../assets/images/password2-icon.png";
 import IconInboxSelectedPNG from "../../assets/images/icon-inbox-selected.png";
-import IconMobilePNG from "../../assets/images/icon-mobile.png";
 import IconEmailPNG from "../../assets/images/icon-input-email.png";
 
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
 import { withSnackbar } from "notistack";
 import config from "../../config/config";
-import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
 import ErrorSwitcher from "../../utils/ErrorSwitcher";
 import { generalAction } from "../../api-services/actions/generalAction";
 const Container = styled.div`
   width: 506px;
-  background: url(${LoginBGPNG});
+  background: #101213;
   background-attachment: fixed;
   background-position: center;
   display: table;
 `;
 const CloseIconContainer = styled.div`
-  background: url(${IconLoginClosePNG}) no-repeat;
+  background: url(${process.env.PUBLIC_URL +
+    "/assets/images/iconpack/close.png"})
+    no-repeat;
+  background-size: 100%;
   width: 28px;
   height: 28px;
   float: right;
@@ -48,14 +43,14 @@ const TitleContainer = styled.div`
 
   font-size: 42px;
 
-  color: #404040;
+  color: #fff;
 `;
 const SubTitleContainer = styled.div`
   text-align: center;
 
   font-size: 18px;
 
-  color: #404040;
+  color: #fff;
 `;
 const FormContainer = styled.div`
   margin: 10px 78px 0 78px;
@@ -70,13 +65,13 @@ const CustomText = withStyles({
 
     margin: 0,
 
-    background: "white",
+    background: "#555555",
 
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
     },
     "& label.Mui-focused": {
-      color: "#b6b6b6",
+      color: "#828282",
     },
     "& .MuiInput-underline:after": {
       borderBottomColor: "none",
@@ -105,13 +100,13 @@ const CustomText2 = withStyles({
     boxShadow: "0px 3px 8px -2px rgba(0,0,0,0.75)",
     margin: 0,
     marginTop: "13px",
-    background: "white",
+    background: "#555555",
 
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
     },
     "& label.Mui-focused": {
-      color: "#b6b6b6",
+      color: "#828282",
     },
     "& .MuiInput-underline:after": {
       borderBottomColor: "none",
@@ -130,68 +125,24 @@ const CustomText2 = withStyles({
   },
 })(CustomText);
 
-const CustomFormControl = withStyles((theme) => ({
-  root: {
-    width: "100px",
-    height: "51px",
-    border: "none",
-    boxShadow: "0px 3px 8px -2px rgba(0,0,0,0.75)",
-    marginTop: "13px",
-    marginBottom: "13px",
-    float: "left",
-    backgroundColor: "#fff",
-    padding: 0,
-    "&:before": {
-      borderRight: "1px solid #b6b6b6",
-      content: '"\\00a0"',
-      position: "absolute",
-      top: "1px",
-      right: "36px",
-      zIndex: " 1",
-      display: "block",
-      height: "100%",
-    },
-    "& label.Mui-focused": {
-      color: "#b6b6b6",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#b6b6b6",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-      "&:hover fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-    },
-  },
-}))(FormControl);
-
-const CustomSelect = withStyles((theme) => ({
-  root: {
-    fontSize: "14px",
-
-    color: "#818181",
-  },
-}))(Select);
+const PhoneFieldDropdown = styled.select`
+  background: #555555;
+  border: none;
+  width: 100px;
+  border-radius: 6px;
+  height: 51px;
+  margin-top: 13px;
+`;
 
 const ButtonLogin = styled.div`
   margin-top: 24px;
   margin-bottom: 35px;
-  color: #fff;
+  color: #000;
   font-size: 20px;
   width: 350px;
   height: 51px;
   border-radius: 6px;
 
-  border: solid 1px #ffffff;
   background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
 
   &:hover {
@@ -217,7 +168,7 @@ const Description = styled.div`
 
   line-height: 1.43;
 
-  color: #404040;
+  color: #fff;
 `;
 
 const useStyles = makeStyles((theme) => ({
@@ -307,6 +258,7 @@ const CustomInvitationSelect = styled.select`
   bottom: 15px;
   border: none;
   outline: none;
+  background: transparent;
 `;
 
 const CustomTextWrapper = styled.div`
@@ -535,7 +487,14 @@ function Register(props) {
             let setPhoneDontCareDuplicate =
               response.data.nextStepType === "SetPhoneDontCareDuplicate";
 
-            if (config.features.SMSVerification) {
+            if (config.features.Register_ShowPhone) {
+              props.doLoginWithHp(
+                username,
+                password,
+                phone,
+                setPhoneDontCareDuplicate
+              );
+            } else if (config.features.SMSVerification) {
               props.onRegisterSuccess(username, password);
             } else if (
               config.features.Register_ShowEmail &&
@@ -548,8 +507,6 @@ function Register(props) {
                 email,
                 setPhoneDontCareDuplicate
               );
-            } else if (config.features.Register_ShowPhone) {
-              props.doLoginWithHp(username, password, phone, setPhoneDontCareDuplicate);
             } else {
               props.doLogin(username, password);
             }
@@ -625,16 +582,6 @@ function Register(props) {
             inputProps={{
               maxLength: 16,
             }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment
-                  position="start"
-                  style={{ height: "24px", width: "30px" }}
-                >
-                  <img src={UserIconPNG} alt=""></img>
-                </InputAdornment>
-              ),
-            }}
           />
         </CustomTextWrapper>
 
@@ -650,16 +597,6 @@ function Register(props) {
             inputProps={{
               maxLength: 20,
             }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment
-                  position="start"
-                  style={{ height: "26px", width: "30px" }}
-                >
-                  <img src={Password1IconPNG} alt=""></img>
-                </InputAdornment>
-              ),
-            }}
           />
         </CustomTextWrapper>
         <CustomTextWrapper>
@@ -674,36 +611,24 @@ function Register(props) {
             inputProps={{
               maxLength: 20,
             }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment
-                  position="start"
-                  style={{ height: "30px", width: "32px" }}
-                >
-                  <img src={Password2IconPNG} alt=""></img>
-                </InputAdornment>
-              ),
-            }}
           />
         </CustomTextWrapper>
 
         {config.features.Register_ShowPhone && (
           <React.Fragment>
-            <CustomFormControl>
-              <CustomSelect
-                native
-                variant="outlined"
-                value={areacode}
-                displayEmpty
-                onChange={(e) => {
-                  setAreacode(e.target.value);
-                }}
-              >
-                <option value={config.features.PhonePrefix}>
-                  {config.features.PhonePrefix}
-                </option>
-              </CustomSelect>
-            </CustomFormControl>
+            <PhoneFieldDropdown
+              native
+              variant="outlined"
+              value={areacode}
+              displayEmpty
+              onChange={(e) => {
+                setAreacode(e.target.value);
+              }}
+            >
+              <option value={config.features.PhonePrefix}>
+                {config.features.PhonePrefix}
+              </option>
+            </PhoneFieldDropdown>
             <CustomText2
               onChange={(e) => {
                 setPhone(e.target.value);
@@ -716,16 +641,6 @@ function Register(props) {
               autoComplete="off"
               inputProps={{
                 maxLength: config.features.MAX_PHONE_LENGTH || 10,
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment
-                    position="start"
-                    style={{ height: "26px", width: "30px" }}
-                  >
-                    <img src={IconMobilePNG} alt=""></img>
-                  </InputAdornment>
-                ),
               }}
             />
           </React.Fragment>

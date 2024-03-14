@@ -2,24 +2,21 @@ import React, { Component } from "react";
 
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
-import LoginBGPNG from "../../assets/images/login-bg.png";
 
 import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import UserIconPNG from "../../assets/images/user-icon.png";
-import Password1IconPNG from "../../assets/images/password1-icon.png";
-import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
-import config from "../../config/config";
 const Container = styled.div`
   width: 506px;
-  background: url(${LoginBGPNG});
+  background: #101213;
   background-attachment: fixed;
   background-position: center;
   display: table;
 `;
 const CloseIconContainer = styled.div`
-  background: url(${IconLoginClosePNG}) no-repeat;
+  background: url(${process.env.PUBLIC_URL +
+    "/assets/images/iconpack/close.png"})
+    no-repeat;
+  background-size: 100%;
   width: 28px;
   height: 28px;
   float: right;
@@ -33,14 +30,14 @@ const TitleContainer = styled.div`
 
   font-size: 42px;
 
-  color: #404040;
+  color: #fff;
 `;
 const SubTitleContainer = styled.div`
   text-align: center;
 
   font-size: 18px;
 
-  color: #404040;
+  color: #fff;
 `;
 const FormContainer = styled.div`
   margin: 10px 78px 0 78px;
@@ -55,27 +52,16 @@ const CustomText = withStyles({
     boxShadow: "0px 3px 8px -2px rgba(0,0,0,0.75)",
     margin: 0,
     marginTop: "13px",
-    background: "white",
+    background: "#555555",
 
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
     },
     "& label.Mui-focused": {
-      color: "#b6b6b6",
+      color: "#828282",
     },
     "& .MuiInput-underline:after": {
-      borderBottomColor: "#b6b6b6",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#b6b6b6",
-      },
-      "&:hover fieldset": {
-        borderColor: "#b6b6b6",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#b6b6b6",
-      },
+      borderBottomColor: "#828282",
     },
   },
 })(TextField);
@@ -84,12 +70,11 @@ const ButtonLogin = styled.div`
   margin-top: 35px;
   width: 350px;
   height: 51px;
-  color: #fff;
+  color: #000;
   font-size: 20px;
 
   border-radius: 6px;
 
-  border: solid 1px #ffffff;
   background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
 
   &:hover {
@@ -109,7 +94,7 @@ const LinkStyle = styled.a`
 
   font-size: 15px;
 
-  color: #404040;
+  color: #fff;
 
   &:hover {
     cursor: pointer;
@@ -132,10 +117,43 @@ const Description = styled.p`
 
   line-height: 1.43;
 
-  color: #404040;
+  color: #fff;
 `;
 const OnlineSupportLink = styled(LinkStyle)`
   font-size: 13px;
+`;
+
+const TheThreeIcon = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+
+  .item {
+    background: #555;
+    border-radius: 6px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 3px;
+
+    .icon {
+      aspect-ratio: 1;
+      width: 100%;
+    }
+
+    .title {
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .subtitle {
+      color: #fff;
+      font-size: 11px;
+      opacity: 0.8;
+    }
+  }
 `;
 
 class Login extends Component {
@@ -156,11 +174,38 @@ class Login extends Component {
           onClick={this.props.onhandleClose}
         ></CloseIconContainer>
         <div className="clear"></div>
-        <TitleContainer>{i18n.t("web.login.loginTitle")}</TitleContainer>
-        <SubTitleContainer>
-          {i18n.t("web.login.loginTitleLine2")}
-        </SubTitleContainer>
+        <TitleContainer>{i18n.t("common.login")}</TitleContainer>
+
         <FormContainer>
+          <TheThreeIcon>
+            <div className="item">
+              <img
+                className="icon"
+                src={process.env.PUBLIC_URL + "/assets/images/sponsors/1.png"}
+                alt=""
+              />
+              <div className="title">{i18n.t("astonvilla")}</div>
+              <div className="subtitle">{i18n.t("officialpartners")}</div>
+            </div>
+            <div className="item">
+              <img
+                className="icon"
+                src={process.env.PUBLIC_URL + "/assets/images/sponsors/2.png"}
+                alt=""
+              />
+              <div className="title">{i18n.t("laclipper")}</div>
+              <div className="subtitle">{i18n.t("officialpartners")}</div>
+            </div>
+            <div className="item">
+              <img
+                className="icon"
+                src={process.env.PUBLIC_URL + "/assets/images/sponsors/3.png"}
+                alt=""
+              />
+              <div className="title">{i18n.t("sscnapoli")}</div>
+              <div className="subtitle">{i18n.t("officialpartners")}</div>
+            </div>
+          </TheThreeIcon>
           <CustomText
             onChange={this.handleTextFieldChange}
             id="username"
@@ -168,16 +213,6 @@ class Login extends Component {
             variant="outlined"
             inputProps={{
               maxLength: 16,
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment
-                  position="start"
-                  style={{ height: "24px", width: "30px" }}
-                >
-                  <img src={UserIconPNG} alt=""></img>
-                </InputAdornment>
-              ),
             }}
           />
           <CustomText
@@ -188,16 +223,6 @@ class Login extends Component {
             type="password"
             inputProps={{
               maxLength: 20,
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment
-                  position="start"
-                  style={{ height: "26px", width: "30px" }}
-                >
-                  <img src={Password1IconPNG} alt=""></img>
-                </InputAdornment>
-              ),
             }}
           />
           <ButtonLogin
@@ -226,7 +251,6 @@ class Login extends Component {
               );
             }
           })()} */}
-
           <EmptyBlock></EmptyBlock>
         </FormContainer>
         <Description>
