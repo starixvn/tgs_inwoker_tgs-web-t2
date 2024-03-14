@@ -2,29 +2,25 @@ import React, { Component } from "react";
 import { AccountService } from "../../api-services/services/AccountService";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
-import LoginBGPNG from "../../assets/images/login-bg.png";
 import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconMobilePNG from "../../assets/images/icon-mobile.png";
 
 import IconInputVerifyCodePNG from "../../assets/images/icon-input-verifycode.png";
 
 import { withSnackbar } from "notistack";
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
-import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
 import ErrorSwitcher from "../../utils/ErrorSwitcher";
 import config from "../../config/config";
 const Container = styled.div`
   width: 506px;
-  background: url(${LoginBGPNG});
-  background-attachment: fixed;
-  background-position: center;
+  height: 360px;
+  background: #101213;
   display: table;
 `;
 const CloseIconContainer = styled.div`
-  background: url(${IconLoginClosePNG}) no-repeat;
+  background: url(${process.env.PUBLIC_URL +
+    "/assets/images/iconpack/close.png"})
+    no-repeat;
+  background-size: 100%;
   width: 28px;
   height: 28px;
   float: right;
@@ -36,9 +32,9 @@ const CloseIconContainer = styled.div`
 const TitleContainer = styled.div`
   text-align: center;
 
-  font-size: 42px;
+  font-size: 28px;
 
-  color: ${({ theme }) => theme.secondary};
+  color: #fff;
 `;
 
 const FormContainer = styled.div`
@@ -54,27 +50,16 @@ const CustomText = withStyles({
     boxShadow: "0px 3px 8px -2px rgba(0,0,0,0.75)",
     margin: 0,
     marginTop: "13px",
-    background: "white",
+    background: "#555555",
 
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
     },
     "& label.Mui-focused": {
-      color: "#b6b6b6",
+      color: "#828282",
     },
     "& .MuiInput-underline:after": {
-      borderBottomColor: "none",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        border: "none",
-      },
-      "&:hover fieldset": {
-        border: "none",
-      },
-      "&.Mui-focused fieldset": {
-        border: "none",
-      },
+      borderBottomColor: "#828282",
     },
   },
 })(TextField);
@@ -88,13 +73,13 @@ const CustomText2 = withStyles({
     boxShadow: "0px 3px 8px -2px rgba(0,0,0,0.75)",
     margin: 0,
     marginTop: "13px",
-    background: "white",
+    background: "#555555",
 
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
     },
     "& label.Mui-focused": {
-      color: "#b6b6b6",
+      color: "#828282",
     },
     "& .MuiInput-underline:after": {
       borderBottomColor: "none",
@@ -115,13 +100,12 @@ const CustomText2 = withStyles({
 const ButtonLogin = styled.div`
   margin-top: 24px;
   margin-bottom: 35px;
-  color: #fff;
+  color: #000;
   font-size: 20px;
   width: 350px;
   height: 51px;
   border-radius: 6px;
 
-  border: solid 1px #ffffff;
   background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
   &:hover {
     cursor: pointer;
@@ -135,53 +119,9 @@ const ButtonLoginLabel = styled.span`
   margin-top: 10px;
 `;
 
-const CustomFormControl = withStyles((theme) => ({
-  root: {
-    width: "100px",
-    height: "51px",
-    border: "none",
-    boxShadow: "0px 3px 8px -2px rgba(0,0,0,0.75)",
-    marginTop: "13px",
-    marginBottom: "13px",
-    float: "left",
-    backgroundColor: "#fff",
-    padding: 0,
-    "&:before": {
-      borderRight: "1px solid #b6b6b6",
-      content: '"\\00a0"',
-      position: "absolute",
-      top: "1px",
-      right: "36px",
-      zIndex: " 1",
-      display: "block",
-      height: "100%",
-    },
-    "& label.Mui-focused": {
-      color: "#b6b6b6",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#b6b6b6",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-      "&:hover fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-    },
-  },
-}))(FormControl);
 const StyleButton = styled.div`
   width: 140px;
   height: 51px;
-  border: solid 1px #b6b6b6;
   margin: 0;
 
   margin-left: 5px;
@@ -195,7 +135,7 @@ const StyleButton = styled.div`
 
   border-radius: 5px;
   font-size: 16px;
-  color: #fff;
+  color: #000;
 
   &:hover {
     cursor: pointer;
@@ -214,13 +154,15 @@ const ButtonLabel = styled.span`
   display: block;
   margin-top: 12px;
 `;
-const CustomSelect = withStyles((theme) => ({
-  root: {
-    fontSize: "14px",
 
-    color: "#818181",
-  },
-}))(Select);
+const PhoneFieldDropdown = styled.select`
+  background: #555555;
+  border: none;
+  width: 100px;
+  border-radius: 6px;
+  height: 51px;
+  margin-top: 13px;
+`;
 class ForgotPasswordPhone extends Component {
   constructor(props) {
     super(props);
@@ -335,24 +277,23 @@ class ForgotPasswordPhone extends Component {
         <TitleContainer>{i18n.t("forgotPassword.title")}</TitleContainer>
 
         <FormContainer>
-          <CustomFormControl>
-            <CustomSelect
-              native
-              variant="outlined"
-              value={this.state.areaCode}
-              displayEmpty
-              onChange={(e) => {
-                this.setState({
-                  ...this.state,
-                  areaCode: e.target.value,
-                });
-              }}
-            >
-              <option value={config.features.PhonePrefix}>
-                {config.features.PhonePrefix}
-              </option>
-            </CustomSelect>
-          </CustomFormControl>
+          <PhoneFieldDropdown
+            native
+            variant="outlined"
+            value={this.state.areaCode}
+            displayEmpty
+            onChange={(e) => {
+              this.setState({
+                ...this.state,
+                areaCode: e.target.value,
+              });
+            }}
+          >
+            <option value={config.features.PhonePrefix}>
+              {config.features.PhonePrefix}
+            </option>
+          </PhoneFieldDropdown>
+
           <CustomText2
             id="phone"
             value={this.state.phone}
@@ -364,18 +305,8 @@ class ForgotPasswordPhone extends Component {
             inputProps={{
               maxLength: config.features.MAX_PHONE_LENGTH || 10,
             }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment
-                  position="start"
-                  style={{ height: "26px", width: "30px" }}
-                >
-                  <img src={IconMobilePNG} alt=""></img>
-                </InputAdornment>
-              ),
-            }}
           />
-          <div class="clear"></div>
+          <div class="clear" style={{ height: 10 }}></div>
           <CustomText
             placeholder={i18n.t("common.msgEnterCode")}
             adornment={IconInputVerifyCodePNG}
