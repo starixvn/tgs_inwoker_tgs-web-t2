@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { accountAction } from "../../api-services/actions/accountAction";
@@ -267,6 +267,53 @@ const CustomTextWrapper = styled.div`
   margin-top: 13px;
 `;
 
+const VerificationWrapper = styled.div`
+  background: #555555;
+  margin-top: 15px;
+  border-radius: 6px;
+  padding: 14px;
+  display: flex;
+  height: 53.5px;
+  justify-content: space-between;
+
+  input[type="text"] {
+    background: transparent;
+    border: none;
+    ::placeholder {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  button {
+    background: rgba(0, 173, 239, 1);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+`;
+
+const Verification = ({ code, changeCode, getCode, countdown = 0 }) => {
+  return (
+    <VerificationWrapper>
+      <input
+        type="text"
+        placeholder={i18n.t("common.msgEnterCode")}
+        value={code}
+        onChange={changeCode}
+      />
+      <button
+        onClick={() => {
+          getCode();
+        }}
+      >
+        {countdown <= 0
+          ? i18n.t("common.msgSendToken")
+          : i18n.t("common.btnTokenResendLabel") + "(" + countdown + "s)"}
+      </button>
+    </VerificationWrapper>
+  );
+};
+
 function Register(props) {
   const [username, setUsername] = React.useState("");
 
@@ -294,6 +341,10 @@ function Register(props) {
       ? true
       : false
   );
+
+  const [code, setCode] = useState("");
+  const [countdown, setCountdown] = useState(0);
+  const [securityKey, setSecurityKey] = React.useState("");
 
   const [fromCustomDomain, setFromCustomDomain] = React.useState(false);
 
@@ -614,37 +665,43 @@ function Register(props) {
           />
         </CustomTextWrapper>
 
-        {config.features.Register_ShowPhone && (
-          <React.Fragment>
-            <PhoneFieldDropdown
-              native
-              variant="outlined"
-              value={areacode}
-              displayEmpty
-              onChange={(e) => {
-                setAreacode(e.target.value);
-              }}
-            >
-              <option value={config.features.PhonePrefix}>
-                {config.features.PhonePrefix}
-              </option>
-            </PhoneFieldDropdown>
-            <CustomText2
-              onChange={(e) => {
-                setPhone(e.target.value);
-              }}
-              id="phone"
-              value={phone}
-              placeholder={i18n.t("forgotPassword.plsEnterPhoneNumber")}
-              variant="outlined"
-              type="text"
-              autoComplete="off"
-              inputProps={{
-                maxLength: config.features.MAX_PHONE_LENGTH || 10,
-              }}
-            />
-          </React.Fragment>
-        )}
+        <PhoneFieldDropdown
+          native
+          variant="outlined"
+          value={areacode}
+          displayEmpty
+          onChange={(e) => {
+            setAreacode(e.target.value);
+          }}
+        >
+          <option value={config.features.PhonePrefix}>
+            {config.features.PhonePrefix}
+          </option>
+        </PhoneFieldDropdown>
+        <CustomText2
+          onChange={(e) => {
+            setPhone(e.target.value);
+          }}
+          id="phone"
+          value={phone}
+          placeholder={i18n.t("forgotPassword.plsEnterPhoneNumber")}
+          variant="outlined"
+          type="text"
+          autoComplete="off"
+          inputProps={{
+            maxLength: config.features.MAX_PHONE_LENGTH || 10,
+          }}
+        />
+        <div class="clear"></div>
+        <Verification
+          code={code}
+          changeCode={(e) => {
+            setCode(e.target.value);
+          }}
+          getCode={() => {}}
+          countdown={countdown}
+        />
+
         <div class="clear"></div>
         {config.features.Register_ShowEmail && (
           <CustomTextWrapper>
