@@ -18,12 +18,18 @@ import config from "../../config/config";
 import i18n from "../../utils/i18n";
 import ErrorSwitcher from "../../utils/ErrorSwitcher";
 import { generalAction } from "../../api-services/actions/generalAction";
+import { AccountService } from "../../api-services/services/AccountService";
 const Container = styled.div`
   width: 506px;
   background: #101213;
   background-attachment: fixed;
   background-position: center;
   display: table;
+
+  select,
+  input {
+    color: #fff;
+  }
 `;
 const CloseIconContainer = styled.div`
   background: url(${process.env.PUBLIC_URL +
@@ -130,8 +136,13 @@ const PhoneFieldDropdown = styled.select`
   border: none;
   width: 100px;
   border-radius: 6px;
+  padding: 0 0 0 8px;
   height: 51px;
   margin-top: 13px;
+
+  option[disabled] {
+    color: red;
+  }
 `;
 
 const ButtonLogin = styled.div`
@@ -279,8 +290,9 @@ const VerificationWrapper = styled.div`
   input[type="text"] {
     background: transparent;
     border: none;
+
     ::placeholder {
-      color: rgba(0, 0, 0, 0.5);
+      color: rgba(255, 255, 255, 0.5);
     }
   }
 
@@ -289,6 +301,8 @@ const VerificationWrapper = styled.div`
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    opacity: ${({ disabled }) => (disabled ? "0.5" : "1")};
+    pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
   }
 `;
 
@@ -305,6 +319,7 @@ const Verification = ({ code, changeCode, getCode, countdown = 0 }) => {
         onClick={() => {
           getCode();
         }}
+        disabled={countdown > 0}
       >
         {countdown <= 0
           ? i18n.t("common.msgSendToken")
@@ -316,7 +331,7 @@ const Verification = ({ code, changeCode, getCode, countdown = 0 }) => {
 
 function Register(props) {
   const [username, setUsername] = React.useState("");
-
+  const [token, setToken] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [password2, setPassword2] = React.useState("");
   const [areacode, setAreacode] = React.useState(config.features.PhonePrefix);
@@ -327,7 +342,6 @@ function Register(props) {
       ? config.affiliateId
       : localStorage.getItem("promotionId")
   );
-  const [subid, setSubid] = React.useState(localStorage.getItem("subid"));
 
   const [upper, setUpper] = React.useState(localStorage.getItem("upper"));
   const [promoteType, setPromoteType] = React.useState(
@@ -361,52 +375,53 @@ function Register(props) {
     }
   }, []);
 
+  const checkIfValid = (regex, value, msg) => {
+    if (!regex.test(value)) {
+      props.enqueueSnackbar(msg, {
+        variant: "warning",
+      });
+      return;
+    }
+    return true;
+  };
+
   const [tnc, setTnc] = React.useState(true);
   const handleRegisterClick = async () => {
-    var expr = /^[a-zA-Z0-9]{6,16}$/;
-    if (!expr.test(username)) {
-      props.enqueueSnackbar(i18n.t("common.msgRegisterUserNameInvalid"), {
-        variant: "warning",
-      });
-      return;
-    }
-    expr = /^.{6,20}$/;
-    if (!expr.test(password)) {
-      props.enqueueSnackbar(i18n.t("common.msgRegisterPassInvalid"), {
-        variant: "warning",
-      });
-      return;
-    }
+    checkIfValid(
+      /^[a-zA-Z0-9]{6,16}$/,
+      username,
+      i18n.t("common.msgRegisterUserNameInvalid")
+    );
+
+    checkIfValid(
+      /^.{6,20}$/,
+      password,
+      i18n.t("common.msgRegisterPassInvalid")
+    );
+
     if (password !== password2) {
       props.enqueueSnackbar(i18n.t("common.msgRegisterPassMatchInvalid"), {
         variant: "warning",
       });
       return;
     }
-    expr = new RegExp(`^[0-9]{8,${config.features.MAX_PHONE_LENGTH || 10}}`);
+
     if (config.features.Register_ShowPhone) {
-      if (!expr.test(phone)) {
-        props.enqueueSnackbar(
-          i18n
-            .t("common.noReachMin")
-            .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10),
-          {
-            variant: "warning",
-          }
-        );
-        return;
-      }
+      checkIfValid(
+        new RegExp(`^[0-9]{8,${config.features.MAX_PHONE_LENGTH || 10}}`),
+        phone,
+        i18n
+          .t("common.noReachMin")
+          .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10)
+      );
     }
 
-    expr =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (config.features.Register_ShowEmail) {
-      if (!expr.test(email)) {
-        props.enqueueSnackbar(i18n.t("common.msgInvalidEmail"), {
-          variant: "warning",
-        });
-        return;
-      }
+      checkIfValid(
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+        email,
+        i18n.t("common.msgInvalidEmail")
+      );
     }
 
     if (tnc) {
@@ -609,6 +624,93 @@ function Register(props) {
     setPromotionId("");
   };
 
+  useEffect(() => {
+    if (countdown > 0)
+      setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+  }, [countdown]);
+
+  const performGetVerificationCode = () => {
+    //https://raypro.atlassian.net/browse/TGS-4309
+
+    checkIfValid(
+      new RegExp(`^[0-9]{8,${config.features.MAX_PHONE_LENGTH || 10}}`),
+      phone,
+      i18n
+        .t("common.noReachMin")
+        .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10)
+    );
+
+    props
+      .newRegister("CreatePlayer", {
+        username: username,
+        pwd: password,
+        upper: upper,
+        invitationcode: promotionId,
+      })
+      .then(async (response) => {
+        if (response.IsSuccess) {
+          AccountService.Login(username, password).then((response) => {
+            if (response.IsSuccess) {
+              setToken(response.data.token);
+              AccountService.NewRegister("InitPhone", {
+                input: "Init",
+                data: {
+                  areacode: areacode,
+                  phone: phone,
+                },
+              }).then(async (response) => {
+                if (response.IsSuccess) {
+                  setSecurityKey(response.data.stepResponse);
+                  props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
+                    variant: "info",
+                  });
+                  setCountdown(60);
+                } else {
+                  props.enqueueSnackbar(response.info, {
+                    variant: "warning",
+                  });
+                }
+              });
+            }
+          });
+        } else {
+          props.enqueueSnackbar(response.info, {
+            variant: "warning",
+          });
+        }
+      });
+  };
+
+  const performValidateVerificationCode = () => {
+    if (tnc) {
+      AccountService.NewRegister("InitPhone", {
+        input: "Valid",
+        data: {
+          securityKey: securityKey,
+          code: code,
+        },
+      }).then(async (response) => {
+        if (response.IsSuccess) {
+          props.enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
+            variant: "success",
+          });
+          props.getAccountInfo(token);
+          props.onhandleClose();
+        } else {
+          props.enqueueSnackbar(response.info, {
+            variant: "warning",
+          });
+        }
+      });
+    } else {
+      props.enqueueSnackbar(i18n.t("common.msgRegisterTermAndCondition"), {
+        variant: "warning",
+      });
+    }
+  };
+
   const classes = useStyles();
   return (
     <Container>
@@ -674,7 +776,7 @@ function Register(props) {
             setAreacode(e.target.value);
           }}
         >
-          <option value={config.features.PhonePrefix}>
+          <option value={config.features.PhonePrefix} disabled>
             {config.features.PhonePrefix}
           </option>
         </PhoneFieldDropdown>
@@ -698,7 +800,9 @@ function Register(props) {
           changeCode={(e) => {
             setCode(e.target.value);
           }}
-          getCode={() => {}}
+          getCode={() => {
+            performGetVerificationCode();
+          }}
           countdown={countdown}
         />
 
@@ -770,7 +874,7 @@ function Register(props) {
           <Description>{i18n.t("web.register.contract")}</Description>
         </DescriptionContainer>
 
-        <ButtonLogin onClick={performNewRegister}>
+        <ButtonLogin onClick={performValidateVerificationCode}>
           <ButtonLoginLabel>
             {config.features.Register_CustomFlow_IDR
               ? i18n.t("common.nextStep")
