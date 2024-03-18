@@ -207,16 +207,16 @@ class App extends Component {
               config.features.ForceRedirectAddCard &&
               !bankInfoAuthentication
             ) {
-              if (isPhoneNull) {
-                AppHistory.push("/account/profile/member_phone");
+              //  if (isPhoneNull) {
+              //    AppHistory.push("/account/profile/member_phone");
+              //  } else {
+              if (isEmailNull) {
+                AppHistory.push("/account/profile/member_email");
               } else {
-                if (isEmailNull) {
-                  AppHistory.push("/account/profile/member_email");
-                } else {
-                  if (!isRegisterCompleted) {
-                    AppHistory.push("/account/withdrawal?do=addCard");
-                  }
+                if (!isRegisterCompleted) {
+                  AppHistory.push("/account/withdrawal?do=addCard");
                 }
+                //  }
               }
               return;
             }
