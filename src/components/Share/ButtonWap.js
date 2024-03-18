@@ -5,7 +5,7 @@ const StyleButton = styled.div`
   height: 81px;
   border-radius: 8px;
 
-  border: solid 1px #ffffff;
+  border: none;
   background: ${(props) =>
     props.styledtype === "2"
       ? " #404040"

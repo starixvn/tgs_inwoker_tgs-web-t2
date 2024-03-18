@@ -207,16 +207,16 @@ class App extends Component {
               config.features.ForceRedirectAddCard &&
               !bankInfoAuthentication
             ) {
-              if (isPhoneNull) {
-                AppHistory.push("/account/profile/member_phone");
+              //  if (isPhoneNull) {
+              //    AppHistory.push("/account/profile/member_phone");
+              //  } else {
+              if (isEmailNull) {
+                AppHistory.push("/account/profile/member_email");
               } else {
-                if (isEmailNull) {
-                  AppHistory.push("/account/profile/member_email");
-                } else {
-                  if (!isRegisterCompleted) {
-                    AppHistory.push("/account/withdrawal?do=addCard");
-                  }
+                if (!isRegisterCompleted) {
+                  AppHistory.push("/account/withdrawal?do=addCard");
                 }
+                //  }
               }
               return;
             }
@@ -567,11 +567,7 @@ class App extends Component {
                       )}
                     />
                     {config.features.HaveDownloadFeature && (
-                      <Route
-                        exact
-                        path={"/download"}
-                        component={Download}
-                      />
+                      <Route exact path={"/download"} component={Download} />
                     )}
                     <Route
                       exact
@@ -613,7 +609,7 @@ class App extends Component {
                     //   this.props.account.info.identityformid === null)
                   }
                 />
-                {this.props.account.registercompleted === false &&
+                {/* {this.props.account.registercompleted === false &&
                   config.features.Register_ShowPhone &&
                   config.features.ForcedVerification && (
                     <Redirect
@@ -622,7 +618,7 @@ class App extends Component {
                         state: { forced: true },
                       }}
                     />
-                  )}
+                  )} */}
 
                 {config.features.HomePage_PromoRoulette &&
                   this.isInHomePage() && (
