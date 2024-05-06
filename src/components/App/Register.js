@@ -16,7 +16,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { withSnackbar } from "notistack";
 import config from "../../config/config";
 import i18n from "../../utils/i18n";
-import ErrorSwitcher from "../../utils/ErrorSwitcher";
 import { generalAction } from "../../api-services/actions/generalAction";
 import { AccountService } from "../../api-services/services/AccountService";
 
@@ -535,7 +534,7 @@ function Register(props) {
       AccountService.NewRegister("InitPhone", {
         input: "Valid",
         data: {
-          securityKey: securityKey,
+          securitykey: securityKey,
           validatecode: code,
         },
       }).then(async (response) => {
