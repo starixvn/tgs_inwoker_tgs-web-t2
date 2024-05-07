@@ -414,7 +414,7 @@ function Register(props) {
       }, 1000);
   }, [countdown]);
   
-  const checkInfo = (regex, value, msg) => {
+  const checkInfo = () => {
     let flag=true; //临时测试
     flag = flag && checkIfValid(
       /^[a-zA-Z0-9]{6,16}$/,
@@ -566,9 +566,11 @@ function Register(props) {
       ></CloseIconContainer>
       <div className="clear"></div>
       <TitleContainer>{i18n.t("web.register.registerTitle")}</TitleContainer>
+      {/*
       <SubTitleContainer>
         {i18n.t("web.register.registerTitleLine2")}
       </SubTitleContainer>
+      */}
       <FormContainer>
         <CustomTextWrapper>
           <CustomText
