@@ -70,6 +70,10 @@ const CustomText = withStyles({
 
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
+      "&::placeholder": {
+        color: "rgba(255, 255, 255, 0.5)",
+      },
+      color: "rgba(255, 255, 255)"
     },
     "& label.Mui-focused": {
       color: "#828282",
@@ -133,6 +137,7 @@ const PhoneFieldDropdown = styled.select`
   border-radius: 6px;
   height: 51px;
   margin-top: 13px;
+  color:rgba(255, 255, 255);
 `;
 
 const ButtonLogin = styled.div`
@@ -282,8 +287,9 @@ const VerificationWrapper = styled.div`
     border: none;
 
     ::placeholder {
-      color: rgba(255, 255, 255, 0.5);
-    }
+      color: rgba(255, 255, 255, 0.2);
+    };
+    color: rgba(255, 255, 255)
   }
 
   button {
