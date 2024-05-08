@@ -28,7 +28,7 @@ import { SnackbarProvider } from "notistack";
 import styled from "styled-components";
 import Config from "./config/config";
 import {
-  createMuiTheme,
+  createTheme,
   MuiThemeProvider,
   StylesProvider,
 } from "@material-ui/core/styles";
@@ -95,7 +95,7 @@ if (i18n.language === "zh-CN") {
 document.getElementById("root").style.fontFamily = fontFamily;
 
 const muiThemeMode = themeList[Config.theme] || themeList["default"];
-const muiTheme = createMuiTheme({
+const muiTheme = createTheme({
   palette: {
     primary: {
       main: muiThemeMode.primary,
