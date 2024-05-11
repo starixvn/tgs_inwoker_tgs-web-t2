@@ -450,6 +450,28 @@ function Register(props) {
     );
     return flag;
   };
+  const doInitPhone = () => {
+    AccountService.NewRegister("InitPhone", {
+      input: "Init",
+      data: {
+        areacode: areacode,
+        phone: phone,
+      },
+    }).then(async (response) => {
+      if (response.IsSuccess) {
+        setSecurityKey(response.data.stepResponse);
+        props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
+          variant: "info",
+        });
+        setCountdown(60);
+        setHadSend(true);
+      } else {
+        props.enqueueSnackbar(response.info, {
+          variant: "warning",
+        });
+      }
+    });
+  }
   
   const performGetVerificationCode = () => {
     //https://raypro.atlassian.net/browse/TGS-4309
@@ -462,27 +484,8 @@ function Register(props) {
       return;
     }
     if(hadSend){
-      AccountService.NewRegister("InitPhone", {
-        input: "Init",
-        data: {
-          areacode: areacode,
-          phone: phone,
-        },
-      }).then(async (response) => {
-        if (response.IsSuccess) {
-          setSecurityKey(response.data.stepResponse);
-          props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
-            variant: "info",
-          });
-          setCountdown(60);
-        } else {
-          props.enqueueSnackbar(response.info, {
-            variant: "warning",
-          });
-        }
-      });
+      doInitPhone();
     }else{
-      setHadSend(true);
       props
         .newRegister("CreatePlayer", {
           username: username,
@@ -492,30 +495,18 @@ function Register(props) {
         })
         .then(async (response) => {
           if (response.IsSuccess) {
-            AccountService.Login(username, password).then((response) => {
-              if (response.IsSuccess) {
-                setToken(response.data.token);
-                AccountService.NewRegister("InitPhone", {
-                  input: "Init",
-                  data: {
-                    areacode: areacode,
-                    phone: phone,
-                  },
-                }).then(async (response) => {
-                  if (response.IsSuccess) {
-                    setSecurityKey(response.data.stepResponse);
-                    props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
-                      variant: "info",
-                    });
-                    setCountdown(60);
-                  } else {
-                    props.enqueueSnackbar(response.info, {
-                      variant: "warning",
-                    });
-                  }
-                });
-              }
-            });
+            if(response.data.isCompleted || response.data.stepResponse?.isnew===false){
+              props.enqueueSnackbar(i18n.t("common.msgAlreadyExist"), {
+                variant: "warning",
+              });
+            }else {
+              AccountService.Login(username, password).then((response) => {
+                if (response.IsSuccess) {
+                  setToken(response.data.token);
+                  doInitPhone();
+                }
+              });
+            }
           } else {
             props.enqueueSnackbar(response.info, {
               variant: "warning",
@@ -523,7 +514,6 @@ function Register(props) {
           }
         });
     }
-    
   };
   
   const performValidateVerificationCode = () => {
