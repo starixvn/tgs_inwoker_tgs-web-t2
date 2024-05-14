@@ -115,6 +115,7 @@ const featureList = {
     DepositCustomPaymentNames: [],
     Withdrawal_WalletTransfer: false,
     Deposit_ManualDepositPassPhone: false,
+    SendCodeInterval: 60
   },
 };
 export default featureList;
