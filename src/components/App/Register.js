@@ -16,7 +16,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { withSnackbar } from "notistack";
 import config from "../../config/config";
 import i18n from "../../utils/i18n";
-import ErrorSwitcher from "../../utils/ErrorSwitcher";
 import { generalAction } from "../../api-services/actions/generalAction";
 import { AccountService } from "../../api-services/services/AccountService";
 
@@ -71,6 +70,11 @@ const CustomText = withStyles({
 
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
+      "&::placeholder": {
+        color: "rgba(255, 255, 255, 0.5)",
+        "text-fill-color": "rgba(255, 255, 255)"
+      },
+      color: "rgba(255, 255, 255)"
     },
     "& label.Mui-focused": {
       color: "#828282",
@@ -134,6 +138,7 @@ const PhoneFieldDropdown = styled.select`
   border-radius: 6px;
   height: 51px;
   margin-top: 13px;
+  color:rgba(255, 255, 255);
 `;
 
 const ButtonLogin = styled.div`
@@ -283,8 +288,9 @@ const VerificationWrapper = styled.div`
     border: none;
 
     ::placeholder {
-      color: rgba(255, 255, 255, 0.5);
-    }
+      color: rgba(255, 255, 255, 0.2);
+    };
+    color: rgba(255, 255, 255)
   }
 
   button {
@@ -415,7 +421,7 @@ function Register(props) {
       }, 1000);
   }, [countdown]);
   
-  const checkInfo = (regex, value, msg) => {
+  const checkInfo = () => {
     let flag=true; //临时测试
     flag = flag && checkIfValid(
       /^[a-zA-Z0-9]{6,16}$/,
@@ -445,6 +451,28 @@ function Register(props) {
     );
     return flag;
   };
+  const doInitPhone = () => {
+    AccountService.NewRegister("InitPhone", {
+      input: "Init",
+      data: {
+        areacode: areacode,
+        phone: phone,
+      },
+    }).then(async (response) => {
+      if (response.IsSuccess) {
+        setSecurityKey(response.data.stepResponse);
+        props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
+          variant: "info",
+        });
+        setCountdown(60);
+        setHadSend(true);
+      } else {
+        props.enqueueSnackbar(response.info, {
+          variant: "warning",
+        });
+      }
+    });
+  }
   
   const performGetVerificationCode = () => {
     //https://raypro.atlassian.net/browse/TGS-4309
@@ -457,27 +485,8 @@ function Register(props) {
       return;
     }
     if(hadSend){
-      AccountService.NewRegister("InitPhone", {
-        input: "Init",
-        data: {
-          areacode: areacode,
-          phone: phone,
-        },
-      }).then(async (response) => {
-        if (response.IsSuccess) {
-          setSecurityKey(response.data.stepResponse);
-          props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
-            variant: "info",
-          });
-          setCountdown(60);
-        } else {
-          props.enqueueSnackbar(response.info, {
-            variant: "warning",
-          });
-        }
-      });
+      doInitPhone();
     }else{
-      setHadSend(true);
       props
         .newRegister("CreatePlayer", {
           username: username,
@@ -487,30 +496,18 @@ function Register(props) {
         })
         .then(async (response) => {
           if (response.IsSuccess) {
-            AccountService.Login(username, password).then((response) => {
-              if (response.IsSuccess) {
-                setToken(response.data.token);
-                AccountService.NewRegister("InitPhone", {
-                  input: "Init",
-                  data: {
-                    areacode: areacode,
-                    phone: phone,
-                  },
-                }).then(async (response) => {
-                  if (response.IsSuccess) {
-                    setSecurityKey(response.data.stepResponse);
-                    props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
-                      variant: "info",
-                    });
-                    setCountdown(60);
-                  } else {
-                    props.enqueueSnackbar(response.info, {
-                      variant: "warning",
-                    });
-                  }
-                });
-              }
-            });
+            if(response.data.isCompleted || response.data.stepResponse?.isnew===false){
+              props.enqueueSnackbar(i18n.t("common.msgAlreadyExist"), {
+                variant: "warning",
+              });
+            }else {
+              AccountService.Login(username, password).then((response) => {
+                if (response.IsSuccess) {
+                  setToken(response.data.token);
+                  doInitPhone();
+                }
+              });
+            }
           } else {
             props.enqueueSnackbar(response.info, {
               variant: "warning",
@@ -518,7 +515,6 @@ function Register(props) {
           }
         });
     }
-    
   };
   
   const performValidateVerificationCode = () => {
@@ -535,7 +531,7 @@ function Register(props) {
       AccountService.NewRegister("InitPhone", {
         input: "Valid",
         data: {
-          securityKey: securityKey,
+          securitykey: securityKey,
           validatecode: code,
         },
       }).then(async (response) => {
@@ -567,9 +563,11 @@ function Register(props) {
       ></CloseIconContainer>
       <div className="clear"></div>
       <TitleContainer>{i18n.t("web.register.registerTitle")}</TitleContainer>
+      {/*
       <SubTitleContainer>
         {i18n.t("web.register.registerTitleLine2")}
       </SubTitleContainer>
+      */}
       <FormContainer>
         <CustomTextWrapper>
           <CustomText
