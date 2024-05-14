@@ -604,12 +604,12 @@ class App extends Component {
                     config.features.SMSVerification &&
                     this.props.account.registercompleted === false &&
                     config.features.ForcedVerification
+                    // this.props.account.info.identityformstatus === 0 &&
+                    // (this.props.account.info.identityformid === "" ||
+                    //   this.props.account.info.identityformid === null)
                   }
                 />
-                
-                {/** comment by e01 240506 */}
-{/*
-               {this.props.account.registercompleted === false &&
+                {/* {this.props.account.registercompleted === false &&
                   config.features.Register_ShowPhone &&
                   config.features.ForcedVerification && (
                     <Redirect
@@ -618,7 +618,7 @@ class App extends Component {
                         state: { forced: true },
                       }}
                     />
-                  )}*/}
+                  )} */}
 
                 {config.features.HomePage_PromoRoulette &&
                   this.isInHomePage() && (
