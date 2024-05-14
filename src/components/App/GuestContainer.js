@@ -694,14 +694,14 @@ class GuestContainer extends Component {
                 );
               } else if (this.state.openDialogName === "forgotpassword") {
                 return config.features.EmailVerification ? (
-                  <ForgotPasswordPhone
+                  <ForgotPasswordEmail
                     onhandleClose={this.onhandleCloseDialog}
                     onhandleNextClick={this.onhandleForgotPasswordEmailClick}
                     onhandleBackClick={this.onhandleForgotPasswordBackClick}
                     onhandleOnlineSupport={this.onhandleOnlineSupport}
                     code={this.state.code}
                     email={this.state.email}
-                  ></ForgotPasswordPhone>
+                  ></ForgotPasswordEmail>
                 ) : (
                   <ForgotPasswordPhone
                     onhandleClose={this.onhandleCloseDialog}
