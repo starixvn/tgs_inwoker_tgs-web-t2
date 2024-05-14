@@ -74,7 +74,8 @@ const CustomText = withStyles({
         color: "rgba(255, 255, 255, 0.5)",
         "text-fill-color": "rgba(255, 255, 255)"
       },
-      color: "rgba(255, 255, 255)"
+      color: "rgba(255, 255, 255)",
+      "text-fill-color":"rgba(255, 255, 255)",
     },
     "& label.Mui-focused": {
       color: "#828282",
