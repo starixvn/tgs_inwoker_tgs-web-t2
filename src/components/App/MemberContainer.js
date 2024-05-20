@@ -122,6 +122,7 @@ const MailIconContainer = styled.span`
   margin-top: -2px;
 `;
 const InboxCountLabel = styled.span`
+  display: none !important;
   margin-left: 6px;
   margin-top: 3px;
   color: #c7a87c;

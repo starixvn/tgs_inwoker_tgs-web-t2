@@ -1019,6 +1019,7 @@ class Deposit extends Component {
         "DailyFirstDeposit",
         "DepositReward",
         "DepositAccumulateRoulette",
+        "AccountFirstDeposit",
       ].indexOf(item.promotionType) >= 0
     );
   };

@@ -99,6 +99,7 @@ class AddCard extends Component {
       disableBankAccountNameInput: false,
       name: "",
       phone: "",
+      ifsc: "",
     };
   }
 
@@ -293,6 +294,7 @@ class AddCard extends Component {
       number,
       name,
       phone,
+      ifsc,
     } = this.state;
 
     const trimAndRemoveSpace = (value) => utility.removeSpace(value.trim());
@@ -338,6 +340,7 @@ class AddCard extends Component {
         bankName: trimAndRemoveSpace(bankNameValue),
         name: trimAndRemoveSpace(bankAccountName),
         bankBranch: trimAndRemoveSpace(bankBranch),
+        ifsc: trimAndRemoveSpace(ifsc),
       };
     } else if (
       selected.banktype === "ThirdParty" ||
@@ -465,11 +468,11 @@ class AddCard extends Component {
         );
         return;
       }
-        detail = {
-          name: trimAndRemoveSpace(name),
-          phone: trimAndRemoveSpace(phone),
-          address: ""
-        };
+      detail = {
+        name: trimAndRemoveSpace(name),
+        phone: trimAndRemoveSpace(phone),
+        address: "",
+      };
     } else {
       if (number.trim() === "") {
         this.props.enqueueSnackbar(i18n.t("common.msgEnterWithdrawalNumber"), {
@@ -789,7 +792,7 @@ class AddCard extends Component {
           (withdrawalList[this.state.selectedBankTypeIndex].banktype ===
             "ThirdParty" ||
             withdrawalList[this.state.selectedBankTypeIndex].banktype ===
-            "Coinsph" ||
+              "Coinsph" ||
             withdrawalList[this.state.selectedBankTypeIndex].banktype ===
               "FPS")) ||
         (this.props.isDeposit &&
@@ -797,7 +800,7 @@ class AddCard extends Component {
           (depositList[this.state.selectedBankTypeIndex].banktype ===
             "ThirdParty" ||
             depositList[this.state.selectedBankTypeIndex].banktype ===
-            "Coinsph" ||
+              "Coinsph" ||
             depositList[this.state.selectedBankTypeIndex].banktype ===
               "FPS")) ? (
           <div>
@@ -887,6 +890,30 @@ class AddCard extends Component {
                 value={this.state.number}
               ></CustomTextField>
             </TextFieldContainer>
+            {config.currency === "INR" &&
+              ((!this.props.isDeposit &&
+                withdrawalList.length > 0 &&
+                withdrawalList[this.state.selectedBankTypeIndex].banktype ===
+                  "Bank") ||
+                (this.props.isDeposit &&
+                  depositList.length > 0 &&
+                  depositList[this.state.selectedBankTypeIndex].banktype ===
+                    "Bank")) && (
+                <>
+                  <TextFieldLabel>{i18n.t("IFSC")}</TextFieldLabel>
+                  <TextFieldContainer>
+                    <CustomTextField
+                      marginTop={10}
+                      placeholder={i18n.t("IFSC")}
+                      width={395}
+                      maxLength={11}
+                      height={38}
+                      handleTextFieldChange={this.handleIFSCChange}
+                      value={this.state.ifsc}
+                    ></CustomTextField>
+                  </TextFieldContainer>
+                </>
+              )}
           </div>
         )}
 
