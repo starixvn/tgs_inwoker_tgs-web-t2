@@ -1,40 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { accountAction } from "../../api-services/actions/accountAction";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
-import LoginBGPNG from "../../assets/images/login-bg.png";
 import clsx from "clsx";
 
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import UserIconPNG from "../../assets/images/user-icon.png";
-import Password1IconPNG from "../../assets/images/password1-icon.png";
-import Password2IconPNG from "../../assets/images/password2-icon.png";
 import IconInboxSelectedPNG from "../../assets/images/icon-inbox-selected.png";
-import IconMobilePNG from "../../assets/images/icon-mobile.png";
 import IconEmailPNG from "../../assets/images/icon-input-email.png";
 
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
 import { withSnackbar } from "notistack";
 import config from "../../config/config";
-import IconLoginClosePNG from "../../assets/images/icon-login-close.png";
 import i18n from "../../utils/i18n";
-import ErrorSwitcher from "../../utils/ErrorSwitcher";
 import { generalAction } from "../../api-services/actions/generalAction";
+import { AccountService } from "../../api-services/services/AccountService";
+
 const Container = styled.div`
   width: 506px;
-  background: url(${LoginBGPNG});
+  background: #101213;
   background-attachment: fixed;
   background-position: center;
   display: table;
 `;
 const CloseIconContainer = styled.div`
-  background: url(${IconLoginClosePNG}) no-repeat;
+  background: url(${process.env.PUBLIC_URL +
+    "/assets/images/iconpack/close.png"})
+    no-repeat;
+  background-size: 100%;
   width: 28px;
   height: 28px;
   float: right;
@@ -48,14 +44,14 @@ const TitleContainer = styled.div`
 
   font-size: 42px;
 
-  color: #404040;
+  color: #fff;
 `;
 const SubTitleContainer = styled.div`
   text-align: center;
 
   font-size: 18px;
 
-  color: #404040;
+  color: #fff;
 `;
 const FormContainer = styled.div`
   margin: 10px 78px 0 78px;
@@ -70,13 +66,19 @@ const CustomText = withStyles({
 
     margin: 0,
 
-    background: "white",
+    background: "#555555",
 
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
+      "&::placeholder": {
+        color: "rgba(255, 255, 255, 0.5)",
+        "text-fill-color": "rgba(255, 255, 255)"
+      },
+      color: "rgba(255, 255, 255)",
+      "text-fill-color":"rgba(255, 255, 255)",
     },
     "& label.Mui-focused": {
-      color: "#b6b6b6",
+      color: "#828282",
     },
     "& .MuiInput-underline:after": {
       borderBottomColor: "none",
@@ -105,13 +107,13 @@ const CustomText2 = withStyles({
     boxShadow: "0px 3px 8px -2px rgba(0,0,0,0.75)",
     margin: 0,
     marginTop: "13px",
-    background: "white",
+    background: "#555555",
 
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
     },
     "& label.Mui-focused": {
-      color: "#b6b6b6",
+      color: "#828282",
     },
     "& .MuiInput-underline:after": {
       borderBottomColor: "none",
@@ -130,68 +132,25 @@ const CustomText2 = withStyles({
   },
 })(CustomText);
 
-const CustomFormControl = withStyles((theme) => ({
-  root: {
-    width: "100px",
-    height: "51px",
-    border: "none",
-    boxShadow: "0px 3px 8px -2px rgba(0,0,0,0.75)",
-    marginTop: "13px",
-    marginBottom: "13px",
-    float: "left",
-    backgroundColor: "#fff",
-    padding: 0,
-    "&:before": {
-      borderRight: "1px solid #b6b6b6",
-      content: '"\\00a0"',
-      position: "absolute",
-      top: "1px",
-      right: "36px",
-      zIndex: " 1",
-      display: "block",
-      height: "100%",
-    },
-    "& label.Mui-focused": {
-      color: "#b6b6b6",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#b6b6b6",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-      "&:hover fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#b6b6b6",
-        marginTop: "1px",
-      },
-    },
-  },
-}))(FormControl);
-
-const CustomSelect = withStyles((theme) => ({
-  root: {
-    fontSize: "14px",
-
-    color: "#818181",
-  },
-}))(Select);
+const PhoneFieldDropdown = styled.select`
+  background: #555555;
+  border: none;
+  width: 100px;
+  border-radius: 6px;
+  height: 51px;
+  margin-top: 13px;
+  color:rgba(255, 255, 255);
+`;
 
 const ButtonLogin = styled.div`
   margin-top: 24px;
   margin-bottom: 35px;
-  color: #fff;
+  color: #000;
   font-size: 20px;
   width: 350px;
   height: 51px;
   border-radius: 6px;
 
-  border: solid 1px #ffffff;
   background-image: linear-gradient(to top, #f0bc5a, #f0ca83);
 
   &:hover {
@@ -217,7 +176,7 @@ const Description = styled.div`
 
   line-height: 1.43;
 
-  color: #404040;
+  color: #fff;
 `;
 
 const useStyles = makeStyles((theme) => ({
@@ -307,6 +266,7 @@ const CustomInvitationSelect = styled.select`
   bottom: 15px;
   border: none;
   outline: none;
+  background: transparent;
 `;
 
 const CustomTextWrapper = styled.div`
@@ -315,9 +275,61 @@ const CustomTextWrapper = styled.div`
   margin-top: 13px;
 `;
 
+const VerificationWrapper = styled.div`
+  background: #555555;
+  margin-top: 15px;
+  border-radius: 6px;
+  padding: 14px;
+  display: flex;
+  height: 53.5px;
+  justify-content: space-between;
+
+  input[type="text"] {
+    background: transparent;
+    border: none;
+
+    ::placeholder {
+      color: rgba(255, 255, 255, 0.2);
+    };
+    color: rgba(255, 255, 255)
+  }
+
+  button {
+    background: rgba(0, 173, 239, 1);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    opacity: ${({ disabled }) => (disabled ? "0.5" : "1")};
+    pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+  }
+`;
+
+const Verification = ({ code, changeCode, getCode, countdown = 0 }) => {
+  return (
+    <VerificationWrapper>
+      <input
+        type="text"
+        placeholder={i18n.t("common.msgEnterCode")}
+        value={code}
+        onChange={changeCode}
+      />
+      <button
+        onClick={() => {
+          getCode();
+        }}
+        disabled={countdown > 0}
+      >
+        {countdown <= 0
+          ? i18n.t("common.msgSendToken")
+          : i18n.t("common.btnTokenResendLabel") + "(" + countdown + "s)"}
+      </button>
+    </VerificationWrapper>
+  );
+};
+
 function Register(props) {
   const [username, setUsername] = React.useState("");
-
+  const [token, setToken] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [password2, setPassword2] = React.useState("");
   const [areacode, setAreacode] = React.useState(config.features.PhonePrefix);
@@ -342,6 +354,11 @@ function Register(props) {
       ? true
       : false
   );
+  
+  const [code, setCode] = useState("");
+  const [countdown, setCountdown] = useState(0);
+  const [securityKey, setSecurityKey] = React.useState("");
+  const [hadSend, setHadSend] = React.useState(false);
 
   const [fromCustomDomain, setFromCustomDomain] = React.useState(false);
 
@@ -359,220 +376,17 @@ function Register(props) {
   }, []);
 
   const [tnc, setTnc] = React.useState(true);
-  const handleRegisterClick = async () => {
-    var expr = /^[a-zA-Z0-9]{6,16}$/;
-    if (!expr.test(username)) {
-      props.enqueueSnackbar(i18n.t("common.msgRegisterUserNameInvalid"), {
+  
+  const checkIfValid = (regex, value, msg) => {
+    if (!regex.test(value)) {
+      props.enqueueSnackbar(msg, {
         variant: "warning",
       });
-      return;
+      return false;
     }
-    expr = /^.{6,20}$/;
-    if (!expr.test(password)) {
-      props.enqueueSnackbar(i18n.t("common.msgRegisterPassInvalid"), {
-        variant: "warning",
-      });
-      return;
-    }
-    if (password !== password2) {
-      props.enqueueSnackbar(i18n.t("common.msgRegisterPassMatchInvalid"), {
-        variant: "warning",
-      });
-      return;
-    }
-    expr = new RegExp(`^[0-9]{8,${config.features.MAX_PHONE_LENGTH || 10}}`);
-    if (config.features.Register_ShowPhone) {
-      if (!expr.test(phone)) {
-        props.enqueueSnackbar(
-          i18n
-            .t("common.noReachMin")
-            .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10),
-          {
-            variant: "warning",
-          }
-        );
-        return;
-      }
-    }
-
-    expr =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if (config.features.Register_ShowEmail) {
-      if (!expr.test(email)) {
-        props.enqueueSnackbar(i18n.t("common.msgInvalidEmail"), {
-          variant: "warning",
-        });
-        return;
-      }
-    }
-
-    if (tnc) {
-      // user_account,
-      // user_password,
-      // pay_password,
-      // mobile,
-      // recommend_code,
-      // mobile_code_id
-      props
-        .register(username, password, password2, promotionId, upper)
-        .then(async (response) => {
-          if (response.IsSuccess && response.data.isnew === false) {
-            props.enqueueSnackbar(i18n.t("common.msgAlreadyExist"), {
-              variant: "warning",
-            });
-          } else if (response.IsSuccess) {
-            // let urlParams = new URLSearchParams(props.location.search);
-            // if (urlParams.has("return_url")) {
-            //   const returnValue = urlParams.get("return_url");
-            //   if (returnValue) {
-            //     window.location.href =
-            //       returnValue +
-            //       "?token=" +
-            //       BlowFishEncryption.Encrypt(response.data);
-            //   }
-            // }
-            if (config.features.SMSVerification) {
-              props.onRegisterSuccess(username, password);
-            } else if (
-              config.features.Register_ShowEmail &&
-              config.features.Register_ShowPhone
-            ) {
-              props.doLoginWithHpEmail(username, password, phone, email);
-            } else if (config.features.Register_ShowPhone) {
-              props.doLoginWithHp(username, password, phone);
-            } else {
-              props.doLogin(username, password);
-              // await props.getAccountInfo(response.data);
-              // await props.getAccountProfile(response.data);
-            }
-          } else {
-            props.enqueueSnackbar(ErrorSwitcher.getTranslation(response.info), {
-              variant: "warning",
-            });
-            // if (response.code === 206) {
-            //   props.enqueueSnackbar(i18n.t("common.msgInvalidInvitationCode"), {
-            //     variant: "warning",
-            //   });
-            // } else {
-            //   props.enqueueSnackbar(response.info, {
-            //     variant: "warning",
-            //   });
-            // }
-          }
-        });
-    } else {
-      props.enqueueSnackbar(i18n.t("common.msgRegisterTermAndCondition"), {
-        variant: "warning",
-      });
-      return;
-    }
+    return true;
   };
-
-  const performNewRegister = async () => {
-    var expr = /^[a-zA-Z0-9]{6,16}$/;
-    if (!expr.test(username)) {
-      props.enqueueSnackbar(i18n.t("common.msgRegisterUserNameInvalid"), {
-        variant: "warning",
-      });
-      return;
-    }
-    expr = /^.{6,20}$/;
-    if (!expr.test(password)) {
-      props.enqueueSnackbar(i18n.t("common.msgRegisterPassInvalid"), {
-        variant: "warning",
-      });
-      return;
-    }
-    if (password !== password2) {
-      props.enqueueSnackbar(i18n.t("common.msgRegisterPassMatchInvalid"), {
-        variant: "warning",
-      });
-      return;
-    }
-    expr = new RegExp(`^[0-9]{8,${config.features.MAX_PHONE_LENGTH || 10}}`);
-    if (config.features.Register_ShowPhone) {
-      if (!expr.test(phone)) {
-        props.enqueueSnackbar(
-          i18n
-            .t("common.noReachMin")
-            .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10),
-          {
-            variant: "warning",
-          }
-        );
-        return;
-      }
-    }
-
-    expr =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if (config.features.Register_ShowEmail) {
-      if (!expr.test(email)) {
-        props.enqueueSnackbar(i18n.t("common.msgInvalidEmail"), {
-          variant: "warning",
-        });
-        return;
-      }
-    }
-
-    if (tnc) {
-      props
-        .newRegister("CreatePlayer", {
-          username: username,
-          pwd: password,
-          upper: upper,
-          invitationcode: promotionId,
-        })
-        .then(async (response) => {
-          if (
-            response.IsSuccess &&
-            response.data.stepResponse.isnew === false
-          ) {
-            props.enqueueSnackbar(i18n.t("common.msgAlreadyExist"), {
-              variant: "warning",
-            });
-          } else if (response.IsSuccess) {
-            let setPhoneDontCareDuplicate =
-              response.data.nextStepType === "SetPhoneDontCareDuplicate";
-
-            if (config.features.SMSVerification) {
-              props.onRegisterSuccess(username, password);
-            } else if (
-              config.features.Register_ShowEmail &&
-              config.features.Register_ShowPhone
-            ) {
-              props.doLoginWithHpEmail(
-                username,
-                password,
-                phone,
-                email,
-                setPhoneDontCareDuplicate
-              );
-            } else if (config.features.Register_ShowPhone) {
-              props.doLoginWithHp(username, password, phone, setPhoneDontCareDuplicate);
-            } else {
-              props.doLogin(username, password);
-            }
-
-            // if (subid !== "") {
-            //   let PAYOUT = "";
-            //   let affiliateUrl = `http://ad.propellerads.com/conversion.php?aid=3508428&pid=&tid=100917&visitor_id=${subid}&payout=${PAYOUT}`;
-            //   window.open(affiliateUrl, "_blank");
-            // }
-          } else {
-            props.enqueueSnackbar(ErrorSwitcher.getTranslation(response.info), {
-              variant: "warning",
-            });
-          }
-        });
-    } else {
-      props.enqueueSnackbar(i18n.t("common.msgRegisterTermAndCondition"), {
-        variant: "warning",
-      });
-      return;
-    }
-  };
-
+  
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
@@ -600,6 +414,146 @@ function Register(props) {
     setUpper("");
     setPromotionId("");
   };
+  
+  useEffect(() => {
+    if (countdown > 0)
+      setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+  }, [countdown]);
+  
+  const checkInfo = () => {
+    let flag=true; //临时测试
+    flag = flag && checkIfValid(
+      /^[a-zA-Z0-9]{6,16}$/,
+      username,
+      i18n.t("common.msgRegisterUserNameInvalid")
+    );
+    
+    flag = flag && checkIfValid(
+      /^.{6,20}$/,
+      password,
+      i18n.t("common.msgRegisterPassInvalid")
+    );
+    
+    if (flag && password !== password2) {
+      flag = false;
+      props.enqueueSnackbar(i18n.t("common.msgRegisterPassMatchInvalid"), {
+        variant: "warning",
+      });
+    }
+    
+    flag = flag && checkIfValid(
+      new RegExp(`^[0-9]{8,${config.features.MAX_PHONE_LENGTH || 10}}`),
+      phone,
+      i18n
+        .t("common.noReachMin")
+        .replace(/{maxlength}/g, config.features.MAX_PHONE_LENGTH || 10)
+    );
+    return flag;
+  };
+  const doInitPhone = () => {
+    AccountService.NewRegister("InitPhone", {
+      input: "Init",
+      data: {
+        areacode: areacode,
+        phone: phone,
+      },
+    }).then(async (response) => {
+      if (response.IsSuccess) {
+        setSecurityKey(response.data.stepResponse);
+        props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
+          variant: "info",
+        });
+        setCountdown(60);
+        setHadSend(true);
+      } else {
+        props.enqueueSnackbar(response.info, {
+          variant: "warning",
+        });
+      }
+    });
+  }
+  
+  const performGetVerificationCode = () => {
+    //https://raypro.atlassian.net/browse/TGS-4309
+    //AccountService.GetMemberInfo().then().then(async (response) => {
+    //  console.log(response);
+    //  console.log(response.code==102);
+    //});
+    
+    if(!checkInfo()){
+      return;
+    }
+    if(hadSend){
+      doInitPhone();
+    }else{
+      props
+        .newRegister("CreatePlayer", {
+          username: username,
+          pwd: password,
+          upper: upper,
+          invitationcode: promotionId,
+        })
+        .then(async (response) => {
+          if (response.IsSuccess) {
+            if(response.data.isCompleted || response.data.stepResponse?.isnew===false){
+              props.enqueueSnackbar(i18n.t("common.msgAlreadyExist"), {
+                variant: "warning",
+              });
+            }else {
+              AccountService.Login(username, password).then((response) => {
+                if (response.IsSuccess) {
+                  setToken(response.data.token);
+                  doInitPhone();
+                }
+              });
+            }
+          } else {
+            props.enqueueSnackbar(response.info, {
+              variant: "warning",
+            });
+          }
+        });
+    }
+  };
+  
+  const performValidateVerificationCode = () => {
+    if(!checkInfo()){
+      return;
+    }
+    if(code===""){
+      props.enqueueSnackbar(i18n.t("common.msgEnterCode"), {
+        variant: "info",
+      });
+      return;
+    }
+    if (tnc) {
+      AccountService.NewRegister("InitPhone", {
+        input: "Valid",
+        data: {
+          securitykey: securityKey,
+          validatecode: code,
+        },
+      }).then(async (response) => {
+        if (response.IsSuccess) {
+          props.enqueueSnackbar(i18n.t("common.msgTokenVerified"), {
+            variant: "success",
+          });
+          props.getAccountInfo(token);
+          props.onhandleClose();
+        } else {
+          props.enqueueSnackbar(response.info, {
+            variant: "warning",
+          });
+        }
+      });
+    } else {
+      props.enqueueSnackbar(i18n.t("common.msgRegisterTermAndCondition"), {
+        variant: "warning",
+      });
+    }
+  };
 
   const classes = useStyles();
   return (
@@ -610,9 +564,11 @@ function Register(props) {
       ></CloseIconContainer>
       <div className="clear"></div>
       <TitleContainer>{i18n.t("web.register.registerTitle")}</TitleContainer>
+      {/*
       <SubTitleContainer>
         {i18n.t("web.register.registerTitleLine2")}
       </SubTitleContainer>
+      */}
       <FormContainer>
         <CustomTextWrapper>
           <CustomText
@@ -624,16 +580,6 @@ function Register(props) {
             autoComplete="off"
             inputProps={{
               maxLength: 16,
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment
-                  position="start"
-                  style={{ height: "24px", width: "30px" }}
-                >
-                  <img src={UserIconPNG} alt=""></img>
-                </InputAdornment>
-              ),
             }}
           />
         </CustomTextWrapper>
@@ -650,16 +596,6 @@ function Register(props) {
             inputProps={{
               maxLength: 20,
             }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment
-                  position="start"
-                  style={{ height: "26px", width: "30px" }}
-                >
-                  <img src={Password1IconPNG} alt=""></img>
-                </InputAdornment>
-              ),
-            }}
           />
         </CustomTextWrapper>
         <CustomTextWrapper>
@@ -674,63 +610,9 @@ function Register(props) {
             inputProps={{
               maxLength: 20,
             }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment
-                  position="start"
-                  style={{ height: "30px", width: "32px" }}
-                >
-                  <img src={Password2IconPNG} alt=""></img>
-                </InputAdornment>
-              ),
-            }}
           />
         </CustomTextWrapper>
 
-        {config.features.Register_ShowPhone && (
-          <React.Fragment>
-            <CustomFormControl>
-              <CustomSelect
-                native
-                variant="outlined"
-                value={areacode}
-                displayEmpty
-                onChange={(e) => {
-                  setAreacode(e.target.value);
-                }}
-              >
-                <option value={config.features.PhonePrefix}>
-                  {config.features.PhonePrefix}
-                </option>
-              </CustomSelect>
-            </CustomFormControl>
-            <CustomText2
-              onChange={(e) => {
-                setPhone(e.target.value);
-              }}
-              id="phone"
-              value={phone}
-              placeholder={i18n.t("forgotPassword.plsEnterPhoneNumber")}
-              variant="outlined"
-              type="text"
-              autoComplete="off"
-              inputProps={{
-                maxLength: config.features.MAX_PHONE_LENGTH || 10,
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment
-                    position="start"
-                    style={{ height: "26px", width: "30px" }}
-                  >
-                    <img src={IconMobilePNG} alt=""></img>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </React.Fragment>
-        )}
-        <div class="clear"></div>
         {config.features.Register_ShowEmail && (
           <CustomTextWrapper>
             <CustomText
@@ -785,6 +667,46 @@ function Register(props) {
             </CustomInvitationContainer>
           </CustomTextWrapper>
         )}
+        <PhoneFieldDropdown
+          native
+          variant="outlined"
+          value={areacode}
+          displayEmpty
+          onChange={(e) => {
+            setAreacode(e.target.value);
+          }}
+        >
+          <option value={config.features.PhonePrefix} disabled>
+            {config.features.PhonePrefix}
+          </option>
+        </PhoneFieldDropdown>
+        <CustomText2
+          onChange={(e) => {
+            setPhone(e.target.value);
+          }}
+          id="phone"
+          value={phone}
+          placeholder={i18n.t("forgotPassword.plsEnterPhoneNumber")}
+          variant="outlined"
+          type="text"
+          autoComplete="off"
+          inputProps={{
+            maxLength: config.features.MAX_PHONE_LENGTH || 10,
+          }}
+        />
+        <div className="clear"></div>
+        <Verification
+          code={code}
+          changeCode={(e) => {
+            setCode(e.target.value);
+          }}
+          getCode={() => {
+            performGetVerificationCode();
+          }}
+          countdown={countdown}
+        />
+        <div class="clear"></div>
+        
         <DescriptionContainer>
           <Checkbox
             checked={tnc}
@@ -798,7 +720,7 @@ function Register(props) {
           <Description>{i18n.t("web.register.contract")}</Description>
         </DescriptionContainer>
 
-        <ButtonLogin onClick={performNewRegister}>
+        <ButtonLogin onClick={performValidateVerificationCode}>
           <ButtonLoginLabel>
             {config.features.Register_CustomFlow_IDR
               ? i18n.t("common.nextStep")

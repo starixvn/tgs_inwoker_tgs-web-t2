@@ -56,7 +56,13 @@ const CustomText = withStyles({
 
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
+      "&::placeholder": {
+        color: "rgba(255, 255, 255, 0.5)",
+      },
+      color: "rgba(255, 255, 255)",
+      "text-fill-color":"rgba(255, 255, 255)",
     },
+    
     "& label.Mui-focused": {
       color: "#828282",
     },
