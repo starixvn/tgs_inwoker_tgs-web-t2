@@ -13,9 +13,7 @@ const Container = styled.div`
   display: table;
 `;
 const CloseIconContainer = styled.div`
-  background: url(${process.env.PUBLIC_URL +
-    "/assets/images/iconpack/close.png"})
-    no-repeat;
+  background: url(${process.env.PUBLIC_URL + "/assets/images/iconpack/close.png"}) no-repeat;
   background-size: 100%;
   width: 28px;
   height: 28px;
@@ -135,7 +133,7 @@ const TheThreeIcon = styled.div`
   gap: 10px;
 
   .item {
-    background: #555;
+    /* background: #555; */
     border-radius: 6px;
     padding: 10px 20px;
     display: flex;
