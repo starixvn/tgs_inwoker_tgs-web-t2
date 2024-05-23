@@ -33,6 +33,8 @@ import ErrorSwitcher from "../../utils/ErrorSwitcher";
 import { SortedMenuList } from "../../utils/HeaderSorting";
 import { GameService } from "../../api-services/services/GameService";
 
+import ReactDynamicFont from "react-dynamic-font";
+
 const moment = require("moment");
 
 const InnerWrap = styled.div`
@@ -143,12 +145,22 @@ const RightMenuUL = styled.ul`
 `;
 
 const RightMenuTextSpan = styled.span`
-  font-size: 16px;
+  font-size: ${(props) => (i18n.language === "ta-IN" ? "11px" : "16px")};
   margin: 0 auto;
-  display: block;
+  display: ${(props) => (i18n.language === "ta-IN" ? "flex" : "block")};
   color: #8a7f73;
   padding-top: 6px;
   text-align: center;
+  ${(props) =>
+    i18n.language === "ta-IN"
+      ? `
+    height: 100%;
+    width: 60px;
+    white-space: normal;
+    word-break: break-word;
+    align-items: center;
+  `
+      : ``}
 `;
 
 const RightMenuTextContainer = styled.div`
@@ -230,7 +242,7 @@ const RightMenuBottomLine = styled.div`
 `;
 const RightMenuLI = styled.li`
   display: inline-block;
-  padding: 0 11px;
+  padding: 0 8px;
   height: 95%;
   color: #f6f6f6;
 
@@ -528,7 +540,7 @@ class Header extends Component {
     ) {
       return;
     }
-    this.props.history.push("/account/inbox");
+    this.props.history.push("/account/memo");
   };
   handleProfileClick = () => {
     if (
@@ -694,7 +706,11 @@ class Header extends Component {
         } else {
           if (gameType === GameTypeEnum.RNGSPORTS) {
             this.props.history.push("/sports/" + gameCode);
-          } else if (gameCode === "WGFM" || gameCode === "WGVIA") {
+          } else if (
+            gameCode === "WGFM" ||
+            gameCode === "WGVIA" ||
+            gameCode === "9WCRICKET"
+          ) {
             window.open(`/joinlobbygame/${gameType}/${gameCode}`, "_blank");
           } else {
             this.props.history.push(

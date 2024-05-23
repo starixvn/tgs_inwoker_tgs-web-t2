@@ -49,12 +49,12 @@ const InnerWrap = styled.div`
 `;
 const TabButton = styled.div`
   width: 150px;
-  height: 40px;
+  height: ${(props)=> i18n.language === "ta-IN" ? "50px" : "40px"};
   font-size: 16px;
   color: #151a34;
   background-color: #f7f7f7;
   text-align: center;
-  padding-top: 8px;
+  padding-top: ${(props)=> i18n.language === "ta-IN" ? "4px" : "8px"};
   box-sizing: border-box;
   float: left;
   margin-right: 20px;

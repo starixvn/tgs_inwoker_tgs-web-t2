@@ -63,7 +63,7 @@ const InnerWrap = styled.div`
 const ContentWrap = styled.div`
   margin-top: 12px;
   height: 44px;
-  font-size: 14px;
+  font-size: ${(props)=> i18n.language === "ta-IN" ? "11px" : "14px"};
   width: 100%;
   border-bottom: 1px solid #e9e9e9;
 `;
@@ -742,6 +742,16 @@ class Profile extends Component {
   handleCloseDialog = () => {
     this.setState({ ...this.state, openDialog: false });
   };
+  getCustomMessagingTranslation = (platform) => {
+    switch (platform) {
+      case "qq":
+        return i18n.t("common.qqNumber");
+      case "wechat":
+        return i18n.t("common.wechatNumber");
+      default:
+        return i18n.t("common." + platform);
+    }
+  };
 
   render() {
     const forcedverify =
@@ -821,7 +831,7 @@ class Profile extends Component {
             config.features.CustomMessaging.map((platform) => {
               return GetContentWrap(
                 this.props.account.info,
-                i18n.t("common." + platform),
+                this.getCustomMessagingTranslation(platform),
                 "member_" + platform,
                 this.handleButtonClick
               );

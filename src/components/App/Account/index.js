@@ -45,6 +45,7 @@ import i18n from "../../../utils/i18n";
 import AvatarPNG from "../../../assets/images/avatar.png";
 import Common from "../../../utils/Common";
 import config from "../../../config/config";
+import Memo from "./Memo";
 
 const Container = styled.div`
   width: 100%;
@@ -64,6 +65,7 @@ const Main = styled.div`
   width: 1206px;
   position: relative;
   border-radius: 10px;
+  min-height: 1000px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 `;
 const LeftMenu = styled.div`
@@ -74,6 +76,7 @@ const LeftMenu = styled.div`
   box-shadow: 6px 0 8px -6px rgb(50 50 93 / 45%);
   position: absolute;
   height: 100%;
+
   left: 0;
   top: 0;
 `;
@@ -96,7 +99,7 @@ const MenuButtonDiv = styled.div`
   margin: 20px 0px 20px 0px;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
-  font-size: 14px;
+  font-size: ${(props) => (i18n.language === "ta-IN" ? "12px" : "14px")};
   &:hover {
     cursor: pointer;
   }
@@ -289,6 +292,7 @@ class Account extends Component {
     ) {
       return;
     }
+    this.setActivePage(link);
     this.props.history.push("/account/" + link);
   };
   handleMoreBenefitClick = (viptitle) => {
@@ -340,6 +344,7 @@ class Account extends Component {
           <MenuBonusImg active={this.state.activePage === link}></MenuBonusImg>
         );
       case "inbox":
+      case "memo":
         return (
           <MenuInboxImg active={this.state.activePage === link}></MenuInboxImg>
         );
@@ -409,6 +414,7 @@ class Account extends Component {
               <MenuTitle>{i18n.t("web.account.personal")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.profile"), "profile")}
               {this.genMenuButtonDiv(i18n.t("web.account.inbox"), "inbox")}{" "}
+              {this.genMenuButtonDiv(i18n.t("memoinbox"), "memo")}
               {config.features.HaveVIPFeature &&
                 this.genMenuButtonDiv("VIP", "vip")}
               {this.props.general.haveAffiliate &&
@@ -537,6 +543,19 @@ class Account extends Component {
                       )}
                     />
                   )}
+
+                  <Route
+                    exact
+                    path={"/account/memo"}
+                    render={(props) => (
+                      <Memo
+                        token={this.props.account.token}
+                        account={this.props.account}
+                        onhandleCSClick={this.props.onhandleCSClick}
+                        popup={this.props.match.params.popup}
+                      />
+                    )}
+                  />
                   <Redirect to={"/account/profile"}></Redirect>
                 </Switch>
               </Router>
