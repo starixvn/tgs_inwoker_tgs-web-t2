@@ -401,14 +401,17 @@ class Profile extends Component {
   };
   componentDidMount() {
     if (this.props.popup) {
-      if (
-        this.props.popup === "member_phone" &&
-        config.features.PromoRoulette_SMSVerification
-      ) {
-        this.handleButtonClick(this.props.popup, true);
-      } else {
-        this.handleButtonClick(this.props.popup);
-      }
+      // *comment by e01 240506
+      // if (
+      //   this.props.popup === "member_phone" &&
+      //   config.features.PromoRoulette_SMSVerification
+      // ) {
+      //   this.handleButtonClick(this.props.popup, true);
+      // } else {
+      //   this.handleButtonClick(this.props.popup);
+      // }
+      
+      this.handleButtonClick(this.props.popup);
     }
   }
   componentDidUpdate(preProps) {

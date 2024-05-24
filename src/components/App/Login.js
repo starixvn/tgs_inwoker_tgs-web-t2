@@ -13,9 +13,7 @@ const Container = styled.div`
   display: table;
 `;
 const CloseIconContainer = styled.div`
-  background: url(${process.env.PUBLIC_URL +
-    "/assets/images/iconpack/close.png"})
-    no-repeat;
+  background: url(${process.env.PUBLIC_URL + "/assets/images/iconpack/close.png"}) no-repeat;
   background-size: 100%;
   width: 28px;
   height: 28px;
@@ -56,7 +54,13 @@ const CustomText = withStyles({
 
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
+      "&::placeholder": {
+        color: "rgba(255, 255, 255, 0.5)",
+      },
+      color: "rgba(255, 255, 255)",
+      "text-fill-color":"rgba(255, 255, 255)",
     },
+    
     "& label.Mui-focused": {
       color: "#828282",
     },
@@ -129,7 +133,7 @@ const TheThreeIcon = styled.div`
   gap: 10px;
 
   .item {
-    background: #555;
+    /* background: #555; */
     border-radius: 6px;
     padding: 10px 20px;
     display: flex;

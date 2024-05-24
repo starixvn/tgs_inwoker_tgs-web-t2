@@ -17,9 +17,7 @@ const Container = styled.div`
   display: table;
 `;
 const CloseIconContainer = styled.div`
-  background: url(${process.env.PUBLIC_URL +
-    "/assets/images/iconpack/close.png"})
-    no-repeat;
+  background: url(${process.env.PUBLIC_URL + "/assets/images/iconpack/close.png"}) no-repeat;
   background-size: 100%;
   width: 28px;
   height: 28px;
@@ -54,6 +52,9 @@ const CustomText = withStyles({
 
     "& .MuiOutlinedInput-input": {
       fontSize: "14px",
+      "&::placeholder": {
+        color: "rgba(255, 255, 255, 0.5)",
+      },
     },
     "& label.Mui-focused": {
       color: "#828282",
@@ -162,6 +163,7 @@ const PhoneFieldDropdown = styled.select`
   border-radius: 6px;
   height: 51px;
   margin-top: 13px;
+  color:rgba(255, 255, 255);
 `;
 class ForgotPasswordPhone extends Component {
   constructor(props) {
@@ -213,7 +215,7 @@ class ForgotPasswordPhone extends Component {
             this.props.enqueueSnackbar(i18n.t("common.msgTokenSent"), {
               variant: "info",
             });
-            this.setState({ ...this.state, countdown: 60 });
+            this.setState({ ...this.state, countdown: config.features.SendCodeInterval || 60 });
             this.checkCountdown();
           } else {
             this.props.enqueueSnackbar(

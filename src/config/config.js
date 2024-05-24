@@ -4,7 +4,7 @@ var template = 2; //2 for T2, 3 for T3 (based on .xd file)
 const config = {
   baseUrl:
     window?.env?.apiUrl ||
-    (window?.env ? "/api/" : "https://stg-t1.rpgp.cc/api/"),
+    (window?.env ? "/api/" : "https://stg-v226.rpgp.cc/api/"),
   client:
     window?.env?.client ||
     "EsCoOyFA2SCynkW8Zbg7fYjY0YPfIIlp8SgQKTRng908gAeJF5OdC6i",
@@ -12,7 +12,7 @@ const config = {
   brand: window?.env?.brand || process.env.REACT_APP_BRAND || "V226",
   brandName: window?.env?.brandName
     ? window?.env?.brandName
-    : window?.env?.brand || "KING8",
+    : window?.env?.brand || "金牛会",
   theme: window?.env?.theme || "blackgold",
   wapVersion: template,
   sourceUrl: window?.env?.sourceUrl || "https://images.srvptt.com/",
