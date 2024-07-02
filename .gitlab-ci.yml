@@ -8,16 +8,22 @@ variables:
   
 build:
   extends: .build
+  tags:
+    - local-build
   only:
     - master
     - release/current
     - develop
+    - dev/v226
+    - v226
 
 deploy-dev-v226:
   extends: .deploy-base
   variables:
     namespace: "dev"
     components: "dev_t2_v226"
+  tags:
+    - dev
   only:
     - dev/v226
 
@@ -26,6 +32,8 @@ deploy-dev:
   variables:
     namespace: "dev"
     components: "dev_t2"
+  tags:
+    - dev
   only:
     - develop
 
@@ -34,6 +42,8 @@ deploy-staging-v226:
   variables:
     namespace: "staging"
     components: "staging_t2_v226"
+  tags:
+    - staging
   only:
     - stg/v226
 
@@ -42,6 +52,8 @@ deploy-staging:
   variables:
     namespace: "staging"
     components: "staging_t2"
+  tags:
+    - staging
   only:
     - release/current
 
@@ -50,6 +62,8 @@ deploy-prod-v226:
   variables:
     namespace: "prod"
     components: "prod_t2_v226"
+  tags:
+    - prod
   only:
     - v226
 
@@ -58,5 +72,7 @@ deploy-prod:
   variables:
     namespace: "prod"
     components: "prod_t2"
+  tags:
+    - prod
   only:
     - master
