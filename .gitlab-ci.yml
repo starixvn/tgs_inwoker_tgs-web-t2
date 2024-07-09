@@ -43,7 +43,8 @@ deploy-staging-v226:
     components: "staging_t2_v226"
   only:
     - stg/v226
-
+  when: manual
+  
 deploy-staging:
   extends: .deploy-base
   variables:
@@ -51,6 +52,7 @@ deploy-staging:
     components: "staging_t2"
   only:
     - release/current
+  when: manual
 
 deploy-prod-v226:
   extends: .deploy-base
@@ -59,6 +61,7 @@ deploy-prod-v226:
     components: "prod_t2_v226"
   only:
     - v226
+  when: manual
 
 deploy-prod:
   extends: .deploy-base
@@ -67,3 +70,4 @@ deploy-prod:
     components: "prod_t2"
   only:
     - master
+  when: manual
