@@ -19,14 +19,6 @@ build:
     - dev/v226
     - stg/v226
     - v226
-    
-deploy-dev-v226:
-  extends: .deploy-base
-  variables:
-    namespace: "dev"
-    components: "dev_t2_v226"
-  only:
-    - dev/v226
 
 deploy-dev:
   extends: .deploy-base
