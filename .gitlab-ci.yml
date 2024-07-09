@@ -16,7 +16,10 @@ build:
     - master
     - release/current
     - develop
-
+    - dev/v226
+    - stg/v226
+    - v226
+    
 deploy-dev-v226:
   extends: .deploy-base
   variables:
