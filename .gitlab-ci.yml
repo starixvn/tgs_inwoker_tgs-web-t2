@@ -10,20 +10,18 @@ build:
   extends: .build
   tags:
     - local-build
+  variables:
+    Submodule_Branch: master
   only:
     - master
     - release/current
     - develop
-    - dev/v226
-    - v226
 
 deploy-dev-v226:
   extends: .deploy-base
   variables:
     namespace: "dev"
     components: "dev_t2_v226"
-  tags:
-    - dev
   only:
     - dev/v226
 
@@ -32,8 +30,6 @@ deploy-dev:
   variables:
     namespace: "dev"
     components: "dev_t2"
-  tags:
-    - dev
   only:
     - develop
 
@@ -42,37 +38,33 @@ deploy-staging-v226:
   variables:
     namespace: "staging"
     components: "staging_t2_v226"
-  tags:
-    - staging
   only:
     - stg/v226
-
+  when: manual
+  
 deploy-staging:
   extends: .deploy-base
   variables:
     namespace: "staging"
     components: "staging_t2"
-  tags:
-    - staging
   only:
     - release/current
+  when: manual
 
 deploy-prod-v226:
   extends: .deploy-base
   variables:
     namespace: "prod"
     components: "prod_t2_v226"
-  tags:
-    - prod
   only:
     - v226
+  when: manual
 
 deploy-prod:
   extends: .deploy-base
   variables:
     namespace: "prod"
     components: "prod_t2"
-  tags:
-    - prod
   only:
     - master
+  when: manual
