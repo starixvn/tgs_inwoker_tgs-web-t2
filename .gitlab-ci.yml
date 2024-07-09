@@ -10,6 +10,8 @@ build:
   extends: .build
   tags:
     - local-build
+  variables:
+    Submodule_Branch: release/current
   only:
     - master
     - release/current
