@@ -8,13 +8,10 @@ variables:
   
 build:
   extends: .build
-  variables:
-    Submodule_Branch: develop
   only:
     - master
     - release/current
     - develop
-    - dev/v226
     - stg/v226
     - v226
 
@@ -32,13 +29,6 @@ deploy-prod:
   extends: .deploy-k8s-prod
   variables:
     components: "prod_t2"
-
-deploy-dev-v226:
-  extends: .deploy-k8s-dev
-  variables:
-    components: "dev_t2_v226"
-  only:
-    - dev/v226
 
 deploy-staging-v226:
   extends: .deploy-k8s-staging
