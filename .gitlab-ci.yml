@@ -8,10 +8,6 @@ variables:
   
 build:
   extends: .build
-  tags:
-    - local-build
-  variables:
-    Submodule_Branch: master
   only:
     - master
     - release/current
@@ -21,45 +17,37 @@ build:
     - v226
 
 deploy-dev:
-  extends: .deploy-base
+  extends: .deploy-k8s-dev
   variables:
-    namespace: "dev"
     components: "dev_t2"
+
+deploy-staging:
+  extends: .deploy-k8s-staging
+  variables:
+    components: "staging_t2"
+
+deploy-prod:
+  extends: .deploy-k8s-prod
+  variables:
+    components: "prod_t2"
+
+deploy-dev-v226:
+  extends: .deploy-k8s-dev
+  variables:
+    components: "dev_t2_v226"
   only:
-    - develop
+    - dev/v226
 
 deploy-staging-v226:
-  extends: .deploy-base
+  extends: .deploy-k8s-staging
   variables:
-    namespace: "staging"
     components: "staging_t2_v226"
   only:
     - stg/v226
-  when: manual
-  
-deploy-staging:
-  extends: .deploy-base
-  variables:
-    namespace: "staging"
-    components: "staging_t2"
-  only:
-    - release/current
-  when: manual
 
 deploy-prod-v226:
-  extends: .deploy-base
+  extends: .deploy-k8s-prod
   variables:
-    namespace: "prod"
     components: "prod_t2_v226"
   only:
     - v226
-  when: manual
-
-deploy-prod:
-  extends: .deploy-base
-  variables:
-    namespace: "prod"
-    components: "prod_t2"
-  only:
-    - master
-  when: manual
