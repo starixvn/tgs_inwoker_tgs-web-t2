@@ -8,8 +8,6 @@ variables:
   
 build:
   extends: .build
-  tags:
-    - local-build
   only:
     - master
     - release/current
