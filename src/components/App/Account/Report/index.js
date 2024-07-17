@@ -19,8 +19,7 @@ import config from "../../../../config/config";
 const moment = require("moment");
 const Container = styled.div`
   padding: 20px 28px;
-  box-sizing: border-box
-
+  box-sizing: border-box;
   width: 100%;
   background-color: #ffffff;
   min-height: 796px;
@@ -48,13 +47,15 @@ const InnerWrap = styled.div`
   border-radius: 10px;
 `;
 const TabButton = styled.div`
-  width: 150px;
+  min-width: 150px;
   height: ${(props)=> i18n.language === "ta-IN" ? "50px" : "40px"};
   font-size: 16px;
   color: #151a34;
   background-color: #f7f7f7;
   text-align: center;
   padding-top: ${(props)=> i18n.language === "ta-IN" ? "4px" : "8px"};
+  padding-left: 10px;
+  padding-right: 10px;
   box-sizing: border-box;
   float: left;
   margin-right: 20px;
