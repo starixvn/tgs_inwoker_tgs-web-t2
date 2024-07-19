@@ -27,6 +27,9 @@ import IconInboxActivePNG from "../../../assets/images/icon-inbox-active.png";
 import IconVIPPNG from "../../../assets/images/icon-vip.png";
 import IconVIPActivePNG from "../../../assets/images/icon-vip.png";
 
+import WageringPNG from "../../../assets/images/icon-wagering.png";
+import WageringActivePNG from "../../../assets/images/icon-wagering.png";
+
 import Header from "./Header";
 import Profile from "./Profile/index";
 import VIP from "./Vip/index.js";
@@ -262,12 +265,13 @@ class Account extends Component {
     }
   }
   getAllGameBalance = () => {
-    this.props.game.providerList
+    const requests = this.props.game.providerList
       .filter((item) => item.status === 0 && item.transferwallet === true)
       .filter((item) => item.gpcode !== "NTTF" && item.gpcode !== "RTTF")
       .map((a) => {
-        this.props.getGameBalance(a.gpcode);
+        return this.props.getGameBalance(a.gpcode);
       });
+    return Promise.all(requests)
   };
   handleRefreshClick = () => {
     if (

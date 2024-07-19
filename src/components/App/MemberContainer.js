@@ -318,7 +318,7 @@ const MemberContainer = (props) => {
                           })
                           .map((data, index) => {
                             return (
-                              <BrandAndBalance>
+                              <BrandAndBalance key={index}>
                                 <Brand>
                                   {i18n.t(`${data.abbreviation}.${item.path}`)}
                                 </Brand>

@@ -875,6 +875,7 @@ class Header extends Component {
                       ) : (
                         <>
                           <CustomExternalLink
+                            key={index}
                             selected={i18n.language === lang.culturecode}
                             onClick={() => {
                               i18n.changeLanguage(lang.culturecode);
@@ -883,9 +884,7 @@ class Header extends Component {
                           >
                             {i18n.t("lang." + lang.culturecode)}
                           </CustomExternalLink>
-                          {this.props.general.brandLanguage.length - 1 !== index
-                            ? " | "
-                            : ""}
+                          {this.props.general.brandLanguage.length - 1 !== index ? " | " : ""}
                         </>
                       );
                     })}
