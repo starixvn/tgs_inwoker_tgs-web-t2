@@ -527,6 +527,7 @@ class Transfer extends Component {
     this.props.doWithdrawAll();
   };
   handleTranferIn = (gpcode) => {
+    this.setState({ ...this.state, loading:true })
     this.props.doTransfer(gpcode, this.props.wallet.mainBalance);
   };
 
@@ -534,6 +535,12 @@ class Transfer extends Component {
     this.props.updateAutoTransferStatus();
   };
 
+  handleOneKeyTransferOut = () => {
+    this.setState({ ...this.state, loading:true })
+    Promise.resolve(this.props.performWithdrawFromEveryBrand()).then(() => {
+      this.setState({ ...this.state, loading:false })
+    })
+  }
   render() {
     return (
       <Container>
@@ -742,9 +749,7 @@ class Transfer extends Component {
             />
             <GameWalletButton
               style={{ marginTop: 0, marginLeft: 10 }}
-              onClick={() => {
-                this.props.performWithdrawFromEveryBrand();
-              }}
+              onClick={this.handleOneKeyTransferOut}
             >
               {i18n.t("transfer.oneKeyTransferOut")}
             </GameWalletButton>
