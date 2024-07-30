@@ -124,7 +124,7 @@ function Footer(props) {
             })
             .map((item, index) => {
               return (
-                <ThirdPartyLogoHolder>
+                <ThirdPartyLogoHolder key={index}>
                   <BrandsImage
                     img={
                       process.env.PUBLIC_URL +
