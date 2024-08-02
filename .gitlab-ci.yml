@@ -10,6 +10,7 @@ build:
   extends: .build
   variables:
     Submodule_Branch: master
+    Wap_Submodule_Branch: v226
   only:
     - master
     - release/current
