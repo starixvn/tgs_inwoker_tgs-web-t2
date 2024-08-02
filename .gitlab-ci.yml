@@ -10,6 +10,7 @@ build:
   extends: .build
   variables:
     Submodule_Branch: release/current
+    Wap_Submodule_Branch: stg/v226
   only:
     - master
     - release/current
