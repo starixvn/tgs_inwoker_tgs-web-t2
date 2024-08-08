@@ -11,7 +11,7 @@ pipeline {
         dockerhub = credentials('dockerhub')
         Image = "lobby-t2"
     }
-    stages {		    	
+    stages {
         stage('Prepare Env') {
             steps {
                 sh "docker login -u ${dockerhub_USR} -p ${dockerhub_PSW}"
@@ -21,14 +21,14 @@ pipeline {
                     {
                         case ['v226']:
                             env.kube_ns = "prod";
-                            env.k8s_config = 'prod-k8s-config';	
+                            env.k8s_config = 'prod-k8s-config';
                             sh "git config --file=.gitmodules submodule.src/components/Wap.branch v226";
                             sh "git config --file=.gitmodules submodule.src/api-services.branch master";
                             sh "git config --file=.gitmodules submodule.src/components/Common.branch master";
                             break;
                         case ['stg/v226']:
                             env.kube_ns = "staging";
-                            env.k8s_config = 'stag-k8s-config';	
+                            env.k8s_config = 'stag-k8s-config';
                             sh "git config --file=.gitmodules submodule.src/components/Wap.branch stg/v226";
                             sh "git config --file=.gitmodules submodule.src/api-services.branch develop"
                             sh "git config --file=.gitmodules submodule.src/components/Common.branch release/current";
@@ -42,7 +42,7 @@ pipeline {
                             break;
                         case ['master', 'origin/master']:
                             env.kube_ns = "prod";
-                            env.k8s_config = 'prod-k8s-config';	
+                            env.k8s_config = 'prod-k8s-config';
                             sh "git config --file=.gitmodules submodule.src/components/Wap.branch master";
                             sh "git config --file=.gitmodules submodule.src/api-services.branch master";
                             sh "git config --file=.gitmodules submodule.src/components/Common.branch master";
@@ -56,7 +56,7 @@ pipeline {
                             break;
                         default:
                             env.kube_ns = "dev";
-                            env.k8s_config = 'k8s-kube-config' 
+                            env.k8s_config = 'k8s-kube-config'
                             sh "git config --file=.gitmodules submodule.src/components/Wap.branch develop";
                             sh "git config --file=.gitmodules submodule.src/api-services.branch develop";
                             sh "git config --file=.gitmodules submodule.src/components/Common.branch develop";
@@ -68,7 +68,7 @@ pipeline {
 
                     TAG = env.kube_ns + '-' + TAG
 					MergedTag = 'merged-' + TAG
-                    message += "\nBranch: ${env.GIT_BRANCH}" 
+                    message += "\nBranch: ${env.GIT_BRANCH}"
                     message += "\nImage: ${Image}"
                     message += "\nTag: ${TAG}"
                     message += "\nEnv: $env.kube_ns"
@@ -79,7 +79,7 @@ pipeline {
                 configFileProvider([configFile(fileId: 'tgs.' + env.kube_ns, variable: 'tgsconfig')]) {
                     script {
                         def envItems = readProperties file: "$tgsconfig";
-                        envItems.each { key, value -> 
+                        envItems.each { key, value ->
                             env."tgs_${key}" = value;
                         }
                         componentArray = "${env.tgs_lobby_t2_v226_components}".split(",")
@@ -89,15 +89,15 @@ pipeline {
                 sh "echo 'env: $env.kube_ns'"
                 sh "echo 'tag: ${TAG}'"
             }
-        }	
-        stage('Docker Build') {  
-            steps {	  			    
+        }
+        stage('Docker Build') {
+            steps {
                 sh "docker build -t ${Registry}${Image}:${TAG} ."
                 sh "docker tag ${Registry}${Image}:${TAG} ${Registry}${Image}:$env.kube_ns"
             }
-        }			
-        stage('Docker Push') {   
-            steps {	  
+        }
+        stage('Docker Push') {
+            steps {
                 sh "docker push ${Registry}${Image}:${TAG}"
                 sh "docker push ${Registry}${Image}:$env.kube_ns"
             }
@@ -113,13 +113,13 @@ pipeline {
                 script {
                     input message: 'Ready to go?', ok: 'yes';
                 }
-                
+
                 sh "echo start deploy"
             }
         }
-        stage('Deployment') {   
-            steps {	  
-                script {			
+        stage('Deployment') {
+            steps {
+                script {
                     withKubeConfig([credentialsId: env.k8s_config]) {
                         message += "\nComponent:"
                         for (i = 0;i < componentArray.length; i++) {
@@ -129,11 +129,11 @@ pipeline {
                     }
                 }
             }
-        }	
-        
+        }
+
         // stage('Purge Cache'){
         //     steps {
-        //         script {   
+        //         script {
         //             sh "sleep 120"
         //             sh "bash /var/lib/jenkins/tgs-jenkins-jobs/shellscripts/purge_cache_multiple_domain.sh gameok"
         //         }
@@ -145,17 +145,17 @@ pipeline {
         //         expression {
         //             return env.kube_ns == 'prod';
         //         }
-        //     }					
-        //     steps {	
+        //     }
+        //     steps {
         //         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'gitssh-user-pwd', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
         //             sh "git tag -a ${TAG} -m ${TAG}"
         //             sh "git push https://$USERNAME:$PASSWORD@${GitUrl} --tags"
         //         }
         //     }
-        // }	
-        //stage('Remove Image Tags') {					
-        //    steps {	
-        //        withCredentials([string(credentialsId: "GitLabToken", variable: "GitLabToken")]) {					
+        // }
+        //stage('Remove Image Tags') {
+        //    steps {
+        //        withCredentials([string(credentialsId: "GitLabToken", variable: "GitLabToken")]) {
         //            sh "curl --request DELETE --data \'name_regex_delete=.*\' --data \'keep_n=10\' --header \'PRIVATE-TOKEN: ${GitLabToken}\' ${ImageTagUrl}"
         //        }
         //    }
@@ -172,13 +172,13 @@ pipeline {
         //                 input message: 'Ready to Undo?', ok: 'yes';
         //             }
         //         }
-                
+
         //         sh "echo start deploy"
         //     }
         // }
-        // stage('Undo Deployment') {   
-        //     steps {   
-        //         script {            
+        // stage('Undo Deployment') {
+        //     steps {
+        //         script {
         //             withKubeConfig([credentialsId: env.k8s_config]) {
         //                 message += "\nComponent:"
 
@@ -191,7 +191,7 @@ pipeline {
         //             }
         //         }
         //     }
-        // }   
+        // }
     }
     post {
         success {
