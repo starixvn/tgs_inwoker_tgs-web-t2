@@ -174,6 +174,7 @@ const VipProgressWidget = ({
   getGameBalance,
   updateBalanceList,
   getAccountInfo,
+  loading
 }) => {
   const getAllGameBalance = () => {
     game.providerList
@@ -204,12 +205,15 @@ const VipProgressWidget = ({
     );
   };
 
-  const WalletRow = ({ title, balance }) => {
+  const WalletRow = ({ title, balance, loading }) => {
+    const showBalance = () => {
+      return loading ? '-' : `${wallet.mainSymbol}${Common.formatNumberWithThousand(balance)}`
+    }
     return (
       <div className="wallet">
         <div className="title">{title}:</div>
         <div className="balance">
-          {`${wallet.mainSymbol}${Common.formatNumberWithThousand(balance)}`}
+          {showBalance()}
           <RefreshButton wallet />
         </div>
       </div>
@@ -300,16 +304,19 @@ const VipProgressWidget = ({
         <WalletRow
           title={i18n.t("web.account.header.mainWallet")}
           balance={wallet.mainBalance}
+          loading={loading}
         />
         {game.containTransferWallet && (
           <WalletRow
             title={i18n.t("web.account.header.allGameWallet")}
             balance={ingamebalance}
+            loading={loading}
           />
         )}
         <WalletRow
           title={i18n.t("web.account.header.total")}
           balance={wallet.mainBalance + ingamebalance}
+          loading={loading}
         />
       </div>
     </VipProgressWidgetWrapper>

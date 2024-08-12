@@ -424,7 +424,7 @@ class Transfer extends Component {
             disabled: false,
           });
         });
-       
+       this.props.setLoading(false)
       } else {
         this.props.enqueueSnackbar(this.props.wallet.transferResult.info, {
           variant: "error",
@@ -434,6 +434,7 @@ class Transfer extends Component {
           disabled: false,
           loading: false,
         });
+        this.props.setLoading(false)
       }
     }
 
@@ -453,6 +454,7 @@ class Transfer extends Component {
           loading: false,
           open: false,
         });
+        this.props.setLoading(false)
         // AppHistory.replace( "/withdrawal");
       } else {
         this.props.enqueueSnackbar(this.props.wallet.withdrawalAllResult.info, {
@@ -481,7 +483,8 @@ class Transfer extends Component {
     this.setState({ ...this.state, transferAmount: e.target.value });
   };
   handleTranferClick = (e) => {
-    this.setState({ ...this.state, disabled: true, loading:true });
+    this.setState({ ...this.state, disabled: true});
+    this.props.setLoading(true)
     const transferFrom = this.state.transferFrom;
     const transferTo = this.state.transferTo;
     const transferAmount = parseFloat(
@@ -509,6 +512,7 @@ class Transfer extends Component {
         });
       }
       this.setState({ ...this.state, disabled: false, loading:false });
+      this.props.setLoading(false)
     } else {
       if (transferFrom === this.state.mainAccountId)
         this.props.doTransfer(transferTo, transferAmount);
@@ -527,7 +531,8 @@ class Transfer extends Component {
     this.props.doWithdrawAll();
   };
   handleTranferIn = (gpcode) => {
-    this.setState({ ...this.state, loading:true })
+    // this.setState({ ...this.state, loading:true })
+    this.props.setLoading(true)
     this.props.doTransfer(gpcode, this.props.wallet.mainBalance);
   };
 
@@ -536,9 +541,11 @@ class Transfer extends Component {
   };
 
   handleOneKeyTransferOut = () => {
-    this.setState({ ...this.state, loading:true })
+    // this.setState({ ...this.state, loading:true })
+    this.props.setLoading(true)
     Promise.resolve(this.props.performWithdrawFromEveryBrand()).then(() => {
-      this.setState({ ...this.state, loading:false })
+      // this.setState({ ...this.state, loading:false })
+      this.props.setLoading(false)
     })
   }
   render() {
@@ -563,7 +570,7 @@ class Transfer extends Component {
             <div className="clear"></div>
             <WalletAmount>
               <DynamicFont
-                content={this.state.loading ? "-" : Common.formatNumberWithThousand(
+                content={this.props.loading ? "-" : Common.formatNumberWithThousand(
                   this.props.wallet.mainBalance
                 )}
               />
@@ -579,7 +586,7 @@ class Transfer extends Component {
               <div className="clear"></div>
               <WalletAmount>
                 <DynamicFont
-                  content={this.state.loading ? "-" : Common.formatNumberWithThousand(
+                  content={this.props.loading ? "-" : Common.formatNumberWithThousand(
                     this.props.game.providerList.reduce(
                       (total, item) =>
                         item.transferwallet === true
@@ -600,7 +607,7 @@ class Transfer extends Component {
             <div className="clear"></div>
             <WalletAmount>
               <DynamicFont
-                content={this.state.loading ? "-" : Common.formatNumberWithThousand(
+                content={this.props.loading ? "-" : Common.formatNumberWithThousand(
                   this.props.game.providerList.reduce(
                     (total, item) =>
                       item.transferwallet === true
@@ -801,7 +808,7 @@ class Transfer extends Component {
           </TransferContainer>
           <Loading
             show={
-              this.state.loading ||
+              this.props.loading ||
               this.props.wallet.transferLoading ||
               this.props.wallet.updateBalanceloading
             }
