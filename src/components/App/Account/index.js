@@ -27,6 +27,9 @@ import IconInboxActivePNG from "../../../assets/images/icon-inbox-active.png";
 import IconVIPPNG from "../../../assets/images/icon-vip.png";
 import IconVIPActivePNG from "../../../assets/images/icon-vip.png";
 
+import WageringPNG from "../../../assets/images/icon-wagering.png";
+import WageringActivePNG from "../../../assets/images/icon-wagering.png";
+
 import Header from "./Header";
 import Profile from "./Profile/index";
 import VIP from "./Vip/index.js";
@@ -232,6 +235,7 @@ class Account extends Component {
     super(props);
     this.state = {
       activePage: this.props.match.params.tab,
+      loading: false
     };
   }
   async componentDidMount() {
@@ -262,12 +266,13 @@ class Account extends Component {
     }
   }
   getAllGameBalance = () => {
-    this.props.game.providerList
+    const requests = this.props.game.providerList
       .filter((item) => item.status === 0 && item.transferwallet === true)
       .filter((item) => item.gpcode !== "NTTF" && item.gpcode !== "RTTF")
       .map((a) => {
-        this.props.getGameBalance(a.gpcode);
+        return this.props.getGameBalance(a.gpcode);
       });
+    return Promise.all(requests)
   };
   handleRefreshClick = () => {
     if (
@@ -378,6 +383,12 @@ class Account extends Component {
       activePage: page,
     });
   };
+  setLoading = (value) => {
+    this.setState({
+      ...this.state,
+      loading: value
+    })
+  }
   render() {
     return (
       <Container>
@@ -438,6 +449,7 @@ class Account extends Component {
                 onIDVerifyClick={this.handleIDVerifyClick}
                 onPhoneVerifyClick={this.handlePhoneVerifyClick}
                 onEmailVerifyClick={this.handleEmailVerifyClick}
+                loading={this.state.loading}
               ></Header>
 
               <Router history={AppHistory}>
@@ -513,6 +525,8 @@ class Account extends Component {
                           <Transfer
                             token={this.props.account.token}
                             getAllGameBalance={this.getAllGameBalance}
+                            setLoading={this.setLoading}
+                            loading={this.state.loading}
                           />
                         )}
                       />

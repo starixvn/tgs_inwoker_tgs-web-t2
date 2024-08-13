@@ -265,6 +265,7 @@ class PromotionDetails extends Component {
         "DailySecondDeposit",
         "DailyFirstDeposit",
         "DepositReward",
+        "DepositRewardV2",
         "DepositAccumulateRoulette",
         "AccountFirstDeposit",
       ].indexOf(promotionType) >= 0

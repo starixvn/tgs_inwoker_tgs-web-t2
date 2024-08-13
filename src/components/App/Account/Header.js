@@ -78,6 +78,7 @@ const RefreshButtonIcon = styled.div`
 `;
 
 function Header(props) {
+  const { loading } = props
   var ingame = 0;
   props.game.providerList.map((item) => {
     if (item.transferwallet === true) ingame += parseFloat(item.balance);
@@ -86,7 +87,7 @@ function Header(props) {
   return (
     <Container>
       {config.features.VipProgressBar ? (
-        <VipProgress />
+        <VipProgress loading={loading}/>
       ) : (
         <>
           {" "}
@@ -97,6 +98,7 @@ function Header(props) {
             <AmountContainer>
               <DynamicFont
                 content={
+                  loading ? '-' : 
                   props.wallet.mainSymbol +
                   Common.formatNumberWithThousand(props.wallet.mainBalance)
                 }
@@ -116,6 +118,7 @@ function Header(props) {
                 <AmountContainer>
                   <DynamicFont
                     content={
+                      loading ? '-' : 
                       props.wallet.mainSymbol +
                       Common.formatNumberWithThousand(ingame)
                     }
@@ -135,6 +138,7 @@ function Header(props) {
             <AmountContainer>
               <DynamicFont
                 content={
+                  loading ? '-' : 
                   props.wallet.mainSymbol +
                   Common.formatNumberWithThousand(
                     props.wallet.mainBalance + ingame
