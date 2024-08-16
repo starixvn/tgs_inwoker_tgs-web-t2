@@ -21,7 +21,7 @@ const Container = styled.div`
 `;
 
 const GirlImage = styled.div`
-  background: url(${(props) => props.img}) no-repeat;
+  background: url(${(props) => props.img}) center/cover no-repeat;
   width: 308px;
   height: 172px;
   float: right;
