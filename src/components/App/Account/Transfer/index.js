@@ -23,6 +23,7 @@ import Common from "../../../../utils/Common";
 import Messagebox from "../../Messagebox";
 import i18n from "../../../../utils/i18n";
 import config from "../../../../config/config";
+import {CommonUtil} from "../../../Common/utilc";
 
 const CurrencyTextFieldReplacement = styled.input`
   height: 35px;
@@ -788,7 +789,7 @@ class Transfer extends Component {
                   <GameWalletAmount>
                     {item.maintenance === 1
                       ? i18n.t("transfer.maintenance")
-                      : Common.formatNumberWithCommas(item.balance)}
+                      : CommonUtil.roundUpToTwoDecimals(item.balance)}
                   </GameWalletAmount>
                   <GameWalletButton
                     disabled={item.maintenance === 1}
