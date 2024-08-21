@@ -235,6 +235,7 @@ class Account extends Component {
     super(props);
     this.state = {
       activePage: this.props.match.params.tab,
+      loading: false
     };
   }
   async componentDidMount() {
@@ -382,6 +383,12 @@ class Account extends Component {
       activePage: page,
     });
   };
+  setLoading = (value) => {
+    this.setState({
+      ...this.state,
+      loading: value
+    })
+  }
   render() {
     return (
       <Container>
@@ -442,6 +449,7 @@ class Account extends Component {
                 onIDVerifyClick={this.handleIDVerifyClick}
                 onPhoneVerifyClick={this.handlePhoneVerifyClick}
                 onEmailVerifyClick={this.handleEmailVerifyClick}
+                loading={this.state.loading}
               ></Header>
 
               <Router history={AppHistory}>
@@ -517,6 +525,8 @@ class Account extends Component {
                           <Transfer
                             token={this.props.account.token}
                             getAllGameBalance={this.getAllGameBalance}
+                            setLoading={this.setLoading}
+                            loading={this.state.loading}
                           />
                         )}
                       />
