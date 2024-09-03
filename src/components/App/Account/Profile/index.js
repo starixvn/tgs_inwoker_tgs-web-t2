@@ -31,9 +31,11 @@ import i18n from "../../../../utils/i18n";
 import config from "../../../../config/config";
 import { AccountService } from "../../../../api-services/services/AccountService";
 import Birthdate from "./Birthdate";
+import { useCustomMsg } from '../../../Common/hooks/pages/profile'
+
 const Container = styled.div`
   padding: 20px 28px;
-  box-sizing: border-box
+  box-sizing: border-box;
   background-color: #ffffff;
   width: 100%;
   min-height: 796px;
@@ -353,6 +355,20 @@ function GetContentWrap(accountInfo, label, attr, func, edit, disable) {
       </ButtonWrapper>
     </ContentWrap>
   );
+}
+
+const CustomMessaging = ({
+  info,handleButtonClick
+}) => {
+  const { list } = useCustomMsg()
+  return list.map(customMsgItem => {
+      return GetContentWrap(
+        info,
+        customMsgItem.label,
+        customMsgItem.attr,
+        handleButtonClick
+      )
+    })
 }
 
 const StyledDialog = withStyles({
@@ -811,7 +827,7 @@ class Profile extends Component {
               "member_email",
               this.handleButtonClick
             )}
-          {config.features.QQWeChat &&
+          {/* {config.features.QQWeChat &&
             GetContentWrap(
               this.props.account.info,
               "QQ",
@@ -835,42 +851,10 @@ class Profile extends Component {
                 "member_" + platform,
                 this.handleButtonClick
               );
-            })}
-          {/* {GetContentWrap(
-            this.props.account.info,
-            "电子邮件",
-            "member_email",
-            this.handleButtonClick
-          )}
-          {GetContentWrap(
-            this.props.account.info,
-            "QQ",
-            "member_qq",
-            this.handleButtonClick
-          )}
-          {GetContentWrap(
-            this.props.account.info,
-            "Wechat",
-            "member_wechat",
-            this.handleButtonClick
-          )}
-          {GetContentWrap(
-            this.props.account.info,
-            "您的生日",
-            "member_birthday",
-            this.handleButtonClick
-          )} */}
-          {/* {(() => {
-            if (config.brand !== "HKJP" && config.brand !== "GPI") {
-              return GetContentWrap(
-                this.props.account.info,
-                i18n.t("profile.withdrawalPassword.title"),
-                "member_safe_password",
-                this.handleButtonClick,
-                i18n.t("profile.edit")
-              );
-            }
-          })()} */}
+            })} */}
+          {
+            <CustomMessaging info={this.props.account.info} handleButtonClick={this.handleButtonClick}></CustomMessaging>
+          }
 
           {GetContentWrap(
             this.props.account.info,
