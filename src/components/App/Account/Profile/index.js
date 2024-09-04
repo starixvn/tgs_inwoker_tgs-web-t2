@@ -73,7 +73,7 @@ const ContentWrap = styled.div`
 const ContentLabel = styled.div`
   color: #8a7f73;
   float: left;
-  width: 160px;
+  width: 200px;
   margin-left: 18px;
   margin-top: 10px;
 `;
