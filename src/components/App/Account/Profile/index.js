@@ -27,6 +27,7 @@ import Telegram from "./Telegram";
 import Line from "./Line";
 import Viber from "./Viber";
 import Whatsapp from "./Whatsapp";
+import Zalo from "./Zalo";
 import i18n from "../../../../utils/i18n";
 import config from "../../../../config/config";
 import { AccountService } from "../../../../api-services/services/AccountService";
@@ -601,6 +602,16 @@ class Profile extends Component {
             account={this.props.account}
           ></QQ>
         );
+        break;
+        case "member_zalo":
+          title = i18n.t("common.zalo");
+          component = (
+            <Zalo
+              handleCSClick={this.props.onhandleCSClick}
+              handleCloseDialog={this.handleCloseDialog}
+              account={this.props.account}
+            ></Zalo>
+          );
         break;
       // case "member_address":
       //   title = "收货地址";
