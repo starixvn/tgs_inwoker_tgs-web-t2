@@ -12,7 +12,7 @@ build:
     Submodule_Branch: develop
     Wap_Submodule_Branch: dev/v226
   only:
-    - stg/v226
+    - dev/v226
     - v226
 
 deploy-staging-v226:
