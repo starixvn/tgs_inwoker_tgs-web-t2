@@ -196,7 +196,8 @@ class Report extends Component {
       this.state.limit,
       true,
       "",
-      false
+      false,
+      i18n.language
     ).then((response) => {
       if (response.IsSuccess) {
         this.setState({
