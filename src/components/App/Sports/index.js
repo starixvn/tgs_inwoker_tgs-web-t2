@@ -15,13 +15,12 @@ const Container = styled.div`
   min-height: 850px;
   padding: 70px 0px;
   position: relative;
-  background: url(${process.env.PUBLIC_URL +
-    "/assets/images/pcGamePage/sports/bg.jpg"})
+  background: url(${process.env.PUBLIC_URL +"/assets/images/pcGamePage/sports/bg.jpg"})
     no-repeat center;
 `;
 
 const GirlImage = styled.div`
-  background: url(${(props) => props.img}) no-repeat;
+  background: url(${(props) => props.img}) center/cover no-repeat;
   width: 308px;
   height: 172px;
   float: right;
