@@ -23,7 +23,7 @@ const InputWrapper = styled.div`
 
 function Default(props) {
   const allowEdit = props.edit ? false : props.account.info.check_pass_account;
-  const { showIdInfo } = props
+  const { showInfo } = props
   return (
     <Container>
       <CustomTextField
@@ -40,7 +40,7 @@ function Default(props) {
       ></CustomTextField>
 
       {(() => {
-        if (showIdInfo) {
+        if (showInfo) {
           return (
             <>
               <CustomTextField
