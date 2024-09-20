@@ -131,6 +131,7 @@ function GetContentWrap({accountInfo, label, attr, func, edit, disable, playerId
   let isMemberName = false;
   let verified = accountInfo["check_pass_account"];
   let containMemberName = accountInfo["member_name"];
+  let button2Value = i18n.t("profile.edit")
   if (attr === "member_address") {
     if (attrValue !== "") {
       attrValue +=
@@ -199,11 +200,11 @@ function GetContentWrap({accountInfo, label, attr, func, edit, disable, playerId
   }
   if (attrValue === "" || attrValue == null) {
     if (requiredVerify) {
-      attrValue = i18n.t("profile.notVerify");
+      attrValue = i18n.t("profile.notSet");
       buttonValue = i18n.t("profile.nowVerify");
     } else {
       attrValue = i18n.t("profile.notSet");
-      buttonValue = i18n.t("profile.setNow");
+      buttonValue = i18n.t("profile.notSet");
     }
     isDisable = true;
   } else {
@@ -267,6 +268,13 @@ function GetContentWrap({accountInfo, label, attr, func, edit, disable, playerId
     status = "verifying";
   }
 
+  if (attr ===  "member_name" && status === "verifying") {
+    // 验证中
+    hide = true
+    edit = false
+    button2Value = i18n.t("profile.details")
+  }
+
   return (
     <ContentWrap>
       <ContentLabel>{label}:</ContentLabel>
@@ -295,7 +303,7 @@ function GetContentWrap({accountInfo, label, attr, func, edit, disable, playerId
           config.features.Profile_DisplayEditNameButton) ||
           (attr === "member_phone" && isVerify && edit && !disable)) && (
           <ContentButton onClick={() => func(attr, edit)}>
-            <ContentButtonLabel>{i18n.t("profile.edit")}</ContentButtonLabel>
+            <ContentButtonLabel>{button2Value}</ContentButtonLabel>
           </ContentButton>
         )}
       </ButtonWrapper>
