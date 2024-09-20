@@ -9,8 +9,10 @@ import config from "../../../../../config/config";
 import Default from "./default";
 import Approved from "./approved";
 import WaitingVerification from "./waiting-verification";
+import { useBaseInfo } from "../../../../Common/hooks/pages/profile";
 
 function IDVerification(props) {
+  const { playerIdentityAuthenticationEnabled } = useBaseInfo()
   const [memberName, setMemberName] = useState(props.account.info.member_name);
   const [memberCard, setMemberCard] = useState(
     props.account.info.member_card_no
@@ -59,41 +61,31 @@ function IDVerification(props) {
   }, []);
 
   const onhandleClick = () => {
-    if (memberName === "" || memberName === null) {
+    if (!memberName) {
       props.enqueueSnackbar(i18n.t("profile.nameVerify.msgPlsEnterName"), {
         variant: "error",
       });
       return;
     }
-    if (memberCard === "" || memberCard === null) {
+    if (playerIdentityAuthenticationEnabled && !memberCard) {
       props.enqueueSnackbar(i18n.t("profile.nameVerify.msgPlsEnterICNum"), {
         variant: "error",
       });
       return;
     }
 
-    if (config.features.ICVerificationUpload && icUpload === "") {
+    if (playerIdentityAuthenticationEnabled && icUpload === "") {
       props.enqueueSnackbar(i18n.t("deposit.msgPlsSelectFile"), {
         variant: "error",
       });
       return;
     }
 
-    AccountService.AddRealName(memberName, memberCard).then((response) => {
+    AccountService.UpdateMemberNameAndIC(
+      memberName, memberCard,
+      playerIdentityAuthenticationEnabled ? icUpload[0] : null
+    ).then((response) => {
       if (response.IsSuccess) {
-        //upload IC when membername and memberic is valid.
-        if (config.features.ICVerificationUpload) {
-          AccountService.UploadIC(icUpload[0]).then((response) => {
-            if (!response.IsSuccess) {
-              props.enqueueSnackbar(
-                ErrorSwitcher.getTranslation(response.info),
-                {
-                  variant: "error",
-                }
-              );
-            }
-          });
-        }
         props.dispatch({
           type: UPDATE_INFO,
           payload: {
@@ -178,11 +170,11 @@ function IDVerification(props) {
       case "approved":
         return <Approved {...commonprops} />;
       case "waiting-submit":
-        return <Default {...commonprops} />;
+        return <Default {...commonprops} showInfo={playerIdentityAuthenticationEnabled}/>;
       case "reject":
-        return <Default {...commonprops} />;
+        return <Default {...commonprops} showInfo={playerIdentityAuthenticationEnabled}/>;
       default:
-        return <Default {...commonprops} />;
+        return <Default {...commonprops} showInfo={playerIdentityAuthenticationEnabled}/>;
     }
   };
   return sceneSwitcher(view);

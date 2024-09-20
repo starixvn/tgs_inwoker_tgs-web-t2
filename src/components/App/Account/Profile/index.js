@@ -166,6 +166,7 @@ function GetContentWrap({accountInfo, label, attr, func, edit, disable, playerId
 
   let isVerify = false;
   let hide = false;
+  let button2Value = i18n.t("profile.edit")
 
   if (requiredVerify) {
     if (
@@ -198,7 +199,7 @@ function GetContentWrap({accountInfo, label, attr, func, edit, disable, playerId
   }
   if (attrValue === "" || attrValue == null) {
     if (requiredVerify) {
-      attrValue = i18n.t("profile.notVerify");
+      attrValue = i18n.t("profile.notSet");
       buttonValue = i18n.t("profile.nowVerify");
     } else {
       attrValue = i18n.t("profile.notSet");
@@ -264,6 +265,13 @@ function GetContentWrap({accountInfo, label, attr, func, edit, disable, playerId
   if (currentFormStatus === 0 && hasSubmitted === true) {
     //有給表單id但狀態沒驗證，不能上傳
     status = "verifying";
+  }
+
+  if (attr ===  "member_name" && status === "verifying") {
+    // 验证中
+    hide = true
+    edit = false
+    button2Value = i18n.t("profile.details")
   }
 
   return (
