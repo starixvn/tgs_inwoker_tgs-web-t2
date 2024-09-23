@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";   
+import React, { useContext, useEffect } from "react";
 import clsx from "clsx";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
@@ -6,15 +6,17 @@ import UserIconPNG from "../../../assets/images/user-icon.png";
 import Password1IconPNG from "../../../assets/images/password1-icon.png";
 import Password2IconPNG from "../../../assets/images/password2-icon.png";
 import IconMobilePNG from "../../../assets/images/icon-mobile.png";
-  
-import Checkbox from "@material-ui/core/Checkbox"; 
-import config from "../../../config/config"; 
-import i18n from "../../../utils/i18n";  
+import IconInputVerifyCodePNG from "../../../assets/images/icon-input-verifycode.png";
+
+
+import Checkbox from "@material-ui/core/Checkbox";
+import config from "../../../config/config";
+import i18n from "../../../utils/i18n";
 import { useRegisterForm, useRegisterHandle } from "../../Common/hooks/pages/register";
-import { RegisterContext } from "../../Common/contexts"; 
-import {
-  useStyles, Container, CloseIconContainer, TitleContainer, SubTitleContainer, FormContainer, CustomTextWrapper, CustomText, CustomFormControl, CustomSelect,
-  CustomText2, CustomInvitationContainer, DescriptionContainer, Description, ButtonLogin, ButtonLoginLabel, CustomInvitationSelect
+import { RegisterContext } from "../../Common/contexts";
+import { IsWithSMSCode } from "../../Common/templates";
+import {useStyles, Container, CloseIconContainer, TitleContainer, SubTitleContainer, FormContainer, CustomTextWrapper, CustomText, CustomFormControl, CustomSelect,
+  CustomText2, CustomInvitationContainer, DescriptionContainer, Description, ButtonLogin, ButtonLoginLabel, CustomInvitationSelect, StyleButton, ButtonLabel,
 } from "./styles";
 
 
@@ -31,11 +33,9 @@ const RegisterPc = (props) => {
   } = useRegisterHandle();
   const { formData, setFormData } = useContext(RegisterContext);
 
-  const isSMSInRegister = config.features.SMSVerificationInRegister;
-  const isRegisterShowPhone = config.features.Register_ShowPhone;
-  
+
   const onClickRegister = () => {
-    performNewRegister(false, onHandleLoginSuccess);
+    performNewRegister(false, onHandleLoginSuccess, IsWithSMSCode);
   }
 
 
@@ -75,7 +75,6 @@ const RegisterPc = (props) => {
             }}
           />
         </CustomTextWrapper>
-
         <CustomTextWrapper>
           <CustomText
             onChange={handleChangePwd}
@@ -124,46 +123,69 @@ const RegisterPc = (props) => {
             }}
           />
         </CustomTextWrapper>
-
-        {(isSMSInRegister || isRegisterShowPhone) && (
-          <React.Fragment>
-            <CustomFormControl>
-              <CustomSelect
-                native
-                variant="outlined"
-                value={formData.areacode}
-                displayEmpty
-                onChange={handleChangeAreaCode}
-              >
-                <option value={config.features.PhonePrefix}>
-                  {config.features.PhonePrefix}
-                </option>
-              </CustomSelect>
-            </CustomFormControl>
-            <CustomText2
-              onChange={handleChangePhone}
-              id="phone"
-              value={formData.phone}
-              placeholder={i18n.t("forgotPassword.plsEnterPhoneNumber")}
+        <React.Fragment>
+          <CustomFormControl>
+            <CustomSelect
+              native
               variant="outlined"
-              type="text"
-              autoComplete="off"
-              inputProps={{
-                maxLength: config.features.MAX_PHONE_LENGTH || 10,
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment
-                    position="start"
-                    style={{ height: "26px", width: "30px" }}
-                  >
-                    <img src={IconMobilePNG} alt=""></img>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </React.Fragment>
-        )}
+              value={formData.areacode}
+              displayEmpty
+              onChange={handleChangeAreaCode}
+            >
+              <option value={config.features.PhonePrefix}>
+                {config.features.PhonePrefix}
+              </option>
+            </CustomSelect>
+          </CustomFormControl>
+          <CustomText2
+            onChange={handleChangePhone}
+            id="phone"
+            value={formData.phone}
+            placeholder={i18n.t("forgotPassword.plsEnterPhoneNumber")}
+            variant="outlined"
+            type="text"
+            autoComplete="off"
+            inputProps={{
+              maxLength: config.features.MAX_PHONE_LENGTH || 10,
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment
+                  position="start"
+                  style={{ height: "26px", width: "30px" }}
+                >
+                  <img src={IconMobilePNG} alt=""></img>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </React.Fragment>
+        <div class="clear"></div>
+        <CustomText
+          placeholder={i18n.t("common.msgEnterCode")}
+          adornment={IconInputVerifyCodePNG}
+          onChange={handleChangeCode}
+          variant="outlined"
+          autoComplete="off"
+          value={formData.code}
+          type={"text"}
+          style={{
+            width: "200px",
+            height: "51px",
+            marginTop: "0",
+            boxShadow: "0px 3px 8px -2px rgb(0 0 0 / 75%)",
+          }}
+        ></CustomText>
+        <StyleButton onClick={performGetCode} disable={countdown > 0}>
+          <ButtonLabel>
+            {countdown <= 0
+              ? i18n.t("common.msgSendToken")
+              : i18n.t("common.btnTokenResendLabel") +
+              "(" +
+              countdown +
+              "s)"}
+          </ButtonLabel>
+        </StyleButton>
         <div class="clear"></div>
         {!(config.features.Register_HideInvitation && fromCustomDomain) && (
           <CustomTextWrapper>
@@ -211,7 +233,7 @@ const RegisterPc = (props) => {
           </ButtonLoginLabel>
         </ButtonLogin>
       </FormContainer>
-    </Container>
+    </Container >
   );
 }
 
