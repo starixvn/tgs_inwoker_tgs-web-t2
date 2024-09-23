@@ -12,7 +12,7 @@ import WaitingVerification from "./waiting-verification";
 import { useBaseInfo } from "../../../../Common/hooks/pages/profile";
 
 function IDVerification(props) {
-  const { playerIdentityAuthenticationEnabled } = useBaseInfo()
+  const { playerIdentityAuthenticationEnabled, getComType } = useBaseInfo()
   const [memberName, setMemberName] = useState(props.account.info.member_name);
   const [memberCard, setMemberCard] = useState(
     props.account.info.member_card_no
@@ -35,28 +35,10 @@ function IDVerification(props) {
   useEffect(() => {
     if (props.edit) {
       setView("waiting-submit");
+    } else if (props.account.info.member_name && !playerIdentityAuthenticationEnabled) {
+      setView("approved");
     } else {
-      if (currentFormStatus === 0 && hasSubmitted === false) {
-        //api沒給表單id ，表示可以上傳
-        setView("waiting-submit");
-      }
-      if (
-        (currentFormStatus === 1 && hasSubmitted === true) ||
-        currentFormStatus === 1
-      ) {
-        setView("approved");
-      }
-      if (
-        (currentFormStatus === 2 && hasSubmitted === true) ||
-        currentFormStatus === 2
-      ) {
-        //有給表單id但是狀態是拒絕，也可以上傳
-        setView("rejected");
-      }
-      if (currentFormStatus === 0 && hasSubmitted === true) {
-        //有給表單id但狀態沒驗證，不能上傳
-        setView("waiting-verification");
-      }
+      setView(getComType())
     }
   }, []);
 
