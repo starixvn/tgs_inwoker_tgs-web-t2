@@ -29,18 +29,17 @@ function IDVerification(props) {
     setMemberCard(e.target.value);
   };
 
-  var currentFormStatus = props.account.info.identityformstatus;
-  var hasSubmitted = props.account.info.identityformid ? true : false;
-
   useEffect(() => {
-    if (props.edit) {
-      setView("waiting-submit");
-    } else if (props.account.info.member_name && !playerIdentityAuthenticationEnabled) {
+    if (props.account.info.member_name && !playerIdentityAuthenticationEnabled) {
       setView("approved");
     } else {
       setView(getComType())
     }
   }, []);
+
+  useEffect(() => {
+    setView(getComType())
+  }, [props.account.info.identityformid, props.account.info.identityformstatus])
 
   const onhandleClick = () => {
     if (!memberName) {
