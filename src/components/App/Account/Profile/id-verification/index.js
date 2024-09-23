@@ -41,6 +41,12 @@ function IDVerification(props) {
     setView(getComType())
   }, [props.account.info.identityformid, props.account.info.identityformstatus])
 
+  useEffect(() => {
+    if (view === 'rejected') {
+      setMemberName('')
+    }
+  }, [view])
+
   const onhandleClick = () => {
     if (!memberName) {
       props.enqueueSnackbar(i18n.t("profile.nameVerify.msgPlsEnterName"), {
@@ -144,7 +150,7 @@ function IDVerification(props) {
         return <Approved {...commonprops} />;
       case "waiting-submit":
         return <Default {...commonprops} showInfo={playerIdentityAuthenticationEnabled} />;
-      case "reject":
+      case "rejected":
         return <Default {...commonprops} showInfo={playerIdentityAuthenticationEnabled} />;
       default:
         return <Default {...commonprops} showInfo={playerIdentityAuthenticationEnabled} />;
