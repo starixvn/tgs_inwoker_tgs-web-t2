@@ -33,7 +33,7 @@ import config from "../../../../config/config";
 import { AccountService } from "../../../../api-services/services/AccountService";
 import Birthdate from "./Birthdate";
 
-import { useCustomMsg } from '../../../Common/hooks/pages/profile'
+import { useCustomMsg, useBaseInfo  } from '../../../Common/hooks/pages/profile'
 const Container = styled.div`
   padding: 20px 28px;
   box-sizing: border-box;
@@ -126,11 +126,12 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-function GetContentWrap(accountInfo, label, attr, func, edit, disable) {
+function GetContentWrap({accountInfo, label, attr, func, edit, disable, playerIdentityAuthenticationEnabled }) {
   let attrValue = accountInfo[attr];
   let isMemberName = false;
   let verified = accountInfo["check_pass_account"];
   let containMemberName = accountInfo["member_name"];
+  let button2Value = i18n.t("profile.edit")
   if (attr === "member_address") {
     if (attrValue !== "") {
       attrValue +=
@@ -174,7 +175,7 @@ function GetContentWrap(accountInfo, label, attr, func, edit, disable) {
       attr === "member_birthday" ||
       attr === "member_phone"
     ) {
-      isVerify = !config.features.ICVerification
+      isVerify = playerIdentityAuthenticationEnabled 
         ? accountInfo.check_pass_account
         : accountInfo.member_name !== "";
     }
@@ -199,11 +200,11 @@ function GetContentWrap(accountInfo, label, attr, func, edit, disable) {
   }
   if (attrValue === "" || attrValue == null) {
     if (requiredVerify) {
-      attrValue = i18n.t("profile.notVerify");
+      attrValue = i18n.t("profile.notSet");
       buttonValue = i18n.t("profile.nowVerify");
     } else {
       attrValue = i18n.t("profile.notSet");
-      buttonValue = i18n.t("profile.setNow");
+      buttonValue = i18n.t("profile.notSet");
     }
     isDisable = true;
   } else {
@@ -267,12 +268,19 @@ function GetContentWrap(accountInfo, label, attr, func, edit, disable) {
     status = "verifying";
   }
 
+  if (attr ===  "member_name" && status === "verifying") {
+    // 验证中
+    hide = true
+    edit = false
+    button2Value = i18n.t("profile.details")
+  }
+
   return (
     <ContentWrap>
       <ContentLabel>{label}:</ContentLabel>
       <ContentValue style={isDisable ? { color: "#acacac" } : {}}>
         {attrValue}{" "}
-        {config.features.ShowVerificationStatus && (
+        {playerIdentityAuthenticationEnabled  && (
           <VerifiedSpan>
             {isMemberName &&
               containMemberName &&
@@ -295,7 +303,7 @@ function GetContentWrap(accountInfo, label, attr, func, edit, disable) {
           config.features.Profile_DisplayEditNameButton) ||
           (attr === "member_phone" && isVerify && edit && !disable)) && (
           <ContentButton onClick={() => func(attr, edit)}>
-            <ContentButtonLabel>{i18n.t("profile.edit")}</ContentButtonLabel>
+            <ContentButtonLabel>{button2Value}</ContentButtonLabel>
           </ContentButton>
         )}
       </ButtonWrapper>
@@ -307,15 +315,30 @@ const CustomMessaging = ({
   info,handleButtonClick
 }) => {
   const { list } = useCustomMsg()
-  return list.map(customMsgItem => {
-      return GetContentWrap(
-        info,
-        customMsgItem.label,
-        customMsgItem.attr,
-        handleButtonClick
-      )
-    })
+  return list.map(customMsgItem => 
+    <GetContentWrap
+      accountinfo={ info }
+      label={ customMsgItem.label }
+      attr={ customMsgItem.attr }
+      func={ handleButtonClick }
+    ></GetContentWrap>
+  )
 }
+
+const BaseInfo = ({
+  info, handleButtonClick
+}) => {
+  const { baseInfoList } = useBaseInfo()
+  return baseInfoList.filter(infoItem=>infoItem.show).map((item,index) => (
+    <GetContentWrap
+      key={index}
+      accountInfo={info}
+      func={handleButtonClick}
+      {...item.comProps}
+    ></GetContentWrap>
+  ))
+}
+
 
 const StyledDialog = withStyles({
   root: {
@@ -736,128 +759,15 @@ class Profile extends Component {
           {i18n.t("profile.title")}
         </Title>
         <InnerWrap>
-          {config.features.ICVerification &&
-            GetContentWrap(
-              this.props.account.info,
-              i18n.t("profile.nameVerify.title"),
-              "member_name",
-              this.handleButtonClick,
-              true
-            )}
-          {GetContentWrap(
-            this.props.account.info,
-            i18n.t("profile.birthdate.title"),
-            "member_birthdate",
-            this.handleButtonClick
-          )}
-          {/* {GetContentWrap(
-            this.props.account.info,
-            i18n.t("profile.phone.title"),
-            "member_phone",
-            this.handleButtonClick
-          )} */}
-          {(config.features.SMSVerification ||
-            config.features.PromoRoulette_SMSVerification ||
-            config.features.Register_ShowPhone) &&
-            GetContentWrap(
-              this.props.account.info,
-              i18n.t("common.phoneNumber"),
-              "member_phone",
-              this.handleButtonClick,
-              !config.features.Profile_DisableEditPhone,
-              config.features.Profile_DisableVerifyPhone
-            )}
+          <BaseInfo info={this.props.account.info} handleButtonClick={this.handleButtonClick}></BaseInfo>
+          <CustomMessaging info={this.props.account.info} handleButtonClick={this.handleButtonClick}></CustomMessaging>
+          <GetContentWrap
+            accountInfo={this.props.account.info}
+            label={i18n.t("profile.password.title")}
+            attr="member_password"
+            func={this.handleButtonClick}
+          ></GetContentWrap>
 
-          {(config.features.EmailVerification ||
-            config.features.Register_ShowEmail) &&
-            GetContentWrap(
-              this.props.account.info,
-              i18n.t("common.emailAddress"),
-              "member_email",
-              this.handleButtonClick
-            )}
-          {
-            <CustomMessaging info={this.props.account.info} handleButtonClick={this.handleButtonClick}></CustomMessaging>
-          }
-          {/* {config.features.QQWeChat &&
-            GetContentWrap(
-              this.props.account.info,
-              "QQ",
-              "member_qq",
-              this.handleButtonClick
-            )}
-
-          {config.features.QQWeChat &&
-            GetContentWrap(
-              this.props.account.info,
-              i18n.t("common.wechatNumber"),
-              "member_wechat",
-              this.handleButtonClick
-            )}
-
-          {config.features.CustomMessaging.length > 0 &&
-            config.features.CustomMessaging.map((platform) => {
-              return GetContentWrap(
-                this.props.account.info,
-                i18n.t("common." + platform),
-                "member_" + platform,
-                this.handleButtonClick
-              );
-            })} */}
-          {/* {GetContentWrap(
-            this.props.account.info,
-            "电子邮件",
-            "member_email",
-            this.handleButtonClick
-          )}
-          {GetContentWrap(
-            this.props.account.info,
-            "QQ",
-            "member_qq",
-            this.handleButtonClick
-          )}
-          {GetContentWrap(
-            this.props.account.info,
-            "Wechat",
-            "member_wechat",
-            this.handleButtonClick
-          )}
-          {GetContentWrap(
-            this.props.account.info,
-            "您的生日",
-            "member_birthday",
-            this.handleButtonClick
-          )} */}
-          {/* {(() => {
-            if (config.brand !== "HKJP" && config.brand !== "GPI") {
-              return GetContentWrap(
-                this.props.account.info,
-                i18n.t("profile.withdrawalPassword.title"),
-                "member_safe_password",
-                this.handleButtonClick,
-                i18n.t("profile.edit")
-              );
-            }
-          })()} */}
-
-          {GetContentWrap(
-            this.props.account.info,
-            i18n.t("profile.password.title"),
-            "member_password",
-            this.handleButtonClick
-          )}
-          {/* {GetContentWrap(
-            this.props.account.info,
-            "安全问题",
-            "member_question",
-            this.handleButtonClick
-          )}
-          {GetContentWrap(
-            this.props.account.info,
-            "收货地址",
-            "member_address",
-            this.handleButtonClick
-          )} */}
         </InnerWrap>
         <StyledDialog
           open={this.state.openDialog}
