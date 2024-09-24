@@ -332,7 +332,7 @@ class App extends Component {
   }
   GetSupportUrl = (userid, name, question, email) => {
     var newURL = this.props.general.livechat
-      ? this.props.general.livechat.setting.url
+      ? this.props.general.livechat.setting?.url
           .replace("{name}", name)
           .replace("{email}", email || "")
           .replace("{lang}", i18n.language)
