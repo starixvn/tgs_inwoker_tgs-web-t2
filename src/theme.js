@@ -159,7 +159,8 @@ export const BlackGold = {
   new_wapBackground: "rgb(38 38 38)",
   new_accent: "rgb(0, 173, 239)",
   wapPrimary: "#FFDF9C",
-  new_textColor_detail: "#000"
+  new_textColor_detail: "#000",
+  customButtonText:'#000'
 };
 
 export const themeList = {
