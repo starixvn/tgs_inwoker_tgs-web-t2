@@ -123,6 +123,34 @@ const RegisterPc = (props) => {
             }}
           />
         </CustomTextWrapper>
+        <div class="clear"></div>
+        {!(config.features.Register_HideInvitation && fromCustomDomain) && (
+          <CustomTextWrapper>
+            <CustomInvitationContainer>
+              <CustomText
+                onChange={
+                  formData.promoteType === "a" ? handleChangePromotion : handleChangeUpper
+                }
+                value={formData.promoteType === "a" ? formData.promotionId : formData.upper}
+                id="code"
+                placeholder={i18n.t("web.register.promoteCode")}
+                variant="outlined"
+                inputProps={{ disabled: prefill }}
+              />
+              {haveAffiliate && (
+                <CustomInvitationSelect
+                  disabled={prefill}
+                  value={formData.promoteType}
+                  selected={formData.promoteType}
+                  onChange={handleChangePromoteType}
+                >
+                  <option value="a">{i18n.t("usertype.agent")}</option>
+                  <option value="p">{i18n.t("usertype.player")}</option>
+                </CustomInvitationSelect>
+              )}
+            </CustomInvitationContainer>
+          </CustomTextWrapper>
+        )}
         <React.Fragment>
           <CustomFormControl>
             <CustomSelect
@@ -186,34 +214,7 @@ const RegisterPc = (props) => {
               "s)"}
           </ButtonLabel>
         </StyleButton>
-        <div class="clear"></div>
-        {!(config.features.Register_HideInvitation && fromCustomDomain) && (
-          <CustomTextWrapper>
-            <CustomInvitationContainer>
-              <CustomText
-                onChange={
-                  formData.promoteType === "a" ? handleChangePromotion : handleChangeUpper
-                }
-                value={formData.promoteType === "a" ? formData.promotionId : formData.upper}
-                id="code"
-                placeholder={i18n.t("web.register.promoteCode")}
-                variant="outlined"
-                inputProps={{ disabled: prefill }}
-              />
-              {haveAffiliate && (
-                <CustomInvitationSelect
-                  disabled={prefill}
-                  value={formData.promoteType}
-                  selected={formData.promoteType}
-                  onChange={handleChangePromoteType}
-                >
-                  <option value="a">{i18n.t("usertype.agent")}</option>
-                  <option value="p">{i18n.t("usertype.player")}</option>
-                </CustomInvitationSelect>
-              )}
-            </CustomInvitationContainer>
-          </CustomTextWrapper>
-        )}
+       
         <DescriptionContainer>
           <Checkbox
             checked={formData.tnc}
