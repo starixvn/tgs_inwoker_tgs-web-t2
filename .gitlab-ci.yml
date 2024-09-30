@@ -9,15 +9,14 @@ variables:
 build:
   extends: .build
   variables:
-    Submodule_Branch: develop
-    Wap_Submodule_Branch: dev/v226
+    Submodule_Branch: master
+    Wap_Submodule_Branch: v226
   only:
-    - dev/v226
     - v226
 
-deploy-staging-v226:
-  extends: .deploy-k8s-staging
+deploy-prod-v226:
+  extends: .deploy-k8s-prod
   variables:
-    components: "staging_t2_v226"
+    components: "prod_t2_v226"
   only:
-    - dev/v226
+    - v226

@@ -35,7 +35,7 @@ pipeline {
                             break;
                         case ['dev/v226']:
                             env.kube_ns = "dev";
-                            env.k8s_config = 'k8s-kube-config';
+                            env.k8s_config = 'k8s-kube-config';	
                             sh "git config --file=.gitmodules submodule.src/components/Wap.branch dev/v226";
                             sh "git config --file=.gitmodules submodule.src/api-services.branch develop";
                             sh "git config --file=.gitmodules submodule.src/components/Common.branch develop";
