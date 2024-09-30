@@ -674,7 +674,7 @@ class GuestContainer extends Component {
               );
             } else {
               if (this.state.openDialogName === "register") {
-                return (true || config.features.useOldRegister) ? (
+                return (false || config.features.useOldRegister) ? (
                   <Register
                     onhandleClose={this.onhandleCloseDialog}
                     onRegisterSuccess={this.handleRegisterSuccess}
