@@ -49,6 +49,7 @@ import AvatarPNG from "../../../assets/images/avatar.png";
 import Common from "../../../utils/Common";
 import config from "../../../config/config";
 import Memo from "./Memo";
+import {WageringWrapper as Wagering } from "../../Common/components";
 
 const Container = styled.div`
   width: 100%;
@@ -184,6 +185,15 @@ const MenuVIPImg = styled(MenuImgFrame)`
     props.active
       ? `background: url(${IconVIPActivePNG}) no-repeat center center;`
       : `background: url(${IconVIPPNG}) no-repeat center center;`}
+
+  background-size:15px 15px;
+`;
+
+const WageringImg = styled(MenuImgFrame)`
+  ${(props) =>
+    props.active
+      ? `background: url(${WageringActivePNG}) no-repeat center/cover;`
+      : `background: url(${WageringPNG}) no-repeat center/cover;`}
 
   background-size:15px 15px;
 `;
@@ -357,6 +367,10 @@ class Account extends Component {
         return (
           <MenuVIPImg active={this.state.activePage === link}></MenuVIPImg>
         );
+      case "wagering":
+        return (
+          <WageringImg active={this.state.activePage === link}></WageringImg>
+        );
       default:
         return <></>;
     }
@@ -415,6 +429,7 @@ class Account extends Component {
                 i18n.t("web.account.withdrawal"),
                 "withdrawal"
               )}
+              {config.features.ShowWagering && (this.genMenuButtonDiv(i18n.t("t29.wagering"), "wagering"))}
               {this.props.game.containTransferWallet &&
                 !config.features.NewTransferUI &&
                 this.genMenuButtonDiv(
@@ -570,7 +585,12 @@ class Account extends Component {
                       />
                     )}
                   />
-                  <Redirect to={"/account/profile"}></Redirect>
+                  <Route
+                    exact
+                    path={"/account/wagering"}
+                    render={(props) => <Wagering />}
+                  />
+                  <Redirect to={"/account/profile"}></Redirect>              
                 </Switch>
               </Router>
             </RightContent>
