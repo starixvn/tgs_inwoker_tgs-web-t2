@@ -160,7 +160,18 @@ export const BlackGold = {
   new_accent: "rgb(0, 173, 239)",
   wapPrimary: "#FFDF9C",
   new_textColor_detail: "#000",
-  customButtonText:'#000'
+  customButtonText:'#000',
+
+ 
+  newRewardBackground:'rgba(0,0,0,0.1)',
+  newTrophyBackground:'rgba(198, 156, 106, 0.4)',
+  newTrophyBackgroundActive:'rgba(198, 156, 106, 1)',
+  newTrophyBackgroundWap:'rgba(145, 109, 255, 0.2)',
+  newTrophyBackgroundWapActive:'rgba(145, 109, 255, 1)',
+  newTitleColor:'rgba(88,88,88,1)',
+  newTitleColorWap:'#fff',
+  newStepBorderRadius:'10px'
+
 };
 
 export const themeList = {

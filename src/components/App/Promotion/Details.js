@@ -346,7 +346,9 @@ class PromotionDetails extends Component {
               {moment(this.state.details.from).format("YYYY/MM/DD HH:mm:ss")}
               {" - "}
               {moment(this.state.details.to).format("YYYY/MM/DD HH:mm:ss")}
-            </EventText>
+            </EventText> 
+            {this.state.details.name ? <EventTitle>{this.state.details.name}</EventTitle> : <></>}
+
             <EventText>
               <PromoDesc
                 dangerouslySetInnerHTML={{

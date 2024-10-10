@@ -225,7 +225,10 @@ code {
   #root {
     min-width: 750px;
   }
-
+  #root.NewReward {
+    min-width: 100%;
+  }
+   
   /* Required styles */
   .swipe-to-delete {
     position: relative !important;

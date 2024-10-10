@@ -27,6 +27,11 @@ import IconInboxActivePNG from "../../../assets/images/icon-inbox-active.png";
 import IconVIPPNG from "../../../assets/images/icon-vip.png";
 import IconVIPActivePNG from "../../../assets/images/icon-vip.png";
 
+import IconRewardPNG from '../../Common/assets/images/reward/icon-reward_2.png'
+import IconRewardActivePNG from '../../Common/assets/images/reward/icon-reward_2.png'
+
+
+
 import Header from "./Header";
 import Profile from "./Profile/index";
 import VIP from "./Vip/index.js";
@@ -36,6 +41,8 @@ import Report from "./Report/index";
 import Transfer from "./Transfer/index";
 import Deposit from "./Deposit/index";
 import Affiliate from "./Affiliate";
+import Reward from '../../Common/components/Account/Reward'
+
 
 import Withdrawal from "./Withdrawal/index";
 import { accountAction } from "../../../api-services/actions/accountAction";
@@ -182,6 +189,16 @@ const MenuVIPImg = styled(MenuImgFrame)`
   background-size:15px 15px;
 `;
 
+const RewardImg = styled(MenuImgFrame)`
+  ${(props) =>
+    props.active
+      ? `background: url(${IconRewardActivePNG}) no-repeat center/cover;`
+      : `background: url(${IconRewardPNG}) no-repeat center/cover;`}
+
+  background-size:15px 15px;
+`;
+
+
 const AvatarContainer = styled.img`
   width: 120px;
   margin: 30px 0 0 35px;
@@ -252,7 +269,7 @@ class Account extends Component {
     }
     if (
       this.props.game.providerList.length !==
-        prevProps.game.providerList.length &&
+      prevProps.game.providerList.length &&
       this.props.game.providerList.length > 0
     ) {
       this.getAllGameBalance();
@@ -280,7 +297,7 @@ class Account extends Component {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  componentDidUpdate(prevProps, prevState) {}
+  componentDidUpdate(prevProps, prevState) { }
 
   handleClickTab = (link) => {
     if (
@@ -347,6 +364,10 @@ class Account extends Component {
         return (
           <MenuVIPImg active={this.state.activePage === link}></MenuVIPImg>
         );
+      case "reward":
+        return (
+          <RewardImg active={this.state.activePage === link}></RewardImg>
+        );
       default:
         return <></>;
     }
@@ -408,6 +429,7 @@ class Account extends Component {
               {this.genMenuButtonDiv(i18n.t("web.account.report"), "report")}
               <MenuTitle>{i18n.t("web.account.personal")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.profile"), "profile")}
+              {this.genMenuButtonDiv(i18n.t("common.reward"), "reward")}
               {this.genMenuButtonDiv(i18n.t("web.account.inbox"), "inbox")}{" "}
               {config.features.HaveVIPFeature &&
                 this.genMenuButtonDiv("VIP", "vip")}
@@ -520,6 +542,15 @@ class Account extends Component {
                         account={this.props.account}
                         onhandleCSClick={this.props.onhandleCSClick}
                         popup={this.props.match.params.popup}
+                      />
+                    )}
+                  />
+                   <Route
+                    exact
+                    path={"/account/reward"}
+                    render={(props) => (
+                      <Reward
+                        token={this.props.account.token}
                       />
                     )}
                   />
