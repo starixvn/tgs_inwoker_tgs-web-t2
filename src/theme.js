@@ -22,6 +22,15 @@ export const themeRed = {
   accentText: "#fde73f",
   loginRegisterBtn: "#1b1d33",
   loginRegisterBtnText: "#fff",
+  
+  newRewardBackground:'rgba(0,0,0,0.1)',
+  newTrophyBackground:'rgba(198, 156, 106, 0.4)',
+  newTrophyBackgroundActive:'rgba(198, 156, 106, 1)',
+  newTrophyBackgroundWap:'rgba(197, 5, 18, 0.4)',
+  newTrophyBackgroundWapActive:'rgba(197, 5, 18, 1)',
+  newTitleColor:'rgba(88,88,88,1)',
+  newStepBorderRadius:'10px'
+
 };
 
 export const themeBlue = {

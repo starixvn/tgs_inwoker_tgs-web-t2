@@ -30,6 +30,10 @@ import IconVIPActivePNG from "../../../assets/images/icon-vip.png";
 import WageringPNG from "../../../assets/images/icon-wagering.png";
 import WageringActivePNG from "../../../assets/images/icon-wagering.png";
 
+import IconRewardPNG from '../../Common/assets/images/reward/icon-reward_2.png'
+import IconRewardActivePNG from '../../Common/assets/images/reward/icon-reward_2.png'
+
+
 import Header from "./Header";
 import Profile from "./Profile/index";
 import VIP from "./Vip/index.js";
@@ -39,6 +43,7 @@ import Report from "./Report/index";
 import Transfer from "./Transfer/index";
 import Deposit from "./Deposit/index";
 import Affiliate from "./Affiliate";
+import Reward from '../../Common/components/Account/Reward'
 
 import Withdrawal from "./Withdrawal/index";
 import { accountAction } from "../../../api-services/actions/accountAction";
@@ -194,6 +199,15 @@ const WageringImg = styled(MenuImgFrame)`
     props.active
       ? `background: url(${WageringActivePNG}) no-repeat center/cover;`
       : `background: url(${WageringPNG}) no-repeat center/cover;`}
+
+  background-size:15px 15px;
+`;
+
+const RewardImg = styled(MenuImgFrame)`
+  ${(props) =>
+    props.active
+      ? `background: url(${IconRewardActivePNG}) no-repeat center/cover;`
+      : `background: url(${IconRewardPNG}) no-repeat center/cover;`}
 
   background-size:15px 15px;
 `;
@@ -371,6 +385,10 @@ class Account extends Component {
         return (
           <WageringImg active={this.state.activePage === link}></WageringImg>
         );
+        case "reward":
+        return (
+          <RewardImg active={this.state.activePage === link}></RewardImg>
+        );
       default:
         return <></>;
     }
@@ -437,8 +455,10 @@ class Account extends Component {
                   "transfer"
                 )}
               {this.genMenuButtonDiv(i18n.t("web.account.report"), "report")}
+
               <MenuTitle>{i18n.t("web.account.personal")}</MenuTitle>
               {this.genMenuButtonDiv(i18n.t("web.account.profile"), "profile")}
+              {this.genMenuButtonDiv(i18n.t("common.reward"), "reward")}
               {this.genMenuButtonDiv(i18n.t("web.account.inbox"), "inbox")}{" "}
               {this.genMenuButtonDiv(i18n.t("memoinbox"), "memo")}
               {config.features.HaveVIPFeature &&
@@ -531,6 +551,16 @@ class Account extends Component {
                       />
                     )}
                   />
+                  <Route
+                    exact
+                    path={"/account/reward"}
+                    render={(props) => (
+                      <Reward
+                        token={this.props.account.token}
+                      />
+                    )}
+                  />
+
                   {this.props.game.containTransferWallet &&
                     !config.features.NewTransferUI && (
                       <Route
