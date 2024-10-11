@@ -28,9 +28,10 @@ export const themeRed = {
   newTrophyBackgroundActive:'rgba(198, 156, 106, 1)',
   newTrophyBackgroundWap:'rgba(197, 5, 18, 0.4)',
   newTrophyBackgroundWapActive:'rgba(197, 5, 18, 1)',
-  newTitleColor:'rgba(88,88,88,1)',
-  newStepBorderRadius:'10px'
-
+  newTitleColor:'rgba(15, 84, 139, 1)',
+  newTitleColorWap:'rgba(15, 84, 139, 1)',
+  newStepBorderRadius:'10px', 
+  newBorderColor:"rgba(231, 241, 251, 1)"
 };
 
 export const themeBlue = {
@@ -119,6 +120,8 @@ export const themeKING8 = {
   popoverGameTypeText: "rgb(199, 168, 124)",
   popoverSubWalletText: "#000",
 };
+
+ 
 
 export const themeList = {
   default: themeBrown,
