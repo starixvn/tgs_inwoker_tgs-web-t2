@@ -162,7 +162,7 @@ export const BlackGold = {
   new_textColor_detail: "#000",
   customButtonText:'#000',
 
- 
+
   newRewardBackground:'rgba(0,0,0,0.1)',
   newTrophyBackground:'rgba(198, 156, 106, 0.4)',
   newTrophyBackgroundActive:'rgba(198, 156, 106, 1)',
@@ -171,6 +171,7 @@ export const BlackGold = {
   newTitleColor:'rgba(88,88,88,1)',
   newTitleColorWap:'#fff',
   newStepBorderRadius:'10px',
+  newBorderColor:"rgba(231, 241, 251, 1)",
   newTrophyBackgroundColorWap:'#fff',
   newTrophyBackgroundColor:'#fff',
 
