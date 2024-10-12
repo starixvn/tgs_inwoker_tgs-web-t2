@@ -170,7 +170,9 @@ export const BlackGold = {
   newTrophyBackgroundWapActive:'rgba(145, 109, 255, 1)',
   newTitleColor:'rgba(88,88,88,1)',
   newTitleColorWap:'#fff',
-  newStepBorderRadius:'10px'
+  newStepBorderRadius:'10px',
+  newTrophyBackgroundColorWap:'#fff',
+  newTrophyBackgroundColor:'#fff',
 
 };
 
