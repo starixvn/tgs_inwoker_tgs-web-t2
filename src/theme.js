@@ -35,6 +35,8 @@ export const themeRed = {
   newBorderColor:"rgba(231, 241, 251, 1)",
   newTrophyBackgroundColorWap:'#fff',
   newTrophyBackgroundColor:'#fff',
+  newStepTextColor:"rgba(83,88,103,1)",
+
 };
 
 export const themeBlue = {
