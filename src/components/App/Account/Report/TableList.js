@@ -408,7 +408,7 @@ function TableList(props) {
         });
       case "balanceChanges":
         return props.rows.map((row, index) => {
-          const date = moment(row.recordedon).format("YYYY/MM/DD hh:mm:ss");
+          const date = moment(row.recordedon).format("YYYY/MM/DD hh:mm:ss a");
           return (
             <StyledTableRow hover role="checkbox" tabIndex={-1} key={index}>
               <StyledTableCell>{date}</StyledTableCell>
