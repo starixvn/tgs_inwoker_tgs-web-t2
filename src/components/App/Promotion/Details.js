@@ -250,10 +250,10 @@ class PromotionDetails extends Component {
     if (targetLink.href.indexOf("/promotion/") >= 0) {
       this.props.history.push(
         "/promotion/" +
-          targetLink.href.substring(
-            targetLink.href.indexOf("/promotion/") + 11,
-            targetLink.href.length
-          )
+        targetLink.href.substring(
+          targetLink.href.indexOf("/promotion/") + 11,
+          targetLink.href.length
+        )
       );
     }
   };
@@ -349,10 +349,11 @@ class PromotionDetails extends Component {
               {moment(this.state.details.from).format("YYYY/MM/DD HH:mm:ss")}
               {" - "}
               {moment(this.state.details.to).format("YYYY/MM/DD HH:mm:ss")}
-            </EventText> 
+            </EventText>
             
-            {this.state.details.localization[i18n.language].name !== "" || this.state.details.localization[i18n.language].name !== null ?
-              <EventTitle>{this.state.details.localization[i18n.language].name}</EventTitle> : <></>}
+            {this.state.details.localization[i18n.language].name ? <EventTitle>{this.state.details.localization[i18n.language].name}</EventTitle> :
+              <EventTitle>{this.state.details.name}</EventTitle>
+            }
 
             <EventText>
               <PromoDesc
@@ -365,13 +366,13 @@ class PromotionDetails extends Component {
                         (this.state.details.localization[i18n.language] !==
                           "" ||
                           this.state.details.localization[i18n.language] !==
-                            null)
+                          null)
                       ) {
                         return (
                           (this.state.details.localization[i18n.language]
                             .content
                             ? this.state.details.localization[i18n.language]
-                                .content
+                              .content
                             : this.state.details.content) ?? ""
                         );
                       } else {
