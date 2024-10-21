@@ -142,6 +142,37 @@ const RightMenuUL = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0 0 0 10px;
+  ${(props) => (i18n.language === "ja-JP" ? `
+  white-space:nowrap;
+  width: 800px;
+  overflow: hidden;
+  overflow-x: scroll;
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #a8a8a8;
+    border-radius: 0px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #c7c7c7;
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background-color: #a8a8a8;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+ `:''
+)};
 `;
 
 const RightMenuTextSpan = styled.span`
@@ -384,9 +415,8 @@ const Icon = styled.div`
 
   background-color: #f6f6f6;
   mask: ${({ icon }) => {
-    return `url(${
-      process.env.PUBLIC_URL + "/assets/images/wapp/support.png"
-    }) no-repeat center /
+    return `url(${process.env.PUBLIC_URL + "/assets/images/wapp/support.png"
+      }) no-repeat center /
     contain;`;
   }};
 
@@ -582,7 +612,7 @@ class Header extends Component {
   handleContactUsClick = () => {
     this.props.history.push("/aboutus/contactus");
   };
-  HighlightLink = (link) => {};
+  HighlightLink = (link) => { };
   handleMenuMouseOver = (to) => {
     this.setState({ ...this.state, hovermenu: to, isHoverMenu: true });
   };
@@ -613,17 +643,16 @@ class Header extends Component {
         onClick={() => this.handleClickMenu(to, requireLogin)}
         onMouseOver={() => this.handleMenuMouseOver(to)}
         onMouseLeave={this.handleMenuMouseLeave}
-        // hoverimg={imageHover}
+      // hoverimg={imageHover}
       >
         <RightMenuTextContainer>
           <RightMenuTextSpan
-            className={`${
-              this.state.shouldShow === null
+            className={`${this.state.shouldShow === null
                 ? classes.maxLabel
                 : this.state.shouldShow
-                ? classes.maxLabel
-                : classes.minLabel
-            }`}
+                  ? classes.maxLabel
+                  : classes.minLabel
+              }`}
           >
             {label}
           </RightMenuTextSpan>
@@ -638,8 +667,8 @@ class Header extends Component {
                   this.state.shouldShow === null
                     ? { top: "135px" }
                     : this.state.shouldShow
-                    ? { top: "135px" }
-                    : { top: "114px" }
+                      ? { top: "135px" }
+                      : { top: "114px" }
                 }
               >
                 <MouseOverBackground>{subMenuImg}</MouseOverBackground>
@@ -756,11 +785,11 @@ class Header extends Component {
 
           alert(
             i18n.t("web.header.plsClick") +
-              (navigator.userAgent.toLowerCase().indexOf("mac") != -1
-                ? "Cmd"
-                : "Ctrl") +
-              "+D" +
-              i18n.t("web.header.bookmark")
+            (navigator.userAgent.toLowerCase().indexOf("mac") != -1
+              ? "Cmd"
+              : "Ctrl") +
+            "+D" +
+            i18n.t("web.header.bookmark")
           );
         }
       }
@@ -935,13 +964,12 @@ class Header extends Component {
                 this.props.general.brand.desktopLogoUrl
               }
               onClick={this.onhandleLogoClick}
-              className={`${
-                this.state.shouldShow === null
+              className={`${this.state.shouldShow === null
                   ? classes.maxMenu
                   : this.state.shouldShow
-                  ? classes.maxMenu
-                  : classes.minMenu
-              }`}
+                    ? classes.maxMenu
+                    : classes.minMenu
+                }`}
             ></LogoContainer>
             <RightMenuContainer></RightMenuContainer>
             <RightContainer>
@@ -977,13 +1005,12 @@ class Header extends Component {
               })()}
             </RightContainer>
             <RightMenuUL
-              className={`top-menu ${
-                this.state.shouldShow === null
+              className={`top-menu ${this.state.shouldShow === null
                   ? classes.maxMenu
                   : this.state.shouldShow
-                  ? classes.maxMenu
-                  : classes.minMenu
-              }`}
+                    ? classes.maxMenu
+                    : classes.minMenu
+                }`}
             >
               {!config.features.WGHK_Setup &&
                 SortedMenuList.map((item, index) => {
@@ -1008,13 +1035,12 @@ class Header extends Component {
                       >
                         <RightMenuTextContainer>
                           <RightMenuTextSpan
-                            className={`${
-                              this.state.shouldShow === null
+                            className={`${this.state.shouldShow === null
                                 ? classes.maxLabel
                                 : this.state.shouldShow
-                                ? classes.maxLabel
-                                : classes.minLabel
-                            }`}
+                                  ? classes.maxLabel
+                                  : classes.minLabel
+                              }`}
                           >
                             {i18n.t(item.title)}
                           </RightMenuTextSpan>
@@ -1026,8 +1052,8 @@ class Header extends Component {
                             this.state.shouldShow === null
                               ? { top: "105px" }
                               : this.state.shouldShow
-                              ? { top: "105px" }
-                              : { top: "100px" }
+                                ? { top: "105px" }
+                                : { top: "100px" }
                           }
                         >
                           <MouseOverBackground>
@@ -1056,19 +1082,16 @@ class Header extends Component {
 
                                           <GameImg
                                             index={index}
-                                            src={`${
-                                              process.env.PUBLIC_URL
-                                            }/assets/images/pcHeaderMenu/${
-                                              item.path
-                                            }/${game.abbreviation.toLowerCase()}${
-                                              config.features.SportsHideLogo &
-                                              (game.abbreviation.toLowerCase() ===
-                                                "wgvia" ||
-                                                game.abbreviation.toLowerCase() ===
+                                            src={`${process.env.PUBLIC_URL
+                                              }/assets/images/pcHeaderMenu/${item.path
+                                              }/${game.abbreviation.toLowerCase()}${config.features.SportsHideLogo &
+                                                (game.abbreviation.toLowerCase() ===
+                                                  "wgvia" ||
+                                                  game.abbreviation.toLowerCase() ===
                                                   "wgfm")
                                                 ? "-HKJP"
                                                 : ""
-                                            }.png`}
+                                              }.png`}
                                             alt=""
                                             onClick={() => {
                                               this.consolidateJoinGame(
@@ -1100,19 +1123,16 @@ class Header extends Component {
 
                                             <GameImg
                                               index={index}
-                                              src={`${
-                                                process.env.PUBLIC_URL
-                                              }/assets/images/pcHeaderMenu/${
-                                                item.path
-                                              }/${game.abbreviation.toLowerCase()}${
-                                                config.features.SportsHideLogo &
-                                                (game.abbreviation.toLowerCase() ===
-                                                  "wgvia" ||
-                                                  game.abbreviation.toLowerCase() ===
+                                              src={`${process.env.PUBLIC_URL
+                                                }/assets/images/pcHeaderMenu/${item.path
+                                                }/${game.abbreviation.toLowerCase()}${config.features.SportsHideLogo &
+                                                  (game.abbreviation.toLowerCase() ===
+                                                    "wgvia" ||
+                                                    game.abbreviation.toLowerCase() ===
                                                     "wgfm")
                                                   ? "-HKJP"
                                                   : ""
-                                              }.png`}
+                                                }.png`}
                                               alt=""
                                               onClick={() => {
                                                 this.consolidateJoinGame(
