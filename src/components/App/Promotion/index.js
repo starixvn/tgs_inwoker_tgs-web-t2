@@ -83,7 +83,7 @@ const Inner = styled.div``;
 const Content = styled.div`
   border-radius: 20px;
   width: 740px;
-  height: 184px;
+  height: 194px;
   background-color: #8a7f73;
   margin: 13px 0 13px 0px;
   float: left;
@@ -104,7 +104,7 @@ const LeftContent = styled.div`
 `;
 const RightContent = styled.div`
   float: left;
-  height: 184px;
+  height: 194px;
   width: 290px;
   background-color: #291c04;
   position: absolute;
@@ -176,6 +176,7 @@ const PromoEmptyTextLine = styled.div`
 const Tint = styled.div`
   opacity: 0.75;
 `;
+
 
 class Promotion extends Component {
   state = {
