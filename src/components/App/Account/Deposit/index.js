@@ -93,7 +93,7 @@ const Wrap = styled.div`
 `;
 const InnerWrap = styled.div`
   width: 100%;
-  padding: 25px 25px 25px 0px
+  padding: 25px 25px 25px 0px;
   margin-top: 14px;
   position: relative;
   min-height: 630px;border-radius: 10px;
@@ -1026,9 +1026,10 @@ class Deposit extends Component {
   };
 
   hasDepositRewardPromotion = (item) => {
-    return (item.promotionType === "DepositReward" || item.promotionType === "DepositRewardV2")
-      ? this.state.amount >= item.campaignDetail.depositMinimumLimit
-      : true;
+    if ( item.promotionType === "DepositReward" || item.promotionType === "DepositRewardV2" ) {
+      return item.campaignDetail.depositMinimumLimit ? this.state.amount >= Number(item.campaignDetail.depositMinimumLimit) : true;
+    }
+    return true
   };
 
   switchStep = (steps) => {
