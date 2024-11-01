@@ -447,7 +447,7 @@ class Account extends Component {
                 i18n.t("web.account.withdrawal"),
                 "withdrawal"
               )}
-              {config.features.ShowWagering && (this.genMenuButtonDiv(i18n.t("t29.wagering"), "wagering"))}
+              {this.genMenuButtonDiv(i18n.t("t29.wagering"), "wagering")}
               {this.props.game.containTransferWallet &&
                 !config.features.NewTransferUI &&
                 this.genMenuButtonDiv(
